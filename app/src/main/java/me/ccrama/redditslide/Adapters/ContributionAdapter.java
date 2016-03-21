@@ -125,19 +125,6 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (firstHolder instanceof SubmissionViewHolder) {
             SubmissionViewHolder holder = (SubmissionViewHolder) firstHolder;
             final Submission submission = (Submission) dataSet.posts.get(i);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View arg0) {
-/*TODO Single comment screen
-                    Intent i2 = new Intent(mContext, CommentsScreen.class);
-                    DataShare.sharedSubreddit = dataSet;
-                    i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                    ((Activity) mContext).startActivityForResult(i2, 2);
-*/
-
-                }
-            });
             CreateCardView.resetColorCard(holder.itemView);
             CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, "no_subreddit", false);
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

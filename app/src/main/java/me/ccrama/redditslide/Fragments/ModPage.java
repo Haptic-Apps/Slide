@@ -43,7 +43,7 @@ public class ModPage extends Fragment {
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
-        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, getContext()), Reddit.pxToDp(92, getContext()));
+        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(104, getContext()), Reddit.pxToDp(140, getContext()));
 
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
@@ -55,21 +55,18 @@ public class ModPage extends Fragment {
         adapter = new ModeratorAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
 
-        rv.setOnScrollListener(new ToolbarScrollHideHandler(((ModQueue)getActivity()).mToolbar, (getActivity()).findViewById(R.id.header)));
+        rv.setOnScrollListener(new ToolbarScrollHideHandler(((ModQueue) getActivity()).mToolbar, (getActivity()).findViewById(R.id.header)));
 
         try {
             posts.bindAdapter(adapter, mSwipeRefreshLayout);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        //TODO catch errors
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
                         posts.loadMore(adapter, id, sub);
-
-                        //TODO catch errors
                     }
                 }
         );

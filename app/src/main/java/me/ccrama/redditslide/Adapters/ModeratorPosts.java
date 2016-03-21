@@ -8,6 +8,7 @@ import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.paginators.ModeratorPaginator;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -26,6 +27,7 @@ public class ModeratorPosts {
     private String subreddit;
     private ModeratorAdapter adapter;
     private ModeratorPaginator paginator;
+
     public ModeratorPosts(ArrayList<PublicContribution> firstData, ModeratorPaginator paginator) {
         posts = firstData;
         this.paginator = paginator;
@@ -44,11 +46,7 @@ public class ModeratorPosts {
 
     public void loadMore(ModeratorAdapter adapter, String where, String subreddit) {
         this.subreddit = subreddit;
-
-            new LoadData(true).execute(where);
-
-
-
+        new LoadData(true).execute(where);
     }
 
     public void addData(List<PublicContribution> data) {
@@ -66,9 +64,15 @@ public class ModeratorPosts {
         public void onPostExecute(ArrayList<PublicContribution> subs) {
             if (subs != null) {
 
+                if(reset || posts == null){
+                    posts = new ArrayList<>(new LinkedHashSet(subs));
+                } else {
+                    posts.addAll(subs);
+                    posts = new ArrayList<>(new LinkedHashSet(posts));
+                }
                 loading = false;
                 refreshLayout.setRefreshing(false);
-                adapter.dataSet = subs;
+                adapter.dataSet = ModeratorPosts.this;
                 adapter.notifyDataSetChanged();
             } else {
                 adapter.setError(true);
