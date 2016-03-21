@@ -125,7 +125,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:gravity="center_vertical"
-
+                            android:paddingLeft="8dp"
                             android:orientation="horizontal"
                             android:paddingRight="16dp">
 
@@ -143,13 +143,13 @@
                         <HorizontalScrollView
                             android:id="@+id/trophies"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:gravity="center">
+                            android:layout_height="wrap_content"
+                            >
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:orientation="horizontal"
                                 android:id="@+id/trophies_inner"
-                                android:layout_height="100dp"/>
+                                android:layout_height="wrap_content"/>
                         </HorizontalScrollView>
                         <View
                             android:layout_width="match_parent"
@@ -262,7 +262,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignBottom="@+id/body"
                         android:layout_alignTop="@+id/body"
-
+                        android:visibility="gone"
                         android:background="?attr/card_background"
                         android:orientation="vertical"
                         android:padding="24dp">

@@ -31,8 +31,6 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Account;
 import net.dean.jraw.models.Trophy;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
@@ -170,11 +168,11 @@ public class Profile extends BaseActivityAnim {
                 info.append("Redditor for ");
                 info.append(TimeUtils.getLengthTimeSince(account.getCreated().getTime(), Profile.this));
                 info.append(". ");
-                if (account.hasGold() &&account.getDataNode().has("gold_expiration") ) {
+               /*todo better if (account.hasGold() &&account.getDataNode().has("gold_expiration") ) {
                     Calendar c = Calendar.getInstance();
                     c.setTimeInMillis(account.getDataNode().get("gold_expiration").asLong());
                     info.append("Gold expires on " + new SimpleDateFormat("dd/MM/yy").format(c.getTime()));
-                }
+                }*/
                 ((TextView) dialoglayout.findViewById(R.id.moreinfo)).setText(info.toString());
 
                 LinearLayout l = (LinearLayout) dialoglayout.findViewById(R.id.trophies_inner);
