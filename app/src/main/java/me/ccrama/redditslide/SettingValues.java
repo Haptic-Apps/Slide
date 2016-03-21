@@ -46,7 +46,7 @@ public class SettingValues {
     public static final String PREF_LOW_RES_MOBILE = "lowRes";
     public static final String PREF_IMAGE_LQ = "imageLq";
 
-
+    public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
     public static final String PREF_ALBUM = "album";
     public static final String PREF_GIF = "gif";
@@ -88,7 +88,7 @@ public class SettingValues {
     public static boolean colorNavBar;
     public static boolean actionbarVisible;
     public static boolean actionbarTap;
-    public static boolean fullscreen;
+    public static boolean fullCommentOverride;
     public static boolean lowResAlways;
     public static boolean lowResMobile;
     public static boolean blurCheck;
@@ -167,6 +167,7 @@ public class SettingValues {
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);
         loadImageLq = prefs.getBoolean(PREF_IMAGE_LQ, false);
+        fullCommentOverride = prefs.getBoolean(PREF_FULL_COMMENT_OVERRIDE, false);
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
         smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);
         swap = prefs.getBoolean(PREF_SWAP, false);

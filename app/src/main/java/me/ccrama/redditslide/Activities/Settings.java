@@ -260,6 +260,15 @@ public class Settings extends BaseActivity {
                             SettingValues.prefs.edit().putBoolean(SettingValues.PREF_DUAL_PORTRAIT, isChecked).apply();
                         }
                     });
+                    SwitchCompat s2 = (SwitchCompat) dialog.findViewById(R.id.fullcomment);
+                    s2.setChecked(SettingValues.fullCommentOverride);
+                    s2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            SettingValues.fullCommentOverride = isChecked;
+                            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FULL_COMMENT_OVERRIDE, isChecked).apply();
+                        }
+                    });
                 } else {
                     new AlertDialogWrapper.Builder(Settings.this)
 

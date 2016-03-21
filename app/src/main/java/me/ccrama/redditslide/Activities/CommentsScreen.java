@@ -105,7 +105,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     @Override
     public void onCreate(Bundle savedInstance) {
 
-        if (SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !SettingValues.fullCommentOverride) {
             setTheme(R.style.popup);
             super.onCreate(savedInstance);
             applyColorTheme();

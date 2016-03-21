@@ -650,4 +650,5 @@
     <string name="datasave_always">Mobile data and WiFi</string>
     <string name="datasave_mobile">Mobile data</string>
     <string name="never">Never</string>
+    <string name="multi_column_force_full">Force full comment view</string>
 </resources>
