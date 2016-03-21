@@ -378,7 +378,7 @@
     </style>
 
     <style name="Theme.AMOLED" parent="swipestyle">
-        <item name="activity_background">#121111</item>
+        <item name="activity_background">#000000</item>
         <item name="card_background">#000000</item>
         <item name="list_background">#000000</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>

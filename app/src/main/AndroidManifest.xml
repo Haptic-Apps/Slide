@@ -47,6 +47,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />
         <activity
+            android:name=".Activities.Discover"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/swipeable" />
+        <activity
             android:name=".Activities.FullscreenImage"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />
@@ -208,6 +212,10 @@
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.EditCardsLayout"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/swipeable" />
+        <activity
+            android:name=".Activities.SubredditSearch"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />
         <activity

@@ -931,11 +931,16 @@ public class MainActivity extends BaseActivity {
                 public void onClick(View view) {
                     Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
                     MainActivity.this.startActivity(inte);
-
-
                 }
             });
 
+            header.findViewById(R.id.discover).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, Discover.class);
+                    MainActivity.this.startActivity(inte);
+                }
+            });
 
             header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
                 @Override

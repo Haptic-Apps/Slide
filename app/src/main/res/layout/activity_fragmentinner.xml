@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/anchor"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_gravity="top|right"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="4dp" />
+
+    <LinearLayout
+        android:id="@+id/fragmentcontent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="16dp"
+        android:orientation="vertical"
+        android:theme="@style/Theme.AppCompat">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:minHeight="56dp"
+            android:theme="@style/ActionBarCompat" />
+
+
+    </android.support.design.widget.AppBarLayout>
+</FrameLayout>

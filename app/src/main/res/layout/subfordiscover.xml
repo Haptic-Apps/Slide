@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="2dp"
+    android:background="?attr/card_background"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:theme="@style/Ripple.List"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp">
+
+        <View
+            android:id="@+id/color"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="16dp"
+
+            android:layout_marginTop="8dp"
+            android:adjustViewBounds="true"
+
+            android:background="@drawable/circle" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:paddingRight="8dp"
+            android:text="Android"
+            android:textColor="?attr/font"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            app:srcCompat="@drawable/subscribed"
+            android:layout_marginTop="8dp"
+            android:id="@+id/subbed"
+            android:layout_height="15dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <me.ccrama.redditslide.SpoilerRobotoTextView
+                android:id="@+id/body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="8dp"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+            <me.ccrama.redditslide.Views.CommentOverflow
+                android:id="@+id/overflow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:paddingRight="8dp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
