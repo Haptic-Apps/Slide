@@ -167,7 +167,19 @@ public class SettingsGeneral extends BaseActivityAnim {
             });
         }
 
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.expandedmenu);
 
+            single.setChecked(SettingValues.expandedToolbar);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.expandedToolbar = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_EXPANDED_TOOLBAR, isChecked).apply();
+
+                }
+            });
+        }
         //View type multi choice
         ((TextView) findViewById(R.id.currentViewType)).setText(SettingValues.single ? (SettingValues.commentPager ? getString(R.string.view_type_comments) : getString(R.string.view_type_none)) : getString(R.string.view_type_tabs));
 

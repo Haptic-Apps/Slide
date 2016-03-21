@@ -22,6 +22,7 @@ public class SettingValues {
     public static final String PREF_COLOR_BACK = "colorBack";
     public static final String PREF_COLOR_NAV_BAR = "colorNavBar";
     public static final String PREF_COLOR_EVERYWHERE = "colorEverywhere";
+    public static final String PREF_EXPANDED_TOOLBAR = "expandedToolbar";
     public static final String PREF_SWAP = "Swap";
     public static final String PREFS_WEB = "web";
     public static final String PREF_ACTIONBAR_VISIBLE = "actionbarVisible";
@@ -76,6 +77,7 @@ public class SettingValues {
     public static ColorIndicator colorIndicator;
     public static Palette.ThemeEnum theme;
     public static SharedPreferences prefs;
+    public static boolean expandedToolbar;
     public static boolean single;
     public static boolean swap;
     public static boolean album;
@@ -167,6 +169,7 @@ public class SettingValues {
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);
         loadImageLq = prefs.getBoolean(PREF_IMAGE_LQ, false);
+        expandedToolbar = prefs.getBoolean(PREF_EXPANDED_TOOLBAR, false);
         fullCommentOverride = prefs.getBoolean(PREF_FULL_COMMENT_OVERRIDE, false);
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
         smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);

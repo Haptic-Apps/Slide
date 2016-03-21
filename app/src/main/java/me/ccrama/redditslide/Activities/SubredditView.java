@@ -105,10 +105,12 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_single_subreddit, menu);
 
-        //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
-        //   else menu.findItem(R.id.action_info).setVisible(false);
+        if(SettingValues.expandedToolbar) {
+            inflater.inflate(R.menu.menu_single_subreddit_expanded, menu);
+        } else {
+            inflater.inflate(R.menu.menu_single_subreddit, menu);
+        }
 
         return true;
     }

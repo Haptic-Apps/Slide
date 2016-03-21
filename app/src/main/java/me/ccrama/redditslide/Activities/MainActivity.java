@@ -1498,7 +1498,11 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_subreddit_overview, menu);
+        if(SettingValues.expandedToolbar) {
+            inflater.inflate(R.menu.menu_subreddit_overview_expanded, menu);
+        } else {
+            inflater.inflate(R.menu.menu_subreddit_overview, menu);
+        }
         return true;
     }
 

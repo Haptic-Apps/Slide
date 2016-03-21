@@ -205,12 +205,6 @@ public class CommentPage extends Fragment {
                     }
                 }
         );
-
-
-        return v;
-    }
-
-    public void doAdapter() {
         if (getActivity() instanceof BaseActivityAnim) {
             ((BaseActivityAnim) getActivity()).setSupportActionBar(toolbar);
             ((BaseActivityAnim) getActivity()).getSupportActionBar().setTitle(subreddit);
@@ -218,6 +212,12 @@ public class CommentPage extends Fragment {
         } else {
             toolbar.setTitle(subreddit);
         }
+
+        return v;
+    }
+
+    public void doAdapter() {
+
         toolbar.inflateMenu(R.menu.menu_comment_items);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
