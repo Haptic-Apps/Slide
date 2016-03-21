@@ -311,14 +311,14 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 break;
             case STREAMABLE:
-                title.setText("STREAMABLE");
+                title.setText("Streamable");
                 break;
             case SELF:
                 if (!SettingValues.smallTag || full) {
                     title.setVisibility(View.GONE);
                 } else {
                     title.setVisibility(View.VISIBLE);
-                    title.setText("SELFTEXT");
+                    title.setText("Selftext");
                 }
                 if (info != null)
                     info.setVisibility(View.GONE);

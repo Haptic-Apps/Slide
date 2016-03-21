@@ -420,7 +420,7 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/ic_backup"
+                        android:src="@drawable/synccit"
                         android:tint="?attr/tint" />
 
                     <TextView
