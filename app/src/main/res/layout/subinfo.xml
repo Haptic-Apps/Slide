@@ -106,6 +106,7 @@
                     android:layout_weight="1"
                     android:theme="?android:attr/buttonBarButtonStyle"
                     android:text="@string/title_theme_settings"
+                    android:visibility="gone"
                     android:textAllCaps="true" />
 
                 <Button

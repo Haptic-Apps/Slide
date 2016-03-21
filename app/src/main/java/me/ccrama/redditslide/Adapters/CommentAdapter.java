@@ -495,7 +495,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         isSame = false;
 
 
-        if (currentSelectedItem != null && !currentSelectedItem.isEmpty() && !users.isEmpty()) {
+        if (currentSelectedItem != null && !currentSelectedItem.isEmpty() && users != null && !users.isEmpty()) {
             int i = 2;
             for (CommentObject n : users) {
                 if (n instanceof CommentItem && n.comment.getComment().getFullName().contains(currentSelectedItem)) {
