@@ -6,7 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -41,7 +40,6 @@ public class TransparentTagTextView extends TextView {
     public void init(Context context) {
         mSetBoundsOnSizeAvailable = true;
         mPaint = new Paint();
-        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         super.setTextColor(Color.BLACK);
         super.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         setBackgroundDrawable(context.getResources().getDrawable(R.drawable.flairback));
@@ -51,7 +49,6 @@ public class TransparentTagTextView extends TextView {
     Drawable backdrop;
     public void resetBackground(Context context) {
         mPaint = new Paint();
-        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         super.setTextColor(Color.BLACK);
         super.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         backdrop = context.getResources().getDrawable(R.drawable.flairback);
