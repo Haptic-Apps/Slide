@@ -100,7 +100,6 @@ public class SubmissionComments {
 
     public void loadMore(CommentAdapter adapter, String subreddit) {
         this.adapter = adapter;
-
         mLoadData = new LoadData(true);
         mLoadData.execute(fullName);
     }

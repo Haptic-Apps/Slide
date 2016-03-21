@@ -589,6 +589,7 @@ public class PopulateSubmissionViewHolder {
         }
 
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
+        b.sheet(20, flair, "Set submission flair");
 
         final boolean isnsfw = submission.isNsfw();
         if (isnsfw) {
@@ -1006,7 +1007,7 @@ public class PopulateSubmissionViewHolder {
                                                                 recyclerview.getAdapter().notifyItemRemoved(pos);
                                                                 dialog.dismiss();
                                                             }
-                                                                Snackbar.make(holder.itemView, "Submission removed", Snackbar.LENGTH_LONG).show();
+                                                            Snackbar.make(holder.itemView, "Submission removed", Snackbar.LENGTH_LONG).show();
 
                                                         } else {
                                                             new AlertDialogWrapper.Builder(mContext)
@@ -1037,6 +1038,113 @@ public class PopulateSubmissionViewHolder {
                                 Intent i = new Intent(mContext, Profile.class);
                                 i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
                                 mContext.startActivity(i);
+                                break;
+                            case 20:
+                                new AsyncTask<Void, Void, ArrayList<String>>() {
+                                    List<FlairTemplate> flair;
+
+                                    @Override
+                                    protected ArrayList<String> doInBackground(Void... params) {
+                                        FlairReference allFlairs = new FluentRedditClient(Authentication.reddit).subreddit(submission.getSubredditName()).flair();
+                                        try {
+                                            flair = allFlairs.options(submission);
+                                            final ArrayList<String> finalFlairs = new ArrayList<>();
+                                            for (FlairTemplate temp : flair) {
+                                                finalFlairs.add(temp.getText());
+                                            }
+                                            return finalFlairs;
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            //sub probably has no flairs?
+                                        }
+
+
+                                        return null;
+                                    }
+
+                                    @Override
+                                    public void onPostExecute(final ArrayList<String> data) {
+                                        if (data.isEmpty()) {
+                                            new AlertDialogWrapper.Builder(mContext)
+                                                    .setTitle("No flair found for this subreddit")
+                                                    .setPositiveButton(R.string.btn_ok, null)
+                                                    .show();
+                                        } else {
+                                            new MaterialDialog.Builder(mContext).items(data)
+                                                    .title("Select flair")
+                                                    .itemsCallback(new MaterialDialog.ListCallback() {
+                                                        @Override
+                                                        public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                                            final FlairTemplate t = flair.get(which);
+                                                            if (t.isTextEditable()) {
+                                                                new MaterialDialog.Builder(mContext).title("Set flair text")
+                                                                        .input("Flair text", t.getText(), true, new MaterialDialog.InputCallback() {
+                                                                            @Override
+                                                                            public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                                                            }
+                                                                        }).positiveText("Set")
+                                                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                                            @Override
+                                                                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                                                final String flair = dialog.getInputEditText().getText().toString();
+                                                                                new AsyncTask<Void, Void, Boolean>() {
+                                                                                    @Override
+                                                                                    protected Boolean doInBackground(Void... params) {
+                                                                                        try {
+                                                                                            new ModerationManager(Authentication.reddit).setFlair(submission.getSubredditName(), t, flair, submission);
+                                                                                            return true;
+                                                                                        } catch (ApiException e) {
+                                                                                            e.printStackTrace();
+                                                                                            return false;
+                                                                                        }
+                                                                                    }
+
+                                                                                    @Override
+                                                                                    protected void onPostExecute(Boolean done) {
+                                                                                        if (done) {
+                                                                                            if (recyclerview != null)
+                                                                                                Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT).show();
+                                                                                        } else {
+                                                                                            if (recyclerview != null)
+                                                                                                Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT).show();
+                                                                                        }
+                                                                                    }
+                                                                                }.execute();
+                                                                            }
+                                                                        }).negativeText(R.string.btn_cancel)
+                                                                        .show();
+                                                            } else {
+                                                                new AsyncTask<Void, Void, Boolean>() {
+                                                                    @Override
+                                                                    protected Boolean doInBackground(Void... params) {
+                                                                        try {
+                                                                            new ModerationManager(Authentication.reddit).setFlair(submission.getSubredditName(), t, null, submission);
+                                                                            return true;
+                                                                        } catch (ApiException e) {
+                                                                            e.printStackTrace();
+                                                                            return false;
+                                                                        }
+                                                                    }
+
+                                                                    @Override
+                                                                    protected void onPostExecute(Boolean done) {
+                                                                        if (done) {
+                                                                            if (recyclerview != null)
+                                                                                Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT).show();
+                                                                        } else {
+                                                                            if (recyclerview != null)
+                                                                                Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                }.execute();
+                                                            }
+                                                        }
+                                                    }).show();
+                                        }
+                                    }
+                                }.execute();
+
                                 break;
 
                         }

@@ -426,11 +426,13 @@ public class CommentPage extends Fragment {
 
         } else if (!b) {
             try {
-                adapter.reset(getContext(), comments, rv, (getActivity() instanceof MainActivity) ? ((MainActivity) getActivity()).openingComments : OfflineSubreddit.getSubreddit(baseSubreddit).submissions.get(page));
+                adapter.reset(getContext(), comments, rv, (getActivity() instanceof MainActivity) ? ((MainActivity) getActivity()).openingComments : comments.submission);
             } catch (Exception ignored) {
             }
+
         } else {
-            adapter.reset(getContext(), comments, rv, (getActivity() instanceof MainActivity) ? ((MainActivity) getActivity()).openingComments : OfflineSubreddit.getSubreddit(baseSubreddit).submissions.get(page));
+            adapter.reset(getContext(), comments, rv, comments.submission);
+            adapter.notifyItemChanged(1);
         }
     }
 

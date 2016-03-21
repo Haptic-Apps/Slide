@@ -185,7 +185,7 @@ public class ContentType {
 
     public static ImageType getImageType(String url) {
 
-        if (url.equals("#s") || url.equals("/s") || url.equals("/spoiler") || url.equals("/sp") || url.equals("/c") || url.equals("/f")) {
+        if (url.equals("#s") || url.equals("/s") ||url.equals("/spoiler") || url.equals("/spoiler") || url.equals("/sp") || url.equals("/c") || url.equals("/f")) {
             return ImageType.SPOILER;
         }
 
