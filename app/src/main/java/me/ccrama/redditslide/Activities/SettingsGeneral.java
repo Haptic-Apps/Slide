@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -163,19 +162,6 @@ public class SettingsGeneral extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.swipeAnywhere = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SWIPE_ANYWHERE, isChecked).apply();
-
-                }
-            });
-        }
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.datause);
-
-            single.setChecked(SettingValues.lowRes);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.lowRes = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LOW_RES, isChecked).apply();
 
                 }
             });

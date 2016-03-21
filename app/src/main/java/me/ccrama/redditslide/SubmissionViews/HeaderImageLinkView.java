@@ -142,7 +142,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
 
             }
-        } else if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (!submission.getDataNode().get("thumbnail").isNull()  &&(submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
+        } else if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (!submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
 
             setVisibility(View.GONE);
             if (!full) {
@@ -153,7 +153,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
         } else if (type == ContentType.ImageType.IMAGE) {
-            if (!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowRes && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
+            if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
 
                 int length = submission.getThumbnails().getVariations().length;
                 url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
@@ -197,7 +197,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             }
         } else if (submission.getThumbnails() != null) {
 
-            if (!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowRes && submission.getThumbnails().getVariations().length != 0) {
+            if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails().getVariations().length != 0) {
 
                 int length = submission.getThumbnails().getVariations().length;
                 url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
@@ -229,7 +229,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     wrapArea.setVisibility(View.GONE);
                 }
             }
-        } else if (!submission.getDataNode().get("thumbnail").isNull() && submission.getThumbnail() != null  && (submission.getThumbnailType() == Submission.ThumbnailType.URL || (!submission.getDataNode().get("thumbnail").isNull() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW))) {
+        } else if (!submission.getDataNode().get("thumbnail").isNull() && submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || (!submission.getDataNode().get("thumbnail").isNull() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW))) {
 
             if (!full) {
                 thumbImage2.setVisibility(View.VISIBLE);
@@ -284,7 +284,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         }
 
         if (SettingValues.smallTag && !full) {
-            ((TransparentTagTextView)title).init(getContext());
+            ((TransparentTagTextView) title).init(getContext());
         }
 
         switch (type) {

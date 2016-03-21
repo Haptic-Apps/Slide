@@ -38,12 +38,13 @@ public class SettingValues {
     public static final String PREF_SUBREDDIT_FILTERS = "subredditFilters";
     public static final String PREF_COMMENT_LAST_VISIT = "commentLastVisit";
     public static final String PREF_COMMENT_PAGER = "commentPager";
-
     public static final String PREF_COLLAPSE_COMMENTS = "collapseCOmments";
     public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
     public static final String PREF_CROP_IMAGE = "cropImage";
     public static final String PREF_SWITCH_THUMB = "switchThumb";
-    public static final String PREF_LOW_RES = "lowRes";
+    public static final String PREF_LOW_RES_ALWAYS = "lowResAlways";
+    public static final String PREF_LOW_RES_MOBILE = "lowRes";
+    public static final String PREF_IMAGE_LQ = "imageLq";
 
 
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
@@ -88,7 +89,8 @@ public class SettingValues {
     public static boolean actionbarVisible;
     public static boolean actionbarTap;
     public static boolean fullscreen;
-    public static boolean lowRes;
+    public static boolean lowResAlways;
+    public static boolean lowResMobile;
     public static boolean blurCheck;
     public static boolean swipeAnywhere;
     public static boolean commentLastVisit;
@@ -115,6 +117,7 @@ public class SettingValues {
     public static String domainFilters;
     public static String subredditFilters;
     public static String alwaysExternal;
+    public static boolean loadImageLq;
 
     public static boolean fastscroll;
     public static boolean fab = true;
@@ -161,7 +164,9 @@ public class SettingValues {
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
-        lowRes = prefs.getBoolean(PREF_LOW_RES, false);
+        lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
+        lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);
+        loadImageLq = prefs.getBoolean(PREF_IMAGE_LQ, false);
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
         smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);
         swap = prefs.getBoolean(PREF_SWAP, false);

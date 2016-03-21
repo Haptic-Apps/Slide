@@ -80,6 +80,7 @@ import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
@@ -233,12 +234,17 @@ public class PopulateSubmissionViewHolder {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             String url;
             String previewUrl;
-            if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+            url = submission.getUrl();
+
+            if (SettingValues.loadImageLq && ((!NetworkUtil.isConnectedWifi(contextActivity) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
+                int length = submission.getThumbnails().getVariations().length;
+                previewUrl = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
+                myIntent.putExtra(MediaView.EXTRA_LQ, true);
+                myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
+            } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                 previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
             }
-            url = submission.getUrl();
-
             myIntent.putExtra(MediaView.EXTRA_URL, url);
             myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
@@ -296,6 +302,7 @@ public class PopulateSubmissionViewHolder {
         Drawable saved = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
         Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
         final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
+        Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
         Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
         Drawable share = mContext.getResources().getDrawable(R.drawable.share);
         Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
@@ -306,6 +313,7 @@ public class PopulateSubmissionViewHolder {
         saved.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -327,6 +335,9 @@ public class PopulateSubmissionViewHolder {
         if (Authentication.isLoggedIn) {
             b.sheet(3, saved, save);
             b.sheet(12, report, mContext.getString(R.string.btn_report));
+        }
+        if (submission.getSelftext() != null && !submission.getSelftext().isEmpty()) {
+            b.sheet(25, copy, "Copy selftext");
         }
         b.sheet(5, hide, mContext.getString(R.string.submission_hide))
                 .sheet(7, open, mContext.getString(R.string.submission_link_extern))
@@ -525,12 +536,18 @@ public class PopulateSubmissionViewHolder {
                             case 8:
                                 Reddit.defaultShareText(submission.getTitle() + " \n" + "https://reddit.com" + submission.getPermalink(), mContext);
                                 break;
-                            case 6:
+                            case 6: {
                                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
                                 clipboard.setPrimaryClip(clip);
-
                                 Toast.makeText(mContext, "Link copied", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                            case 25:
+                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("Selftext", submission.getSelftext());
+                                clipboard.setPrimaryClip(clip);
+                                Toast.makeText(mContext, "Selftext copied", Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }

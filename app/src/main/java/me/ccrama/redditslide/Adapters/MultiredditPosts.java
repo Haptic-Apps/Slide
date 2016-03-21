@@ -81,7 +81,7 @@ public class MultiredditPosts implements PostLoader {
 
 
                 } else if (type == ContentType.ImageType.IMAGE) {
-                    if (!NetworkUtil.isConnectedWifi(c) && SettingValues.lowRes && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
+                    if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
 
                         int length = submission.getThumbnails().getVariations().length;
                         url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
@@ -119,7 +119,7 @@ public class MultiredditPosts implements PostLoader {
 
                 } else if (submission.getThumbnails() != null) {
 
-                    if (!NetworkUtil.isConnectedWifi(c) && SettingValues.lowRes && submission.getThumbnails().getVariations().length != 0) {
+                    if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails().getVariations().length != 0) {
 
                         int length = submission.getThumbnails().getVariations().length;
                         url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters

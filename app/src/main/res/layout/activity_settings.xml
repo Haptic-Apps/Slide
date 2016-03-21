@@ -124,7 +124,29 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/autocache"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
+                        app:srcCompat="@drawable/save"
+                        android:tint="?attr/tint" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="Autosync"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/tablet"
                     android:layout_width="match_parent"
@@ -411,7 +433,31 @@
                         android:textSize="16sp"
                         />
                 </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/datasave"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="16dp"
+                        android:padding="16dp"
+                        app:srcCompat="@drawable/world"
+                        android:tint="?attr/tint" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="Data saving"
+
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"
+                        />
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/filter"
                     android:layout_width="match_parent"

@@ -57,7 +57,14 @@
         android:id="@+id/gifheader"
         android:gravity="right|bottom"
         android:weightSum="6">
-
+        <ImageView
+            android:id="@+id/hq"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:padding="15dp"
+            app:srcCompat="@drawable/hd"
+            android:tint="@color/white" />
         <ImageView
             android:id="@+id/external"
             android:layout_width="56dp"

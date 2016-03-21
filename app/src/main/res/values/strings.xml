@@ -647,4 +647,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="btn_mods">moderators</string>
+    <string name="datasave_always">Mobile data and WiFi</string>
+    <string name="datasave_mobile">Mobile data</string>
+    <string name="never">Never</string>
 </resources>

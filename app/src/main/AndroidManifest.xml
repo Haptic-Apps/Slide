@@ -231,6 +231,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />
         <activity
+            android:name=".Activities.SettingsData"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/swipeable" />
+        <activity
             android:name=".Activities.SettingsBackup"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />

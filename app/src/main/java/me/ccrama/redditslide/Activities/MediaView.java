@@ -64,6 +64,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public float previous;
     public static final String EXTRA_URL = "url";
     public static final String EXTRA_DISPLAY_URL = "displayUrl";
+    public static final String EXTRA_LQ = "lq";
     public static final String EXTRA_SHARE_URL = "urlShare";
     public boolean hidden;
     public boolean imageShown;
@@ -83,7 +84,27 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             LogUtil.v("Displaying first image");
             displayImage(firstUrl);
         }
-        String contentUrl = getIntent().getExtras().getString(EXTRA_URL);
+
+        final String contentUrl = getIntent().getExtras().getString(EXTRA_URL);
+        if (getIntent().hasExtra(EXTRA_LQ) && ContentType.getImageType(contentUrl) != ContentType.ImageType.IMGUR) {
+            findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imageShown = false;
+                    doLoad(contentUrl);
+                    findViewById(R.id.hq).setVisibility(View.GONE);
+                }
+            });
+        } else {
+            findViewById(R.id.hq).setVisibility(View.GONE);
+            doLoad(contentUrl);
+        }
+        if (!Reddit.appRestart.contains("tutorialSwipe")) {
+            startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
+        }
+    }
+
+    public void doLoad(String contentUrl) {
         switch (ContentType.getImageType(contentUrl)) {
             case NSFW_IMAGE:
                 doLoadImage(contentUrl);
@@ -118,10 +139,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             case NONE_IMAGE:
                 doLoadImage(contentUrl);
                 break;
-        }
-
-        if (!Reddit.appRestart.contains("tutorialSwipe")) {
-            startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
         }
     }
 
@@ -163,7 +180,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 public void onCompleted(Exception e, JsonObject obj) {
                     if (obj != null && !obj.isJsonNull() && obj.has("error")) {
                         LogUtil.v("Error loading content");
-                                (MediaView.this).finish();
+                        (MediaView.this).finish();
                     } else {
                         try {
                             String type = obj.get("image").getAsJsonObject().get("image").getAsJsonObject().get("type").getAsString();
@@ -192,7 +209,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         findViewById(R.id.gifprogress).setVisibility(View.GONE);
         LogUtil.v(contentUrl);
         if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.contains("imgur.com")) || contentUrl != null && contentUrl.contains(".jpg") && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
-            ( (ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
+            ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
 
             final String finalUrl2 = contentUrl;
             new AsyncTask<Void, Void, Void>() {
@@ -209,7 +226,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                     //is image
                                     if (type.contains("gif")) {
                                         doLoadGif(finalUrl2.replace(".jpg", ".gif"));
-                                    } else if(!imageShown){
+                                    } else if (!imageShown) {
                                         displayImage(finalUrl2);
                                     }
                                 } else {
@@ -229,7 +246,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         } else if (contentUrl != null && !imageShown) {
             displayImage(contentUrl);
-        } else if(!imageShown){
+        } else if (!imageShown) {
             finish();
             //todo maybe something better
         }

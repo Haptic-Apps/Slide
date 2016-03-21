@@ -22,7 +22,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -122,6 +121,14 @@ public class Settings extends BaseActivity {
             }
         });
 
+
+        findViewById(R.id.datasave).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Settings.this, SettingsData.class);
+                startActivity(i);
+            }
+        });
 
         findViewById(R.id.subtheme).setOnClickListener(new View.OnClickListener() {
             @Override
