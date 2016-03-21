@@ -14,30 +14,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="• New subreddit view type: Comment Pane. View comments side by side with posts
-• Data saving and History sections of settings
-• Option for smaller content tag
-• Ability to show lq images if possible
-• New Discover screen to find new subs, along with the ability to search for subs
-• Complete mod tools and Moderation revamp, now has all options (even sticky!), view all mod reports, set flairs, view modqueue, view unmoderated links, comment mod tools, and much more!
-• Fixed bullets and lists not showing
-• New Media screen to replace image and gif screen, much faster loading and less data use
-• Option to show more toolbar items
-• Tweaked colors for Dark theme
-• Made multicolumn popup mode optional
-• Added ability to edit selftext posts
-• Added option to copy selftext
-• Added awards and user since on the profile info popup
-• Album grid view
-• Added ability to report comments and links
-• Fixed linking to wikis and search terms
-• Support advanced search options
-• Open content button on Comment toolbar
-• Reload button on Comment toolbar
-• Submit button on Subreddit toolbar
-• Show if a post was approved  (mods)
-• Show parent comment in popup option in comment menu
-• Tons of speed and stability improvements!
+        android:text="\n• New subreddit view type: Comment Pane. View comments side by side with posts
+\n• Data saving and History sections of settings
+\n• Option for smaller content tag
+\n• Ability to show lq images if possible
+\n• New Discover screen to find new subs, along with the ability to search for subs
+\n• Complete mod tools and Moderation revamp, now has all options (even sticky!), view all mod reports, set flairs, view modqueue, view unmoderated links, comment mod tools, and much more!
+\n• Fixed bullets and lists not showing
+\n• New Media screen to replace image and gif screen, much faster loading and less data use
+\n• Option to show more toolbar items
+\n• Tweaked colors for Dark theme
+\n• Made multicolumn popup mode optional
+\n• Added ability to edit selftext posts
+\n• Added option to copy selftext
+\n• Added awards and user since on the profile info popup
+\n• Album grid view
+\n• Added ability to report comments and links
+\n• Fixed linking to wikis and search terms
+\n• Support advanced search options
+\n• Open content button on Comment toolbar
+\n• Reload button on Comment toolbar
+\n• Submit button on Subreddit toolbar
+\n• Show if a post was approved  (mods)
+\n• Show parent comment in popup option in comment menu
+\n• Tons of speed and stability improvements!
 "
         android:textSize="16sp" />
     </LinearLayout>
