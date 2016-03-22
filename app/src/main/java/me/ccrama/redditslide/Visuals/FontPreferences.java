@@ -67,7 +67,8 @@ public class FontPreferences {
         Small(R.style.FontStyle_SmallPost, "Small"),
         Medium(R.style.FontStyle_MediumPost, "Medium"),
         Large(R.style.FontStyle_LargePost, "Large"),
-        Larger(R.style.FontStyle_LargerPost, "Larger");
+        Larger(R.style.FontStyle_LargerPost, "Larger"),
+        Largest(R.style.FontStyle_LargestPost, "Largest");
 
         private final int resId;
         private final String title;
@@ -91,7 +92,8 @@ public class FontPreferences {
         Small(R.style.FontStyle_SmallComment, "Small"),
         Medium(R.style.FontStyle_MediumComment, "Medium"),
         Large(R.style.FontStyle_LargeComment, "Large"),
-        Larger(R.style.FontStyle_LargerComment, "Larger");
+        Larger(R.style.FontStyle_LargerComment, "Larger"),
+        Largest(R.style.FontStyle_LargestComment, "Largest");
 
         private final int resId;
         private final String title;

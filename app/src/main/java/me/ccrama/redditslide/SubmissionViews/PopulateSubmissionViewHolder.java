@@ -1196,6 +1196,7 @@ public class PopulateSubmissionViewHolder {
         SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + submission.getSubredditName() + " ");
 
         String subname = submission.getSubredditName().toLowerCase();
+        if(baseSub == null || baseSub.isEmpty()) baseSub = subname;
         if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor()) || (baseSub.equals("nomatching") && (SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor()))) {
             boolean secondary = (baseSub.equalsIgnoreCase("frontpage") || (baseSub.equalsIgnoreCase("all")) || (baseSub.equalsIgnoreCase("friends"))|| (baseSub.equalsIgnoreCase("mod")) || baseSub.contains(".") || baseSub.contains("+"));
             if (!secondary && !SettingValues.colorEverywhere || secondary) {
