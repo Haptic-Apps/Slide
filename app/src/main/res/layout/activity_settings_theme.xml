@@ -126,11 +126,11 @@
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.25dp"
+                android:background="?attr/tint"
                 android:alpha=".25"
-                android:background="?attr/tint" />
-
+                android:layout_height="0.25dp"/>
             <RelativeLayout
+                android:id="@+id/dotint"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
@@ -148,23 +148,19 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/card_tint_background"
+                        android:text="Submission color tinting mode"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:text="card"
+                        android:id="@+id/tint_current"
+                        android:textColor="?attr/font"
+                        android:textSize="13sp" />
                 </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/colorback"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"

@@ -148,7 +148,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             final Submission submission = dataSet.posts.get(i);
 
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage") || (subreddit.equals("all")) || subreddit.contains(".") || subreddit.contains("+")));
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage") ||subreddit.equals("mod") ||subreddit.equals("friends") || (subreddit.equals("all")) || subreddit.contains(".") || subreddit.contains("+")));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override

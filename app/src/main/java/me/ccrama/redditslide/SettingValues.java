@@ -46,6 +46,7 @@ public class SettingValues {
     public static final String PREF_LOW_RES_ALWAYS = "lowResAlways";
     public static final String PREF_LOW_RES_MOBILE = "lowRes";
     public static final String PREF_IMAGE_LQ = "imageLq";
+    public static final String PREF_COLOR_SUB_NAME = "colorSubName";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
@@ -134,6 +135,7 @@ public class SettingValues {
     public static boolean albumSwipe;
     public static boolean switchThumb;
     public static boolean commentPager;
+    public static boolean colorSubName;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -192,6 +194,7 @@ public class SettingValues {
         alwaysExternal = prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
 
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
+        colorSubName = prefs.getBoolean(PREF_COLOR_SUB_NAME, false);
 
         cropImage = prefs.getBoolean(PREF_CROP_IMAGE, true);
         switchThumb = prefs.getBoolean(PREF_SWITCH_THUMB, true);

@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
@@ -35,35 +37,6 @@ public class SettingsTheme extends BaseActivity {
         setContentView(R.layout.activity_settings_theme);
         setupAppBar(R.id.toolbar, R.string.title_edit_theme, true, true);
 
-        /*  findViewById(R.id.auto).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (Reddit.tabletUI) {
-
-                    Intent i = new Intent(Settings.this, SettingsAutonight.class);
-                    startActivity(i);
-                } else {
-                    new AlertDialogWrapper.Builder(Settings.this)
-
-                            .setTitle(R.string.general_pro)
-                            .setMessage(R.string.general_pro_msg)
-                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    } catch (android.content.ActivityNotFoundException anfe) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    }
-                                }
-                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-
-                        }
-                    }).show();
-                }
-            }
-        });
-       */
         findViewById(R.id.accent).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,65 +96,6 @@ public class SettingsTheme extends BaseActivity {
             }
 
         });
-        /*Not needed anymore
-        if (Reddit.expandedSettings) {
-            //Color matching mode//
-            //Everywhere, not sub//
-            final TextView color = (TextView) findViewById(R.id.colormatchingwhere);
-            color.setText(CreateCardView.getColorMatchingMode().toString().replace("_", " ").toLowerCase());
-            findViewById(R.id.colormatchingwhere_touch).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(SettingsTheme.this, v);
-                    //Inflating the Popup using xml file
-                    popup.getMenu().add("Always Match");
-                    popup.getMenu().add("Match Externally");
-
-                    //registering popup with OnMenuItemClickListener
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        public boolean onMenuItemClick(MenuItem item) {
-                            CreateCardView.setColorMatchingMode(SettingValues.ColorMatchingMode.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())));
-                            color.setText(CreateCardView.getColorMatchingMode().toString().replace("_", " ").toLowerCase());
-
-                            return true;
-                        }
-                    });
-
-                    popup.show();
-                }
-            });
-            //Color matching type//
-            //card, subreddit, or none//
-            final TextView matchingtype = (TextView) findViewById(R.id.colormatching);
-            matchingtype.setText(CreateCardView.getColorIndicator().toString().replace("_", " ").toLowerCase());
-            findViewById(R.id.colormatching_touch).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popup = new PopupMenu(SettingsTheme.this, v);
-                    //Inflating the Popup using xml file
-                    popup.getMenu().add("Card Background");
-                    popup.getMenu().add("Text Color");
-                    popup.getMenu().add("None");
-
-                    //registering popup with OnMenuItemClickListener
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        public boolean onMenuItemClick(MenuItem item) {
-                            CreateCardView.setColorIndicicator(SettingValues.ColorIndicator.valueOf((item.getTitle().toString().replace(" ", "_").toUpperCase())));
-                            matchingtype.setText(CreateCardView.getColorIndicator().toString().replace("_", " ").toLowerCase());
-
-                            return true;
-                        }
-                    });
-
-                    popup.show();
-                }
-            });
-        }
-        else{
-            findViewById(R.id.colormatching_touch).setVisibility(View.GONE);
-            findViewById(R.id.colormatchingwhere_touch).setVisibility(View.GONE);
-        }
-*/
 
         findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -367,20 +281,60 @@ public class SettingsTheme extends BaseActivity {
             }
 
         });
+
+        //Color tinting mode
         final SwitchCompat s2 = (SwitchCompat) findViewById(R.id.tint_everywhere);
 
-        SwitchCompat s = (SwitchCompat) findViewById(R.id.colorback);
-        s.setChecked(SettingValues.colorBack);
-        s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.colorBack = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_BACK, isChecked).apply();
-                s2.setEnabled(isChecked);
+        ((TextView) findViewById(R.id.tint_current)).setText(SettingValues.colorBack ? (SettingValues.colorSubName ? getString(R.string.subreddit_name_tint) : getString(R.string.card_background_tint)) : getString(R.string.misc_none));
 
+        boolean enabled = !((TextView) findViewById(R.id.tint_current)).getText().equals(getString(R.string.misc_none));
+
+        findViewById(R.id.dotint).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(SettingsTheme.this, v);
+                popup.getMenuInflater().inflate(R.menu.color_tinting_mode_settings, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.none:
+                                SettingValues.colorBack = false;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_BACK, false).apply();
+                                break;
+                            case R.id.background:
+                                SettingValues.colorBack = true;
+                                SettingValues.colorSubName = false;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_BACK, true).apply();
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_SUB_NAME, false).apply();
+                                break;
+                            case R.id.name:
+                                SettingValues.colorBack = true;
+                                SettingValues.colorSubName = true;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_BACK, true).apply();
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_SUB_NAME, true).apply();
+                                break;
+                        }
+                        ((TextView) findViewById(R.id.tint_current)).setText(SettingValues.colorBack ? (SettingValues.colorSubName ? getString(R.string.subreddit_name_tint) : getString(R.string.card_background_tint)) : getString(R.string.misc_none));
+                        boolean enabled = !((TextView) findViewById(R.id.tint_current)).getText().equals(getString(R.string.misc_none));
+                        s2.setEnabled(enabled);
+                        s2.setChecked(SettingValues.colorEverywhere);
+                        s2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                SettingValues.colorEverywhere = isChecked;
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_EVERYWHERE, isChecked).apply();
+                            }
+                        });
+                        return true;
+                    }
+                });
+
+                popup.show();
             }
         });
-        s2.setEnabled(s.isChecked());
+
+        s2.setEnabled(enabled);
         s2.setChecked(SettingValues.colorEverywhere);
         s2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -70,6 +70,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static TimePeriod timePeriod;
     public static SharedPreferences colors;
     public static SharedPreferences appRestart;
+    public static SharedPreferences tags;
 
     public static int dpWidth;
     public static int notificationTime;
@@ -540,6 +541,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         timePeriod = SettingValues.timePeriod;
         defaultCommentSorting = SettingValues.defaultCommentSorting;
         colors = getSharedPreferences("COLOR", 0);
+        tags = getSharedPreferences("TAGS", 0);
         seen = getSharedPreferences("SEEN", 0);
         hidden = getSharedPreferences("HIDDEN", 0);
         lastposition = new ArrayList<>();
@@ -551,6 +553,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         if (!seen.contains("RESET")) {
             colors.edit().clear().apply();
+            tags.edit().clear().apply();
             seen.edit().clear().apply();
             hidden.edit().clear().apply();
             Hidden.hidden.edit().clear().apply();
@@ -564,6 +567,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
             SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
             colors = getSharedPreferences("COLOR", 0);
+            tags = getSharedPreferences("TAGS", 0);
             seen = getSharedPreferences("SEEN", 0);
             hidden = getSharedPreferences("HIDDEN", 0);
             seen.edit().putBoolean("RESET", true).apply();

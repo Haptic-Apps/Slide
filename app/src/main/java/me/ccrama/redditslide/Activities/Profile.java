@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.fluent.FluentRedditClient;
@@ -39,6 +40,7 @@ import me.ccrama.redditslide.Fragments.ContributionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -175,16 +177,66 @@ public class Profile extends BaseActivityAnim {
                 }*/
                 ((TextView) dialoglayout.findViewById(R.id.moreinfo)).setText(info.toString());
 
+                String tag = UserTags.getUserTag(name);
+                if (tag.isEmpty()) {
+                    tag = "Tag user";
+                } else {
+                    tag = "User tagged as '" + tag + "'";
+                }
+                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
                 LinearLayout l = (LinearLayout) dialoglayout.findViewById(R.id.trophies_inner);
 
+                dialoglayout.findViewById(R.id.tag).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MaterialDialog.Builder b = new MaterialDialog.Builder(Profile.this)
+                                .title("Set tag for " + name)
+                                .input("Tag", UserTags.getUserTag(name), false, new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                    }
+                                }).positiveText("Set tag")
+                                .neutralText(R.string.btn_cancel);
+
+                        if (UserTags.isUserTagged(name)) {
+                            b.negativeText("Remove tag");
+                        }
+                        b.onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                UserTags.setUserTag(name, dialog.getInputEditText().getText().toString());
+                                String tag = UserTags.getUserTag(name);
+                                if (tag.isEmpty()) {
+                                    tag = "Tag user";
+                                } else {
+                                    tag = "User tagged as '" + tag + "'";
+                                }
+                                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
+                            }
+                        }).onNeutral(null).onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                UserTags.removeUserTag(name);
+                                String tag = UserTags.getUserTag(name);
+                                if (tag.isEmpty()) {
+                                    tag = "Tag user";
+                                } else {
+                                    tag = "User tagged as '" + tag + "'";
+                                }
+                                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
+                            }
+                        }).show();
+                    }
+                });
                 if (trophyCase.isEmpty()) {
                     dialoglayout.findViewById(R.id.trophies).setVisibility(View.GONE);
                 } else {
-                    for(final Trophy t : trophyCase){
-                        View view= getLayoutInflater().inflate(R.layout.trophy, null);
+                    for (final Trophy t : trophyCase) {
+                        View view = getLayoutInflater().inflate(R.layout.trophy, null);
                         // Edit
                         ((Reddit) getApplicationContext()).getImageLoader().displayImage(t.getIcon(), ((ImageView) view.findViewById(R.id.image)));
-                        ((TextView)view.findViewById(R.id.trophyTitle)).setText(t.getFullName());
+                        ((TextView) view.findViewById(R.id.trophyTitle)).setText(t.getFullName());
                         if (t.getAboutUrl() != null)
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override

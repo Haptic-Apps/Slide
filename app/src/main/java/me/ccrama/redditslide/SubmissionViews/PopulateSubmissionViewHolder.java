@@ -13,6 +13,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -23,6 +24,8 @@ import android.text.Html;
 import android.text.InputType;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -74,6 +77,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
@@ -1184,14 +1188,70 @@ public class PopulateSubmissionViewHolder {
         }
     }
 
+    public void doInfoLine(SubmissionViewHolder holder, Submission submission, Context mContext, String baseSub) {
+
+        String spacer =  mContext.getString(R.string.submission_properties_seperator) ;
+        SpannableStringBuilder titleString = new SpannableStringBuilder();
+
+        SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + submission.getSubredditName() + " ");
+
+        String subname = submission.getSubredditName().toLowerCase();
+        if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor()) || (baseSub.equals("nomatching") && (SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor()))) {
+            boolean secondary = (baseSub.equalsIgnoreCase("frontpage") || (baseSub.equalsIgnoreCase("all")) || (baseSub.equalsIgnoreCase("friends"))|| (baseSub.equalsIgnoreCase("mod")) || baseSub.contains(".") || baseSub.contains("+"));
+            if (!secondary && !SettingValues.colorEverywhere || secondary) {
+                subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+
+        titleString.append(subreddit);
+        titleString.append(spacer);
+
+        titleString.append(TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext));
+        titleString.append(spacer);
+
+        SpannableStringBuilder author = new SpannableStringBuilder(" " + submission.getAuthor() + " ");
+        int authorcolor = Palette.getFontColorUser(submission.getAuthor());
+
+        if (submission.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (authorcolor != 0) {
+            author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        titleString.append(author);
+
+
+      /*todo maybe?  titleString.append(((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
+        titleString.append("  ");*/
+
+        if (UserTags.isUserTagged(submission.getAuthor())) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + UserTags.getUserTag(submission.getAuthor()) + " ");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+            titleString.append(" ");
+        }
+        /* too big, might add later todo
+        if (submission.getAuthorFlair() != null && submission.getAuthorFlair().getText() != null && !submission.getAuthorFlair().getText().isEmpty()) {
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = mContext.getTheme();
+            theme.resolveAttribute(R.attr.activity_background, typedValue, true);
+            int color = typedValue.data;
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + submission.getAuthorFlair().getText() + " ");
+            pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+            titleString.append(" ");
+        }*/
+
+        titleString.append(spacer);
+        titleString.append(submission.getDomain());
+        holder.info.setText(titleString);
+    }
+
     public <T extends Contribution> void populateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline, final String baseSub) {
         holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
-        String distingush = "";
-        if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
-            distingush = "[M]";
-        else if (submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
-            distingush = "[A]";
-
         SpannableStringBuilder titleString = new SpannableStringBuilder();
         titleString.append(Html.fromHtml(submission.getTitle()));
         if (submission.isStickied()) {
@@ -1230,8 +1290,7 @@ public class PopulateSubmissionViewHolder {
         }
         holder.title.setText(titleString); // title is a spoiler roboto textview so it will format the html
 
-        String separator = mContext.getResources().getString(R.string.submission_properties_seperator);
-        holder.info.setText("/r/" + submission.getSubredditName() + separator + TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext) + separator + distingush + "/u/" + submission.getAuthor() + separator + submission.getDomain());
+        doInfoLine(holder, submission, mContext, baseSub);
 
         if (!offline && SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
             holder.mod.setVisibility(View.VISIBLE);
