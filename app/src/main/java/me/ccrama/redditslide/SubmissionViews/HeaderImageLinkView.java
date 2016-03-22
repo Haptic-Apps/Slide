@@ -70,10 +70,17 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     boolean done;
 
+
+    String lastDone = "";
+
     public void setSubmission(final Submission submission, final boolean full, String baseSub) {
-        backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
-        thumbImage2.setImageResource(android.R.color.transparent);
-        doImageAndText(submission, full, baseSub);
+        if (!lastDone.equals(submission.getFullName())) {
+            lastDone = submission.getFullName();
+            backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
+            thumbImage2.setImageResource(android.R.color.transparent);
+            doImageAndText(submission, full, baseSub);
+        }
+
     }
 
     DisplayImageOptions bigOptions = new DisplayImageOptions.Builder()

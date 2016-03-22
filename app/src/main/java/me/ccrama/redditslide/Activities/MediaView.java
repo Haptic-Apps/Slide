@@ -29,7 +29,6 @@ import com.koushikdutta.ion.Ion;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
@@ -272,7 +271,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public void displayImage(String url) {
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
-        i.setMinimumDpi(100);
+        i.setMinimumDpi(10);
         final ProgressBar bar = (ProgressBar) findViewById(R.id.progress);
         bar.setIndeterminate(false);
         bar.setProgress(0);
@@ -296,7 +295,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         .cacheOnDisk(true)
                         .imageScaleType(ImageScaleType.NONE)
                         .cacheInMemory(false)
-                        .displayer(new FadeInBitmapDisplayer(250))
                         .build(), new ImageLoadingListener() {
                     private View mView;
 
@@ -313,9 +311,13 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        i.setImage(ImageSource.bitmap(loadedImage));
-
-                        (findViewById(R.id.progress)).setVisibility(View.GONE);
+                        try {
+                            File file = ((Reddit)getApplicationContext()).getImageLoader().getDiscCache().get(imageUri);
+                            i.setImage(ImageSource.uri(file.getAbsoluteFile().getAbsolutePath()));
+                        } catch(Exception e){
+                            i.setImage(ImageSource.bitmap(loadedImage));
+                        }
+                                (findViewById(R.id.progress)).setVisibility(View.GONE);
                         handler.removeCallbacks(progressBarDelayRunner);
 
                         previous = i.scale;
