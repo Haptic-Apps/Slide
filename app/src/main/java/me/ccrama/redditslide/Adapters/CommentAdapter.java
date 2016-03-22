@@ -965,7 +965,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setLayoutParams(params);
         }
         if (firstHolder instanceof SpacerViewHolder) {
-            firstHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), mPage.getActivity().findViewById(R.id.header).getHeight()));
+            LogUtil.v("Height is 2 " + mPage.getActivity().findViewById(R.id.header).getHeight());
+            firstHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), mPage.headerHeight));
         }
     }
 

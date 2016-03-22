@@ -104,7 +104,8 @@ public class CommentPage extends Fragment {
     }
 
     RecyclerView.OnScrollListener toolbarScroll;
-    Toolbar toolbar;
+    public Toolbar toolbar;
+    public int headerHeight;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -133,6 +134,8 @@ public class CommentPage extends Fragment {
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         rv.setLayoutManager(mLayoutManager);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        headerHeight = getActivity().findViewById(R.id.header).getHeight();
+
         toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header));
 
         rv.addOnScrollListener(toolbarScroll);
@@ -175,9 +178,6 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, getContext()), Reddit.pxToDp(92, getContext()));
 
 
-        if (!(getActivity() instanceof CommentsScreen) || ((CommentsScreen) getActivity()).currentPage == page) {
-            doAdapter();
-        }
         if (!np && !archived) {
             v.findViewById(R.id.np).setVisibility(View.GONE);
             v.findViewById(R.id.archived).setVisibility(View.GONE);
@@ -222,6 +222,7 @@ public class CommentPage extends Fragment {
                     return true;
                     case R.id.sort: {
                         openPopup(toolbar);
+                        return true;
                     }
                     case R.id.content: {
                         if (adapter.submission != null)
@@ -356,6 +357,9 @@ public class CommentPage extends Fragment {
             }
         });
 
+        if (!(getActivity() instanceof CommentsScreen) || ((CommentsScreen) getActivity()).currentPage == page) {
+            doAdapter();
+        }
         return v;
     }
 
