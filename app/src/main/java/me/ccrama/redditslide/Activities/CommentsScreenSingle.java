@@ -93,6 +93,9 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         pager.setAdapter(comments);
     }
 
+    boolean locked;
+    boolean archived;
+
     private class AsyncGetSubredditName extends AsyncTask<String, Void, String> {
 
         @Override
@@ -107,6 +110,8 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                 Submission s = Authentication.reddit.getSubmission(params[0]);
                 HasSeen.addSeen(s.getFullName());
                 LastComments.setComments(s);
+                locked = s.isLocked();
+                archived = s.isArchived();
                 return s.getSubredditName();
 
             } catch (Exception e) {
@@ -167,9 +172,10 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
             args.putString("id", name);
             args.putString("context", context);
+            args.putBoolean("archived", archived);
+            args.putBoolean("locked", locked);
             args.putString("subreddit", subreddit);
             args.putBoolean("single", true);
-
             args.putBoolean("np", np);
             f.setArguments(args);
 

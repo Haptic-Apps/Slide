@@ -1613,7 +1613,11 @@ public class MainActivity extends BaseActivity {
                     ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
                 return true;
             case R.id.action_sort:
-                openPopup();
+                if(subreddit.equalsIgnoreCase("friends")){
+                    Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    openPopup();
+                }
                 return true;
             case R.id.search:
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
@@ -1635,7 +1639,7 @@ public class MainActivity extends BaseActivity {
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random")) {
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") &&!subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
