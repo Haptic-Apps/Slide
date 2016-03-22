@@ -27,7 +27,6 @@ import net.dean.jraw.models.CommentSort;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
@@ -205,19 +204,8 @@ public class CommentPage extends Fragment {
                     }
                 }
         );
-        if (getActivity() instanceof BaseActivityAnim) {
-            ((BaseActivityAnim) getActivity()).setSupportActionBar(toolbar);
-            ((BaseActivityAnim) getActivity()).getSupportActionBar().setTitle(subreddit);
-            ((BaseActivityAnim) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } else {
-            toolbar.setTitle(subreddit);
-        }
-
-        return v;
-    }
-
-    public void doAdapter() {
-
+        toolbar.setTitle(subreddit);
+        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         toolbar.inflateMenu(R.menu.menu_comment_items);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
@@ -291,13 +279,13 @@ public class CommentPage extends Fragment {
                                         break;
                                     case NONE:
                                     case SELF:
-                                        if(adapter.submission.getSelftext().isEmpty()){
+                                        if (adapter.submission.getSelftext().isEmpty()) {
                                             Snackbar.make(rv, "Submission has no content", Snackbar.LENGTH_SHORT).show();
                                         } else {
                                             LayoutInflater inflater = getActivity().getLayoutInflater();
                                             final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
                                             final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-                                           adapter.setViews(adapter.submission.getDataNode().get("selftext_html").asText(), adapter.submission.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                                            adapter.setViews(adapter.submission.getDataNode().get("selftext_html").asText(), adapter.submission.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
                                             builder.setView(dialoglayout);
                                             builder.show();
                                         }
@@ -367,6 +355,12 @@ public class CommentPage extends Fragment {
                 return false;
             }
         });
+
+        return v;
+    }
+
+    public void doAdapter() {
+
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {

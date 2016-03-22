@@ -355,7 +355,8 @@ public class MainActivity extends BaseActivity {
         // Disable swiping if single mode is enabled
         if (singleMode) pager.setSwipingEnabled(false);
 
-
+        sidebarBody = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
+        sidebarOverflow = (CommentOverflow) findViewById(R.id.commentOverflow);
         if (SubredditStorage.subredditsForHome != null && !Reddit.isRestarting) {
             if (!first)
                 doDrawer();
@@ -510,19 +511,20 @@ public class MainActivity extends BaseActivity {
                 dialoglayout.findViewById(R.id.mods).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                      final Dialog d = new MaterialDialog.Builder(MainActivity.this).title("Finding moderators")
-                               .cancelable(true)
-                               .progress(true, 100)
-                               .show();
+                        final Dialog d = new MaterialDialog.Builder(MainActivity.this).title("Finding moderators")
+                                .cancelable(true)
+                                .progress(true, 100)
+                                .show();
                         new AsyncTask<Void, Void, Void>() {
                             ArrayList<UserRecord> mods;
+
                             @Override
                             protected Void doInBackground(Void... params) {
                                 mods = new ArrayList<>();
                                 UserRecordPaginator paginator = new UserRecordPaginator(Authentication.reddit, subreddit, "moderators");
                                 paginator.setSorting(Sorting.HOT);
                                 paginator.setTimePeriod(TimePeriod.ALL);
-                                while(paginator.hasNext()){
+                                while (paginator.hasNext()) {
                                     mods.addAll(paginator.next());
                                 }
                                 return null;
@@ -531,7 +533,7 @@ public class MainActivity extends BaseActivity {
                             @Override
                             protected void onPostExecute(Void aVoid) {
                                 final ArrayList<String> names = new ArrayList<String>();
-                                for(UserRecord rec : mods){
+                                for (UserRecord rec : mods) {
                                     names.add(rec.getFullName());
                                 }
                                 d.dismiss();
@@ -541,7 +543,7 @@ public class MainActivity extends BaseActivity {
                                             @Override
                                             public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                                                 Intent i = new Intent(MainActivity.this, Profile.class);
-                                                i.putExtra(Profile.EXTRA_PROFILE,  names.get(which));
+                                                i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
                                                 startActivity(i);
                                             }
                                         }).show();
@@ -636,6 +638,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    SpoilerRobotoTextView sidebarBody;
+    CommentOverflow sidebarOverflow;
+
+
     private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
@@ -648,6 +654,7 @@ public class MainActivity extends BaseActivity {
         if (!blocks.get(0).equals("<div class=\"md\">")) {
             firstTextView.setVisibility(View.VISIBLE);
             firstTextView.setTextHtml(blocks.get(0), subredditName);
+            firstTextView.setLinkTextColor(new ColorPreferences(this).getColor(subredditName));
             startIndex = 1;
         } else {
             firstTextView.setText("");
@@ -678,9 +685,7 @@ public class MainActivity extends BaseActivity {
             findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
             final String text = subreddit.getDataNode().get("description_html").asText();
-            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
-            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
-            setViews(text, subreddit.getDisplayName(), body, overflow);
+            setViews(text, subreddit.getDisplayName(), sidebarBody, sidebarOverflow);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
@@ -1498,7 +1503,7 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        if(SettingValues.expandedToolbar) {
+        if (SettingValues.expandedToolbar) {
             inflater.inflate(R.menu.menu_subreddit_overview_expanded, menu);
         } else {
             inflater.inflate(R.menu.menu_subreddit_overview, menu);
@@ -2052,10 +2057,16 @@ public class MainActivity extends BaseActivity {
                         if (mAsyncGetSubreddit != null) {
                             mAsyncGetSubreddit.cancel(true);
                         }
-                        header.animate()
-                                .translationY(-header.getHeight())
-                                .setInterpolator(new LinearInterpolator())
-                                .setDuration(180);
+                        header.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                header.animate()
+                                        .translationY(-header.getHeight())
+                                        .setInterpolator(new LinearInterpolator())
+                                        .setDuration(180);
+                            }
+                        }, 250);
+
                         pager.setSwipeLeftOnly(true);
                         themeSystemBars(openingComments.getSubredditName().toLowerCase());
                         setRecentBar(openingComments.getSubredditName().toLowerCase());
@@ -2115,7 +2126,7 @@ public class MainActivity extends BaseActivity {
             if (openingComments == null || i != toOpenComments) {
                 SubmissionsView f = new SubmissionsView();
                 Bundle args = new Bundle();
-                if(usedArray.size() > i) args.putString("id", usedArray.get(i));
+                if (usedArray.size() > i) args.putString("id", usedArray.get(i));
                 f.setArguments(args);
                 return f;
 

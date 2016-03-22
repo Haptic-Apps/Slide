@@ -100,7 +100,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             if (full) {
                 if (height < dpToPx(50) && type != ContentType.ImageType.SELF) {
                     forceThumb = true;
-                } else if (SettingValues.bigPicCropped) {
+                } else if (SettingValues.cropImage) {
                     backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                 } else {
                     double h = getHeightFromAspectRatio(height, width);
@@ -276,6 +276,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
         if (SettingValues.smallTag && !full) {
             title = (TextView) findViewById(R.id.tag);
+            findViewById(R.id.tag).setVisibility(View.VISIBLE);
             info = null;
         } else {
             findViewById(R.id.tag).setVisibility(View.GONE);
