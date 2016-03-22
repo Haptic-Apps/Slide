@@ -268,10 +268,10 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
     }
 
-    public void displayImage(String url) {
+    public void displayImage(final String url) {
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
-        i.setMinimumDpi(100);
+        i.setMinimumDpi(70);
         final ProgressBar bar = (ProgressBar) findViewById(R.id.progress);
         bar.setIndeterminate(false);
         bar.setProgress(0);
@@ -311,11 +311,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
-                            i.setImage(ImageSource.cachedBitmap(loadedImage));
-
-
-                                (findViewById(R.id.progress)).setVisibility(View.GONE);
+                        i.setImage(ImageSource.uri(((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url).getAbsolutePath()));
+                        (findViewById(R.id.progress)).setVisibility(View.GONE);
                         handler.removeCallbacks(progressBarDelayRunner);
 
                         previous = i.scale;

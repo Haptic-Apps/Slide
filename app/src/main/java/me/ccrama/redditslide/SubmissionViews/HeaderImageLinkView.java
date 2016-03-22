@@ -85,7 +85,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     DisplayImageOptions bigOptions = new DisplayImageOptions.Builder()
             .resetViewBeforeLoading(true)
             .cacheOnDisk(true)
-            .imageScaleType(ImageScaleType.NONE)
+            .imageScaleType(ImageScaleType.EXACTLY)
             .cacheInMemory(false)
             .displayer(new FadeInBitmapDisplayer(250))
             .build();

@@ -144,12 +144,14 @@ public class SubmissionComments {
 
         @Override
         public void onPostExecute(ArrayList<CommentObject> subs) {
-            page.doData(reset);
-            refreshLayout.setRefreshing(false);
-            if ((submission.isArchived() && !page.archived) || (submission.isLocked() && !page.locked))
-                page.doTopBar(submission);
-            if(adapter != null){
-                adapter.notifyItemChanged(0);
+            if (page.isVisible()) {
+                page.doData(reset);
+                refreshLayout.setRefreshing(false);
+                if ((submission.isArchived() && !page.archived) || (submission.isLocked() && !page.locked))
+                    page.doTopBar(submission);
+                if (adapter != null) {
+                    adapter.notifyItemChanged(0);
+                }
             }
         }
 

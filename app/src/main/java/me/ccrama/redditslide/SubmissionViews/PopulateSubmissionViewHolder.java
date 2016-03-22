@@ -445,6 +445,7 @@ public class PopulateSubmissionViewHolder {
                                                 new AccountManager(Authentication.reddit).save(submission);
                                                 ActionStates.setSaved(submission, true);
                                             }
+
                                         } catch (ApiException e) {
                                             e.printStackTrace();
                                         }
@@ -455,8 +456,9 @@ public class PopulateSubmissionViewHolder {
                                     @Override
                                     protected void onPostExecute(Void aVoid) {
                                         if (ActionStates.isSaved(submission)) {
-                                            ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                                            ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
                                             Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
+                                            AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
                                         } else {
                                             Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
                                             ((ImageView) holder.save).setColorFilter(((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none"))) || full) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
@@ -1188,17 +1190,17 @@ public class PopulateSubmissionViewHolder {
         }
     }
 
-    public void doInfoLine(SubmissionViewHolder holder, Submission submission, Context mContext, String baseSub) {
+    public void doInfoLine(SubmissionViewHolder holder, Submission submission, Context mContext, String baseSub, boolean full) {
 
-        String spacer =  mContext.getString(R.string.submission_properties_seperator) ;
+        String spacer = mContext.getString(R.string.submission_properties_seperator);
         SpannableStringBuilder titleString = new SpannableStringBuilder();
 
         SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + submission.getSubredditName() + " ");
 
         String subname = submission.getSubredditName().toLowerCase();
-        if(baseSub == null || baseSub.isEmpty()) baseSub = subname;
+        if (baseSub == null || baseSub.isEmpty()) baseSub = subname;
         if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor()) || (baseSub.equals("nomatching") && (SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor()))) {
-            boolean secondary = (baseSub.equalsIgnoreCase("frontpage") || (baseSub.equalsIgnoreCase("all")) || (baseSub.equalsIgnoreCase("friends"))|| (baseSub.equalsIgnoreCase("mod")) || baseSub.contains(".") || baseSub.contains("+"));
+            boolean secondary = (baseSub.equalsIgnoreCase("frontpage") || (baseSub.equalsIgnoreCase("all")) || (baseSub.equalsIgnoreCase("friends")) || (baseSub.equalsIgnoreCase("mod")) || baseSub.contains(".") || baseSub.contains("+"));
             if (!secondary && !SettingValues.colorEverywhere || secondary) {
                 subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1248,6 +1250,89 @@ public class PopulateSubmissionViewHolder {
 
         titleString.append(spacer);
         titleString.append(submission.getDomain());
+
+        if (holder.leadImage.getVisibility() == View.GONE && !full) {
+            String text = "";
+
+            switch (ContentType.getImageType(submission)) {
+                case NSFW_IMAGE:
+                    text = mContext.getString(R.string.type_nsfw_img);
+                    break;
+
+                case NSFW_GIF:
+                case NSFW_GFY:
+                    text = mContext.getString(R.string.type_nsfw_gif);
+                    break;
+
+                case REDDIT:
+                    text = mContext.getString(R.string.type_reddit);
+                    break;
+
+                case LINK:
+                case IMAGE_LINK:
+                    text = mContext.getString(R.string.type_link);
+                    break;
+
+                case NSFW_LINK:
+                    text = mContext.getString(R.string.type_nsfw_link);
+
+                    break;
+                case STREAMABLE:
+                    text = ("Streamable");
+                    break;
+                case SELF:
+                    text = ("Selftext");
+                    break;
+
+                case ALBUM:
+                    text = mContext.getString(R.string.type_album);
+                    break;
+
+                case IMAGE:
+                    text = mContext.getString(R.string.type_nsfw_img);
+                    break;
+                case IMGUR:
+                    text = mContext.getString(R.string.type_imgur);
+                    break;
+                case GFY:
+                case GIF:
+                case NONE_GFY:
+                case NONE_GIF:
+                    text = mContext.getString(R.string.type_gif);
+                    break;
+
+                case NONE:
+                    text = mContext.getString(R.string.type_title_only);
+                    break;
+
+                case NONE_IMAGE:
+                    text = mContext.getString(R.string.type_img);
+                    break;
+
+                case VIDEO:
+                    text = mContext.getString(R.string.type_vid);
+                    break;
+
+                case EMBEDDED:
+                    text = mContext.getString(R.string.type_emb);
+                    break;
+
+                case NONE_URL:
+                    text = mContext.getString(R.string.type_link);
+                    break;
+            }
+            if(!text.isEmpty()) {
+                titleString.append(" ");
+                text = text.toUpperCase();
+                TypedValue typedValue = new TypedValue();
+                Resources.Theme theme = mContext.getTheme();
+                theme.resolveAttribute(R.attr.activity_background, typedValue, true);
+                int color = typedValue.data;
+                SpannableStringBuilder pinned = new SpannableStringBuilder(" " + text + " ");
+                pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                titleString.append(pinned);
+            }
+        }
         holder.info.setText(titleString);
     }
 
@@ -1291,7 +1376,6 @@ public class PopulateSubmissionViewHolder {
         }
         holder.title.setText(titleString); // title is a spoiler roboto textview so it will format the html
 
-        doInfoLine(holder, submission, mContext, baseSub);
 
         if (!offline && SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
             holder.mod.setVisibility(View.VISIBLE);
@@ -1332,6 +1416,8 @@ public class PopulateSubmissionViewHolder {
 
         final ImageView downvotebutton = (ImageView) holder.downvote;
         final ImageView upvotebutton = (ImageView) holder.upvote;
+        downvotebutton.setVisibility(View.VISIBLE);
+        upvotebutton.setVisibility(View.VISIBLE);
         if (submission.isArchived() || submission.isLocked()) {
             downvotebutton.setVisibility(View.GONE);
             upvotebutton.setVisibility(View.GONE);
@@ -1411,7 +1497,7 @@ public class PopulateSubmissionViewHolder {
         }
         if (Authentication.isLoggedIn) {
             if (ActionStates.isSaved(submission)) {
-                ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
             } else {
                 ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
             }
@@ -1443,8 +1529,9 @@ public class PopulateSubmissionViewHolder {
                             if (!full && !SettingValues.actionbarVisible)
                                 CreateCardView.toggleActionbar(holder.itemView);
                             if (ActionStates.isSaved(submission)) {
-                                ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                                ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
                                 Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
+                                AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
                             } else {
                                 Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
                                 ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
@@ -1490,6 +1577,9 @@ public class PopulateSubmissionViewHolder {
             }
 
         });
+
+        doInfoLine(holder, submission, mContext, baseSub, full);
+
 
         if (fullscreen) {
             if (!submission.getSelftext().isEmpty()) {
