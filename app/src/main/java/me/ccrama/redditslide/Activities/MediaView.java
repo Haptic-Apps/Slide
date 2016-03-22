@@ -174,31 +174,40 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         if (NetworkUtil.isConnected(this)) {
             final String finalUrl = url;
+            final String finalUrl1 = url;
+            LogUtil.v("Loading" + "https://api.imgur.com/2/image/" + hash + ".json");
             Ion.with(this).load("https://api.imgur.com/2/image/" + hash + ".json")
                     .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-                @Override
-                public void onCompleted(Exception e, JsonObject obj) {
-                    if (obj != null && !obj.isJsonNull() && obj.has("error")) {
-                        LogUtil.v("Error loading content");
-                        (MediaView.this).finish();
-                    } else {
-                        try {
-                            String type = obj.get("image").getAsJsonObject().get("image").getAsJsonObject().get("type").getAsString();
-                            String urls = obj.get("image").getAsJsonObject().get("links").getAsJsonObject().get("original").getAsString();
+                                                    @Override
+                                                    public void onCompleted(Exception e, JsonObject obj) {
+                                                        if (obj != null && !obj.isJsonNull() && obj.has("error")) {
+                                                            LogUtil.v("Error loading content");
+                                                            (MediaView.this).finish();
+                                                        } else {
+                                                            try {
+                                                                if (!obj.isJsonNull() && obj.has("image")) {
+                                                                    String type = obj.get("image").getAsJsonObject().get("image").getAsJsonObject().get("type").getAsString();
+                                                                    String urls = obj.get("image").getAsJsonObject().get("links").getAsJsonObject().get("original").getAsString();
 
-                            if (type.contains("gif")) {
-                                doLoadGif(urls);
-                            } else if (!imageShown) { //only load if there is no image
-                                doLoadImage(urls);
-                            }
-                        } catch (Exception e2) {
-                            Intent i = new Intent(MediaView.this, Website.class);
-                            i.putExtra(Website.EXTRA_URL, finalUrl);
-                            MediaView.this.startActivity(i);
-                        }
-                    }
-                }
-            });
+                                                                    if (type.contains("gif")) {
+                                                                        doLoadGif(urls);
+                                                                    } else if (!imageShown) { //only load if there is no image
+                                                                        doLoadImage(urls);
+                                                                    }
+                                                                } else {
+                                                                    if (!imageShown)
+                                                                        doLoadImage(finalUrl1);
+                                                                }
+                                                            } catch (Exception e2) {
+                                                                Intent i = new Intent(MediaView.this, Website.class);
+                                                                i.putExtra(Website.EXTRA_URL, finalUrl);
+                                                                MediaView.this.startActivity(i);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+
+            );
         }
     }
 

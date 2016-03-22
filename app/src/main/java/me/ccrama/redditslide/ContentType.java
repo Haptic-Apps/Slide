@@ -28,7 +28,7 @@ public class ContentType {
     }
 
     public static boolean isImgurLink(String url) {
-        return (url.contains("imgur") && !isGif(url) && !isAlbum(url));
+        return (url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url));
     }
 
     public static String getFixedUrlThumb(String s2) {

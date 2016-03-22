@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="\n• New subreddit view type: Comment Pane. View comments side by side with posts
+        android:text="• New subreddit view type: Comment Pane. View comments side by side with posts
 \n• Data saving and History sections of settings
 \n• Option for smaller content tag
 \n• Ability to show lq images if possible
