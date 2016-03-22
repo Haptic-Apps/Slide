@@ -654,4 +654,5 @@
     <string name="submission_info_locked">This is a locked post. You won\'t be able to vote or comment.</string>
     <string name="card_background_tint">Card background</string>
     <string name="subreddit_name_tint">Subreddit name</string>
+    <string name="settings_comment_hide_selftext_image">Hide lead image on selftext posts</string>
 </resources>

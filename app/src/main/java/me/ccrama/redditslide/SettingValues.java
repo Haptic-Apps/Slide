@@ -59,6 +59,7 @@ public class SettingValues {
     public static final String PREF_HIDEBUTTON = "Hidebutton";
     public static final String PREF_SAVE_BUTTON = "saveButton";
     public static final String PREF_IMAGE = "image";
+    public static final String PREF_SELFTEXT_IMAGE_COMMENT = "selftextImageComment";
     public static final String SYNCCIT_AUTH = "SYNCCIT_AUTH";
     public static final String SYNCCIT_NAME = "SYNCCIT_NAME";
     public static final String PREF_BLUR = "blur";
@@ -136,6 +137,7 @@ public class SettingValues {
     public static boolean switchThumb;
     public static boolean commentPager;
     public static boolean colorSubName;
+    public static boolean hideSelftextLeadImage;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -176,6 +178,7 @@ public class SettingValues {
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
         smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);
         swap = prefs.getBoolean(PREF_SWAP, false);
+        hideSelftextLeadImage = prefs.getBoolean(PREF_SELFTEXT_IMAGE_COMMENT, false);
         web = prefs.getBoolean(PREFS_WEB, true);
         image = prefs.getBoolean(PREF_IMAGE, true);
         cache = true;

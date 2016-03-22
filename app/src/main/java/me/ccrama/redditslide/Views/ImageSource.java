@@ -33,7 +33,7 @@ public final class ImageSource {
         this.bitmap = bitmap;
         this.uri = null;
         this.resource = null;
-        this.tile = false;
+        this.tile = true;
         this.sWidth = bitmap.getWidth();
         this.sHeight = bitmap.getHeight();
         this.cached = cached;

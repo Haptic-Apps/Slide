@@ -2,25 +2,18 @@
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        android:minHeight="56dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/md_light_blue_500"
-        android:clipToPadding="false"
-
-        android:minHeight="56dp"
-        android:paddingRight="16dp"
-        android:theme="@style/Theme.AppCompat"
-        app:layout_scrollFlags="scroll|enterAlways" />
+        android:background="@color/md_light_blue_500" />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
@@ -44,21 +37,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:hint="@string/settings_synccit_username"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"
-                    android:hint="@string/settings_synccit_username"
                     android:textSize="18sp" />
 
 
                 <EditText
                     android:id="@+id/auth"
                     android:layout_width="match_parent"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:hint="@string/settings_synccit_auth"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font"
                     android:textSize="18sp" />
 
                 <RelativeLayout

@@ -11,17 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/md_light_blue_500"
-        android:clipToPadding="false"
-        android:minHeight="56dp"
-        android:paddingRight="16dp"
-        android:theme="@style/Theme.AppCompat"
-        app:layout_scrollFlags="scroll|enterAlways"
-
-
-        >
-
-
-    </android.support.v7.widget.Toolbar>
+        android:minHeight="56dp" />
 
 
     <ScrollView
@@ -41,6 +31,7 @@
                 android:text="@string/backup_info"
                 android:textColor="?attr/font"
                 android:textSize="16sp" />
+
             <LinearLayout
                 android:id="@+id/back"
                 android:layout_width="match_parent"
@@ -53,8 +44,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    app:srcCompat="@drawable/refresh"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/refresh" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -64,6 +55,7 @@
                     android:textColor="?attr/font"
                     android:textSize="16sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/restore"
                 android:layout_width="match_parent"
@@ -76,8 +68,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    app:srcCompat="@drawable/send"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/send" />
 
                 <TextView
                     android:layout_width="wrap_content"
