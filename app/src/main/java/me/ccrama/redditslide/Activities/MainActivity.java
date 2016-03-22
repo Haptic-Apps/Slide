@@ -2043,35 +2043,31 @@ public class MainActivity extends BaseActivity {
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    if(positionOffset == 0){
+                        if (position != toOpenComments) {
+                            doPageSelectedComments(position);
+                            if (position == toOpenComments - 1 && adapter != null && adapter.getCurrentFragment() != null) {
+                                ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
+                            }
+                        } else {
+                            if (mAsyncGetSubreddit != null) {
+                                mAsyncGetSubreddit.cancel(true);
+                            }
+                            header.animate()
+                                    .translationY(-header.getHeight())
+                                    .setInterpolator(new LinearInterpolator())
+                                    .setDuration(180);
+                            pager.setSwipeLeftOnly(true);
+                            themeSystemBars(openingComments.getSubredditName().toLowerCase());
+                            setRecentBar(openingComments.getSubredditName().toLowerCase());
 
+                        }
+                    }
                 }
 
                 @Override
                 public void onPageSelected(final int position) {
-                    if (position != toOpenComments) {
-                        doPageSelectedComments(position);
-                        if (position == toOpenComments - 1 && adapter != null && adapter.getCurrentFragment() != null) {
-                            ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
-                        }
-                    } else {
-                        if (mAsyncGetSubreddit != null) {
-                            mAsyncGetSubreddit.cancel(true);
-                        }
-                        header.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                header.animate()
-                                        .translationY(-header.getHeight())
-                                        .setInterpolator(new LinearInterpolator())
-                                        .setDuration(180);
-                            }
-                        }, 250);
 
-                        pager.setSwipeLeftOnly(true);
-                        themeSystemBars(openingComments.getSubredditName().toLowerCase());
-                        setRecentBar(openingComments.getSubredditName().toLowerCase());
-
-                    }
                 }
 
                 @Override
