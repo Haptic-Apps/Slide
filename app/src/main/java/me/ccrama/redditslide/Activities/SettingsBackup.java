@@ -165,7 +165,6 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
             }
 
 
-
         }
     };
 
@@ -229,33 +228,37 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
             findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mGoogleApiClient.isConnected()) {
-
-                        File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
-
-                        if (prefsdir.exists() && prefsdir.isDirectory()) {
-
-                            String[] list = prefsdir.list();
-                            progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).cancelable(false).build();
-                            progress.show();
-                            appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback2);
-
-                        }
+                    if (Reddit.noGapps) {
 
                     } else {
-                        new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                .setTitle(R.string.settings_google)
-                                .setMessage(R.string.settings_google_msg)
-                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                    @Override
-                                    public void onCancel(DialogInterface dialog) {
-                                    }
-                                })
-                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
+                        if (mGoogleApiClient.isConnected()) {
 
-                                    }
-                                }).show();
+                            File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
+
+                            if (prefsdir.exists() && prefsdir.isDirectory()) {
+
+                                String[] list = prefsdir.list();
+                                progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).cancelable(false).build();
+                                progress.show();
+                                appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback2);
+
+                            }
+
+                        } else {
+                            new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                    .setTitle(R.string.settings_google)
+                                    .setMessage(R.string.settings_google_msg)
+                                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                        @Override
+                                        public void onCancel(DialogInterface dialog) {
+                                        }
+                                    })
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                                        }
+                                    }).show();
+                        }
                     }
                 }
             });
@@ -264,7 +267,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
             findViewById(R.id.restore).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mGoogleApiClient.isConnected()) {
+                    if (mGoogleApiClient.isConnected()) {
 
                         progress = new MaterialDialog.Builder(SettingsBackup.this)
                                 .title(R.string.backup_restoring)
@@ -345,7 +348,6 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
     }
 
 
-
     final private class RetrieveDriveFileContentsAsyncTask extends AsyncTask<DriveId, Boolean, String> {
 
 
@@ -402,7 +404,6 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
             super.onPostExecute(result);
             if (progress.getCurrentProgress() == progress.getMaxProgress()) {
                 progress.dismiss();
-
 
 
                 new AlertDialogWrapper.Builder(SettingsBackup.this)
