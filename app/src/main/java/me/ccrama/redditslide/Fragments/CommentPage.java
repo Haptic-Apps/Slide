@@ -106,19 +106,27 @@ public class CommentPage extends Fragment {
     RecyclerView.OnScrollListener toolbarScroll;
     public Toolbar toolbar;
     public int headerHeight;
+    int toSubtract;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         final View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
+        final View subtractHeight = v.findViewById(R.id.loadall);
+        toSubtract = 3;
+        final View header = v.findViewById(R.id.header);
         if (!loadMore) {
             v.findViewById(R.id.loadall).setVisibility(View.GONE);
         } else {
+            toSubtract--;
             v.findViewById(R.id.loadall).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mSwipeRefreshLayout.setRefreshing(true);
 
+                    toSubtract ++;
+                    headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
+                    adapter.notifyItemChanged(0);
                     //avoid crashes when load more is clicked before loading is finished
                     if (comments.mLoadData != null) comments.mLoadData.cancel(true);
 
@@ -134,7 +142,6 @@ public class CommentPage extends Fragment {
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         rv.setLayoutManager(mLayoutManager);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-        headerHeight = getActivity().findViewById(R.id.header).getHeight();
 
         toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header));
 
@@ -177,15 +184,15 @@ public class CommentPage extends Fragment {
 
         mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, getContext()), Reddit.pxToDp(92, getContext()));
 
-
         if (!np && !archived) {
             v.findViewById(R.id.np).setVisibility(View.GONE);
             v.findViewById(R.id.archived).setVisibility(View.GONE);
         } else if (archived) {
+            toSubtract--;
             v.findViewById(R.id.np).setVisibility(View.GONE);
             v.findViewById(R.id.archived).setBackgroundColor(Palette.getColor(subreddit));
-
         } else {
+            toSubtract--;
             v.findViewById(R.id.archived).setVisibility(View.GONE);
             v.findViewById(R.id.np).setBackgroundColor(Palette.getColor(subreddit));
         }
@@ -354,6 +361,18 @@ public class CommentPage extends Fragment {
 
                 }
                 return false;
+            }
+        });
+        subtractHeight.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        header.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
+
+        mSwipeRefreshLayout.setProgressViewOffset(false, headerHeight, headerHeight + Reddit.pxToDp(40,getActivity()));
+
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((LinearLayoutManager)rv.getLayoutManager()).scrollToPositionWithOffset(1, headerHeight);
             }
         });
 

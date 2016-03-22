@@ -1996,15 +1996,11 @@ public class MainActivity extends BaseActivity {
 
     public void doPageSelectedComments(int position) {
         pager.setSwipeLeftOnly(false);
-        header.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                header.animate()
-                        .translationY(0)
-                        .setInterpolator(new LinearInterpolator())
-                        .setDuration(180);
-            }
-        }, 250);
+
+        header.animate()
+                .translationY(0)
+                .setInterpolator(new LinearInterpolator())
+                .setDuration(180);
 
 
         Reddit.currentPosition = position;
@@ -2043,7 +2039,7 @@ public class MainActivity extends BaseActivity {
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    if(positionOffset == 0){
+                    if (positionOffset == 0) {
                         if (position != toOpenComments) {
                             doPageSelectedComments(position);
                             if (position == toOpenComments - 1 && adapter != null && adapter.getCurrentFragment() != null) {
@@ -2053,10 +2049,12 @@ public class MainActivity extends BaseActivity {
                             if (mAsyncGetSubreddit != null) {
                                 mAsyncGetSubreddit.cancel(true);
                             }
-                            header.animate()
-                                    .translationY(-header.getHeight())
-                                    .setInterpolator(new LinearInterpolator())
-                                    .setDuration(180);
+
+                            if (header.getTranslationY() == 0)
+                                header.animate()
+                                        .translationY(-header.getHeight())
+                                        .setInterpolator(new LinearInterpolator())
+                                        .setDuration(180);
                             pager.setSwipeLeftOnly(true);
                             themeSystemBars(openingComments.getSubredditName().toLowerCase());
                             setRecentBar(openingComments.getSubredditName().toLowerCase());
