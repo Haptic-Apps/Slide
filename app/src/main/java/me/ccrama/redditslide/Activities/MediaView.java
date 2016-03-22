@@ -272,7 +272,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public void displayImage(String url) {
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
-        i.setMinimumDpi(10);
+        i.setMinimumDpi(100);
         final ProgressBar bar = (ProgressBar) findViewById(R.id.progress);
         bar.setIndeterminate(false);
         bar.setProgress(0);

@@ -73,6 +73,11 @@ public class ContentType {
         try {
             Submission.ThumbnailType t = s.getThumbnailType();
             String url = s.getUrl();
+            if (s.isSelfPost()) {
+                return ImageType.SELF;
+            } else if (isRedditLink(url)) {
+                return ImageType.REDDIT;
+            }
             if (url.startsWith("/") && !url.startsWith("//")) {
                 url = "reddit.com" + url;
             } else {
@@ -90,13 +95,12 @@ public class ContentType {
             if (s.getUrl().contains("streamable.com")) {
                 return ImageType.STREAMABLE;
             }
+
+            if (isAlbum(url)) {
+                return ImageType.ALBUM;
+            }
             if (!s.isNsfw()) {
 
-                if (s.isSelfPost()) {
-                    return ImageType.SELF;
-                } else if (isRedditLink(url)) {
-                    return ImageType.REDDIT;
-                }
                 if (isImgurLink(url)) {
                     if (url.contains("?") && (url.contains(".png") || url.contains(".gif") || url.contains(".jpg"))) {
                         url = url.substring(0, url.lastIndexOf("?"));
