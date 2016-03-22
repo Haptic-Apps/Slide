@@ -15,6 +15,7 @@ import android.view.Window;
 
 import net.dean.jraw.models.Submission;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
@@ -101,10 +102,12 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     }
 
     public int currentPage;
+    public ArrayList<Integer> seen;
 
     @Override
     public void onCreate(Bundle savedInstance) {
 
+        seen = new ArrayList<>();
         if (SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !SettingValues.fullCommentOverride) {
             setTheme(R.style.popup);
             super.onCreate(savedInstance);
@@ -163,22 +166,16 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 @Override
                 public void onPageSelected(int position) {
                     updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
-                /*    if (tip) {
-                        Tooltip.removeAll(CommentsScreen.this);
-                        Reddit.appRestart.edit().putString("tutorial_6", "t").apply();
-                    }*/
+
                     if (subredditPosts.getPosts().size() - 2 <= position && subredditPosts.hasMore()) {
                         subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
                     }
 
                     currentPage = position;
-                    if (currentPage >= firstPage) {
-                        //todo this       pageForward = currentPage-firstPage;
-                    } else {
-//todo this
-                    }
+                    seen.add(position);
+
                     Bundle conData = new Bundle();
-                    conData.putInt("pages", currentPage - firstPage);
+                    conData.putIntegerArrayList("seen", seen);
                     Intent intent = new Intent();
                     intent.putExtras(conData);
                     setResult(RESULT_OK, intent);

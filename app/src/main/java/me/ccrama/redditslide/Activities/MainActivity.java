@@ -175,7 +175,12 @@ public class MainActivity extends BaseActivity {
             restartTheme();
         } else if (requestCode == 940) {
             if (adapter != null && adapter.getCurrentFragment() != null) {
-                ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
+                if(resultCode == RESULT_OK){
+                    LogUtil.v("Doing hide posts");
+                    ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView(data.getIntegerArrayListExtra("seen"));
+                } else {
+                    ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
+                }
             }
         } else if (requestCode == RESET_ADAPTER_RESULT) {
             resetAdapter();
