@@ -62,6 +62,7 @@ public class CommentPage extends Fragment {
 
     boolean np;
     boolean archived;
+    boolean locked;
     boolean loadMore;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     public RecyclerView rv;
@@ -113,7 +114,7 @@ public class CommentPage extends Fragment {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         final View v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
         final View subtractHeight = v.findViewById(R.id.loadall);
-        toSubtract = 3;
+        toSubtract = 4;
         final View header = v.findViewById(R.id.header);
         if (!loadMore) {
             v.findViewById(R.id.loadall).setVisibility(View.GONE);
@@ -124,7 +125,7 @@ public class CommentPage extends Fragment {
                 public void onClick(View v) {
                     mSwipeRefreshLayout.setRefreshing(true);
 
-                    toSubtract ++;
+                    toSubtract++;
                     headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
                     adapter.notifyItemChanged(0);
                     //avoid crashes when load more is clicked before loading is finished
@@ -195,6 +196,12 @@ public class CommentPage extends Fragment {
             toSubtract--;
             v.findViewById(R.id.archived).setVisibility(View.GONE);
             v.findViewById(R.id.np).setBackgroundColor(Palette.getColor(subreddit));
+        }
+
+        if(locked){
+            toSubtract--;
+        } else {
+            v.findViewById(R.id.locked).setVisibility(View.GONE);
         }
 
         mSwipeRefreshLayout.setOnRefreshListener(
@@ -358,6 +365,9 @@ public class CommentPage extends Fragment {
                         }
                     }
                     return true;
+                    case android.R.id.home:
+                        getActivity().onBackPressed();
+                        return true;
 
                 }
                 return false;
@@ -367,12 +377,12 @@ public class CommentPage extends Fragment {
         header.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
 
-        mSwipeRefreshLayout.setProgressViewOffset(false, headerHeight, headerHeight + Reddit.pxToDp(40,getActivity()));
+        mSwipeRefreshLayout.setProgressViewOffset(false, headerHeight, headerHeight + Reddit.pxToDp(40, getActivity()));
 
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((LinearLayoutManager)rv.getLayoutManager()).scrollToPositionWithOffset(1, headerHeight);
+                ((LinearLayoutManager) rv.getLayoutManager()).scrollToPositionWithOffset(1, headerHeight);
             }
         });
 
@@ -464,6 +474,7 @@ public class CommentPage extends Fragment {
         context = bundle.getString("context", "");
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
+        locked = bundle.getBoolean("locked", false);
         baseSubreddit = bundle.getString("baseSubreddit", "");
 
         loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));

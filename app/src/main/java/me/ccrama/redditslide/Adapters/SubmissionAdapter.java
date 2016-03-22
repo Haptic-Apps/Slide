@@ -140,11 +140,11 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     if (Authentication.didOnline || submission.getComments() != null) {
                         holder.title.setAlpha(0.54f);
 
-                        if(context instanceof MainActivity){
-                            final MainActivity a = (MainActivity)context;
-                            if(a.singleMode && a.commentPager){
+                        if (context instanceof MainActivity) {
+                            final MainActivity a = (MainActivity) context;
+                            if (a.singleMode && a.commentPager) {
 
-                                if(a.openingComments != submission) {
+                                if (a.openingComments != submission) {
                                     clicked = holder2.getAdapterPosition();
                                     a.openingComments = submission;
                                     a.toOpenComments = a.pager.getCurrentItem() + 1;
@@ -157,8 +157,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                         HasSeen.addSeen(submission.getFullName());
                                         LastComments.setComments(submission);
                                     }
-                                    ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) a).adapter).storedFragment = ((MainActivity) a).adapter.getCurrentFragment();
-                                    ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) a).adapter).size = a.toOpenComments + 1;
+                                    ((MainActivity.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();
+                                    ((MainActivity.OverviewPagerAdapterComment) (a).adapter).size = a.toOpenComments + 1;
                                     a.adapter.notifyDataSetChanged();
                                 }
                                 a.pager.postDelayed(new Runnable() {
@@ -166,7 +166,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                     public void run() {
                                         a.pager.setCurrentItem(a.pager.getCurrentItem() + 1, true);
                                     }
-                                }, 250);
+                                }, 400);
 
                             } else {
                                 Intent i2 = new Intent(context, CommentsScreen.class);

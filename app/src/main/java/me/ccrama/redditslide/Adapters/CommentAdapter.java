@@ -793,7 +793,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else if (firstHolder instanceof SubmissionViewHolder) {
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false, null);
             if (Authentication.isLoggedIn && Authentication.didOnline) {
-                if (submission.isArchived())
+                if (submission.isArchived() || submission.isLocked())
                     firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
                 else {
                     firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
@@ -1461,7 +1461,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     delete.setVisibility(View.GONE);
                 }
             }
-            if (Authentication.isLoggedIn && !submission.isArchived() && Authentication.didOnline) {
+            if (Authentication.isLoggedIn && !submission.isArchived() && !submission.isLocked() && Authentication.didOnline) {
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

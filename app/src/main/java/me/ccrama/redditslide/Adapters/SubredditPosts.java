@@ -237,7 +237,6 @@ public class SubredditPosts implements PostLoader {
                     posts = new ArrayList<>(new LinkedHashSet(filteredSubmissions));
                     start = -1;
                 } else {
-                    posts = OfflineSubreddit.getSubreddit(subreddit).submissions;
                     posts.addAll(filteredSubmissions);
                     posts = new ArrayList<>(new LinkedHashSet(posts));
                     offline = false;

@@ -651,4 +651,5 @@
     <string name="datasave_mobile">Mobile data</string>
     <string name="never">Never</string>
     <string name="multi_column_force_full">Force full comment view</string>
+    <string name="submission_info_locked">This is a locked post. You won\'t be able to vote or comment.</string>
 </resources>

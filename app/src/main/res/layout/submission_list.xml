@@ -50,7 +50,7 @@
                 android:layout_marginLeft="8dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/chameleon"
+                android:src="@drawable/chameleon"
                 app:riv_corner_radius="2dp" />
             <ImageView
                 android:id="@+id/secondMenu"

@@ -2130,6 +2130,7 @@ public class MainActivity extends BaseActivity {
                 String name = openingComments.getFullName();
                 args.putString("id", name.substring(3, name.length()));
                 args.putBoolean("archived", openingComments.isArchived());
+                args.putBoolean("locked", openingComments.isLocked());
                 args.putInt("page", currentComment);
                 args.putString("subreddit", openingComments.getSubredditName());
                 args.putString("baseSubreddit", subToDo);

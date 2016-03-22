@@ -172,6 +172,16 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                     }
 
                     currentPage = position;
+                    if (currentPage >= firstPage) {
+                        //todo this       pageForward = currentPage-firstPage;
+                    } else {
+//todo this
+                    }
+                    Bundle conData = new Bundle();
+                    conData.putInt("pages", currentPage - firstPage);
+                    Intent intent = new Intent();
+                    intent.putExtras(conData);
+                    setResult(RESULT_OK, intent);
                 }
 
                 @Override
@@ -194,8 +204,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         setRecentBar(subreddit);
 
         if (SettingValues.storeHistory) {
-            if (post.isNsfw() && !SettingValues.storeNSFWHistory) {}
-            else HasSeen.addSeen(post.getFullName());
+            if (post.isNsfw() && !SettingValues.storeNSFWHistory) {
+            } else HasSeen.addSeen(post.getFullName());
             LastComments.setComments(post);
 
         }
@@ -270,6 +280,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             String name = subredditPosts.getPosts().get(i).getFullName();
             args.putString("id", name.substring(3, name.length()));
             args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
+            args.putBoolean("locked", subredditPosts.getPosts().get(i).isLocked());
             args.putInt("page", i);
             args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
             args.putString("baseSubreddit", multireddit == null ? baseSubreddit : "multi" + multireddit);
@@ -282,7 +293,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public int getCount() {
 
-            return subredditPosts.getPosts().size() ;
+            return subredditPosts.getPosts().size();
         }
 
     }

@@ -97,7 +97,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         findViewById(R.id.az).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subs = new ArrayList<>(SubredditStorage.sort(subs));
+                subs = new ArrayList<>(SubredditStorage.sortNoExtras(subs));
                 adapter = new CustomAdapter(subs);
                 //  adapter.setHasStableIds(true);
                 recyclerView.setAdapter(adapter);
