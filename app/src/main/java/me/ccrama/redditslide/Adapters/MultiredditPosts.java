@@ -75,9 +75,8 @@ public class MultiredditPosts implements PostLoader {
 
                 int height = submission.getThumbnails().getSource().getHeight();
                 int width = submission.getThumbnails().getSource().getWidth();
-                if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
 
-                } else if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
+                 if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
 
 
                 } else if (type == ContentType.ImageType.IMAGE) {

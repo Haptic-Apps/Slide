@@ -269,7 +269,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     title = (TextView) findViewById(R.id.textimage);
                     info = (TextView) findViewById(R.id.subtextimage);
                     if (forceThumb
-                            || (submission.isNsfw() && !SettingValues.NSFWPreviews || type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && !submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
+                            || (submission.isNsfw() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW || type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && !submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
                         setBottomSheet(thumbImage2, submission.getUrl());
                     } else {
                         setBottomSheet(this, submission.getUrl());
