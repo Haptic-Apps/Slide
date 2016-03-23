@@ -98,7 +98,7 @@ public class Submit extends BaseActivity {
         ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, SubredditStorage.subredditsForHome);
 
         subredditText.setAdapter(adapter);
-        subredditText.setThreshold(1);
+        subredditText.setThreshold(2);
 
         findViewById(R.id.selftextradio).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1416,8 +1416,6 @@ public class PopulateSubmissionViewHolder {
 
         final ImageView downvotebutton = (ImageView) holder.downvote;
         final ImageView upvotebutton = (ImageView) holder.upvote;
-        downvotebutton.setVisibility(View.VISIBLE);
-        upvotebutton.setVisibility(View.VISIBLE);
         if (submission.isArchived() || submission.isLocked()) {
             downvotebutton.setVisibility(View.GONE);
             upvotebutton.setVisibility(View.GONE);

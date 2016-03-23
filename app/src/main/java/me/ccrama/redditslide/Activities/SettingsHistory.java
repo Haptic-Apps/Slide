@@ -1,14 +1,9 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.CompoundButton;
+
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 
@@ -55,7 +50,7 @@ public class SettingsHistory extends BaseActivityAnim {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.scrollSeen = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SCROLL_SEEN, isChecked).apply();
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_NSFW_HISTORY, isChecked).apply();
                 }
             });
         }

@@ -409,7 +409,6 @@ public class CreateCardView {
         if (SettingValues.bigPicCropped) {
             ((ImageView) v.findViewById(R.id.leadimage)).setMaxHeight(900);
             ((ImageView) v.findViewById(R.id.leadimage)).setScaleType(ImageView.ScaleType.CENTER_CROP);
-
         }
         if (!SettingValues.actionbarVisible && !SettingValues.actionbarTap) {
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
@@ -435,7 +434,6 @@ public class CreateCardView {
                     }
                 });
             }
-
         }
         if (SettingValues.switchThumb) {
             RelativeLayout.LayoutParams picParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.thumbimage2).getLayoutParams();
@@ -454,7 +452,6 @@ public class CreateCardView {
         if (!SettingValues.bigPicEnabled) {
             v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);
             v.findViewById(R.id.headerimage).setVisibility(View.GONE);
-
         } else if (SettingValues.bigPicEnabled) {
             v.findViewById(R.id.thumbimage2).setVisibility(View.GONE);
         }

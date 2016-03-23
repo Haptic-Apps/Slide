@@ -157,7 +157,7 @@ public class Login extends BaseActivityAnim {
                 //Show a dialog if data is null
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(Login.this)
                         .title(R.string.err_authentication)
-                        .content(R.string.err_retry_later)
+                        .content(R.string.login_failed_err_decline)
                         .neutralText(R.string.btn_ok)
                         .onNeutral(new MaterialDialog.SingleButtonCallback() {
                             @Override
