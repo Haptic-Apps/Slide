@@ -17,6 +17,7 @@
         android:text="• New subreddit view type: Comment Pane. View comments side by side with posts
 \n• Data saving and History sections of settings
 \n• Option for smaller content tag
+\n• Ability to tag users with custom text
 \n• Ability to show lq images if possible
 \n• New Discover screen to find new subs, along with the ability to search for subs
 \n• Complete mod tools and Moderation revamp, now has all options (even sticky!), view all mod reports, set flairs, view modqueue, view unmoderated links, comment mod tools, and much more!
@@ -35,10 +36,18 @@
 \n• Open content button on Comment toolbar
 \n• Reload button on Comment toolbar
 \n• Submit button on Subreddit toolbar
+\n• 'Largest' font option
 \n• Show if a post was approved  (mods)
 \n• Show parent comment in popup option in comment menu
-\n• Tons of speed and stability improvements!
-"
+\n• Tons of speed and stability improvements!"
         android:textSize="16sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:padding="8dp"
+            android:layout_marginTop="4dp"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:text="v5 is a candidate for being out of beta, so if you encounter any issue (no matter how small), please report it to /r/slideforreddit and Github!"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>

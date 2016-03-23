@@ -27,7 +27,7 @@ android {
         applicationId "me.ccrama.redditslide"
         targetSdkVersion 23
         generatedDensities = []
-        versionCode 137
+        versionCode 138
         generatedDensities = []
         multiDexEnabled = true
         versionName androidGitVersion.name()
