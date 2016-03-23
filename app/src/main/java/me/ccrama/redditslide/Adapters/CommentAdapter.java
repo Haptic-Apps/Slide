@@ -1234,7 +1234,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     CommentNode currentBaseNode;
 
-    public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
+    public void doHighlightedStuff(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1){
         if (currentlySelected != null) {
             doUnHighlighted(currentlySelected, currentBaseNode);
         }
@@ -1255,7 +1255,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             final View baseView = inflater.inflate(R.layout.comment_menu, holder.menuArea);
             baseView.setVisibility(View.GONE);
+
             expand(baseView);
+
 
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
             params.setMargins(0, 0, 0, 0);
@@ -1588,6 +1590,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             replyArea.setVisibility(View.GONE);
             holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)));
         }
+    }
+    public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
+        if(mAnimator != null && mAnimator.isRunning()) {
+            holder.itemView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1);
+                }
+            }, mAnimator.getDuration());
+        } else {
+            doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1);
+        }
+
     }
 
     public EditText currentlyEditing;
