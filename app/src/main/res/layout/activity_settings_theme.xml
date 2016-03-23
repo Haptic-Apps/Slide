@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/md_light_blue_500"
         android:minHeight="56dp"
-       />
+        android:theme="@style/Theme.AppCompat" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -38,12 +38,13 @@
             </android.support.v7.widget.CardView>
 
             <android.support.design.widget.FloatingActionButton
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:layout_gravity="right"
-                   android:layout_marginRight="16dp"
-                   android:layout_marginTop="-24dp"
-                   app:srcCompat="@drawable/more" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="-24dp"
+                app:srcCompat="@drawable/more" />
+
             <LinearLayout
                 android:id="@+id/main"
                 android:layout_width="match_parent"
@@ -56,8 +57,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    app:srcCompat="@drawable/color"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/color" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -80,8 +81,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    app:srcCompat="@drawable/accent"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/accent" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -104,8 +105,8 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="16dp"
                     android:padding="16dp"
-                    app:srcCompat="@drawable/theme"
-                    android:tint="?attr/tint" />
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/theme" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -115,11 +116,13 @@
                     android:textColor="?attr/font"
                     android:textSize="16sp" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
-                android:background="?attr/tint"
+                android:layout_height="0.25dp"
                 android:alpha=".25"
-                android:layout_height="0.25dp"/>
+                android:background="?attr/tint" />
+
             <RelativeLayout
                 android:id="@+id/dotint"
                 android:layout_width="match_parent"
@@ -144,15 +147,16 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/tint_current"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
                         android:text="card"
-                        android:id="@+id/tint_current"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.25dp"

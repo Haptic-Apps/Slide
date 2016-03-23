@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/md_light_blue_500"
-        android:minHeight="56dp" />
-
+        android:minHeight="56dp"
+        android:theme="@style/Theme.AppCompat" />
 
     <ScrollView
         android:layout_width="match_parent"

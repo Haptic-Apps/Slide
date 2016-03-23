@@ -68,12 +68,29 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public boolean hidden;
     public boolean imageShown;
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(videoView != null){
+            videoView.seekTo(stopPosition);
+            videoView.start();
+        }
+    }
+    int stopPosition;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        stopPosition = videoView.getCurrentPosition();
+        videoView.pause();
+        outState.putInt("position", stopPosition);
+    }
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
 
         super.onCreate(savedInstanceState);
 
         getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
+        if(savedInstanceState.containsKey("position")) stopPosition = savedInstanceState.getInt("position");
 
         setContentView(R.layout.activity_media);
 
@@ -140,10 +157,10 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 break;
         }
     }
-
+    MediaVideoView videoView;
     public void doLoadGif(final String dat) {
-        MediaVideoView v = (MediaVideoView) findViewById(R.id.gif);
-        v.clearFocus();
+        videoView = (MediaVideoView) findViewById(R.id.gif);
+        videoView.clearFocus();
         findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) findViewById(R.id.gifprogress);

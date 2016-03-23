@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/md_light_blue_500"
-        android:minHeight="56dp"/>
+        android:minHeight="56dp"
+        android:theme="@style/Theme.AppCompat" />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 
@@ -28,25 +28,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingBottom="8dp"
-                android:orientation="vertical">
-
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
 
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/domainlist"
-                    android:orientation="vertical"
-                    android:layout_height="wrap_content"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
                 <EditText
                     android:id="@+id/domain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"
                     android:hint="@string/settings_filter_hint"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                     android:textSize="14sp" />
 
 

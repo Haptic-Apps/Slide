@@ -79,6 +79,7 @@ public class Website extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        overrideSwipeFromAnywhere();
         super.onCreate(savedInstanceState);
         applyColorTheme("");
         setContentView(R.layout.activity_web);

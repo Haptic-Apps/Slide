@@ -68,7 +68,22 @@ public class MediaFragment extends Fragment {
     private float previous;
     private boolean hidden;
     Submission s;
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(videoView != null){
+            videoView.seekTo(stopPosition);
+            videoView.start();
+        }
+    }
+    int stopPosition;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        stopPosition = videoView.getCurrentPosition();
+        videoView.pause();
+        outState.putInt("position", stopPosition);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,6 +94,8 @@ public class MediaFragment extends Fragment {
             LogUtil.v("Displaying first image");
             displayImage(firstUrl);
         }
+
+        if(savedInstanceState.containsKey("position")) stopPosition = savedInstanceState.getInt("position");
 
 
         doLoad(contentUrl);
@@ -168,10 +185,10 @@ public class MediaFragment extends Fragment {
                 break;
         }
     }
-
+    MediaVideoView videoView;
     public void doLoadGif(final String dat) {
-        MediaVideoView v = (MediaVideoView) rootView.findViewById(R.id.gif);
-        v.clearFocus();
+        videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
+        videoView.clearFocus();
         rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
