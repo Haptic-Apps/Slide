@@ -89,7 +89,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 3) {
             Reddit.appRestart.edit().putBoolean("tutorialSwipe", true).apply();
-
         }
     }
 

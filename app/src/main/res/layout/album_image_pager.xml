@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <me.ccrama.redditslide.Views.SubsamplingScaleImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
@@ -63,12 +62,6 @@
         android:layout_alignParentTop="true"
         android:indeterminate="false"
         android:max="100"
-        android:progress="0"
-        android:visibility="invisible" />
+        android:progress="0" />
 
-    <View
-        android:id="@+id/tutorial"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_centerVertical="true" />
 </RelativeLayout>
