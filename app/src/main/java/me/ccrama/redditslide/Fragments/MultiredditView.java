@@ -178,7 +178,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 }
 
                 if (!posts.loading) {
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount && !posts.nomore) {
+                    if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount && !posts.nomore) {
                         posts.loading = true;
                         posts.loadMore(getActivity(), MultiredditView.this, false, adapter);
                     }

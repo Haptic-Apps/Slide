@@ -88,7 +88,7 @@ public class SubredditListView extends Fragment {
                         }
                     }
 
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                    if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
                         posts.loading = true;
                         posts.loadMore(mSwipeRefreshLayout.getContext(), false, where);
 

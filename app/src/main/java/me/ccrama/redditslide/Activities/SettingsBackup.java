@@ -6,6 +6,7 @@ import android.content.IntentSender;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 
@@ -26,6 +27,7 @@ import com.google.android.gms.drive.MetadataChangeSet;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -33,10 +35,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -88,7 +92,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                 String[] list = prefsdir.list();
 
                 for (final String s : list) {
-                    if (!s.contains("com.google")) {
+                    if (!s.contains("com.google") && !s.contains("cache")) {
                         title = s;
                         Drive.DriveApi.newDriveContents(mGoogleApiClient)
                                 .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
@@ -200,6 +204,93 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
             if (resultCode == RESULT_OK) {
                 mGoogleApiClient.connect();
             }
+        } else if (requestCode == 42) {
+            progress = new MaterialDialog.Builder(SettingsBackup.this)
+                    .title(R.string.backup_restoring)
+                    .content(R.string.misc_please_wait)
+                    .cancelable(false)
+                    .progress(true, 1)
+                    .build();
+            progress.show();
+
+
+
+            if (data != null) {
+                Uri fileUri = data.getData();
+                Log.v(LogUtil.getTag(), "WORKED! " + fileUri.toString());
+
+                File path = new File(fileUri.getPath());
+                StringWriter fw = new StringWriter();
+                try {
+                    FileReader fr = new FileReader(path);
+                    int c = fr.read();
+                    while (c != -1) {
+                        fw.write(c);
+                        c = fr.read();
+                    }
+                    String read = fw.toString();
+                    if (read.contains("Slide_backupEND>")) {
+
+                        String[] files = read.split("END>");
+                        progress.dismiss();
+                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(false, files.length - 1).build();
+                        progress.show();
+                        for (int i = 1; i < files.length; i++) {
+                            String innerFile = files[i];
+                            String t = innerFile.substring(6, innerFile.indexOf(">"));
+                            innerFile = innerFile.substring(innerFile.indexOf(">")+ 1, innerFile.length());
+
+                            File newF = new File(getApplicationInfo().dataDir + File.separator + "shared_prefs" + File.separator + t);
+                            Log.v(LogUtil.getTag(), "WRITING TO " + newF.getAbsolutePath());
+                            try {
+                                FileWriter newfw = new FileWriter(newF);
+                                BufferedWriter bw = new BufferedWriter(newfw);
+                                bw.write(innerFile);
+                                bw.close();
+                                progress.setProgress(progress.getCurrentProgress() + 1);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                .setTitle(R.string.backup_restore_settings)
+                                .setMessage(R.string.backup_restarting).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                System.exit(0);
+                            }
+                        }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                System.exit(0);
+
+                            }
+                        }).show();
+
+                    } else {
+                        progress.hide();
+                        new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                .setTitle("Not a valid Slide backup file")
+                                .setMessage("The selected file is not a valid Slide backup file.")
+                                .setPositiveButton(R.string.btn_ok, null).show();
+                    }
+                } catch (Exception e) {
+                    progress.hide();
+                    e.printStackTrace();
+                    new AlertDialogWrapper.Builder(SettingsBackup.this)
+                            .setTitle("File not found")
+                            .setMessage("The selected file could not be found. Please make sure it exists and Slide has permissions to access that file/folder")
+                            .setPositiveButton(R.string.btn_ok, null).show();
+                }
+            } else {
+                progress.dismiss();
+                new AlertDialogWrapper.Builder(SettingsBackup.this)
+                        .setTitle("File not found")
+                        .setMessage("The selected file could not be found. Please make sure it exists and Slide has permissions to access that file/folder")
+                        .setPositiveButton(R.string.btn_ok, null).show();
+            }
+
         }
     }
 
@@ -228,37 +319,32 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
             findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (Reddit.noGapps) {
+                    if (mGoogleApiClient.isConnected()) {
+                        File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
+
+                        if (prefsdir.exists() && prefsdir.isDirectory()) {
+
+                            String[] list = prefsdir.list();
+                            progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).cancelable(false).build();
+                            progress.show();
+                            appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback2);
+
+                        }
 
                     } else {
-                        if (mGoogleApiClient.isConnected()) {
+                        new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                .setTitle(R.string.settings_google)
+                                .setMessage(R.string.settings_google_msg)
+                                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                    @Override
+                                    public void onCancel(DialogInterface dialog) {
+                                    }
+                                })
+                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
 
-                            File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
-
-                            if (prefsdir.exists() && prefsdir.isDirectory()) {
-
-                                String[] list = prefsdir.list();
-                                progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, list.length).cancelable(false).build();
-                                progress.show();
-                                appFolder.listChildren(mGoogleApiClient).setResultCallback(newCallback2);
-
-                            }
-
-                        } else {
-                            new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                    .setTitle(R.string.settings_google)
-                                    .setMessage(R.string.settings_google_msg)
-                                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                        @Override
-                                        public void onCancel(DialogInterface dialog) {
-                                        }
-                                    })
-                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
-
-                                        }
-                                    }).show();
-                        }
+                                    }
+                                }).show();
                     }
                 }
             });
@@ -268,7 +354,6 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                 @Override
                 public void onClick(View v) {
                     if (mGoogleApiClient.isConnected()) {
-
                         progress = new MaterialDialog.Builder(SettingsBackup.this)
                                 .title(R.string.backup_restoring)
                                 .content(R.string.misc_please_wait)
@@ -296,6 +381,39 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
 
                 }
             });
+            findViewById(R.id.backfile).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialogWrapper.Builder(SettingsBackup.this)
+                            .setTitle("Include personal information?")
+                            .setMessage("This includes authentication tokens, usernames, tags, and history")
+                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    backupToDir(false);
+                                }
+                            })
+                            .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    backupToDir(true);
+                                }
+                            })
+                            .setNeutralButton(R.string.btn_cancel, null)
+                            .show();
+                }
+            });
+
+
+            findViewById(R.id.restorefile).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("file/txt");
+                    startActivityForResult(intent, 42);
+
+                }
+            });
         } else {
             new AlertDialogWrapper.Builder(SettingsBackup.this)
                     .setTitle(R.string.general_pro)
@@ -320,6 +438,82 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                     finish();
                 }
             }).show();
+        }
+    }
+
+    public void backupToDir(final boolean personal) {
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected void onPreExecute() {
+                progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, 40).cancelable(false).build();
+                progress.show();
+            }
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                File prefsdir = new File(getApplicationInfo().dataDir, "shared_prefs");
+
+                if (prefsdir.exists() && prefsdir.isDirectory()) {
+                    String[] list = prefsdir.list();
+
+
+                    File backedup = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "Slide" + new SimpleDateFormat("HH:mm-MMddyy").format(Calendar.getInstance().getTime()) + (!personal?"-personal":"") + ".txt");
+                    try {
+                        backedup.createNewFile();
+                        FileWriter fw = new FileWriter(backedup);
+                        fw.write("Slide_backupEND>");
+                        for (String s : list) {
+
+                            if (!s.contains("cache") && !s.contains("ion-cookies") && !s.contains("albums") && !s.contains("com.google") && (((personal && !s.contains("SUBSNEW") && !s.contains("appRestart") && !s.contains("AUTH") && !s.contains("TAGS") && !s.contains("SEEN") && !s.contains("HIDDEN") && !s.contains("HIDDEN_POSTS"))) || !personal)) {
+                                FileReader fr = null;
+                                try {
+                                    fr = new FileReader(new File(prefsdir + File.separator + s));
+                                    int c = fr.read();
+                                    fw.write("<START" + new File(s).getName() + ">");
+                                    while (c != -1) {
+                                        fw.write(c);
+                                        c = fr.read();
+                                    }
+                                    fw.write("END>");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                } finally {
+                                    close(fr);
+                                }
+                            }
+
+                        }
+                        close(fw);
+                        return null;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        //todo error
+                    }
+
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                progress.dismiss();
+                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle("Backup complete!")
+                        .setMessage("Backup saved to Downloads")
+                        .setPositiveButton("View", null)
+                        .setNegativeButton(R.string.btn_close, null)
+                        .show();
+            }
+        }.execute();
+
+    }
+
+    public static void close(Closeable stream) {
+        try {
+            if (stream != null) {
+                stream.close();
+            }
+        } catch (IOException e) {
         }
     }
 

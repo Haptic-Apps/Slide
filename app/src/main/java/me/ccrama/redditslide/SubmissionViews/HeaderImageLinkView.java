@@ -347,7 +347,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                     } else {
                         title.setVisibility(View.GONE);
                         if (info != null)
-
                             info.setVisibility(View.GONE);
                     }
                     break;

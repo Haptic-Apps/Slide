@@ -1289,7 +1289,7 @@ public class PopulateSubmissionViewHolder {
                     break;
 
                 case IMAGE:
-                    text = mContext.getString(R.string.type_nsfw_img);
+                    text = mContext.getString(R.string.type_img);
                     break;
                 case IMGUR:
                     text = mContext.getString(R.string.type_imgur);

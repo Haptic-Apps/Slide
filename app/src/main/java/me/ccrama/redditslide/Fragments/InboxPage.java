@@ -91,7 +91,7 @@ public class InboxPage extends Fragment {
                 }
 
                 if (!posts.loading && !posts.nomore) {
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                    if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
                         posts.loading = true;
                         posts.loadMore(adapter, id, false);
 

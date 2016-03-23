@@ -351,7 +351,7 @@
         <item name="card_background">#FFFFFF</item>
         <item name="list_background">#FFFFFF</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
-        <item name="font">#96000000</item> <!-- 60% black -->
+        <item name="font">#DE000000</item> <!-- 87% black -->
         <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
         <item name="android:textColorSecondary">#8A000000</item> <!-- 54% black -->
         <item name="tint">#8A000000</item> <!-- 54% black -->

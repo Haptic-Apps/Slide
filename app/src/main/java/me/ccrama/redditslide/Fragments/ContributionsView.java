@@ -97,7 +97,7 @@ public class ContributionsView extends Fragment {
                 }
 
                 if (!posts.loading) {
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount && !posts.nomore) {
+                    if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount && !posts.nomore) {
                         posts.loading = true;
                         posts.loadMore(adapter, id, false);
                     }

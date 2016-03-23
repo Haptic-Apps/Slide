@@ -135,7 +135,6 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 holder.subbed.setVisibility( View.INVISIBLE);
 
             }
-            //todo unsub
 
         }
         if (holder2 instanceof SubmissionFooterViewHolder) {

@@ -23,6 +23,19 @@ public class SettingsData extends BaseActivityAnim {
         setContentView(R.layout.activity_settings_datasaving);
         setupAppBar(R.id.toolbar, "Data saving", true, true);
 
+        final SwitchCompat single = (SwitchCompat) findViewById(R.id.imagelq);
+
+
+        single.setChecked(SettingValues.loadImageLq);
+        single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingValues.loadImageLq = isChecked;
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMAGE_LQ, isChecked).apply();
+
+            }
+        });
+
         //Datasaving type multi choice
         ((TextView) findViewById(R.id.lowquality)).setText(SettingValues.lowResMobile ? (SettingValues.lowResAlways ? getString(R.string.datasave_always) : getString(R.string.datasave_mobile)) : getString(R.string.never));
 
@@ -53,6 +66,11 @@ public class SettingsData extends BaseActivityAnim {
                                 break;
                         }
                         ((TextView) findViewById(R.id.lowquality)).setText(SettingValues.lowResMobile ? (SettingValues.lowResAlways ? getString(R.string.datasave_always) : getString(R.string.datasave_mobile)) : getString(R.string.never));
+                        if (((TextView) findViewById(R.id.lowquality)).getText().equals(getString(R.string.never)))
+                            single.setEnabled(false);
+                        else
+                            single.setEnabled(true);
+                        single.setChecked(SettingValues.loadImageLq);
 
                         return true;
                     }
@@ -61,21 +79,8 @@ public class SettingsData extends BaseActivityAnim {
                 popup.show();
             }
         });
-
-
-        {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.imagelq);
-
-            single.setChecked(SettingValues.loadImageLq);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.loadImageLq = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMAGE_LQ, isChecked).apply();
-
-                }
-            });
-        }
+        if (((TextView) findViewById(R.id.lowquality)).getText().equals(getString(R.string.never)))
+            single.setEnabled(false);
 
     }
 }

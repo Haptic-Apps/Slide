@@ -49,7 +49,7 @@ public class SettingsHistory extends BaseActivityAnim {
             nsfw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.scrollSeen = isChecked;
+                    SettingValues.storeNSFWHistory = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_STORE_NSFW_HISTORY, isChecked).apply();
                 }
             });

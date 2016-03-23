@@ -81,7 +81,7 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
                         }
                     }
 
-                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                    if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
                         posts.loading = true;
                         posts.loadMore(mSwipeRefreshLayout.getContext(), SingleView.this, false, posts.subreddit);
 

@@ -40,8 +40,6 @@ public class SubmissionParser {
                 .replace("</p>", "</div>")
                 .replace("<li>\\s*<div>", "<li>")
                 .replace("</div>\\s*</li>", "</li>")
-                .replace("<li><div>", "<li>")
-                .replace("</div></li>", "</li>")
                 .replace("<del>", "[[d[")
                 .replace("</del>", "]d]]");
 
@@ -72,7 +70,7 @@ public class SubmissionParser {
         int firstOl = html.indexOf("<ol");
         int firstUl = html.indexOf("<ul");
 
-        if ((firstOl != -1 && firstOl > firstUl) || firstOl == -1) {
+        if ((firstUl != -1 && firstOl > firstUl) || firstOl == -1) {
             firstIndex = firstUl;
             isNumbered = false;
         } else {
