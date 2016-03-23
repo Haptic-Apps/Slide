@@ -1,13 +1,23 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.AccountPreferencesEditor;
+import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.models.AccountPreferences;
 
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
@@ -19,8 +29,24 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class SettingsReddit extends BaseActivityAnim {
 
-    AccountPreferencesEditor prefs;
+    AccountPreferences prefs;
+    AccountPreferencesEditor editor;
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                new AccountManager(Authentication.reddit).updatePreferences(editor);
+
+                return null;
+            }
+        }.execute();
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         applyColorTheme();
@@ -42,7 +68,7 @@ public class SettingsReddit extends BaseActivityAnim {
         }
 
 
-      /* TODO  new AsyncTask<Void, Void, Void>() {
+        new AsyncTask<Void, Void, Void>() {
             Dialog d;
 
             @Override
@@ -53,7 +79,8 @@ public class SettingsReddit extends BaseActivityAnim {
 
             @Override
             protected Void doInBackground(Void... params) {
-                prefs = new AccountPreferencesEditor(new FluentRedditClient(Authentication.reddit).me().accountPreferences());
+                prefs = new AccountManager(Authentication.reddit).getPreferences("over_18", "no_profanity", "media");
+                editor = new AccountPreferencesEditor(prefs);
                 return null;
             }
 
@@ -63,32 +90,67 @@ public class SettingsReddit extends BaseActivityAnim {
 
                     final SwitchCompat thumbnails = (SwitchCompat) findViewById(R.id.nsfwcontent);
 
-                    thumbnails.setChecked(prefs.getArgs.("over_18", boolean.class));
+                    thumbnails.setChecked(Boolean.parseBoolean(prefs.data("over_18")));
                     thumbnails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", !isChecked).apply();
-                            SettingValues.NSFWPreviews = !isChecked;
+                            editor.setArgs("over_18", String.valueOf(isChecked));
                         }
                     });
 
                 }
                 {
 
-                    final SwitchCompat thumbnails = (SwitchCompat) findViewById(R.id.nsfwthumbs);
+                    final SwitchCompat thumbnails = (SwitchCompat) findViewById(R.id.nsfwrpev);
 
-                    thumbnails.setChecked(prefs.data("no_profanity", boolean.class));
+                    thumbnails.setChecked(Boolean.parseBoolean(prefs.data("no_profanity")));
                     thumbnails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                           prefs.e
+                            editor.setArgs("no_profanity", String.valueOf(isChecked));
                         }
                     });
 
                 }
 
+                //Thumbnail type
+
+                String thumbType = String.valueOf(prefs.data("media"));
+                ((TextView) findViewById(R.id.thumbtext)).setText(thumbType.equals("on") ? getString(R.string.thumb_type_always) : thumbType.equals("off") ? getString(R.string.thumb_type_off) : getString(R.string.thumb_type_sub));
+
+
+                findViewById(R.id.thumbmode).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PopupMenu popup = new PopupMenu(SettingsReddit.this, v);
+                        popup.getMenuInflater().inflate(R.menu.thumb_type_settings, popup.getMenu());
+
+                        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId()) {
+                                    case R.id.on:
+                                        editor.setArgs("media", "on");
+                                        break;
+                                    case R.id.off:
+                                        editor.setArgs("media", "off");
+                                        break;
+                                    case R.id.subreddit:
+                                        editor.setArgs("media", "subreddit");
+                                        break;
+                                }
+                                String thumbType = String.valueOf(editor.getArgs().get("media"));
+                                ((TextView) findViewById(R.id.thumbtext)).setText(thumbType.equals("on") ? getString(R.string.thumb_type_always) : thumbType.equals("off") ? getString(R.string.thumb_type_off) : getString(R.string.thumb_type_sub));
+                                return true;
+                            }
+                        });
+
+                        popup.show();
+                    }
+                });
+
+                d.dismiss();
             }
-        }.execute();*/
+        }.execute();
 
         findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -656,4 +656,7 @@
     <string name="subreddit_name_tint">Subreddit name</string>
     <string name="settings_comment_hide_selftext_image">Hide lead image on selftext posts</string>
     <string name="login_failed_err_decline">Be sure you didn\'t select \'Decline\' on the last screen, and try again in a minute</string>
+    <string name="thumb_type_always">Always show</string>
+    <string name="thumb_type_off">Never show</string>
+    <string name="thumb_type_sub">Show per sub settings</string>
 </resources>
