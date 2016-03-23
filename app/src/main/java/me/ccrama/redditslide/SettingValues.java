@@ -71,7 +71,6 @@ public class SettingValues {
     public static Sorting defaultSorting;
     public static TimePeriod timePeriod;
     public static CommentSort defaultCommentSorting;
-    public static boolean NSFWPreviews;
     public static boolean middleImage;
     public static boolean bigPicEnabled;
     public static boolean bigPicCropped;
@@ -147,7 +146,6 @@ public class SettingValues {
         bigPicCropped = settings.getBoolean("bigPicCropped", true);
         bigPicEnabled = settings.getBoolean("bigPicEnabled", true);
 
-        NSFWPreviews = settings.getBoolean("NSFWPreviewsNew", false);
         colorMatchingMode = ColorMatchingMode.valueOf(settings.getString("ccolorMatchingModeNew", "MATCH_EXTERNALLY"));
         colorIndicator = ColorIndicator.valueOf(settings.getString("colorIndicatorNew", "CARD_BACKGROUND"));
         defaultSorting = Sorting.valueOf(settings.getString("defaultSorting", "HOT"));

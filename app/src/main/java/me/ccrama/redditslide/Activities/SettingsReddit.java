@@ -52,21 +52,6 @@ public class SettingsReddit extends BaseActivityAnim {
         applyColorTheme();
         setContentView(R.layout.activity_settings_reddit);
         setupAppBar(R.id.toolbar, R.string.settings_reddit_prefs, true, true);
-        {
-
-            final SwitchCompat nsfwprev = (SwitchCompat) findViewById(R.id.nsfwrpev);
-
-            nsfwprev.setChecked(!SettingValues.NSFWPreviews);
-            nsfwprev.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.prefs.edit().putBoolean("NSFWPreviewsNew", !isChecked).apply();
-                    SettingValues.NSFWPreviews = !isChecked;
-                }
-            });
-
-        }
-
 
         new AsyncTask<Void, Void, Void>() {
             Dialog d;

@@ -65,7 +65,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Show NSFW content"
+                        android:text="I'm 18 and want to see NSFW content"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>

@@ -139,7 +139,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 }
 
             }
-            if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
+            if (submission.isNsfw() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) {
 
                 setVisibility(View.GONE);
                 if (!full || forceThumb) {
@@ -341,7 +341,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     break;
 
                 case IMAGE:
-                    if (submission.isNsfw() && !SettingValues.NSFWPreviews) {
+                    if (submission.isNsfw()) {
                         title.setText(R.string.type_nsfw_img);
 
                     } else {

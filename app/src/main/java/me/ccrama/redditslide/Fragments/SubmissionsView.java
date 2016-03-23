@@ -245,7 +245,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(104, getContext()), Reddit.pxToDp(140, getContext()));
 
 
-
         if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
 
@@ -380,7 +379,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         });
 
         Reddit.isLoading = false;
-        if (MainActivity.shouldLoad == null || id == null ||  (MainActivity.shouldLoad != null && id != null && MainActivity.shouldLoad.equals(id)) || !(getActivity() instanceof MainActivity)) {
+        if (MainActivity.shouldLoad == null || id == null || (MainActivity.shouldLoad != null && id != null && MainActivity.shouldLoad.equals(id)) || !(getActivity() instanceof MainActivity)) {
             doAdapter();
         }
         return v;
@@ -446,6 +445,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     }
 
     boolean forceLoad;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -453,7 +453,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         Bundle bundle = this.getArguments();
         id = bundle.getString("id", "");
         main = bundle.getBoolean("main", false);
-        forceLoad = bundle.getBoolean("load",false);
+        forceLoad = bundle.getBoolean("load", false);
 
     }
 
@@ -493,7 +493,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             });
 
-          //  loadImages(submissions);
+            //  loadImages(submissions);
         }
     }
 
@@ -505,33 +505,32 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
             ImageLoadingListener l = new SimpleImageLoadingListener();
 
-            if (!s.isNsfw() || SettingValues.NSFWPreviews) {
-                if (type == ContentType.ImageType.IMAGE) {
-                    url = s.getUrl();
-                    if (SettingValues.bigPicEnabled) {
-                        ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-                    } else {
-                        if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
-                            ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
-                        }
+            if (type == ContentType.ImageType.IMAGE) {
+                url = s.getUrl();
+                if (SettingValues.bigPicEnabled) {
+                    ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
+                } else {
+                    if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
+                        ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
                     }
-                } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
-                    url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                }
+            } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
+                url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                if (SettingValues.bigPicEnabled) {
+                    ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
+                } else if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
+                    ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
+                }
+            } else if (s.getThumbnail() != null && (s.getThumbnailType() == Submission.ThumbnailType.URL || s.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+                if ((s.getThumbnailType() == Submission.ThumbnailType.NSFW) || s.getThumbnailType() == Submission.ThumbnailType.URL) {
                     if (SettingValues.bigPicEnabled) {
                         ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
                     } else if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
                         ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
                     }
-                } else if (s.getThumbnail() != null && (s.getThumbnailType() == Submission.ThumbnailType.URL || s.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
-                    if ((SettingValues.NSFWPreviews && s.getThumbnailType() == Submission.ThumbnailType.NSFW) || s.getThumbnailType() == Submission.ThumbnailType.URL) {
-                        if (SettingValues.bigPicEnabled) {
-                            ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-                        } else if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
-                            ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
-                        }
-                    }
                 }
             }
+
         }
     }
 
