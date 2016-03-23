@@ -175,7 +175,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
             args.putBoolean("archived", archived);
             args.putBoolean("locked", locked);
             args.putString("subreddit", subreddit);
-            args.putBoolean("single", true);
+            args.putBoolean("single", getIntent().getBooleanExtra(EXTRA_LOADMORE, true));
             args.putBoolean("np", np);
             f.setArguments(args);
 

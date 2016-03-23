@@ -242,7 +242,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
         findViewById(R.id.gifprogress).setVisibility(View.GONE);
         LogUtil.v(contentUrl);
-        if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.contains("imgur.com")) || contentUrl != null && contentUrl.contains(".jpg") && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
+        if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com")) || contentUrl != null && contentUrl.contains(".jpg") && contentUrl.contains(".png") && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia links are to direct images and not websites
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
 
             final String finalUrl2 = contentUrl;

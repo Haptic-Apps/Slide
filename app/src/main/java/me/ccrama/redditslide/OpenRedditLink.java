@@ -218,6 +218,45 @@ public class OpenRedditLink {
         }
     }
 
+    public OpenRedditLink(Context context, String url, boolean continued) {
+        String oldUrl = url;
+        boolean np = false;
+
+        url = formatRedditUrl(url);
+        if (url.isEmpty()) {
+            customIntentChooser(oldUrl, context);
+            return;
+        } else if (url.startsWith("np")) {
+            np = true;
+            url = url.substring(2);
+        }
+        Log.v(LogUtil.getTag(), "Opening URL " + url);
+
+        RedditLinkType type = getRedditLinkType(url);
+
+        String[] parts = url.split("/");
+        if (parts[parts.length - 1].startsWith("?"))
+            parts = Arrays.copyOf(parts, parts.length - 1);
+
+
+        Intent i = new Intent(context, CommentsScreenSingle.class);
+        i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
+        i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[4]);
+        i.putExtra(CommentsScreenSingle.EXTRA_NP, false);
+        if (parts.length >= 7) {
+            i.putExtra(CommentsScreenSingle.EXTRA_LOADMORE, false);
+            String end = parts[6];
+            if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
+
+            if (end.length() >= 3)
+                i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
+
+        }
+        context.startActivity(i);
+
+
+    }
+
 
     public OpenRedditLink(Context c, String submission, String subreddit, String id) {
         Intent i = new Intent(c, CommentsScreenSingle.class);

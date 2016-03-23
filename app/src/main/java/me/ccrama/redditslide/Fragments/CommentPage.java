@@ -53,6 +53,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Fragment which displays comment trees.
@@ -498,6 +499,8 @@ public class CommentPage extends Fragment {
         baseSubreddit = bundle.getString("baseSubreddit", "");
 
         loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
+        if(!single) loadMore = false;
+        LogUtil.v("Single is " + single + " and loadmore is " + loadMore);
         subredditStyle = new ColorPreferences(getActivity()).getThemeSubreddit(subreddit);
         contextThemeWrapper = new ContextThemeWrapper(getActivity(), subredditStyle);
         mLayoutManager = new PreCachingLayoutManagerComments(getActivity());

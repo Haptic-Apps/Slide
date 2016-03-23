@@ -81,6 +81,7 @@ import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -943,8 +944,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             final MoreChildItem baseNode = (MoreChildItem) users.get(nextPos);
             if (baseNode.children.getCount() > 0) {
                 holder.content.setText(mContext.getString(R.string.comment_load_more, baseNode.children.getCount()));
-            } else {
+            } else if (!baseNode.children.getChildrenIds().isEmpty()) {
                 holder.content.setText(R.string.comment_load_more_number_unknown);
+            } else {
+                holder.content.setText("Continue this thread");
             }
 
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
@@ -959,7 +962,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onClick(View v) {
 
-                    if (progress.getVisibility() == View.GONE) {
+                    if (baseNode.children.getChildrenIds().isEmpty()) {
+                        String toGoTo = "https://reddit.com" + submission.getPermalink() + baseNode.comment.getComment().getId();
+                        new OpenRedditLink(mContext, toGoTo, true);
+                    } else if (progress.getVisibility() == View.GONE) {
                         progress.setVisibility(View.VISIBLE);
                         holder.content.setText(R.string.comment_loading_more);
                         new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 2), holder.getAdapterPosition(), holder).execute(baseNode);
@@ -1233,7 +1239,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     CommentNode currentBaseNode;
 
-    public void doHighlightedStuff(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1){
+    public void doHighlightedStuff(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
         if (currentlySelected != null) {
             doUnHighlighted(currentlySelected, currentBaseNode);
         }
@@ -1305,7 +1311,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (reports.size() + reports2.size() > 0) {
                         ((ImageView) baseView.findViewById(R.id.mod)).setColorFilter(ContextCompat.getColor(mContext, R.color.md_red_300), PorterDuff.Mode.SRC_ATOP);
                     } else {
-                        ((ImageView)baseView.findViewById(R.id.mod)).setColorFilter(Color.WHITE , PorterDuff.Mode.SRC_ATOP);
+                        ((ImageView) baseView.findViewById(R.id.mod)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
 
                     }
 
@@ -1590,8 +1596,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)));
         }
     }
+
     public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
-        if(mAnimator != null && mAnimator.isRunning()) {
+        if (mAnimator != null && mAnimator.isRunning()) {
             holder.itemView.postDelayed(new Runnable() {
                 @Override
                 public void run() {

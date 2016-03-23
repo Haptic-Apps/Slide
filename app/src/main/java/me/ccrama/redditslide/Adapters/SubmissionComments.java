@@ -103,6 +103,7 @@ public class SubmissionComments {
         mLoadData = new LoadData(true);
         mLoadData.execute(fullName);
     }
+
     public void loadMore(CommentAdapter adapter, String subreddit, boolean forgetPlace) {
         adapter.currentSelectedItem = "";
         this.adapter = adapter;
@@ -110,6 +111,7 @@ public class SubmissionComments {
         mLoadData.execute(fullName);
 
     }
+
     public JsonNode getSubmissionNode(SubmissionRequest request) {
         Map<String, String> args = new HashMap<>();
         if (request.getDepth() != null)
@@ -203,6 +205,12 @@ public class SubmissionComments {
                     if (n.hasMoreComments()) {
                         waiting.put(n.getDepth(), new MoreChildItem(n, n.getMoreChildren()));
                     }
+                }
+                Map<Integer, MoreChildItem> map = new TreeMap<>(Collections.reverseOrder());
+                map.putAll(waiting);
+                for (Integer i : map.keySet()) {
+                        comments.add(waiting.get(i));
+                        waiting.remove(i);
                 }
                 if (baseComment.hasMoreComments()) {
                     comments.add(new MoreChildItem(baseComment, baseComment.getMoreChildren()));

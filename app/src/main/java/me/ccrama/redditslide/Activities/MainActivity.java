@@ -175,7 +175,7 @@ public class MainActivity extends BaseActivity {
             restartTheme();
         } else if (requestCode == 940) {
             if (adapter != null && adapter.getCurrentFragment() != null) {
-                if(resultCode == RESULT_OK){
+                if (resultCode == RESULT_OK) {
                     LogUtil.v("Doing hide posts");
                     ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView(data.getIntegerArrayListExtra("seen"));
                 } else {
@@ -1279,6 +1279,11 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, 0); // this disables the animation
+            }
+
+            @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
             }
@@ -1615,7 +1620,7 @@ public class MainActivity extends BaseActivity {
                     ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
                 return true;
             case R.id.action_sort:
-                if(subreddit.equalsIgnoreCase("friends")){
+                if (subreddit.equalsIgnoreCase("friends")) {
                     Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT).show();
                 } else {
                     openPopup();
@@ -1641,7 +1646,7 @@ public class MainActivity extends BaseActivity {
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") &&!subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")) {
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
