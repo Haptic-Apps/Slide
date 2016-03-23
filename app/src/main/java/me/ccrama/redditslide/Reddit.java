@@ -85,6 +85,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int themeBack;
     public static SharedPreferences cachedData;
     public static boolean noGapps = true; //for testing
+    public static boolean over18;
     private final List<Listener> listeners = new ArrayList<>();
     private final Handler mBackgroundDelayHandler = new Handler();
     public boolean active;

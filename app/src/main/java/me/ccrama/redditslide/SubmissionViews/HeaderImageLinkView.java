@@ -139,8 +139,8 @@ public class HeaderImageLinkView extends RelativeLayout {
                 }
 
             }
-            if (submission.isNsfw() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) {
 
+            if (submission.isNsfw() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) {
                 setVisibility(View.GONE);
                 if (!full || forceThumb) {
                     thumbImage2.setVisibility(View.VISIBLE);

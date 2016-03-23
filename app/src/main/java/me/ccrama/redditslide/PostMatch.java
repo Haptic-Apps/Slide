@@ -74,6 +74,7 @@ public class PostMatch {
 
         if (s.isNsfw()) {
             if (nsfw) contentMatch = true;
+            if (!Reddit.over18) contentMatch = true;
         }
         switch (ContentType.getImageType(s)) {
 

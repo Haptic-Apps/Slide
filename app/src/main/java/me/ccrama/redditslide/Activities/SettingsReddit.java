@@ -20,6 +20,7 @@ import net.dean.jraw.models.AccountPreferences;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -80,6 +81,7 @@ public class SettingsReddit extends BaseActivityAnim {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             editor.setArgs("over_18", String.valueOf(isChecked));
+                            Reddit.over18 = isChecked;
                         }
                     });
 

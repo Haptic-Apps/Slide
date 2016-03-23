@@ -113,8 +113,8 @@ public class Authentication {
                             if (reddit.isAuthenticated()) {
                                 if (me == null) {
                                     me = reddit.me();
-
                                 }
+                                Reddit.over18 = me.isOver18();
                                 Authentication.isLoggedIn = true;
 
                             }
@@ -214,6 +214,8 @@ public class Authentication {
 
                         Authentication.isLoggedIn = true;
                         me = reddit.me();
+                        Reddit.over18 = me.isOver18();
+
                         if (Reddit.notificationTime != -1) {
                             Reddit.notifications = new NotificationJobScheduler(a);
                             Reddit.notifications.start(mContext);
