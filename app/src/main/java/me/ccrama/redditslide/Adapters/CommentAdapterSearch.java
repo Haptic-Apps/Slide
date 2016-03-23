@@ -121,19 +121,19 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         titleString.append("  ");
 
         if (comment.getDataNode().get("stickied").asBoolean()) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.sidebar_pinned).toUpperCase() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.sidebar_pinned).toUpperCase() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
         }
         if (UserTags.isUserTagged(comment.getAuthor())) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + UserTags.getUserTag(comment.getAuthor()) + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + UserTags.getUserTag(comment.getAuthor()) + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
         }
         if (comment.getTimesGilded() > 0) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" ★\u200A" + comment.getTimesGilded() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0★\u200A" + comment.getTimesGilded() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -143,7 +143,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + comment.getAuthorFlair().getText() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + comment.getAuthorFlair().getText() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");

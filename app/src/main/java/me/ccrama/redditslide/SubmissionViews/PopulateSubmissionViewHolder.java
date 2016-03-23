@@ -1341,25 +1341,25 @@ public class PopulateSubmissionViewHolder {
         SpannableStringBuilder titleString = new SpannableStringBuilder();
         titleString.append(Html.fromHtml(submission.getTitle()));
         if (submission.isStickied()) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.sidebar_pinned).toUpperCase() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.sidebar_pinned).toUpperCase() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
         if (!submission.getDataNode().get("approved_by").asText().equals("null")) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" Approved by " + submission.getDataNode().get("approved_by").asText().trim() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0Approved by " + submission.getDataNode().get("approved_by").asText().trim() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append("  ");
+            titleString.append(" ");
             titleString.append(pinned);
         }
         if (submission.getTimesGilded() > 0) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" ★\u200A" + submission.getTimesGilded() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0★\u200A" + submission.getTimesGilded() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }
         if (submission.isNsfw()) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" NSFW ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0NSFW\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
@@ -1369,7 +1369,7 @@ public class PopulateSubmissionViewHolder {
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, false);
             int color = typedValue.data;
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + submission.getSubmissionFlair().getText() + " ");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + submission.getSubmissionFlair().getText() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, true, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
