@@ -61,7 +61,7 @@
             android:id="@+id/hq"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
+            android:theme="@style/Ripple.List"
             android:padding="15dp"
             app:srcCompat="@drawable/hd"
             android:tint="@color/white" />
@@ -69,20 +69,18 @@
             android:id="@+id/external"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
             android:padding="15dp"
             app:srcCompat="@drawable/openexternal"
-
+            android:theme="@style/Ripple.List"
             android:tint="@color/white" />
 
         <ImageView
             android:id="@+id/share"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:background="?android:selectableItemBackground"
             android:padding="15dp"
             app:srcCompat="@drawable/share"
-
+            android:theme="@style/Ripple.List"
             android:tint="@color/white" />
 
         <ImageView
@@ -90,10 +88,9 @@
             style="@style/Ripple.List"
             android:layout_width="56dp"
             android:layout_height="56dp"
-
+            android:theme="@style/Ripple.List"
             android:layout_gravity="right"
             android:padding="15dp"
-
             app:srcCompat="@drawable/save" />
 
 

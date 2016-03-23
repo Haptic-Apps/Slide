@@ -232,7 +232,7 @@ public class CommentPage extends Fragment {
                     @Override
                     public void onRefresh() {
                         if (comments != null) {
-                            comments.loadMore(adapter, subreddit);
+                            comments.loadMore(adapter, subreddit, true);
                         } else {
                             mSwipeRefreshLayout.setRefreshing(false);
                         }

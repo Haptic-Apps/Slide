@@ -103,7 +103,13 @@ public class SubmissionComments {
         mLoadData = new LoadData(true);
         mLoadData.execute(fullName);
     }
+    public void loadMore(CommentAdapter adapter, String subreddit, boolean forgetPlace) {
+        adapter.currentSelectedItem = "";
+        this.adapter = adapter;
+        mLoadData = new LoadData(true);
+        mLoadData.execute(fullName);
 
+    }
     public JsonNode getSubmissionNode(SubmissionRequest request) {
         Map<String, String> args = new HashMap<>();
         if (request.getDepth() != null)

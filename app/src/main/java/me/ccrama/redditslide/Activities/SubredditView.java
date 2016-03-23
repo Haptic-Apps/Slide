@@ -217,8 +217,11 @@ public class SubredditView extends BaseActivityAnim implements SubmissionDisplay
                 posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
                 return true;
             case R.id.action_sort:
-                openPopup();
-                return true;
+                if(subreddit.equalsIgnoreCase("friends")){
+                    Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT).show();
+                } else {
+                    openPopup();
+                }                return true;
             case R.id.search:
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
                         .alwaysCallInputCallback()
