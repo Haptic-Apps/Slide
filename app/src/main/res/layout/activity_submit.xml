@@ -83,7 +83,7 @@
                 android:layout_height="wrap_content"
                 >
 
-                <EditText
+                <AutoCompleteTextView
                     android:id="@+id/subreddittext"
                     android:layout_width="match_parent"
 
