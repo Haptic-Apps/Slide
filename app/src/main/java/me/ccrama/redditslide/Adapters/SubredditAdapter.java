@@ -99,8 +99,6 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int pos) {
 
         int i = pos != 0 ? pos - 1 : pos;
-
-
         if (holder2 instanceof SubredditViewHolder) {
             final SubredditViewHolder holder = (SubredditViewHolder) holder2;
             final Subreddit sub = dataSet.posts.get(i);
@@ -117,27 +115,40 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     context.startActivityForResult(inte, 4);
                 }
             });
-
-            if(sub.getDataNode().get("public_description_html").asText().equals("null")){
+            holder.overflow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(context, SubredditView.class);
+                    inte.putExtra(SubredditView.EXTRA_SUBREDDIT, sub.getDisplayName());
+                    context.startActivityForResult(inte, 4);
+                }
+            });
+            holder.body.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(context, SubredditView.class);
+                    inte.putExtra(SubredditView.EXTRA_SUBREDDIT, sub.getDisplayName());
+                    context.startActivityForResult(inte, 4);
+                }
+            });
+            if (sub.getDataNode().get("public_description_html").asText().equals("null")) {
                 holder.body.setVisibility(View.GONE);
                 holder.overflow.setVisibility(View.GONE);
             } else {
                 holder.body.setVisibility(View.VISIBLE);
                 holder.overflow.setVisibility(View.VISIBLE);
-
                 setViews(sub.getDataNode().get("public_description_html").asText(), sub.getDisplayName().toLowerCase(), holder.body, holder.overflow);
             }
 
             try {
                 int state = sub.isUserSubscriber() ? View.VISIBLE : View.INVISIBLE;
                 holder.subbed.setVisibility(state);
-            } catch(Exception e) {
-                holder.subbed.setVisibility( View.INVISIBLE);
+            } catch (Exception e) {
+                holder.subbed.setVisibility(View.INVISIBLE);
 
             }
 
-        }
-        if (holder2 instanceof SubmissionFooterViewHolder) {
+        } else if (holder2 instanceof SubmissionFooterViewHolder) {
             Handler handler = new Handler();
 
             final Runnable r = new Runnable() {

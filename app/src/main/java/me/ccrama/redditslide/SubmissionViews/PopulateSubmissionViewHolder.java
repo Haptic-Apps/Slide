@@ -1246,7 +1246,7 @@ public class PopulateSubmissionViewHolder {
             pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
-        }*/
+        }
 
         titleString.append(spacer);
         titleString.append(submission.getDomain());
@@ -1322,7 +1322,7 @@ public class PopulateSubmissionViewHolder {
                     break;
             }
             if(!text.isEmpty()) {
-                titleString.append(" ");
+                titleString.append(" \n");
                 text = text.toUpperCase();
                 TypedValue typedValue = new TypedValue();
                 Resources.Theme theme = mContext.getTheme();
@@ -1332,7 +1332,7 @@ public class PopulateSubmissionViewHolder {
                 pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 titleString.append(pinned);
             }
-        }
+        }*/
         holder.info.setText(titleString);
     }
 

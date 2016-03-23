@@ -13,13 +13,10 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/vertical_content"
             android:layout_width="match_parent"
-
-
             android:layout_height="match_parent"
             android:clipToPadding="false"
-
             android:divider="@null"
-
+            android:scrollbars="vertical"
             android:orientation="vertical"/>
     </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 
