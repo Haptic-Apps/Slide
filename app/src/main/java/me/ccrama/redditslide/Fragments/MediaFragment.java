@@ -80,9 +80,11 @@ public class MediaFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        stopPosition = videoView.getCurrentPosition();
-        videoView.pause();
-        outState.putInt("position", stopPosition);
+        if(videoView != null) {
+            stopPosition = videoView.getCurrentPosition();
+            videoView.pause();
+            outState.putInt("position", stopPosition);
+        }
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,7 +97,7 @@ public class MediaFragment extends Fragment {
             displayImage(firstUrl);
         }
 
-        if(savedInstanceState.containsKey("position")) stopPosition = savedInstanceState.getInt("position");
+        if(savedInstanceState != null && savedInstanceState.containsKey("position")) stopPosition = savedInstanceState.getInt("position");
 
 
         doLoad(contentUrl);
