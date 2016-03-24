@@ -433,19 +433,26 @@ public class MainActivity extends BaseActivity {
 
     }
 
+
     @Override
     public void onPause() {
         super.onPause();
         changed = false;
-
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
         if (!SettingValues.synccitName.isEmpty()) {
             new MySynccitUpdateTask().execute(SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
         }
+        if (Authentication.isLoggedIn && Authentication.me != null && Authentication.me.hasGold())
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        new AccountManager(Authentication.reddit).storeVisits(SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+            }.execute();
     }
 
     public void doSubSidebar(final String subreddit) {
@@ -1951,15 +1958,14 @@ public class MainActivity extends BaseActivity {
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
-            if (getCurrentFragment() != object && position != toOpenComments) {
+            if (object != null && getCurrentFragment() != object && position != toOpenComments && object instanceof SubmissionsView) {
                 shouldLoad = usedArray.get(position);
                 mCurrentFragment = ((SubmissionsView) object);
-                if (mCurrentFragment != null) {
-                    if (mCurrentFragment.posts == null) {
-                        if (mCurrentFragment.isAdded()) {
-                            mCurrentFragment.doAdapter();
-                        }
+                if (mCurrentFragment.posts == null) {
+                    if (mCurrentFragment.isAdded()) {
+                        mCurrentFragment.doAdapter();
                     }
+
                 }
             }
         }

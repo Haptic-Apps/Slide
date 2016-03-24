@@ -39,11 +39,7 @@ public class ContributionPosts extends GeneralPosts {
     }
 
     public void loadMore(ContributionAdapter adapter, String subreddit, boolean reset) {
-
-
         new LoadData(reset).execute(subreddit);
-
-
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {

@@ -12,8 +12,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
@@ -31,6 +34,8 @@ import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Account;
 import net.dean.jraw.models.Trophy;
+import net.dean.jraw.paginators.Sorting;
+import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.List;
 
@@ -71,6 +76,9 @@ public class Profile extends BaseActivityAnim {
 
     boolean friend;
 
+    public static Sorting profSort;
+    public static TimePeriod profTime;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -82,6 +90,9 @@ public class Profile extends BaseActivityAnim {
         setContentView(R.layout.activity_profile);
         setupUserAppBar(R.id.toolbar, name, true, name);
 
+        profSort = Sorting.HOT;
+        profTime = TimePeriod.ALL;
+        
         findViewById(R.id.header).setBackgroundColor(Palette.getColorUser(name));
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -106,6 +117,13 @@ public class Profile extends BaseActivityAnim {
 
         new getProfile().execute(name);
 
+        findViewById(R.id.sort).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPopup();
+            }
+        });
+
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -118,6 +136,11 @@ public class Profile extends BaseActivityAnim {
                         .translationY(0)
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
+                if(position < 3){
+                    findViewById(R.id.sort).setVisibility(View.VISIBLE);
+                } else {
+                    findViewById(R.id.sort).setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -133,7 +156,11 @@ public class Profile extends BaseActivityAnim {
             pager.setCurrentItem(2);
         if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name))
             pager.setCurrentItem(4);
-
+        if(pager.getCurrentItem() < 3){
+            findViewById(R.id.sort).setVisibility(View.VISIBLE);
+        } else {
+            findViewById(R.id.sort).setVisibility(View.GONE);
+        }
     }
 
     private void doClick() {
@@ -530,4 +557,108 @@ public class Profile extends BaseActivityAnim {
             return usedArray[position];
         }
     }
+
+    public void openPopup() {
+        PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        final String[] base = Reddit.getSortingStrings(getBaseContext());
+        for (String s : base) {
+            popup.getMenu().add(s);
+        }
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                LogUtil.v("Chosen is " + item.getOrder());
+                int i = 0;
+                for (String s : base) {
+                    if (s.equals(item.getTitle())) {
+                        break;
+                    }
+                    i++;
+                }
+                switch (i) {
+                    case 0:
+                        profSort = (Sorting.HOT);
+                        break;
+                    case 1:
+                        profSort = (Sorting.NEW);
+                        
+                        break;
+                    case 2:
+                        profSort = (Sorting.RISING);
+                        
+                        break;
+                    case 3:
+                        profSort = (Sorting.TOP);
+                        profTime = ( TimePeriod.HOUR);
+                        
+                        break;
+                    case 4:
+                        profSort = (Sorting.TOP);
+                        profTime = ( TimePeriod.DAY);
+                        
+                        break;
+                    case 5:
+                        profSort = (Sorting.TOP);
+                        profTime = ( TimePeriod.WEEK);
+                        
+                        break;
+                    case 6:
+                        profSort = (Sorting.TOP);
+                        profTime = ( TimePeriod.MONTH);
+                        
+                        break;
+                    case 7:
+                        profSort = (Sorting.TOP);
+                        profTime = ( TimePeriod.YEAR);
+                        
+                        break;
+                    case 8:
+                        profSort = (Sorting.TOP);
+                        profTime = ( TimePeriod.ALL);
+                        
+                        break;
+                    case 9:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = ( TimePeriod.HOUR);
+                        
+                        break;
+                    case 10:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = ( TimePeriod.DAY);
+                        
+                        break;
+                    case 11:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = ( TimePeriod.WEEK);
+                        
+                    case 12:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = ( TimePeriod.MONTH);
+                        
+                    case 13:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = ( TimePeriod.YEAR);
+                        
+                    case 14:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = ( TimePeriod.ALL);
+                        
+                }
+
+                Reddit.sorting.put(name, profSort);
+                Reddit.times.put(name, profTime);
+                int current = pager.getCurrentItem();
+                ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
+                pager.setAdapter(adapter);
+                pager.setOffscreenPageLimit(1);
+                tabs.setupWithViewPager(pager);
+                pager.setCurrentItem(current);
+
+                return true;
+            }
+        });
+        popup.show();
+
+
+    }
+
 }

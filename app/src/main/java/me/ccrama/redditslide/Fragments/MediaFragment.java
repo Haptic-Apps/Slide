@@ -108,7 +108,7 @@ public class MediaFragment extends Fragment {
 
         ContentType.ImageType type = ContentType.getImageType(s);
 
-        if (!type.toString().toLowerCase().contains("image") || !type.toString().toLowerCase().contains("gif") || !type.toString().toLowerCase().contains("imgur") && type == ContentType.ImageType.IMAGE_LINK) {
+        if (!type.toString().toLowerCase().contains("image") || !type.toString().toLowerCase().contains("gyf")  || !type.toString().toLowerCase().contains("gif") || !type.toString().toLowerCase().contains("imgur") && type == ContentType.ImageType.IMAGE_LINK) {
             if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height") || s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() <= 200) {
                 (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);

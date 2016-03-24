@@ -420,12 +420,13 @@ public class PopulateSubmissionViewHolder {
                                                     final T t = posts.get(pos);
                                                     posts.remove(submission);
 
-                                                    recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                                                     Hidden.setHidden(t);
 
                                                     if (baseSub != null) {
-                                                        OfflineSubreddit.getSubreddit(baseSub).hide(pos);
+                                                        OfflineSubreddit.getSubreddit(baseSub).hide(submission);
                                                     }
+
+                                                    recyclerview.getAdapter().notifyItemRemoved(pos + 1);
 
                                                 }
                                             }
@@ -472,16 +473,16 @@ public class PopulateSubmissionViewHolder {
                                 final T t = posts.get(pos);
                                 posts.remove(submission);
 
-                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                                 Hidden.setHidden(t);
 
                                 final OfflineSubreddit s;
                                 if (baseSub != null) {
                                     s = OfflineSubreddit.getSubreddit(baseSub);
-                                    s.hide(pos);
+                                    s.hide(submission);
                                 } else {
                                     s = null;
                                 }
+                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
 
 
                                 Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
@@ -691,7 +692,11 @@ public class PopulateSubmissionViewHolder {
                                                                     final int pos = posts.indexOf(submission);
                                                                     posts.remove(submission);
 
-                                                                    recyclerview.getAdapter().notifyItemRemoved(pos);
+                                                                    if(pos == 0){
+                                                                        recyclerview.getAdapter().notifyDataSetChanged();
+                                                                    } else {
+                                                                        recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                                                    }
                                                                     dialog.dismiss();
                                                                 }
 
@@ -827,7 +832,12 @@ public class PopulateSubmissionViewHolder {
                                                                     final int pos = posts.indexOf(submission);
                                                                     posts.remove(submission);
 
-                                                                    recyclerview.getAdapter().notifyItemRemoved(pos);
+                                                                    if(pos == 0){
+                                                                        recyclerview.getAdapter().notifyDataSetChanged();
+                                                                    } else {
+                                                                        recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                                                    }
+
                                                                     dialog.dismiss();
                                                                 }
                                                                 Snackbar.make(holder.itemView, "Submission un-pinned", Snackbar.LENGTH_LONG).show();
@@ -870,7 +880,12 @@ public class PopulateSubmissionViewHolder {
                                                                     final int pos = posts.indexOf(submission);
                                                                     posts.remove(submission);
 
-                                                                    recyclerview.getAdapter().notifyItemRemoved(pos);
+                                                                    if(pos == 0){
+                                                                        recyclerview.getAdapter().notifyDataSetChanged();
+                                                                    } else {
+                                                                        recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                                                    }
+
                                                                     dialog.dismiss();
                                                                 }
                                                                 Snackbar.make(holder.itemView, "Submission pinned", Snackbar.LENGTH_LONG).show();
@@ -975,7 +990,11 @@ public class PopulateSubmissionViewHolder {
                                                                 final int pos = posts.indexOf(submission);
                                                                 posts.remove(submission);
 
-                                                                recyclerview.getAdapter().notifyItemRemoved(pos);
+                                                                if(pos == 0){
+                                                                    recyclerview.getAdapter().notifyDataSetChanged();
+                                                                } else {
+                                                                    recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                                                }
                                                                 dialog.dismiss();
                                                             }
                                                             Snackbar.make(holder.itemView, "Submission removed", Snackbar.LENGTH_LONG).show();
@@ -1028,7 +1047,12 @@ public class PopulateSubmissionViewHolder {
                                                                 final int pos = posts.indexOf(submission);
                                                                 posts.remove(submission);
 
-                                                                recyclerview.getAdapter().notifyItemRemoved(pos);
+                                                                if(pos == 0){
+                                                                    recyclerview.getAdapter().notifyDataSetChanged();
+                                                                } else {
+                                                                    recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                                                }
+
                                                                 dialog.dismiss();
                                                             }
                                                             Snackbar.make(holder.itemView, "Submission removed", Snackbar.LENGTH_LONG).show();
@@ -1336,6 +1360,7 @@ public class PopulateSubmissionViewHolder {
         holder.info.setText(titleString);
     }
 
+
     public <T extends Contribution> void populateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline, final String baseSub) {
         holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
         SpannableStringBuilder titleString = new SpannableStringBuilder();
@@ -1462,17 +1487,21 @@ public class PopulateSubmissionViewHolder {
                                 final T t = posts.get(pos);
                                 posts.remove(submission);
 
-                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                                 if (!offline)
                                     Hidden.setHidden(t);
 
                                 final OfflineSubreddit s;
                                 if (baseSub != null) {
                                     s = OfflineSubreddit.getSubreddit(baseSub);
-                                    s.hide(pos);
+                                    s.hide(submission);
                                 } else {
                                     s = null;
                                 }
+
+                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                recyclerview.getAdapter().notifyItemChanged(pos + 2);
+
+
                                 Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {

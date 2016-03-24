@@ -147,13 +147,14 @@ public class OfflineSubreddit {
     int savedIndex;
     Submission savedSubmission;
 
-    public void hide(int index) {
+    public void hide(Submission s) {
         if (submissions != null) {
-            Log.v(LogUtil.getTag(), submissions.get(index).getTitle());
+            Log.v(LogUtil.getTag(), s.getTitle());
 
-            savedSubmission = submissions.get(index);
-            submissions.remove(index);
-            savedIndex = index;
+            savedSubmission = s;
+            savedIndex = submissions.indexOf(s);
+
+            submissions.remove(s);
 
             writeToMemory();
         }
