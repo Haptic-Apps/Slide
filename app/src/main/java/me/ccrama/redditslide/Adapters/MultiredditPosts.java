@@ -292,19 +292,13 @@ public class MultiredditPosts implements PostLoader {
 
             stillShow = true;
 
-            if (usedOffline && !reset) {
-                paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
-                paginator.setLimit(50);
-                paginator.setSorting(Reddit.getSorting("multi" + multiReddit.getDisplayName().toLowerCase()));
-                paginator.setTimePeriod(Reddit.getTime("multi" + multiReddit.getDisplayName().toLowerCase()));
-
-            }
-
             if (reset || paginator == null) {
                 offline = false;
                 paginator = new MultiRedditPaginator(Authentication.reddit, subredditPaginators[0]);
-                paginator.setSorting(Reddit.getSorting("multi" + multiReddit.getDisplayName().toLowerCase()));
-                paginator.setTimePeriod(Reddit.getTime("multi" + multiReddit.getDisplayName().toLowerCase()));
+                paginator.setSorting(Reddit.getSorting("multi" + subredditPaginators[0].getDisplayName().toLowerCase()));
+                paginator.setTimePeriod(Reddit.getTime("multi" + subredditPaginators[0].getDisplayName().toLowerCase()));
+
+                LogUtil.v("Sorting is " + paginator.getSorting().name());
                 paginator.setLimit(50);
 
             }

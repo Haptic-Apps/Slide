@@ -88,7 +88,7 @@ dependencies {
         transitive = true
     }
 
-    compile 'com.github.ccrama:JRAW:9ed682becf'
+    compile 'com.github.ccrama:JRAW:5d64611bd9'
     compile 'com.android.support:design:23.2.1'
     compile 'com.koushikdutta.ion:ion:2.1.6'
     compile 'uz.shift:colorpicker:0.5@aar'

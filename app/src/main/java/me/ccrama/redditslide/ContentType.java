@@ -86,15 +86,16 @@ public class ContentType {
             if (s.getUrl().contains("reddit.com") || s.getUrl().contains("redd.it")) {
                 return ImageType.REDDIT;
             }
+            if (s.getUrl().contains("streamable.com")) {
+                return ImageType.STREAMABLE;
+            }
             if (!s.getUrl().contains("youtube.co") && !s.getUrl().contains("youtu.be") && s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
                 return ImageType.EMBEDDED;
             }
             if (s.getUrl().contains("youtube.co") || s.getUrl().contains("youtu.be")) {
                 return ImageType.VIDEO;
             }
-            if (s.getUrl().contains("streamable.com")) {
-                return ImageType.STREAMABLE;
-            }
+
 
             if (isAlbum(url)) {
                 return ImageType.ALBUM;
@@ -193,7 +194,7 @@ public class ContentType {
     }
 
     public static ImageType getImageType(String url) {
-        if (url.equals("#s") || url.equals("/s") ||url.equals("/spoiler") || url.equals("/spoiler") || url.equals("/sp") || url.equals("/c") || url.equals("/f")) {
+        if (url.equals("#s") || url.equals("/s") ||url.equals("/spoiler") || url.equals("/spoiler") || url.equals("/sp") || url.equals("#sp")|| url.equals("/c") || url.equals("/f") || url.equals("/n")) {
             return ImageType.SPOILER;
         }
         if (url.startsWith("/") && !url.startsWith("//")) {

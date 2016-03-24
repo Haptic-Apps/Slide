@@ -40,6 +40,8 @@ public class SubmissionParser {
                 .replace("</p>", "</div>")
                 .replace("<li>\\s*<div>", "<li>")
                 .replace("</div>\\s*</li>", "</li>")
+                .replace("<li><div>", "<li>")
+                .replace("</div></li>", "</li>")
                 .replace("<del>", "[[d[")
                 .replace("</del>", "]d]]");
 

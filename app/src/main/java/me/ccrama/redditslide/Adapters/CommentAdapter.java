@@ -798,7 +798,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.firstTextView.setText(R.string.comment_deleted);
                 holder.content.setText(R.string.comment_deleted);
             }
-        } else if (firstHolder instanceof SubmissionViewHolder) {
+        } else if (firstHolder instanceof SubmissionViewHolder && submission != null) {
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false, null);
             if (Authentication.isLoggedIn && Authentication.didOnline) {
                 if (submission.isArchived() || submission.isLocked())
@@ -2098,9 +2098,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             @Override
                             public void run() {
                                 dataSet.refreshLayout.setRefreshing(false);
-
-                                dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
                                 currentSelectedItem = s;
+                                dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
                             }
                         });
                     }
