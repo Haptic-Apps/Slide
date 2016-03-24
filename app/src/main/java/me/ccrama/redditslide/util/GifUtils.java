@@ -35,6 +35,7 @@ import java.net.URLConnection;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -899,7 +900,7 @@ public class GifUtils {
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder((GifView) a)
+                        new FolderChooserDialog.Builder(a instanceof GifView?(GifView)a:(MediaView)a)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
                                 .show();
@@ -916,7 +917,7 @@ public class GifUtils {
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder((GifView) a)
+                        new FolderChooserDialog.Builder(a instanceof GifView?(GifView)a:(MediaView)a)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
                                 .show();
@@ -927,12 +928,12 @@ public class GifUtils {
     }
 
     public static void saveGif(File from, Activity a) {
-        if (Reddit.appRestart.getString("giflocation", "").isEmpty()) {
+        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
             showFirstDialog(a);
-        } else if (!new File(Reddit.appRestart.getString("giflocation", "")).exists()) {
+        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
             showErrorDialog(a);
         } else  {
-            File f = new File(Reddit.appRestart.getString("giflocation", "") + File.separator + UUID.randomUUID().toString() + ".mp4");
+            File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".mp4");
 
 
             FileOutputStream out = null;

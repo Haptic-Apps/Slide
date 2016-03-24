@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 
@@ -214,7 +215,6 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
             progress.show();
 
 
-
             if (data != null) {
                 Uri fileUri = data.getData();
                 Log.v(LogUtil.getTag(), "WORKED! " + fileUri.toString());
@@ -238,7 +238,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                         for (int i = 1; i < files.length; i++) {
                             String innerFile = files[i];
                             String t = innerFile.substring(6, innerFile.indexOf(">"));
-                            innerFile = innerFile.substring(innerFile.indexOf(">")+ 1, innerFile.length());
+                            innerFile = innerFile.substring(innerFile.indexOf(">") + 1, innerFile.length());
 
                             File newF = new File(getApplicationInfo().dataDir + File.separator + "shared_prefs" + File.separator + t);
                             Log.v(LogUtil.getTag(), "WRITING TO " + newF.getAbsolutePath());
@@ -441,6 +441,8 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
         }
     }
 
+    String file;
+
     public void backupToDir(final boolean personal) {
 
         new AsyncTask<Void, Void, Void>() {
@@ -458,7 +460,8 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                     String[] list = prefsdir.list();
 
 
-                    File backedup = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "Slide" + new SimpleDateFormat("HH:mm-MMddyy").format(Calendar.getInstance().getTime()) + (!personal?"-personal":"") + ".txt");
+                    File backedup = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "Slide" + new SimpleDateFormat("HH:mm-MMddyy").format(Calendar.getInstance().getTime()) + (!personal ? "-personal" : "") + ".txt");
+                    file = backedup.getAbsolutePath();
                     try {
                         backedup.createNewFile();
                         FileWriter fw = new FileWriter(backedup);
@@ -500,7 +503,19 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                 progress.dismiss();
                 new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle("Backup complete!")
                         .setMessage("Backup saved to Downloads")
-                        .setPositiveButton("View", null)
+                        .setPositiveButton("VIEW", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Uri selectedUri = Uri.parse(file);
+                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                intent.setData(selectedUri);
+                                if (intent.resolveActivityInfo(getPackageManager(), 0) != null) {
+                                    startActivity(Intent.createChooser(intent, "View backup"));
+                                } else {
+                                    Snackbar.make(findViewById(R.id.restorefile), "No file explorer found, file located at " + file, Snackbar.LENGTH_INDEFINITE).show();
+                                }
+                            }
+                        })
                         .setNegativeButton(R.string.btn_close, null)
                         .show();
             }

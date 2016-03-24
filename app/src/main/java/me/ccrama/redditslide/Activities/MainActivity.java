@@ -441,7 +441,7 @@ public class MainActivity extends BaseActivity {
         if (!SettingValues.synccitName.isEmpty()) {
             new MySynccitUpdateTask().execute(SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
         }
-        if (Authentication.isLoggedIn && Authentication.me != null && Authentication.me.hasGold())
+        if (Authentication.isLoggedIn && Authentication.me != null && Authentication.me.hasGold() && !SynccitRead.newVisited.isEmpty())
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
