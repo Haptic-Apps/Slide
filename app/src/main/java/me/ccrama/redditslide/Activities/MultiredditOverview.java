@@ -201,7 +201,6 @@ public class MultiredditOverview extends BaseActivityAnim {
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
-                LogUtil.v("Chosen is " + item.getOrder());
                 int i = 0;
                 for (String s : base) {
                     if (s.equals(item.getTitle())) {
@@ -209,6 +208,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                     }
                     i++;
                 }
+                LogUtil.v("Chosen is " + i);
                 switch (i) {
                     case 0:
                         Reddit.setSorting("multi"+((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.HOT);

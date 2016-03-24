@@ -111,8 +111,9 @@ public class ContributionPosts extends GeneralPosts {
                 if (reset || paginator == null) {
                     paginator = new UserContributionPaginator(Authentication.reddit, where, subreddit);
 
+                    LogUtil.v("Sorting is " + Reddit.getSorting(subreddit).name());
                     paginator.setSorting(Reddit.getSorting(subreddit));
-                    paginator.setTimePeriod(Reddit.timePeriod);
+                    paginator.setTimePeriod(Reddit.getTime(subreddit));
                 }
 
                 if (!paginator.hasNext()) {
@@ -122,8 +123,7 @@ public class ContributionPosts extends GeneralPosts {
                 for (Contribution c : paginator.next()) {
                     if (c instanceof Submission) {
                         Submission s = (Submission) c;
-                            newData.add(s);
-
+                        newData.add(s);
                     } else {
                         newData.add(c);
                     }
