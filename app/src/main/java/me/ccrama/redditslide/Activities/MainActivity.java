@@ -590,6 +590,10 @@ public class MainActivity extends BaseActivity {
         pager.setCurrentItem(current);
         if (mTabLayout != null)
             mTabLayout.setupWithViewPager(pager);
+
+        if(SettingValues.single)
+            getSupportActionBar().setTitle(shouldLoad);
+
     }
 
     public void updateColor(int color, String subreddit) {

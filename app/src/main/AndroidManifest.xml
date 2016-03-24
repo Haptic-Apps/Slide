@@ -106,6 +106,7 @@
         <activity
             android:name=".Activities.CommentsScreen"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.SubredditView"
@@ -126,6 +127,7 @@
         <activity
             android:name=".Activities.Sendmessage"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.OpenContent"
@@ -149,6 +151,7 @@
         <activity
             android:name=".Activities.CommentsScreenSingle"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.Inbox"

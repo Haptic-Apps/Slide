@@ -98,15 +98,13 @@ public class PopulateSubmissionViewHolder {
         return found ? tv.data : defaultValue;
     }
 
-    private static void addClickFunctions(final View base, final ContentType.ImageType type, final Activity contextActivity, final Submission submission, final SubmissionViewHolder holder) {
+    private static void addClickFunctions(final View base, final ContentType.ImageType type, final Activity contextActivity, final Submission submission, final SubmissionViewHolder holder, final boolean full) {
         base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SettingValues.storeHistory) {
-                    if ((type == ContentType.ImageType.NSFW_LINK || type == ContentType.ImageType.NSFW_IMAGE
-                            || type == ContentType.ImageType.NSFW_GFY || type == ContentType.ImageType.NSFW_GIF) && !SettingValues.storeNSFWHistory) {
-                        //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
-                    } else {
+                if (SettingValues.storeHistory && !full) {
+                    if ((type != ContentType.ImageType.NSFW_LINK && type != ContentType.ImageType.NSFW_IMAGE
+                            && type != ContentType.ImageType.NSFW_GFY && type != ContentType.ImageType.NSFW_GIF) || SettingValues.storeNSFWHistory) {
                         HasSeen.addSeen(submission.getFullName());
                         if (contextActivity instanceof MainActivity) {
                             holder.title.setAlpha(0.54f);
@@ -692,7 +690,7 @@ public class PopulateSubmissionViewHolder {
                                                                     final int pos = posts.indexOf(submission);
                                                                     posts.remove(submission);
 
-                                                                    if(pos == 0){
+                                                                    if (pos == 0) {
                                                                         recyclerview.getAdapter().notifyDataSetChanged();
                                                                     } else {
                                                                         recyclerview.getAdapter().notifyItemRemoved(pos + 1);
@@ -832,7 +830,7 @@ public class PopulateSubmissionViewHolder {
                                                                     final int pos = posts.indexOf(submission);
                                                                     posts.remove(submission);
 
-                                                                    if(pos == 0){
+                                                                    if (pos == 0) {
                                                                         recyclerview.getAdapter().notifyDataSetChanged();
                                                                     } else {
                                                                         recyclerview.getAdapter().notifyItemRemoved(pos + 1);
@@ -880,7 +878,7 @@ public class PopulateSubmissionViewHolder {
                                                                     final int pos = posts.indexOf(submission);
                                                                     posts.remove(submission);
 
-                                                                    if(pos == 0){
+                                                                    if (pos == 0) {
                                                                         recyclerview.getAdapter().notifyDataSetChanged();
                                                                     } else {
                                                                         recyclerview.getAdapter().notifyItemRemoved(pos + 1);
@@ -990,7 +988,7 @@ public class PopulateSubmissionViewHolder {
                                                                 final int pos = posts.indexOf(submission);
                                                                 posts.remove(submission);
 
-                                                                if(pos == 0){
+                                                                if (pos == 0) {
                                                                     recyclerview.getAdapter().notifyDataSetChanged();
                                                                 } else {
                                                                     recyclerview.getAdapter().notifyItemRemoved(pos + 1);
@@ -1025,14 +1023,15 @@ public class PopulateSubmissionViewHolder {
                             case 7:
                                 reason = "";
                                 new MaterialDialog.Builder(mContext).title("What is the reason for removing this submission?")
-                                        .positiveText(R.string.btn_yes)
+                                        .positiveText(R.string.btn_remove)
                                         .alwaysCallInputCallback()
-                                        .input("Removal reason", null, false, new MaterialDialog.InputCallback() {
+                                        .input("Removal reason", "Removed for ", false, new MaterialDialog.InputCallback() {
                                             @Override
                                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                                 reason = input.toString();
                                             }
                                         })
+                                        .inputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(final MaterialDialog dialog, DialogAction which) {
@@ -1047,7 +1046,7 @@ public class PopulateSubmissionViewHolder {
                                                                 final int pos = posts.indexOf(submission);
                                                                 posts.remove(submission);
 
-                                                                if(pos == 0){
+                                                                if (pos == 0) {
                                                                     recyclerview.getAdapter().notifyDataSetChanged();
                                                                 } else {
                                                                     recyclerview.getAdapter().notifyItemRemoved(pos + 1);
@@ -1079,7 +1078,7 @@ public class PopulateSubmissionViewHolder {
                                                 }.execute();
 
                                             }
-                                        }).negativeText(R.string.btn_no)
+                                        }).negativeText(R.string.btn_cancel)
                                         .onNegative(null).show();
                                 break;
                             case 8:
@@ -1449,7 +1448,7 @@ public class PopulateSubmissionViewHolder {
 
                 case UPVOTE: {
                     holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
-                    holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name)?0:1)));
+                    holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name) ? 0 : 1)));
                     upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                     downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
 
@@ -1458,7 +1457,7 @@ public class PopulateSubmissionViewHolder {
                 case DOWNVOTE: {
                     holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                     downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
-                    holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name)?0:-1)));
+                    holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name) ? 0 : -1)));
                     upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 }
                 break;
@@ -1617,17 +1616,17 @@ public class PopulateSubmissionViewHolder {
             }
         }
 
-        addClickFunctions(holder.leadImage, type, mContext, submission, holder);
+        addClickFunctions(holder.leadImage, type, mContext, submission, holder, full);
 
 
         if (holder.thumbimage != null) {
-            addClickFunctions(holder.thumbimage, type, mContext, submission, holder);
+            addClickFunctions(holder.thumbimage, type, mContext, submission, holder, full);
         } else {
-            addClickFunctions(thumbImage2, type, mContext, submission, holder);
+            addClickFunctions(thumbImage2, type, mContext, submission, holder, full);
         }
 
         if (full)
-            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder);
+            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext, submission, holder, full);
 
         try {
             final TextView points = holder.score;

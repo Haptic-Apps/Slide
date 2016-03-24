@@ -37,20 +37,20 @@ public class RoundedBackgroundSpan extends ReplacementSpan {
         this.c = context;
     }
 
+
     @Override
     public void draw(Canvas canvas, CharSequence oldText, int start, int end, float x, int top, int y, int bottom, Paint paint) {
 
         int offset = 0;
-        if(half){
-            offset = (bottom - top)/6;
+        if (half) {
+            offset = (bottom - top) / 6;
         }
 
         paint.setTypeface(RobotoTypefaceManager.obtainTypeface(c, RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_BOLD));
-
-        if(half){
-            paint.setTextSize(paint.getTextSize()/2);
+        if (half) {
+            paint.setTextSize(paint.getTextSize() / 2);
         }
-        RectF rect = new RectF(x, top + offset, x + measureText(paint, oldText, start, end), bottom-offset);
+        RectF rect = new RectF(x, top + offset, x + measureText(paint, oldText, start, end), bottom - offset);
         paint.setColor(backgroundColor);
         canvas.drawRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, paint);
         paint.setColor(textColor);
@@ -60,7 +60,12 @@ public class RoundedBackgroundSpan extends ReplacementSpan {
 
     @Override
     public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
-        return Math.round(paint.measureText(text, start, end));
+        paint.setTypeface(RobotoTypefaceManager.obtainTypeface(c, RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_BOLD));
+        int size = Math.round(paint.measureText(text, start, end));
+        if (half) {
+            return size / 2;
+        }
+        return size;
     }
 
     private float measureText(Paint paint, CharSequence text, int start, int end) {

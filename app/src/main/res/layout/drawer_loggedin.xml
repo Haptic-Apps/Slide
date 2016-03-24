@@ -129,6 +129,7 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:gravity="center"
+            android:tint="?attr/tint"
             android:padding="14dp"
             android:layout_marginRight="2dp"
             app:srcCompat="@drawable/down"
