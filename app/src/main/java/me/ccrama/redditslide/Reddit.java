@@ -18,6 +18,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.dean.jraw.models.CommentSort;
@@ -102,18 +103,17 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if (appRestart.contains("back")) {
             appRestart.edit().remove("back").commit();
         }
+        appRestart.edit().putBoolean("isRestarting", true).commit();
 
         isRestarting = true;
 
-        Intent i = context.getPackageManager()
-                .getLaunchIntentForPackage(context.getPackageName());
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                | Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
+        ProcessPhoenix.triggerRebirth(context);
     }
 
     public static void forceRestart(Context c, boolean forceLoadScreen) {
         appRestart.edit().putString("startScreen", "").commit();
+        appRestart.edit().putBoolean("isRestarting", true).commit();
+
         forceRestart(c);
 
     }

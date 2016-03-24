@@ -362,7 +362,7 @@ public class MainActivity extends BaseActivity {
 
         sidebarBody = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
         sidebarOverflow = (CommentOverflow) findViewById(R.id.commentOverflow);
-        if (SubredditStorage.subredditsForHome != null && !Reddit.isRestarting) {
+        if (SubredditStorage.subredditsForHome != null && !Reddit.appRestart.getBoolean("isRestarting", false)) {
             if (!first)
                 doDrawer();
 
@@ -370,7 +370,7 @@ public class MainActivity extends BaseActivity {
 
         } else if (!first) {
             ((Reddit) getApplication()).doMainStuff();
-
+            Reddit.appRestart.edit().putBoolean("isRestarting", false).commit();
             Reddit.isRestarting = false;
             Intent i = new Intent(this, Loader.class);
             startActivity(i);

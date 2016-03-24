@@ -25,6 +25,7 @@ import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.DriveId;
 import com.google.android.gms.drive.Metadata;
 import com.google.android.gms.drive.MetadataChangeSet;
+import com.jakewharton.processphoenix.ProcessPhoenix;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -258,12 +259,12 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                                 .setMessage(R.string.backup_restarting).setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {
-                                System.exit(0);
+                                ProcessPhoenix.triggerRebirth(SettingsBackup.this);
                             }
                         }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                System.exit(0);
+                                ProcessPhoenix.triggerRebirth(SettingsBackup.this);
 
                             }
                         }).show();
@@ -620,12 +621,12 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                         .setMessage(R.string.backup_restarting).setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        System.exit(0);
+                        ProcessPhoenix.triggerRebirth(SettingsBackup.this);
                     }
                 }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        System.exit(0);
+                        ProcessPhoenix.triggerRebirth(SettingsBackup.this);
 
                     }
                 }).show();
