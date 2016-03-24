@@ -401,13 +401,13 @@ public class MainActivity extends BaseActivity {
                                         }
                                     }, 4000);
                                 } else {
-                                    mToolbar.postDelayed(this, 2000);
+                                    mToolbar.postDelayed(this, 1000);
                                 }
                             }
                         });
 
                     }
-                }, 2000);
+                }, 1000);
             }
 
         }

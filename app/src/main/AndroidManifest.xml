@@ -30,7 +30,8 @@
         <activity
             android:name=".Activities.SettingsSynccit"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.ForceTouchLink"
             android:configChanges="keyboardHidden|orientation|screenSize"
