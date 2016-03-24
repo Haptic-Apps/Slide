@@ -860,7 +860,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
 
             View edit = firstHolder.itemView.findViewById(R.id.edit);
-            if (Authentication.name.toLowerCase().equals(submission.getAuthor().toLowerCase()) && submission.getSelftext() != null) {
+            if (Authentication.name.toLowerCase().equals(submission.getAuthor().toLowerCase()) && submission.isSelfPost()) {
                 edit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

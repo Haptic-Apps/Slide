@@ -194,7 +194,7 @@ public class ContentType {
     }
 
     public static ImageType getImageType(String url) {
-        if (url.equals("#s") || url.equals("/s") ||url.equals("/spoiler") || url.equals("/spoiler") || url.equals("/sp") || url.equals("#sp")|| url.equals("/c") || url.equals("/f") || url.equals("/n")) {
+        if (url.equals("#s") || url.equals("/s") ||url.equals("/spoiler") || url.equals("/sp") || url.equals("#sp")|| (url.startsWith("/") && url.length() < 4)) {
             return ImageType.SPOILER;
         }
         if (url.startsWith("/") && !url.startsWith("//")) {

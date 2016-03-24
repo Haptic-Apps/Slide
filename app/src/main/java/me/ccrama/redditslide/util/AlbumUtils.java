@@ -315,8 +315,8 @@ public class AlbumUtils {
 
         public boolean gallery;
         public String hash;
-
         public Activity baseActivity;
+        public boolean overrideAlbum;
 
         public GetAlbumJsonFromUrl(@NotNull String url, @NotNull Activity baseActivity) {
 
@@ -354,6 +354,7 @@ public class AlbumUtils {
                 if (result.has("album_images")) {
                     JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
                     if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+                        overrideAlbum = true;
 
                         for (JsonElement o : obj) {
                             jsons.add(o);
@@ -366,6 +367,7 @@ public class AlbumUtils {
                 } else if (result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images")) {
                     JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
                     if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+                        overrideAlbum = true;
 
                         for (JsonElement o : obj) {
                             jsons.add(o);

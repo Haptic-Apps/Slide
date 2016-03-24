@@ -102,13 +102,20 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         setContentView(R.layout.activity_media);
 
         String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
+        final String contentUrl = getIntent().getExtras().getString(EXTRA_URL);
+
         if (!firstUrl.isEmpty()) {
             imageShown = true;
             LogUtil.v("Displaying first image");
             displayImage(firstUrl);
+        } else if(ContentType.getImageType(contentUrl) == ContentType.ImageType.IMGUR){
+            displayImage(contentUrl + ".png"); //display one first
+        }
+        if(firstUrl.isEmpty()){
+            ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
         }
 
-        final String contentUrl = getIntent().getExtras().getString(EXTRA_URL);
+
         if (getIntent().hasExtra(EXTRA_LQ) && ContentType.getImageType(contentUrl) != ContentType.ImageType.IMGUR) {
             findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
                 @Override
