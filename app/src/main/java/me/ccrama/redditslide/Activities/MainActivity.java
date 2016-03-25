@@ -371,7 +371,7 @@ public class MainActivity extends BaseActivity {
         sidebarOverflow = (CommentOverflow) findViewById(R.id.commentOverflow);
 
 
-        if (SubredditStorage.subredditsForHome != null && !Reddit.appRestart.getBoolean("isRestarting", false)) {
+        if (SubredditStorage.subredditsForHome != null && !Reddit.appRestart.getBoolean("isRestarting", false) &&  Reddit.colors.contains("Tutorial")) {
             if (!first)
                 doDrawer();
 
@@ -402,7 +402,6 @@ public class MainActivity extends BaseActivity {
                                                 findViewById(R.id.header).setVisibility(View.VISIBLE);
 
                                                 doDrawer();
-
                                                 setDataSet(SubredditStorage.subredditsForHome);
                                                 loader.finish();
                                                 loader = null;
