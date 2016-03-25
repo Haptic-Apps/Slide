@@ -33,16 +33,26 @@ android {
         versionName androidGitVersion.name()
     }
 
+    flavorDimensions "api", "gplay"
+
     productFlavors {
         dev {
             // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
             // to pre-dex each module and produce an APK that can be used
             // without time consuming dex merging processes.
+            flavorDimension "api"
             minSdkVersion 21
         }
         prod {
             // The actual minSdkVersion for the application.
+            flavorDimension "api"
             minSdkVersion 17
+        }
+        withGPlay{
+            flavorDimension "gplay"
+        }
+        noGPlay{
+            flavorDimension "gplay"
         }
     }
 
@@ -98,7 +108,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.github.rey5137:material:1.2.1'
     compile 'jp.wasabeef:recyclerview-animators:2.0.0'
-    compile 'com.google.android.gms:play-services-drive:8.4.0'
+    withGPlayCompile 'com.google.android.gms:play-services-drive:8.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.4.1'
     compile 'com.android.support:cardview-v7:23.2.0'
