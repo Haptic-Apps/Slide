@@ -249,7 +249,7 @@ public class Submit extends BaseActivity {
                                                 @Override
                                                 protected Boolean doInBackground(Void... params) {
                                                     try {
-                                                        Submission s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((AutoCompleteTextView ) findViewById(R.id.bodytext)).getText().toString(), ((AutoCompleteTextView ) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()), c, trying);
+                                                        Submission s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText ) findViewById(R.id.bodytext)).getText().toString(), ((AutoCompleteTextView ) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()), c, trying);
                                                         new AccountManager(Authentication.reddit).sendRepliesToInbox(s, inboxReplies.isChecked());
                                                         new OpenRedditLink(Submit.this, "reddit.com/r/" + ((AutoCompleteTextView ) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.getFullName().substring(3, s.getFullName().length()));
                                                         Submit.this.finish();
