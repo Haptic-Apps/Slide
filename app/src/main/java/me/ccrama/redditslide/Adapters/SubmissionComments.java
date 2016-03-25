@@ -152,7 +152,7 @@ public class SubmissionComments {
 
         @Override
         public void onPostExecute(ArrayList<CommentObject> subs) {
-            if (page.isVisible()) {
+            if (page.isVisible() && submission != null) {
                 page.doData(reset);
                 refreshLayout.setRefreshing(false);
                 if ((submission.isArchived() && !page.archived) || (submission.isLocked() && !page.locked))

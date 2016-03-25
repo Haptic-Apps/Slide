@@ -307,7 +307,7 @@
     </style>
 
     <style name="FontStyle.SmallerPost">
-        <item name="font_cardtitle">16sp</item>
+        <item name="font_cardtitle">14sp</item>
         <item name="font_cardinfo">10sp</item>
     </style>
     <style name="FontStyle.SmallerComment">

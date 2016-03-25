@@ -259,7 +259,7 @@ public class SubredditStorage {
         if (Authentication.isLoggedIn && Authentication.didOnline) {
             try {
                 multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
-            } catch (ApiException e) {
+            } catch (Exception e) {
                 multireddits = null;
                 e.printStackTrace();
             }

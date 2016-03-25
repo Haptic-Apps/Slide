@@ -39,6 +39,16 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
     }
 
     @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
     public Filter getFilter() {
 
         if (filter == null) {

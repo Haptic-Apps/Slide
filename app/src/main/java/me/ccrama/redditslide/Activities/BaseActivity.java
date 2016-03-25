@@ -48,7 +48,11 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            onBackPressed();
+            try {
+                onBackPressed();
+            } catch(IllegalStateException ignored){
+
+            }
         }
 
         return super.onOptionsItemSelected(item);

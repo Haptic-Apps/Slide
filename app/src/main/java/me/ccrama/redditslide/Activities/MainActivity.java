@@ -9,6 +9,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -290,26 +291,27 @@ public class MainActivity extends BaseActivity {
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
             first = true;
-            Reddit.appRestart.edit().putBoolean("firststart5a", true).apply();
+            Reddit.appRestart.edit().putBoolean("firststart5", true).apply();
             Intent i = new Intent(this, Tutorial.class);
             startActivity(i);
-        } else if (!Reddit.colors.contains("a5update") && !Reddit.colors.contains("firststart5a")) {
+        } else if (!Reddit.colors.contains("v5update") && !Reddit.colors.contains("firststart5")) {
             new MaterialDialog.Builder(this)
-                    .title("Slide v5 Alpha")
+                    .title("Slide v5")
                     .customView(R.layout.whats_new, false)
                     .positiveText("Will do!")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Reddit.colors.edit().putBoolean("a5update", true).apply();
-
+                            Reddit.colors.edit().putBoolean("v5update", true).apply();
+                            doForcePrefs();
                         }
                     })
                     .dismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            Reddit.colors.edit().putBoolean("a5update", true).apply();
 
+                            Reddit.colors.edit().putBoolean("v5update", true).apply();
+                            doForcePrefs();
                         }
                     })
                     .show();
@@ -362,6 +364,8 @@ public class MainActivity extends BaseActivity {
 
         sidebarBody = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
         sidebarOverflow = (CommentOverflow) findViewById(R.id.commentOverflow);
+
+
         if (SubredditStorage.subredditsForHome != null && !Reddit.appRestart.getBoolean("isRestarting", false)) {
             if (!first)
                 doDrawer();
@@ -433,6 +437,28 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    public void doForcePrefs() {
+        ArrayList<String> domains = new ArrayList<>();
+
+        for (String s : SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
+            if (!s.isEmpty()) {
+                s = s.trim();
+                final String finalS = s;
+                domains.add(finalS);
+            }
+        }
+
+        //Make youtube and youtu.be links open externally by default, can be used with Chrome Customtabs if they remove the option in settings
+        domains.add("youtube.co");
+        domains.add("youtu.be");
+
+        SharedPreferences.Editor e = SettingValues.prefs.edit();
+        e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, Reddit.arrayToString(domains));
+        e.apply();
+        PostMatch.externalDomain = null;
+
+        SettingValues.alwaysExternal = SettingValues.prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
+    }
 
     @Override
     public void onPause() {
@@ -588,10 +614,11 @@ public class MainActivity extends BaseActivity {
 
         shouldLoad = usedArray.get(current);
         pager.setCurrentItem(current);
-        if (mTabLayout != null)
+        if (mTabLayout != null) {
             mTabLayout.setupWithViewPager(pager);
+        }
 
-        if(SettingValues.single)
+        if (SettingValues.single)
             getSupportActionBar().setTitle(shouldLoad);
 
     }
@@ -635,10 +662,10 @@ public class MainActivity extends BaseActivity {
             if (hea != null)
                 hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
             if (!SettingValues.single) {
-                mTabLayout.setupWithViewPager(pager);
                 mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
                 shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
+                mTabLayout.setupWithViewPager(pager);
 
             } else {
                 getSupportActionBar().setTitle(usedArray.get(toGoto));

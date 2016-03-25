@@ -36,6 +36,7 @@ public class SettingsReddit extends BaseActivityAnim {
     @Override
     public void onPause() {
         super.onPause();
+        if(editor != null)
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {

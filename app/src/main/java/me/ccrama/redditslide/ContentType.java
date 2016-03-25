@@ -92,23 +92,20 @@ public class ContentType {
             if (!s.getUrl().contains("youtube.co") && !s.getUrl().contains("youtu.be") && s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
                 return ImageType.EMBEDDED;
             }
-            if (s.getUrl().contains("youtube.co") || s.getUrl().contains("youtu.be")) {
-                return ImageType.VIDEO;
-            }
-
 
             if (isAlbum(url)) {
                 return ImageType.ALBUM;
             }
+            if (isImgurLink(url)) {
+                if (url.contains("?") && (url.contains(".png") || url.contains(".gif") || url.contains(".jpg"))) {
+                    url = url.substring(0, url.lastIndexOf("?"));
+                    return getImageType(url);
+                }
+                return ImageType.IMGUR;
+            }
             if (!s.isNsfw()) {
 
-                if (isImgurLink(url)) {
-                    if (url.contains("?") && (url.contains(".png") || url.contains(".gif") || url.contains(".jpg"))) {
-                        url = url.substring(0, url.lastIndexOf("?"));
-                        return getImageType(url);
-                    }
-                    return ImageType.IMGUR;
-                }
+
 
 
                 switch (t) {
@@ -204,8 +201,6 @@ public class ContentType {
         }
         if (isRedditLink(url)) {
             return ImageType.REDDIT;
-        } else if (url.length() >= 20 && url.substring(0, 20).contains("youtube.com") || url.length() >= 15 &&url.substring(0, 15).contains("youtu.be")) {
-            return ImageType.VIDEO;
         }
         if(url.contains("streamable.com")){
             return ImageType.STREAMABLE;

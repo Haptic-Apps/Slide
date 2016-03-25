@@ -344,7 +344,11 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        i.setImage(ImageSource.uri(((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url).getAbsolutePath()));
+                        try {
+                            i.setImage(ImageSource.uri(((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url).getAbsolutePath()));
+                        } catch(Exception e){
+                            i.setImage(ImageSource.bitmap(loadedImage));
+                        }
                         (findViewById(R.id.progress)).setVisibility(View.GONE);
                         handler.removeCallbacks(progressBarDelayRunner);
 

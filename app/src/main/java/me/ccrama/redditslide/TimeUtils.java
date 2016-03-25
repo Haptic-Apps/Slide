@@ -27,11 +27,12 @@ public class TimeUtils {
             return null;
         }
 
-        Resources res = c.getResources();
 
         final long diff = now - time;
         if (diff < MINUTE_MILLIS) {
-            return res.getString(R.string.time_just_now);
+            String just_now = c.getString(R.string.time_just_now);
+            if(just_now == null ||just_now.isEmpty()) just_now = "just now";
+            return just_now;
         } else if (diff < 60 * MINUTE_MILLIS) {
             Integer value = longToInt(diff / MINUTE_MILLIS);
             return  value + "m";

@@ -314,7 +314,11 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 case LINK:
                 case IMAGE_LINK:
-                    title.setText(R.string.type_link);
+                    String domain = submission.getDomain();
+                    if (domain.contains("youtube") || domain.contains("youtu.be"))
+                        title.setText(R.string.type_vid);
+                    else
+                        title.setText(R.string.type_link);
                     break;
 
                 case NSFW_LINK:

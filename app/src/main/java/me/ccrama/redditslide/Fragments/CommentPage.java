@@ -117,12 +117,14 @@ public class CommentPage extends Fragment {
     }
 
     public void doTopBar(){
-        final View subtractHeight = v.findViewById(R.id.loadall);
+        final View subtractHeight = v.findViewById(R.id.locked);
         toSubtract = 4;
         final View header = v.findViewById(R.id.header);
         v.findViewById(R.id.np).setVisibility(View.VISIBLE);
         v.findViewById(R.id.archived).setVisibility(View.VISIBLE);
         v.findViewById(R.id.locked).setVisibility(View.VISIBLE);
+        v.findViewById(R.id.loadall).setVisibility(View.VISIBLE);
+
         if (!loadMore) {
             v.findViewById(R.id.loadall).setVisibility(View.GONE);
         } else {
@@ -243,6 +245,12 @@ public class CommentPage extends Fragment {
         );
         toolbar.setTitle(subreddit);
         toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
         toolbar.inflateMenu(R.menu.menu_comment_items);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
