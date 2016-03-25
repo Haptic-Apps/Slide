@@ -52,7 +52,6 @@
         android:id="@+id/drawerlistview"
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:descendantFocusability="afterDescendants"
         android:layout_gravity="start"
         android:background="?attr/card_background"
         android:orientation="vertical" />

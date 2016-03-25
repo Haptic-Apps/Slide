@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -17,13 +18,17 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 
+import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.models.Submission;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.MultiredditAdapter;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
@@ -69,7 +74,26 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
 
             if (SettingValues.fabType == R.integer.FAB_POST) {
-                fab.setVisibility(View.GONE);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        final ArrayList<String> subs = new ArrayList<>();
+                        for(MultiSubreddit s : posts.multiReddit.getSubreddits()){
+                            subs.add(s.getDisplayName());
+                        }
+                        new MaterialDialog.Builder(getActivity())
+                                .title("Which sub would you like to submit to?")
+                                .items(subs)
+                                .itemsCallback(new MaterialDialog.ListCallback() {
+                                    @Override
+                                    public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                        Intent i = new Intent(getActivity(), Submit.class);
+                                        i.putExtra(Submit.EXTRA_SUBREDDIT, subs.get(which));
+                                        startActivity(i);
+                                    }
+                                }).show();
+                    }
+                });
             } else {
                 fab.setImageResource(R.drawable.hide);
                 fab.setOnClickListener(new View.OnClickListener() {

@@ -616,6 +616,7 @@ public class MainActivity extends BaseActivity {
         pager.setCurrentItem(current);
         if (mTabLayout != null) {
             mTabLayout.setupWithViewPager(pager);
+            mTabLayout.getTabAt(current).getCustomView().setSelected(true);
         }
 
         if (SettingValues.single)
