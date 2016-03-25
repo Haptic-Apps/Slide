@@ -47,6 +47,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
@@ -172,6 +173,10 @@ public class MainActivity extends BaseActivity {
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
             pager.setCurrentItem(current);
+            if (mTabLayout != null) {
+                mTabLayout.setupWithViewPager(pager);
+                scrollToTabAfterLayout(current);
+            }
         } else if (requestCode == RESET_THEME_RESULT) {
             restartTheme();
         } else if (requestCode == 940) {
@@ -616,12 +621,30 @@ public class MainActivity extends BaseActivity {
         pager.setCurrentItem(current);
         if (mTabLayout != null) {
             mTabLayout.setupWithViewPager(pager);
-            mTabLayout.getTabAt(current).getCustomView().setSelected(true);
+            scrollToTabAfterLayout(current);
         }
 
         if (SettingValues.single)
             getSupportActionBar().setTitle(shouldLoad);
 
+    }
+
+    private void scrollToTabAfterLayout(final int tabIndex) {
+        //from http://stackoverflow.com/a/34780589/3697225
+        if (mTabLayout != null) {
+            final ViewTreeObserver observer = mTabLayout.getViewTreeObserver();
+
+            if (observer.isAlive()) {
+                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
+                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mTabLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        mTabLayout.getTabAt(tabIndex).select();
+                    }
+                });
+            }
+        }
     }
 
     public void updateColor(int color, String subreddit) {
@@ -667,7 +690,10 @@ public class MainActivity extends BaseActivity {
                 shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
                 mTabLayout.setupWithViewPager(pager);
-
+                if (mTabLayout != null) {
+                    mTabLayout.setupWithViewPager(pager);
+                    scrollToTabAfterLayout(toGoto);
+                }
             } else {
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
                 shouldLoad = usedArray.get(toGoto);
@@ -1335,15 +1361,15 @@ public class MainActivity extends BaseActivity {
 
         setDrawerSubList();
     }
-
+    SideArrayAdapter sideArrayAdapter;
     public void setDrawerSubList() {
         ArrayList<String> copy = new ArrayList<>(SubredditStorage.subredditsForHome);
 
         e = ((EditText) headerMain.findViewById(R.id.sort));
 
 
-        final SideArrayAdapter adapter = new SideArrayAdapter(this, copy);
-        drawerSubList.setAdapter(adapter);
+         sideArrayAdapter = new SideArrayAdapter(this, copy);
+        drawerSubList.setAdapter(sideArrayAdapter);
 
         e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -1357,7 +1383,7 @@ public class MainActivity extends BaseActivity {
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
                     //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
-                    if (adapter.fitems == null || adapter.openInSubView) {
+                    if (sideArrayAdapter.fitems == null || sideArrayAdapter.openInSubView) {
                         Intent inte = new Intent(MainActivity.this, SubredditView.class);
                         inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
                         MainActivity.this.startActivity(inte);
@@ -1365,7 +1391,7 @@ public class MainActivity extends BaseActivity {
                         if (usedArray.contains(e.getText().toString())) {
                             pager.setCurrentItem(usedArray.indexOf(e.getText().toString()));
                         } else {
-                            pager.setCurrentItem(usedArray.indexOf(adapter.fitems.get(0)));
+                            pager.setCurrentItem(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
                         }
                     }
 
@@ -1395,7 +1421,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String result = e.getText().toString().replaceAll(" ", "");
-                adapter.getFilter().filter(result);
+                sideArrayAdapter.getFilter().filter(result);
 
             }
         });
@@ -1467,7 +1493,10 @@ public class MainActivity extends BaseActivity {
                 adapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
                 pager.setAdapter(adapter);
-                if (mTabLayout != null) mTabLayout.setupWithViewPager(pager);
+                if (mTabLayout != null) {
+                    mTabLayout.setupWithViewPager(pager);
+                    scrollToTabAfterLayout(usedArray.indexOf(subToDo));
+                }
 
                 pager.setCurrentItem(usedArray.indexOf(subToDo));
 
@@ -1476,6 +1505,7 @@ public class MainActivity extends BaseActivity {
                 findViewById(R.id.header).setBackgroundColor(color);
                 themeSystemBars(subToDo);
                 setRecentBar(subToDo);
+
             }
         });
     }
@@ -1876,9 +1906,11 @@ public class MainActivity extends BaseActivity {
         if (datasetChanged) {
             usedArray = new ArrayList<>(SubredditStorage.subredditsForHome);
             adapter.notifyDataSetChanged();
+            sideArrayAdapter.notifyDataSetChanged();
             datasetChanged = false;
             if (mTabLayout != null) {
                 mTabLayout.setupWithViewPager(pager);
+                scrollToTabAfterLayout(pager.getCurrentItem());
             }
         }
 
