@@ -31,6 +31,17 @@ public class ContentType {
         return (url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url));
     }
 
+    /**
+     * Returns whether or not the url in question is an Imgur image
+     * This method differs from isImgurLink() in the sense that the url only needs to contain
+     * "imgur" and not be a gif or album to return true
+     * @param url of submission content
+     * @return whether or not this is an Imgur image
+     */
+    private static boolean isImgurImage(String url) {
+        return (url.contains("imgur") && !isGif(url) && !isAlbum(url));
+    }
+
     public static String getFixedUrlThumb(String s2) {
         String s = s2;
         if (s == null || s.isEmpty()) {
@@ -92,26 +103,25 @@ public class ContentType {
             if (!s.getUrl().contains("youtube.co") && !s.getUrl().contains("youtu.be") && s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
                 return ImageType.EMBEDDED;
             }
-
             if (isAlbum(url)) {
                 return ImageType.ALBUM;
             }
-            if (isImgurLink(url)) {
-                if (url.contains("?") && (url.contains(".png") || url.contains(".gif") || url.contains(".jpg"))) {
-                    url = url.substring(0, url.lastIndexOf("?"));
-                    return getImageType(url);
-                }
-                return ImageType.IMGUR;
-            }
             if (!s.isNsfw()) {
-
-
-
+                if (isImgurLink(url)) {
+                    if (url.contains("?") && (url.contains(".png") || url.contains(".gif") || url.contains(".jpg"))) {
+                        url = url.substring(0, url.lastIndexOf("?"));
+                        return getImageType(url);
+                    }
+                    return ImageType.IMGUR;
+                }
 
                 switch (t) {
                     case DEFAULT:
                         if (isAlbum(url)) {
                             return ImageType.ALBUM;
+                        }
+                        if (isImgurImage(url)) {
+                            return ImageType.IMGUR;
                         }
                         if (isImage(url) && !url.contains("gif")) {
                             return ImageType.IMAGE;
@@ -141,6 +151,9 @@ public class ContentType {
                         if (isAlbum(url)) {
                             return ImageType.ALBUM;
                         }
+                        if (isImgurImage(url)) {
+                            return ImageType.IMGUR;
+                        }
                         if (isImage(url) && !url.contains("gif")) {
                             return ImageType.IMAGE;
                         } else if (isGif(url)) {
@@ -157,6 +170,9 @@ public class ContentType {
                 }
             } else {
                 //if the submission is NSFW
+                if (isImgurImage(url) || isImgurLink(url)) {
+                    return ImageType.NSFW_IMAGE;
+                }
                 if (isImage(url) && !url.contains("gif")) {
                     return ImageType.NSFW_IMAGE;
                 } else if (isGif(url)) {
