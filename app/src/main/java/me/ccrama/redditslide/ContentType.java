@@ -170,10 +170,7 @@ public class ContentType {
                 }
             } else {
                 //if the submission is NSFW
-                if (isImgurImage(url) || isImgurLink(url)) {
-                    return ImageType.NSFW_IMAGE;
-                }
-                if (isImage(url) && !url.contains("gif")) {
+                if ((isImage(url) && !url.contains("gif")) || isImgurLink(url) || isImgurImage(url)) {
                     return ImageType.NSFW_IMAGE;
                 } else if (isGif(url)) {
                     if (url.contains("gfy"))
