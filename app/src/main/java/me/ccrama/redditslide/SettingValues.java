@@ -47,6 +47,8 @@ public class SettingValues {
     public static final String PREF_LOW_RES_MOBILE = "lowRes";
     public static final String PREF_IMAGE_LQ = "imageLq";
     public static final String PREF_COLOR_SUB_NAME = "colorSubName";
+    public static final String PREF_OVERRIDE_LANGUAGE = "overrideLanguage";
+    public static final String PREF_SHOW_DOMAIN = "showDomain";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
@@ -137,6 +139,8 @@ public class SettingValues {
     public static boolean commentPager;
     public static boolean colorSubName;
     public static boolean hideSelftextLeadImage;
+    public static boolean overrideLanguage;
+    public static boolean showDomain;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -154,6 +158,7 @@ public class SettingValues {
 
         single = prefs.getBoolean(PREF_SINGLE, false);
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
+        overrideLanguage = prefs.getBoolean(PREF_OVERRIDE_LANGUAGE, false);
 
         commentNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
         postNav = false;
@@ -171,6 +176,7 @@ public class SettingValues {
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);
         loadImageLq = prefs.getBoolean(PREF_IMAGE_LQ, false);
+        showDomain = prefs.getBoolean(PREF_SHOW_DOMAIN, false);
         expandedToolbar = prefs.getBoolean(PREF_EXPANDED_TOOLBAR, false);
         fullCommentOverride = prefs.getBoolean(PREF_FULL_COMMENT_OVERRIDE, false);
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);

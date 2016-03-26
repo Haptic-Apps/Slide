@@ -152,7 +152,19 @@ public class SettingsGeneral extends BaseActivityAnim {
                 }
             });
         }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.forcelanguage);
 
+            single.setChecked(SettingValues.overrideLanguage);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.overrideLanguage = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE, isChecked).apply();
+
+                }
+            });
+        }
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.expandedmenu);
 

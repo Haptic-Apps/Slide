@@ -87,6 +87,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static SharedPreferences cachedData;
     public static boolean noGapps = true; //for testing
     public static boolean over18;
+    public static boolean overrideLanguage;
     private final List<Listener> listeners = new ArrayList<>();
     private final Handler mBackgroundDelayHandler = new Handler();
     public boolean active;
@@ -529,6 +530,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public void doMainStuff() {
         Log.v(LogUtil.getTag(), "ON CREATED AGAIN");
+       overrideLanguage = getSharedPreferences("SETTINGS", 0).getBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE, false);
         appRestart = getSharedPreferences("appRestart", 0);
         AlbumUtils.albumRequests = getSharedPreferences("albums", 0);
 

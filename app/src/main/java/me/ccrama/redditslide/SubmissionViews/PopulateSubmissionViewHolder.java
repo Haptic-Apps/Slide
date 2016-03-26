@@ -1276,8 +1276,7 @@ public class PopulateSubmissionViewHolder {
             titleString.append(" ");
         }
 
-        titleString.append(spacer);
-        titleString.append(submission.getDomain());
+
 
         if (holder.leadImage.getVisibility() == View.GONE && !full) {
             String text = "";
@@ -1361,6 +1360,10 @@ public class PopulateSubmissionViewHolder {
                 titleString.append(pinned);
             }
         }*/
+        if(SettingValues.showDomain){
+            titleString.append(spacer);
+            titleString.append(submission.getDomain());
+        }
         holder.info.setText(titleString);
     }
 

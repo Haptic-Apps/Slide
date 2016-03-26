@@ -88,6 +88,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -268,12 +269,21 @@ public class MainActivity extends BaseActivity {
 
     public boolean commentPager = false;
 
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        LogUtil.v("Starting time is " + System.currentTimeMillis());
+        if(Reddit.overrideLanguage) {
+            Locale locale = new Locale("en", "US");
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
 
         disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {

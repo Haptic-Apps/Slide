@@ -87,6 +87,20 @@ public class EditCardsLayout extends BaseActivity {
             });
         }
 
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.domain);
+
+            single.setChecked(SettingValues.showDomain);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.showDomain = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SHOW_DOMAIN, isChecked).apply();
+
+                }
+            });
+        }
+
         //Pic modes//
 
         ((TextView) findViewById(R.id.picture_current)).setText(SettingValues.bigPicEnabled ? (SettingValues.bigPicCropped ? getString(R.string.mode_cropped) : getString(R.string.mode_bigpic)) : getString(R.string.mode_thumbnail));

@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.ActivityManager;
+import android.content.res.Configuration;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.Locale;
+
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -28,12 +31,10 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
- *
  * This is an activity which is the base for most of Slide's activities.
  * It has support for handling of swiping, setting up the AppBar (toolbar),
  * and coloring of applicable views.
- *
- * */
+ */
 
 public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase {
     @Nullable
@@ -50,7 +51,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         if (id == android.R.id.home) {
             try {
                 onBackPressed();
-            } catch(IllegalStateException ignored){
+            } catch (IllegalStateException ignored) {
 
             }
         }
@@ -58,11 +59,21 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         return super.onOptionsItemSelected(item);
     }
 
-   public boolean shouldInterceptAlways = false;
+    public boolean shouldInterceptAlways = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(SettingValues.overrideLanguage) {
+            Locale locale = new Locale("en", "US");
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
+
         super.onCreate(savedInstanceState);
+
         if (enableSwipeBackLayout) {
             mHelper = new SwipeBackActivityHelper(this);
             mHelper.onActivityCreate();
@@ -161,19 +172,21 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
         getTheme().applyStyle(new FontPreferences(this).getCommentFontStyle().getResId(), true);
 
     }
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         Reddit.setDefaultErrorHandler(this); //set defualt reddit api issue handler
 
     }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         Reddit.setDefaultErrorHandler(null); //remove defualt reddit api issue handler (mem leaks)
 
     }
+
     /**
      * Sets up the activity's support toolbar and colorizes the status bar.
      *
