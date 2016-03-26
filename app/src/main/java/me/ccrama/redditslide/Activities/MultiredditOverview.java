@@ -176,6 +176,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
             @Override
             protected void onPostExecute(List<MultiReddit> multiReddits) {
+                if(multiReddits != null && !multiReddits.isEmpty())
                 setDataSet(multiReddits);
             }
         }.execute();

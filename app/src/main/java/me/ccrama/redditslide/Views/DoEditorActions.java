@@ -101,6 +101,7 @@ public class DoEditorActions {
                 };
                 fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
                 fm.executePendingTransactions();
+
                 auxiliary.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
             }
         });

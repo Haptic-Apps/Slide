@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -177,6 +178,8 @@ public class MainActivity extends BaseActivity {
                 mTabLayout.setupWithViewPager(pager);
                 scrollToTabAfterLayout(current);
             }
+        } else if (requestCode == 423 && resultCode == RESULT_OK) {
+            ((CommentPage) ((OverviewPagerAdapterComment)adapter).mCurrentComments).doResult(data);
         } else if (requestCode == RESET_THEME_RESULT) {
             restartTheme();
         } else if (requestCode == 940) {
@@ -203,6 +206,9 @@ public class MainActivity extends BaseActivity {
         } else if (requestCode == INBOX_RESULT) {
             //update notification badge
             new AsyncNotificationBadge().execute();
+        } else if (requestCode == 3333) {
+            LogUtil.v("Intent 1");
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -371,7 +377,7 @@ public class MainActivity extends BaseActivity {
         sidebarOverflow = (CommentOverflow) findViewById(R.id.commentOverflow);
 
 
-        if (SubredditStorage.subredditsForHome != null && !Reddit.appRestart.getBoolean("isRestarting", false) &&  Reddit.colors.contains("Tutorial")) {
+        if (SubredditStorage.subredditsForHome != null && !Reddit.appRestart.getBoolean("isRestarting", false) && Reddit.colors.contains("Tutorial")) {
             if (!first)
                 doDrawer();
 
@@ -402,7 +408,11 @@ public class MainActivity extends BaseActivity {
                                                 findViewById(R.id.header).setVisibility(View.VISIBLE);
 
                                                 doDrawer();
-                                                setDataSet(SubredditStorage.subredditsForHome);
+                                                try {
+                                                    setDataSet(SubredditStorage.subredditsForHome);
+                                                } catch (Exception e) {
+
+                                                }
                                                 loader.finish();
                                                 loader = null;
                                             }
@@ -1360,14 +1370,16 @@ public class MainActivity extends BaseActivity {
 
         setDrawerSubList();
     }
+
     SideArrayAdapter sideArrayAdapter;
+
     public void setDrawerSubList() {
         ArrayList<String> copy = new ArrayList<>(SubredditStorage.subredditsForHome);
 
         e = ((EditText) headerMain.findViewById(R.id.sort));
 
 
-         sideArrayAdapter = new SideArrayAdapter(this, copy);
+        sideArrayAdapter = new SideArrayAdapter(this, copy);
         drawerSubList.setAdapter(sideArrayAdapter);
 
         e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -1938,23 +1950,35 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        /* removed for now
-        int keyCode = event.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_VOLUME_UP:
-                return ((SubmissionsView) adapter.getCurrentFragment()).onKeyDown(keyCode);
-            case KeyEvent.KEYCODE_VOLUME_DOWN:
-                return ((SubmissionsView) adapter.getCurrentFragment()).onKeyDown(keyCode);
-            default:
+        if (pager != null && SettingValues.commentPager && pager.getCurrentItem() == toOpenComments && SettingValues.commentNav && pager.getAdapter() instanceof OverviewPagerAdapterComment) {
+            int keyCode = event.getKeyCode();
+            if (SettingValues.commentNav) {
+                switch (keyCode) {
+                    case KeyEvent.KEYCODE_VOLUME_UP:
+                        return ((CommentPage) ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments).onKeyDown(keyCode);
+                    case KeyEvent.KEYCODE_VOLUME_DOWN:
+                        return ((CommentPage) ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments).onKeyDown(keyCode);
+                    default:
+                        return super.dispatchKeyEvent(event);
+                }
+            } else {
                 return super.dispatchKeyEvent(event);
-        }*/
+            }
+        }
         return super.dispatchKeyEvent(event);
+
     }
+
 
     public static String shouldLoad;
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -2017,10 +2041,7 @@ public class MainActivity extends BaseActivity {
             return mCurrentFragment;
         }
 
-
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            super.setPrimaryItem(container, position, object);
+        public void doSetPrimary(Object object, int position) {
             if (object != null && getCurrentFragment() != object && position != toOpenComments && object instanceof SubmissionsView) {
                 shouldLoad = usedArray.get(position);
                 mCurrentFragment = ((SubmissionsView) object);
@@ -2031,6 +2052,12 @@ public class MainActivity extends BaseActivity {
 
                 }
             }
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            doSetPrimary(object, position);
         }
 
         @Override
@@ -2111,7 +2138,14 @@ public class MainActivity extends BaseActivity {
 
     public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
         private SubmissionsView mCurrentFragment;
+        private CommentPage mCurrentComments;
+
         public int size = usedArray.size();
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
 
         public OverviewPagerAdapterComment(FragmentManager fm) {
             super(fm);
@@ -2167,9 +2201,9 @@ public class MainActivity extends BaseActivity {
         }
 
 
+
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            super.setPrimaryItem(container, position, object);
+        public void doSetPrimary(Object object, int position) {
             if (position != toOpenComments) {
                 shouldLoad = usedArray.get(position);
                 if (getCurrentFragment() != object) {
@@ -2182,7 +2216,10 @@ public class MainActivity extends BaseActivity {
                         }
                     }
                 }
+            } else if(object instanceof CommentPage){
+                mCurrentComments = (CommentPage) object;
             }
+
         }
 
         public Fragment storedFragment;

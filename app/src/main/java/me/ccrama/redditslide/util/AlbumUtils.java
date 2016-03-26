@@ -569,28 +569,30 @@ public class AlbumUtils {
     }
 
     public static void preloadImages(Context c, JsonObject result, boolean gallery) {
-        if (gallery) {
+        if (gallery && result != null) {
 
-            JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
-            if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
+            if (result.has("data") && result.get("data").getAsJsonObject().has("image") && result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images") && result.get("data").getAsJsonObject().get("image").getAsJsonObject().get("album_images").getAsJsonObject().has("images")) {
+                JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
+                if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
 
-                for (JsonElement o : obj) {
-                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage("https://imgur.com/" + o.getAsJsonObject().get("hash").getAsString() + ".png", new SimpleImageLoadingListener());
+                    for (JsonElement o : obj) {
+                        ((Reddit) c.getApplicationContext()).getImageLoader().loadImage("https://imgur.com/" + o.getAsJsonObject().get("hash").getAsString() + ".png", new SimpleImageLoadingListener());
+                    }
+
                 }
-
-
             }
 
-        } else {
-            JsonObject obj = result.getAsJsonObject("album");
-            if (obj != null && !obj.isJsonNull() && obj.has("images")) {
+        } else if (result != null) {
+            if (result.has("album") && result.get("album").getAsJsonObject().has("images")) {
+                JsonObject obj = result.getAsJsonObject("album");
+                if (obj != null && !obj.isJsonNull() && obj.has("images")) {
 
-                final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
+                    final JsonArray jsonAuthorsArray = obj.get("images").getAsJsonArray();
 
-                for (JsonElement o : jsonAuthorsArray) {
-                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(o.getAsJsonObject().getAsJsonObject("links").get("original").getAsString(), new SimpleImageLoadingListener());
+                    for (JsonElement o : jsonAuthorsArray) {
+                        ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(o.getAsJsonObject().getAsJsonObject("links").get("original").getAsString(), new SimpleImageLoadingListener());
+                    }
                 }
-
             }
         }
     }

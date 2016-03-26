@@ -65,6 +65,7 @@
                     android:height="48dp"
                     android:background="#00000000"
                     android:cropToPadding="false"
+                    android:tint="?attr/tint"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/image"
@@ -76,7 +77,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-
+                    android:tint="?attr/tint"
                     android:height="48dp"
                     android:background="#00000000"
                     android:cropToPadding="false"
@@ -92,7 +93,7 @@
                     android:layout_weight="1"
                     android:height="48dp"
                     android:background="#00000000"
-
+                    android:tint="?attr/tint"
                     android:cropToPadding="false"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
@@ -104,7 +105,7 @@
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
-
+                    android:tint="?attr/tint"
                     android:height="48dp"
                     android:background="#00000000"
                     android:cropToPadding="false"
@@ -121,7 +122,7 @@
                     android:height="48dp"
                     android:background="#00000000"
                     android:cropToPadding="false"
-
+                    android:tint="?attr/tint"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp"
@@ -134,7 +135,7 @@
                     android:layout_weight="1"
                     android:height="48dp"
                     android:background="#00000000"
-
+                    android:tint="?attr/tint"
                     android:cropToPadding="false"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
@@ -144,7 +145,7 @@
                 <ImageButton
                     android:id="@+id/quote"
                     android:layout_width="0dp"
-
+                    android:tint="?attr/tint"
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:height="48dp"
@@ -158,7 +159,7 @@
                 <ImageButton
                     android:id="@+id/size"
                     android:layout_width="0dp"
-
+                    android:tint="?attr/tint"
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:height="48dp"

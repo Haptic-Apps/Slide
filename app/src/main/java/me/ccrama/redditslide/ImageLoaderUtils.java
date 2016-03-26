@@ -43,6 +43,7 @@ public class ImageLoaderUtils {
         threadPoolSize = 7;
         if (discCacheSize > 0) {
             try {
+                dir.mkdir();
                 discCache = new LruDiskCache(dir, new Md5FileNameGenerator(), discCacheSize);
             } catch (IOException e) {
                 discCache = new UnlimitedDiskCache(dir);

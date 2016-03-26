@@ -1233,7 +1233,12 @@ public class PopulateSubmissionViewHolder {
         titleString.append(subreddit);
         titleString.append(spacer);
 
-        titleString.append(TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext));
+        try {
+            String time = TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext);
+            titleString.append(time);
+        } catch (Exception e){
+            titleString.append("just now");
+        }
         titleString.append(spacer);
 
         SpannableStringBuilder author = new SpannableStringBuilder(" " + submission.getAuthor() + " ");

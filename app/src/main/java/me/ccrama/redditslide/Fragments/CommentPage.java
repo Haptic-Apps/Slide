@@ -53,6 +53,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Fragment which displays comment trees.
@@ -70,7 +71,7 @@ public class CommentPage extends Fragment {
     private int page;
     private SubmissionComments comments;
     private boolean single;
-    private CommentAdapter adapter;
+    public CommentAdapter adapter;
     private String fullname;
     private String baseSubreddit;
     private String context;
@@ -81,25 +82,34 @@ public class CommentPage extends Fragment {
     public boolean loaded = false;
 
 
+    public void doResult(Intent data) {
+        if (data.hasExtra("fullname")) {
+            String fullname = data.getExtras().getString("fullname");
+
+            adapter.currentSelectedItem = fullname;
+            adapter.reset(getContext(), comments, rv, comments.submission);
+            adapter.notifyDataSetChanged();
+            int i = 2;
+            for (CommentObject n : comments.comments) {
+                if (n instanceof CommentItem && n.comment.getComment().getFullName().contains(fullname)) {
+                    ((PreCachingLayoutManagerComments) rv.getLayoutManager()).scrollToPositionWithOffset(i, toolbar.getHeight());
+                    break;
+                }
+                i++;
+            }
+
+        }
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == getActivity().RESULT_OK) {
-            if (data.hasExtra("fullname")) {
-                String fullname = data.getExtras().getString("fullname");
-
-                adapter.currentSelectedItem = fullname;
-                adapter.reset(getContext(), comments, rv, comments.submission);
-                adapter.notifyDataSetChanged();
-                int i = 2;
-                for (CommentObject n : comments.comments) {
-                    if (n instanceof CommentItem && n.comment.getComment().getFullName().contains(fullname)) {
-                        ((PreCachingLayoutManagerComments) rv.getLayoutManager()).scrollToPositionWithOffset(i, toolbar.getHeight());
-                        break;
-                    }
-                    i++;
-                }
-
+        if (requestCode == 423 && resultCode == getActivity().RESULT_OK) {
+            doResult(data);
+        } else if (requestCode == 3333) {
+            LogUtil.v("GEtting intent!");
+            for (Fragment fragment : getFragmentManager().getFragments()) {
+                fragment.onActivityResult(requestCode, resultCode, data);
             }
         }
 
@@ -110,13 +120,13 @@ public class CommentPage extends Fragment {
     public int headerHeight;
     int toSubtract;
 
-    public void doTopBar(Submission s){
+    public void doTopBar(Submission s) {
         archived = s.isArchived();
         locked = s.isLocked();
         doTopBar();
     }
 
-    public void doTopBar(){
+    public void doTopBar() {
         final View subtractHeight = v.findViewById(R.id.locked);
         toSubtract = 4;
         final View header = v.findViewById(R.id.header);
@@ -136,7 +146,8 @@ public class CommentPage extends Fragment {
 
                     toSubtract++;
                     headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
-                    adapter.notifyItemChanged(0);
+                    if (adapter != null)
+                        adapter.notifyItemChanged(0);
                     //avoid crashes when load more is clicked before loading is finished
                     if (comments.mLoadData != null) comments.mLoadData.cancel(true);
 
@@ -162,7 +173,7 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.np).setBackgroundColor(Palette.getColor(subreddit));
         }
 
-        if(locked){
+        if (locked) {
             toSubtract--;
         } else {
             v.findViewById(R.id.locked).setVisibility(View.GONE);
@@ -177,6 +188,7 @@ public class CommentPage extends Fragment {
     }
 
     View v;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
@@ -228,7 +240,6 @@ public class CommentPage extends Fragment {
         mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, getContext()), Reddit.pxToDp(92, getContext()));
 
 
-
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
@@ -261,7 +272,10 @@ public class CommentPage extends Fragment {
                             DataShare.sharedComments = comments.comments;
                             DataShare.subAuthor = comments.submission.getAuthor();
                             Intent i = new Intent(getActivity(), CommentSearch.class);
-                            startActivityForResult(i, 1);
+                            if (getActivity() instanceof MainActivity)
+                                getActivity().startActivityForResult(i, 423);
+                            else
+                                startActivityForResult(i, 423);
                         }
                     }
                     return true;
@@ -506,7 +520,7 @@ public class CommentPage extends Fragment {
         baseSubreddit = bundle.getString("baseSubreddit", "");
 
         loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
-        if(!single) loadMore = false;
+        if (!single) loadMore = false;
         subredditStyle = new ColorPreferences(getActivity()).getThemeSubreddit(subreddit);
         contextThemeWrapper = new ContextThemeWrapper(getActivity(), subredditStyle);
         mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
@@ -627,10 +641,10 @@ public class CommentPage extends Fragment {
                                 adapter.currentlyEditing = null;
                                 int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
 
-                                for (int i = pastVisiblesItems - 2; i >= 0; i--) {
-                                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                                for (int i = pastVisiblesItems - 2; i >= 2; i--) {
+                                    if (i != -1 && adapter.users.size() > i && adapter.users.get(i) instanceof CommentItem)
+                                        if (adapter.users.get(i).comment.isTopLevel()) {
 
-                                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
                                             (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
                                             rv.removeOnScrollListener(toolbarScroll);
                                             rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -653,10 +667,10 @@ public class CommentPage extends Fragment {
             } else {
                 int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
 
-                for (int i = pastVisiblesItems - 2; i >= 0; i--) {
-                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
+                for (int i = pastVisiblesItems - 2; i >= 2; i--) {
+                    if (i != -1 && adapter.users.size() > i && adapter.users.get(i) instanceof CommentItem)
+                        if (adapter.users.get(i).comment.isTopLevel()) {
 
-                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
                             (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
                             rv.removeOnScrollListener(toolbarScroll);
                             rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -688,10 +702,10 @@ public class CommentPage extends Fragment {
                                 adapter.currentlyEditing = null;
                                 int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
 
-                                for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
+                                for (int i = pastVisiblesItems; i < adapter.getItemCount() - 2; i++) {
 
-                                    if (adapter.users.get(adapter.getRealPosition(i)) instanceof CommentItem)
-                                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                                    if (i != -1 && adapter.users.size() > i && adapter.users.get(i) instanceof CommentItem)
+                                        if (adapter.users.get(i).comment.isTopLevel()) {
                                             (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
                                             break;
                                         }
@@ -703,11 +717,10 @@ public class CommentPage extends Fragment {
             } else {
                 int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
 
-                for (int i = pastVisiblesItems; i + 1 < adapter.getItemCount(); i++) {
+                for (int i = pastVisiblesItems; i < adapter.getItemCount() - 2; i++) {
 
-                    int position = adapter.getRealPosition(i);
-                    if (position != -1 && adapter.users.size() > i && adapter.users.get(position) instanceof CommentItem)
-                        if (adapter.users.get(adapter.getRealPosition(i)).comment.isTopLevel()) {
+                    if (i != -1 && adapter.users.size() > i && adapter.users.get(i) instanceof CommentItem)
+                        if (adapter.users.get(i).comment.isTopLevel()) {
                             (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
                             break;
                         }

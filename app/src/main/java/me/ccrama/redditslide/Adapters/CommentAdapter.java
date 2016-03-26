@@ -573,7 +573,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
+        } else if (submission != null && comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (authorcolor != 0) {
             author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

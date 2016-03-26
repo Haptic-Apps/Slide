@@ -78,7 +78,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     @Override
                     public void onClick(View v) {
                         final ArrayList<String> subs = new ArrayList<>();
-                        for(MultiSubreddit s : posts.multiReddit.getSubreddits()){
+                        for (MultiSubreddit s : posts.multiReddit.getSubreddits()) {
                             subs.add(s.getDisplayName());
                         }
                         new MaterialDialog.Builder(getActivity())
@@ -168,6 +168,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             }
         });
         posts = new MultiredditPosts(SubredditStorage.getMultireddits().get(id).getDisplayName());
+
         adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
         rv.setAdapter(adapter);
         rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
@@ -222,6 +223,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         });
         return v;
     }
+
     private List<Submission> clearSeenPosts(boolean forever) {
         if (posts.posts != null) {
 
