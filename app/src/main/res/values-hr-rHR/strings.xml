@@ -495,6 +495,7 @@
   <string name="handling_internal_browser">Koristi interni preglednik</string>
   <string name="handling_external_browser">Koristi eksterni preglednik</string>
   <string name="settings_fastscroll_description">Omogućuje donju traku sa navigacijskim strelicama</string>
+  <string name="settings_comment_collapse">Potpuno sažmi komentare</string>
   <string name="settings_comment_collapse_description">Također onemogućuje animacije komentara</string>
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Kartice s centriranom slikom</string>
@@ -502,10 +503,17 @@
   <string name="mode_thumbnail">Samo sličica minijature</string>
   <string name="mode_cropped">Obrezana velika slika</string>
   <string name="mode_bigpic">Velika slika</string>
+  <string name="settings_sub_tabs_description">Prijeđi prstom između podreddita</string>
   <string name="settings_sub_tabs">Podreddit tabovi</string>
   <string name="press_actionbar">Pritisnite strelicu za prikaz akcijske trake</string>
   <string name="tap_actionbar">Dugi pritisak za prikaz akcijske trake</string>
   <string name="always_actionbar">Uvijek pokaži akcijsku traku</string>
+  <string name="sub_content_filter">Filter sadržaja podreddita</string>
+  <string name="submission_share_reddit_url">Podijeli komentare</string>
+  <string name="filter_content">Filtriraj ovaj sadržaj</string>
+  <string name="settings_general_comment_last_visit">Prikaži broj novih komentara od zadnjeg posjeta</string>
+  <string name="view_type_tabs">Podreddit tabovi</string>
+  <string name="btn_report">Izvješće</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">prije %d minute</item>
     <item quantity="few">prije %d minute</item>
@@ -531,4 +539,6 @@
     <item quantity="few">%d minute</item>
     <item quantity="other">%d minuta</item>
   </plurals>
+  <string name="action_settings">Postavke</string>
+  <string name="subreddit_name_tint">Ime podreddita</string>
 </resources>

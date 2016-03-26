@@ -210,4 +210,5 @@
   <!-- Time -->
   <string name="submission_share_permalink">Подели пост</string>
   <string name="mode_card">Картица</string>
+  <string name="btn_report">Извештај</string>
 </resources>

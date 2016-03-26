@@ -407,6 +407,7 @@
   <string name="time_just_now">zojuist</string>
   <string name="submission_share_permalink">Post delen</string>
   <string name="mode_card">Kaart</string>
+  <string name="btn_report">Melden</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuut geleden</item>
     <item quantity="other">%d minuten geleden</item>
@@ -427,4 +428,5 @@
     <item quantity="one">%d minuut</item>
     <item quantity="other">%d minuten</item>
   </plurals>
+  <string name="action_settings">Instellingen</string>
 </resources>

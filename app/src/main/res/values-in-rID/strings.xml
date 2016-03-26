@@ -208,4 +208,5 @@
   <plurals name="time_minutes">
     <item quantity="other">%d menit</item>
   </plurals>
+  <string name="action_settings">Setelan</string>
 </resources>

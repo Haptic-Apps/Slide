@@ -7,7 +7,7 @@
   <string name="general_switch_acc">Przełącz konto</string>
   <string name="general_enable_shadowbox">Włącz tryb Shadowbox</string>
   <string name="general_pro_msg">Zdecydowałem się, by kilka funkcji Slide for Reddit (w tym tryb wielokolumnowy) było odblokowywanych przez zakup klucza Pro z Play Store.\n\n Jest tak, by aplikacja mogła się rozwijać i pozostawać bez reklam!\n\nKupując klucz Pro uzyskujesz tryb wielokolumnowy, tryb Shadowbox, i wiele innych funkcji zostanie dodanych!\n\nCzy chcesz odblokować Slide for Reddit Pro?</string>
-  <string name="general_open_settings">Otwórz Ustawienie Subreddita</string>
+  <string name="general_open_settings">Pasek boczny</string>
   <string name="general_sub_sync">Synchronizowanie subskrypcji</string>
   <string name="general_login">Zaloguj się</string>
   <!-- Used when viewing a thread -->
@@ -105,7 +105,7 @@
   <string name="profile_karma_link">karmy linków</string>
   <string name="profile_karma_comment">karmy komentarzy</string>
   <string name="profile_message">Prywatna wiadomość</string>
-  <string name="profile_saved">zapisane</string>
+  <string name="profile_saved">Zapisane</string>
   <string name="profile_upvoted">polubione</string>
   <string name="profile_err_title">Użytkownik nie znaleziony</string>
   <string name="profile_err_msg">Użytkownik Reddita nie mógł zostać przywrócony.</string>
@@ -136,6 +136,7 @@
   <string name="welcome_finish">Rozpocznij tutorial</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Wybierz typ sortowania</string>
+  <string name="sorting_time_choose">Wybierz okres czasu</string>
   <string name="sorting_change_sorting">Sortowanie postów</string>
   <string name="sorting_best">Najlepsze</string>
   <string name="sorting_top">Najwięcej punktów</string>
@@ -276,7 +277,7 @@
   <string name="btn_reset">Domyślne</string>
   <string name="btn_retry">Spróbuj ponownie</string>
   <string name="btn_save">Zapisz</string>
-  <string name="btn_submit">Post</string>
+  <string name="btn_submit">Dodaj post</string>
   <string name="btn_sure">Oczywiście!</string>
   <string name="btn_undo">Cofnij</string>
   <string name="btn_yes">Tak</string>
@@ -286,6 +287,7 @@
   <string name="btn_cache">Zapisz komentarze do pamięci podręcznej</string>
   <string name="btn_delete">Usuń</string>
   <string name="btn_switch">Przełącz</string>
+  <string name="btn_time">Czas</string>
   <!-- Backup -->
   <string name="backup_success">Kopia zapasowa wykonana pomyślnie!</string>
   <string name="backup_restoring">Przywracanie ustawień</string>
@@ -434,7 +436,7 @@
   <string name="title_report_crash">Zgłoś crash</string>
   <string name="title_share">Udostępnij za pomocą</string>
   <string name="title_login">Zaloguj się do Reddit</string>
-  <string name="title_reorder_subs">Zmienić kolejność subredditów</string>
+  <string name="title_reorder_subs">Zmień kolejność subredditów</string>
   <string name="title_multireddits">Multireddity</string>
   <string name="title_inbox">Skrzynka pocztowa</string>
   <string name="title_theme_settings">Motyw</string>
@@ -494,9 +496,42 @@
   <string name="profile_manage_accounts">Zarządzanie kontami</string>
   <string name="profile_remove_account">Czy chcesz usunąć to konto?</string>
   <string name="profile_remove">Usuń konto</string>
+  <string name="card_right_thumb">Podgląd dopasowany do prawej</string>
   <string name="submission_share_permalink">Udostępnij post</string>
   <string name="submission_share_content_url">Udostępnij link zawartości</string>
+  <string name="change_theme">Zmień motyw</string>
+  <string name="setting_filter_subreddits">Filtr subredditów</string>
+  <string name="subreddit_theme">Motyw subreddita</string>
+  <string name="btn_select">Wybierz</string>
+  <string name="dialog_choose_subreddits_to_edit">Wybierz subreddity do edycji</string>
+  <string name="dialog_color_sync_title">Synchronizacja kolorów</string>
+  <string name="dialog_color_sync_message">To spróbuje uzyskać kolory subreddita ustawione przez moderatorów. Nie będzie to pomijać kolorów już ustawionych.</string>
+  <string name="fab_hide">Ukryj przeglądnięte posty</string>
+  <string name="fab_create">Utwórz nowy post</string>
+  <string name="fab_disabled">Wyłączony</string>
+  <string name="handling_internal_browser">Używaj wbudowanej przeglądarki</string>
+  <string name="handling_external_browser">Używaj zewnętrznej przeglądarki</string>
+  <string name="settings_fastscroll_description">Włącza pasek dolny z przyciskami nawigacji</string>
+  <string name="settings_comment_collapse">Zwiń komentarze w pełni</string>
+  <string name="settings_comment_collapse_description">Wyłącza również animacje komentarzy</string>
+  <string name="mode_list">Lista</string>
+  <string name="mode_centered">Karty z wycentrowanym obrazem</string>
   <string name="mode_card">Karta</string>
+  <string name="mode_thumbnail">Tylko miniaturka</string>
+  <string name="mode_cropped">Duże zdjecie ucięte</string>
+  <string name="mode_bigpic">Duże zdjecie</string>
+  <string name="settings_sub_tabs_description">Przesuwanie między subredditami</string>
+  <string name="settings_sub_tabs">Zakładki subredditów</string>
+  <string name="settings_general_swipeanywhere_description">Przesuń z dowolnego miejsca by wyjść</string>
+  <string name="press_actionbar">Tapnij strzałkę, by pokazać pasek akcji</string>
+  <string name="tap_actionbar">Długie przyciśnięcie pokazuje action bar</string>
+  <string name="always_actionbar">Zawsze pokazuj pasek akcji</string>
+  <string name="sub_content_filter">Filtrowanie zawartości subredditów</string>
+  <string name="submission_share_reddit_url">Udostępnij komentarze</string>
+  <string name="filter_content">Filtruj tą zawartość</string>
+  <string name="settings_general_comment_last_visit">Pokazuj licznik komentarzy od ostatnich odwiedzin</string>
+  <string name="view_type_tabs">Zakładki subredditów</string>
+  <string name="btn_report">Zgłoś</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minutę temu</item>
     <item quantity="few">%d minuty temu</item>
@@ -522,4 +557,6 @@
     <item quantity="few">%d minuty</item>
     <item quantity="other">%d minut</item>
   </plurals>
+  <string name="action_settings">Ustawienia</string>
+  <string name="subreddit_name_tint">Nazwa subreddita</string>
 </resources>

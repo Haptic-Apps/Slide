@@ -125,4 +125,6 @@
   <!-- Website -->
   <!-- Reorder subreddit activity -->
   <!-- Time -->
+  <string name="btn_report">Ziņo</string>
+  <string name="action_settings">Iestatījumi</string>
 </resources>

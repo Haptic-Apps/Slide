@@ -58,6 +58,7 @@
   <!-- For editing the submission card layout -->
   <string name="card_actionbar">Barra de Ação visivel</string>
   <string name="card_picture">Imagem grande</string>
+  <string name="card_picture_cropped">Recortar a imagem completa</string>
   <string name="card_hide_post_button">Ocultar post</string>
   <string name="card_section_images">Imagens</string>
   <string name="card_section_actionbar">Barra de Ações</string>
@@ -75,6 +76,9 @@
   <string name="drawer_search">Pesquisar um subreddit</string>
   <string name="drawer_moderation">Moderação</string>
   <string name="drawer_sync_subs">Sincronize seus Subreddits</string>
+  <string name="drawer_account_switch_msg">Gostaria de mudar para esta conta ou remover esta conta?</string>
+  <string name="drawer_offline">O slide está no modo off-line</string>
+  <string name="drawer_offline_retry">Tente entrar no modo on-line</string>
   <!-- Sidebar items (That's the one on the right) -->
   <string name="sidebar_pinned">fixado</string>
   <string name="sidebar_wiki">Wiki</string>
@@ -194,6 +198,7 @@
   <string name="type_img">Imagem</string>
   <string name="type_vid">Vídeo</string>
   <string name="type_emb">Incorporado</string>
+  <string name="type_imgur">Conteúdo do Imgur</string>
   <!-- Reply to message -->
   <string name="mail_author_wrote">%1$s escreveu&#8230;</string>
   <string name="mail_hint_recipient">Destinatário</string>
@@ -225,8 +230,10 @@
   <string name="misc_continue">Continuar</string>
   <string name="misc_unsubscribed">Desinscrito</string>
   <string name="misc_no_more_posts">Sem mais posts!</string>
+  <string name="misc_please_wait">Aguarde, por favor&#8230;</string>
   <string name="misc_img_share">Compartilhar imagem com</string>
   <string name="misc_link_chooser">Abrir URL com</string>
+  <string name="misc_mark_read">Marcar como lido</string>
   <!-- Goto User -->
   <string name="user_enter">Digite o nome de usuário</string>
   <string name="user_btn_goto">Ir para o usuário</string>
@@ -360,7 +367,9 @@
   <string name="settings_font_comment">Fonte do comentário</string>
   <string name="settings_general_swipeanywhere">Deslize a partir de qualquer área</string>
   <string name="settings_general_alphabetical">Barra Lateral Alfabética</string>
+  <string name="settings_general_no_header">Ocultar o cabeçalho na gaveta</string>
   <string name="settings_link_chrome">Usar abas customizadas do Chrome</string>
+  <string name="settings_link_horizontal_album">Estilo horizontal de álbum</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_alternative_layout">Layout alternativo</string>
   <string name="settings_title_backup">Backup &amp; Restaurar</string>
@@ -417,12 +426,14 @@
   <string name="network_connected_msg">Gostaria de sair do modo offline?</string>
   <!-- Website -->
   <string name="website_back">Retornar</string>
+  <string name="website_external">Abrir em um navegador externo</string>
   <!-- Reorder subreddit activity -->
   <!-- Time -->
   <string name="time_just_now">agora mesmo</string>
   <string name="comment_load_more_number_unknown">Carregar mais comentários</string>
   <string name="submission_share_permalink">Compartilhar post</string>
   <string name="mode_card">Cartão</string>
+  <string name="btn_report">Reporte</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuto atrás</item>
     <item quantity="other">%d minutos atrás</item>
@@ -443,4 +454,5 @@
     <item quantity="one">%d minuto</item>
     <item quantity="other">%d minutos</item>
   </plurals>
+  <string name="action_settings">Configurações</string>
 </resources>

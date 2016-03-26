@@ -3,17 +3,21 @@
 <resources>
   <!-- Generic text used anywhere -->
   <string name="general_confirm_exit">Kilépés megerősítése</string>
-  <string name="general_confirm_exit_msg">Biztosan kilép a Slide-ból?</string>
+  <string name="general_confirm_exit_msg">Biztosan kilépsz a Slide-ból?</string>
   <string name="general_switch_acc">Fiók váltása</string>
+  <string name="general_enable_shadowbox">Árnyékdoboz mód</string>
+  <string name="general_pro_msg">Úgy döntöttem, hogy a Slide néhány funkcióját (például a többoszlopos módot) csak azok számára teszem elérhetővé, akik megvásárolják a Pro kulcsot a Play Áruházban.\n\nErre azért van szükség, hogy folytathassam a fejlesztést, és hogy továbbra se legyenek reklámok a Slide ingyenes verziójában.\n\nA Pro verzió tartalmazza a többoszlopos módot, az Árnyékdoboz módot (a képes alredditekhez) és a jövőben további funkciókat is tartalmazni fog.\n\nMeg szeretnéd vásárolni a Slide for Reddit Pro-t?</string>
   <string name="general_open_settings">Oldalsáv</string>
   <string name="general_sub_sync">Feliratkozások szinkronizálása</string>
   <string name="general_login">Bejelentkezés</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">A bejegyzés nincs elmentve</string>
   <string name="submission_info_saved">A bejegyzés elmentve</string>
+  <string name="submission_info_archived">Ez egy archivált bejegyzés. Nem szavazhatsz és nem szólhatsz hozzá.</string>
   <string name="submission_post_saved">Bejegyzés elmentve</string>
   <string name="submission_info_hidden">Bejegyzés örökre elrejtve.</string>
   <string name="submission_stickied">Rögzített</string>
+  <string name="submission_link_extern">Megnyitás külső alkalmazásban</string>
   <string name="submission_link_copy">URL másolása</string>
   <string name="submission_link_share">URL megosztása</string>
   <string name="submission_share_title">Melyik linket szeretnéd megosztani?</string>
@@ -44,6 +48,7 @@
   <string name="theme_dark_blue">Sötétkék</string>
   <string name="theme_default_color">Elsődleges szín</string>
   <string name="theme_subreddit_color">Szín módosítása</string>
+  <string name="theme_accent_color">Másodlagos szín</string>
   <string name="theme_base">Alaptéma</string>
   <string name="theme_card">Kártya</string>
   <!-- Font settings -->
@@ -53,19 +58,25 @@
   <string name="font_small">Kicsi</string>
   <!-- For editing the submission card layout -->
   <string name="card_picture">Nagy kép</string>
+  <string name="card_picture_cropped">Nagy képek levágása</string>
+  <string name="card_tint_background">A kártya háttérszíne egyezzen meg az alreddit színével</string>
+  <string name="card_tint_outside">Egyéni szín csak az alredditen kívül</string>
   <string name="card_section_images">Képek</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Több oszlop</string>
+  <string name="multi_column_landscape">Fekvő</string>
+  <string name="multi_column_portrait">Kettő oszlop álló módban</string>
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_profile">Profil</string>
-  <string name="drawer_goto_profile">Menj a profilra</string>
+  <string name="drawer_support">Pro megvásárlása</string>
+  <string name="drawer_goto_profile">Ugrás profilra</string>
   <string name="drawer_reorder_subs">Alredditek átrendezése</string>
   <string name="drawer_add_account">Fiók hozzáadása</string>
   <string name="drawer_hello">Helló,</string>
   <string name="drawer_change_account">Fiók váltása</string>
-  <string name="drawer_search">Ugrás subredditre</string>
+  <string name="drawer_search">Ugrás alredditre</string>
   <string name="drawer_moderation">Moderálás</string>
-  <string name="drawer_sync_subs">Subredditek szinkronizálása</string>
+  <string name="drawer_sync_subs">Alredditek szinkronizálása</string>
   <string name="drawer_account_switch">Váltás vagy törlés</string>
   <string name="drawer_account_switch_msg">Váltani szeretnél erre a fiókra vagy törölni szeretnéd ezt a fiókot?</string>
   <string name="drawer_offline">A Slide offline módban van</string>
@@ -86,23 +97,32 @@
   <string name="profile_karma_comment">Hozzászólás karma</string>
   <string name="profile_message">Privát üzenet</string>
   <string name="profile_saved">Mentve</string>
+  <string name="profile_upvoted">Felszavazott</string>
   <string name="profile_err_title">Felhasználó nem található</string>
   <string name="profile_overview">áttekintés</string>
-  <string name="profile_comments">hozzászólások</string>
+  <string name="profile_comments">Hozzászólások</string>
+  <string name="profile_submitted">Elküldött</string>
   <string name="profile_gilded">aranyozott</string>
+  <string name="profile_downvoted">Leszavazott</string>
+  <string name="profile_hidden">Elrejtett</string>
   <string name="profile_friend">Barát</string>
+  <string name="profile_add_friend">Barát hozzáadása</string>
+  <string name="profile_remove_friend">Barát törlése</string>
   <!-- Comment text options -->
   <string name="comment_gild">Hozzászólás aranyozása</string>
   <string name="comment_report">Hozzászólás jelentése</string>
   <string name="comment_share">Hozzászólás megosztása</string>
   <string name="comment_delete">Hozzászólás törlése</string>
+  <string name="comment_delete_msg">Tényleg törölni akarod ezt a hozzászólást? Ezt nem lehet visszavonni.</string>
+  <string name="comment_delete_err">Ajjaj, valami hiba történt.</string>
   <string name="comment_delete_err_msg">Meg szeretnéd próbálni újra?</string>
+  <string name="comment_unsave">Mentés visszavonása</string>
   <string name="comment_load_more">%1$d további betöltése</string>
   <string name="comment_loading_more">További hozzászólások betöltése&#8230;</string>
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Vágjunk bele</string>
   <string name="welcome_personalize">Személyre szabás</string>
-  <string name="welcome_finish">Útmutató</string>
+  <string name="welcome_finish">Útmutató elkezdése</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Válaszd ki egy rendezési módot</string>
   <string name="sorting_time_choose">Válaszd ki az időkeretet</string>
@@ -114,25 +134,45 @@
   <string name="sorting_old">Legrégebbi</string>
   <string name="sorting_controversial">Ellentmondásos</string>
   <string name="sorting_rising">Erősödő</string>
-  <string name="sorting_hour">Elmúlt óra</string>
+  <string name="sorting_hour">elmúlt óra</string>
   <string name="sorting_day">elmúlt 24 óra</string>
   <string name="sorting_week">múlt hét</string>
-  <string name="sorting_month">Elmúlt hónap</string>
+  <string name="sorting_month">elmúlt hónap</string>
   <string name="sorting_year">múlt év</string>
+  <string name="sorting_all">mindenkor</string>
   <!-- Editor (save/submit a post) actions -->
+  <string name="editor_url">URL</string>
   <string name="editor_text">Szöveg</string>
   <string name="editor_title_link">Link beillesztése</string>
   <string name="editor_action_link">BEILLESZTÉS</string>
   <string name="editor_title">Cím</string>
   <string name="editor_err_msg">Kérlek, próbáld újra egy kicsit később.</string>
   <string name="editor_uploading_image">Kép feltöltése az Imgurra</string>
+  <string name="editor_self">Önálló szöveg</string>
   <string name="editor_select_img">Kép kiválasztása</string>
   <string name="editor_hint_optional_body">Szöveg (nem kötelező)</string>
   <string name="editor_submit">Bejegyzés küldése</string>
+  <string name="editor_hint_subreddit">Alreddit</string>
   <!-- General information / information without a category -->
+  <string name="info_photo_saved">Kép elmentve</string>
+  <string name="info_connecting">Csatlakozás a Reddithez</string>
   <!-- General errors / errors without a category -->
+  <string name="err_network_title">Ajjaj, a Slide nem tudott csatlakozni a Reddithez!</string>
+  <string name="err_title">Ajjaj, valami hiba történt!</string>
+  <string name="err_network_msg">Kérlek, ellenőrizd az internetkapcsolatodat és próbáld újra!</string>
+  <string name="err_invalid_url">Érvénytelen webcím</string>
+  <string name="err_loading_content">Hiba történt a tartalom betöltése közben</string>
+  <string name="err_connection_lost">Ajjaj! Úgy tűnik, hogy megszakadt az internetkapcsolat. Kérlek, csatlakozz az internethez és menj vissza!</string>
+  <string name="err_general">Ajjaj, hiba történt</string>
+  <string name="err_no_connection">A Reddit nem érhető el. Újra szeretnéd próbálni?</string>
+  <string name="err_retry_later">Próbáld újra egy perc múlva!</string>
+  <string name="err_login">Ehhez be kell jelentkezned. Bejelentkezel most?</string>
+  <string name="err_permission">Hozzáférés megtagadva</string>
+  <string name="err_permission_msg">Úgy tűnik, megtagadtad a hozzáférést ahhoz, hogy a Slide a külső tárhelyre írhasson. Emiatt a képek, bejegyzések gyorsítótára és a képek mentése nem fog működni. :( \nSzeretnél hozzáférést adni a Slide-nak a külső tárhelyre való íráshoz?</string>
+  <string name="err_authentication">Sikertelen hitelesítés</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF nem található</string>
+  <string name="gif_err_msg">Hiba történt a GIF betöltése közben. Kérlek, nyisd meg újra a GIF-et és próbáld meg újra.</string>
   <string name="gif_saved">GIF elmentve</string>
   <!-- Pin infos -->
   <!-- Login strings -->
@@ -144,7 +184,16 @@
   <string name="multireddit_title_empty">A cím nem lehet üres</string>
   <string name="multireddit_title_empty_msg">Kérlek, add meg a multireddit címét</string>
   <string name="multireddit_no_subs">Egy alreddit sincs hozzáadva</string>
+  <string name="multireddit_no_subs_msg">Kérlek, válassz ki néhány alredditet a + gomb megnyomásával!</string>
+  <string name="multireddit_selector">Válaszd ki a hozzáadni kívánt alredditeket</string>
+  <string name="multireddit_create_hint">Multireddit neve</string>
+  <string name="multireddit_invalid_name">Érvénytelen multireddit név</string>
+  <string name="multireddit_invalid_name_msg">A multireddit nevek csak betűket, számokat és aláhúzásjeleket tartalmazhatnak.</string>
   <!-- Album errors/information -->
+  <string name="album_loading">Album betöltése</string>
+  <string name="album_err_not_found">Album nem található</string>
+  <string name="album_err_msg_not_found">Hiba történt az album betöltése közben. Kérlek, nyisd meg újra az albumot és próbáld újra. Ha a probléma továbbra is fennáll, kérlek, jelentsd be a GitHubon</string>
+  <string name="album_title_count">Galéria (%1$d kép)</string>
   <!-- Content types -->
   <string name="type_nsfw_img">Kifogásolható kép</string>
   <string name="type_nsfw_gif">Kifogásolható GIF</string>
@@ -158,6 +207,7 @@
   <string name="type_emb">Beágyazott</string>
   <string name="type_imgur">Imgur tartalom</string>
   <!-- Reply to message -->
+  <string name="mail_author_wrote">%1$s ezt írta&#8230;</string>
   <string name="mail_hint_recipient">Címzett</string>
   <string name="mail_hint_subject">Tárgy</string>
   <string name="mail_hint_body">Szöveg</string>
@@ -166,6 +216,8 @@
   <string name="mail_notification_msg">Új üzenet tőle: %1$s</string>
   <string name="mail_mod_notification_msg">Új modmail tőle: %1$s</string>
   <string name="mail_reply_to">Válasz neki: %1$s</string>
+  <string name="mail_notification_author">%1$s / %2$s</string>
+  <string name="mail_theirs">Eredeti üzenet megtekintése</string>
   <plurals name="mail_notification_title">
     <item quantity="one">%d új üzeneted van!</item>
     <item quantity="other">%d új üzeneted van!</item>
@@ -176,7 +228,7 @@
   </plurals>
   <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
   <string name="misc_err">Hiba</string>
-  <string name="misc_none">Semelyik</string>
+  <string name="misc_none">Egyik sem</string>
   <string name="misc_retry">Meg szeretnéd próbálni újra?</string>
   <string name="misc_score_hidden">rejtett pontszám</string>
   <string name="misc_you">te</string>
@@ -190,16 +242,41 @@
   <string name="misc_link_chooser">URL megnyitása ezzel</string>
   <string name="misc_mark_read">Megjelölés olvasottként</string>
   <!-- Goto User -->
-  <string name="user_enter">Add meg a felhasználónevedet</string>
+  <string name="user_enter">Add meg a felhasználónevet</string>
   <string name="user_btn_goto">Ugrás felhasználóra</string>
   <string name="user_invalid">Érvénytelen felhasználónév</string>
   <string name="user_invalid_msg">A Reddit felhasználónevek csak betűket, számokat, aláhúzás- és kötőjeleket tartalmazhatnak.</string>
   <!-- Buttons -->
   <string name="btn_add">Hozzáadás</string>
+  <string name="btn_cancel">Mégse</string>
+  <string name="btn_close">Bezár</string>
+  <string name="btn_discard">Elvet</string>
+  <string name="btn_done">Kész</string>
+  <string name="btn_go_back">Vissza</string>
+  <string name="btn_no_danks">Köszönöm, nem</string>
   <string name="btn_no">Nem</string>
+  <string name="btn_ok">OK</string>
+  <string name="btn_remove">Törlés</string>
+  <string name="btn_reply">Válasz</string>
+  <string name="btn_reset">Alaphelyzet</string>
+  <string name="btn_retry">Próbáld újra</string>
+  <string name="btn_save">Mentés</string>
+  <string name="btn_submit">Küldés</string>
+  <string name="btn_sure">Persze!</string>
+  <string name="btn_undo">Visszavonás</string>
   <string name="btn_yes">Igen</string>
+  <string name="btn_refresh">Frissítés</string>
+  <string name="btn_confirm">Megerősítés</string>
+  <string name="btn_delete">Törlés</string>
+  <string name="btn_switch">Váltás</string>
+  <string name="btn_time">Idő</string>
   <!-- Backup -->
+  <string name="backup_success">A mentés sikerült.</string>
+  <string name="backup_restoring">Beállításaid visszaállítása</string>
+  <string name="backup_backing_up">Beállításaid mentése</string>
   <string name="backup_restarting">Az alkalmazás most újraindul.</string>
+  <string name="backup_btn">Mentés</string>
+  <string name="backup_btn_restore">Visszaállítás</string>
   <!-- Vote -->
   <!-- Moderation tools -->
   <string name="mod_mark_nsfw">Biztosan meg szeretnéd jelölni ezt, mint kifogásolható tartalom?</string>
@@ -213,23 +290,47 @@
   <string name="wiki_err_msg">Ennek az alredditnek nincsen wikije!</string>
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d feliratkozó</string>
+  <string name="subreddit_err_msg">A(z) %1$s alreddit nem található. Talán elgépelted?</string>
   <string name="subreddit_err">Alreddit nem található</string>
   <string name="subreddit_chooser">Válassz egy alredditet</string>
   <!-- Search -->
   <string name="search_comments_hint">Hozzászólások keresése</string>
   <string name="search_goto">Ugrás</string>
+  <string name="search_hint">Keresési kifejezés</string>
   <string name="search_title">Keresés</string>
+  <string name="search_msg">Mit keresel?</string>
+  <string name="search_subreddit">%1$s keresése</string>
   <!-- Captcha -->
   <!-- Settings -->
+  <string name="settings_reddit_prefs">Reddit beállítások</string>
+  <string name="settings_accent_title">Másodlagos szín módosítása</string>
+  <string name="settings_card_mode">Kártya mód</string>
+  <string name="settings_link_browser">Belső böngésző</string>
+  <string name="settings_link_handling">Linkek kezelése</string>
+  <string name="settings_single_mode">Alreddit fülek\nAlredditek közötti váltás húzással</string>
+  <string name="settings_confirm_exit">Kilépést megerősítő párbeszédablak</string>
+  <string name="settings_floating_action_button">Lebegő akciógomb</string>
+  <string name="settings_floating_action_button_visible">Lebegő akciógomb mutatása</string>
+  <string name="share_link">Link megosztása</string>
+  <string name="posts_hidden_forever">Örökre elrejtett bejegyzések</string>
   <string name="share_image">Kép megosztása</string>
+  <string name="settings_libs">Nyílt forrású könyvtárak</string>
   <string name="settings_bugs">Hibajelentés</string>
+  <string name="settings_changelog">Változások megtekintése</string>
+  <string name="settings_google">Csatlakozás a Google-hoz</string>
+  <string name="settings_google_msg">A Slide csatlakozni a Google-hoz. Próbáld újra néhány másodperc múlva!</string>
+  <string name="settings_notifdisabled">Értesítések letiltva.</string>
+  <string name="settings_filter_selfttext">Önálló szöveg szűrők</string>
   <string name="settings_font_post">Bejegyzéscím betűtípusa</string>
   <string name="settings_font_comment">Hozzászólás betűtípusa</string>
   <string name="settings_general_blur_thumbs">Alacsony minőségű előnézetek elrejtése</string>
+  <string name="settings_general_scroll_read">Bejegyzések megjelölése olvasottként továbbgörgetéskor</string>
+  <string name="settings_link_chrome">Egyéni Chrome lapok használata</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_default_theme">Alaptéma</string>
   <string name="settings_title_general">Általános</string>
   <string name="settings_title_notifications">Értesítések</string>
+  <string name="settings_title_pro">Pro megvásárlása</string>
   <string name="settings_title_sub_theme">Alreddit témák</string>
   <string name="settings_title_sorting">Alapértelmezett rendezés</string>
   <string name="settings_title_support">Támogatás</string>
@@ -240,13 +341,14 @@
   <string name="settings_title_caching">Gyorsítótár beállítások</string>
   <string name="settings_title_cache">Gyorsítótár</string>
   <string name="settings_title_auto">Automatikus téma</string>
-  <string name="settings_title_comments">hozzászólások</string>
+  <string name="settings_title_comments">Hozzászólások</string>
   <string name="settings_title_filter">Szűrők</string>
   <string name="settings_title_font">Betűtípus</string>
   <string name="settings_title_other">Egyebek</string>
   <string name="settings_section_support">Támogatás</string>
   <string name="settings_section_general">Általános</string>
   <!-- Titles displayed in action bar / head / recents overview-->
+  <string name="title_subreddit_settings">Alreddit témák &amp; elrendezések</string>
   <string name="title_edit_theme">Téma szerkesztése</string>
   <string name="title_submit_post">Bejegyzés küldése</string>
   <string name="title_settings">Beállítások</string>
@@ -255,16 +357,41 @@
   <string name="title_login">Bejelentkezés a Redditbe</string>
   <string name="title_reorder_subs">Alredditek átrendezése</string>
   <string name="title_multireddits">Multiredditek</string>
-  <string name="title_inbox">Üzenetek</string>
+  <string name="title_inbox">Beérkező</string>
   <string name="title_theme_settings">Téma</string>
   <string name="title_create_multi">Multireddit létrehozása</string>
   <string name="title_mod">Moderátor</string>
   <!-- Text in Donation-Activity -->
+  <string name="donate_btn">Adományozás</string>
+  <string name="donate_amount_ads1">Megment</string>
+  <string name="donate_amount_ads2">hirdetést a megjelenéstől</string>
+  <string name="donate_amount_hours1">Támogat</string>
+  <string name="donate_amount_hours2">órányi fejlesztést</string>
+  <string name="donate_title">Támogasd a Slide for Redditet</string>
+  <string name="donate_err_title">Sikertelen adományozás :(</string>
+  <string name="donate_err_msg">Sajnos, az adományozás nem sikerült. Ellenőrizd, hogy csatlakozva vagy az internethez és próbáld újra! Köszönöm a támogatásodat!</string>
+  <string name="donate_success_title">Sikeres adományozás!</string>
+  <string name="donate_success_msg">Köszönöm szépen, hogy támogattad a Slide for Redditet! Ez tényleg sokat jelent nekem. Ha bármilyen problémába ütközöl, dobj egy emailt vagy jelentsd be GitHubon bármikor.</string>
   <!-- Offline mode -->
+  <string name="offline_caching">Bejegyzések gyorsítótárazása</string>
+  <string name="offline_msg">Ehhez csatlakozz az internethez és frissítsd az alredditet</string>
+  <string name="offline_drawer_info">A Slide offline módban van. Csatlakozz az internethez, hogy az összes tartalmat lásd!</string>
+  <string name="offline_last_update">Utoljára frissítve: %1$s</string>
   <!-- Website -->
+  <string name="website_back">Vissza</string>
+  <string name="website_external">Megnyitás külső böngészőben</string>
   <!-- Reorder subreddit activity -->
+  <string name="reorder_subreddits_title">Válaszd ki a hozzáadni kívánt alredditet</string>
+  <string name="reorder_add_subreddit">Válassz egy alredditet</string>
+  <string name="reorder_subreddit_name">Alreddit neve</string>
+  <string name="reorder_remove_title">Eltávolítod ezt az alredditet?</string>
+  <string name="reorder_remove_msg">Nem iratkozol le erről az alredditről, de nem lesz látható az oldalsávodban!</string>
   <!-- Time -->
   <string name="time_just_now">épp most</string>
+  <string name="color_sync_complete">Szinkronizálás befejezve</string>
+  <string name="color_sync_colored">" alreddit lett beszínezve"</string>
+  <string name="comment_load_more_number_unknown">További hozzászólások betöltése</string>
+  <string name="settings_comment_color">Hozzászólásszálak jelölése színekkel</string>
   <string name="settings_synccit_remove">SYNCCIT LECSATLAKOZTATÁSA</string>
   <string name="settings_synccit_auth">Hitelesítő kód</string>
   <string name="settings_synccit_username">Felhasználónév</string>
@@ -286,11 +413,24 @@
   <string name="change_theme">Témaváltás</string>
   <string name="setting_filter_subreddits">Alreddit szűrők</string>
   <string name="subreddit_theme">Alreddit téma</string>
+  <string name="dialog_choose_subreddits_to_edit">Válaszd ki a szerkesztendő alredditeket</string>
+  <string name="fab_hide">Megtekintett bejegyzések elrejtése</string>
   <string name="fab_create">Új bejegyzés létrehozása</string>
+  <string name="fab_disabled">Letiltva</string>
   <string name="handling_internal_browser">Belső böngésző használata</string>
   <string name="handling_external_browser">Külső böngésző használata</string>
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Kártya középre igazított képpel</string>
   <string name="mode_card">Kártya</string>
   <string name="mode_thumbnail">Csak bélyegkép</string>
+  <string name="settings_sub_tabs_description">Alredditek közötti váltás húzással</string>
+  <string name="settings_sub_tabs">Alreddit fülek</string>
+  <string name="sub_content_filter">Alreddit tartalomszűrő</string>
+  <string name="submission_share_reddit_url">Hozzászólások megosztása</string>
+  <string name="filter_content">E tartalom szűrése</string>
+  <string name="settings_general_comment_last_visit">A legutóbbi látogatás utáni hozzászólások számának mutatása</string>
+  <string name="view_type_tabs">Alreddit fülek</string>
+  <string name="btn_report">Jelentés</string>
+  <string name="action_settings">Beállítások</string>
+  <string name="subreddit_name_tint">Alreddit neve</string>
 </resources>

@@ -240,6 +240,7 @@
   <!-- Time -->
   <string name="submission_share_permalink">Compartir post</string>
   <string name="mode_card">Targeta</string>
+  <string name="btn_report">Informar</string>
   <plurals name="time_days_ago">
     <item quantity="one">ahir</item>
     <item quantity="other">fa %d dies</item>

@@ -480,6 +480,7 @@
   <string name="reorder_sync_complete">Sincronizzazione completata</string>
   <string name="submission_share_permalink">Condividi post</string>
   <string name="mode_card">Card</string>
+  <string name="btn_report">Segnala</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuto fa</item>
     <item quantity="other">%d minuti fa</item>
@@ -500,4 +501,6 @@
     <item quantity="one">%d minuto</item>
     <item quantity="other">%d minuti</item>
   </plurals>
+  <string name="action_settings">Impostazioni</string>
+  <string name="subreddit_name_tint">Nome subreddit</string>
 </resources>

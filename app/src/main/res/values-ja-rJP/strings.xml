@@ -504,7 +504,6 @@
   <string name="handling_internal_browser">内部ブラウザーを使用する</string>
   <string name="handling_external_browser">外部ブラウザーを使用する</string>
   <string name="settings_fastscroll_description">ナビゲーション矢印と下部のバーを有効にします</string>
-  <string name="settings_comment_crop_description">メイン 画面のトリミングした設定から分離します</string>
   <string name="settings_comment_collapse">コメントを完全に折りたたむ</string>
   <string name="settings_comment_collapse_description">コメントのアニメーションも無効にします</string>
   <string name="mode_list">リスト</string>
@@ -519,6 +518,12 @@
   <string name="press_actionbar">矢印を押してアクションバーを表示します</string>
   <string name="tap_actionbar">アクションバーの長押し</string>
   <string name="always_actionbar">常にアクションバーを表示</string>
+  <string name="sub_content_filter">Subreddit コンテンツ フィルター</string>
+  <string name="submission_share_reddit_url">コメントを共有</string>
+  <string name="filter_content">このコンテンツをフィルタ リング</string>
+  <string name="settings_general_comment_last_visit">前回訪問してからのコメント数を表示</string>
+  <string name="view_type_tabs">Subreddit タブ</string>
+  <string name="btn_report">報告する</string>
   <plurals name="time_minutes_ago">
     <item quantity="other">%d 分前</item>
   </plurals>
@@ -534,4 +539,6 @@
   <plurals name="time_minutes">
     <item quantity="other">%d 分</item>
   </plurals>
+  <string name="action_settings">設定</string>
+  <string name="subreddit_name_tint">Subreddit 名</string>
 </resources>

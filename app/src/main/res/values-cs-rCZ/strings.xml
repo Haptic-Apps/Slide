@@ -361,6 +361,7 @@
   <string name="time_just_now">právě teď</string>
   <string name="submission_share_permalink">Sdílet příspěvek</string>
   <string name="mode_card">Karta</string>
+  <string name="btn_report">Nahlásit</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">před %d minutou</item>
     <item quantity="few">před %d minutami</item>
@@ -386,4 +387,5 @@
     <item quantity="few">%d minut</item>
     <item quantity="other">%d minut</item>
   </plurals>
+  <string name="action_settings">Nastavení</string>
 </resources>

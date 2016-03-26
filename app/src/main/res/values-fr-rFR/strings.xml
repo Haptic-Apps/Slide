@@ -508,7 +508,6 @@
   <string name="handling_internal_browser">Utiliser le navigateur web intégré</string>
   <string name="handling_external_browser">Visionner dans un navigateur externe</string>
   <string name="settings_fastscroll_description">Permet une barre en bas avec les flèches de navigation</string>
-  <string name="settings_comment_crop_description">Séparer des paramètres de rognage en vue principale</string>
   <string name="settings_comment_collapse">Complètement cacher les commentaires</string>
   <string name="settings_comment_collapse_description">Désactive également les animations de commentaire</string>
   <string name="mode_list">Liste</string>
@@ -523,6 +522,8 @@
   <string name="press_actionbar">Appuyez sur la flèche pour montrer la barre d\'action</string>
   <string name="tap_actionbar">Appui long sur la barre d\'action</string>
   <string name="always_actionbar">Toujours afficher la barre d\'action</string>
+  <string name="view_type_tabs">Tableaux subreddit</string>
+  <string name="btn_report">Rapport</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">il y a %d minute</item>
     <item quantity="other">il y a %d minutes</item>
@@ -543,4 +544,6 @@
     <item quantity="one">%d minute</item>
     <item quantity="other">%d minutes</item>
   </plurals>
+  <string name="action_settings">Paramètres</string>
+  <string name="subreddit_name_tint">Nom de la subreddit</string>
 </resources>

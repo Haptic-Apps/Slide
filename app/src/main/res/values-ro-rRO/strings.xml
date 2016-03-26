@@ -498,6 +498,7 @@
   <string name="submission_share_permalink">Distribuiți postarea</string>
   <string name="submission_share_content_url">Distribuie URL-ul conținutului</string>
   <string name="mode_card">Card</string>
+  <string name="btn_report">Reportează</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">Acum %d minut</item>
     <item quantity="few">Acum %d minute</item>
@@ -523,4 +524,6 @@
     <item quantity="few">%d minute</item>
     <item quantity="other">%d minute</item>
   </plurals>
+  <string name="action_settings">Setări</string>
+  <string name="subreddit_name_tint">Numele subreddit-ului</string>
 </resources>

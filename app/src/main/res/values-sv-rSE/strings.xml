@@ -450,6 +450,7 @@
   <string name="time_just_now">just nu</string>
   <string name="submission_share_permalink">Dela inlägg</string>
   <string name="mode_card">Kort</string>
+  <string name="btn_report">Rapportera</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minut sedan</item>
     <item quantity="other">%d minuter sedan</item>
@@ -470,4 +471,5 @@
     <item quantity="one">%d minut</item>
     <item quantity="other">%d minuter</item>
   </plurals>
+  <string name="action_settings">Inställningar</string>
 </resources>

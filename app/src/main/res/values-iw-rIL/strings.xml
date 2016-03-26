@@ -150,4 +150,5 @@
   <!-- Time -->
   <string name="submission_share_permalink">שתף פוסט</string>
   <string name="mode_card">קלף</string>
+  <string name="btn_report">דיווח</string>
 </resources>

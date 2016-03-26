@@ -133,6 +133,7 @@
   <string name="welcome_finish">Empezar tutorial</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Elige un tipo de clasificación</string>
+  <string name="sorting_time_choose">Elegir un marco de tiempo</string>
   <string name="sorting_change_sorting">Cambia la clasificación del Post</string>
   <string name="sorting_best">Mejor</string>
   <string name="sorting_top">Top</string>
@@ -493,7 +494,39 @@
   <string name="card_right_thumb">Vista previa a la derecha</string>
   <string name="submission_share_permalink">Compartir post</string>
   <string name="submission_share_content_url">Compartir URL del contenido</string>
+  <string name="change_theme">Cambiar tema</string>
+  <string name="setting_filter_subreddits">Filtros de Subreddit</string>
+  <string name="subreddit_theme">Tema de Subreddit</string>
+  <string name="btn_select">Seleccionar</string>
+  <string name="dialog_choose_subreddits_to_edit">Elige subreddits a editar</string>
+  <string name="dialog_color_sync_title">Sincronización de color</string>
+  <string name="dialog_color_sync_message">Esto intentará usar el \'color clave\' del subreddit elegido por los moderadores. No sobreescribirá subreddits ya coloreados.</string>
+  <string name="fab_hide">Ocultar posts vistos</string>
+  <string name="fab_create">Crear un nuevo post</string>
+  <string name="fab_disabled">Deshabilitado</string>
+  <string name="handling_internal_browser">Usar navegador web interno</string>
+  <string name="handling_external_browser">Usar navegador web externo</string>
+  <string name="settings_fastscroll_description">Habilita una barra inferior con flechas de navegación</string>
+  <string name="settings_comment_collapse">Colapsar los comentarios completamente</string>
+  <string name="settings_comment_collapse_description">También desactiva animaciones de comentarios</string>
+  <string name="mode_list">Lista</string>
+  <string name="mode_centered">Tarjeta con imagen centrada</string>
   <string name="mode_card">Tarjeta</string>
+  <string name="mode_thumbnail">Sólo miniatura</string>
+  <string name="mode_cropped">Gran imagen recortada</string>
+  <string name="mode_bigpic">Gran imagen</string>
+  <string name="settings_sub_tabs_description">Desliza entre subreddits</string>
+  <string name="settings_sub_tabs">Pestañas de subreddits</string>
+  <string name="settings_general_swipeanywhere_description">Deslize en cualquier parte para salir</string>
+  <string name="press_actionbar">Pulsar la flecha para mostrar la actionbar</string>
+  <string name="tap_actionbar">Pulsación larga para Actionbar</string>
+  <string name="always_actionbar">Siempre mostrar la ActionBar</string>
+  <string name="sub_content_filter">Filtro de contenido en Subreddit</string>
+  <string name="submission_share_reddit_url">Compartir comentarios</string>
+  <string name="filter_content">Filtrar este contenido</string>
+  <string name="settings_general_comment_last_visit">Mostrar número de comentarios desde la última visita</string>
+  <string name="view_type_tabs">Pestañas de subreddits</string>
+  <string name="btn_report">Reportar</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">Hace %d minuto</item>
     <item quantity="other">Hace %d minutos</item>
@@ -514,4 +547,6 @@
     <item quantity="one">%d minuto</item>
     <item quantity="other">%d minutos</item>
   </plurals>
+  <string name="action_settings">Configuración</string>
+  <string name="subreddit_name_tint">Nombre del subreddit</string>
 </resources>

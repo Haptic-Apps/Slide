@@ -442,6 +442,7 @@
   <string name="reorder_sync_complete">Synchronisation abgeschlossen</string>
   <string name="submission_share_permalink">Beitrag teilen</string>
   <string name="mode_card">Karte</string>
+  <string name="btn_report">Melden</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">vor einer Minute</item>
     <item quantity="other">vor %d Minuten</item>
@@ -462,4 +463,6 @@
     <item quantity="one">%d Minute</item>
     <item quantity="other">%d Minuten</item>
   </plurals>
+  <string name="action_settings">Einstellungen</string>
+  <string name="subreddit_name_tint">Subreddit-Name</string>
 </resources>

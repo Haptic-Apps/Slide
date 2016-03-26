@@ -198,6 +198,7 @@
   <string name="time_just_now">ĵus</string>
   <string name="submission_share_permalink">Konigi afiŝon</string>
   <string name="mode_card">Karto</string>
+  <string name="btn_report">Raporti</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuto antaŭe</item>
     <item quantity="other">%d minutoj antaŭe</item>
@@ -218,4 +219,5 @@
     <item quantity="one">%d minuto</item>
     <item quantity="other">%d minutoj</item>
   </plurals>
+  <string name="action_settings">Agordoj</string>
 </resources>
