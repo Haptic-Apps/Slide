@@ -26,6 +26,8 @@ public class OpenRedditLinkTest {
     public void testLinkType_Wiki() {
         assertThat(OpenRedditLink.getRedditLinkType(
                 shortUrl("https://www.reddit.com/r/Android/wiki/index")), is(RedditLinkType.WIKI));
+        assertThat(OpenRedditLink.getRedditLinkType(
+                shortUrl("https://ww.reddit.com/r/Android/help")), is(RedditLinkType.WIKI));
     }
 
     @Test
@@ -86,5 +88,12 @@ public class OpenRedditLinkTest {
     @Test
     public void testUrlFormatter_Subreddit() {
         assertThat(shortUrl("/r/android"), is("reddit.com/r/android"));
+    }
+
+    @Test
+    public void testURLFormatter_Wiki() {
+        assertThat(shortUrl("https://reddit.com/help"), is("reddit.com/r/reddit.com/wiki"));
+        assertThat(shortUrl("https://reddit.com/help/registration"), is("reddit.com/r/reddit.com/wiki/registration"));
+        assertThat(shortUrl("https://www.reddit.com/r/android/wiki/index"), is("reddit.com/r/android/wiki/index"));
     }
 }

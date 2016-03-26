@@ -311,7 +311,7 @@ public class OpenRedditLink {
         // Strip unused prefixes that don't require special handling
         url = url.replaceFirst("(?i)^(https?://)?(www\\.)?((ssl|pay)\\.)?", "");
 
-        if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com[a-z0-9-_/?=&]*.*")) { // tests for subdomain
+        if (url.matches("(?i)[a-z0-9-_]+\\.reddit\\.com.*")) { // tests for subdomain
             String subdomain = url.split("\\.", 2)[0];
             String domainRegex = "(?i)" + subdomain + "\\.reddit\\.com";
             if (subdomain.equalsIgnoreCase("np")) {
@@ -335,6 +335,11 @@ public class OpenRedditLink {
         if (url.startsWith("/")) url = "reddit.com" + url;
         if (url.endsWith("/")) url = url.substring(0, url.length() - 1);
 
+        // Converts links such as reddit.com/help to reddit.com/r/reddit.com/wiki
+        if (url.matches("(?i)[^/]++/(?>wiki|help)(?>$|/.*)")) {
+            url = url.replaceFirst("(?i)/(?>wiki|help)", "/r/reddit.com/wiki");
+        }
+
         return url;
     }
 
@@ -348,25 +353,25 @@ public class OpenRedditLink {
         if (url.matches("(?i)redd\\.it/\\w+")) {
             // Redd.it link. Format: redd.it/post_id
             return RedditLinkType.SHORTENED;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/wiki.*")) {
+        } else if (url.matches("(?i)reddit\\.com(?:/r/[a-z0-9-_.]+)?/(?:wiki|help).*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
             return RedditLinkType.WIKI;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/w.*")) {
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/w.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
             return RedditLinkType.WIKI;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/search.*")) {
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/search.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/search?q= [optional]
             return RedditLinkType.SEARCH;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+/\\w*/.*")) {
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/comments/\\w+/\\w*/.*")) {
             // Permalink to comments. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [can be empty]/$comment_id
             return RedditLinkType.COMMENT_PERMALINK;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+/comments/\\w+.*")) {
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/comments/\\w+.*")) {
             // Submission. Format: reddit.com/r/$subreddit/comments/$post_id/$post_title [optional]
             return RedditLinkType.SUBMISSION;
         } else if (url.matches("(?i)reddit\\.com/comments/\\w+.*")) {
             // Submission without a given subreddit. Format: reddit.com/comments/$post_id/$post_title [optional]
             return RedditLinkType.SUBMISSION_WITHOUT_SUB;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_]+.*")) {
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+.*")) {
             // Subreddit. Format: reddit.com/r/$subreddit/$sort [optional]
             return RedditLinkType.SUBREDDIT;
         } else if (url.matches("(?i)reddit\\.com/u(ser)?/[a-z0-9-_]+.*")) {
