@@ -142,7 +142,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Submission color tinting mode"
+                        android:text="@string/settings_theme_tinting"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -189,7 +189,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:text="Only color background in multis, frontpage, and all"
+                        android:text="@string/settings_theme_tint_outside_desc"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>

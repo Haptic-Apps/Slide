@@ -316,7 +316,7 @@
 
     <android.support.v7.widget.SwitchCompat
         android:layout_width="match_parent"
-        android:text="Send replies to inbox"
+        android:text="@string/submit_replies_to_inbox"
         android:layout_alignParentBottom="true"
         android:checked="true"
         android:layout_marginBottom="16dp"

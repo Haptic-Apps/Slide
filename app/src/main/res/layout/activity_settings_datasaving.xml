@@ -41,7 +41,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Load low quality images"
+                        android:text="@string/settings_data_low_quality"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:text="Otherwise, always open hq image"
+                        android:text="@string/settings_data_lowqaul_desc"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>

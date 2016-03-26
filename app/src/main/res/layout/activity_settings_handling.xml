@@ -42,7 +42,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Web browser"
+                        android:text="@string/handling_browser"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -212,7 +212,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Force external browser"
+                        android:text="@string/settings_links_force_external"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -220,7 +220,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:text="Choose domains that will always open externally"
+                        android:text="@string/settings_links_force_external_desc"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>

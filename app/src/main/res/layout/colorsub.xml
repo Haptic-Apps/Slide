@@ -105,7 +105,7 @@
             </LinearLayout>
             <android.support.v7.widget.SwitchCompat
                 android:layout_width="match_parent"
-                android:text="Always show big pictures in this subreddit"
+                android:text="@string/settings_subredditspecific_bigpic"
                 android:id="@+id/bigpics"
                 android:padding="18dp"
                 android:layout_height="wrap_content" />

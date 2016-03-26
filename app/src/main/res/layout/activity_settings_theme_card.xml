@@ -73,7 +73,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="View mode"
+                            android:text="@string/settings_layout_view"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
 
@@ -113,7 +113,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Picture mode"
+                            android:text="@string/settings_layout_picture_mode"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
 
@@ -153,7 +153,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Actionbar mode"
+                            android:text="@string/settings_layout_actionbar_mode"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
 
@@ -192,7 +192,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Smaller content tag"
+                            android:text="@string/settings_layout_small_content_tag"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
 
@@ -235,7 +235,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Show domain in info line"
+                            android:text="@string/settings_layout_show_domain"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
 

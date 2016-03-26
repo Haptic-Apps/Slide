@@ -10,7 +10,7 @@
         android:layout_height="match_parent"/>
     <TextView
         android:layout_width="wrap_content"
-        android:text="Swipe navigation"
+        android:text="@string/tutorial_swipe_navigation"
         android:textColor="#fff"
         android:textSize="26sp"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         />
     <TextView
         android:layout_width="wrap_content"
-        android:text="Swipe from the left edge to exit.\n\nThis applies to images, gifs, albums, settings, and more!"
+        android:text="@string/tutorial_swipe_description"
         android:textColor="#b6ffffff"
         android:textSize="18sp"
         android:id="@+id/subtitle"

@@ -46,7 +46,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Swap long press and tap actions"
+                        android:text="@string/settings_comments_swap_long"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -140,13 +140,7 @@
                         android:text="@string/settings_comment_crop"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:text="@string/settings_comment_crop_description"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp" />
+
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat

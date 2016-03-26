@@ -41,7 +41,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View type"
+                        android:text="@string/settings_view_type"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -127,7 +127,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Expanded toolbar menu"
+                        android:text="@string/settings_general_expanded_toolbar"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -135,7 +135,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:text="Show more options on the subreddit toolbar"
+                        android:text="@string/settings_general_expanded_toolbar_desc"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -333,7 +333,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Force English language"
+                        android:text="@string/settings_general_force_en"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -341,7 +341,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:text="Applies everywhere"
+                        android:text="@string/settings_general_force_en_desc"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>

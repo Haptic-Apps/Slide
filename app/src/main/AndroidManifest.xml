@@ -248,7 +248,6 @@
         <activity
             android:name=".Activities.SettingsHistory"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_settings_history"
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.CreateMulti"

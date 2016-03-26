@@ -65,7 +65,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="I'm 18 and want to see NSFW content"
+                        android:text="@string/settings_redditprefs_over18"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -150,7 +150,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Thumbnail mode"
+                        android:text="@string/settings_reddit_thumbnail_mode"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 

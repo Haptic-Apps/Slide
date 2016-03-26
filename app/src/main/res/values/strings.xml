@@ -420,8 +420,8 @@
     <string name="settings_swap_actions">Swap tap and long press actions in comments</string>
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
     <string name="settings_disable_nsfw">Hide all NSFW posts</string>
-    <string name="settings_store_history">Store history</string>
-    <string name="settings_store_nsfw_history">Store NSFW history</string>
+    <string name="settings_store_history">Save history</string>
+    <string name="settings_store_nsfw_history">Save NSFW history</string>
     <string name="settings_confirm_exit">Confirm exit dialog</string>
     <string name="settings_fastscroll">Navigate between parent comments</string>
     <string name="settings_floating_action_button">Floating action button</string>
@@ -588,7 +588,6 @@
     <string name="handling_internal_browser">Use internal browser</string>
     <string name="handling_external_browser">Use external browser</string>
     <string name="settings_fastscroll_description">Enables a bottom bar with nav arrows</string>
-    <string name="settings_comment_crop_description">Separate from cropped setting on main view</string>
     <string name="settings_comment_collapse">Fully collapse comments</string>
     <string name="settings_comment_collapse_description">Also disables comment animations</string>
     <string name="mode_list">List</string>
@@ -608,7 +607,7 @@
     <string name="filter_content">Filter this content</string>
     <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
     <string name="error_video_not_found">Video not found</string>
-    <string name="error_video_message">An error occured while loading this video</string>
+    <string name="error_video_message">An error occurred while loading this video</string>
     <string name="view_type_tabs">Subreddit tabs</string>
     <string name="view_type_none">No subreddit tabs</string>
     <string name="view_type_comments">Comment pane</string>
@@ -642,12 +641,10 @@
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
-    <string name="title_activity_settings_history">SettingsHistory</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="btn_mods">moderators</string>
-    <string name="datasave_always">Mobile data and WiFi</string>
+    <string name="btn_mods">Moderators</string>
+    <string name="datasave_always">Mobile data and Wi-Fi</string>
     <string name="datasave_mobile">Mobile data</string>
     <string name="never">Never</string>
     <string name="multi_column_force_full">Force full comment view</string>
@@ -658,5 +655,30 @@
     <string name="login_failed_err_decline">Be sure you didn\'t select \'Decline\' on the last screen, and try again in a minute</string>
     <string name="thumb_type_always">Always show</string>
     <string name="thumb_type_off">Never show</string>
-    <string name="thumb_type_sub">Show per sub settings</string>
+    <string name="thumb_type_sub">Show per subreddit settings</string>
+    <string name="tutorial_swipe_navigation">Swipe navigation</string>
+    <string name="tutorial_swipe_description">Swipe from the left edge to exit.\n\nThis applies to images, gifs, albums, settings, and more!</string>
+    <string name="settings_data_low_quality">Load low quality images</string>
+    <string name="settings_view_type">View type</string>
+    <string name="handling_browser">Web browser</string>
+    <string name="settings_comments_swap_long">Swap long press and tap actions</string>
+    <string name="settings_redditprefs_over18">I am over 18 and want to see NSFW content</string>
+    <string name="settings_layout_view">View mode</string>
+    <string name="settings_data_lowqaul_desc">Otherwise, always open high quality images</string>
+    <string name="settings_subredditspecific_bigpic">Always show big pictures in this subreddit</string>
+    <string name="settings_layout_picture_mode">Picture mode</string>
+    <string name="settings_general_expanded_toolbar">Expanded toolbar menu</string>
+    <string name="settings_general_expanded_toolbar_desc">Show more options on the subreddit toolbar</string>
+    <string name="settings_theme_tinting">Submission color tinting mode</string>
+    <string name="settings_reddit_thumbnail_mode">Thumbnail mode</string>
+    <string name="settings_layout_actionbar_mode">Actionbar mode</string>
+    <string name="settings_theme_tint_outside_desc">Only color background in multireddits, frontpage, and all</string>
+    <string name="settings_layout_small_content_tag">Smaller content tag</string>
+    <string name="settings_links_force_external">Force external browser</string>
+    <string name="settings_links_force_external_desc">Choose domains that will always open externally</string>
+    <string name="settings_layout_show_domain">Show domain in info line</string>
+    <string name="profile_tag_user">Tag user</string>
+    <string name="submit_replies_to_inbox">Send replies to inbox</string>
+    <string name="discover_title">Discover</string>
+    <string name="settings_data">Data saving</string>
 </resources>

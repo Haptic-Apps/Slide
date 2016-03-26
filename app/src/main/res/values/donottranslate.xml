@@ -1,5 +1,7 @@
 <resources>
 
+    <string name="hello_world">Hello world!</string>
+
     <!-- Text for the example submissions
          Used in the edit card view screen  -->
     <string name="example_domain">imgur</string>
@@ -22,6 +24,8 @@
     <string name="settings_font_condensed_light">Condensed Light</string>
     <string name="settings_font_slab_light">Slab Light</string>
     <string name="settings_font_light">Light</string>
+    <string name="settings_general_force_en">Force English language</string>
+    <string name="settings_general_force_en_desc">Applies everywhere</string>
 
 
     <!-- Useful strings displayed at startup -->

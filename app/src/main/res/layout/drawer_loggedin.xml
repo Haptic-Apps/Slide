@@ -383,7 +383,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
 
-            android:text="Discover"
+            android:text="@string/discover_title"
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
