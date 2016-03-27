@@ -61,6 +61,17 @@ public class ContentType {
         return (url.contains("imgur") && !isGif(url) && !isAlbum(url));
     }
 
+    /**
+     * Returns whether or not the url in question is an Imgur image
+     * This method differs from isImgurLink() in the sense that the url only needs to contain
+     * "imgur" and not be a gif or album to return true
+     * @param url of submission content
+     * @return whether or not this is an Imgur image
+     */
+    private static boolean isImgurImage(String url) {
+        return (url.contains("imgur") && !isGif(url) && !isAlbum(url));
+    }
+
     public static String getFixedUrlThumb(String s2) {
         String s = s2;
         if (s == null || s.isEmpty()) {
