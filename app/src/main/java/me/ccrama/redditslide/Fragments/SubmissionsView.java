@@ -242,8 +242,13 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getContext()));
 
-        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(104, getContext()), Reddit.pxToDp(140, getContext()));
-
+        int headerHeight = getActivity().findViewById(R.id.header).getMeasuredHeight();
+        if (headerHeight == 0) {
+            headerHeight = 334; //default is rather large height to compensate for a header with tabs
+        }
+        mSwipeRefreshLayout.setProgressViewOffset(false,
+                headerHeight - Reddit.pxToDp(42, getContext()),
+                headerHeight + Reddit.pxToDp(42, getContext()));
 
         if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
