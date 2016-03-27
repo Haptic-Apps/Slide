@@ -35,6 +35,17 @@ public class ContentType {
     }
 
     /**
+     * Returns whether or not the url in question is an Imgur image
+     * This method differs from isImgurLink() in the sense that the url needs to be an Imgur domain,
+     * and not a GIF or an album
+     * @param url of submission content
+     * @return whether or not this is an Imgur image
+     */
+    private static boolean isImgurImage(String url) {
+        return (isDomain(url, "imgur.com") && !isGif(url) && !isAlbum(url));
+    }
+
+    /**
      * Check if the provided URL encompasses the domain - e.g. https://i.imgur.com/
      *
      * @param url URL to check for the presence of a domain
@@ -117,22 +128,22 @@ public class ContentType {
             if (isAlbum(url)) {
                 return ImageType.ALBUM;
             }
-            if (isImgurLink(url)) {
-                if (url.contains("?") && (url.contains(".png") || url.contains(".gif") || url.contains(".jpg"))) {
-                    url = url.substring(0, url.lastIndexOf("?"));
-                    return getImageType(url);
-                }
-                return ImageType.IMGUR;
-            }
             if (!s.isNsfw()) {
-
-
-
+                if (isImgurLink(url)) {
+                    if (url.contains("?") && (url.contains(".png") || url.contains(".gif") || url.contains(".jpg"))) {
+                        url = url.substring(0, url.lastIndexOf("?"));
+                        return getImageType(url);
+                    }
+                    return ImageType.IMGUR;
+                }
 
                 switch (t) {
                     case DEFAULT:
                         if (isAlbum(url)) {
                             return ImageType.ALBUM;
+                        }
+                        if (isImgurImage(url)) {
+                            return ImageType.IMGUR;
                         }
                         if (isImage(url) && !url.contains("gif")) {
                             return ImageType.IMAGE;
@@ -162,6 +173,9 @@ public class ContentType {
                         if (isAlbum(url)) {
                             return ImageType.ALBUM;
                         }
+                        if (isImgurImage(url)) {
+                            return ImageType.IMGUR;
+                        }
                         if (isImage(url) && !url.contains("gif")) {
                             return ImageType.IMAGE;
                         } else if (isGif(url)) {
@@ -178,7 +192,7 @@ public class ContentType {
                 }
             } else {
                 //if the submission is NSFW
-                if (isImage(url) && !url.contains("gif")) {
+                if ((isImage(url) && !url.contains("gif")) || isImgurLink(url) || isImgurImage(url)) {
                     return ImageType.NSFW_IMAGE;
                 } else if (isGif(url)) {
                     if (isDomain(url, "gfycat.com"))
