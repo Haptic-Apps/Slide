@@ -234,7 +234,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 } else {
                                     new MaterialDialog.Builder(ReorderSubreddits.this)
                                             .title(R.string.reorder_add_subreddit)
-                                            .inputRangeRes(2, 20, R.color.md_red_500)
+                                            .inputRangeRes(2, 21, R.color.md_red_500)
                                             .alwaysCallInputCallback()
                                             .input(getString(R.string.reorder_subreddit_name), null, false, new MaterialDialog.InputCallback() {
                                                 @Override
