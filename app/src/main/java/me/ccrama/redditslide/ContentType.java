@@ -53,10 +53,12 @@ public class ContentType {
      * @return True if the URL encompasses the domain
      */
     public static Boolean isDomain(String url, String domain) {
+        if (!url.matches("\\w+://.*")) url = "https://" + url;
+
         try {
             URI uri = new URI(url);
             return uri.getHost().endsWith(domain);
-        } catch (URISyntaxException e) {
+        } catch (URISyntaxException|NullPointerException e) {
             return false;
         }
     }
