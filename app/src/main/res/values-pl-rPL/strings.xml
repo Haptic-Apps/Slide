@@ -523,6 +523,8 @@
   <string name="settings_sub_tabs_description">Przesuwanie między subredditami</string>
   <string name="settings_sub_tabs">Zakładki subredditów</string>
   <string name="settings_general_swipeanywhere_description">Przesuń z dowolnego miejsca, by wyjść</string>
+  <string name="error_video_not_found">Nie znaleziono filmu</string>
+  <string name="error_video_message">Wystąpił błąd podczas ładowania filmu</string>
   <string name="press_actionbar">Tapnij strzałkę, by pokazać pasek akcji</string>
   <string name="tap_actionbar">Długie przyciśnięcie pokazuje action bar</string>
   <string name="always_actionbar">Zawsze pokazuj pasek akcji</string>
