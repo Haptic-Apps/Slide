@@ -79,7 +79,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Load lower quality image if possible"
+                        android:text="@string/settings_data_lowqaul"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 

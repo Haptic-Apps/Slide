@@ -339,7 +339,8 @@
     <string name="backup_info">Slide backs up all your data to a private Google Drive folder. You can sync this data across devices (or to the same device), and your data never goes through a third-party service or server.</string>
     <string name="backup_btn">Backup</string>
     <string name="backup_btn_restore">Restore</string>
-
+    <string name="backup_btn_file">Backup to file</string>
+    <string name="backup_btn_restore_file">Restore from file</string>
 
     <!-- Vote -->
     <string name="vote_err">Error casting vote!</string>
@@ -665,6 +666,7 @@
     <string name="settings_redditprefs_over18">I am over 18 and want to see NSFW content</string>
     <string name="settings_layout_view">View mode</string>
     <string name="settings_data_lowqaul_desc">Otherwise, always open high quality images</string>
+    <string name="settings_data_lowqaul">Load lower quality image if possible</string>
     <string name="settings_subredditspecific_bigpic">Always show big pictures in this subreddit</string>
     <string name="settings_layout_picture_mode">Picture mode</string>
     <string name="settings_general_expanded_toolbar">Expanded toolbar menu</string>
