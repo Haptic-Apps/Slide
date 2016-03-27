@@ -4,6 +4,9 @@ import android.util.Log;
 
 import net.dean.jraw.models.Submission;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -12,7 +15,7 @@ import me.ccrama.redditslide.util.LogUtil;
 public class ContentType {
 
     public static boolean isGif(String s) {
-        return (s.endsWith(".gif") || s.contains("gfycat.com") || s.endsWith(".webm") || s.endsWith(".mp4") || s.endsWith(".gifv"));
+        return (isDomain(s, "gfycat.com") || s.endsWith(".gif") || s.endsWith(".webm") || s.endsWith(".mp4") || s.endsWith(".gifv"));
     }
 
     public static boolean isImage(String s) {
@@ -20,15 +23,31 @@ public class ContentType {
     }
 
     public static boolean isAlbum(String s) {
-        return (s.contains("imgur") && (s.contains("/a/")) || (s.contains("imgur") && (s.contains("gallery") || s.contains("/g/")) ));
+        return (isDomain(s, "imgur.com") && (s.contains("/a/") || s.contains("gallery") || s.contains("/g/")));
     }
 
     public static boolean isRedditLink(String url) {
-        return (url.contains("reddit.com") || url.contains("redd.it")) && !url.contains("/wiki") && !url.contains("reddit.com/live");
+        return (isDomain(url, "reddit.com") || isDomain(url, "redd.it")) && !url.contains("/wiki") && !url.contains("reddit.com/live");
     }
 
     public static boolean isImgurLink(String url) {
-        return (url.contains("imgur") && !isImage(url) && !isGif(url) && !isAlbum(url));
+        return (isDomain(url, "imgur.com") && !isImage(url) && !isGif(url) && !isAlbum(url));
+    }
+
+    /**
+     * Check if the provided URL encompasses the domain - e.g. https://i.imgur.com/
+     *
+     * @param url URL to check for the presence of a domain
+     * @param domain the domain to check against
+     * @return True if the URL encompasses the domain
+     */
+    public static Boolean isDomain(String url, String domain) {
+        try {
+            URI uri = new URI(url);
+            return uri.getHost().endsWith(domain);
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 
     public static String getFixedUrlThumb(String s2) {
@@ -36,7 +55,7 @@ public class ContentType {
         if (s == null || s.isEmpty()) {
             return "";
         }
-        if (s.contains("imgur") && !s.contains(".jpg")) {
+        if (isDomain(s, "imgur.com") && !s.contains(".jpg")) {
             String hash = s.substring(s.lastIndexOf("/"), s.length());
             s = "http://i.imgur.com/" + hash + "m.jpg";
         }
@@ -81,15 +100,15 @@ public class ContentType {
             if (url.startsWith("/") && !url.startsWith("//")) {
                 url = "reddit.com" + url;
             } else {
-                url = url.replace("//", "https://");
+                url = url.replaceFirst("^//", "https://");
             }
-            if (s.getUrl().contains("reddit.com") || s.getUrl().contains("redd.it")) {
+            if (isDomain(url, "reddit.com") || isDomain(url, "redd.it")) {
                 return ImageType.REDDIT;
             }
-            if (s.getUrl().contains("streamable.com")) {
+            if (isDomain(url, "streamable.com")) {
                 return ImageType.STREAMABLE;
             }
-            if (!s.getUrl().contains("youtube.co") && !s.getUrl().contains("youtu.be") && s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
+            if (isDomain(url, "youtube.co") && !isDomain(url, "youtu.be") && s.getDataNode().has("media_embed") && s.getDataNode().get("media_embed").has("content") && !isAlbum(url) && !isImage(url) && !isGif(url)) {
                 return ImageType.EMBEDDED;
             }
 
@@ -116,7 +135,7 @@ public class ContentType {
                         if (isImage(url) && !url.contains("gif")) {
                             return ImageType.IMAGE;
                         } else if (isGif(url)) {
-                            if (url.contains("gfy"))
+                            if (isDomain(url, "gfycat.com"))
                                 return ImageType.GFY;
                             return ImageType.GIF;
                         } else {
@@ -129,7 +148,7 @@ public class ContentType {
                         if (isImage(url) && !url.contains("gif")) {
                             return ImageType.NONE_IMAGE;
                         } else if (isGif(url)) {
-                            if (url.contains("gfy"))
+                            if (isDomain(url, "gfycat.com"))
                                 return ImageType.NONE_GFY;
                             return ImageType.NONE_GIF;
                         } else if (!url.isEmpty()) {
@@ -144,7 +163,7 @@ public class ContentType {
                         if (isImage(url) && !url.contains("gif")) {
                             return ImageType.IMAGE;
                         } else if (isGif(url)) {
-                            if (url.contains("gfy"))
+                            if (isDomain(url, "gfycat.com"))
                                 return ImageType.GFY;
                             return ImageType.GIF;
                         } else if (!url.isEmpty()) {
@@ -160,7 +179,7 @@ public class ContentType {
                 if (isImage(url) && !url.contains("gif")) {
                     return ImageType.NSFW_IMAGE;
                 } else if (isGif(url)) {
-                    if (url.contains("gfy"))
+                    if (isDomain(url, "gfycat.com"))
                         return ImageType.NSFW_GFY;
                     return ImageType.NSFW_GIF;
                 } else {
@@ -191,18 +210,20 @@ public class ContentType {
     }
 
     public static ImageType getImageType(String url) {
-        if (!url.startsWith("//") && url.equals("#s") || url.equals("/s")  || url.equals("#spoilers")||url.equals("/spoiler") || url.equals("/sp") || url.equals("#sp")|| (url.startsWith("/") && url.length() < 4)) {
+        if (!url.startsWith("//") && url.equals("#s") || url.equals("#spoilers")
+                || url.equals("/spoiler") || url.equals("#sp")
+                || (url.startsWith("/") && url.length() < 4)) {
             return ImageType.SPOILER;
         }
         if (url.startsWith("/") && !url.startsWith("//")) {
             url = "reddit.com" + url;
         } else {
-            url = url.replace("//", "https://");
+            url = url.replaceFirst("^//", "https://");
         }
         if (isRedditLink(url)) {
             return ImageType.REDDIT;
         }
-        if(url.contains("streamable.com")){
+        if(isDomain(url, "streamable.com")){
             return ImageType.STREAMABLE;
         }
         if(isImgurLink(url)){
