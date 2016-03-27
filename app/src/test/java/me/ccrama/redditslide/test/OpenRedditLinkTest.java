@@ -11,89 +11,107 @@ import static org.junit.Assert.assertThat;
 
 public class OpenRedditLinkTest {
 
-    //Less characters
-    private String shortUrl(String url) {
+    // Less characters
+    private String formatURL(String url) {
         return OpenRedditLink.formatRedditUrl(url);
     }
-
-    @Test
-    public void testLinkType_Shortened() {
-        assertThat(OpenRedditLink.getRedditLinkType(
-                shortUrl("https://redd.it/eorhm/")), is(RedditLinkType.SHORTENED));
+    private OpenRedditLink.RedditLinkType getType(String url) {
+        return OpenRedditLink.getRedditLinkType(url);
     }
 
     @Test
-    public void testLinkType_Wiki() {
-        assertThat(OpenRedditLink.getRedditLinkType(
-                shortUrl("https://www.reddit.com/r/Android/wiki/index")), is(RedditLinkType.WIKI));
-        assertThat(OpenRedditLink.getRedditLinkType(
-                shortUrl("https://ww.reddit.com/r/Android/help")), is(RedditLinkType.WIKI));
+    public void detectsShortened() {
+        assertThat(getType(formatURL("https://redd.it/eorhm/")), is(RedditLinkType.SHORTENED));
     }
 
     @Test
-    public void testLinkType_Comment() {
-        assertThat(OpenRedditLink.getRedditLinkType(
-                        shortUrl("https://www.reddit.com/r/announcements/comments/eorhm/reddit_30_less_typing/c19qk6j")),
+    public void detectsWiki() {
+        assertThat(getType(formatURL("https://www.reddit.com/r/Android/wiki/index")), is(RedditLinkType.WIKI));
+        assertThat(getType(formatURL("https://www.reddit.com/r/Android/help")), is(RedditLinkType.WIKI));
+        assertThat(getType(formatURL("https://reddit.com/help")), is(RedditLinkType.WIKI));
+    }
+
+    @Test
+    public void detectsComment() {
+        assertThat(getType(formatURL("https://www.reddit.com/r/announcements/comments/eorhm/reddit_30_less_typing/c19qk6j")),
+                is(RedditLinkType.COMMENT_PERMALINK));
+        assertThat(getType(formatURL("https://www.reddit.com/r/announcements/comments/eorhm//c19qk6j")),
                 is(RedditLinkType.COMMENT_PERMALINK));
     }
 
     @Test
-    public void testLinkType_Submission() {
-        assertThat(OpenRedditLink.getRedditLinkType(
-                        shortUrl("https://www.reddit.com/r/announcements/comments/eorhm/reddit_30_less_typing/")),
+    public void detectsSubmission() {
+        assertThat(getType(formatURL("https://www.reddit.com/r/announcements/comments/eorhm/reddit_30_less_typing/")),
                 is(RedditLinkType.SUBMISSION));
     }
 
     @Test
-    public void testLinkType_SubmissionWithoutSub() {
-        assertThat(OpenRedditLink.getRedditLinkType(
-                        shortUrl("https://www.reddit.com/comments/eorhm/reddit_30_less_typing/")),
+    public void detectsSubmissionWithoutSub() {
+        assertThat(getType(formatURL("https://www.reddit.com/comments/eorhm/reddit_30_less_typing/")),
                 is(RedditLinkType.SUBMISSION_WITHOUT_SUB));
     }
 
     @Test
-    public void testLinkType_Subreddit() {
-        assertThat(OpenRedditLink.getRedditLinkType(
-                shortUrl("https://www.reddit.com/r/android")), is(RedditLinkType.SUBREDDIT));
+    public void detectsSubreddit() {
+        assertThat(getType(formatURL("https://www.reddit.com/r/android")), is(RedditLinkType.SUBREDDIT));
     }
 
     @Test
-    public void testLinkType_User() {
-        assertThat(OpenRedditLink.getRedditLinkType(
-                shortUrl("https://www.reddit.com/u/l3d00m")), is(RedditLinkType.USER));
+    public void detectsSearch() {
+//        assertThat(getType(formatURL("https://www.reddit.com/search?q=test")),
+//                is(RedditLinkType.SEARCH));
+        assertThat(getType(formatURL("https://www.reddit.com/r/Android/search?q=test&restrict_sr=on&sort=relevance&t=all")),
+                is(RedditLinkType.SEARCH));
     }
 
     @Test
-    public void testLinkType_Other() {
-        assertThat(OpenRedditLink.getRedditLinkType(
-                shortUrl("https://www.reddit.com/live/wbjbjba8zrl6")), is(RedditLinkType.OTHER));
-    }
-
-
-    @Test
-    public void testUrlFormatter_Basic() {
-        assertThat(shortUrl("https://www.reddit.com/live/wbjbjba8zrl6"), is("reddit.com/live/wbjbjba8zrl6"));
+    public void detectsUser() {
+        assertThat(getType(formatURL("https://www.reddit.com/u/l3d00m")), is(RedditLinkType.USER));
     }
 
     @Test
-    public void testUrlFormatter_Np() {
-        assertThat(shortUrl("https://np.reddit.com/live/wbjbjba8zrl6"), is("npreddit.com/live/wbjbjba8zrl6"));
+    public void detectsOther() {
+        assertThat(getType(formatURL("https://www.reddit.com/live/wbjbjba8zrl6")), is(RedditLinkType.OTHER));
     }
 
     @Test
-    public void testUrlFormatter_Prefix() {
-        assertThat(shortUrl("https://blog.reddit.com/"), is(""));
+    public void formatsBasic() {
+        assertThat(formatURL("https://www.reddit.com/live/wbjbjba8zrl6"), is("reddit.com/live/wbjbjba8zrl6"));
     }
 
     @Test
-    public void testUrlFormatter_Subreddit() {
-        assertThat(shortUrl("/r/android"), is("reddit.com/r/android"));
+    public void formatsNp() {
+        assertThat(formatURL("https://np.reddit.com/live/wbjbjba8zrl6"), is("npreddit.com/live/wbjbjba8zrl6"));
     }
 
     @Test
-    public void testURLFormatter_Wiki() {
-        assertThat(shortUrl("https://reddit.com/help"), is("reddit.com/r/reddit.com/wiki"));
-        assertThat(shortUrl("https://reddit.com/help/registration"), is("reddit.com/r/reddit.com/wiki/registration"));
-        assertThat(shortUrl("https://www.reddit.com/r/android/wiki/index"), is("reddit.com/r/android/wiki/index"));
+    public void formatsSubdomains() {
+        assertThat(formatURL("https://beta.reddit.com/"), is(""));
+        assertThat(formatURL("https://blog.reddit.com/"), is(""));
+        assertThat(formatURL("https://code.reddit.com/"), is(""));
+        assertThat(formatURL("https://store.reddit.com/"), is(""));
+        assertThat(formatURL("https://pay.reddit.com/"), is("reddit.com"));
+        assertThat(formatURL("https://ssl.reddit.com/"), is("reddit.com"));
+        assertThat(formatURL("https://en-gb.reddit.com/"), is("reddit.com"));
+        assertThat(formatURL("https://us.reddit.com/"), is("reddit.com"));
+    }
+
+    @Test
+    public void formatsSubreddit() {
+        assertThat(formatURL("/r/android"), is("reddit.com/r/android"));
+        assertThat(formatURL("https://android.reddit.com"), is("reddit.com/r/android"));
+    }
+
+    @Test
+    public void formatsWiki() {
+        assertThat(formatURL("https://reddit.com/help"), is("reddit.com/r/reddit.com/wiki"));
+        assertThat(formatURL("https://reddit.com/help/registration"), is("reddit.com/r/reddit.com/wiki/registration"));
+        assertThat(formatURL("https://www.reddit.com/r/android/wiki/index"), is("reddit.com/r/android/wiki/index"));
+    }
+
+    @Test
+    public void formatsProtocol() {
+        assertThat(formatURL("http://reddit.com"), is("reddit.com"));
+        assertThat(formatURL("https://reddit.com"), is("reddit.com"));
     }
 }
