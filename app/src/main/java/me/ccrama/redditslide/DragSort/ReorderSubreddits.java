@@ -122,23 +122,29 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                     @Override
                     protected void onPostExecute(ArrayList<String> newSubs) {
-
                         d.dismiss();
+                        // Determine if we should insert subreddits at the end of the list or sorted
+                        boolean sorted = (subs.equals(SubredditStorage.sortNoExtras(subs)));
+
                         for (String s : newSubs) {
                             if (!subs.contains(s)) {
                                 done++;
                                 subs.add(s);
-
                             }
-
                         }
-                        adapter.notifyDataSetChanged();
+                        if (sorted && done > 0) {
+                            subs = SubredditStorage.sortNoExtras(subs);
+                            adapter = new CustomAdapter(subs);
+                            recyclerView.setAdapter(adapter);
+                        } else if (done > 0) {
+                            adapter.notifyDataSetChanged();
+                            recyclerView.smoothScrollToPosition(subs.size());
+                        }
                         new AlertDialogWrapper.Builder(ReorderSubreddits.this)
                                 .setTitle(R.string.reorder_sync_complete)
                                 .setMessage(done + getString(R.string.reorder_subs_added))
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .show();
-                        recyclerView.setAdapter(adapter);
                     }
                 }.execute();
 
@@ -329,9 +335,18 @@ public class ReorderSubreddits extends BaseActivityAnim {
         @Override
         public void onPostExecute(Subreddit subreddit) {
             if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("all") || input.equalsIgnoreCase("frontpage") || input.equalsIgnoreCase("mod")) {
-                subs.add(input);
-                adapter.notifyDataSetChanged();
-                recyclerView.smoothScrollToPosition(subs.size());
+                ArrayList<String> sortedSubs = SubredditStorage.sortNoExtras(subs);
+
+                if (sortedSubs.equals(subs)) {
+                    subs.add(input);
+                    subs = SubredditStorage.sortNoExtras(subs);
+                    adapter = new CustomAdapter(subs);
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    subs.add(input);
+                    adapter.notifyDataSetChanged();
+                    recyclerView.smoothScrollToPosition(subs.size());
+                }
             }
         }
 
