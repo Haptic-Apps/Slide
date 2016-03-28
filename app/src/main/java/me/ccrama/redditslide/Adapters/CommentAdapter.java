@@ -726,10 +726,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (hiddenPersons.contains(comment.getFullName())) {
                 holder.children.setVisibility(View.VISIBLE);
                 holder.childrenNumber.setText("+" + getChildNumber(baseNode));
-                if (SettingValues.collapseComments) {
-                    holder.firstTextView.setVisibility(View.GONE);
-                    holder.commentOverflow.setVisibility(View.GONE);
-                }
             } else {
                 holder.children.setVisibility(View.GONE);
                 holder.firstTextView.setVisibility(View.VISIBLE);
