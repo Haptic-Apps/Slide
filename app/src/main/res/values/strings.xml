@@ -611,7 +611,7 @@
     <string name="view_type_tabs">Subreddit tabs</string>
     <string name="view_type_none">No subreddit tabs</string>
     <string name="view_type_comments">Comment pane</string>
-    <string name="btn_collapse_parent_all">Collapse parent comments</string>
+    <string name="btn_collapse_children_all">Collapse children comments</string>
     <string name="btn_open_content">Open content</string>
     <string name="btn_report">Report</string>
     <string name="input_reason_for_report">Reason for reporting</string>
