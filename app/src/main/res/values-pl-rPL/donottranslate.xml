@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Fonts display in settings -->
+    <string name="settings_font_condensed">Skondensowana</string>
+    <string name="settings_font_condensed_light">Lekka skondensowana</string>
+    <string name="settings_font_light">Lekka</string>
+    <string name="settings_font_regular">Zwykła</string>
+    <string name="settings_font_slab">Spłaszczona</string>
+    <string name="settings_font_slab_light">Lekka spłaszczona</string>
+
+    <!-- Strings not yet on Crowdin -->
+
+    <string name="backup_btn_file">Zapisz do pliku</string>
+    <string name="backup_btn_restore_file">Przywróć z pliku</string>
+    <string name="settings_data_lowqaul">Ładuj obrazy w niższej jakości gdy możliwe</string>
+    <string name="submit_replies_to_inbox">Informuj o odpowiedziach</string>
+
+</resources>
