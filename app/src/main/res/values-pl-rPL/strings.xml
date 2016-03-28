@@ -606,7 +606,6 @@
   <string name="settings_links_force_external_desc">Wybierz domeny, które będą otwierane zewnętrznie</string>
   <string name="settings_layout_show_domain">Pokazuj domenę</string>
   <string name="profile_tag_user">Otaguj użytkownika</string>
-  <string name="submit_replies_to_inbox">Informuj o odpowiedziach</string>
   <string name="discover_title">Odkrywaj</string>
   <string name="settings_data">Oszczędzanie danych</string>
 </resources>
