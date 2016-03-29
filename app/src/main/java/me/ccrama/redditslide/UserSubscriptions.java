@@ -270,7 +270,7 @@ public class UserSubscriptions {
         String history = subscriptions.getString("history", "");
         if (!history.contains(s)) {
             history += (history.contains(",") ? "," : "" + s);
-            subscriptions.edit().putString("history", history);
+            subscriptions.edit().putString("history", history).apply();
         }
     }
 

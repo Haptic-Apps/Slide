@@ -210,6 +210,11 @@ public class MainActivity extends BaseActivity {
             LogUtil.v("Intent 1");
             super.onActivityResult(requestCode, resultCode, data);
         }
+      /* todo  if(resultCode == 4 && UserSubscriptions.hasChanged){
+            UserSubscriptions.hasChanged = false;
+            sideArrayAdapter.setSideItems(UserSubscriptions.getAllSubreddits(this));
+            sideArrayAdapter.notifyDataSetChanged();
+        }*/
     }
 
     @Override
