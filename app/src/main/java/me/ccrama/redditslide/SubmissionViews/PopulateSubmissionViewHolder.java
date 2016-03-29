@@ -422,7 +422,7 @@ public class PopulateSubmissionViewHolder {
                                                     Hidden.setHidden(t);
 
                                                     if (baseSub != null) {
-                                                        OfflineSubreddit.getSubreddit(baseSub).hide(submission);
+                                                        OfflineSubreddit.getSubreddit(baseSub).hide(pos);
                                                     }
 
                                                     recyclerview.getAdapter().notifyItemRemoved(pos + 1);
@@ -477,7 +477,7 @@ public class PopulateSubmissionViewHolder {
                                 final OfflineSubreddit s;
                                 if (baseSub != null) {
                                     s = OfflineSubreddit.getSubreddit(baseSub);
-                                    s.hide(submission);
+                                    s.hide(pos);
                                 } else {
                                     s = null;
                                 }
@@ -1501,13 +1501,12 @@ public class PopulateSubmissionViewHolder {
                                 final OfflineSubreddit s;
                                 if (baseSub != null) {
                                     s = OfflineSubreddit.getSubreddit(baseSub);
-                                    s.hide(submission);
+                                    s.hide(pos);
                                 } else {
                                     s = null;
                                 }
 
                                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
-                                recyclerview.getAdapter().notifyItemChanged(pos + 2);
 
 
                                 Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
