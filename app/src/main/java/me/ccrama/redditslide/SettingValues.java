@@ -40,6 +40,7 @@ public class SettingValues {
     public static final String PREF_COMMENT_LAST_VISIT = "commentLastVisit";
     public static final String PREF_COMMENT_PAGER = "commentPager";
     public static final String PREF_COLLAPSE_COMMENTS = "collapseCOmments";
+    public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
     public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
     public static final String PREF_CROP_IMAGE = "cropImage";
     public static final String PREF_SWITCH_THUMB = "switchThumb";
@@ -113,6 +114,7 @@ public class SettingValues {
     public static boolean cropImage;
     public static boolean smallTag;
     public static boolean collapseComments;
+    public static boolean collapseCommentsDefault;
 
     public static String synccitName;
     public static String synccitAuth;
@@ -173,6 +175,8 @@ public class SettingValues {
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
+        collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
+
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);
         loadImageLq = prefs.getBoolean(PREF_IMAGE_LQ, false);

@@ -8,6 +8,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 
 public class SettingsComments extends BaseActivityAnim {
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -58,6 +59,18 @@ public class SettingsComments extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.collapseComments = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_COMMENTS, isChecked).apply();
+
+                }
+            });
+        }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.collapse_comments_default);
+            single.setChecked(SettingValues.collapseCommentsDefault);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.collapseCommentsDefault = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_COMMENTS_DEFAULT, isChecked).apply();
 
                 }
             });

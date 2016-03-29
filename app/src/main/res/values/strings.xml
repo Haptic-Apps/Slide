@@ -591,6 +591,7 @@
     <string name="settings_fastscroll_description">Enables a bottom bar with nav arrows</string>
     <string name="settings_comment_collapse">Fully collapse comments</string>
     <string name="settings_comment_collapse_description">Also disables comment animations</string>
+    <string name="settings_comment_collapse_default">Collapse children comments by default</string>
     <string name="mode_list">List</string>
     <string name="mode_centered">Card with centered image</string>
     <string name="mode_card">Card</string>
