@@ -180,7 +180,7 @@ public class MainActivity extends BaseActivity {
                 scrollToTabAfterLayout(current);
             }
         } else if (requestCode == 423 && resultCode == RESULT_OK) {
-            ((CommentPage) ((OverviewPagerAdapterComment) adapter).mCurrentComments).doResult(data);
+            ((OverviewPagerAdapterComment) adapter).mCurrentComments.doResult(data);
         } else if (requestCode == RESET_THEME_RESULT) {
             restartTheme();
         } else if (requestCode == 940) {
@@ -431,7 +431,7 @@ public class MainActivity extends BaseActivity {
 
     public void updateSubs(ArrayList<String> subs) {
         if (loader != null) {
-            findViewById(R.id.header).setVisibility(View.VISIBLE);
+            header.setVisibility(View.VISIBLE);
 
             setDataSet(subs);
 
@@ -659,7 +659,7 @@ public class MainActivity extends BaseActivity {
 
     public void updateColor(int color, String subreddit) {
         hea.setBackgroundColor(color);
-        findViewById(R.id.header).setBackgroundColor(color);
+        header.setBackgroundColor(color);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Palette.getDarkerColor(color));
@@ -692,7 +692,7 @@ public class MainActivity extends BaseActivity {
             doSubSidebar(usedArray.get(0));
             if (toGoto == -1) toGoto = 0;
 
-            findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0)));
+            header.setBackgroundColor(Palette.getColor(usedArray.get(0)));
             if (hea != null)
                 hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
             if (!SettingValues.single) {
@@ -1514,7 +1514,7 @@ public class MainActivity extends BaseActivity {
 
                     int color = Palette.getColor(subToDo);
                     hea.setBackgroundColor(color);
-                    findViewById(R.id.header).setBackgroundColor(color);
+                    header.setBackgroundColor(color);
                     themeSystemBars(subToDo);
                     setRecentBar(subToDo);
 
@@ -1955,9 +1955,9 @@ public class MainActivity extends BaseActivity {
             if (SettingValues.commentNav) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_VOLUME_UP:
-                        return ((CommentPage) ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments).onKeyDown(keyCode);
+                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(keyCode);
                     case KeyEvent.KEYCODE_VOLUME_DOWN:
-                        return ((CommentPage) ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments).onKeyDown(keyCode);
+                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(keyCode);
                     default:
                         return super.dispatchKeyEvent(event);
                 }
@@ -1991,7 +1991,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onPageSelected(final int position) {
-                    findViewById(R.id.header).animate()
+                    header.animate()
                             .translationY(0)
                             .setInterpolator(new LinearInterpolator())
                             .setDuration(180);

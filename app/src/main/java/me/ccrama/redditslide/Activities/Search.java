@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -241,7 +242,15 @@ public class Search extends BaseActivityAnim {
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
-        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, Search.this), Reddit.pxToDp(92, Search.this));
+        //48dp is the standard height of the toolbar
+        //This will convert 48dp to px
+        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
+        float headerHeight = 48 * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+
+        mSwipeRefreshLayout.setProgressViewOffset(false,
+                (int) headerHeight - Reddit.pxToDp(42, Search.this),
+                (int) headerHeight + Reddit.pxToDp(42, Search.this));
+
 
         mSwipeRefreshLayout.post(new Runnable() {
             @Override

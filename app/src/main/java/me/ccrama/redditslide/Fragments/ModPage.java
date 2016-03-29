@@ -43,7 +43,12 @@ public class ModPage extends Fragment {
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getActivity()));
 
-        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(104, getContext()), Reddit.pxToDp(140, getContext()));
+        //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
+        //334 is large enough to account for a view with tabs on the toolbar
+        int headerHeight = 334;
+        mSwipeRefreshLayout.setProgressViewOffset(false,
+                headerHeight - Reddit.pxToDp(42, getContext()),
+                headerHeight + Reddit.pxToDp(42, getContext()));
 
         mSwipeRefreshLayout.post(new Runnable() {
             @Override

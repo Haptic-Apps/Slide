@@ -183,7 +183,9 @@ public class CommentPage extends Fragment {
         header.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
 
-        mSwipeRefreshLayout.setProgressViewOffset(false, headerHeight, headerHeight + Reddit.pxToDp(40, getActivity()));
+        mSwipeRefreshLayout.setProgressViewOffset(false,
+                headerHeight - Reddit.pxToDp(42, getActivity()),
+                headerHeight + Reddit.pxToDp(42, getActivity()));
 
     }
 

@@ -250,9 +250,13 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getContext()));
 
+        //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
+        //334 is large enough to account for a view with tabs on the toolbar.
+        //SubmissionsView is different in the sense that if the subreddit is changed, then
+        //headerHeight will be correct. This value is only incorrect on a cold start.
         int headerHeight = getActivity().findViewById(R.id.header).getMeasuredHeight();
         if (headerHeight == 0) {
-            headerHeight = 334; //default is rather large height to compensate for a header with tabs
+            headerHeight = 334;
         }
         mSwipeRefreshLayout.setProgressViewOffset(false,
                 headerHeight - Reddit.pxToDp(42, getContext()),

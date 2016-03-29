@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.DisplayMetrics;
 
 import net.dean.jraw.models.Submission;
 
@@ -92,7 +93,14 @@ public class SingleView extends BaseActivityAnim implements SubmissionDisplay {
         });
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
-        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, SingleView.this), Reddit.pxToDp(92, SingleView.this));
+        //48dp is the standard height of the toolbar
+        //This will convert 48dp to px
+        DisplayMetrics metrics = this.getResources().getDisplayMetrics();
+        float headerHeight = 48 * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+
+        mSwipeRefreshLayout.setProgressViewOffset(false,
+                (int) headerHeight - Reddit.pxToDp(42, SingleView.this),
+                (int) headerHeight + Reddit.pxToDp(42, SingleView.this));
 
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
