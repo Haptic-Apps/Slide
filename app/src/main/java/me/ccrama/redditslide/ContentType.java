@@ -118,6 +118,9 @@ public class ContentType {
             if (isDomain(url, "reddit.com") || isDomain(url, "redd.it")) {
                 return ImageType.REDDIT;
             }
+            if(isDomain(url, "deviantart.com")){
+                return ImageType.DEVIANTART;
+            }
             if (isDomain(url, "streamable.com")) {
                 return ImageType.STREAMABLE;
             }
@@ -236,6 +239,9 @@ public class ContentType {
         } else {
             url = url.replaceFirst("^//", "https://");
         }
+        if(url.contains("deviantart.com")){
+            return ImageType.DEVIANTART;
+        }
         if (isRedditLink(url)) {
             return ImageType.REDDIT;
         }
@@ -278,6 +284,7 @@ public class ContentType {
         SELF,
         GFY,
         ALBUM,
+        DEVIANTART,
         IMAGE,
         IMGUR,
         GIF,

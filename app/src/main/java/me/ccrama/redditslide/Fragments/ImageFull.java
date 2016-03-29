@@ -198,6 +198,7 @@ public class ImageFull extends Fragment {
                         }
                     });
                     break;
+                case DEVIANTART:
                 case IMAGE:
                     base.setOnClickListener(new View.OnClickListener() {
                         @Override

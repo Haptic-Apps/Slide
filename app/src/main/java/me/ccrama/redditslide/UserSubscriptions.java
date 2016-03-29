@@ -241,7 +241,7 @@ public class UserSubscriptions {
     }
 
     public static ArrayList<String> getHistory() {
-        String[] hist = subscriptions.getString("history", "").split(",");
+        String[] hist = subscriptions.getString("subhistory", "").split(",");
         ArrayList<String> history = new ArrayList<>();
         Collections.addAll(history, hist);
         return history;
@@ -267,10 +267,10 @@ public class UserSubscriptions {
 
     //Sets sub as "searched for", will apply to all accounts
     public static void addSubToHistory(String s) {
-        String history = subscriptions.getString("history", "");
+        String history = subscriptions.getString("subhistory", "");
         if (!history.contains(s)) {
-            history += (history.contains(",") ? "," : "" + s);
-            subscriptions.edit().putString("history", history).apply();
+            history += "," + s;
+            subscriptions.edit().putString("subhistory", history).apply();
         }
     }
 

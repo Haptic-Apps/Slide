@@ -31,11 +31,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/menu"
-            android:layout_alignTop="@+id/innerrelative"
+            android:layout_below="@+id/innerrelative"
             android:orientation="horizontal" />
 
 
-        <RelativeLayout
+        <me.ccrama.redditslide.Views.RevealRelativeLayout
             android:id="@+id/innerrelative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
             </RelativeLayout>
 
 
-        </RelativeLayout>
+        </me.ccrama.redditslide.Views.RevealRelativeLayout>
 
         <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
             android:id="@+id/headerimage"

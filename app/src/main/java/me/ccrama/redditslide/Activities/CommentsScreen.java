@@ -82,6 +82,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     @Override
     public void onDestroy() {
         super.onDestroy();
+
         if (!Reddit.appRestart.contains("tutorialSwipeComment")) {
             Reddit.appRestart.edit().putBoolean("tutorialSwipeComment", true).apply();
         } else if (!Reddit.appRestart.contains("tutorial_comm")) {
@@ -109,7 +110,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     public void onCreate(Bundle savedInstance) {
-        disableSwipeBackLayout();
+
+        overrideSwipeFromAnywhere();
 
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().getDecorView().setBackgroundDrawable(null);

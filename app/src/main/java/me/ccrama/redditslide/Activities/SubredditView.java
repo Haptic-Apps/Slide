@@ -302,7 +302,7 @@ public class SubredditView extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        disableSwipeBackLayout();
+        overrideSwipeFromAnywhere();
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().getDecorView().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);

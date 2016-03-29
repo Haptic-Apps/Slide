@@ -2062,6 +2062,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
+            if(usedArray.size() >= position)
             doSetPrimary(object, position);
         }
 
@@ -2313,6 +2314,11 @@ public class MainActivity extends BaseActivity {
         protected Void doInBackground(Void... params) {
             try {
                 count = Authentication.reddit.me().getInboxCount(); //Force reload of the LoggedInAccount object
+                int oldCount = Reddit.appRestart.getInt("inbox", 0);
+                if(count > oldCount){
+                    Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount,count - oldCount), Snackbar.LENGTH_LONG).show();
+                    Reddit.appRestart.edit().putInt("inbox", count).apply();
+                }
             } catch (Exception e) {
                 Log.w(LogUtil.getTag(), "Cannot fetch inbox count");
                 count = -1;

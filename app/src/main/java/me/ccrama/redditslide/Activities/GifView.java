@@ -45,6 +45,7 @@ public class GifView extends FullScreenActivity implements FolderChooserDialog.F
         }
     }
 
+
     /**
      * Called when the activity is first created.
      */

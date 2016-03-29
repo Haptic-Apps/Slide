@@ -36,7 +36,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         super(context, 0, objects);
         this.objects = new ArrayList<>(allSubreddits);
         filter = new SubFilter();
-        fitems = new ArrayList<>(allSubreddits);
+        fitems = new ArrayList<>(objects); 
         baseItems = new ArrayList<>(objects);
     }
 

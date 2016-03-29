@@ -38,6 +38,10 @@
         <item quantity="one">%d point</item>
         <item quantity="other">%d points</item>
     </plurals>
+    <plurals name="new_messages">
+        <item quantity="one">%d new message</item>
+        <item quantity="other">%d new messages</item>
+    </plurals>
     <plurals name="submission_comment_count">
         <item quantity="one">%d comment</item>
         <item quantity="other">%d comments</item>

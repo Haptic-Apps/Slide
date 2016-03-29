@@ -77,7 +77,16 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (gif != null)
+            gif.cancel(true);
+    }
+
     int stopPosition;
+
+    GifUtils.AsyncLoadGif gif;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -104,14 +113,17 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
         final String contentUrl = getIntent().getExtras().getString(EXTRA_URL);
 
-        if (!firstUrl.isEmpty()) {
+        if (!firstUrl.isEmpty() && contentUrl != null && !contentUrl.contains("deviantart.com")) {
             imageShown = true;
             LogUtil.v("Displaying first image");
+            ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
             displayImage(firstUrl);
-        } else if(ContentType.getImageType(contentUrl) == ContentType.ImageType.IMGUR){
+        } else if (ContentType.getImageType(contentUrl) == ContentType.ImageType.IMGUR) {
             displayImage(contentUrl + ".png"); //display one first
+            ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
+
         }
-        if(firstUrl.isEmpty()){
+        if (firstUrl.isEmpty()) {
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
         }
 
@@ -134,7 +146,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
     }
 
-    public void doLoad(String contentUrl) {
+    public void doLoad(final String contentUrl) {
         switch (ContentType.getImageType(contentUrl)) {
             case NSFW_IMAGE:
                 doLoadImage(contentUrl);
@@ -144,6 +156,27 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 break;
             case NSFW_GFY:
                 doLoadGif(contentUrl);
+                break;
+            case DEVIANTART:
+                Ion.with(this).load("http://backend.deviantart.com/oembed?url=" + contentUrl).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if (result != null && !result.isJsonNull() && (result.has("fullsize_url") || result.has("url"))) {
+
+                            String url;
+                            if (result.has("fullsize_url")) {
+                                url = result.get("fullsize_url").getAsString();
+                            } else {
+                                url = result.get("url").getAsString();
+                            }
+                            doLoadImage(url);
+                        } else {
+                            Intent i = new Intent(MediaView.this, Website.class);
+                            i.putExtra(Website.EXTRA_URL, contentUrl);
+                            MediaView.this.startActivity(i);
+                        }
+                    }
+                });
                 break;
             case IMAGE_LINK:
                 doLoadImage(contentUrl);
@@ -181,7 +214,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) findViewById(R.id.gifprogress);
         findViewById(R.id.progress).setVisibility(View.GONE);
-        new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.save), true, false).execute(dat);
+        gif = new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.save), true, false);
+        gif.execute(dat);
 
         findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -346,7 +380,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                         try {
                             i.setImage(ImageSource.uri(((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url).getAbsolutePath()));
-                        } catch(Exception e){
+                        } catch (Exception e) {
                             i.setImage(ImageSource.bitmap(loadedImage));
                         }
                         (findViewById(R.id.progress)).setVisibility(View.GONE);

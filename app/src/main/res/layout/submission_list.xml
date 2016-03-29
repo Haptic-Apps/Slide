@@ -14,7 +14,7 @@
     cardview:cardBackgroundColor="?attr/card_background"
     cardview:cardCornerRadius="0dp">
 
-    <me.ccrama.redditslide.Views.RevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:selectableItemBackground">
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/menu"
-            android:layout_alignTop="@+id/innerrelative"
+            android:layout_below="@+id/innerrelative"
             android:orientation="horizontal" />
 
         <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
@@ -34,7 +34,7 @@
             android:padding="8dp"
             android:layout_height="wrap_content" />
 
-        <RelativeLayout
+        <me.ccrama.redditslide.Views.RevealRelativeLayout
             android:id="@+id/innerrelative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
             </RelativeLayout>
 
 
-        </RelativeLayout>
+        </me.ccrama.redditslide.Views.RevealRelativeLayout>
 
 
         <ImageView
@@ -236,6 +236,6 @@
             android:tint="?attr/tint" />
 
 
-    </me.ccrama.redditslide.Views.RevealRelativeLayout>
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

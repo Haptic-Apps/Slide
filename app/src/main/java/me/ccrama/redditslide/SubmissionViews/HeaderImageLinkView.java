@@ -303,6 +303,9 @@ public class HeaderImageLinkView extends RelativeLayout {
                     title.setText(R.string.type_nsfw_img);
                     break;
 
+                case DEVIANTART:
+                    title.setText("Deviantart");
+                    break;
                 case NSFW_GIF:
                 case NSFW_GFY:
                     title.setText(R.string.type_nsfw_gif);

@@ -108,9 +108,8 @@ public class MediaFragment extends Fragment {
 
         ContentType.ImageType type = ContentType.getImageType(s);
 
-        LogUtil.v("Url is " + contentUrl + " and type is " + type.toString());
 
-        if (!type.toString().toLowerCase().contains("image") || !type.toString().toLowerCase().contains("gfy")  || !type.toString().toLowerCase().contains("gif") || !type.toString().toLowerCase().contains("imgur") && type == ContentType.ImageType.IMAGE_LINK) {
+        if (!type.toString().toLowerCase().contains("image") && type != ContentType.ImageType.DEVIANTART && !type.toString().toLowerCase().contains("gfy") && !type.toString().toLowerCase().contains("gif") && !type.toString().toLowerCase().contains("imgur") || type.toString().toLowerCase().contains("link")) {
             if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height") || s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() <= 200) {
                 (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
@@ -167,6 +166,32 @@ public class MediaFragment extends Fragment {
                 break;
             case IMAGE_LINK:
                 doLoadImage(contentUrl);
+                break;
+            case DEVIANTART:
+                Ion.with(this).load("http://backend.deviantart.com/oembed?url=" + contentUrl).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        if (result != null && !result.isJsonNull() && (result.has("fullsize_url") || result.has("url"))) {
+
+                            String url;
+                            if (result.has("fullsize_url")) {
+                                url = result.get("fullsize_url").getAsString();
+                            } else {
+                                url = result.get("url").getAsString();
+                            }
+                            doLoadImage(url);
+                        } else {
+                            if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height") || s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() <= 200) {
+                                (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
+                                ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
+                                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), rootView, ContentType.ImageType.IMAGE_LINK, getActivity(), s);
+                                (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
+                            } else {
+                                addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, ContentType.ImageType.IMAGE_LINK, getActivity(), s);
+                            }
+                        }
+                    }
+                });
                 break;
             case GFY:
                 doLoadGif(contentUrl);
@@ -558,6 +583,7 @@ public class MediaFragment extends Fragment {
                         }
                     });
                     break;
+                case DEVIANTART:
                 case IMAGE:
                     base.setOnClickListener(new View.OnClickListener() {
                         @Override

@@ -190,6 +190,7 @@ public class PopulateSubmissionViewHolder {
 
                             }
                             break;
+                        case DEVIANTART:
                         case IMAGE:
                             openImage(contextActivity, submission);
                             break;
@@ -232,7 +233,7 @@ public class PopulateSubmissionViewHolder {
 
 
     public static void openImage(Activity contextActivity, Submission submission) {
-        if (SettingValues.image) {
+        if (SettingValues.image ) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             String url;
             String previewUrl;
