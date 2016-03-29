@@ -321,9 +321,11 @@ public class SubredditView extends BaseActivityAnim {
         commentPager = false;
         if (singleMode)
             commentPager = SettingValues.commentPager;
-        if (commentPager && singleMode) {
+        if (commentPager) {
             adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
             pager.setSwipeLeftOnly(false);
+            pager.setSwipingEnabled(false);
+
         } else {
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         }
@@ -1043,6 +1045,8 @@ public class SubredditView extends BaseActivityAnim {
                 .translationY(0)
                 .setInterpolator(new LinearInterpolator())
                 .setDuration(180);
+        pager.setSwipeLeftOnly(true);
+
         Reddit.currentPosition = position;
     }
 
@@ -1050,7 +1054,7 @@ public class SubredditView extends BaseActivityAnim {
         private SubmissionsView mCurrentFragment;
         private CommentPage mCurrentComments;
 
-        public int size = 3;
+        public int size = 2;
 
         @Override
         public Parcelable saveState() {
@@ -1071,7 +1075,7 @@ public class SubredditView extends BaseActivityAnim {
                             finish();
                         }
                     } else if (positionOffset == 0) {
-                        if (position != 2) {
+                        if (position == 1) {
                             doPageSelectedComments(position);
                             if (position == 2 && adapter != null && adapter.getCurrentFragment() != null) {
                                 ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
@@ -1086,6 +1090,7 @@ public class SubredditView extends BaseActivityAnim {
                                         .translationY(-header.getHeight())
                                         .setInterpolator(new LinearInterpolator())
                                         .setDuration(180);
+
                             pager.setSwipeLeftOnly(true);
                             themeSystemBars(openingComments.getSubredditName().toLowerCase());
                             setRecentBar(openingComments.getSubredditName().toLowerCase());
@@ -1178,7 +1183,7 @@ public class SubredditView extends BaseActivityAnim {
 
         @Override
         public int getCount() {
-            return 3;
+            return size;
         }
 
 

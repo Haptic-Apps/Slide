@@ -2,6 +2,8 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -68,6 +70,8 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     @Override
     public void onCreate(Bundle savedInstance) {
         disableSwipeBackLayout();
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getWindow().getDecorView().setBackgroundDrawable(null);
         super.onCreate(savedInstance);
         applyColorTheme();
         setContentView(R.layout.activity_slide);
@@ -94,6 +98,24 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         comments = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(comments);
         pager.setCurrentItem(1);
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if(position == 0 && positionOffsetPixels == 0){
+                    finish();
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     boolean locked;

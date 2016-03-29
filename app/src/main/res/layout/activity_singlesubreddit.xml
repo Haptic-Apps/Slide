@@ -47,14 +47,6 @@
 
 
         </android.support.design.widget.AppBarLayout>
-            <include
-                layout="@layout/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_gravity="bottom|end"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
         </FrameLayout>
 

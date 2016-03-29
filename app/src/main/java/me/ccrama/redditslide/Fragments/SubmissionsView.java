@@ -35,6 +35,7 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Submit;
+import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -240,6 +241,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         }
 
+        if(!(getActivity() instanceof SubredditView)){
+            v.findViewById(R.id.back).setBackground(null);
+        }
         rv.setLayoutManager(mLayoutManager);
         rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
 

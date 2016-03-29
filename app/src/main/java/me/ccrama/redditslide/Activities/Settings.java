@@ -59,7 +59,7 @@ public class Settings extends BaseActivity {
         SettingValues.expandedSettings = true;
         setSettingItems();
 
-        final ScrollView mScrollView = ((ScrollView)findViewById(R.id.base));
+        final ScrollView mScrollView = ((ScrollView) findViewById(R.id.base));
 
 
         mScrollView.post(new Runnable() {
@@ -67,7 +67,7 @@ public class Settings extends BaseActivity {
             @Override
             public void run() {
                 ViewTreeObserver observer = mScrollView.getViewTreeObserver();
-                if(getIntent().hasExtra("position")){
+                if (getIntent().hasExtra("position")) {
                     mScrollView.scrollTo(0, getIntent().getIntExtra("position", 0));
                 }
                 observer.addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
@@ -139,7 +139,6 @@ public class Settings extends BaseActivity {
         });
 
 
-
         findViewById(R.id.filter).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,17 +155,14 @@ public class Settings extends BaseActivity {
                 startActivity(i);
             }
         });
-        if(Authentication.isLoggedIn) {
-            findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent inte = new Intent(Settings.this, ReorderSubreddits.class);
-                    Settings.this.startActivity(inte);
-                }
-            });
-        } else {
-            findViewById(R.id.reorder).setVisibility(View.GONE);
-        }
+
+        findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent inte = new Intent(Settings.this, ReorderSubreddits.class);
+                Settings.this.startActivity(inte);
+            }
+        });
 
         findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -223,7 +219,7 @@ public class Settings extends BaseActivity {
                     //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
                     landscape.setProgress(Reddit.dpWidth - 1);
 
-                    ((TextView)dialoglayout.findViewById(R.id.progressnumber)).setText(landscape.getProgress() + 1 + " columns in landscape");
+                    ((TextView) dialoglayout.findViewById(R.id.progressnumber)).setText(landscape.getProgress() + 1 + " columns in landscape");
 
                     landscape.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
@@ -306,7 +302,7 @@ public class Settings extends BaseActivity {
             }
         });
 
-        if(Authentication.isLoggedIn) {
+        if (Authentication.isLoggedIn) {
             findViewById(R.id.reddit_settings).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

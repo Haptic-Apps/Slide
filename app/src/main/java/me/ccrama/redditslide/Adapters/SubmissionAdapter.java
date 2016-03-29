@@ -210,6 +210,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                            LastComments.setComments(submission);
                                                                        }
                                                                        ((SubredditView.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();
+                                                                       ((SubredditView.OverviewPagerAdapterComment) a.adapter).size = 3;
                                                                        a.adapter.notifyDataSetChanged();
                                                                    }
                                                                    a.pager.postDelayed(new Runnable() {

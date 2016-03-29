@@ -85,11 +85,14 @@ public class Login extends BaseActivityAnim {
     }
 
     Dialog d;
+    ArrayList<String> subNames;
+
     private void doSubStrings(ArrayList<Subreddit> subs) {
-        final ArrayList<String> subNames = new ArrayList<>();
+        subNames = new ArrayList<>();
         for (Subreddit s : subs) {
             subNames.add(s.getDisplayName().toLowerCase());
         }
+        subNames = UserSubscriptions.sort(subNames);
         if (!subNames.contains("slideforreddit")) {
             new AlertDialogWrapper.Builder(Login.this).setTitle("Subscribe to /r/slideforreddit?")
                     .setMessage("Would you like to subscribe to /r/slideforreddit for the latest news and to report issues?")
