@@ -55,8 +55,12 @@ public class SubredditListView extends Fragment {
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors("no sub", getContext()));
 
-        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(104, getContext()), Reddit.pxToDp(140, getContext()));
-
+        //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
+        //334 is large enough to account for a view with tabs on the toolbar
+        int headerHeight = 334;
+        mSwipeRefreshLayout.setProgressViewOffset(false,
+                headerHeight - Reddit.pxToDp(42, getContext()),
+                headerHeight + Reddit.pxToDp(42, getContext()));
 
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 

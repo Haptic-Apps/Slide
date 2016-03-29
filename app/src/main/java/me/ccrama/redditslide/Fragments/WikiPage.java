@@ -31,7 +31,13 @@ public class WikiPage extends Fragment {
         final GeneralSwipeRefreshLayout ref = (GeneralSwipeRefreshLayout) v.findViewById(R.id.ref);
 
         ref.setColorSchemeColors(Palette.getColors(subreddit, getActivity()));
-        ref.setProgressViewOffset(false, Reddit.pxToDp(56, getContext()), Reddit.pxToDp(92, getContext()));
+
+        //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
+        //334 is large enough to account for a view with tabs on the toolbar
+        int headerHeight = 334;
+        ref.setProgressViewOffset(false,
+                headerHeight - Reddit.pxToDp(42, getContext()),
+                headerHeight + Reddit.pxToDp(42, getContext()));
 
         ref.post(new Runnable() {
             @Override
