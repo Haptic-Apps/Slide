@@ -297,6 +297,7 @@
                 app:srcCompat="@drawable/downvote"
 
                 android:tint="?attr/tint" />
+
             <ImageView
                 android:id="@+id/edit"
                 style="@style/Ripple.List"
@@ -306,6 +307,25 @@
 
                 android:padding="8dp"
                 app:srcCompat="@drawable/edit"
+                android:tint="?attr/tint" />
+            <ImageView
+                android:id="@+id/delete"
+                style="@style/Ripple.List"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_toLeftOf="@+id/edit"
+                android:padding="8dp"
+                app:srcCompat="@drawable/delete"
+                android:tint="?attr/tint" />
+            <ImageView
+                android:id="@+id/flair"
+                style="@style/Ripple.List"
+                android:layout_width="36dp"
+                android:visibility="gone"
+                android:layout_height="36dp"
+                android:layout_toLeftOf="@+id/delete"
+                android:padding="8dp"
+                app:srcCompat="@drawable/fontsizedarker"
                 android:tint="?attr/tint" />
             <ImageView
                 android:id="@+id/mod"

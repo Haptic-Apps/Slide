@@ -905,7 +905,13 @@ public class SubredditView extends BaseActivityAnim {
     }
 
     View header;
-
+    public int adjustAlpha( float factor) {
+        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
+        int red = Color.red(Color.BLACK);
+        int green = Color.green(Color.BLACK);
+        int blue = Color.blue(Color.BLACK);
+        return Color.argb(alpha, red, green, blue);
+    }
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
 
@@ -927,6 +933,9 @@ public class SubredditView extends BaseActivityAnim {
                         if (positionOffsetPixels == 0) {
                             finish();
                         }
+                    }
+                    if(position == 0){
+                        pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
                     }
                 }
 

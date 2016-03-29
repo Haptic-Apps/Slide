@@ -107,7 +107,13 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     public int currentPage;
     public ArrayList<Integer> seen;
-
+    public int adjustAlpha( float factor) {
+        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
+        int red = Color.red(Color.BLACK);
+        int green = Color.green(Color.BLACK);
+        int blue = Color.blue(Color.BLACK);
+        return Color.argb(alpha, red, green, blue);
+    }
     @Override
     public void onCreate(Bundle savedInstance) {
 
@@ -158,7 +164,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         } else {
             updateSubredditAndSubmission(subredditPosts.getPosts().get(firstPage));
 
-            ViewPager pager = (ViewPager) findViewById(R.id.content_view);
+            final ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
             comments = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(comments);
@@ -169,14 +175,18 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    if(position == 0 && positionOffsetPixels == 0){
+                        finish();
+                    }
+                    if(position == 0){
 
+                        pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                    }
                 }
 
                 @Override
                 public void onPageSelected(int position) {
-                    if (position == firstPage) {
-                        finish();
-                    } else {
+                    if (position != firstPage) {
                         updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
 
                         if (subredditPosts.getPosts().size() - 2 <= position && subredditPosts.hasMore()) {
