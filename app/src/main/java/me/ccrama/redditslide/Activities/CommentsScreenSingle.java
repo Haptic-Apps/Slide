@@ -24,7 +24,6 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.Visuals.StyleView;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -75,7 +74,6 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         super.onCreate(savedInstance);
         applyColorTheme();
         setContentView(R.layout.activity_slide);
-        StyleView.styleActivity(this);
         name = getIntent().getExtras().getString(EXTRA_SUBMISSION, "");
 
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
