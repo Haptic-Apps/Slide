@@ -312,6 +312,7 @@ public class SubredditView extends BaseActivityAnim {
         setContentView(R.layout.activity_singlesubreddit);
         setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
 
+        UserSubscriptions.addSubToHistory(subreddit);
         header = findViewById(R.id.header);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setResult(3);

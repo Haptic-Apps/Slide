@@ -233,7 +233,9 @@ public class UserSubscriptions {
     public static ArrayList<String> getAllSubreddits(Context c) {
         ArrayList<String> finalReturn = new ArrayList<>();
         finalReturn.addAll(getSubscriptions(c));
+        finalReturn.removeAll(getHistory());
         finalReturn.addAll(getHistory());
+        finalReturn.removeAll(getDefaults(c));
         finalReturn.addAll(getDefaults(c));
         return finalReturn;
     }
@@ -264,7 +266,7 @@ public class UserSubscriptions {
     }
 
     //Sets sub as "searched for", will apply to all accounts
-    public void addSubToHistory(String s) {
+    public static void addSubToHistory(String s) {
         String history = subscriptions.getString("history", "");
         if (!history.contains(s)) {
             history += (history.contains(",") ? "," : "" + s);
