@@ -123,7 +123,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     protected void onPostExecute(ArrayList<String> newSubs) {
                         d.dismiss();
                         // Determine if we should insert subreddits at the end of the list or sorted
-                        boolean sorted = (subs.equals(SubredditStorage.sortNoExtras(subs)));
+                        boolean sorted = (subs.equals(UserSubscriptions.sortNoExtras(subs)));
 
                         for (String s : newSubs) {
                             if (!subs.contains(s)) {
@@ -132,7 +132,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             }
                         }
                         if (sorted && done > 0) {
-                            subs = SubredditStorage.sortNoExtras(subs);
+                            subs = UserSubscriptions.sortNoExtras(subs);
                             adapter = new CustomAdapter(subs);
                             recyclerView.setAdapter(adapter);
                         } else if (done > 0) {
@@ -334,11 +334,11 @@ public class ReorderSubreddits extends BaseActivityAnim {
         @Override
         public void onPostExecute(Subreddit subreddit) {
             if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("all") || input.equalsIgnoreCase("frontpage") || input.equalsIgnoreCase("mod")) {
-                ArrayList<String> sortedSubs = SubredditStorage.sortNoExtras(subs);
+                ArrayList<String> sortedSubs = UserSubscriptions.sortNoExtras(subs);
 
                 if (sortedSubs.equals(subs)) {
                     subs.add(input);
-                    subs = SubredditStorage.sortNoExtras(subs);
+                    subs = UserSubscriptions.sortNoExtras(subs);
                     adapter = new CustomAdapter(subs);
                     recyclerView.setAdapter(adapter);
                 } else {
