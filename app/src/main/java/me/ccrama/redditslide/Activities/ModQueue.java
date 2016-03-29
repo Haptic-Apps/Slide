@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import me.ccrama.redditslide.Fragments.InboxPage;
 import me.ccrama.redditslide.Fragments.ModPage;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 
 /**
@@ -107,7 +107,7 @@ public class ModQueue extends BaseActivityAnim {
                 Bundle args = new Bundle();
 
                 args.putString("id", "modqueue");
-                args.putString("subreddit", SubredditStorage.modOf.get(i - 4));
+                args.putString("subreddit", UserSubscriptions.modOf.get(i - 4));
 
                 f.setArguments(args);
 
@@ -120,7 +120,7 @@ public class ModQueue extends BaseActivityAnim {
 
         @Override
         public int getCount() {
-            return SubredditStorage.modOf == null ? 2 : SubredditStorage.modOf.size() + 3;
+            return UserSubscriptions.modOf == null ? 2 : UserSubscriptions.modOf.size() + 3;
         }
 
 
@@ -135,7 +135,7 @@ public class ModQueue extends BaseActivityAnim {
             } else if (position == 3) {
                 return "modqueue";
             } else {
-                return SubredditStorage.modOf.get(position - 3);
+                return UserSubscriptions.modOf.get(position - 3);
             }
         }
     }

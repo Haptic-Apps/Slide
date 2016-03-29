@@ -38,7 +38,7 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
@@ -157,7 +157,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         }
         refreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
 
-        refreshLayout.setColorSchemeColors(Palette.getColors(SubredditStorage.getMultireddits().get(id).getDisplayName(), getActivity()));
+        refreshLayout.setColorSchemeColors(Palette.getColors(UserSubscriptions.getMultireddits().get(id).getDisplayName(), getActivity()));
 
         refreshLayout.setProgressViewOffset(false, Reddit.pxToDp(104, getContext()), Reddit.pxToDp(140, getContext()));
 
@@ -167,7 +167,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 refreshLayout.setRefreshing(true);
             }
         });
-        posts = new MultiredditPosts(SubredditStorage.getMultireddits().get(id).getDisplayName());
+        posts = new MultiredditPosts(UserSubscriptions.getMultireddits().get(id).getDisplayName());
 
         adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
         rv.setAdapter(adapter);

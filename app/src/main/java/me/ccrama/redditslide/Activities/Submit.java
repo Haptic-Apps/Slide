@@ -47,7 +47,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.DoEditorActions;
 
 
@@ -95,7 +95,7 @@ public class Submit extends BaseActivity {
         link.setVisibility(View.GONE);
 
         subredditText.setText(subreddit);
-        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, SubredditStorage.subredditsForHome);
+        ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1, UserSubscriptions.getAllSubreddits(this));
 
         subredditText.setAdapter(adapter);
         subredditText.setThreshold(2);

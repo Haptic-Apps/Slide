@@ -39,7 +39,7 @@ import me.ccrama.redditslide.Fragments.MultiredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
@@ -106,7 +106,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return true;
             case R.id.action_edit: {
                 Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                i.putExtra(CreateMulti.EXTRA_MULTI, SubredditStorage.getMultireddits().get(pager.getCurrentItem()).getDisplayName());
+                i.putExtra(CreateMulti.EXTRA_MULTI, UserSubscriptions.getMultireddits().get(pager.getCurrentItem()).getDisplayName());
                 startActivity(i);
             }
             return true;
@@ -171,7 +171,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         new AsyncTask<Void, Void, List<MultiReddit>>() {
             @Override
             protected List<MultiReddit> doInBackground(Void... params) {
-                return SubredditStorage.getMultireddits();
+                return UserSubscriptions.getMultireddits();
             }
 
             @Override

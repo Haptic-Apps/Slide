@@ -28,14 +28,16 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class SideArrayAdapter extends ArrayAdapter<String> {
     private final List<String> objects;
     private Filter filter;
+    public ArrayList<String> baseItems;
     public ArrayList<String> fitems;
     public boolean openInSubView = true;
 
-    public SideArrayAdapter(Context context, ArrayList<String> objects) {
+    public SideArrayAdapter(Context context, ArrayList<String> objects, ArrayList<String> allSubreddits) {
         super(context, 0, objects);
-        this.objects = new ArrayList<>(objects);
+        this.objects = new ArrayList<>(allSubreddits);
         filter = new SubFilter();
-        fitems = new ArrayList<>(objects);
+        fitems = new ArrayList<>(allSubreddits);
+        baseItems = new ArrayList<>(objects);
     }
 
     @Override
@@ -72,7 +74,8 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (fitems.get(position).startsWith(getContext().getString(R.string.search_goto) + " ")) {
+
+                if (fitems.get(position).startsWith(getContext().getString(R.string.search_goto) + " ") || !((MainActivity) getContext()).usedArray.contains(fitems.get(position))) {
                     Intent inte = new Intent(getContext(), SubredditView.class);
                     inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
                     ((Activity) getContext()).startActivityForResult(inte, 4);
@@ -80,19 +83,17 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     if (((MainActivity) getContext()).commentPager) {
                         ((MainActivity) getContext()).openingComments = null;
                         ((MainActivity) getContext()).toOpenComments = -1;
-                        ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size = (((MainActivity) getContext()).usedArray.size() +1);
+                        ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size = (((MainActivity) getContext()).usedArray.size() + 1);
                         ((MainActivity) getContext()).adapter.notifyDataSetChanged();
                         ((MainActivity) getContext()).doPageSelectedComments(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
                     }
-
                     ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
-
                 }
 
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                ((MainActivity) getContext()).e.setText("");
                 ((MainActivity) getContext()).drawerLayout.closeDrawers();
+
             }
         });
         return convertView;
@@ -105,7 +106,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
             String prefix = constraint.toString().toLowerCase();
 
             if (prefix == null || prefix.length() == 0) {
-                ArrayList<String> list = new ArrayList<>(objects);
+                ArrayList<String> list = new ArrayList<>(baseItems);
                 results.values = list;
                 results.count = list.size();
             } else {

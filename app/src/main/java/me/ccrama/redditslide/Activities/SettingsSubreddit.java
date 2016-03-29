@@ -23,7 +23,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.GetClosestColor;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -91,7 +91,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
         findViewById(R.id.post_floating_action_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final ArrayList<String> subs = SubredditStorage.sort(SubredditStorage.subredditsForHome);
+                final ArrayList<String> subs = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(SettingsSubreddit.this));
                 final CharSequence[] subsAsChar = subs.toArray(new CharSequence[subs.size()]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(SettingsSubreddit.this);
@@ -117,7 +117,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
         findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(Authentication.isLoggedIn) {
+                if (Authentication.isLoggedIn) {
                     new AlertDialogWrapper.Builder(SettingsSubreddit.this).setTitle(R.string.dialog_color_sync_title)
                             .setMessage(R.string.dialog_color_sync_message)
                             .setPositiveButton(R.string.misc_continue, new DialogInterface.OnClickListener() {
@@ -131,7 +131,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                     new AsyncTask<Void, Void, Void>() {
                                         @Override
                                         protected Void doInBackground(Void... params) {
-                                            ArrayList<Subreddit> subColors = SubredditStorage.syncSubredditsGetObject();
+                                            ArrayList<Subreddit> subColors = UserSubscriptions.syncSubredditsGetObject();
                                             d.setMaxProgress(subColors.size());
                                             int i = 0;
                                             for (Subreddit s : subColors) {
@@ -167,7 +167,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                 }
                             }).setNegativeButton(R.string.btn_cancel, null).show();
                 } else {
-                    Snackbar.make(mToolbar,"Please log in to use Color Sync", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(mToolbar, "Please log in to use Color Sync", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -175,7 +175,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
 
     public void reloadSubList() {
         changedSubs.clear();
-        ArrayList<String> allSubs = SubredditStorage.sort(SubredditStorage.subredditsForHome);
+        ArrayList<String> allSubs = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(this));
 
         // Check which subreddits are different
         ColorPreferences colorPrefs = new ColorPreferences(SettingsSubreddit.this);

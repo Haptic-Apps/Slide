@@ -193,7 +193,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             if (rv.getAdapter() != null) {
                 if (rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
                     int[] firstVisibleItems = null;
-                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    try {
+                        firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    } catch(Exception e){
+                        firstVisibleItems = new int[]{0, 1};
+                    }
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         i = firstVisibleItems[0];
                     }

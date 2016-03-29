@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -13,7 +12,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.MultiRedditPaginator;
-import net.dean.jraw.paginators.SubredditPaginator;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -26,8 +24,8 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.Synccit.MySynccitReadTask;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -50,7 +48,7 @@ public class MultiredditPosts implements PostLoader {
 
     public MultiredditPosts(String multireddit) {
         posts = new ArrayList<>();
-        this.multiReddit = SubredditStorage.getMultiredditByDisplayName(multireddit);
+        this.multiReddit = UserSubscriptions.getMultiredditByDisplayName(multireddit);
 
     }
 

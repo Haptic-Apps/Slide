@@ -70,7 +70,6 @@ public class Authentication {
                 }
                 isLoggedIn = true;
             }
-            SubredditStorage.getSubredditsForHome(a);
         }
 
 
@@ -185,27 +184,17 @@ public class Authentication {
 
 
         @Override
-        public void onPostExecute(Void voids) {
-
-            didOnline = true;
-            LogUtil.v("LOADING SUBS");
-
-            SubredditStorage.getSubredditsForHome(a);
-            SubredditStorage.getMultireddits();
-
-
-        }
-
-        @Override
         protected Void doInBackground(String... subs) {
             try {
+
                 String token = authentication.getString("lasttoken", "");
                 if (BuildConfig.DEBUG) LogUtil.v("TOKEN IS " + token);
                 if (!token.isEmpty()) {
 
-                    final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
+                    Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
                     OAuthHelper oAuthHelper = reddit.getOAuthHelper();
                     oAuthHelper.setRefreshToken(token);
+
                     try {
                         OAuthData finalData = oAuthHelper.refreshToken(credentials);
 
@@ -247,6 +236,9 @@ public class Authentication {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    didOnline = true;
+
+                    UserSubscriptions.doOnlineSyncing();
                 } else {
                     Log.v(LogUtil.getTag(), "NOT LOGGED IN");
 

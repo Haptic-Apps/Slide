@@ -206,7 +206,7 @@ public class SettingValues {
         cropImage = prefs.getBoolean(PREF_CROP_IMAGE, true);
         switchThumb = prefs.getBoolean(PREF_SWITCH_THUMB, true);
 
-        swipeAnywhere = prefs.getBoolean(PREF_SWIPE_ANYWHERE, false);
+        swipeAnywhere = true; //override this always now
         album = prefs.getBoolean(PREF_ALBUM, true);
         albumSwipe = prefs.getBoolean(PREF_ALBUM_SWIPE, true);
 

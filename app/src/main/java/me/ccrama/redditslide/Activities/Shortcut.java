@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -58,11 +58,8 @@ public class Shortcut extends Activity {
         super.onCreate(savedInstanceState);
 
 
-        if (SubredditStorage.subredditsForHome == null) {
-            SubredditStorage.shortcut = this;
-        } else {
-            doShortcut();
-        }
+        doShortcut();
+
 
     }
 
@@ -75,11 +72,10 @@ public class Shortcut extends Activity {
                     public void run() {
                         final Intent shortcutIntent = new Intent(Shortcut.this, OpenContent.class);
 
-                        SubredditStorage.shortcut = null;
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Shortcut.this);
 
                         builder.setTitle(R.string.subreddit_chooser);
-                        final ArrayList<String> sorted = SubredditStorage.sort(SubredditStorage.subredditsForHome);
+                        final ArrayList<String> sorted = UserSubscriptions.getAllSubreddits(Shortcut.this);
                         builder.setAdapter(new SubredditListingAdapter(Shortcut.this, sorted), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

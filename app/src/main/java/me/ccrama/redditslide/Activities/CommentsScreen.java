@@ -2,6 +2,8 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +23,7 @@ import java.util.List;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.LastComments;
@@ -106,7 +109,10 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     public void onCreate(Bundle savedInstance) {
+        disableSwipeBackLayout();
 
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getWindow().getDecorView().setBackgroundDrawable(null);
         seen = new ArrayList<>();
         if (SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !SettingValues.fullCommentOverride) {
             setTheme(R.style.popup);
@@ -135,6 +141,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             subredditPosts = new SubredditPosts(baseSubreddit, CommentsScreen.this);
         }
         if (firstPage == RecyclerView.NO_POSITION) {
+            firstPage = 0;
             //IS SINGLE POST
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
@@ -155,7 +162,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             pager.setAdapter(comments);
             currentPage = firstPage;
 
-            pager.setCurrentItem(firstPage);
+            pager.setCurrentItem(firstPage + 1);
 
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -165,20 +172,24 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
                 @Override
                 public void onPageSelected(int position) {
-                    updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
+                    if (position == firstPage) {
+                        finish();
+                    } else {
+                        updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
 
-                    if (subredditPosts.getPosts().size() - 2 <= position && subredditPosts.hasMore()) {
-                        subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
+                        if (subredditPosts.getPosts().size() - 2 <= position && subredditPosts.hasMore()) {
+                            subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
+                        }
+
+                        currentPage = position;
+                        seen.add(position);
+
+                        Bundle conData = new Bundle();
+                        conData.putIntegerArrayList("seen", seen);
+                        Intent intent = new Intent();
+                        intent.putExtras(conData);
+                        setResult(RESULT_OK, intent);
                     }
-
-                    currentPage = position;
-                    seen.add(position);
-
-                    Bundle conData = new Bundle();
-                    conData.putIntegerArrayList("seen", seen);
-                    Intent intent = new Intent();
-                    intent.putExtras(conData);
-                    setResult(RESULT_OK, intent);
                 }
 
                 @Override
@@ -258,39 +269,43 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
-            if (getCurrentFragment() != object) {
+            if (getCurrentFragment() != object && object != null && object instanceof CommentPage) {
                 mCurrentFragment = ((CommentPage) object);
-                if (mCurrentFragment != null) {
-                    if (!mCurrentFragment.loaded) {
-                        if (mCurrentFragment.isAdded()) {
-                            mCurrentFragment.doAdapter();
-                        }
+                if (!mCurrentFragment.loaded) {
+                    if (mCurrentFragment.isAdded()) {
+                        mCurrentFragment.doAdapter();
                     }
+
                 }
             }
         }
 
         @Override
         public Fragment getItem(int i) {
-            Fragment f = new CommentPage();
-            Bundle args = new Bundle();
-            String name = subredditPosts.getPosts().get(i).getFullName();
-            args.putString("id", name.substring(3, name.length()));
-            args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
-            args.putBoolean("locked", subredditPosts.getPosts().get(i).isLocked());
-            args.putInt("page", i);
-            args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
-            args.putString("baseSubreddit", multireddit == null ? baseSubreddit : "multi" + multireddit);
+            if (i == firstPage ) {
+                return new BlankFragment();
+            } else {
+                i = i - 1;
+                Fragment f = new CommentPage();
+                Bundle args = new Bundle();
+                String name = subredditPosts.getPosts().get(i).getFullName();
+                args.putString("id", name.substring(3, name.length()));
+                args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
+                args.putBoolean("locked", subredditPosts.getPosts().get(i).isLocked());
+                args.putInt("page", i);
+                args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
+                args.putString("baseSubreddit", multireddit == null ? baseSubreddit : "multi" + multireddit);
 
-            f.setArguments(args);
+                f.setArguments(args);
+                return f;
 
-            return f;
+            }
         }
 
         @Override
         public int getCount() {
 
-            return subredditPosts.getPosts().size();
+            return subredditPosts.getPosts().size() + 1;
         }
 
     }

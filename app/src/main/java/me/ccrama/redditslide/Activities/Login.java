@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -13,7 +12,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -29,7 +27,6 @@ import java.util.Set;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -139,20 +136,8 @@ public class Login extends BaseActivityAnim {
             mMaterialDialog.dismiss();
 
             if (oAuthData != null) {
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Login.this)
-                        .setTitle(R.string.login_restarting_title)
-                        .setMessage(R.string.login_restart_msg)
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-
-                                SubredditStorage.saveState(true);
-                                Reddit.forceRestart(Login.this, true);
-                                finish();
-
-                            }
-                        });
-                builder.show();
+               Reddit.appRestart.edit().putBoolean("firststarting", true).apply();
+                Reddit.forceRestart(Login.this, true);
             } else {
                 //Show a dialog if data is null
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(Login.this)

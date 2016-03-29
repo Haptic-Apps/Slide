@@ -19,9 +19,7 @@ public class Loader extends BaseActivity {
         disableSwipeBackLayout();
         super.onCreate(savedInstance);
         applyColorTheme();
-
         setContentView(R.layout.activity_loading);
-
         MainActivity.loader = this;
     }
 }

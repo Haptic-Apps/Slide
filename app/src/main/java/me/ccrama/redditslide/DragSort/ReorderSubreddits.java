@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -60,7 +60,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
     @Override
     public void onPause() {
-        SubredditStorage.saveSubredditsForHome(new ArrayList<>(subs));
+        UserSubscriptions.setSubscriptions(new ArrayList<>(subs));
         super.onPause();
     }
 
@@ -89,7 +89,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         setContentView(R.layout.activity_sort);
         setupAppBar(R.id.toolbar, R.string.title_reorder_subs, false, true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        subs = new ArrayList<>(SubredditStorage.subredditsForHome);
+        subs = new ArrayList<>(UserSubscriptions.getSubscriptions(this));
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setItemAnimator(null);
@@ -97,7 +97,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         findViewById(R.id.az).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subs = new ArrayList<>(SubredditStorage.sortNoExtras(subs));
+                subs = UserSubscriptions.sort(subs);
                 adapter = new CustomAdapter(subs);
                 //  adapter.setHasStableIds(true);
                 recyclerView.setAdapter(adapter);
@@ -115,8 +115,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 new AsyncTask<Void, Void, ArrayList<String>>() {
                     @Override
                     protected ArrayList<String> doInBackground(Void... params) {
-                        ArrayList<String> newSubs = new ArrayList<>(SubredditStorage.syncSubreddits(false, true));
-
+                        ArrayList<String> newSubs = new ArrayList<>(UserSubscriptions.syncSubreddits(ReorderSubreddits.this));
                         return newSubs;
                     }
 
@@ -191,7 +190,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 1) {
-                                    if (SubredditStorage.getMultireddits().size() > 0) {
+                                    if (UserSubscriptions.getMultireddits().size() > 0) {
                                         new AlertDialogWrapper.Builder(ReorderSubreddits.this)
                                                 .setTitle("Would you like to create a new Collection or import a Multireddit?")
                                                 .setPositiveButton("New", new DialogInterface.OnClickListener() {
@@ -202,9 +201,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                 }).setNegativeButton("Import multi", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                final String[] multis = new String[SubredditStorage.getMultireddits().size()];
+                                                final String[] multis = new String[UserSubscriptions.getMultireddits().size()];
                                                 int i = 0;
-                                                for (MultiReddit m : SubredditStorage.getMultireddits()) {
+                                                for (MultiReddit m : UserSubscriptions.getMultireddits()) {
                                                     multis[i] = m.getDisplayName();
                                                     i++;
                                                 }
@@ -216,7 +215,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                             public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
 
                                                                 String name = multis[which];
-                                                                MultiReddit r = SubredditStorage.getMultiredditByDisplayName(name);
+                                                                MultiReddit r = UserSubscriptions.getMultiredditByDisplayName(name);
                                                                 StringBuilder b = new StringBuilder();
 
                                                                 for (MultiSubreddit s : r.getSubreddits()) {
@@ -294,7 +293,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
     }
 
     public void doCollection() {
-        final ArrayList<String> subs2 = SubredditStorage.sort(SubredditStorage.subredditsForHome);
+        final ArrayList<String> subs2 = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(this));
         subs2.remove("frontpage");
         subs2.remove("all");
 

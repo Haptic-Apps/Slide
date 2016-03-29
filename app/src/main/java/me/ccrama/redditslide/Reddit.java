@@ -538,7 +538,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         registerActivityLifecycleCallbacks(this);
         Authentication.authentication = getSharedPreferences("AUTH", 0);
-        SubredditStorage.subscriptions = getSharedPreferences("SUBSNEW", 0);
+        UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);
         PostMatch.filters = getSharedPreferences("FILTERS", 0);
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
         defaultSorting = SettingValues.defaultSorting;
@@ -563,10 +563,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             Hidden.hidden.edit().clear().apply();
 
             Authentication.authentication.edit().clear().apply();
-            SubredditStorage.subscriptions.edit().clear().apply();
+            UserSubscriptions.subscriptions.edit().clear().apply();
             getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().clear().apply();
             Authentication.authentication = getSharedPreferences("AUTH", 0);
-            SubredditStorage.subscriptions = getSharedPreferences("SUBSNEW", 0);
+            UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);
 
 
             SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
@@ -579,6 +579,17 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
 
         }
+
+        if (!appRestart.contains("startScreen")) {
+            Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
+            Authentication.name = appRestart.getString("name", "");
+            active = true;
+        } else {
+            appRestart.edit().remove("startScreen").apply();
+        }
+
+        authentication = new Authentication(this);
+
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
 
         fabClear = seen.getBoolean(SettingValues.PREF_FAB_CLEAR, false);
@@ -607,16 +618,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             notificationTime = 360;
         }
         int defaultDPWidth = fina / 300;
-        authentication = new Authentication(this);
 
-        if (!appRestart.contains("startScreen")) {
-            SubredditStorage.subredditsForHome = stringToArray(appRestart.getString("subs", ""));
-            Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
-            Authentication.name = appRestart.getString("name", "");
-            active = true;
-        } else {
-            appRestart.edit().remove("startScreen").apply();
-        }
+
 
         SettingValues.tabletUI = isPackageInstalled(this);
 

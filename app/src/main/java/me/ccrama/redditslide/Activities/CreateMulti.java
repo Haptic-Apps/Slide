@@ -48,7 +48,7 @@ import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -88,7 +88,7 @@ public class CreateMulti extends BaseActivityAnim {
             String multi = getIntent().getExtras().getString(EXTRA_MULTI);
             old = multi;
             title.setText(multi.replace("%20", " "));
-            for (MultiReddit multiReddit : SubredditStorage.getMultireddits()) {
+            for (MultiReddit multiReddit : UserSubscriptions.getMultireddits()) {
                 if (multiReddit.getDisplayName().equals(multi)) {
                     for (MultiSubreddit sub : multiReddit.getSubreddits()) {
                         subs.add(sub.getDisplayName().toLowerCase());
@@ -143,10 +143,11 @@ public class CreateMulti extends BaseActivityAnim {
     /**
      * Shows a dialog with all Subscribed subreddits and allows the user to select which ones to include in the Multireddit
      */
-    String[] all ;
+    String[] all;
 
     public void showSelectDialog() {
-        ArrayList<String> sorted = SubredditStorage.sort(SubredditStorage.subredditsForHome);
+        ArrayList<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(this));
+        sorted.addAll(subs);
         final List<String> s2 = new ArrayList<>(subs);
         all = new String[sorted.size()];
         boolean[] checked = new boolean[all.length];
@@ -164,8 +165,8 @@ public class CreateMulti extends BaseActivityAnim {
 
         List<String> list = new ArrayList<>();
 
-        for(String s : all) {
-            if(s != null && s.length() > 0) {
+        for (String s : all) {
+            if (s != null && s.length() > 0) {
                 list.add(s);
             }
         }
@@ -231,6 +232,7 @@ public class CreateMulti extends BaseActivityAnim {
                 })
                 .show();
     }
+
     String input;
 
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
@@ -362,7 +364,7 @@ public class CreateMulti extends BaseActivityAnim {
                         @Override
                         public void run() {
                             Log.v(LogUtil.getTag(), "Update Subreddits");
-                            new SubredditStorage.SyncMultireddits(CreateMulti.this).execute();
+                            new UserSubscriptions().getMultireddits();
                         }
                     });
                 }

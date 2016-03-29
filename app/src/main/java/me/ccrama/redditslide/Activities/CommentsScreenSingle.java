@@ -16,6 +16,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.LastComments;
@@ -66,6 +67,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstance) {
+        disableSwipeBackLayout();
         super.onCreate(savedInstance);
         applyColorTheme();
         setContentView(R.layout.activity_slide);
@@ -91,6 +93,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         pager = (ViewPager) findViewById(R.id.content_view);
         comments = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(comments);
+        pager.setCurrentItem(1);
     }
 
     boolean locked;
@@ -164,23 +167,26 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
         @Override
         public Fragment getItem(int i) {
+            if(i == 0){
+                return new BlankFragment();
+            } else {
 
-            Fragment f = new CommentPage();
-            Bundle args = new Bundle();
-            if (name.contains("t3"))
-                name = name.substring(3, name.length());
+                Fragment f = new CommentPage();
+                Bundle args = new Bundle();
+                if (name.contains("t3"))
+                    name = name.substring(3, name.length());
 
-            args.putString("id", name);
-            args.putString("context", context);
-            args.putBoolean("archived", archived);
-            args.putBoolean("locked", locked);
-            args.putString("subreddit", subreddit);
-            args.putBoolean("single", getIntent().getBooleanExtra(EXTRA_LOADMORE, true));
-            args.putBoolean("np", np);
-            f.setArguments(args);
+                args.putString("id", name);
+                args.putString("context", context);
+                args.putBoolean("archived", archived);
+                args.putBoolean("locked", locked);
+                args.putString("subreddit", subreddit);
+                args.putBoolean("single", getIntent().getBooleanExtra(EXTRA_LOADMORE, true));
+                args.putBoolean("np", np);
+                f.setArguments(args);
 
-            return f;
-
+                return f;
+            }
 
         }
 
@@ -188,7 +194,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         @Override
         public int getCount() {
 
-            return 1;
+            return 2;
 
         }
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.UserSubscriptions;
 
 /**
  * Created by ccrama on 10/2/2015.
@@ -24,15 +24,14 @@ public class Configure extends Activity {
         super.onCreate(savedInstanceState);
 
 
-        if (SubredditStorage.subredditsForHome == null) {
-            SubredditStorage.configure = this;
-        } else {
-            doShortcut();
-            assignAppWidgetId();
-        }
+        doShortcut();
+        assignAppWidgetId();
+
 
     }
+
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+
     private void assignAppWidgetId() {
         Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -49,11 +48,10 @@ public class Configure extends Activity {
                     public void run() {
                         final Intent shortcutIntent = new Intent(Configure.this, OpenContent.class);
 
-                        SubredditStorage.shortcut = null;
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Configure.this);
 
                         builder.setTitle(R.string.subreddit_chooser);
-                        final ArrayList<String> sorted = SubredditStorage.sort(SubredditStorage.subredditsForHome);
+                        final ArrayList<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(Configure.this));
                         builder.setAdapter(new SubredditListingAdapter(Configure.this, sorted), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -69,7 +67,9 @@ public class Configure extends Activity {
         );
 
     }
+
     public String sub;
+
     private void startWidget() {
 
         // this intent is essential to show the widget

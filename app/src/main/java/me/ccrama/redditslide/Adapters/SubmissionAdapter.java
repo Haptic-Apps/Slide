@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
@@ -126,7 +127,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();
 
         for (int i : seen) {
-            LogUtil.v("Changed " + (i+1));
+            LogUtil.v("Changed " + (i + 1));
             notifyItemChanged(i + 1);
         }
         listView.postDelayed(new Runnable() {
@@ -148,65 +149,94 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             final Submission submission = dataSet.posts.get(i);
 
-            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage") ||subreddit.equals("mod") ||subreddit.equals("friends") || (subreddit.equals("all")) || subreddit.contains(".") || subreddit.contains("+")));
+            CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage") || subreddit.equals("mod") || subreddit.equals("friends") || (subreddit.equals("all")) || subreddit.contains(".") || subreddit.contains("+")));
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View arg0) {
+                                                   @Override
+                                                   public void onClick(View arg0) {
 
-                    if (Authentication.didOnline || submission.getComments() != null) {
-                        holder.title.setAlpha(0.54f);
+                                                       if (Authentication.didOnline || submission.getComments() != null) {
+                                                           holder.title.setAlpha(0.54f);
 
-                        if (context instanceof MainActivity) {
-                            final MainActivity a = (MainActivity) context;
-                            if (a.singleMode && a.commentPager) {
+                                                           if (context instanceof MainActivity) {
+                                                               final MainActivity a = (MainActivity) context;
+                                                               if (a.singleMode && a.commentPager) {
 
-                                if (a.openingComments != submission) {
-                                    clicked = holder2.getAdapterPosition();
-                                    a.openingComments = submission;
-                                    a.toOpenComments = a.pager.getCurrentItem() + 1;
-                                    a.currentComment = holder.getAdapterPosition() - 1;
-                                    ContentType.ImageType type = ContentType.getImageType(submission);
-                                    if ((type == ContentType.ImageType.NSFW_LINK || type == ContentType.ImageType.NSFW_IMAGE
-                                            || type == ContentType.ImageType.NSFW_GFY || type == ContentType.ImageType.NSFW_GIF) && !SettingValues.storeNSFWHistory) {
-                                        //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
-                                    } else {
-                                        HasSeen.addSeen(submission.getFullName());
-                                        LastComments.setComments(submission);
-                                    }
-                                    ((MainActivity.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();
-                                    ((MainActivity.OverviewPagerAdapterComment) (a).adapter).size = a.toOpenComments + 1;
-                                    a.adapter.notifyDataSetChanged();
-                                }
-                                a.pager.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        a.pager.setCurrentItem(a.pager.getCurrentItem() + 1, true);
-                                    }
-                                }, 400);
+                                                                   if (a.openingComments != submission) {
+                                                                       clicked = holder2.getAdapterPosition();
+                                                                       a.openingComments = submission;
+                                                                       a.toOpenComments = a.pager.getCurrentItem() + 1;
+                                                                       a.currentComment = holder.getAdapterPosition() - 1;
+                                                                       ContentType.ImageType type = ContentType.getImageType(submission);
+                                                                       if ((type == ContentType.ImageType.NSFW_LINK || type == ContentType.ImageType.NSFW_IMAGE
+                                                                               || type == ContentType.ImageType.NSFW_GFY || type == ContentType.ImageType.NSFW_GIF) && !SettingValues.storeNSFWHistory) {
+                                                                           //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
+                                                                       } else {
+                                                                           HasSeen.addSeen(submission.getFullName());
+                                                                           LastComments.setComments(submission);
+                                                                       }
+                                                                       ((MainActivity.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();
+                                                                       ((MainActivity.OverviewPagerAdapterComment) (a).adapter).size = a.toOpenComments + 1;
+                                                                       a.adapter.notifyDataSetChanged();
+                                                                   }
+                                                                   a.pager.postDelayed(new Runnable() {
+                                                                       @Override
+                                                                       public void run() {
+                                                                           a.pager.setCurrentItem(a.pager.getCurrentItem() + 1, true);
+                                                                       }
+                                                                   }, 400);
 
-                            } else {
-                                Intent i2 = new Intent(context, CommentsScreen.class);
-                                i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
-                                i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
-                                context.startActivityForResult(i2, 940);
-                                clicked = holder2.getAdapterPosition();
-                            }
-                        } else {
-                            Intent i2 = new Intent(context, CommentsScreen.class);
-                            i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
-                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
-                            context.startActivityForResult(i2, 940);
-                            clicked = holder2.getAdapterPosition();
-                        }
+                                                               }
+                                                           } else if (context instanceof SubredditView) {
+                                                               final SubredditView a = (SubredditView) context;
+                                                               if (a.singleMode && a.commentPager) {
+
+                                                                   if (a.openingComments != submission) {
+                                                                       clicked = holder2.getAdapterPosition();
+                                                                       a.openingComments = submission;
+                                                                       a.currentComment = holder.getAdapterPosition() - 1;
+                                                                       ContentType.ImageType type = ContentType.getImageType(submission);
+                                                                       if ((type == ContentType.ImageType.NSFW_LINK || type == ContentType.ImageType.NSFW_IMAGE
+                                                                               || type == ContentType.ImageType.NSFW_GFY || type == ContentType.ImageType.NSFW_GIF) && !SettingValues.storeNSFWHistory) {
+                                                                           //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
+                                                                       } else {
+                                                                           HasSeen.addSeen(submission.getFullName());
+                                                                           LastComments.setComments(submission);
+                                                                       }
+                                                                       ((SubredditView.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();
+                                                                       a.adapter.notifyDataSetChanged();
+                                                                   }
+                                                                   a.pager.postDelayed(new Runnable() {
+                                                                       @Override
+                                                                       public void run() {
+                                                                           a.pager.setCurrentItem(a.pager.getCurrentItem() + 1, true);
+                                                                       }
+                                                                   }, 400);
+
+                                                               } else {
+                                                                   Intent i2 = new Intent(context, CommentsScreen.class);
+                                                                   i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
+                                                                   i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
+                                                                   context.startActivityForResult(i2, 940);
+                                                                   clicked = holder2.getAdapterPosition();
+                                                               }
+                                                           } else {
+                                                               Intent i2 = new Intent(context, CommentsScreen.class);
+                                                               i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
+                                                               i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
+                                                               context.startActivityForResult(i2, 940);
+                                                               clicked = holder2.getAdapterPosition();
+                                                           }
 
 
-                    } else {
-                        Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT).show();
-                    }
+                                                       } else {
+                                                           Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT).show();
+                                                       }
 
-                }
-            });
+                                                   }
+                                               }
+
+            );
             final boolean saved = submission.isSaved();
 
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow, dataSet.subreddit.toLowerCase());

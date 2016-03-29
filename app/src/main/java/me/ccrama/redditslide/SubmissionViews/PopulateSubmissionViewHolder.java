@@ -75,8 +75,8 @@ import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.SubredditStorage;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.CreateCardView;
@@ -1409,7 +1409,7 @@ public class PopulateSubmissionViewHolder {
         holder.title.setText(titleString); // title is a spoiler roboto textview so it will format the html
 
 
-        if (!offline && SubredditStorage.modOf != null && SubredditStorage.modOf.contains(submission.getSubredditName().toLowerCase())) {
+        if (!offline && UserSubscriptions.modOf != null && UserSubscriptions.modOf.contains(submission.getSubredditName().toLowerCase())) {
             holder.mod.setVisibility(View.VISIBLE);
             final Map<String, Integer> reports = submission.getUserReports();
             final Map<String, String> reports2 = submission.getModeratorReports();
