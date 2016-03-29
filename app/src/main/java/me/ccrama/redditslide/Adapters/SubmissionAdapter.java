@@ -186,6 +186,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        }
                                                                    }, 400);
 
+                                                               } else {
+                                                                   Intent i2 = new Intent(context, CommentsScreen.class);
+                                                                   i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
+                                                                   i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
+                                                                   context.startActivityForResult(i2, 940);
+                                                                   clicked = holder2.getAdapterPosition();
                                                                }
                                                            } else if (context instanceof SubredditView) {
                                                                final SubredditView a = (SubredditView) context;
@@ -220,15 +226,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                    context.startActivityForResult(i2, 940);
                                                                    clicked = holder2.getAdapterPosition();
                                                                }
-                                                           } else {
-                                                               Intent i2 = new Intent(context, CommentsScreen.class);
-                                                               i2.putExtra(CommentsScreen.EXTRA_PAGE, holder2.getAdapterPosition() - 1);
-                                                               i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
-                                                               context.startActivityForResult(i2, 940);
-                                                               clicked = holder2.getAdapterPosition();
                                                            }
-
-
                                                        } else {
                                                            Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT).show();
                                                        }
@@ -239,7 +237,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             );
             final boolean saved = submission.isSaved();
 
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow, dataSet.subreddit.toLowerCase());
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow, dataSet.subreddit.toLowerCase()
+
+            );
 
 
         }

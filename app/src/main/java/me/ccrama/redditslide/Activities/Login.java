@@ -1,5 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -12,6 +14,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -20,13 +23,18 @@ import net.dean.jraw.http.oauth.Credentials;
 import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
+import net.dean.jraw.models.Subreddit;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Visuals.GetClosestColor;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -75,6 +83,71 @@ public class Login extends BaseActivityAnim {
             }
         });
     }
+
+    Dialog d;
+    private void doSubStrings(ArrayList<Subreddit> subs) {
+        final ArrayList<String> subNames = new ArrayList<>();
+        for (Subreddit s : subs) {
+            subNames.add(s.getDisplayName().toLowerCase());
+        }
+        if (!subNames.contains("slideforreddit")) {
+            new AlertDialogWrapper.Builder(Login.this).setTitle("Subscribe to /r/slideforreddit?")
+                    .setMessage("Would you like to subscribe to /r/slideforreddit for the latest news and to report issues?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            subNames.add(2, "slideforreddit");
+                            UserSubscriptions.setSubscriptions(subNames);
+                            Reddit.forceRestart(Login.this, true);
+                        }
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    UserSubscriptions.setSubscriptions(subNames);
+                    Reddit.forceRestart(Login.this, true);
+                }
+            }).setCancelable(false)
+                    .show();
+        } else {
+            UserSubscriptions.setSubscriptions(subNames);
+            Reddit.forceRestart(Login.this, true);
+        }
+
+    }
+
+    public void doLastStuff(final ArrayList<Subreddit> subs) {
+
+        d.dismiss();
+        new AlertDialogWrapper.Builder(Login.this).setTitle("Sync colors now?")
+                .setMessage("Would you like to sync your subreddit colors now? This can be done later in Settings -> Subreddit Themes")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        for (Subreddit s : subs) {
+                            if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
+                                Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), Login.this));
+                            }
+
+                        }
+                        doSubStrings(subs);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        doSubStrings(subs);
+                    }
+                })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        doSubStrings(subs);
+                    }
+                }).create().show();
+    }
+
 
     private final class UserChallengeTask extends AsyncTask<String, Void, OAuthData> {
         private final OAuthHelper mOAuthHelper;
@@ -136,8 +209,17 @@ public class Login extends BaseActivityAnim {
             mMaterialDialog.dismiss();
 
             if (oAuthData != null) {
-               Reddit.appRestart.edit().putBoolean("firststarting", true).apply();
-                Reddit.forceRestart(Login.this, true);
+                Reddit.appRestart.edit().putBoolean("firststarting", true).apply();
+
+                UserSubscriptions.switchAccounts();
+                d = new MaterialDialog.Builder(Login.this).cancelable(false)
+                        .title("Setting things up!")
+                        .progress(true, 0)
+                        .content("This should only take a second...")
+                        .build();
+                d.show();
+
+                UserSubscriptions.syncSubredditsGetObjectAsync(Login.this);
             } else {
                 //Show a dialog if data is null
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(Login.this)

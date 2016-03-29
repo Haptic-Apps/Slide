@@ -114,7 +114,6 @@ import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
-import me.ccrama.redditslide.Visuals.GetClosestColor;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.GifUtils;
@@ -384,19 +383,7 @@ public class MainActivity extends BaseActivity {
         sidebarOverflow = (CommentOverflow) findViewById(R.id.commentOverflow);
 
 
-        if (Reddit.appRestart.getBoolean("firststarting", false)) {
-            ArrayList<String> blank = new ArrayList<>();
-            blank.add("");
-            setDataSet(blank);
-            d = new MaterialDialog.Builder(this).cancelable(false)
-                    .title("Setting things up!")
-                    .progress(true, 0)
-                    .content("This should only take a second...")
-                    .show();
-
-          UserSubscriptions.syncSubredditsGetObjectAsync(this);
-
-        } else if (!Reddit.appRestart.getBoolean("isRestarting", false) && Reddit.colors.contains("Tutorial"))
+        if (!Reddit.appRestart.getBoolean("isRestarting", false) && Reddit.colors.contains("Tutorial"))
 
         {
             LogUtil.v("Starting main " + Authentication.name);
@@ -441,36 +428,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    private void doSubStrings(ArrayList<Subreddit> subs) {
-        final ArrayList<String> subNames = new ArrayList<>();
-        for (Subreddit s : subs) {
-            subNames.add(s.getDisplayName().toLowerCase());
-        }
-        Reddit.appRestart.edit().putBoolean("firststarting", false).apply();
-
-        if (!subNames.contains("slideforreddit")) {
-            new AlertDialogWrapper.Builder(MainActivity.this).setTitle("Subscribe to /r/slideforreddit?")
-                    .setMessage("Would you like to subscribe to /r/slideforreddit for the latest news and to report issues?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            subNames.add(2, "slideforreddit");
-                            UserSubscriptions.setSubscriptions(subNames);
-                            restartTheme();
-                        }
-                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    UserSubscriptions.setSubscriptions(subNames);
-                    restartTheme();
-                }
-            }).setCancelable(false)
-                    .show();
-        } else {
-            UserSubscriptions.setSubscriptions(subNames);
-            restartTheme();
-        }
-    }
 
     public void updateSubs(ArrayList<String> subs) {
         if (loader != null) {
@@ -1972,39 +1929,6 @@ public class MainActivity extends BaseActivity {
 
     public static boolean dontAnimate;
 
-    public void doLastStuff(final ArrayList<Subreddit> subs) {
-
-                d.dismiss();
-                new AlertDialogWrapper.Builder(MainActivity.this).setTitle("Sync colors now?")
-                        .setMessage("Would you like to sync your subreddit colors now? This can be done later in Settings -> Subreddit Themes")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-
-                                for (Subreddit s : subs) {
-                                    if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
-                                        Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), MainActivity.this));
-                                    }
-
-                                }
-                                doSubStrings(subs);
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                doSubStrings(subs);
-                            }
-                        })
-                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                doSubStrings(subs);
-                            }
-                        }).show();
-    }
-
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
@@ -2178,6 +2102,7 @@ public class MainActivity extends BaseActivity {
     public int toOpenComments = -1;
 
     public void doPageSelectedComments(int position) {
+
         pager.setSwipeLeftOnly(false);
 
         header.animate()
@@ -2199,7 +2124,6 @@ public class MainActivity extends BaseActivity {
         }
 
         if (hea != null)
-            hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
             hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
         header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
         themeSystemBars(usedArray.get(position));

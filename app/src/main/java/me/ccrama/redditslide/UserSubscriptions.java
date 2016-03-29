@@ -14,8 +14,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.MainActivity;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -248,7 +248,6 @@ public class UserSubscriptions {
     public static ArrayList<String> getDefaults(Context c) {
         ArrayList<String> history = new ArrayList<>();
         Collections.addAll(history, c.getString(R.string.top_500_csv).split(","));
-        LogUtil.v("History size is " + history);
         return history;
     }
 
@@ -297,7 +296,7 @@ public class UserSubscriptions {
         }
         return toReturn;
     }
-    public static void syncSubredditsGetObjectAsync(final MainActivity mainActivity) {
+    public static void syncSubredditsGetObjectAsync(final Login mainActivity) {
         final ArrayList<Subreddit> toReturn = new ArrayList<>();
         new AsyncTask<Void, Void, Void>() {
             @Override
