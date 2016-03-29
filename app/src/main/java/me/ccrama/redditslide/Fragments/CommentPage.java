@@ -486,21 +486,24 @@ public class CommentPage extends Fragment {
         if (adapter == null || single) {
             adapter = new CommentAdapter(this, comments, rv, comments.submission, getFragmentManager());
 
-
             rv.setAdapter(adapter);
             adapter.currentSelectedItem = context;
 
             adapter.reset(getContext(), comments, rv, comments.submission);
-
-
         } else if (!b) {
             try {
                 adapter.reset(getContext(), comments, rv, (getActivity() instanceof MainActivity) ? ((MainActivity) getActivity()).openingComments : comments.submission);
+                if (SettingValues.collapseCommentsDefault) {
+                    adapter.collapseAll();
+                }
             } catch (Exception ignored) {
             }
 
         } else {
             adapter.reset(getContext(), comments, rv, comments.submission);
+            if (SettingValues.collapseCommentsDefault) {
+                adapter.collapseAll();
+            }
             adapter.notifyItemChanged(1);
         }
     }

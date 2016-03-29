@@ -12,10 +12,7 @@
         android:background="@color/md_light_blue_500"
         android:minHeight="56dp"
         android:theme="@style/Theme.AppCompat">
-
-
     </android.support.v7.widget.Toolbar>
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,7 +23,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -62,8 +58,8 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:background="?attr/tint"
@@ -111,8 +107,8 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:background="?attr/tint"
@@ -140,7 +136,6 @@
                         android:text="@string/settings_comment_crop"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
-
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -154,8 +149,8 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:background="?attr/tint"
@@ -182,7 +177,6 @@
                         android:text="@string/settings_comment_hide_selftext_image"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
-
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -196,8 +190,8 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:background="?attr/tint"
@@ -224,7 +218,6 @@
                         android:text="@string/settings_comment_color"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
-
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -238,8 +231,8 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:background="?attr/tint"
@@ -266,7 +259,6 @@
                         android:text="@string/settings_volume_nav_comments"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
-
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -280,8 +272,8 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:background="?attr/tint"
@@ -328,11 +320,48 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:background="?attr/tint"
+                android:alpha=".25"
+                android:layout_height="0.25dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="?android:selectableItemBackground"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_comment_collapse_default"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/collapse_comments_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?android:selectableItemBackground"
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font" />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>
