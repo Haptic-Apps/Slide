@@ -251,16 +251,18 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getContext()));
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
-        //334 is large enough to account for a view with tabs on the toolbar.
-        //SubmissionsView is different in the sense that if the subreddit is changed, then
-        //headerHeight will be correct. This value is only incorrect on a cold start.
-        int headerHeight = getActivity().findViewById(R.id.header).getMeasuredHeight();
-        if (headerHeight == 0) {
-            headerHeight = 334;
+        //So, we just do 13% of the device screen height as a general estimate for the Tabs view type
+        int screenHeight = getContext().getResources().getDisplayMetrics().heightPixels;
+        int headerOffset = Math.round((float) (screenHeight * 0.13));
+
+        //if the view type is "single" (and therefore "commentPager"), we need a different offset
+        if (SettingValues.single) {
+            headerOffset = Math.round((float) (screenHeight * 0.07));
         }
+
         mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerHeight - Reddit.pxToDp(42, getContext()),
-                headerHeight + Reddit.pxToDp(42, getContext()));
+                headerOffset - Reddit.pxToDp(42, getContext()),
+                headerOffset + Reddit.pxToDp(42, getContext()));
 
         if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);

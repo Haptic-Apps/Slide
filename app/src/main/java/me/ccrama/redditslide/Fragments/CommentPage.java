@@ -183,9 +183,20 @@ public class CommentPage extends Fragment {
         header.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
 
+        //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
+        //So, we just do 7% of the device screen height as a general estimate for just a toolbar.
+        //Don't use "headerHeight" for consistency
+        int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
+        int headerOffset = Math.round((float) (screenHeight * 0.07));
+
+        //If the header has the "Load full thread" appended to it, account for the extra height
+        if (loadMore) {
+            headerOffset = Math.round((float) (screenHeight * 0.11));
+        }
+
         mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerHeight - Reddit.pxToDp(42, getActivity()),
-                headerHeight + Reddit.pxToDp(42, getActivity()));
+                headerOffset - Reddit.pxToDp(42, getContext()),
+                headerOffset + Reddit.pxToDp(42, getContext()));
 
     }
 

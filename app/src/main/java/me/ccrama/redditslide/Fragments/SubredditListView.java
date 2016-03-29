@@ -56,11 +56,13 @@ public class SubredditListView extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors("no sub", getContext()));
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
-        //334 is large enough to account for a view with tabs on the toolbar
-        int headerHeight = 334;
+        //So, we just do 13% of the phone screen height as a general estimate for the Tabs view type
+        int screenHeight = getContext().getResources().getDisplayMetrics().heightPixels;
+        int headerOffset = Math.round((float) (screenHeight * 0.13));
+
         mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerHeight - Reddit.pxToDp(42, getContext()),
-                headerHeight + Reddit.pxToDp(42, getContext()));
+                headerOffset - Reddit.pxToDp(42, getContext()),
+                headerOffset + Reddit.pxToDp(42, getContext()));
 
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 
