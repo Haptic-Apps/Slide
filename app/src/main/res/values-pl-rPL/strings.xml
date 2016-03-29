@@ -65,14 +65,14 @@
   <string name="card_actionbar">Widoczny pasek akcji</string>
   <string name="card_picture">Duże zdjęcie</string>
   <string name="card_picture_cropped">Ucięte duże zdjęcie</string>
-  <string name="card_hide_post_button">Przycisk \"ukryj post\" na pasku akcji</string>
+  <string name="card_hide_post_button">Przycisk \"Ukryj post\" na pasku akcji</string>
   <string name="card_tint_background">Koloruj tło karty wg koloru subreddita</string>
   <string name="card_tint_outside">Koloruj tylko poza subredditem</string>
   <string name="card_save_button">Przycisk \"Zapisz post\" w pasku akcji</string>
   <string name="card_section_images">Obrazki</string>
   <string name="card_section_actionbar">Pasek akcji</string>
   <!-- Settings for Multi-column view -->
-  <string name="multi_column_title">Ustawienia Wielu Kolumn</string>
+  <string name="multi_column_title">Tryb wielokulumnowy</string>
   <string name="multi_column_landscape">Horyzontalnie</string>
   <string name="multi_column_portrait">Dwie kolumny w trybie pionowym</string>
   <!-- Drawer items (That's the one on the left) -->
@@ -106,12 +106,12 @@
   <string name="profile_karma_comment">karmy komentarzy</string>
   <string name="profile_message">Prywatna wiadomość</string>
   <string name="profile_saved">Zapisane</string>
-  <string name="profile_upvoted">polubione</string>
+  <string name="profile_upvoted">Polubione</string>
   <string name="profile_err_title">Użytkownik nie znaleziony</string>
   <string name="profile_err_msg">Użytkownik Reddita nie mógł zostać przywrócony.</string>
   <string name="profile_overview">przegląd</string>
-  <string name="profile_comments">komentarze</string>
-  <string name="profile_submitted">wysłane</string>
+  <string name="profile_comments">Komentarze</string>
+  <string name="profile_submitted">Wysłane</string>
   <string name="profile_gilded">pozłocone</string>
   <string name="profile_downvoted">nielubiane</string>
   <string name="profile_hidden">ukryte</string>
@@ -221,10 +221,10 @@
   <string name="type_emb">W aplikacji</string>
   <string name="type_imgur">Imgur</string>
   <!-- Reply to message -->
-  <string name="mail_author_wrote">%1$s napisał...</string>
+  <string name="mail_author_wrote">%1$s napisał…</string>
   <string name="mail_hint_recipient">Odbiorca</string>
   <string name="mail_hint_subject">Temat</string>
-  <string name="mail_hint_body">Zawartość</string>
+  <string name="mail_hint_body">Treść</string>
   <string name="mail_send_to">Wyślij wiadomość do %1$s</string>
   <string name="mail_send">Wyślij wiadomość</string>
   <string name="mail_notification_msg">Nowa wiadomość od %1$s</string>
@@ -259,7 +259,7 @@
   <string name="misc_mark_read">Oznacz jako przeczytane</string>
   <!-- Goto User -->
   <string name="user_enter">Wpisz nazwę użytkownika</string>
-  <string name="user_btn_goto">Przejdź do użytkownika</string>
+  <string name="user_btn_goto">Przejdź do profilu</string>
   <string name="user_invalid">Nieprawidłowa nazwa użytkownika</string>
   <string name="user_invalid_msg">Nazwy użytkownika Reddit mogą zawierać tylko litery, cyfry, \'_\' i \'-\'.</string>
   <!-- Buttons -->
@@ -284,7 +284,7 @@
   <string name="btn_refresh">Odśwież</string>
   <string name="btn_confirm">Potwierdź</string>
   <string name="btn_theme_toggle">Włącz ciemny motyw</string>
-  <string name="btn_cache">Zapisz komentarze do pamięci podręcznej</string>
+  <string name="btn_cache">Zapisz komentarze do przeglądania offline</string>
   <string name="btn_delete">Usuń</string>
   <string name="btn_switch">Przełącz</string>
   <string name="btn_time">Czas</string>
@@ -327,7 +327,8 @@
   <string name="wiki_err_msg">Ten subreddit nie ma wiki!</string>
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d subskrybentów</string>
-  <string name="subreddit_err_msg">Nie można odnaleźć subreddita %1$s. Może jest źle napisany?</string>
+  <string name="subreddit_err_msg">Nie można odnaleźć subreddita %1$s. Może jego nazwa jest zła?</string>
+  <string name="subreddit_err_msg_new">Nie można odnaleźć subreddita %1$s. Może jego nazwa jest zła lub nie masz do niego dostępu.</string>
   <string name="subreddit_err">Nie znaleziono subreddita</string>
   <string name="subreddit_chooser">Wybierz subreddit</string>
   <!-- Search -->
@@ -343,7 +344,7 @@
   <string name="captcha_title">Udowodnij, że nie jesteś robotem</string>
   <!-- Settings -->
   <string name="settings_reddit_prefs">Preferencje reddita</string>
-  <string name="settings_accent_title">Edycja kolorów akcentów</string>
+  <string name="settings_accent_title">Edycja koloru akcentów</string>
   <string name="settings_card_mode">Tryb kart</string>
   <string name="settings_delete_sub_settings">Czy naprawdę chcesz usunąć ustawienia dla /r/%1$s</string>
   <string name="settings_layout_default">Układ postów</string>
@@ -363,6 +364,8 @@
   <string name="settings_swap_actions">Odwróć akcje tapnięcia i długiego przytrzymania w komentarzach</string>
   <string name="settings_disable_nsfw_photo">Ukryj wszystkie obrazy NSFW</string>
   <string name="settings_disable_nsfw">Ukryj wszystkie posty NSFW</string>
+  <string name="settings_store_history">Zapisuj historię</string>
+  <string name="settings_store_nsfw_history">Zapisuj historię NSFW</string>
   <string name="settings_confirm_exit">Potwierdzanie wyjścia</string>
   <string name="settings_fastscroll">Nawigacja między nadrzędnymi komentarzami</string>
   <string name="settings_floating_action_button">Przycisk akcji</string>
@@ -378,7 +381,7 @@
   <string name="settings_google_msg">Slide łączy się z Google. Spróbuj ponownie za kilka sekund!</string>
   <string name="settings_fabclear_msg">Kliknięcie przycisku chowania usunie posty tymczasowo. \nDługie przyciśnięcie przycisku schowa posty permamentnie!</string>
   <string name="settings_fabclear">Akcje chowania dla przycisku FAB</string>
-  <string name="settings_notifdisabled">Powiadomienia wyłączone.</string>
+  <string name="settings_notifdisabled">Powiadomienia wyłączone</string>
   <string name="settings_comments_click_username_for_profile">Kliknij nazwy użytkowników by wyświetllić ich profile.</string>
   <string name="settings_cache">Zachowaj posty do przeglądania offline</string>
   <string name="settings_auto_night">Włącz automatyczny ciemny motyw</string>
@@ -410,6 +413,7 @@
   <string name="settings_title_backup">Kopia zapasowa i przywracanie</string>
   <string name="settings_title_default_theme">Główny motyw</string>
   <string name="settings_title_general">Ogólne</string>
+  <string name="settings_title_history">Historia</string>
   <string name="settings_title_notifications">Ustawienia powiadomień</string>
   <string name="settings_title_pro">Kup Pro</string>
   <string name="settings_title_sub_theme">Motywy subredditów</string>
@@ -417,7 +421,7 @@
   <string name="settings_title_support">Wesprzyj</string>
   <string name="settings_title_appearance">Wygląd</string>
   <string name="settings_title_about">O aplikacji</string>
-  <string name="settings_title_multi_column">Ustawienia Wielu Kolumn</string>
+  <string name="settings_title_multi_column">Tryb wielokulumnowy</string>
   <string name="settings_title_fab">Przycisk akcji</string>
   <string name="settings_title_caching">Ustawienia pamięci podręcznej</string>
   <string name="settings_title_cache">Pamięć podręczna</string>
@@ -436,20 +440,20 @@
   <string name="title_report_crash">Zgłoś crash</string>
   <string name="title_share">Udostępnij za pomocą</string>
   <string name="title_login">Zaloguj się do Reddit</string>
-  <string name="title_reorder_subs">Zmień kolejność subredditów</string>
+  <string name="title_reorder_subs">Kolejność subredditów</string>
   <string name="title_multireddits">Multireddity</string>
   <string name="title_inbox">Skrzynka pocztowa</string>
   <string name="title_theme_settings">Motyw</string>
   <string name="title_create_multi">Stwórz multireddit</string>
   <string name="title_mod">Moderator</string>
   <!-- Text in Donation-Activity -->
-  <string name="donate_amount_title">Ta kwota...</string>
+  <string name="donate_amount_title">Ta kwota…</string>
   <string name="donate_info_student">Jestem studenckim deweloperem, i jestem bardzo wdzięczny za dotacje! To one sprawiają, że Slide istnieje, i jest darmowy :)</string>
   <string name="donate_btn">Wesprzyj</string>
-  <string name="donate_amount_ads1">Zapobiega wyświetlaniu %d </string>
+  <string name="donate_amount_ads1">Zapobiega wyświetlaniu </string>
   <string name="donate_amount_ads2">reklam</string>
   <string name="donate_amount_hours1">Wspiera</string>
-  <string name="donate_amount_hours2">%d godzin programowania</string>
+  <string name="donate_amount_hours2">godzin programowania</string>
   <string name="donate_title">Wesprzyj Slide for Reddit</string>
   <string name="donate_err_title">Dotacja nieudana :(</string>
   <string name="donate_err_msg">Niestety, dotacja nie przeszła. Upewnij się, że masz połączenie z internetem i spróbuj ponownie! Dziękujemy za wsparcie!</string>
@@ -476,6 +480,7 @@
   <!-- Time -->
   <string name="time_just_now">teraz</string>
   <string name="color_sync_complete">Synchronizacja zakończona</string>
+  <string name="color_sync_colored">" subredditów zmienionych"</string>
   <string name="comment_load_more_number_unknown">Załaduj więcej komentarzy</string>
   <string name="settings_comment_color">Kolorowa indykacja drzew komentarzy</string>
   <string name="settings_volume_nav_posts">Przeglądanie postów przyciskami głośności</string>
@@ -522,16 +527,24 @@
   <string name="mode_bigpic">Duże zdjecie</string>
   <string name="settings_sub_tabs_description">Przesuwanie między subredditami</string>
   <string name="settings_sub_tabs">Zakładki subredditów</string>
-  <string name="settings_general_swipeanywhere_description">Przesuń z dowolnego miejsca by wyjść</string>
+  <string name="settings_general_swipeanywhere_description">Przesuń z dowolnego miejsca, by wyjść</string>
   <string name="press_actionbar">Tapnij strzałkę, by pokazać pasek akcji</string>
   <string name="tap_actionbar">Długie przyciśnięcie pokazuje action bar</string>
   <string name="always_actionbar">Zawsze pokazuj pasek akcji</string>
-  <string name="sub_content_filter">Filtrowanie zawartości subredditów</string>
+  <string name="sub_content_filter">Filtrowanie zawartości subreddita</string>
   <string name="submission_share_reddit_url">Udostępnij komentarze</string>
   <string name="filter_content">Filtruj tą zawartość</string>
   <string name="settings_general_comment_last_visit">Pokazuj licznik komentarzy od ostatnich odwiedzin</string>
-  <string name="view_type_tabs">Zakładki subredditów</string>
+  <string name="error_video_not_found">Nie znaleziono filmu</string>
+  <string name="error_video_message">Wystąpił błąd podczas ładowania filmu</string>
+  <string name="view_type_tabs">Z zakładkami</string>
+  <string name="view_type_none">Bez zakładek</string>
+  <string name="view_type_comments">Panel komentarzy</string>
+  <string name="btn_collapse_all">Zwiń komentarze</string>
+  <string name="btn_open_content">Otwórz zawartość</string>
   <string name="btn_report">Zgłoś</string>
+  <string name="input_reason_for_report">Powód zgłoszenia</string>
+  <string name="msg_report_sent">Zgłoszenie wysłane</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minutę temu</item>
     <item quantity="few">%d minuty temu</item>
@@ -558,5 +571,41 @@
     <item quantity="other">%d minut</item>
   </plurals>
   <string name="action_settings">Ustawienia</string>
+  <string name="btn_mods">Moderatorzy</string>
+  <string name="datasave_always">Dane mobilne i Wi-Fi</string>
+  <string name="datasave_mobile">Dane mobilne</string>
+  <string name="never">Nigdy</string>
+  <string name="multi_column_force_full">Wymuś pełny widok komentarzy</string>
+  <string name="submission_info_locked">Ten post jest zablokowany. Nie będziesz mógł głosować ani komentować.</string>
+  <string name="card_background_tint">Tło karty</string>
   <string name="subreddit_name_tint">Nazwa subreddita</string>
+  <string name="settings_comment_hide_selftext_image">Ukryj podgląd w postach tekstowych</string>
+  <string name="login_failed_err_decline">Upewnij się, że nie odmówiłeś na poprzedniej stronie i spróbuj ponownie za chwilę</string>
+  <string name="thumb_type_always">Zawsze</string>
+  <string name="thumb_type_off">Nigdy</string>
+  <string name="thumb_type_sub">Pokaż ustawienia/sub</string>
+  <string name="tutorial_swipe_navigation">Nawigacja przesuwaniem</string>
+  <string name="tutorial_swipe_description">Przesuń z lewej krawędzi, by wyjść.\n\nDotyczy to obrazów, gifów, albumów, ustawień i więcej!</string>
+  <string name="settings_data_low_quality">Ładuj obrazy w niższej jakości</string>
+  <string name="settings_view_type">Tryb widoku</string>
+  <string name="handling_browser">Przeglądarka</string>
+  <string name="settings_comments_swap_long">Odwróć akcje długiego przyciśnięcia i tapnięcia</string>
+  <string name="settings_redditprefs_over18">Jestem pełnoletni i chcę widzieć zawartość NSFW</string>
+  <string name="settings_layout_view">Tryb widoku</string>
+  <string name="settings_data_lowqaul_desc">W innym przypadku ładowane będą obrazy w wysokiej jakości</string>
+  <string name="settings_subredditspecific_bigpic">Zawsze pokazuj duże obrazy w tym subreddicie</string>
+  <string name="settings_layout_picture_mode">Tryb obrazu</string>
+  <string name="settings_general_expanded_toolbar">Rozszerzony pasek narzędzi</string>
+  <string name="settings_general_expanded_toolbar_desc">Pokazuj więcej opcji w pasku narzędzi</string>
+  <string name="settings_theme_tinting">Kolorowanie kart subreddita</string>
+  <string name="settings_reddit_thumbnail_mode">Pokazywanie podglądu</string>
+  <string name="settings_layout_actionbar_mode">Tryb paska akcji</string>
+  <string name="settings_theme_tint_outside_desc">Kolorowanie tylko w multiredditach, stronie głównej i /r/all</string>
+  <string name="settings_layout_small_content_tag">Mniejszy tag zawartości</string>
+  <string name="settings_links_force_external">Wymuszanie zewnętrznej przeglądarki</string>
+  <string name="settings_links_force_external_desc">Wybierz domeny, które będą otwierane zewnętrznie</string>
+  <string name="settings_layout_show_domain">Pokazuj domenę</string>
+  <string name="profile_tag_user">Otaguj użytkownika</string>
+  <string name="discover_title">Odkrywaj</string>
+  <string name="settings_data">Oszczędzanie danych</string>
 </resources>
