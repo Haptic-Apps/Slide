@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
@@ -14,32 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="• New subreddit view type: Comment Pane. View comments side by side with posts
-\n• Data saving and History sections of settings
-\n• Option for smaller content tag
-\n• Ability to tag users with custom text
-\n• Ability to show lq images if possible
-\n• New Discover screen to find new subs, along with the ability to search for subs
-\n• Complete mod tools and Moderation revamp, now has all options (even sticky!), view all mod reports, set flairs, view modqueue, view unmoderated links, comment mod tools, and much more!
-\n• Fixed bullets and lists not showing
-\n• New Media screen to replace image and gif screen, much faster loading and less data use
-\n• Option to show more toolbar items
-\n• Tweaked colors for Dark theme
-\n• Made multicolumn popup mode optional
-\n• Added ability to edit selftext posts
-\n• Added option to copy selftext
-\n• Added awards and user since on the profile info popup
-\n• Album grid view
-\n• Added ability to report comments and links
-\n• Fixed linking to wikis and search terms
-\n• Support advanced search options
-\n• Open content button on Comment toolbar
-\n• Reload button on Comment toolbar
-\n• Submit button on Subreddit toolbar
-\n• 'Largest' font option
-\n• Show if a post was approved  (mods)
-\n• Show parent comment in popup option in comment menu
-\n• Tons of speed and stability improvements!"
+        android:text="• Switching accounts and startup should be near instant now
+\n• Color syncing and sub to /r/slideforreddit option on login
+\n• Made new swiping system in comments and subreddits, scrolling tables and sidebars should now work and sensitivity is much lower/more accurate
+\n• Show first paragraph of selftext in submissions (can be disabled in Settings > Post Layout)
+\n• Setting to change image save location in Settings > General
+\n• You can now delete and flair your own posts
+\n• Long press menu in inbox
+\n• Option to always have comments collapsed
+\n• You can now delete and flair your own posts
+\n• Fixed refresh spinner offset
+\n• Lots of bug and crash fixes"
         android:textSize="16sp" />
         <TextView
             android:layout_width="match_parent"
@@ -47,7 +31,7 @@
             android:layout_marginTop="4dp"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:text="v5 is a candidate for being out of beta, so if you encounter any issue (no matter how small), please report it to /r/slideforreddit and Github!"
+            android:text="If you encounter any issue (no matter how small), please report it to /r/slideforreddit and Github!"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>

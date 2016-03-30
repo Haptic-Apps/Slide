@@ -161,7 +161,7 @@ public class UserSubscriptions {
     }
 
     public static void setSubscriptions(ArrayList<String> subs) {
-        subscriptions.edit().putString(Authentication.name, Reddit.arrayToString(subs)).apply();
+        subscriptions.edit().putString(Authentication.name, Reddit.arrayToString(subs)).commit();
     }
 
     public static void switchAccounts() {
