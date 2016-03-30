@@ -634,6 +634,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             titleString.append(pinned);
             titleString.append(" ");
         }
+        if (UserSubscriptions.friends.contains(comment.getAuthor())) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.profile_friend) + "\u00A0");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+            titleString.append(" ");
+        }
         if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
@@ -859,230 +865,249 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
 
             final View edit = firstHolder.itemView.findViewById(R.id.edit);
-            View delete = firstHolder.itemView.findViewById(R.id.delete);
-            final View flair = firstHolder.itemView.findViewById(R.id.flair);
 
             if (Authentication.name.toLowerCase().equals(submission.getAuthor().toLowerCase())) {
+                new AsyncTask<Void, Void, ArrayList<String>>() {
+                    List<FlairTemplate> flairlist;
 
-                if (submission.isSelfPost()) {
-                    edit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                    @Override
+                    protected ArrayList<String> doInBackground(Void... params) {
+                        FlairReference allFlairs = new FluentRedditClient(Authentication.reddit).subreddit(submission.getSubredditName()).flair();
+                        try {
+                            flairlist = allFlairs.options(submission);
+                            final ArrayList<String> finalFlairs = new ArrayList<>();
+                            for (FlairTemplate temp : flairlist) {
+                                finalFlairs.add(temp.getText());
+                            }
+                            return finalFlairs;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            //sub probably has no flairs?
 
-                            final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
-                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                        }
 
-                            final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
-                            e.setText(StringEscapeUtils.unescapeHtml4(submission.getSelftext()));
 
-                            DoEditorActions.doActions(e, dialoglayout, fm);
+                        return null;
+                    }
 
-                            builder.setView(dialoglayout);
-                            final Dialog d = builder.create();
-                            d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                    @Override
+                    public void onPostExecute(final ArrayList<String> data) {
+                        final boolean flair = (data != null && !data.isEmpty());
 
-                            d.show();
-                            dialoglayout.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    d.dismiss();
+                        edit.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+
+                                int[] attrs = new int[]{R.attr.tint};
+                                TypedArray ta = mContext.obtainStyledAttributes(attrs);
+
+                                final int color2 = ta.getColor(0, Color.WHITE);
+                                Drawable edit_drawable = mContext.getResources().getDrawable(R.drawable.edit);
+                                Drawable delete_drawable = mContext.getResources().getDrawable(R.drawable.delete);
+                                Drawable flair_drawable = mContext.getResources().getDrawable(R.drawable.fontsizedarker);
+
+                                edit_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
+                                delete_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
+                                flair_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
+
+                                BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
+                                        .title(Html.fromHtml(submission.getTitle()));
+
+                                if (submission.isSelfPost()) {
+                                    b.sheet(1, edit_drawable, "Edit selftext");
                                 }
-                            });
-                            dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    new AsyncTask<Void, Void, Void>() {
-                                        @Override
-                                        protected Void doInBackground(Void... params) {
-                                            try {
-                                                new AccountManager(Authentication.reddit).updateContribution(submission, e.getText().toString());
-                                                dataSet.reloadSubmission(CommentAdapter.this);
-                                                d.dismiss();
-                                            } catch (Exception e) {
-                                                ((Activity) mContext).runOnUiThread(new Runnable() {
+                                b.sheet(2, delete_drawable, "Delete submission");
+
+                                if (flair) {
+                                    b.sheet(3, flair_drawable, "Set submission flair");
+
+                                }
+
+                                b.listener(new DialogInterface.OnClickListener()
+
+                                {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which) {
+                                            case 1: {
+                                                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+
+                                                final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
+                                                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+
+                                                final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+                                                e.setText(StringEscapeUtils.unescapeHtml4(submission.getSelftext()));
+
+                                                DoEditorActions.doActions(e, dialoglayout, fm);
+
+                                                builder.setView(dialoglayout);
+                                                final Dialog d = builder.create();
+                                                d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+                                                d.show();
+                                                dialoglayout.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
                                                     @Override
-                                                    public void run() {
-                                                        new AlertDialogWrapper.Builder(mContext)
-                                                                .setTitle(R.string.comment_delete_err)
-                                                                .setMessage(R.string.comment_delete_err_msg)
-                                                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(DialogInterface dialog, int which) {
-                                                                        dialog.dismiss();
-                                                                        doInBackground();
-                                                                    }
-                                                                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                    public void onClick(View v) {
+                                                        d.dismiss();
+                                                    }
+                                                });
+                                                dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        new AsyncTask<Void, Void, Void>() {
                                                             @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                dialog.dismiss();
+                                                            protected Void doInBackground(Void... params) {
+                                                                try {
+                                                                    new AccountManager(Authentication.reddit).updateContribution(submission, e.getText().toString());
+                                                                    dataSet.reloadSubmission(CommentAdapter.this);
+                                                                    d.dismiss();
+                                                                } catch (Exception e) {
+                                                                    ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                                        @Override
+                                                                        public void run() {
+                                                                            new AlertDialogWrapper.Builder(mContext)
+                                                                                    .setTitle(R.string.comment_delete_err)
+                                                                                    .setMessage(R.string.comment_delete_err_msg)
+                                                                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                                                        @Override
+                                                                                        public void onClick(DialogInterface dialog, int which) {
+                                                                                            dialog.dismiss();
+                                                                                            doInBackground();
+                                                                                        }
+                                                                                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                                                @Override
+                                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                                    dialog.dismiss();
+                                                                                }
+                                                                            }).show();
+                                                                        }
+                                                                    });
+                                                                }
+                                                                return null;
                                                             }
-                                                        }).show();
+
+                                                            @Override
+                                                            protected void onPostExecute(Void aVoid) {
+                                                                notifyItemChanged(1);
+                                                            }
+                                                        }.execute();
                                                     }
                                                 });
                                             }
-                                            return null;
-                                        }
-
-                                        @Override
-                                        protected void onPostExecute(Void aVoid) {
-                                            notifyItemChanged(1);
-                                        }
-                                    }.execute();
-                                }
-                            });
-
-
-                        }
-                    });
-
-                    delete.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            new AlertDialogWrapper.Builder(mContext)
-                                    .setTitle("Really delete this submission? You cannot undo this")
-                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            new AsyncTask<Void, Void, Void>() {
-                                                @Override
-                                                protected Void doInBackground(Void... params) {
-                                                    try {
-                                                        new ModerationManager(Authentication.reddit).delete(submission);
-                                                    } catch (ApiException e) {
-                                                        e.printStackTrace();
-                                                    }
-                                                    return null;
-                                                }
-
-                                                @Override
-                                                protected void onPostExecute(Void aVoid) {
-                                                    ((Activity) mContext).finish();
-                                                }
-                                            }.execute();
-                                        }
-                                    }).setNegativeButton("Cancel", null)
-                                    .show();
-                        }
-                    });
-                    new AsyncTask<Void, Void, ArrayList<String>>() {
-                        List<FlairTemplate> flairlist;
-
-                        @Override
-                        protected ArrayList<String> doInBackground(Void... params) {
-                            FlairReference allFlairs = new FluentRedditClient(Authentication.reddit).subreddit(submission.getSubredditName()).flair();
-                            try {
-                                flairlist = allFlairs.options(submission);
-                                final ArrayList<String> finalFlairs = new ArrayList<>();
-                                for (FlairTemplate temp : flairlist) {
-                                    finalFlairs.add(temp.getText());
-                                }
-                                return finalFlairs;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                //sub probably has no flairs?
-
-                            }
-
-
-                            return null;
-                        }
-
-                        @Override
-                        public void onPostExecute(final ArrayList<String> data) {
-                            if (data == null || data.isEmpty()) {
-                                flair.setVisibility(View.GONE);
-                            } else {
-                                flair.setVisibility(View.VISIBLE);
-                                flair.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        new MaterialDialog.Builder(mContext).items(data)
-                                                .title("Select flair")
-                                                .itemsCallback(new MaterialDialog.ListCallback() {
-                                                    @Override
-                                                    public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                                        final FlairTemplate t = flairlist.get(which);
-                                                        if (t.isTextEditable()) {
-                                                            new MaterialDialog.Builder(mContext).title("Set flair text")
-                                                                    .input("Flair text", t.getText(), true, new MaterialDialog.InputCallback() {
-                                                                        @Override
-                                                                        public void onInput(MaterialDialog dialog, CharSequence input) {
-
+                                            break;
+                                            case 2: {
+                                                new AlertDialogWrapper.Builder(mContext)
+                                                        .setTitle("Really delete this submission? You cannot undo this")
+                                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                new AsyncTask<Void, Void, Void>() {
+                                                                    @Override
+                                                                    protected Void doInBackground(Void... params) {
+                                                                        try {
+                                                                            new ModerationManager(Authentication.reddit).delete(submission);
+                                                                        } catch (ApiException e) {
+                                                                            e.printStackTrace();
                                                                         }
-                                                                    }).positiveText("Set")
-                                                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                                        return null;
+                                                                    }
+
+                                                                    @Override
+                                                                    protected void onPostExecute(Void aVoid) {
+                                                                        ((Activity) mContext).finish();
+                                                                    }
+                                                                }.execute();
+                                                            }
+                                                        }).setNegativeButton("Cancel", null)
+                                                        .show();
+                                            }
+                                            break;
+                                            case 3: {
+                                                new MaterialDialog.Builder(mContext).items(data)
+                                                        .title("Select flair")
+                                                        .itemsCallback(new MaterialDialog.ListCallback() {
+                                                            @Override
+                                                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                                                final FlairTemplate t = flairlist.get(which);
+                                                                if (t.isTextEditable()) {
+                                                                    new MaterialDialog.Builder(mContext).title("Set flair text")
+                                                                            .input("Flair text", t.getText(), true, new MaterialDialog.InputCallback() {
+                                                                                @Override
+                                                                                public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                                                                }
+                                                                            }).positiveText("Set")
+                                                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                                                @Override
+                                                                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                                                    final String flair = dialog.getInputEditText().getText().toString();
+                                                                                    new AsyncTask<Void, Void, Boolean>() {
+                                                                                        @Override
+                                                                                        protected Boolean doInBackground(Void... params) {
+                                                                                            try {
+                                                                                                new ModerationManager(Authentication.reddit).setFlair(submission.getSubredditName(), t, flair, submission);
+                                                                                                return true;
+                                                                                            } catch (ApiException e) {
+                                                                                                e.printStackTrace();
+                                                                                                return false;
+                                                                                            }
+                                                                                        }
+
+                                                                                        @Override
+                                                                                        protected void onPostExecute(Boolean done) {
+                                                                                            if (done) {
+                                                                                                if (firstHolder.itemView != null)
+                                                                                                    Snackbar.make(firstHolder.itemView, "Flair set successfully", Snackbar.LENGTH_SHORT).show();
+                                                                                            } else {
+                                                                                                if (firstHolder.itemView != null)
+                                                                                                    Snackbar.make(firstHolder.itemView, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT).show();
+                                                                                            }
+                                                                                        }
+                                                                                    }.execute();
+                                                                                }
+                                                                            }).negativeText(R.string.btn_cancel)
+                                                                            .show();
+                                                                } else {
+                                                                    new AsyncTask<Void, Void, Boolean>() {
                                                                         @Override
-                                                                        public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                                            final String flair = dialog.getInputEditText().getText().toString();
-                                                                            new AsyncTask<Void, Void, Boolean>() {
-                                                                                @Override
-                                                                                protected Boolean doInBackground(Void... params) {
-                                                                                    try {
-                                                                                        new ModerationManager(Authentication.reddit).setFlair(submission.getSubredditName(), t, flair, submission);
-                                                                                        return true;
-                                                                                    } catch (ApiException e) {
-                                                                                        e.printStackTrace();
-                                                                                        return false;
-                                                                                    }
-                                                                                }
-
-                                                                                @Override
-                                                                                protected void onPostExecute(Boolean done) {
-                                                                                    if (done) {
-                                                                                        if (firstHolder.itemView != null)
-                                                                                            Snackbar.make(firstHolder.itemView, "Flair set successfully", Snackbar.LENGTH_SHORT).show();
-                                                                                    } else {
-                                                                                        if (firstHolder.itemView != null)
-                                                                                            Snackbar.make(firstHolder.itemView, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT).show();
-                                                                                    }
-                                                                                }
-                                                                            }.execute();
+                                                                        protected Boolean doInBackground(Void... params) {
+                                                                            try {
+                                                                                new ModerationManager(Authentication.reddit).setFlair(submission.getSubredditName(), t, null, submission);
+                                                                                return true;
+                                                                            } catch (ApiException e) {
+                                                                                e.printStackTrace();
+                                                                                return false;
+                                                                            }
                                                                         }
-                                                                    }).negativeText(R.string.btn_cancel)
-                                                                    .show();
-                                                        } else {
-                                                            new AsyncTask<Void, Void, Boolean>() {
-                                                                @Override
-                                                                protected Boolean doInBackground(Void... params) {
-                                                                    try {
-                                                                        new ModerationManager(Authentication.reddit).setFlair(submission.getSubredditName(), t, null, submission);
-                                                                        return true;
-                                                                    } catch (ApiException e) {
-                                                                        e.printStackTrace();
-                                                                        return false;
-                                                                    }
-                                                                }
 
-                                                                @Override
-                                                                protected void onPostExecute(Boolean done) {
-                                                                    if (done) {
-                                                                        if (firstHolder.itemView != null)
-                                                                            Snackbar.make(firstHolder.itemView, "Flair set successfully", Snackbar.LENGTH_SHORT).show();
-                                                                    } else {
-                                                                        if (firstHolder.itemView != null)
-                                                                            Snackbar.make(firstHolder.itemView, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT).show();
-                                                                    }
+                                                                        @Override
+                                                                        protected void onPostExecute(Boolean done) {
+                                                                            if (done) {
+                                                                                if (firstHolder.itemView != null)
+                                                                                    Snackbar.make(firstHolder.itemView, "Flair set successfully", Snackbar.LENGTH_SHORT).show();
+                                                                            } else {
+                                                                                if (firstHolder.itemView != null)
+                                                                                    Snackbar.make(firstHolder.itemView, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT).show();
+                                                                            }
+                                                                        }
+                                                                    }.execute();
                                                                 }
-                                                            }.execute();
-                                                        }
-                                                    }
-                                                }).show();
+                                                            }
+                                                        }).show();
+                                            }
+                                            break;
+                                        }
                                     }
-                                });
-
+                                }).show();
                             }
-                        }
-                    }.execute();
+                        });
 
-                } else {
-                    edit.setVisibility(View.GONE);
-                }
+                    }
+                }.execute();
+
             } else {
                 edit.setVisibility(View.GONE);
-                flair.setVisibility(View.GONE);
-                delete.setVisibility(View.GONE);
-
             }
 
 

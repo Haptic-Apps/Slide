@@ -107,30 +107,38 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     public int currentPage;
     public ArrayList<Integer> seen;
-    public int adjustAlpha( float factor) {
+
+    public int adjustAlpha(float factor) {
         int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
         int red = Color.red(Color.BLACK);
         int green = Color.green(Color.BLACK);
         int blue = Color.blue(Color.BLACK);
         return Color.argb(alpha, red, green, blue);
     }
+
+    public boolean popup;
+
     @Override
     public void onCreate(Bundle savedInstance) {
 
-        overrideSwipeFromAnywhere();
 
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getDecorView().setBackgroundDrawable(null);
+
+        popup = SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !SettingValues.fullCommentOverride;
         seen = new ArrayList<>();
-        if (SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !SettingValues.fullCommentOverride) {
-            setTheme(R.style.popup);
-            super.onCreate(savedInstance);
+        if (popup) {
+            disableSwipeBackLayout();
             applyColorTheme();
+            setTheme(R.style.popup);
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            super.onCreate(savedInstance);
             setContentView(R.layout.activity_slide_popup);
         } else {
-            super.onCreate(savedInstance);
+            overrideSwipeFromAnywhere();
             applyColorTheme();
+            getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getWindow().getDecorView().setBackgroundDrawable(null);
+            super.onCreate(savedInstance);
             setContentView(R.layout.activity_slide);
         }
 
@@ -173,43 +181,47 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             pager.setCurrentItem(firstPage + 1);
 
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    if(position == firstPage && positionOffsetPixels == 0){
-                        finish();
-                    }
-                    if(position == firstPage){
-                        ((OverviewPagerAdapter)pager.getAdapter()).blankPage.doOffset(positionOffset);
-                        pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
-                    }
-                }
+                                              @Override
+                                              public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                                  if (position == firstPage && positionOffsetPixels == 0) {
+                                                      finish();
+                                                  }
+                                                  if (position == firstPage && !popup) {
+                                                      if (((OverviewPagerAdapter) pager.getAdapter()).blankPage != null)
+                                                          ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
+                                                      pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
 
-                @Override
-                public void onPageSelected(int position) {
-                    if (position != firstPage) {
-                        position = position - 1;
-                        updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
+                                                  }
+                                              }
 
-                        if (subredditPosts.getPosts().size() - 2 <= position && subredditPosts.hasMore()) {
-                            subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
-                        }
+                                              @Override
+                                              public void onPageSelected(int position) {
+                                                  if (position != firstPage) {
+                                                      position = position - 1;
+                                                      updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
 
-                        currentPage = position;
-                        seen.add(position);
+                                                      if (subredditPosts.getPosts().size() - 2 <= position && subredditPosts.hasMore()) {
+                                                          subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
+                                                      }
 
-                        Bundle conData = new Bundle();
-                        conData.putIntegerArrayList("seen", seen);
-                        Intent intent = new Intent();
-                        intent.putExtras(conData);
-                        setResult(RESULT_OK, intent);
-                    }
-                }
+                                                      currentPage = position;
+                                                      seen.add(position);
 
-                @Override
-                public void onPageScrollStateChanged(int state) {
+                                                      Bundle conData = new Bundle();
+                                                      conData.putIntegerArrayList("seen", seen);
+                                                      Intent intent = new Intent();
+                                                      intent.putExtras(conData);
+                                                      setResult(RESULT_OK, intent);
+                                                  }
+                                              }
 
-                }
-            });
+                                              @Override
+                                              public void onPageScrollStateChanged(int state) {
+
+                                              }
+                                          }
+
+            );
         }
         if (!Reddit.appRestart.contains("tutorialSwipeComments")) {
             Intent i = new Intent(this, SwipeTutorial.class);

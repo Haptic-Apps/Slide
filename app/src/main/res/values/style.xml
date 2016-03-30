@@ -41,7 +41,10 @@
 
     </style>
 
-    <style name="popup" parent="Theme.AppCompat.Dialog.Alert"/>
+    <style name="popup" parent="Theme.AppCompat.Dialog.Alert"
+        >
+        <item name="android:background">@color/transparent</item>
+        </style>
 
     <style name="spinnerItemStyle">
         <item name="android:textSize">14sp</item>

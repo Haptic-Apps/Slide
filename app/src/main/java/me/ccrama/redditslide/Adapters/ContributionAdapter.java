@@ -24,9 +24,11 @@ import com.cocosw.bottomsheet.BottomSheet;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.VoteDirection;
 
 import java.util.List;
 
+import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Website;
@@ -275,6 +277,16 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHolder;
             final Comment comment = (Comment) dataSet.posts.get(i);
             holder.score.setText(comment.getScore() + "");
+
+            if(Authentication.isLoggedIn ) {
+                if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
+                    holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                } else if (ActionStates.getVoteDirection(comment) == VoteDirection.DOWNVOTE) {
+                    holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+                } else {
+                    holder.score.setTextColor(holder.time.getCurrentTextColor());
+                }
+            }
 
             holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 

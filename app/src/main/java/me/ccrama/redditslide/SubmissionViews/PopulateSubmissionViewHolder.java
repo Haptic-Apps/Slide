@@ -1265,6 +1265,13 @@ public class PopulateSubmissionViewHolder {
             titleString.append(pinned);
             titleString.append(" ");
         }
+
+        if (UserSubscriptions.friends.contains(submission.getAuthor())) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.profile_friend) + " ");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+            titleString.append(" ");
+        }
         /* too big, might add later todo
         if (submission.getAuthorFlair() != null && submission.getAuthorFlair().getText() != null && !submission.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();

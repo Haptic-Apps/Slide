@@ -16,7 +16,6 @@ import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthHelper;
 import net.dean.jraw.models.LoggedInAccount;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -37,7 +36,6 @@ public class Authentication {
     public static boolean mod;
     public static String name;
     public static SharedPreferences authentication;
-    public static ArrayList<String> modSubs;
     private static String refresh;
     private Reddit a;
 

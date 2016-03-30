@@ -36,6 +36,7 @@ import java.util.List;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -135,6 +136,12 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         if (comment.getTimesGilded() > 0) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0★\u200A" + comment.getTimesGilded() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+            titleString.append(" ");
+        }
+        if (UserSubscriptions.friends.contains(comment.getAuthor())) {
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.profile_friend) + "\u00A0");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
         }

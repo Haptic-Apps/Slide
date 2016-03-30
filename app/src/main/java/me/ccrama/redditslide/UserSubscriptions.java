@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.Subreddit;
+import net.dean.jraw.models.UserRecord;
+import net.dean.jraw.paginators.ImportantUserPaginator;
 import net.dean.jraw.paginators.UserSubredditsPaginator;
 
 import java.util.ArrayList;
@@ -65,6 +67,7 @@ public class UserSubscriptions {
         if (Authentication.mod) {
             doModOf();
         }
+        doFriendsOf();
         loadMultireddits();
     }
 
@@ -109,6 +112,7 @@ public class UserSubscriptions {
     }
 
     public static ArrayList<String> toreturn;
+    public static ArrayList<String> friends = new ArrayList<>();
 
     public static ArrayList<String> syncSubscriptionsOverwrite(final Context c) {
         toreturn = new ArrayList<>();
@@ -219,7 +223,24 @@ public class UserSubscriptions {
 
         return finished;
     }
+    private static void doFriendsOf() {
+        friends = new ArrayList<>();
+        ArrayList<String> finished = new ArrayList<>();
 
+        ImportantUserPaginator pag = new ImportantUserPaginator(Authentication.reddit, "friends");
+        pag.setLimit(100);
+        try {
+            while (pag.hasNext()) {
+                for (UserRecord s : pag.next()) {
+                    finished.add(s.getFullName());
+                }
+            }
+            friends = (finished);
+        } catch (Exception e) {
+            //failed;
+            e.printStackTrace();
+        }
+    }
     public static MultiReddit getMultiredditByDisplayName(String displayName) {
         for (MultiReddit multiReddit : multireddits) {
             if (multiReddit.getDisplayName().equals(displayName)) {
