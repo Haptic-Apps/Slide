@@ -645,6 +645,21 @@ public class CommentPage extends Fragment {
 
     }
 
+    public void doGoUp(int old) {
+        int pos = (old < 2) ? 0 : (old == 1)?old - 1:old-2;
+
+        for (int i = pos - 1; i >= 0; i--) {
+            LogUtil.v("Going to " + i + " and pos is " + pos);
+            CommentObject o = adapter.users.get(i);
+            if (o instanceof CommentItem) {
+                if (o.comment.isTopLevel()) {
+                    (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
+                    break;
+                }
+            }
+        }
+    }
+
     private void goUp() {
         if (adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
@@ -655,52 +670,28 @@ public class CommentPage extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 adapter.currentlyEditing = null;
-                                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-
-                                for (int i = pastVisiblesItems - 2; i >= 2; i--) {
-                                    if (i != -1 && adapter.users.size() > i && adapter.users.get(i) instanceof CommentItem)
-                                        if (adapter.users.get(i).comment.isTopLevel()) {
-
-                                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
-                                            rv.removeOnScrollListener(toolbarScroll);
-                                            rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                                                @Override
-                                                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                                                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                                        rv.setOnScrollListener(toolbarScroll);
-                                                    }
-                                                }
-                                            });
-
-                                            break;
-
-                                        }
-                                }
+                                doGoUp(mLayoutManager.findFirstCompletelyVisibleItemPosition());
                             }
                         }).setNegativeButton("No", null)
                         .show();
 
             } else {
-                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                doGoUp(mLayoutManager.findFirstCompletelyVisibleItemPosition());
+            }
+        }
+    }
 
-                for (int i = pastVisiblesItems - 2; i >= 2; i--) {
-                    if (i != -1 && adapter.users.size() > i && adapter.users.get(i) instanceof CommentItem)
-                        if (adapter.users.get(i).comment.isTopLevel()) {
+    public void doGoDown(int old) {
+        int pos = (old < 2) ? 0 : (old == 1)?old - 1:old-2;
 
-                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, toolbar.getHeight());
-                            rv.removeOnScrollListener(toolbarScroll);
-                            rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                                @Override
-                                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                                    if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                                        rv.setOnScrollListener(toolbarScroll);
-                                    }
-                                }
-                            });
+        for (int i = pos; i < adapter.users.size(); i++) {
+            LogUtil.v("Going to " + i + " and pos is " + pos);
 
-                            break;
-
-                        }
+            CommentObject o = adapter.users.get(i);
+            if (o instanceof CommentItem) {
+                if (o.comment.isTopLevel()) {
+                    (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
+                    break;
                 }
             }
         }
@@ -716,31 +707,13 @@ public class CommentPage extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 adapter.currentlyEditing = null;
-                                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-
-                                for (int i = pastVisiblesItems; i < adapter.getItemCount() - 2; i++) {
-
-                                    if (i != -1 && adapter.users.size() > i && adapter.users.get(i) instanceof CommentItem)
-                                        if (adapter.users.get(i).comment.isTopLevel()) {
-                                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
-                                            break;
-                                        }
-                                }
+                                doGoDown(mLayoutManager.findFirstCompletelyVisibleItemPosition());
                             }
                         }).setNegativeButton("No", null)
                         .show();
 
             } else {
-                int pastVisiblesItems = ((LinearLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-
-                for (int i = pastVisiblesItems; i < adapter.getItemCount() - 2; i++) {
-
-                    if (i != -1 && adapter.users.size() > i && adapter.users.get(i) instanceof CommentItem)
-                        if (adapter.users.get(i).comment.isTopLevel()) {
-                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
-                            break;
-                        }
-                }
+                doGoDown(mLayoutManager.findFirstCompletelyVisibleItemPosition());
             }
         }
     }

@@ -2408,13 +2408,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                            .show();
                                    break;
                                case 10:
-                                   for (int i = holder.getAdapterPosition() - 2; i >= 2; i--) {
-                                       if (i != -1 && users.size() > i && users.get(i) instanceof CommentItem) {
-                                           if (users.get(i).comment.getDepth() == n2.getDepth() - 1) {
+                                   int old = holder.getAdapterPosition();
+                                   int pos = (old < 2) ? 0 : (old == 1) ? old - 1 : old - 2;
+
+                                   for (int i = pos - 1; i >= 0; i--) {
+                                       CommentObject o = users.get(i);
+                                       if (o instanceof CommentItem) {
+                                           if (o.comment.getDepth() < n2.getDepth()) {
                                                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                                                final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
                                                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                                               Comment parent = users.get(i).comment.getComment();
+                                               Comment parent = o.comment.getComment();
                                                setViews(parent.getDataNode().get("body_html").asText(), submission.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
                                                builder.setView(dialoglayout);
                                                builder.show();

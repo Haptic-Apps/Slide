@@ -115,7 +115,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         if (!firstUrl.isEmpty() && contentUrl != null && !contentUrl.contains("deviantart.com")) {
             imageShown = true;
-            LogUtil.v("Displaying first image");
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
             displayImage(firstUrl);
         } else if (ContentType.getImageType(contentUrl) == ContentType.ImageType.IMGUR) {
@@ -284,6 +283,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         findViewById(R.id.gifprogress).setVisibility(View.GONE);
         LogUtil.v(contentUrl);
         if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.contains("imgur.com")) || contentUrl != null && contentUrl.contains(".jpg") && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
+            findViewById(R.id.progress).setVisibility(View.VISIBLE);
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
 
             final String finalUrl2 = contentUrl;
