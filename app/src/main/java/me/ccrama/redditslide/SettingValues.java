@@ -196,7 +196,7 @@ public class SettingValues {
         cacheDefault = false;
         customtabs = prefs.getBoolean(PREF_CUSTOMTABS, true);
         storeHistory = prefs.getBoolean(PREF_STORE_HISTORY, true);
-        storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, false);
+        storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, true);
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");

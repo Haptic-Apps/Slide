@@ -1460,6 +1460,10 @@ public class PopulateSubmissionViewHolder {
             downvotebutton.setVisibility(View.GONE);
             upvotebutton.setVisibility(View.GONE);
         } else if (Authentication.isLoggedIn && !offline && Authentication.didOnline) {
+            if(SettingValues.actionbarVisible && downvotebutton.getVisibility()!= View.VISIBLE){
+                downvotebutton.setVisibility(View.VISIBLE);
+                upvotebutton.setVisibility(View.VISIBLE);
+            }
             switch (ActionStates.getVoteDirection(submission)) {
 
                 case UPVOTE: {
