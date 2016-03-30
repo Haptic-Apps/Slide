@@ -649,7 +649,7 @@ public class CommentPage extends Fragment {
         int pos = (old < 2) ? 0  :old-1;
 
         for (int i = pos - 1; i >= 0; i--) {
-            CommentObject o = adapter.users.get(i);
+            CommentObject o = adapter.users.get(adapter.getRealPosition(i));
             if (o instanceof CommentItem && pos - 1 != i) {
                 if (o.comment.isTopLevel()) {
                     (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
@@ -684,7 +684,7 @@ public class CommentPage extends Fragment {
         int pos = (old < 2) ? 0 : old-1;
 
         for (int i = pos + 1; i < adapter.users.size(); i++) {
-            CommentObject o = adapter.users.get(i);
+            CommentObject o = adapter.users.get(adapter.getRealPosition(i));
             if (o instanceof CommentItem) {
                 if (o.comment.isTopLevel()) {
                     (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
