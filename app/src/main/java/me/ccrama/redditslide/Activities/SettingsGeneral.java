@@ -12,12 +12,16 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.rey.material.widget.Slider;
 
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
+
+import java.io.File;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
@@ -31,7 +35,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsGeneral extends BaseActivityAnim {
+public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDialog.FolderCallback {
     public static void setupNotificationSettings(View dialoglayout, final Activity context) {
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
         final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
@@ -128,9 +132,7 @@ public class SettingsGeneral extends BaseActivityAnim {
                 }
             }
         });
-
     }
-
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,6 +154,19 @@ public class SettingsGeneral extends BaseActivityAnim {
                 }
             });
         }
+        {
+            findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new FolderChooserDialog.Builder(SettingsGeneral.this)
+                            .chooseButton(R.string.btn_select)  // changes label of the choose button
+                            .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                            .show();
+                }
+            });
+        }
+        String loc = Reddit.appRestart.getString("imagelocation", "Not set yet");
+        ((TextView)findViewById(R.id.location)).setText(loc);
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.expandedmenu);
 
@@ -176,7 +191,7 @@ public class SettingsGeneral extends BaseActivityAnim {
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch(item.getItemId()){
+                        switch (item.getItemId()) {
                             case R.id.tabs:
                                 SettingValues.single = false;
                                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SINGLE, false).apply();
@@ -206,7 +221,7 @@ public class SettingsGeneral extends BaseActivityAnim {
 
 
         //FAB multi choice//
-        ((TextView) findViewById(R.id.fab_current)).setText(SettingValues.fab?(SettingValues.fabType==R.integer.FAB_DISMISS?getString(R.string.fab_hide):getString(R.string.fab_create)):getString(R.string.fab_disabled));
+        ((TextView) findViewById(R.id.fab_current)).setText(SettingValues.fab ? (SettingValues.fabType == R.integer.FAB_DISMISS ? getString(R.string.fab_hide) : getString(R.string.fab_create)) : getString(R.string.fab_disabled));
 
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,7 +231,7 @@ public class SettingsGeneral extends BaseActivityAnim {
 
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
-                        switch(item.getItemId()){
+                        switch (item.getItemId()) {
                             case R.id.disabled:
                                 SettingValues.fab = false;
                                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FAB, false).apply();
@@ -234,7 +249,7 @@ public class SettingsGeneral extends BaseActivityAnim {
                                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FAB, true).apply();
                                 break;
                         }
-                        ((TextView) findViewById(R.id.fab_current)).setText(SettingValues.fab?(SettingValues.fabType==R.integer.FAB_DISMISS?getString(R.string.fab_hide):getString(R.string.fab_create)):getString(R.string.fab_disabled));
+                        ((TextView) findViewById(R.id.fab_current)).setText(SettingValues.fab ? (SettingValues.fabType == R.integer.FAB_DISMISS ? getString(R.string.fab_hide) : getString(R.string.fab_create)) : getString(R.string.fab_disabled));
 
                         return true;
                     }
@@ -350,5 +365,12 @@ public class SettingsGeneral extends BaseActivityAnim {
             });
         }
     }
-
+    @Override
+    public void onFolderSelection(FolderChooserDialog dialog, File folder) {
+        if (folder != null) {
+            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
+            Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            ((TextView)findViewById(R.id.location)).setText( folder.getAbsolutePath());
+        }
+    }
 }

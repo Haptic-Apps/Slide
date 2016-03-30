@@ -50,6 +50,7 @@ public class SettingValues {
     public static final String PREF_COLOR_SUB_NAME = "colorSubName";
     public static final String PREF_OVERRIDE_LANGUAGE = "overrideLanguage";
     public static final String PREF_SHOW_DOMAIN = "showDomain";
+    public static final String PREF_CARD_TEXT = "cardText";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
@@ -143,6 +144,7 @@ public class SettingValues {
     public static boolean hideSelftextLeadImage;
     public static boolean overrideLanguage;
     public static boolean showDomain;
+    public static boolean cardText;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -171,6 +173,7 @@ public class SettingValues {
         daytime = prefs.getInt(PREF_NIGHT_TIME, 6);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
         colorBack = prefs.getBoolean(PREF_COLOR_BACK, false);
+        cardText = prefs.getBoolean(PREF_CARD_TEXT, true);
         colorNavBar = prefs.getBoolean(PREF_COLOR_NAV_BAR, false);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);

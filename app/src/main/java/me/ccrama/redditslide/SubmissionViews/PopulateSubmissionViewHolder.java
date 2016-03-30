@@ -1615,6 +1615,14 @@ public class PopulateSubmissionViewHolder {
         doInfoLine(holder, submission, mContext, baseSub, full);
 
 
+        if(!full && SettingValues.cardText && submission.isSelfPost() && !submission.getSelftext().isEmpty()){
+            holder.body.setVisibility(View.VISIBLE);
+            String text = submission.getDataNode().get("selftext_html").asText();
+            holder.body.setTextHtml(Html.fromHtml(text.substring(0,text.contains("\n")?text.indexOf("\n"):text.length())));
+        } else if(!full) {
+            holder.body.setVisibility(View.GONE);
+        }
+
         if (fullscreen) {
             if (!submission.getSelftext().isEmpty()) {
                 setViews(submission.getDataNode().get("selftext_html").asText(), submission.getSubredditName(), holder);
