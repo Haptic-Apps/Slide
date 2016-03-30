@@ -175,11 +175,11 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    if(position == 0 && positionOffsetPixels == 0){
+                    if(position == firstPage && positionOffsetPixels == 0){
                         finish();
                     }
-                    if(position == 0){
-
+                    if(position == firstPage){
+                        ((OverviewPagerAdapter)pager.getAdapter()).blankPage.doOffset(positionOffset);
                         pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
                     }
                 }
@@ -269,6 +269,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private CommentPage mCurrentFragment;
+        public BlankFragment blankPage;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -294,8 +295,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
         @Override
         public Fragment getItem(int i) {
-            if (i == firstPage ) {
-                return new BlankFragment();
+            if (i == firstPage || i == 0) {
+                blankPage = new BlankFragment();
+                return blankPage;
             } else {
                 i = i - 1;
                 Fragment f = new CommentPage();

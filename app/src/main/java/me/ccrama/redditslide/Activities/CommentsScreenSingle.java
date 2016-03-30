@@ -111,7 +111,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                     finish();
                 }
                 if(position == 0){
-
+                    ((OverviewPagerAdapter)pager.getAdapter()).blankPage.doOffset(positionOffset);
                     pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
                 }
             }
@@ -180,6 +180,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         private Fragment mCurrentFragment;
+        public BlankFragment blankPage;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -200,7 +201,8 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         @Override
         public Fragment getItem(int i) {
             if(i == 0){
-                return new BlankFragment();
+                blankPage = new BlankFragment();
+                return blankPage;
             } else {
 
                 Fragment f = new CommentPage();

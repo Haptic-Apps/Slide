@@ -905,15 +905,18 @@ public class SubredditView extends BaseActivityAnim {
     }
 
     View header;
-    public int adjustAlpha( float factor) {
+
+    public int adjustAlpha(float factor) {
         int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
         int red = Color.red(Color.BLACK);
         int green = Color.green(Color.BLACK);
         int blue = Color.blue(Color.BLACK);
         return Color.argb(alpha, red, green, blue);
     }
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
+        private BlankFragment blankPage;
 
         @Override
         public Parcelable saveState() {
@@ -934,7 +937,8 @@ public class SubredditView extends BaseActivityAnim {
                             finish();
                         }
                     }
-                    if(position == 0){
+                    if (position == 0) {
+                        ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
                         pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
                     }
                 }
@@ -988,7 +992,8 @@ public class SubredditView extends BaseActivityAnim {
 
                 return f;
             } else {
-                return new BlankFragment();
+                blankPage = new BlankFragment();
+                return blankPage;
             }
 
 
