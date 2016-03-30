@@ -301,6 +301,7 @@ public class CommentPage extends Fragment {
                             if (!PostMatch.openExternal(adapter.submission.getUrl())) {
 
                                 switch (ContentType.getImageType(adapter.submission)) {
+                                    case VID_ME:
                                     case STREAMABLE:
                                         if (SettingValues.video) {
                                             Intent myIntent = new Intent(getActivity(), GifView.class);

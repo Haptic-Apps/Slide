@@ -121,6 +121,9 @@ public class ContentType {
             if(isDomain(url, "deviantart.com")){
                 return ImageType.DEVIANTART;
             }
+            if(isDomain(url, "vid.me")){
+                return ImageType.VID_ME;
+            }
             if (isDomain(url, "streamable.com")) {
                 return ImageType.STREAMABLE;
             }
@@ -239,7 +242,10 @@ public class ContentType {
         } else {
             url = url.replaceFirst("^//", "https://");
         }
-        if(url.contains("deviantart.com")){
+        if(isDomain(url, "vid.me")){
+            return ImageType.VID_ME;
+        }
+        if(isDomain(url, "deviantart.com")){
             return ImageType.DEVIANTART;
         }
         if (isRedditLink(url)) {
@@ -280,6 +286,7 @@ public class ContentType {
         EMBEDDED,
         LINK,
         IMAGE_LINK,
+        VID_ME,
         NSFW_LINK,
         SELF,
         GFY,

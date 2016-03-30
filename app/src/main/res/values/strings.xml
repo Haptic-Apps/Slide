@@ -689,4 +689,5 @@
     <string name="discover_title">Discover</string>
     <string name="settings_data">Data saving</string>
     <string name="settings_card_show_selftext">Show first paragraph of selftext</string>
+    <string name="btn_view">VIEW</string>
 </resources>

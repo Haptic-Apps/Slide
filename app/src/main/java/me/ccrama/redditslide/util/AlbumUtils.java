@@ -93,6 +93,9 @@ public class AlbumUtils {
             if (rawdat2.substring(rawDat.lastIndexOf("/"), rawdat2.length()).length() < 4) {
                 rawDat = rawDat.replace(rawDat.substring(rawDat.lastIndexOf("/"), rawdat2.length()), "");
             }
+            if(rawDat.contains("?")){
+                rawDat = rawDat.substring(0, rawDat.indexOf("?"));
+            }
             if (rawDat.isEmpty()) {
                 if (finishIfNone)
                     baseActivity.finish();
@@ -332,6 +335,9 @@ public class AlbumUtils {
             String rawdat2 = rawDat;
             if (rawdat2.substring(rawDat.lastIndexOf("/"), rawdat2.length()).length() < 4) {
                 rawDat = rawDat.replace(rawDat.substring(rawDat.lastIndexOf("/"), rawdat2.length()), "");
+            }
+            if(rawDat.contains("?")){
+                rawDat = rawDat.substring(0, rawDat.indexOf("?"));
             }
             {
 

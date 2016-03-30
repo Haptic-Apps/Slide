@@ -263,6 +263,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 case SELF:
                     break;
                 case STREAMABLE:
+                case VID_ME:
                     openStreamable(url);
                     break;
                 case GFY:

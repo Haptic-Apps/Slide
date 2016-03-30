@@ -89,6 +89,7 @@ public class PostMatch {
             case LINK:
             case IMAGE_LINK:
             case NONE_URL:
+            case VID_ME:
             case VIDEO:
             case STREAMABLE:
                 if (urls) contentMatch = true;
@@ -101,6 +102,7 @@ public class PostMatch {
                 if (albums) contentMatch = true;
                 break;
             case IMAGE:
+            case DEVIANTART:
             case IMGUR:
             case NONE_IMAGE:
                 if (images) contentMatch = true;

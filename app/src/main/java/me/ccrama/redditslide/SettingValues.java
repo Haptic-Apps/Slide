@@ -167,8 +167,8 @@ public class SettingValues {
         commentNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
         postNav = false;
 
-        fab = prefs.getBoolean(PREF_FAB, false);
-        fabType = prefs.getInt(PREF_FAB_TYPE, R.integer.FAB_POST);
+        fab = prefs.getBoolean(PREF_FAB, true);
+        fabType = prefs.getInt(PREF_FAB_TYPE, R.integer.FAB_DISMISS);
         nighttime = prefs.getInt(PREF_DAY_TIME, 20);
         daytime = prefs.getInt(PREF_NIGHT_TIME, 6);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);

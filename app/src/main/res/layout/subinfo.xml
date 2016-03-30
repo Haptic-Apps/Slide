@@ -2,6 +2,7 @@
 
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sidebar_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -91,7 +92,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:theme="?android:attr/buttonBarStyle"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:layout_width="0dp"
+                    app:srcCompat="@drawable/theme"
+                    android:tint="?attr/tint"
+                    android:padding="8dp"
+                    android:layout_weight="1"
+                    android:layout_height="48dp" />
+                <ImageButton
+                    android:layout_width="0dp"
+                    app:srcCompat="@drawable/wiki"
+                    android:tint="?attr/tint"
+                    android:layout_weight="1"
+                    android:layout_height="48dp" />
+                <ImageButton
+                    android:layout_width="0dp"
+                    app:srcCompat="@drawable/send"
+                    android:tint="?attr/tint"
+                    android:layout_weight="1"
+                    android:layout_height="48dp" />
+                <ImageButton
+                    android:layout_width="0dp"
+                    app:srcCompat="@drawable/support"
+                    android:tint="?attr/tint"
+                    android:layout_weight="1"
+                    android:layout_height="48dp" />
+                </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:theme="?android:attr/buttonBarStyle"
@@ -105,7 +135,6 @@
                     android:layout_weight="1"
                     android:theme="?android:attr/buttonBarButtonStyle"
                     android:text="@string/title_theme_settings"
-                    android:visibility="gone"
                     android:textAllCaps="true" />
 
                 <Button
@@ -124,7 +153,6 @@
                     android:theme="?android:attr/buttonBarButtonStyle"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:visibility="gone"
                     android:layout_weight="1"
                     android:text="@string/btn_submit"
                     android:textAllCaps="true" />

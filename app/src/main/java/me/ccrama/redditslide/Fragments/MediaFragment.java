@@ -460,6 +460,7 @@ public class MediaFragment extends Fragment {
                         }
                     });
                     break;
+                case VID_ME:
                 case STREAMABLE:
                     base.setOnClickListener(new View.OnClickListener() {
                         @Override

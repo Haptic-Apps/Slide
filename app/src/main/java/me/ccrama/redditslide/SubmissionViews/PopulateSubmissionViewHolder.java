@@ -115,6 +115,7 @@ public class PopulateSubmissionViewHolder {
                 if (!PostMatch.openExternal(submission.getUrl())) {
 
                     switch (type) {
+                        case VID_ME:
                         case STREAMABLE:
                             if (SettingValues.video) {
                                 Intent myIntent = new Intent(contextActivity, GifView.class);

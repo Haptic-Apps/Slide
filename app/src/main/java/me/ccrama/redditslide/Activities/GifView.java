@@ -16,6 +16,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.StreamableUtil;
+import me.ccrama.redditslide.util.VidMeUtil;
 
 
 /**
@@ -61,19 +62,17 @@ public class GifView extends FullScreenActivity implements FolderChooserDialog.F
         v = (MediaVideoView) findViewById(R.id.gif);
         v.clearFocus();
 
-
-
-
-
-
         prefs = getSharedPreferences("DATA", 0);
 
         loader = (ProgressBar) findViewById(R.id.gifprogress);
         final String dat;
         if (getIntent().hasExtra(EXTRA_STREAMABLE)) {
             dat = getIntent().getStringExtra(EXTRA_STREAMABLE);
-            new StreamableUtil.AsyncLoadStreamable(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false).execute(dat);
-
+            if (dat.contains("vid.me")) {
+                new VidMeUtil.AsyncLoadVidMe(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false).execute(dat);
+            } else {
+                new StreamableUtil.AsyncLoadStreamable(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false).execute(dat);
+            }
         } else {
             dat = getIntent().getExtras().getString(EXTRA_URL);
             new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false).execute(dat);

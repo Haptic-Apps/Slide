@@ -2316,7 +2316,13 @@ public class MainActivity extends BaseActivity {
                 count = Authentication.reddit.me().getInboxCount(); //Force reload of the LoggedInAccount object
                 int oldCount = Reddit.appRestart.getInt("inbox", 0);
                 if (count > oldCount) {
-                    Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(MainActivity.this, Inbox.class);
+                            startActivity(i);
+                        }
+                    }).show();
                 }
                 Reddit.appRestart.edit().putInt("inbox", count).apply();
 

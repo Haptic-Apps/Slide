@@ -25,7 +25,7 @@ public class InboxMessages extends GeneralPosts {
     public boolean loading;
     private Paginator<Message> paginator;
     private SwipeRefreshLayout refreshLayout;
-    private String where;
+    public String where;
     private InboxAdapter adapter;
 
     public InboxMessages(ArrayList<Message> firstData, InboxPaginator paginator) {

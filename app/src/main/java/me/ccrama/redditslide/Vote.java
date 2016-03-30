@@ -42,15 +42,10 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
         if (Authentication.isLoggedIn) {
             try {
                 new AccountManager(Authentication.reddit).vote(sub[0], direction);
-                ((Activity) c).runOnUiThread(new Runnable() {
-                    public void run() {
-                        c = null;
-                        v = null;
-                    }
-                });
             } catch (ApiException | RuntimeException e) {
                 ((Activity) c).runOnUiThread(new Runnable() {
                     public void run() {
+                        if(v != null)
                         Snackbar.make(v, R.string.vote_err, Snackbar.LENGTH_SHORT).show();
                         c = null;
                         v = null;
@@ -61,7 +56,8 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
         } else {
             ((Activity) c).runOnUiThread(new Runnable() {
                 public void run() {
-                    Snackbar.make(v, R.string.vote_err_login, Snackbar.LENGTH_SHORT).show();
+                    if(v != null)
+                        Snackbar.make(v, R.string.vote_err_login, Snackbar.LENGTH_SHORT).show();
                     c = null;
                     v = null;
                 }

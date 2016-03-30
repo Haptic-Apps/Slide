@@ -360,6 +360,9 @@ public class HeaderImageLinkView extends RelativeLayout {
                 case IMGUR:
                     title.setText(R.string.type_imgur);
                     break;
+                case VID_ME:
+                    title.setText("vid.me");
+                    break;
                 case GFY:
                 case GIF:
                 case NONE_GFY:

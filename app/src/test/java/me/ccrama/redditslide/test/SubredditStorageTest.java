@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.ccrama.redditslide.SubredditStorage;
+import me.ccrama.redditslide.UserSubscriptions;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -24,14 +25,14 @@ public class SubredditStorageTest {
 
     @Test
     public void sortsSubreddits() {
-        assertThat(SubredditStorage.sort(subreddits), is(new ArrayList<String>(Arrays.asList(
+        assertThat(UserSubscriptions.sort(subreddits), is(new ArrayList<String>(Arrays.asList(
                 "frontpage", "all", "random", "friends", "mod", "aaa", "xyy", "xyz"
         ))));
     }
 
     @Test
     public void sortsSubredditsNoExtras() {
-        assertThat(SubredditStorage.sortNoExtras(subreddits), is(new ArrayList<String>(Arrays.asList(
+        assertThat(UserSubscriptions.sortNoExtras(subreddits), is(new ArrayList<String>(Arrays.asList(
                 "frontpage", "random", "friends", "mod", "aaa", "xyy", "xyz"
         ))));
     }
