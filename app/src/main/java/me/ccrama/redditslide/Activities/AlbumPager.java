@@ -144,7 +144,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
                 final ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
 
-                getSupportActionBar().setSubtitle(1 + "/" + images.size());
+                if (getSupportActionBar() != null)
+                    getSupportActionBar().setSubtitle(1 + "/" + images.size());
 
                 AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
                 p.setAdapter(adapter);
@@ -157,7 +158,9 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                         if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
                             List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
                             title = text.get(0);
-                            getSupportActionBar().setTitle(title);
+                            if (getSupportActionBar() != null)
+
+                                getSupportActionBar().setTitle(title);
 
                         }
 
@@ -186,7 +189,9 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                         if (user.getAsJsonObject().has("title")) {
                             List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
                             title = text.get(0);
-                            getSupportActionBar().setTitle(title);
+                            if (getSupportActionBar() != null)
+
+                                getSupportActionBar().setTitle(title);
 
                         }
 
@@ -248,7 +253,9 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     p.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                         @Override
                         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                            getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
+                            if (getSupportActionBar() != null)
+
+                                getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
                         }
 
                         @Override
@@ -261,7 +268,9 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                                 if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
                                     List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
                                     title = text.get(0);
-                                    getSupportActionBar().setTitle(title);
+                                    if (getSupportActionBar() != null)
+
+                                        getSupportActionBar().setTitle(title);
 
                                 }
 
@@ -290,7 +299,9 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                                 if (user.getAsJsonObject().has("title")) {
                                     List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
                                     title = text.get(0);
-                                    getSupportActionBar().setTitle(title);
+                                    if (getSupportActionBar() != null)
+
+                                        getSupportActionBar().setTitle(title);
 
                                 }
 

@@ -127,8 +127,6 @@ public class MainActivity extends BaseActivity {
     public static final String IS_ONLINE = "online";
     // Instance state keys
     static final String SUBS = "subscriptions";
-    static final String SUBS_ALPHA = "subscriptionsAlpha";
-    static final String REAL_SUBS = "realSubscriptions";
     static final String LOGGED_IN = "loggedIn";
     static final String IS_MOD = "ismod";
     static final String USERNAME = "username";
@@ -320,7 +318,7 @@ public class MainActivity extends BaseActivity {
             Reddit.appRestart.edit().putBoolean("firststart52", true).apply();
             Intent i = new Intent(this, Tutorial.class);
             startActivity(i);
-        } else if (!Reddit.colors.contains("v52update") && !Reddit.colors.contains("firststart52")) {
+        } else if (!Reddit.colors.contains("v502update") && !Reddit.colors.contains("firststart52")) {
             new MaterialDialog.Builder(this)
                     .title("Slide v5.0.2")
                     .customView(R.layout.whats_new, false)
@@ -328,7 +326,7 @@ public class MainActivity extends BaseActivity {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Reddit.colors.edit().putBoolean("v52update", true).apply();
+                            Reddit.colors.edit().putBoolean("v502update", true).apply();
                             doForcePrefs();
                         }
                     })
@@ -336,7 +334,7 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
 
-                            Reddit.colors.edit().putBoolean("v52update", true).apply();
+                            Reddit.colors.edit().putBoolean("v502update", true).apply();
                             doForcePrefs();
                         }
                     })
@@ -2319,8 +2317,9 @@ public class MainActivity extends BaseActivity {
                 int oldCount = Reddit.appRestart.getInt("inbox", 0);
                 if (count > oldCount) {
                     Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).show();
-                    Reddit.appRestart.edit().putInt("inbox", count).apply();
                 }
+                Reddit.appRestart.edit().putInt("inbox", count).apply();
+
             } catch (Exception e) {
                 Log.w(LogUtil.getTag(), "Cannot fetch inbox count");
                 count = -1;

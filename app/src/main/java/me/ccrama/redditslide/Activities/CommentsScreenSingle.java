@@ -115,7 +115,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                 if(position == 0 && positionOffsetPixels == 0){
                     finish();
                 }
-                if(position == 0){
+                if(position == 0 && ((OverviewPagerAdapter)pager.getAdapter()).blankPage != null){
                     ((OverviewPagerAdapter)pager.getAdapter()).blankPage.doOffset(positionOffset);
                     pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
                 }

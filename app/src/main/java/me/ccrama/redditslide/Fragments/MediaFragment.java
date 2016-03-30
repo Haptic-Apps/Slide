@@ -68,24 +68,28 @@ public class MediaFragment extends Fragment {
     private float previous;
     private boolean hidden;
     Submission s;
+
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(videoView != null){
+        if (videoView != null) {
             videoView.seekTo(stopPosition);
             videoView.start();
         }
     }
+
     int stopPosition;
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(videoView != null) {
+        if (videoView != null) {
             stopPosition = videoView.getCurrentPosition();
             videoView.pause();
             outState.putInt("position", stopPosition);
         }
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,7 +101,8 @@ public class MediaFragment extends Fragment {
             displayImage(firstUrl);
         }
 
-        if(savedInstanceState != null && savedInstanceState.containsKey("position")) stopPosition = savedInstanceState.getInt("position");
+        if (savedInstanceState != null && savedInstanceState.containsKey("position"))
+            stopPosition = savedInstanceState.getInt("position");
 
 
         doLoad(contentUrl);
@@ -216,7 +221,9 @@ public class MediaFragment extends Fragment {
                 break;
         }
     }
+
     MediaVideoView videoView;
+
     public void doLoadGif(final String dat) {
         videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
         videoView.clearFocus();
@@ -289,23 +296,24 @@ public class MediaFragment extends Fragment {
                         URL obj = new URL(finalUrl2);
                         URLConnection conn = obj.openConnection();
                         final String type = conn.getHeaderField("Content-Type");
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (type != null && !type.isEmpty() && type.startsWith("image/")) {
-                                    //is image
-                                    if (type.contains("gif")) {
-                                        doLoadGif(finalUrl2.replace(".jpg", ".gif"));
-                                    } else if (!imageShown) {
-                                        displayImage(finalUrl2);
+                        if (getActivity() != null)
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (type != null && !type.isEmpty() && type.startsWith("image/")) {
+                                        //is image
+                                        if (type.contains("gif")) {
+                                            doLoadGif(finalUrl2.replace(".jpg", ".gif"));
+                                        } else if (!imageShown) {
+                                            displayImage(finalUrl2);
+                                        }
+                                    } else {
+                                        Intent i = new Intent(getActivity(), Website.class);
+                                        i.putExtra(Website.EXTRA_URL, finalUrl2);
+                                        getActivity().startActivity(i);
                                     }
-                                } else {
-                                    Intent i = new Intent(getActivity(), Website.class);
-                                    i.putExtra(Website.EXTRA_URL, finalUrl2);
-                                    getActivity().startActivity(i);
                                 }
-                            }
-                        });
+                            });
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -438,8 +446,9 @@ public class MediaFragment extends Fragment {
 
 
     }
+
     private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {
-        if(!PostMatch.openExternal(submission.getUrl())) {
+        if (!PostMatch.openExternal(submission.getUrl())) {
 
             switch (type) {
                 case NSFW_IMAGE:
