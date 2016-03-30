@@ -1162,6 +1162,8 @@ public class MainActivity extends BaseActivity {
                                             }
                                             if (!d) {
                                                 Authentication.name = "";
+                                                Authentication.isLoggedIn = false;
+                                                Authentication.authentication.edit().remove("lasttoken").commit();
                                                 UserSubscriptions.switchAccounts();
                                                 Reddit.forceRestart(MainActivity.this, true);
                                             }
@@ -2062,8 +2064,8 @@ public class MainActivity extends BaseActivity {
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
-            if(usedArray.size() >= position)
-            doSetPrimary(object, position);
+            if (usedArray.size() >= position)
+                doSetPrimary(object, position);
         }
 
         @Override
@@ -2315,8 +2317,8 @@ public class MainActivity extends BaseActivity {
             try {
                 count = Authentication.reddit.me().getInboxCount(); //Force reload of the LoggedInAccount object
                 int oldCount = Reddit.appRestart.getInt("inbox", 0);
-                if(count > oldCount){
-                    Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount,count - oldCount), Snackbar.LENGTH_LONG).show();
+                if (count > oldCount) {
+                    Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).show();
                     Reddit.appRestart.edit().putInt("inbox", count).apply();
                 }
             } catch (Exception e) {

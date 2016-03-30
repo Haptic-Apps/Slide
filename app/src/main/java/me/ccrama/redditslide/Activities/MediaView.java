@@ -98,6 +98,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
     }
 
+    String contentUrl;
+
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
 
@@ -111,7 +113,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         setContentView(R.layout.activity_media);
 
         String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
-        final String contentUrl = getIntent().getExtras().getString(EXTRA_URL);
+        contentUrl = getIntent().getExtras().getString(EXTRA_URL);
 
         if (!firstUrl.isEmpty() && contentUrl != null && !contentUrl.contains("deviantart.com")) {
             imageShown = true;
@@ -459,14 +461,14 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Reddit.defaultShare(finalUrl, MediaView.this);
+                    Reddit.defaultShare(contentUrl, MediaView.this);
 
                 }
             });
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showShareDialog(finalUrl);
+                    showShareDialog(contentUrl);
                 }
             });
             {
