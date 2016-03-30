@@ -2408,9 +2408,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                            .show();
                                    break;
                                case 10:
-                                   int old = holder.getAdapterPosition();
-                                   int pos = (old < 2) ? 0 : (old == 1) ? old - 1 : old - 2;
-
+                                   int pos = holder.getAdapterPosition();
                                    for (int i = pos - 1; i >= 0; i--) {
                                        CommentObject o = users.get(i);
                                        if (o instanceof CommentItem) {
@@ -2422,6 +2420,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                setViews(parent.getDataNode().get("body_html").asText(), submission.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
                                                builder.setView(dialoglayout);
                                                builder.show();
+                                               break;
                                            }
                                        }
                                    }
