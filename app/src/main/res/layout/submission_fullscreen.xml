@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/card_background"
+    android:layout_marginBottom="4dp"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -15,7 +16,6 @@
         android:layout_height="wrap_content" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -31,7 +31,6 @@
 
 
             android:orientation="horizontal">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,9 +73,7 @@
             android:id="@+id/previewContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
-
 
             <ImageView
                 android:id="@+id/menu"
@@ -138,10 +135,7 @@
                         android:textColor="?attr/font"
                         android:textSize="14sp" />
                 </LinearLayout>
-
             </LinearLayout>
-
-
         </LinearLayout>
 
         <LinearLayout
@@ -149,7 +143,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <me.ccrama.redditslide.SpoilerRobotoTextView
                 android:id="@+id/firstTextView"
@@ -177,9 +170,7 @@
         <me.ccrama.redditslide.Views.RevealRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:layout_marginBottom="4dp"
-            android:gravity="center_vertical"
-           >
+            android:gravity="center_vertical">
             <LinearLayout
                 android:id="@+id/vote"
                 android:layout_width="match_parent"
@@ -191,8 +182,7 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:orientation="horizontal"
-             >
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="15dp"
@@ -236,7 +226,6 @@
                     android:text="420"
 
                     android:textSize="?attr/font_cardinfo" />
-
             </LinearLayout>
 
 
@@ -258,7 +247,6 @@
                 android:layout_height="36dp"
                 android:layout_toLeftOf="@+id/downvote"
                 android:padding="8dp"
-
 
                 app:srcCompat="@drawable/upvoted"
                 android:tint="?attr/tint" />
@@ -318,7 +306,6 @@
                 android:padding="8dp"
                 app:srcCompat="@drawable/mod"
                 android:tint="?attr/tint" />
-
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
 
 
