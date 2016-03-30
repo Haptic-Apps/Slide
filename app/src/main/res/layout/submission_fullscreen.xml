@@ -28,8 +28,6 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-
             android:orientation="horizontal">
 
             <LinearLayout
@@ -65,7 +63,6 @@
                     android:tag="tint"
                     android:text="@string/example_time"
                     android:textSize="?attr/font_cardinfo" />
-
             </LinearLayout>
         </LinearLayout>
 
