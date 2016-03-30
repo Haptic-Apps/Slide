@@ -332,7 +332,7 @@
                 style="@style/Ripple.List"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/edit"
+                android:layout_toLeftOf="@+id/flair"
 
                 android:padding="8dp"
                 app:srcCompat="@drawable/mod"

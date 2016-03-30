@@ -230,6 +230,8 @@ public class Authentication {
                                 Reddit.notifications.start(mContext);
 
                             }
+                            UserSubscriptions.doOnlineSyncing();
+
                             return null;
 
                         }
@@ -238,7 +240,6 @@ public class Authentication {
                     }
                     didOnline = true;
 
-                    UserSubscriptions.doOnlineSyncing();
                 } else {
                     Log.v(LogUtil.getTag(), "NOT LOGGED IN");
 

@@ -5,15 +5,26 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import com.cocosw.bottomsheet.BottomSheet;
 
 import net.dean.jraw.managers.InboxManager;
 import net.dean.jraw.models.Message;
@@ -21,6 +32,7 @@ import net.dean.jraw.models.PrivateMessage;
 
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Sendmessage;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
@@ -66,7 +78,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         } else if (dataSet.posts.size() != 0) {
             position -= 1;
         }
-        if (position == dataSet.posts.size()  &&dataSet.posts.size() != 0) {
+        if (position == dataSet.posts.size() && dataSet.posts.size() != 0) {
             return 5;
         }
 
@@ -82,8 +94,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
             return new SpacerViewHolder(v);
 
-        } else
-        if (i == TOP_LEVEL) {
+        } else if (i == TOP_LEVEL) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.top_level_message, viewGroup, false);
             return new MessageViewHolder(v);
         } else if (i == 5) {
@@ -99,7 +110,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int pos) {
-        int i = pos != 0?pos - 1:pos;
+        int i = pos != 0 ? pos - 1 : pos;
 
         if (!(viewHolder instanceof ContributionAdapter.EmptyViewHolder) && !(viewHolder instanceof SpacerViewHolder)) {
             final MessageViewHolder messageViewHolder = (MessageViewHolder) viewHolder;
@@ -116,6 +127,97 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 messageViewHolder.title.setTextColor(ContextCompat.getColor(mContext, R.color.md_red_500));
             }
 
+
+            messageViewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int[] attrs = new int[]{R.attr.tint};
+                    TypedArray ta = mContext.obtainStyledAttributes(attrs);
+
+                    final int color = ta.getColor(0, Color.WHITE);
+                    Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
+                    final Drawable reply = mContext.getResources().getDrawable(R.drawable.reply);
+                    Drawable unhide = mContext.getResources().getDrawable(R.drawable.ic_visibility);
+                    Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
+                    Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
+                    Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
+
+                    profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                    hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                    copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                    reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                    unhide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+                    BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
+                            .title(Html.fromHtml(comment.getSubject()));
+
+                    b.sheet(1, profile, "/u/" + comment.getAuthor());
+
+                    String read = "Mark read";
+                    Drawable rDrawable = hide;
+                    if (comment.isRead()) {
+                        read = "Mark unread";
+                        rDrawable = unhide;
+                    }
+                    b.sheet(2, rDrawable, read);
+                    b.sheet(3, reply, mContext.getString(R.string.btn_reply));
+                    b.sheet(25, copy, "Copy text");
+                    if (comment.isComment()) {
+                        b.sheet(30, reddit, "View full thread");
+                    }
+                    b.listener(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 1: {
+                                    Intent i = new Intent(mContext, Profile.class);
+                                    i.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
+                                    mContext.startActivity(i);
+                                }
+                                break;
+                                case 2: {
+                                    if (comment.isRead()) {
+                                        comment.read = false;
+                                        new AsyncSetRead(false).execute(comment);
+                                        messageViewHolder.title.setTextColor(ContextCompat.getColor(mContext, R.color.md_red_500));
+                                    } else {
+                                        comment.read = true;
+                                        new AsyncSetRead(true).execute(comment);
+                                        messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
+                                    }
+                                }
+                                break;
+                                case 3: {
+                                    if (comment instanceof PrivateMessage) {
+                                        DataShare.sharedMessage = (PrivateMessage) comment;
+                                        Intent i = new Intent(mContext, Sendmessage.class);
+                                        i.putExtra(Sendmessage.EXTRA_NAME, comment.getAuthor());
+                                        i.putExtra(Sendmessage.EXTRA_REPLY, true);
+                                        mContext.startActivity(i);
+                                    } else {
+                                        new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
+                                    }
+                                }
+                                break;
+                                case 25: {
+                                    ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                                    ClipData clip = ClipData.newPlainText("Message", comment.getBody());
+                                    clipboard.setPrimaryClip(clip);
+                                    Toast.makeText(mContext, "Message copied", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                                case 30: {
+                                    String context = comment.getDataNode().get("context").asText();
+                                    new OpenRedditLink(mContext, "https://reddit.com" + context.substring(0, context.lastIndexOf("/")));
+                                }
+                                break;
+                            }
+                        }
+                    }).show();
+                    return true;
+                }
+            });
+
             messageViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -131,7 +233,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         }
                     } else {
                         comment.read = true;
-                        new AsyncSetRead().execute(comment);
+                        new AsyncSetRead(true).execute(comment);
 
                         messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
 
@@ -143,15 +245,17 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
         }
-        if(viewHolder instanceof SpacerViewHolder){
+        if (viewHolder instanceof SpacerViewHolder) {
             viewHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(viewHolder.itemView.getWidth(), ((Activity) (mContext)).findViewById(R.id.header).getHeight()));
         }
     }
+
     public class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
             super(itemView);
         }
     }
+
     private void setViews(String rawHTML, String subredditName, MessageViewHolder holder) {
         if (rawHTML.isEmpty()) {
             return;
@@ -193,9 +297,15 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private class AsyncSetRead extends AsyncTask<Message, Void, Void> {
 
+        Boolean b;
+
+        public AsyncSetRead(Boolean b) {
+            this.b = b;
+        }
+
         @Override
         protected Void doInBackground(Message... params) {
-            new InboxManager(Authentication.reddit).setRead(true, params[0]);
+            new InboxManager(Authentication.reddit).setRead(b, params[0]);
             return null;
         }
     }
