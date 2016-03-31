@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/activity_background"
-                android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/activity_background"
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -27,16 +27,16 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="72dp"
         android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="72dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-                      android:orientation="vertical"
-                      android:padding="16dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <RadioGroup
                 android:layout_width="match_parent"
@@ -54,7 +54,7 @@
 
                     android:text="@string/editor_self"
                     android:textAllCaps="true"
-                    android:textColor="?attr/font"/>
+                    android:textColor="?attr/font" />
 
                 <RadioButton
                     android:id="@+id/imageradio"
@@ -65,7 +65,7 @@
                     android:layout_weight="1"
                     android:text="@string/type_img"
                     android:textAllCaps="true"
-                    android:textColor="?attr/font"/>
+                    android:textColor="?attr/font" />
 
                 <RadioButton
                     android:id="@+id/linkradio"
@@ -75,13 +75,12 @@
                     android:layout_weight="1"
                     android:text="@string/type_link"
                     android:textAllCaps="true"
-                    android:textColor="?attr/font"/>
+                    android:textColor="?attr/font" />
             </RadioGroup>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:id="@+id/subreddittext"
@@ -94,7 +93,7 @@
 
                     android:maxLength="21"
                     android:maxLines="1"
-                    android:textColor="?attr/font"/>
+                    android:textColor="?attr/font" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -103,12 +102,12 @@
 
                 <EditText
                     android:id="@+id/titletext"
-                    android:inputType="textCapSentences"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tint"
                     android:hint="@string/editor_title"
-                    android:maxLength="300"/>
+                    android:inputType="textCapSentences"
+                    android:maxLength="300" />
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -130,7 +129,7 @@
 
                         android:imeOptions="actionDone|flagNoEnterAction"
                         android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
-                        android:textColor="?attr/font"/>
+                        android:textColor="?attr/font" />
                 </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
@@ -157,8 +156,8 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/image"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/image" />
 
 
                     <ImageButton
@@ -172,8 +171,8 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/link"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/link" />
 
                     <ImageButton
                         android:id="@+id/bold"
@@ -186,8 +185,8 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_format_bold_white_48dp"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/ic_format_bold_white_48dp" />
 
                     <ImageButton
                         android:id="@+id/italics"
@@ -200,8 +199,8 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_format_italic_white_48dp"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/ic_format_italic_white_48dp" />
 
                     <ImageButton
                         android:id="@+id/bulletlist"
@@ -214,8 +213,8 @@
 
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp" />
 
                     <ImageButton
                         android:id="@+id/numlist"
@@ -228,8 +227,8 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_format_list_numbered_white_48dp"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/ic_format_list_numbered_white_48dp" />
 
                     <ImageButton
                         android:id="@+id/quote"
@@ -242,8 +241,8 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/ic_format_quote_white_48dp"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/ic_format_quote_white_48dp" />
 
                     <ImageButton
                         android:id="@+id/size"
@@ -256,10 +255,22 @@
                         android:cropToPadding="false"
                         android:padding="8dp"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/fontsizedarker"
-                        android:tint="?attr/tint"/>
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/fontsizedarker" />
                 </LinearLayout>
-
+                <TextView
+                    android:id="@+id/preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:padding="6dp"
+                    android:layout_gravity="right"
+                    android:text="@string/btn_preview"
+                    android:textAllCaps="true"
+                    android:layout_toLeftOf="@+id/send"
+                    android:textColor="?attr/font"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -282,7 +293,7 @@
                     android:textColor="?attr/font"
                     android:textSize="14sp"
 
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/imagepost"
@@ -290,7 +301,7 @@
                     android:layout_height="wrap_content"
 
                     android:layout_marginTop="10dp"
-                    android:adjustViewBounds="true"/>
+                    android:adjustViewBounds="true" />
             </LinearLayout>
 
             <LinearLayout
@@ -307,7 +318,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="?attr/tint"
-                        android:hint="@string/editor_url"/>
+                        android:hint="@string/editor_url" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -315,22 +326,23 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.v7.widget.SwitchCompat
+        android:id="@+id/replies"
         android:layout_width="match_parent"
-        android:text="@string/submit_replies_to_inbox"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
-        android:checked="true"
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="100dp"
-        android:layout_height="56dp"
-        android:id="@+id/replies"
         android:background="?android:selectableItemBackground"
         android:backgroundTint="?attr/tint"
         android:button="@null"
         android:buttonTint="?attr/tint"
+        android:checked="true"
         android:hapticFeedbackEnabled="true"
+        android:text="@string/submit_replies_to_inbox"
         android:textColor="?attr/font"
-        android:textColorHint="?attr/font"/>
+        android:textColorHint="?attr/font" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/send"
         android:layout_width="wrap_content"
@@ -338,9 +350,9 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        app:srcCompat="@drawable/send"
         app:elevation="6dp"
         app:fabSize="normal"
         app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
-        app:pressedTranslationZ="12dp"/>
+        app:pressedTranslationZ="12dp"
+        app:srcCompat="@drawable/send" />
 </RelativeLayout>

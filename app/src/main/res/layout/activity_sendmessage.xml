@@ -241,7 +241,19 @@
                     android:tint="?attr/tint"/>
             </LinearLayout>
 
-
+            <TextView
+                android:id="@+id/preview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                android:padding="6dp"
+                android:layout_gravity="right"
+                android:text="@string/btn_preview"
+                android:textAllCaps="true"
+                android:layout_toLeftOf="@+id/send"
+                android:textColor="?attr/font"
+                android:textSize="14sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

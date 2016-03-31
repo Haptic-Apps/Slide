@@ -33,7 +33,6 @@ public class OpenRedditLink {
             np = true;
             url = url.substring(2);
         }
-        Log.v(LogUtil.getTag(), "Opening URL " + url);
 
         RedditLinkType type = getRedditLinkType(url);
 

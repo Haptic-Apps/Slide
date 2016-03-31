@@ -234,6 +234,7 @@ public class ContentType {
     public static ImageType getImageType(String url) {
         if (!url.startsWith("//") && url.equals("#s") || url.equals("#spoilers")
                 || url.equals("/spoiler") || url.equals("#sp")
+                || url.equals("#b")
                 || (url.startsWith("/") && url.length() < 4)) {
             return ImageType.SPOILER;
         }

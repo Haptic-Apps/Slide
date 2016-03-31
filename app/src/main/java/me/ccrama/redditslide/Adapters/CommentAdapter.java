@@ -815,7 +815,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
                             if (replyArea.getVisibility() == View.GONE) {
                                 expand(replyArea, true, true);
-                                DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm);
+                                DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm, (Activity) mContext);
 
                                 currentlyEditing = ((EditText) firstHolder.itemView.findViewById(R.id.replyLine));
                                 editingPosition = firstHolder.getAdapterPosition();
@@ -939,7 +939,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
                                                 e.setText(StringEscapeUtils.unescapeHtml4(submission.getSelftext()));
 
-                                                DoEditorActions.doActions(e, dialoglayout, fm);
+                                                DoEditorActions.doActions(e, dialoglayout, fm, (Activity) mContext);
 
                                                 builder.setView(dialoglayout);
                                                 final Dialog d = builder.create();
@@ -1516,7 +1516,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
                             e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
 
-                            DoEditorActions.doActions(e, dialoglayout, fm);
+                            DoEditorActions.doActions(e, dialoglayout, fm, (Activity) mContext);
 
                             builder.setView(dialoglayout);
                             final Dialog d = builder.create();
@@ -1658,7 +1658,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         expand(baseView, true);
                         replyArea.setVisibility(View.VISIBLE);
                         menu.setVisibility(View.GONE);
-                        DoEditorActions.doActions(replyLine, replyArea, fm);
+                        DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext);
                         currentlyEditing = replyLine;
                         editingPosition = holder.getAdapterPosition();
 

@@ -138,7 +138,7 @@ public class Submit extends BaseActivity {
             }
         });
 
-        DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)), findViewById(R.id.innersend2), getSupportFragmentManager());
+        DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)), findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this);
         if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras().getString(Intent.EXTRA_TEXT, "").isEmpty()) {
             String data = intent.getStringExtra(Intent.EXTRA_TEXT);
             ((EditText) findViewById(R.id.urltext)).setText(data);

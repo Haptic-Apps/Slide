@@ -364,7 +364,7 @@ public class CreateMulti extends BaseActivityAnim {
                         @Override
                         public void run() {
                             Log.v(LogUtil.getTag(), "Update Subreddits");
-                            new UserSubscriptions().getMultireddits();
+                            new UserSubscriptions.SyncMultireddits(CreateMulti.this).execute();
                         }
                     });
                 }

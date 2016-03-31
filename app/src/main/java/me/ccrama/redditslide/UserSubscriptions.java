@@ -1,9 +1,12 @@
 package me.ccrama.redditslide;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
+import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.Subreddit;
@@ -18,6 +21,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -39,7 +43,32 @@ public class UserSubscriptions {
             c.updateSubs(subredditsForHome);
         }
     }
+    public static class SyncMultireddits extends AsyncTask<Void, Void, Boolean> {
 
+        Context c;
+
+        public SyncMultireddits(Context c) {
+            this.c = c;
+        }
+
+        @Override
+        public void onPostExecute(Boolean b) {
+            Intent i = new Intent(c, MultiredditOverview.class);
+            c.startActivity(i);
+            ((Activity) c).finish();
+        }
+
+        @Override
+        public Boolean doInBackground(Void... params) {
+            try {
+                multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
+                return null;
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
     public static ArrayList<String> getSubscriptions(Context c) {
         String s = subscriptions.getString(Authentication.name, "");
         if (s.isEmpty()) {

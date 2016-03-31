@@ -110,7 +110,7 @@ public class Sendmessage extends BaseActivity {
                 findViewById(R.id.send).setVisibility(View.GONE);
             }
         });
-        DoEditorActions.doActions(((EditText) findViewById(R.id.body)), findViewById(R.id.innersend2), getSupportFragmentManager());
+        DoEditorActions.doActions(((EditText) findViewById(R.id.body)), findViewById(R.id.innersend2), getSupportFragmentManager(), Sendmessage.this);
 
 
     }

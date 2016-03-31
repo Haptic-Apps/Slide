@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Views;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,12 +15,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.github.rjeschke.txtmark.Processor;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,11 +35,14 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
  * Created by carlo_000 on 10/18/2015.
@@ -48,7 +54,7 @@ public class DoEditorActions {
                 android:id="@+id/link"
 
              */
-    public static void doActions(final EditText editText, final View baseView, final FragmentManager fm) {
+    public static void doActions(final EditText editText, final View baseView, final FragmentManager fm, final Activity a) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,6 +140,18 @@ public class DoEditorActions {
             @Override
             public void onClick(View v) {
                 insertBefore("1. ", editText);
+            }
+        });
+        baseView.findViewById(R.id.preview).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String html =  Processor.process(editText.getText().toString());
+                LayoutInflater inflater = (a).getLayoutInflater();
+                final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
+                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
+                setViews(html, "NO sub", (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                builder.setView(dialoglayout);
+                builder.show();
             }
         });
         baseView.findViewById(R.id.link).setOnClickListener(new View.OnClickListener() {
@@ -332,5 +350,33 @@ public class DoEditorActions {
         }
 
     }
+    private static void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
 
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0), subredditName);
+            firstTextView.setLinkTextColor(new ColorPreferences(firstTextView.getContext()).getColor(subredditName));
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subredditName);
+            } else {
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+            }
+        } else {
+            commentOverflow.removeAllViews();
+        }
+    }
 }

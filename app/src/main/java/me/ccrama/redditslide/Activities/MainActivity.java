@@ -435,11 +435,13 @@ public class MainActivity extends BaseActivity {
         new AsyncTask<Void, Void, Submission>() {
             @Override
             protected Submission doInBackground(Void... params) {
-                ArrayList<Submission> posts = new ArrayList<>(new SubredditPaginator(Authentication.reddit, "slideforreddit").next());
-                for(Submission s : posts){
-                    if(s.isStickied() && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("ANNOUNCEMENT" + s.getFullName())){
-                        Reddit.appRestart.edit().putBoolean("ANNOUNCEMENT" + s.getFullName(), true).apply();
-                       return s;
+                SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
+                p.setLimit(2);
+                ArrayList<Submission> posts = new ArrayList<>(p.next());
+                for (Submission s : posts) {
+                    if (s.isStickied() && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName())) {
+                        Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
+                        return s;
                     }
                 }
                 return null;
@@ -447,12 +449,12 @@ public class MainActivity extends BaseActivity {
 
             @Override
             protected void onPostExecute(final Submission s) {
-                if(s != null){
+                if (s != null) {
                     LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.submission_dialog, null);
                     final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
                     setViews(s.getDataNode().get("selftext_html").asText(), s.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
-                    ((TitleTextView)dialoglayout.findViewById(R.id.title)).setText(s.getTitle());
+                    ((TitleTextView) dialoglayout.findViewById(R.id.title)).setText(s.getTitle());
                     builder.setView(dialoglayout);
                     builder.setPositiveButton(R.string.btn_ok, null);
                     builder.setNeutralButton(R.string.btn_open_comments, new DialogInterface.OnClickListener() {
