@@ -35,6 +35,7 @@ import java.net.URLEncoder;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -290,7 +291,7 @@ public class DoEditorActions {
             URL url;
             try {
 
-                url = new URL("https://api.imgur.com/3/image");
+                url = new URL("https://imgur-apiv3.p.mashape.com/3/image");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
                 String data = URLEncoder.encode("image", "UTF-8") + "="
@@ -299,7 +300,8 @@ public class DoEditorActions {
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 conn.setRequestMethod("POST");
-                conn.setRequestProperty("Authorization", "Client-ID " + "bef87913eb202e9");
+                conn.addRequestProperty("X-Mashape-Key", SecretConstants.getImgurApiKey(c));
+                conn.addRequestProperty("Authorization", "Client-ID " + "bef87913eb202e9");
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type",
                         "application/x-www-form-urlencoded");

@@ -38,23 +38,6 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public boolean paddingBottom;
     public int height;
 
-    public AlbumView(Activity context, ArrayList<JsonElement> users, boolean gallery) {
-        main = context;
-        this.users = users;
-        list = new ArrayList<>();
-        if (gallery) {
-            for (final JsonElement elem : users) {
-                list.add("https://imgur.com/" + elem.getAsJsonObject().get("hash").getAsString() + ".png");
-            }
-        } else {
-            for (final JsonElement elem : users) {
-                list.add(elem.getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
-            }
-        }
-
-        paddingBottom = main.findViewById(R.id.toolbar) == null;
-    }
-
     public AlbumView(final Activity context, ArrayList<JsonElement> users, boolean gallery, int height) {
 
         this.height = height;
@@ -67,7 +50,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         } else {
             for (final JsonElement elem : users) {
-                list.add(elem.getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
+                list.add(elem.getAsJsonObject().get("link").getAsString());
             }
         }
 
@@ -170,7 +153,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     }
                 }
             } else {
-                if (user.getAsJsonObject().has("title")) {
+                if (user.getAsJsonObject().has("title") && !user.getAsJsonObject().get("title").isJsonNull()) {
                     List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
                     holder.text.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
                     if (holder.text.getText().toString().isEmpty()) {
@@ -182,7 +165,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holder.text.setVisibility(View.GONE);
 
                 }
-                if (user.getAsJsonObject().has("description")) {
+                if (user.getAsJsonObject().has("description") && !user.getAsJsonObject().get("description").isJsonNull()) {
                     List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
                     holder.body.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
                     if (holder.body.getText().toString().isEmpty()) {

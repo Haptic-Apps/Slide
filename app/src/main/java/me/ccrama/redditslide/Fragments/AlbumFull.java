@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,9 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.JsonElement;
+
 import net.dean.jraw.models.Submission;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+
 import me.ccrama.redditslide.Activities.CommentsScreen;
+import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
@@ -30,6 +38,7 @@ public class AlbumFull extends Fragment {
     private int i = 0;
     private Submission s;
     boolean hidden;
+    private ArrayList<JsonElement> images;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -115,17 +124,30 @@ public class AlbumFull extends Fragment {
             }
         });
 
-        new AlbumUtils.LoadAlbumFromUrl(s.getUrl(), getActivity(), false, false, null, (RecyclerView) list, rootView.findViewById(R.id.base).getHeight()).execute(s.getUrl());
+        new LoadIntoRecycler(s.getUrl(), getActivity()).execute();
 
         return rootView;
     }
 
+    public class LoadIntoRecycler extends AlbumUtils.GetAlbumJsonFromUrl {
 
-    private String cutEnds(String s) {
-        if (s.endsWith("/")) {
-            return s.substring(0, s.length() - 1);
-        } else {
-            return s;
+        String url;
+        public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
+            super(url, baseActivity);
+            this.url = url;
+        }
+
+        @Override
+        public void doWithData(final ArrayList<JsonElement> jsonElements) {
+            if (LoadIntoRecycler.this.overrideAlbum) {
+                cancel(true);
+                new LoadIntoRecycler(url.replace("/gallery", "/a"), getActivity()).execute();
+            } else {
+                images = new ArrayList<>(jsonElements);
+                AlbumView adapter = new AlbumView(baseActivity, images, false, 0);
+                ((RecyclerView) list).setAdapter(adapter);
+
+            }
         }
     }
 

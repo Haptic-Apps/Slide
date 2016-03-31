@@ -186,7 +186,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                         }
                     } else {
                         String title = "";
-                        if (user.getAsJsonObject().has("title")) {
+                        if (user.getAsJsonObject().has("title")&& !user.getAsJsonObject().get("title").isJsonNull()) {
                             List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
                             title = text.get(0);
                             if (getSupportActionBar() != null)
@@ -195,7 +195,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
                         }
 
-                        if (user.getAsJsonObject().has("description")) {
+                        if (user.getAsJsonObject().has("description")&& !user.getAsJsonObject().get("description").isJsonNull()) {
                             List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
                             final String done = text.get(0);
                             final String finalTitle = title;
@@ -216,6 +216,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                                 findViewById(R.id.text).setVisibility(View.VISIBLE);
                             }
 
+                        } else {
+                            findViewById(R.id.text).setVisibility(View.GONE);
                         }
                     }
                     final ArrayList<String> list = new ArrayList<>();
@@ -225,7 +227,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                         }
                     } else {
                         for (final JsonElement elem : images) {
-                            list.add(elem.getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
+                            list.add(elem.getAsJsonObject().get("link").getAsString());
                         }
                     }
                     findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
@@ -293,10 +295,12 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                                     } else {
                                         findViewById(R.id.text).setVisibility(View.VISIBLE);
                                     }
+                                } else {
+                                    findViewById(R.id.text).setVisibility(View.GONE);
                                 }
                             } else {
                                 String title = "";
-                                if (user.getAsJsonObject().has("title")) {
+                                if (user.getAsJsonObject().has("title")&& !user.getAsJsonObject().get("title").isJsonNull()) {
                                     List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
                                     title = text.get(0);
                                     if (getSupportActionBar() != null)
@@ -305,7 +309,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
                                 }
 
-                                if (user.getAsJsonObject().has("description")) {
+                                if (user.getAsJsonObject().has("description") && !user.getAsJsonObject().get("description").isJsonNull()) {
                                     List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
                                     final String done = text.get(0);
                                     final String finalTitle = title;
@@ -357,7 +361,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             if (gallery) {
                 url = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".png");
             } else {
-                url = (images.get(i).getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
+                url = (images.get(i).getAsJsonObject().get("link").getAsString());
             }
 
             if (url.contains("gif") || (images.get(i).getAsJsonObject().has("ext") && images.get(i).getAsJsonObject().get("ext").getAsString().contains("gif"))) {
@@ -433,7 +437,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 dat = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".gif");
 
             } else {
-                dat = (images.get(i).getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
+                dat = (images.get(i).getAsJsonObject().get("link").getAsString());
 
             }
 
@@ -472,7 +476,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 url = ("https://imgur.com/" + user.getAsJsonObject().get("hash").getAsString() + ".png");
 
             } else {
-                url = (user.getAsJsonObject().getAsJsonObject("links").get("original").getAsString());
+                url = (user.getAsJsonObject().get("link").getAsString());
 
             }
 

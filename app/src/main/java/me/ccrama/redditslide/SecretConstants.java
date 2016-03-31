@@ -46,4 +46,20 @@ public class SecretConstants {
         }
         return apiKey;
     }
+    public static String getImgurApiKey(Context context) {
+        if (apiKey == null) {
+            InputStream input = null;
+            try {
+                input = context.getAssets().open("secretconstants.properties");
+                Properties properties = new Properties();
+                properties.load(input);
+                apiKey = properties.getProperty("imgur");
+            } catch (IOException e) {
+                // file not found
+                apiKey = "3P3GlZj91emshgWU6YuQL98Q9Zihp1c2vCSjsnOQLIchXPzDLh"; //Testing key, will not work in production
+            }
+
+        }
+        return apiKey;
+    }
 }

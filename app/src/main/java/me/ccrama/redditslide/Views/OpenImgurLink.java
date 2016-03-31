@@ -10,6 +10,7 @@ import com.koushikdutta.ion.Ion;
 
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Website;
+import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -24,7 +25,8 @@ public class OpenImgurLink {
 
         if (NetworkUtil.isConnected(c)) {
             final String finalUrl = url;
-            Ion.with(c).load("https://api.imgur.com/2/image/" + hash + ".json")
+            Ion.with(c).load("https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json")
+                    .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(c)).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
                     .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                 @Override
                 public void onCompleted(Exception e, JsonObject obj) {

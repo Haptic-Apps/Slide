@@ -44,6 +44,7 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
@@ -243,8 +244,9 @@ public class MediaFragment extends Fragment {
         if (NetworkUtil.isConnected(getActivity())) {
             final String finalUrl = url;
             final String finalUrl1 = url;
-            LogUtil.v("Loading" + "https://api.imgur.com/2/image/" + hash + ".json");
-            Ion.with(this).load("https://api.imgur.com/2/image/" + hash + ".json")
+            LogUtil.v("Loading" + "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json");
+            Ion.with(this).load("https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json")
+                    .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(getActivity())).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
                     .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                                                     @Override
                                                     public void onCompleted(Exception e, JsonObject obj) {
