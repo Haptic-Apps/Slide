@@ -105,6 +105,7 @@
     <!-- Sidebar items (That's the one on the right) -->
     <string name="sidebar_pinned">Pinned</string>
     <string name="sidebar_wiki">Wiki</string>
+    <string name="sidebar_mods">Subreddit moderators</string>
 
 
     <!-- Crash reporting screen -->
