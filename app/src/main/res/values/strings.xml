@@ -691,4 +691,5 @@
     <string name="settings_data">Data saving</string>
     <string name="settings_card_show_selftext">Show first paragraph of selftext</string>
     <string name="btn_view">VIEW</string>
+    <string name="btn_open_comments">Open comments</string>
 </resources>

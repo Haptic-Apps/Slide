@@ -78,6 +78,7 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.models.UserRecord;
 import net.dean.jraw.paginators.Sorting;
+import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
 import net.dean.jraw.util.JrawUtils;
@@ -101,6 +102,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.OfflineSubreddit;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -113,6 +115,7 @@ import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
+import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AlbumUtils;
@@ -428,6 +431,40 @@ public class MainActivity extends BaseActivity {
         }
 
         System.gc();
+
+        new AsyncTask<Void, Void, Submission>() {
+            @Override
+            protected Submission doInBackground(Void... params) {
+                ArrayList<Submission> posts = new ArrayList<>(new SubredditPaginator(Authentication.reddit, "slideforreddit").next());
+                for(Submission s : posts){
+                    if(s.isStickied() && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("ANNOUNCEMENT" + s.getFullName())){
+                        Reddit.appRestart.edit().putBoolean("ANNOUNCEMENT" + s.getFullName(), true).apply();
+                       return s;
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(final Submission s) {
+                if(s != null){
+                    LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.submission_dialog, null);
+                    final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
+                    setViews(s.getDataNode().get("selftext_html").asText(), s.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                    ((TitleTextView)dialoglayout.findViewById(R.id.title)).setText(s.getTitle());
+                    builder.setView(dialoglayout);
+                    builder.setPositiveButton(R.string.btn_ok, null);
+                    builder.setNeutralButton(R.string.btn_open_comments, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new OpenRedditLink(MainActivity.this, s.getUrl());
+                        }
+                    });
+                    builder.show();
+                }
+            }
+        }.execute();
 
     }
 
