@@ -564,6 +564,27 @@ public class MainActivity extends BaseActivity {
                         startActivity(i);
                     }
                 });
+                dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(MainActivity.this, Submit.class);
+                        i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                        startActivity(i);
+                    }
+                });
+                dialoglayout.findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
+                        final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
+                        LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
+                        final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
+                        ArrayList<String> arrayList = new ArrayList<>();
+                        arrayList.add(subreddit);
+                        SettingsSubAdapter.showSubThemeEditor(arrayList, MainActivity.this, dialoglayout);
+                    }
+                });
+
                 dialoglayout.findViewById(R.id.mods).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -609,7 +630,6 @@ public class MainActivity extends BaseActivity {
                 });
 
             }
-            findViewById(R.id.sub_theme).setVisibility(View.GONE);
         } else {
             //Hide info button on frontpage and all
             mShowInfoButton = false;

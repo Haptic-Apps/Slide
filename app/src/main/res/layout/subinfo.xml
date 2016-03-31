@@ -101,10 +101,12 @@
                     app:srcCompat="@drawable/theme"
                     android:tint="?attr/tint"
                     android:padding="8dp"
+                    android:id="@+id/theme"
                     android:layout_weight="1"
                     android:layout_height="48dp" />
                 <ImageButton
                     android:layout_width="0dp"
+                    android:id="@+id/wiki"
                     app:srcCompat="@drawable/wiki"
                     android:tint="?attr/tint"
                     android:layout_weight="1"
@@ -113,59 +115,17 @@
                     android:layout_width="0dp"
                     app:srcCompat="@drawable/send"
                     android:tint="?attr/tint"
+                    android:id="@+id/submit"
                     android:layout_weight="1"
                     android:layout_height="48dp" />
                 <ImageButton
                     android:layout_width="0dp"
                     app:srcCompat="@drawable/support"
                     android:tint="?attr/tint"
+                    android:id="@+id/mods"
                     android:layout_weight="1"
                     android:layout_height="48dp" />
                 </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:theme="?android:attr/buttonBarStyle"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/sub_theme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:theme="?android:attr/buttonBarButtonStyle"
-                    android:text="@string/title_theme_settings"
-                    android:textAllCaps="true" />
-
-                <Button
-                    android:id="@+id/wiki"
-                    android:layout_width="wrap_content"
-                    android:theme="?android:attr/buttonBarButtonStyle"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:text="@string/sidebar_wiki"
-                    android:textAllCaps="true" />
-
-                <Button
-                    android:id="@+id/submit"
-                    android:layout_width="wrap_content"
-                    android:theme="?android:attr/buttonBarButtonStyle"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:text="@string/btn_submit"
-                    android:textAllCaps="true" />
-                <Button
-                    android:id="@+id/mods"
-                    android:layout_width="wrap_content"
-                    android:theme="?android:attr/buttonBarButtonStyle"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:layout_weight="1"
-                    android:text="@string/btn_mods"
-                    android:textAllCaps="true" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/body"
