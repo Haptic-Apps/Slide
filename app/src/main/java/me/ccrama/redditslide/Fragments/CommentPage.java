@@ -183,20 +183,24 @@ public class CommentPage extends Fragment {
         header.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
         headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
 
-        //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
-        //So, we just do 7% of the device screen height as a general estimate for just a toolbar.
-        //Don't use "headerHeight" for consistency
-        int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
-        int headerOffset = Math.round((float) (screenHeight * 0.07));
+        //If the "No participation" header was present, the offset has already been set
+        if (!np) {
+            //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
+            //So, we just do 7% of the device screen height as a general estimate for just a toolbar.
+            //Don't use "headerHeight" for consistency
+            int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
+            int headerOffset = Math.round((float) (screenHeight * 0.07));
 
-        //If the header has the "Load full thread" appended to it, account for the extra height
-        if (loadMore) {
-            headerOffset = Math.round((float) (screenHeight * 0.11));
+            //If the header has the "Load full thread", "Archived", or "Locked" header,
+            //account for the extra height
+            if (loadMore || archived || locked) {
+                headerOffset = Math.round((float) (screenHeight * 0.11));
+            }
+
+            mSwipeRefreshLayout.setProgressViewOffset(false,
+                    headerOffset - Reddit.pxToDp(42, getContext()),
+                    headerOffset + Reddit.pxToDp(42, getContext()));
         }
-
-        mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerOffset - Reddit.pxToDp(42, getContext()),
-                headerOffset + Reddit.pxToDp(42, getContext()));
 
     }
 
@@ -250,7 +254,22 @@ public class CommentPage extends Fragment {
 
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, getActivity()));
 
-        mSwipeRefreshLayout.setProgressViewOffset(false, Reddit.pxToDp(56, getContext()), Reddit.pxToDp(92, getContext()));
+        //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
+        //So, we just do 7% of the device screen height as a general estimate for just a toolbar.
+        //Don't use "headerHeight" for consistency
+        int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
+        int headerOffset = Math.round((float) (screenHeight * 0.07));
+
+        //If the header has the "Load full thread" & "No participation" header, account for the extra height
+        if (np && loadMore) {
+            headerOffset = Math.round((float) (screenHeight * 0.15));
+        } else if (np) { //If the header has the "No participation" header, account for the extra height
+            headerOffset = Math.round((float) (screenHeight * 0.11));
+        }
+
+        mSwipeRefreshLayout.setProgressViewOffset(false,
+                headerOffset - Reddit.pxToDp(42, getContext()),
+                headerOffset + Reddit.pxToDp(42, getContext()));
 
 
         mSwipeRefreshLayout.setOnRefreshListener(
@@ -715,6 +734,4 @@ public class CommentPage extends Fragment {
             }
         }
     }
-
-
 }
