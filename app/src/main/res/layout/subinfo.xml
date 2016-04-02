@@ -120,7 +120,7 @@
                     android:layout_height="48dp" />
                 <ImageButton
                     android:layout_width="0dp"
-                    app:srcCompat="@drawable/support"
+                    app:srcCompat="@drawable/mod"
                     android:tint="?attr/tint"
                     android:id="@+id/mods"
                     android:layout_weight="1"

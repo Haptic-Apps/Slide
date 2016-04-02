@@ -119,10 +119,8 @@ public class PopulateSubmissionViewHolder {
                         case STREAMABLE:
                             if (SettingValues.video) {
                                 Intent myIntent = new Intent(contextActivity, GifView.class);
-
                                 myIntent.putExtra(GifView.EXTRA_STREAMABLE, submission.getUrl());
                                 contextActivity.startActivity(myIntent);
-
                             } else {
                                 Reddit.defaultShare(submission.getUrl(), contextActivity);
                             }
@@ -131,13 +129,17 @@ public class PopulateSubmissionViewHolder {
                             openImage(contextActivity, submission);
                             break;
                         case IMGUR:
-                            Intent i2 = new Intent(contextActivity, MediaView.class);
-                            if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                                String previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                                i2.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
+                            if (SettingValues.image) {
+                                Intent i2 = new Intent(contextActivity, MediaView.class);
+                                if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                                    String previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                                    i2.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
+                                }
+                                i2.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+                                contextActivity.startActivity(i2);
+                            } else {
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
                             }
-                            i2.putExtra(MediaView.EXTRA_URL, submission.getUrl());
-                            contextActivity.startActivity(i2);
                             break;
                         case EMBEDDED:
                             if (SettingValues.video) {
@@ -216,9 +218,8 @@ public class PopulateSubmissionViewHolder {
                             CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                             break;
                         case VIDEO:
-
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
-
+                            break;
                     }
                 } else {
                     Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -234,7 +235,7 @@ public class PopulateSubmissionViewHolder {
 
 
     public static void openImage(Activity contextActivity, Submission submission) {
-        if (SettingValues.image ) {
+        if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             String url;
             String previewUrl;
@@ -1238,7 +1239,7 @@ public class PopulateSubmissionViewHolder {
         try {
             String time = TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext);
             titleString.append(time);
-        } catch (Exception e){
+        } catch (Exception e) {
             titleString.append("just now");
         }
         titleString.append(spacer);
@@ -1369,7 +1370,7 @@ public class PopulateSubmissionViewHolder {
                 titleString.append(pinned);
             }
         }*/
-        if(SettingValues.showDomain){
+        if (SettingValues.showDomain) {
             titleString.append(spacer);
             titleString.append(submission.getDomain());
         }
@@ -1461,7 +1462,7 @@ public class PopulateSubmissionViewHolder {
             downvotebutton.setVisibility(View.GONE);
             upvotebutton.setVisibility(View.GONE);
         } else if (Authentication.isLoggedIn && !offline && Authentication.didOnline) {
-            if(SettingValues.actionbarVisible && downvotebutton.getVisibility()!= View.VISIBLE){
+            if (SettingValues.actionbarVisible && downvotebutton.getVisibility() != View.VISIBLE) {
                 downvotebutton.setVisibility(View.VISIBLE);
                 upvotebutton.setVisibility(View.VISIBLE);
             }
@@ -1627,11 +1628,11 @@ public class PopulateSubmissionViewHolder {
         doInfoLine(holder, submission, mContext, baseSub, full);
 
 
-        if(!full && SettingValues.cardText && submission.isSelfPost() && !submission.getSelftext().isEmpty()){
+        if (!full && SettingValues.cardText && submission.isSelfPost() && !submission.getSelftext().isEmpty()) {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
-            holder.body.setTextHtml(Html.fromHtml(text.substring(0,text.contains("\n")?text.indexOf("\n"):text.length())));
-        } else if(!full) {
+            holder.body.setTextHtml(Html.fromHtml(text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length())));
+        } else if (!full) {
             holder.body.setVisibility(View.GONE);
         }
 

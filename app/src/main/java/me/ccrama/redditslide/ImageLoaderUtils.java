@@ -66,6 +66,7 @@ public class ImageLoaderUtils {
                 .threadPoolSize(threadPoolSize)
                 .denyCacheImageMultipleSizesInMemory()
                 .diskCache(discCache)
+                .threadPoolSize(4)
                 .defaultDisplayImageOptions(options)
                 .memoryCacheSize(memory)
                 .imageDownloader(new BaseImageDownloader(context))

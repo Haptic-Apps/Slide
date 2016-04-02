@@ -239,9 +239,15 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         if (!PostMatch.openExternal(url)) {
             switch (type) {
                 case IMGUR:
-                    Intent intent2 = new Intent(activity, MediaView.class);
-                    intent2.putExtra(MediaView.EXTRA_URL, url);
-                    activity.startActivity(intent2);
+                    if (SettingValues.image) {
+
+
+                        Intent intent2 = new Intent(activity, MediaView.class);
+                        intent2.putExtra(MediaView.EXTRA_URL, url);
+                        activity.startActivity(intent2);
+                    } else {
+                        Reddit.defaultShare(url, activity);
+                    }
                     break;
                 case NSFW_IMAGE:
                     openImage(url);

@@ -133,7 +133,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<String> hiddenPersons;
     ArrayList<String> replie;
 
-    public <T extends Contribution> void showModBottomSheet(final Context mContext, final Comment comment, final CommentViewHolder holder, final Map<String, Integer> reports, final Map<String, String> reports2) {
+    public <T extends Contribution> void showModBottomSheet(final Context mContext, final CommentNode baseNode, final Comment comment, final CommentViewHolder holder, final Map<String, Integer> reports, final Map<String, String> reports2) {
 
         int[] attrs = new int[]{R.attr.tint};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
@@ -144,6 +144,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final Drawable approve = mContext.getResources().getDrawable(R.drawable.support);
         final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.hide);
         final Drawable pin = mContext.getResources().getDrawable(R.drawable.lock);
+        final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
         final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
 
 
@@ -151,7 +152,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         approve.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         nsfw.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        distinguish.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
@@ -179,11 +180,22 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
         final boolean stickied = comment.getDataNode().has("stickied") && comment.getDataNode().get("stickied").asBoolean();
-        if (stickied) {
-            b.sheet(4, pin, "Un-pin comment");
+        if(baseNode.isTopLevel())
+        if (!stickied) {
+            b.sheet(4, pin, "Sticky comment");
         } else {
-            b.sheet(4, pin, "Pin comment");
+            b.sheet(4, pin, "Un-sticky comment");
         }
+
+        final boolean distinguished = !comment.getDataNode().get("distinguished").isNull();
+        if (comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
+            if (!distinguished) {
+                b.sheet(9, distinguish, "Distinguish comment");
+            } else {
+                b.sheet(9, distinguish, "Un-distinguish comment");
+            }
+        }
+
 
         final String finalWhoApproved = whoApproved;
         final boolean finalApproved = approved;
@@ -278,7 +290,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                             case 4:
                                 if (stickied) {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really un-pin this comment?")
+                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really un-sticky this comment?")
                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(final DialogInterface dialog, int which) {
@@ -290,7 +302,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                             if (b) {
                                                                 dialog.dismiss();
 
-                                                                Snackbar.make(holder.itemView, "Comment un-pinned", Snackbar.LENGTH_LONG).show();
+                                                                Snackbar.make(holder.itemView, "Comment un-stickied", Snackbar.LENGTH_LONG).show();
 
                                                             } else {
                                                                 new AlertDialogWrapper.Builder(mContext)
@@ -315,7 +327,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 }
                                             }).setNegativeButton(R.string.btn_no, null).show();
                                 } else {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really pin this comment?")
+                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really sticky this comment?")
                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(final DialogInterface dialog, int which) {
@@ -326,7 +338,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                         public void onPostExecute(Boolean b) {
                                                             if (b) {
                                                                 dialog.dismiss();
-                                                                Snackbar.make(holder.itemView, "Comment pinned", Snackbar.LENGTH_LONG).show();
+                                                                Snackbar.make(holder.itemView, "Comment stickied", Snackbar.LENGTH_LONG).show();
 
                                                             } else {
                                                                 new AlertDialogWrapper.Builder(mContext)
@@ -339,6 +351,83 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                         protected Boolean doInBackground(Void... params) {
                                                             try {
                                                                 new ModerationManager(Authentication.reddit).setSticky(comment, true);
+                                                            } catch (ApiException e) {
+                                                                e.printStackTrace();
+                                                                return false;
+
+                                                            }
+                                                            return true;
+                                                        }
+                                                    }.execute();
+
+                                                }
+                                            }).setNegativeButton(R.string.btn_no, null).show();
+                                }
+
+                                break;
+                            case 9:
+                                if (distinguished) {
+                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really un-distinguish this comment?")
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(final DialogInterface dialog, int which) {
+
+                                                    new AsyncTask<Void, Void, Boolean>() {
+
+                                                        @Override
+                                                        public void onPostExecute(Boolean b) {
+                                                            if (b) {
+                                                                dialog.dismiss();
+
+                                                                Snackbar.make(holder.itemView, "Comment un-distinguished", Snackbar.LENGTH_LONG).show();
+
+                                                            } else {
+                                                                new AlertDialogWrapper.Builder(mContext)
+                                                                        .setTitle(R.string.err_general)
+                                                                        .setMessage(R.string.err_retry_later).show();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        protected Boolean doInBackground(Void... params) {
+                                                            try {
+                                                                new ModerationManager(Authentication.reddit).setDistinguishedStatus(comment, DistinguishedStatus.NORMAL);
+                                                            } catch (ApiException e) {
+                                                                e.printStackTrace();
+                                                                return false;
+
+                                                            }
+                                                            return true;
+                                                        }
+                                                    }.execute();
+
+                                                }
+                                            }).setNegativeButton(R.string.btn_no, null).show();
+                                } else {
+                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really distinguish this comment?")
+                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(final DialogInterface dialog, int which) {
+
+                                                    new AsyncTask<Void, Void, Boolean>() {
+
+                                                        @Override
+                                                        public void onPostExecute(Boolean b) {
+                                                            if (b) {
+                                                                dialog.dismiss();
+                                                                Snackbar.make(holder.itemView, "Comment distinguished", Snackbar.LENGTH_LONG).show();
+
+                                                            } else {
+                                                                new AlertDialogWrapper.Builder(mContext)
+                                                                        .setTitle(R.string.err_general)
+                                                                        .setMessage(R.string.err_retry_later).show();
+                                                            }
+                                                        }
+
+                                                        @Override
+                                                        protected Boolean doInBackground(Void... params) {
+                                                            try {
+                                                                new ModerationManager(Authentication.reddit).setDistinguishedStatus(comment, DistinguishedStatus.MODERATOR);
                                                             } catch (ApiException e) {
                                                                 e.printStackTrace();
                                                                 return false;
@@ -572,10 +661,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
-            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+        if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (submission != null && comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (authorcolor != 0) {
@@ -1494,7 +1583,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     baseView.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            showModBottomSheet(mContext, baseNode.getComment(), holder, reports, reports2);
+                            showModBottomSheet(mContext, baseNode,  baseNode.getComment(), holder, reports, reports2);
 
                         }
                     });

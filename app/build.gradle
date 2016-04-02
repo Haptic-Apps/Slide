@@ -96,7 +96,6 @@ dependencies {
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
         transitive = true
     }
-    compile 'com.github.ccrama:JRAW:5d64611bd9'
     compile 'com.jakewharton:process-phoenix:1.0.2'
     compile 'com.android.support:design:23.2.1'
     compile 'com.koushikdutta.ion:ion:2.1.6'
@@ -130,5 +129,6 @@ dependencies {
         transitive = true;
     }
     compile 'com.github.rjeschke:txtmark:0.13'
+    compile 'com.github.ccrama:JRAW:beb9f0622e'
 }
 
