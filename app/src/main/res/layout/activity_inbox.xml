@@ -32,8 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00000000"
-            android:clipToPadding="false"
-            android:minHeight="56dp">
+            android:clipToPadding="false">
             <ImageView
                 android:id="@+id/compose"
                 android:layout_width="48dp"
