@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:background="#aa000000"
         android:clipToPadding="false"
-        android:minHeight="60dp"
         android:theme="@style/Theme.AppCompat">
         <ImageView
             android:id="@+id/grid"

@@ -42,8 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#00000000"
-                android:theme="@style/ActionBarCompat"
-                android:minHeight="56dp" />
+                android:theme="@style/ActionBarCompat" />
 
 
         </android.support.design.widget.AppBarLayout>

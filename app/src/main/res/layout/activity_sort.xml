@@ -12,8 +12,6 @@
         android:layout_height="wrap_content"
         android:background="?attr/tint"
         android:clipToPadding="false"
-        android:minHeight="56dp"
-
         android:theme="@style/Theme.AppCompat"
         app:layout_scrollFlags="scroll|enterAlways">
 
@@ -57,8 +55,6 @@
         android:layout_height="wrap_content"
         android:background="@color/md_light_blue_500"
         android:clipToPadding="false"
-        android:minHeight="56dp"
-
         android:paddingRight="16dp"
         android:theme="@style/Theme.AppCompat"
         app:layout_scrollFlags="scroll|enterAlways"

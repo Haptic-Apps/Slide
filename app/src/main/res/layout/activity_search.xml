@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:background="?attr/card_background"
         android:clipToPadding="false"
-        android:minHeight="56dp"
         android:paddingRight="16dp"
         app:layout_scrollFlags="scroll|enterAlways">
 

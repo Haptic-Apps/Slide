@@ -31,7 +31,6 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:minHeight="56dp"
                 android:layout_height="?android:attr/actionBarSize"
                 android:theme="@style/ActionBarCompat"
                 android:title="@string/app_name" />
