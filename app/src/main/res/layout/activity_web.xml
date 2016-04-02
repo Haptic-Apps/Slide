@@ -16,14 +16,12 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="56dp"
             android:clipToPadding="false"
-
             android:elevation="5dp"
-            android:minHeight="60dp"
-            android:paddingRight="16dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:theme="@style/Theme.AppCompat">
+            android:minHeight="56dp"
+            android:theme="@style/Theme.AppCompat"
+            app:layout_scrollFlags="scroll|enterAlways">
 
 
         </android.support.v7.widget.Toolbar>
@@ -34,23 +32,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-
-            android:layout_marginTop="-7dp"
             android:layout_marginBottom="-7dp"
+            android:layout_marginTop="-7dp"
             android:indeterminate="false"
             android:max="100"
             android:progress="0" />
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <WebView
-            android:id="@+id/web"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.NestedScrollView>
+    <me.ccrama.redditslide.Views.NestedWebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_height="match_parent" />
 
 </android.support.design.widget.CoordinatorLayout>

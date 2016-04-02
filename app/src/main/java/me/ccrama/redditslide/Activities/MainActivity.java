@@ -1740,6 +1740,23 @@ public class MainActivity extends BaseActivity {
                         }
                     }
                 });
+                dialoglayout.findViewById(R.id.blacklighter).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
+                                Reddit.themeBack = theme.getThemeType();
+                                new ColorPreferences(MainActivity.this).setFontStyle(theme);
+                                d.dismiss();
+                                recreate();
+
+                                break;
+                            }
+                        }
+                    }
+                });
                 dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

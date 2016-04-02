@@ -190,7 +190,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 1) {
-                                    if (UserSubscriptions.getMultireddits().size() > 0) {
+                                    if (UserSubscriptions.getMultireddits() != null && UserSubscriptions.getMultireddits().size() > 0) {
                                         new AlertDialogWrapper.Builder(ReorderSubreddits.this)
                                                 .setTitle("Would you like to create a new Collection or import a Multireddit?")
                                                 .setPositiveButton("New", new DialogInterface.OnClickListener() {

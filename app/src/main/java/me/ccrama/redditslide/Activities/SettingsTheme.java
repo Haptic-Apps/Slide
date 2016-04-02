@@ -48,7 +48,7 @@ public class SettingsTheme extends BaseActivity {
 
                 final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
-                int[] arrs = new int[ColorPreferences.Theme.values().length / 4];
+                int[] arrs = new int[ColorPreferences.Theme.values().length / 5];
                 int i = 0;
                 for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                     if (type.getThemeType() == 0) {
@@ -162,6 +162,28 @@ public class SettingsTheme extends BaseActivity {
                                 new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
                                 Reddit.themeBack = theme.getThemeType();
 
+                                Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(i);
+                                overridePendingTransition(0, 0);
+
+                                finish();
+                                overridePendingTransition(0, 0);
+
+                                break;
+                            }
+                        }
+                    }
+                });
+                dialoglayout.findViewById(R.id.blacklighter).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
+                                Reddit.themeBack = theme.getThemeType();
+                                new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
                                 Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                 startActivity(i);

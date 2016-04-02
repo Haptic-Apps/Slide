@@ -80,13 +80,12 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (position == 0 && dataSet.posts.size() != 0 || position == dataSet.posts.size() && dataSet.nomore && !dataSet.where.equalsIgnoreCase("where")) {
 
             return SPACER;
-        } else if (dataSet.posts.size() != 0) {
+        } else  {
             position -= 1;
         }
-        if (position == dataSet.posts.size() && dataSet.posts.size() != 0 && !!dataSet.where.equalsIgnoreCase("where")) {
+        if (position == dataSet.posts.size()  && dataSet.posts.size() != 0 &&  !dataSet.where.equalsIgnoreCase("where")) {
             return 5;
         }
-
         if (!dataSet.posts.get(position).getSubject().toLowerCase().contains("re:"))//IS COMMENT
             return TOP_LEVEL;
 
@@ -124,7 +123,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             messageViewHolder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
             SpannableStringBuilder titleString = new SpannableStringBuilder();
-            titleString.append(comment.getAuthor());
+            if (comment.getAuthor() != null)
+                titleString.append(comment.getAuthor());
             if (UserTags.isUserTagged(comment.getAuthor())) {
                 SpannableStringBuilder pinned = new SpannableStringBuilder(" " + UserTags.getUserTag(comment.getAuthor()) + " ");
                 pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -312,7 +312,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
-            return dataSet.posts.size() + (dataSet.where.equalsIgnoreCase("unread")?1:2);
+            return dataSet.posts.size() + (dataSet.where.equalsIgnoreCase("unread") ? 1 : 2);
 
         }
     }

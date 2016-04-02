@@ -156,6 +156,22 @@ public class SubredditView extends BaseActivityAnim {
                         }
                     }
                 });
+                dialoglayout.findViewById(R.id.blacklighter).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_")[1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
+                                new ColorPreferences(SubredditView.this).setFontStyle(theme);
+                                Reddit.themeBack = theme.getThemeType();
+                                d.dismiss();
+                                recreate();
+                                break;
+                            }
+                        }
+                    }
+                });
                 dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

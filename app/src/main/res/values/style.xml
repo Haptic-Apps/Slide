@@ -80,6 +80,10 @@
         <item name="colorAccent">@color/md_teal_A200</item>
 
     </style>
+    <style name="teal_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_teal_A200</item>
+
+    </style>
     <style name="pink_amoled" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_pink_A200</item>
 
@@ -193,6 +197,58 @@
     </style>
 
     <style name="lime_blue" parent="Theme.DARK_BLUE">
+        <item name="colorAccent">@color/md_lime_A700</item>
+
+    </style>
+    <style name="pink_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_pink_A200</item>
+
+    </style>
+    <style name="yellow_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_yellow_A700</item>
+
+    </style>
+
+    <style name="white_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+
+    </style>
+    <style name="amber_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_amber_A700</item>
+
+    </style>
+
+    <style name="blue_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_blue_A700</item>
+
+    </style>
+
+    <style name="lightblue_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_light_blue_A700</item>
+
+    </style>
+
+    <style name="deeporange_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
+
+    </style>
+
+    <style name="cyan_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_cyan_A700</item>
+
+    </style>
+
+    <style name="green_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_green_A700</item>
+
+    </style>
+
+    <style name="indigo_AMOLED_lighter" parent="Theme.AMOLED_lighter">
+        <item name="colorAccent">@color/md_indigo_A700</item>
+
+    </style>
+
+    <style name="lime_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_lime_A700</item>
 
     </style>
@@ -310,13 +366,13 @@
     </style>
 
     <style name="FontStyle.SmallerPost">
-        <item name="font_cardtitle">14sp</item>
+        <item name="font_cardtitle">16sp</item>
         <item name="font_cardinfo">10sp</item>
     </style>
     <style name="FontStyle.SmallerComment">
-        <item name="font_commenttitle">10sp</item>
-        <item name="font_commentinfo">10sp</item>
-        <item name="font_commentbody">12sp</item>
+        <item name="font_commenttitle">8sp</item>
+        <item name="font_commentinfo">8sp</item>
+        <item name="font_commentbody">10sp</item>
     </style>
 
     <style name="FontStyle.LargePost">
@@ -402,7 +458,19 @@
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
 
     </style>
+    <style name="Theme.AMOLED_lighter" parent="swipestyle">
+        <item name="activity_background">#121212</item>
+        <item name="card_background">#000000</item>
+        <item name="list_background">#000000</item>
+        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
 
+        <item name="font">#FFFFFFFF</item>
+        <item name="tint">#B3FFFFFF</item>
+
+        <item name="android:windowBackground">@null</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+
+    </style>
     <style name="ActionBarCompat">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>

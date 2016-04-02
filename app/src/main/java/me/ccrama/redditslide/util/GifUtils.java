@@ -967,6 +967,13 @@ public class GifUtils {
     }
 
     public static void doNotifGif(String s, Activity c) {
+        Intent mediaScanIntent = new Intent(
+                Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        Uri contentUri = Uri.parse("file://"+s);
+        mediaScanIntent.setData(contentUri);
+        c.sendBroadcast(mediaScanIntent);
+
+
         final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
         shareIntent.setDataAndType(Uri.parse(s), "video/*");
         PendingIntent contentIntent = PendingIntent.getActivity(c, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);

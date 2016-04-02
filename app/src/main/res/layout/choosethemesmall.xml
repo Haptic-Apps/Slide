@@ -167,6 +167,31 @@
                             android:textSize="16sp" />
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/blacklighter"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#121212"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingRight="16dp">
+
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            app:srcCompat="@drawable/theme"
+                            android:tint="#ffffff" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="AMOLED with contrast"
+                            android:textColor="#ffffff"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
