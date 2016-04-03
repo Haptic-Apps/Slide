@@ -1605,7 +1605,7 @@ public class PopulateSubmissionViewHolder {
 
         holder.leadImage.setSubmission(submission, full, baseSub);
 
-        ContentType.ImageType type = ContentType.getImageType(submission);
+        final ContentType.ImageType type = ContentType.getImageType(submission);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -1662,9 +1662,19 @@ public class PopulateSubmissionViewHolder {
             final TextView comments = holder.comments;
             if (Authentication.isLoggedIn && !offline && Authentication.didOnline) {
                 {
+
                     downvotebutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            if (SettingValues.storeHistory && !full) {
+                                if ((type != ContentType.ImageType.NSFW_LINK && type != ContentType.ImageType.NSFW_IMAGE
+                                        && type != ContentType.ImageType.NSFW_GFY && type != ContentType.ImageType.NSFW_GIF) || SettingValues.storeNSFWHistory) {
+                                    HasSeen.addSeen(submission.getFullName());
+                                    if (mContext instanceof MainActivity) {
+                                        holder.title.setAlpha(0.54f);
+                                    }
+                                }
+                            }
                             if (ActionStates.getVoteDirection(submission) != VoteDirection.DOWNVOTE) { //has not been downvoted
                                 points.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
@@ -1692,6 +1702,15 @@ public class PopulateSubmissionViewHolder {
                     upvotebutton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            if (SettingValues.storeHistory && !full) {
+                                if ((type != ContentType.ImageType.NSFW_LINK && type != ContentType.ImageType.NSFW_IMAGE
+                                        && type != ContentType.ImageType.NSFW_GFY && type != ContentType.ImageType.NSFW_GIF) || SettingValues.storeNSFWHistory) {
+                                    HasSeen.addSeen(submission.getFullName());
+                                    if (mContext instanceof MainActivity) {
+                                        holder.title.setAlpha(0.54f);
+                                    }
+                                }
+                            }
 
                             if (ActionStates.getVoteDirection(submission) != VoteDirection.UPVOTE) { //has not been upvoted
                                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);

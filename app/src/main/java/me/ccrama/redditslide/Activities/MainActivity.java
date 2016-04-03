@@ -530,6 +530,7 @@ public class MainActivity extends BaseActivity {
                 protected Void doInBackground(Void... params) {
                     try {
                         new AccountManager(Authentication.reddit).storeVisits(SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
+                        SynccitRead.newVisited = new ArrayList<>();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

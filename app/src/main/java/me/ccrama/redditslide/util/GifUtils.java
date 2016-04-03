@@ -36,6 +36,7 @@ import java.util.UUID;
 
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.Activities.Shadowbox;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -201,7 +202,7 @@ public class GifUtils {
                                                 public void run() {
                                                     video.setVideoPath(f.getAbsolutePath());
                                                     //videoView.set
-                                                    if (placeholder != null && !hideControls) {
+                                                    if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
 
                                                         MediaController mediaController = new
                                                                 MediaController(c);

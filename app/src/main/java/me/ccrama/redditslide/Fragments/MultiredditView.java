@@ -201,11 +201,23 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 totalItemCount = rv.getLayoutManager().getItemCount();
                 if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
                     pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                    if (SettingValues.scrollSeen) {
+                        if (pastVisiblesItems > 0) {
+                            HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                        }
+                    }
                 } else {
                     int[] firstVisibleItems = null;
                     firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                        pastVisiblesItems = firstVisibleItems[0];
+                        for(int i = 0; i < firstVisibleItems.length; i++) {
+                            pastVisiblesItems = firstVisibleItems[i];
+                            if (SettingValues.scrollSeen) {
+                                if (pastVisiblesItems > 0) {
+                                    HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                                }
+                            }
+                        }
                     }
                 }
 

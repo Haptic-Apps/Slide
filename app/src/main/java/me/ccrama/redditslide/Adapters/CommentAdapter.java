@@ -27,10 +27,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
@@ -131,7 +133,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     int toShiftTo;
     ArrayList<String> hidden;
     ArrayList<String> hiddenPersons;
+    ArrayList<String> toCollapse;
     ArrayList<String> replie;
+    private String backedText = "";
+    private String currentlyEditingId = "";
 
     public <T extends Contribution> void showModBottomSheet(final Context mContext, final CommentNode baseNode, final Comment comment, final CommentViewHolder holder, final Map<String, Integer> reports, final Map<String, String> reports2) {
 
@@ -512,6 +517,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         hiddenPersons = new ArrayList<>();
+        toCollapse = new ArrayList<>();
         replie = new ArrayList<>();
         up = new ArrayList<>();
         down = new ArrayList<>();
@@ -537,6 +543,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         hiddenPersons = new ArrayList<>();
+        toCollapse = new ArrayList<>();
+
         replie = new ArrayList<>();
 
 
@@ -572,7 +580,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 keys.put(users.get(i).getName(), i);
             }
         }
+
         hiddenPersons = new ArrayList<>();
+        toCollapse = new ArrayList<>();
+
         replie = new ArrayList<>();
 
 
@@ -824,6 +835,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (hiddenPersons.contains(comment.getFullName())) {
                 holder.children.setVisibility(View.VISIBLE);
                 holder.childrenNumber.setText("+" + getChildNumber(baseNode));
+                if(SettingValues.collapseComments  && toCollapse.contains(comment.getFullName())){
+                    holder.firstTextView.setVisibility(View.GONE);
+                    holder.commentOverflow.setVisibility(View.GONE);
+                }
             } else {
                 holder.children.setVisibility(View.GONE);
                 holder.firstTextView.setVisibility(View.VISIBLE);
@@ -854,44 +869,51 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
 
-            holder.dot.setVisibility(View.VISIBLE);
+            {
+                holder.dot.setVisibility(View.VISIBLE);
 
-            int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
-            int width = 0;
+                int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
+                int width = 0;
 
-            //Padding on the left, starting with the third comment
-            for (int i = 2; i < baseNode.getDepth(); i++) {
-                width += dwidth;
-            }
-            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
-            params.setMargins(width, 0, 0, 0);
-            holder.itemView.setLayoutParams(params);
-
-            if (baseNode.getDepth() - 1 > 0) {
-                int i22 = baseNode.getDepth() - 2;
-                if (i22 % 5 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_700 : R.color.md_blue_500));
-                } else if (i22 % 4 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_600 : R.color.md_green_500));
-                } else if (i22 % 3 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_500 : R.color.md_yellow_500));
-                } else if (i22 % 2 == 0) {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_400 : R.color.md_orange_500));
-                } else {
-                    holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_300 : R.color.md_red_500));
+                //Padding on the left, starting with the third comment
+                for (int i = 2; i < baseNode.getDepth(); i++) {
+                    width += dwidth;
                 }
-            } else {
-                holder.dot.setVisibility(View.GONE);
+                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+                params.setMargins(width, 0, 0, 0);
+                holder.itemView.setLayoutParams(params);
+
+                if (baseNode.getDepth() - 1 > 0) {
+                    int i22 = baseNode.getDepth() - 2;
+                    if (i22 % 5 == 0) {
+                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_700 : R.color.md_blue_500));
+                    } else if (i22 % 4 == 0) {
+                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_600 : R.color.md_green_500));
+                    } else if (i22 % 3 == 0) {
+                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_500 : R.color.md_yellow_500));
+                    } else if (i22 % 2 == 0) {
+                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_400 : R.color.md_orange_500));
+                    } else {
+                        holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, !SettingValues.colorCommentDepth ? R.color.md_grey_300 : R.color.md_red_500));
+                    }
+                } else {
+                    holder.dot.setVisibility(View.GONE);
+                }
             }
-            if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty()) {
+            if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty() && !currentlyEditingId.equals(comment.getFullName())) {
                 doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
-            } else {
+            } else if(!currentlyEditingId.equals(comment.getFullName())){
                 doUnHighlighted(holder, baseNode);
             }
             if (deleted.contains(comment.getFullName())) {
                 holder.firstTextView.setText(R.string.comment_deleted);
                 holder.content.setText(R.string.comment_deleted);
             }
+
+            if(currentlyEditingId.equals(comment.getFullName())){
+                doHighlightedStuff(holder, comment, baseNode, finalPos, finalPos1, true);
+            }
+
         } else if (firstHolder instanceof SubmissionViewHolder && submission != null) {
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false, null);
             if (Authentication.isLoggedIn && Authentication.didOnline) {
@@ -1504,15 +1526,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     CommentNode currentBaseNode;
 
-    public void doHighlightedStuff(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
+    public void doHighlightedStuff(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1, boolean isReplying) {
         if (currentlySelected != null) {
             doUnHighlighted(currentlySelected, currentBaseNode);
         }
         // If a comment is hidden and (Swap long press == true), then a single click will un-hide the comment
         // and expand to show all children comments
-        if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE) {
+        if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE && !isReplying) {
             unhideAll(baseNode, holder.getAdapterPosition() + 1);
             hiddenPersons.remove(n.getFullName());
+            toCollapse.remove(n.getFullName());
             hideChildrenObject(holder.children);
             holder.firstTextView.setVisibility(View.VISIBLE);
             holder.commentOverflow.setVisibility(View.VISIBLE);
@@ -1524,9 +1547,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             final View baseView = inflater.inflate(R.layout.comment_menu, holder.menuArea);
-            baseView.setVisibility(View.GONE);
 
-            expand(baseView);
+            if(!isReplying){
+                baseView.setVisibility(View.GONE);
+                expand(baseView);
+            }
 
 
             RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
@@ -1741,6 +1766,32 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
             if (Authentication.isLoggedIn && !submission.isArchived() && !submission.isLocked() && Authentication.didOnline) {
+                if(isReplying){
+                    expand(baseView, true);
+                    replyArea.setVisibility(View.VISIBLE);
+                    menu.setVisibility(View.GONE);
+                    DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext);
+                    currentlyEditing = replyLine;
+                    currentlyEditingId = n.getFullName();
+                    replyLine.setText(backedText);
+                    replyLine.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            backedText = s.toString();
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
+                    editingPosition = holder.getAdapterPosition();
+                }
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -1749,6 +1800,23 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         menu.setVisibility(View.GONE);
                         DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext);
                         currentlyEditing = replyLine;
+                        currentlyEditingId = n.getFullName();
+                        replyLine.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                backedText = s.toString();
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+                        });
                         editingPosition = holder.getAdapterPosition();
 
                     }
@@ -1856,8 +1924,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             menu.setBackgroundColor(color);
             replyArea.setBackgroundColor(color);
 
-            menu.setVisibility(View.VISIBLE);
-            replyArea.setVisibility(View.GONE);
+            if(!isReplying) {
+                menu.setVisibility(View.VISIBLE);
+                replyArea.setVisibility(View.GONE);
+            }
             holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)));
         }
     }
@@ -1867,11 +1937,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1);
+                    doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1, false);
                 }
             }, mAnimator.getDuration());
         } else {
-            doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1);
+            doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1, false);
         }
 
     }
@@ -2060,6 +2130,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (hiddenPersons.contains(comment.getFullName())) {
                     unhideAll(baseNode, holder.getAdapterPosition() + 1);
                     hiddenPersons.remove(comment.getFullName());
+                    toCollapse.remove(comment.getFullName());
                     hideChildrenObject(holder.children);
                     holder.firstTextView.setVisibility(View.VISIBLE);
                     holder.commentOverflow.setVisibility(View.VISIBLE);
@@ -2068,6 +2139,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (childNumber > 0) {
                         hideAll(baseNode, holder.getAdapterPosition() + 1);
                         hiddenPersons.add(comment.getFullName());
+                        toCollapse.add(comment.getFullName());
                         showChildrenObject(holder.children);
                         ((TextView) holder.children).setText("+" + childNumber);
                     }
