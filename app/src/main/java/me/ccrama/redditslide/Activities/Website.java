@@ -95,6 +95,8 @@ public class Website extends BaseActivityAnim {
         client = new MyWebViewClient();
         v.setWebChromeClient(client);
         v.setWebViewClient(new WebViewClient());
+        v.getSettings().setSupportZoom(true);
+        v.getSettings().setBuiltInZoomControls(true);
         v.getSettings().setJavaScriptEnabled(true);
         v.loadUrl(url);
 

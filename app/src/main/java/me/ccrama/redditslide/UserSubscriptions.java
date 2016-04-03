@@ -289,7 +289,14 @@ public class UserSubscriptions {
         finalReturn.addAll(getDefaults(c));
         return finalReturn;
     }
-
+    //Gets user subscriptions + top 500 subs + subs in history
+    public static ArrayList<String> getAllUserSubreddits(Context c) {
+        ArrayList<String> finalReturn = new ArrayList<>();
+        finalReturn.addAll(getSubscriptions(c));
+        finalReturn.removeAll(getHistory());
+        finalReturn.addAll(getHistory());
+        return finalReturn;
+    }
     public static ArrayList<String> getHistory() {
         String[] hist = subscriptions.getString("subhistory", "").split(",");
         ArrayList<String> history = new ArrayList<>();

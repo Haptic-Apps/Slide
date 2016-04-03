@@ -1826,6 +1826,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onClick(View v) {
                         currentlyEditing = null;
                         editingPosition = -1;
+                        currentlyEditingId = "";
+                        backedText = "";
 
                         doShowMenu(baseView);
 

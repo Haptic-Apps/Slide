@@ -472,6 +472,8 @@ public class MainActivity extends BaseActivity {
 
 
     public void updateSubs(ArrayList<String> subs) {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (loader != null) {
             header.setVisibility(View.VISIBLE);
 
@@ -486,10 +488,8 @@ public class MainActivity extends BaseActivity {
             loader.finish();
             loader = null;
         } else {
-            LogUtil.v("Setting subs");
             setDataSet(subs);
             doDrawer();
-
         }
     }
 
@@ -776,16 +776,12 @@ public class MainActivity extends BaseActivity {
             } else {
                 adapter.notifyDataSetChanged();
             }
-            shouldLoad = usedArray.get(0);
-            pager.setCurrentItem(1);
             pager.setAdapter(adapter);
             pager.setOffscreenPageLimit(1);
-
-            selectedSub = (usedArray.get(0));
-            themeSystemBars(usedArray.get(0));
-            setRecentBar(usedArray.get(0));
-            doSubSidebar(usedArray.get(0));
             if (toGoto == -1) toGoto = 0;
+            shouldLoad = usedArray.get(toGoto);
+            selectedSub = (usedArray.get(toGoto));
+            themeSystemBars(usedArray.get(toGoto));
 
             header.setBackgroundColor(Palette.getColor(usedArray.get(0)));
             if (hea != null)
@@ -803,8 +799,10 @@ public class MainActivity extends BaseActivity {
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
                 shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
-
             }
+
+            setRecentBar(usedArray.get(toGoto));
+            doSubSidebar(usedArray.get(toGoto));
 
 
         } else {
@@ -1432,7 +1430,6 @@ public class MainActivity extends BaseActivity {
             }
         });*/
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         final ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(

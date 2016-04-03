@@ -175,7 +175,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
 
     public void reloadSubList() {
         changedSubs.clear();
-        ArrayList<String> allSubs = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(this));
+        ArrayList<String> allSubs = UserSubscriptions.sort(UserSubscriptions.getAllUserSubreddits(this));
 
         // Check which subreddits are different
         ColorPreferences colorPrefs = new ColorPreferences(SettingsSubreddit.this);
