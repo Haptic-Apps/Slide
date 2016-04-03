@@ -51,6 +51,7 @@ public class SettingValues {
     public static final String PREF_OVERRIDE_LANGUAGE = "overrideLanguage";
     public static final String PREF_SHOW_DOMAIN = "showDomain";
     public static final String PREF_CARD_TEXT = "cardText";
+    public static final String PREF_ZOOM_DEFAULT = "zoomDefault";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
     public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
@@ -145,6 +146,7 @@ public class SettingValues {
     public static boolean overrideLanguage;
     public static boolean showDomain;
     public static boolean cardText;
+    public static boolean alwaysZoom;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -177,6 +179,7 @@ public class SettingValues {
         colorNavBar = prefs.getBoolean(PREF_COLOR_NAV_BAR, false);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
+        alwaysZoom = prefs.getBoolean(PREF_ZOOM_DEFAULT, false);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
         collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
 

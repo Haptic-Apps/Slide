@@ -47,8 +47,12 @@
         android:id="@+id/submission_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:transitionName="profile" />
+        android:layout_alignParentTop="true" />
+    <ImageView
+        android:id="@+id/base_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -66,34 +70,18 @@
             app:srcCompat="@drawable/hd"
             android:tint="@color/white" />
         <ImageView
-            android:id="@+id/external"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:padding="15dp"
-            app:srcCompat="@drawable/openexternal"
-            android:theme="@style/Ripple.List"
-            android:tint="@color/white" />
-
-        <ImageView
-            android:id="@+id/share"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:padding="15dp"
-            app:srcCompat="@drawable/share"
-            android:theme="@style/Ripple.List"
-            android:tint="@color/white" />
-
-        <ImageView
-            android:id="@+id/save"
+            android:id="@+id/more"
             style="@style/Ripple.List"
-            android:layout_width="56dp"
+            android:layout_width="48dp"
             android:layout_height="56dp"
             android:theme="@style/Ripple.List"
             android:layout_gravity="right"
-            android:padding="15dp"
-            app:srcCompat="@drawable/save" />
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
 
-
+            app:srcCompat="@drawable/more" />
     </LinearLayout>
 
     <ProgressBar

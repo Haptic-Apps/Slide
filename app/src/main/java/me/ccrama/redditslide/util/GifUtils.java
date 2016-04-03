@@ -63,6 +63,7 @@ public class GifUtils {
         public View gifSave;
         public boolean closeIfNull;
         public boolean hideControls;
+        public Runnable doOnClick;
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable View gifSave, @NotNull boolean closeIfNull, @NotNull boolean hideControls) {
             this.c = c;
@@ -71,6 +72,25 @@ public class GifUtils {
             this.closeIfNull = closeIfNull;
             this.placeholder = placeholder;
             this.gifSave = gifSave;
+            this.hideControls = hideControls;
+        }
+
+        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave, @NotNull boolean closeIfNull, @NotNull boolean hideControls) {
+            this.c = c;
+            this.video = video;
+            this.progressBar = p;
+            this.closeIfNull = closeIfNull;
+            this.placeholder = placeholder;
+            this.doOnClick = gifSave;
+            this.hideControls = hideControls;
+        }
+
+        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder,@NotNull boolean closeIfNull, @NotNull boolean hideControls) {
+            this.c = c;
+            this.video = video;
+            this.progressBar = p;
+            this.closeIfNull = closeIfNull;
+            this.placeholder = placeholder;
             this.hideControls = hideControls;
         }
 
@@ -225,6 +245,14 @@ public class GifUtils {
                                                                 }
 
                                                         );
+                                                    } else if (doOnClick != null) {
+                                                        MediaView.doOnClick = new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                saveGif(f, c);
+
+                                                            }
+                                                        };
                                                     }
 
 
@@ -361,6 +389,14 @@ public class GifUtils {
                                         saveGif(f, c);
                                     }
                                 });
+                            } else if(doOnClick != null){
+                                MediaView.doOnClick = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        saveGif(f, c);
+
+                                    }
+                                };
                             }
 
 
@@ -485,6 +521,14 @@ public class GifUtils {
                                                                                                                                                   saveGif(f, c);
                                                                                                                                               }
                                                                                                                                           });
+                                                                                                                                      } else if(doOnClick != null){
+                                                                                                                                          MediaView.doOnClick = new Runnable() {
+                                                                                                                                              @Override
+                                                                                                                                              public void run() {
+                                                                                                                                                  saveGif(f, c);
+
+                                                                                                                                              }
+                                                                                                                                          };
                                                                                                                                       }
 
 
@@ -626,6 +670,14 @@ public class GifUtils {
 
                                                                                                                                                                                }
                                                                                                                                                                            });
+                                                                                                                                                                       }else if(doOnClick != null){
+                                                                                                                                                                           MediaView.doOnClick = new Runnable() {
+                                                                                                                                                                               @Override
+                                                                                                                                                                               public void run() {
+                                                                                                                                                                                   saveGif(f, c);
+
+                                                                                                                                                                               }
+                                                                                                                                                                           };
                                                                                                                                                                        }
 
 
@@ -901,7 +953,7 @@ public class GifUtils {
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder(a instanceof GifView?(GifView)a:(MediaView)a)
+                        new FolderChooserDialog.Builder(a instanceof GifView ? (GifView) a : (MediaView) a)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
                                 .show();
@@ -918,7 +970,7 @@ public class GifUtils {
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder(a instanceof GifView?(GifView)a:(MediaView)a)
+                        new FolderChooserDialog.Builder(a instanceof GifView ? (GifView) a : (MediaView) a)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
                                 .show();
@@ -933,7 +985,7 @@ public class GifUtils {
             showFirstDialog(a);
         } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
             showErrorDialog(a);
-        } else  {
+        } else {
             File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".mp4");
 
 
@@ -970,7 +1022,7 @@ public class GifUtils {
     public static void doNotifGif(String s, Activity c) {
         Intent mediaScanIntent = new Intent(
                 Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri contentUri = Uri.parse("file://"+s);
+        Uri contentUri = Uri.parse("file://" + s);
         mediaScanIntent.setData(contentUri);
         c.sendBroadcast(mediaScanIntent);
 

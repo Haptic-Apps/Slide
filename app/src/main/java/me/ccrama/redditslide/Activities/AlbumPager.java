@@ -441,7 +441,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             }
 
-            new GifUtils.AsyncLoadGif(AlbumPager.this, (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, null, false, true).execute(dat);
+            new GifUtils.AsyncLoadGif(AlbumPager.this, (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, false, true).execute(dat);
 
             return rootView;
         }

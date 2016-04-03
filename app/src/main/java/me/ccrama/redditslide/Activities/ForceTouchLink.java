@@ -65,7 +65,7 @@ public class ForceTouchLink extends BaseActivityAnim {
             case GFY:
             case GIF:
                 mainVideo.setVisibility(View.VISIBLE);
-                new GifUtils.AsyncLoadGif(this, mainVideo,null,null,null,false, true).execute(url);
+                new GifUtils.AsyncLoadGif(this, mainVideo,null,null,false, true).execute(url);
                 break;
             case ALBUM:
                 break;
