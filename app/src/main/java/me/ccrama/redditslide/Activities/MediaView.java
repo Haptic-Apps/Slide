@@ -236,6 +236,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
         }
         if (firstUrl.isEmpty()) {
+            zoom = true;
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
         }
 
