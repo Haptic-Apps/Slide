@@ -91,10 +91,9 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public double getHeightFromAspectRatio(int imageHeight, int imageWidth, View v) {
+    public double getHeightFromAspectRatio(int imageHeight, int imageWidth, int viewWidth) {
         double ratio = (double) imageHeight / (double) imageWidth;
-        double width = v.getWidth();
-        return (width * ratio);
+        return (viewWidth * ratio);
 
     }
 
@@ -124,7 +123,12 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.body.setVisibility(View.VISIBLE);
             holder.text.setVisibility(View.VISIBLE);
             if (!user.isJsonNull() && user.getAsJsonObject().has("height")) {
-                holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(user.getAsJsonObject().get("height").getAsInt(), user.getAsJsonObject().get("width").getAsInt(), holder.image)));
+                View imageView = holder.image;
+                if(imageView.getWidth() == 0 ){
+                    holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
+                } else {
+                    holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(user.getAsJsonObject().get("height").getAsInt(), user.getAsJsonObject().get("width").getAsInt(), imageView.getWidth())));
+                }
             }
             if (user.getAsJsonObject().has("image")) {
                 {
