@@ -432,41 +432,7 @@ public class MainActivity extends BaseActivity {
 
         System.gc();
 
-        new AsyncTask<Void, Void, Submission>() {
-            @Override
-            protected Submission doInBackground(Void... params) {
-                SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
-                p.setLimit(2);
-                ArrayList<Submission> posts = new ArrayList<>(p.next());
-                for (Submission s : posts) {
-                    if (s.isStickied() && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName())) {
-                        Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
-                        return s;
-                    }
-                }
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(final Submission s) {
-                if (s != null) {
-                    LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.submission_dialog, null);
-                    final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
-                    setViews(s.getDataNode().get("selftext_html").asText(), s.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
-                    ((TitleTextView) dialoglayout.findViewById(R.id.title)).setText(s.getTitle());
-                    builder.setView(dialoglayout);
-                    builder.setPositiveButton(R.string.btn_ok, null);
-                    builder.setNeutralButton(R.string.btn_open_comments, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            new OpenRedditLink(MainActivity.this, s.getUrl());
-                        }
-                    });
-                    builder.show();
-                }
-            }
-        }.execute();
 
     }
 
@@ -1407,6 +1373,42 @@ public class MainActivity extends BaseActivity {
                             .show();
                 }
             });
+
+            new AsyncTask<Void, Void, Submission>() {
+                @Override
+                protected Submission doInBackground(Void... params) {
+                    SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
+                    p.setLimit(2);
+                    ArrayList<Submission> posts = new ArrayList<>(p.next());
+                    for (Submission s : posts) {
+                        if (s.isStickied() && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("read_announcement" + s.getFullName())) {
+                            Reddit.appRestart.edit().putBoolean("read_announcement" + s.getFullName(), true).apply();
+                            return s;
+                        }
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(final Submission s) {
+                    if (s != null) {
+                        LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
+                        final View dialoglayout = inflater.inflate(R.layout.submission_dialog, null);
+                        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
+                        setViews(s.getDataNode().get("selftext_html").asText(), s.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                        ((TitleTextView) dialoglayout.findViewById(R.id.title)).setText(s.getTitle());
+                        builder.setView(dialoglayout);
+                        builder.setPositiveButton(R.string.btn_ok, null);
+                        builder.setNeutralButton(R.string.btn_open_comments, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new OpenRedditLink(MainActivity.this, s.getUrl());
+                            }
+                        });
+                        builder.show();
+                    }
+                }
+            }.execute();
         }
 
         header.findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
@@ -1943,15 +1945,18 @@ public class MainActivity extends BaseActivity {
                             }
                         })
                         .show();
-                final ArrayList<JsonNode> newSubmissions = new ArrayList<>();
                 caching = new AsyncTask<Void, Void, Void>() {
                     @Override
                     protected Void doInBackground(Void... params) {
+
+                        String newSubmissions = System.currentTimeMillis() + "<SEPARATOR>";
+
+                        int count = 0;
                         for (final Submission s : submissions) {
 
                             JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
                             if (s2 != null) {
-                                newSubmissions.add(s2);
+                                newSubmissions = newSubmissions + (s2.toString()  +  "<SEPARATOR>");
                                 switch (ContentType.getImageType(s)) {
                                     case GFY:
                                     case GIF:
@@ -1971,7 +1976,8 @@ public class MainActivity extends BaseActivity {
                             } else {
                                 d.setMaxProgress((d.getMaxProgress() - 1));
                             }
-                            d.setProgress(newSubmissions.size());
+                            count++;
+                            d.setProgress(count);
                             if (d.getCurrentProgress() == d.getMaxProgress()) {
                                 d.cancel();
 

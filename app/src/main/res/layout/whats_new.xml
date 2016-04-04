@@ -2,41 +2,27 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="• Switching accounts and startup should be near instant now
-\n• Color syncing and sub to /r/slideforreddit option on login
-\n• Made new swiping system in comments and subreddits, scrolling tables and sidebars should now work and sensitivity is much lower/more accurate
-\n• Show first paragraph of selftext in submissions (can be enabled in Settings > Post Layout)
-\n• Setting to change image save location in Settings > General
-\n• You can now delete and flair your own posts
-\n• Long press menu in inbox
-\n• Show results from your subscriptions, history, and top 500 subs when typing in the sidebar
-\n• Redesigned profile screen comments
-\n• Shows 'Friend' flair on your friends
-\n• Option to always have comments collapsed
-\n• You can now delete and flair your own posts
-\n• Fixed refresh spinner offset
-\n• Made the voting animation smaller (was causing crashes)
-\n• Fixed hiding submissions and navigating parents glitches
-\n• Lots of bug and crash fixes"
-        android:textSize="16sp" />
+
         <TextView
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:padding="8dp"
+            android:text="• Preview formatting before sending\n• New layout for image/gif view, option to load without zoom (faster) in the 3 dot menu\n• Mods can approve and sticky comments in the mod menu\n• New AMOLED theme with more contrast!\n• See time since edit in comments\n• Fixed random crashes on devices with screens less than 5 inches\n• Lots of bug fixes and polish"
+            android:textSize="16sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textSize="18dp"
-            android:textStyle="bold"
+            android:padding="8dp"
             android:text="If you encounter any issue (no matter how small), please report it to /r/slideforreddit and Github!"
-            android:layout_height="wrap_content" />
+            android:textSize="18dp"
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>

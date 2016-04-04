@@ -1,10 +1,15 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.ArrayList;
 
@@ -16,7 +21,14 @@ import me.ccrama.redditslide.Reddit;
 public class ImageGridAdapter extends android.widget.BaseAdapter {
     private Context mContext;
     private ArrayList<String> jsons;
-
+    public static DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .cacheOnDisk(true)
+            .resetViewBeforeLoading(true)
+            .bitmapConfig(Bitmap.Config.RGB_565)
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .cacheInMemory(false)
+            .displayer(new FadeInBitmapDisplayer(250))
+            .build();
     public ImageGridAdapter(Context c, ArrayList<String> jsons) {
         mContext = c;
         this.jsons = jsons;
@@ -47,7 +59,8 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
         }
         imageView.setLayoutParams(new GridView.LayoutParams(size, size));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(getItem(position), imageView);
+
+        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(getItem(position), imageView, options);
         return imageView;
     }
 

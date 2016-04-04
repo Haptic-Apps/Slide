@@ -38,6 +38,7 @@ import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
@@ -478,12 +479,12 @@ public class CommentPage extends Fragment {
             }
         });
         loaded = true;
-        if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null) {
+        if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             comments.setSorting(Reddit.defaultCommentSorting);
             adapter = new CommentAdapter(this, comments, rv, ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page), getFragmentManager());
             rv.setAdapter(adapter);
-        } else if (getActivity() instanceof MainActivity) {
+        } else if (getActivity() instanceof MainActivity && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             comments.setSorting(Reddit.defaultCommentSorting);
             adapter = new CommentAdapter(this, comments, rv, ((MainActivity) getActivity()).openingComments, getFragmentManager());

@@ -185,12 +185,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
         final boolean stickied = comment.getDataNode().has("stickied") && comment.getDataNode().get("stickied").asBoolean();
-        if(baseNode.isTopLevel())
-        if (!stickied) {
-            b.sheet(4, pin, "Sticky comment");
-        } else {
-            b.sheet(4, pin, "Un-sticky comment");
-        }
+        if (baseNode.isTopLevel())
+            if (!stickied) {
+                b.sheet(4, pin, "Sticky comment");
+            } else {
+                b.sheet(4, pin, "Un-sticky comment");
+            }
 
         final boolean distinguished = !comment.getDataNode().get("distinguished").isNull();
         if (comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
@@ -713,7 +713,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         String timeAgo = TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext);
         titleString.append((timeAgo == null || timeAgo.isEmpty()) ? "just now" : timeAgo); //some users were crashing here
 
-        titleString.append((( comment.getEditDate() != null) ? " (edit " + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) + ")" : ""));
+        titleString.append(((comment.getEditDate() != null) ? " (edit " + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) + ")" : ""));
         titleString.append("  ");
 
         if (comment.getDataNode().get("stickied").asBoolean()) {
@@ -835,7 +835,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (hiddenPersons.contains(comment.getFullName())) {
                 holder.children.setVisibility(View.VISIBLE);
                 holder.childrenNumber.setText("+" + getChildNumber(baseNode));
-                if(SettingValues.collapseComments  && toCollapse.contains(comment.getFullName())){
+                if (SettingValues.collapseComments && toCollapse.contains(comment.getFullName())) {
                     holder.firstTextView.setVisibility(View.GONE);
                     holder.commentOverflow.setVisibility(View.GONE);
                 }
@@ -902,7 +902,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty() && !currentlyEditingId.equals(comment.getFullName())) {
                 doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
-            } else if(!currentlyEditingId.equals(comment.getFullName())){
+            } else if (!currentlyEditingId.equals(comment.getFullName())) {
                 doUnHighlighted(holder, baseNode);
             }
             if (deleted.contains(comment.getFullName())) {
@@ -910,7 +910,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.content.setText(R.string.comment_deleted);
             }
 
-            if(currentlyEditingId.equals(comment.getFullName())){
+            if (currentlyEditingId.equals(comment.getFullName())) {
                 doHighlightedStuff(holder, comment, baseNode, finalPos, finalPos1, true);
             }
 
@@ -977,7 +977,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final View edit = firstHolder.itemView.findViewById(R.id.edit);
 
-            if (Authentication.name.toLowerCase().equals(submission.getAuthor().toLowerCase())) {
+            if (Authentication.name.toLowerCase().equals(submission.getAuthor().toLowerCase()) && Authentication.didOnline) {
                 new AsyncTask<Void, Void, ArrayList<String>>() {
                     List<FlairTemplate> flairlist;
 
@@ -1548,7 +1548,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             final View baseView = inflater.inflate(R.layout.comment_menu, holder.menuArea);
 
-            if(!isReplying){
+            if (!isReplying) {
                 baseView.setVisibility(View.GONE);
                 expand(baseView);
             }
@@ -1608,7 +1608,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     baseView.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            showModBottomSheet(mContext, baseNode,  baseNode.getComment(), holder, reports, reports2);
+                            showModBottomSheet(mContext, baseNode, baseNode.getComment(), holder, reports, reports2);
 
                         }
                     });
@@ -1618,7 +1618,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             {
                 final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
-                if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())) {
+                if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase()) && Authentication.didOnline) {
                     edit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1693,7 +1693,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             {
                 final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
-                if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase())) {
+                if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase()) && Authentication.didOnline) {
                     delete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1766,7 +1766,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
             if (Authentication.isLoggedIn && !submission.isArchived() && !submission.isLocked() && Authentication.didOnline) {
-                if(isReplying){
+                if (isReplying) {
                     expand(baseView, true);
                     replyArea.setVisibility(View.VISIBLE);
                     menu.setVisibility(View.GONE);
@@ -1926,7 +1926,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             menu.setBackgroundColor(color);
             replyArea.setBackgroundColor(color);
 
-            if(!isReplying) {
+            if (!isReplying) {
                 menu.setVisibility(View.VISIBLE);
                 replyArea.setVisibility(View.GONE);
             }
@@ -2489,15 +2489,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 .title(Html.fromHtml(n.getBody()));
 
 
-        b.sheet(1, profile, "/u/" + n.getAuthor());
-        String save = mContext.getString(R.string.btn_save);
-        if (ActionStates.isSaved(n)) {
-            save = mContext.getString(R.string.comment_unsave);
-        }
-        if (Authentication.isLoggedIn) {
-            b.sheet(3, saved, save);
-            b.sheet(16, report, mContext.getString(R.string.btn_report));
+        if (Authentication.didOnline) {
+            b.sheet(1, profile, "/u/" + n.getAuthor());
+            String save = mContext.getString(R.string.btn_save);
+            if (ActionStates.isSaved(n)) {
+                save = mContext.getString(R.string.comment_unsave);
+            }
+            if (Authentication.isLoggedIn) {
+                b.sheet(3, saved, save);
+                b.sheet(16, report, mContext.getString(R.string.btn_report));
 
+            }
         }
         b.sheet(5, gild, mContext.getString(R.string.comment_gild))
                 .sheet(7, copy, mContext.getString(R.string.submission_copy))

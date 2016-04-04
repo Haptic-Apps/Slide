@@ -129,17 +129,7 @@ public class PopulateSubmissionViewHolder {
                             openImage(contextActivity, submission);
                             break;
                         case IMGUR:
-                            if (SettingValues.image) {
-                                Intent i2 = new Intent(contextActivity, MediaView.class);
-                                if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                                    String previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                                    i2.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
-                                }
-                                i2.putExtra(MediaView.EXTRA_URL, submission.getUrl());
-                                contextActivity.startActivity(i2);
-                            } else {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
-                            }
+                           openImage(contextActivity, submission);
                             break;
                         case EMBEDDED:
                             if (SettingValues.video) {
@@ -328,23 +318,22 @@ public class PopulateSubmissionViewHolder {
                 .title(Html.fromHtml(submission.getTitle()));
 
 
-        b.sheet(1, profile, "/u/" + submission.getAuthor())
-                .sheet(2, sub, "/r/" + submission.getSubredditName());
-
-        String save = mContext.getString(R.string.btn_save);
-        if (ActionStates.isSaved(submission)) {
-            save = mContext.getString(R.string.comment_unsave);
-        }
-
-
-        if (Authentication.isLoggedIn) {
-            b.sheet(3, saved, save);
-            b.sheet(12, report, mContext.getString(R.string.btn_report));
+        if (Authentication.didOnline) {
+            b.sheet(1, profile, "/u/" + submission.getAuthor())
+                    .sheet(2, sub, "/r/" + submission.getSubredditName());
+            String save = mContext.getString(R.string.btn_save);
+            if (ActionStates.isSaved(submission)) {
+                save = mContext.getString(R.string.comment_unsave);
+            }
+            if (Authentication.isLoggedIn) {
+                b.sheet(3, saved, save);
+                b.sheet(12, report, mContext.getString(R.string.btn_report));
+            }
         }
         if (submission.getSelftext() != null && !submission.getSelftext().isEmpty()) {
             b.sheet(25, copy, "Copy selftext");
         }
-        if (!full)
+        if (!full && Authentication.didOnline)
             b.sheet(5, hide, mContext.getString(R.string.submission_hide));
         b.sheet(7, open, mContext.getString(R.string.submission_link_extern))
                 .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
@@ -1542,7 +1531,7 @@ public class PopulateSubmissionViewHolder {
                 hideButton.setVisibility(View.GONE);
             }
         }
-        if (Authentication.isLoggedIn) {
+        if (Authentication.isLoggedIn && Authentication.didOnline) {
             if (ActionStates.isSaved(submission)) {
                 ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
             } else {
@@ -1592,7 +1581,7 @@ public class PopulateSubmissionViewHolder {
             });
         }
 
-        if (!SettingValues.saveButton && !full || !Authentication.isLoggedIn) {
+        if (!SettingValues.saveButton && !full || !Authentication.isLoggedIn || !Authentication.didOnline) {
             holder.save.setVisibility(View.GONE);
         }
 

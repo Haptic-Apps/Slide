@@ -179,4 +179,9 @@ public class OfflineSubreddit {
 
         return this;
     }
+
+    public void overwriteSubmissions(String newSubmissions) {
+        String finals = newSubmissions.substring(0, newSubmissions.length() - 11);
+        Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
+    }
 }

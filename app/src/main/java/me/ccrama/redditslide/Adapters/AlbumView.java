@@ -119,12 +119,12 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             final JsonElement user = users.get(position);
             final String url = list.get(position);
-            ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(url, holder.image);
+            ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(url, holder.image, ImageGridAdapter.options);
             holder.body.setVisibility(View.VISIBLE);
             holder.text.setVisibility(View.VISIBLE);
             if (!user.isJsonNull() && user.getAsJsonObject().has("height")) {
                 View imageView = holder.image;
-                if(imageView.getWidth() == 0 ){
+                if (imageView.getWidth() == 0) {
                     holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
                 } else {
                     holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(user.getAsJsonObject().get("height").getAsInt(), user.getAsJsonObject().get("width").getAsInt(), imageView.getWidth())));
