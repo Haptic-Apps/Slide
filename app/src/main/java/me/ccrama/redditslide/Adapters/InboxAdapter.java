@@ -123,20 +123,21 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             messageViewHolder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
             SpannableStringBuilder titleString = new SpannableStringBuilder();
-            if (comment.getAuthor() != null)
+            if (comment.getAuthor() != null) {
                 titleString.append(comment.getAuthor());
-            if (UserTags.isUserTagged(comment.getAuthor())) {
-                SpannableStringBuilder pinned = new SpannableStringBuilder(" " + UserTags.getUserTag(comment.getAuthor()) + " ");
-                pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(pinned);
-                titleString.append(" ");
-            }
+                if (UserTags.isUserTagged(comment.getAuthor())) {
+                    SpannableStringBuilder pinned = new SpannableStringBuilder(" " + UserTags.getUserTag(comment.getAuthor()) + " ");
+                    pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    titleString.append(pinned);
+                    titleString.append(" ");
+                }
 
-            if (UserSubscriptions.friends.contains(comment.getAuthor())) {
-                SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.profile_friend) + " ");
-                pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(pinned);
-                titleString.append(" ");
+                if (UserSubscriptions.friends.contains(comment.getAuthor())) {
+                    SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.profile_friend) + " ");
+                    pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    titleString.append(pinned);
+                    titleString.append(" ");
+                }
             }
             messageViewHolder.user.setText(titleString.toString());
             messageViewHolder.title.setText(comment.getSubject());
@@ -172,6 +173,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
                             .title(Html.fromHtml(comment.getSubject()));
 
+                    if(comment.getAuthor()!=null)
                     b.sheet(1, profile, "/u/" + comment.getAuthor());
 
                     String read = "Mark read";

@@ -38,26 +38,21 @@ public class OfflineSubreddit {
     public void writeToMemory() {
         if (subreddit != null) {
             if (dataNodes == null) {
-                StringBuilder s = new StringBuilder();
-                s.append(System.currentTimeMillis()).append("<SEPARATOR>");
+
+                String s = System.currentTimeMillis() + "<SEPARATOR>";
                 for (Submission sub : submissions) {
-                    s.append(sub.getDataNode().toString());
-                    s.append("<SEPARATOR>");
+                    s = s + (sub.getDataNode().toString()) + "<SEPARATOR>";
                 }
-                String finals = s.toString();
-                finals = finals.substring(0, finals.length() - 11);
-                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
+                s = s.substring(0, s.length() - 11);
+                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), s).apply();
 
             } else {
-                StringBuilder s = new StringBuilder();
-                s.append(System.currentTimeMillis()).append("<SEPARATOR>");
+                String s = System.currentTimeMillis() + "<SEPARATOR>";
                 for (String sub : dataNodes) {
-                    s.append(sub);
-                    s.append("<SEPARATOR>");
+                    s = s + (sub + "<SEPARATOR>");
                 }
-                String finals = s.toString();
-                finals = finals.substring(0, finals.length() - 11);
-                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
+                s = s.substring(0, s.length() - 11);
+                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), s).apply();
 
 
                 dataNodes = null;
