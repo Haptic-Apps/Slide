@@ -890,6 +890,22 @@ public class SubredditView extends BaseActivityAnim {
         public void onPostExecute(Subreddit subreddit) {
             if (subreddit != null)
                 doSubOnlyStuff(subreddit);
+            if(subreddit.isNsfw() && !Reddit.over18){
+                new AlertDialogWrapper.Builder(SubredditView.this)
+                        .setTitle("/r/" + subreddit.getDisplayName() + " contains mature content.")
+                        .setMessage("If you are over 18 and are willing to see adult content, you can enable this in Settings > Reddit Settings > Show NSFW content")
+                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                finish();
+                            }
+                        }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                }).show();
+            }
         }
 
         @Override

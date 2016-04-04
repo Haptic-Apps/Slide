@@ -179,7 +179,7 @@ public class SettingValues {
         colorNavBar = prefs.getBoolean(PREF_COLOR_NAV_BAR, false);
         colorEverywhere = prefs.getBoolean(PREF_COLOR_EVERYWHERE, true);
         colorCommentDepth = prefs.getBoolean(PREF_COLOR_COMMENT_DEPTH, true);
-        alwaysZoom = prefs.getBoolean(PREF_ZOOM_DEFAULT, false);
+        alwaysZoom = prefs.getBoolean(PREF_ZOOM_DEFAULT, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
         collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
 

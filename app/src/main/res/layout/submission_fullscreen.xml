@@ -218,10 +218,8 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
-
                     android:tag="tint"
                     android:text="420"
-
                     android:textSize="?attr/font_cardinfo" />
             </LinearLayout>
 

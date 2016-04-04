@@ -231,7 +231,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         if (!firstUrl.isEmpty() && contentUrl != null && !contentUrl.contains("deviantart.com") && !SettingValues.alwaysZoom) {
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
             displayImage(firstUrl);
-        } else if (ContentType.getImageType(contentUrl) == ContentType.ImageType.IMGUR) {
+        } else if (ContentType.getImageType(contentUrl) == ContentType.ImageType.IMGUR && !SettingValues.alwaysZoom) {
             displayImage(contentUrl + ".png"); //display one first
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
         }

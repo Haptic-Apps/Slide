@@ -413,10 +413,13 @@
         <item name="font">#DE000000</item> <!-- 87% black -->
         <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
         <item name="android:textColorSecondary">#8A000000</item> <!-- 54% black -->
+        <item name="android:textColor">#DE000000</item> <!-- 87% black -->
         <item name="tint">#8A000000</item> <!-- 54% black -->
         <item name="android:windowBackground">@null</item>
         <item name="actionMenuTextColor">#DE000000</item>
         <item name="android:actionMenuTextColor">#DE000000</item>
+        <item name="android:colorBackground">#dedede</item>
+
     </style>
 
     <style name="Theme.DARK" parent="swipestyle">

@@ -55,7 +55,6 @@ public class ImageLoaderUtils {
         final int memory = (int) (Runtime.getRuntime().maxMemory() / 8);
 
         options = new DisplayImageOptions.Builder()
-                .resetViewBeforeLoading(true)
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY)
