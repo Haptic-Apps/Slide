@@ -21,7 +21,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.TimePeriod;
@@ -67,7 +66,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static Sorting defaultSorting;
 
-    public static CommentSort defaultCommentSorting;
     public static TimePeriod timePeriod;
     public static SharedPreferences colors;
     public static SharedPreferences appRestart;
@@ -543,7 +541,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
         defaultSorting = SettingValues.defaultSorting;
         timePeriod = SettingValues.timePeriod;
-        defaultCommentSorting = SettingValues.defaultCommentSorting;
         colors = getSharedPreferences("COLOR", 0);
         tags = getSharedPreferences("TAGS", 0);
         seen = getSharedPreferences("SEEN", 0);

@@ -74,7 +74,6 @@ public class SubmissionComments {
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout) {
         this.fullName = fullName;
         this.page = commentPage;
-
         this.refreshLayout = layout;
     }
 
@@ -93,7 +92,6 @@ public class SubmissionComments {
 
     public void setSorting(CommentSort sort) {
         defaultSorting = sort;
-
         mLoadData = new LoadData(false);
         mLoadData.execute(fullName);
     }
@@ -142,6 +140,8 @@ public class SubmissionComments {
     public void reloadSubmission(CommentAdapter commentAdapter) {
         commentAdapter.submission = Authentication.reddit.getSubmission(submission.getFullName().substring(3, submission.getFullName().length()));
     }
+
+    public boolean forceSorting = false;
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<CommentObject>> {
         final boolean reset;

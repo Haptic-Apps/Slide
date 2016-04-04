@@ -467,6 +467,8 @@ public class CommentPage extends Fragment {
         }
         return v;
     }
+    
+    public CommentSort commentSorting;
 
     public void doAdapter() {
 
@@ -481,13 +483,21 @@ public class CommentPage extends Fragment {
         loaded = true;
         if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-            comments.setSorting(Reddit.defaultCommentSorting);
-            adapter = new CommentAdapter(this, comments, rv, ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page), getFragmentManager());
+            Submission s = ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page);
+            if(s.getDataNode().has("suggested_sort")){
+                commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
+            }
+            comments.setSorting(commentSorting);
+            adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
             rv.setAdapter(adapter);
         } else if (getActivity() instanceof MainActivity && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-            comments.setSorting(Reddit.defaultCommentSorting);
-            adapter = new CommentAdapter(this, comments, rv, ((MainActivity) getActivity()).openingComments, getFragmentManager());
+            Submission s = ((MainActivity) getActivity()).openingComments;
+            if(s.getDataNode().has("suggested_sort")){
+                commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
+            }
+            comments.setSorting(commentSorting);
+            adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
             rv.setAdapter(adapter);
         } else {
             OfflineSubreddit o = OfflineSubreddit.getSubreddit(baseSubreddit);
@@ -498,17 +508,17 @@ public class CommentPage extends Fragment {
                 rv.setAdapter(adapter);
             } else if (context.isEmpty()) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                comments.setSorting(Reddit.defaultCommentSorting);
+                comments.setSorting(commentSorting);
                 if (o != null && o.submissions.size() > 0)
                     adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
                 rv.setAdapter(adapter);
             } else {
                 if (context.equals(Reddit.EMPTY_STRING)) {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                    comments.setSorting(Reddit.defaultCommentSorting);
+                    comments.setSorting(commentSorting);
                 } else {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
-                    comments.setSorting(Reddit.defaultCommentSorting);
+                    comments.setSorting(commentSorting);
                 }
 
 
@@ -604,7 +614,7 @@ public class CommentPage extends Fragment {
 
     private void reloadSubs() {
         mSwipeRefreshLayout.setRefreshing(true);
-        comments.setSorting(Reddit.defaultCommentSorting);
+        comments.setSorting(commentSorting);
     }
 
     private void openPopup(View view) {
@@ -615,40 +625,40 @@ public class CommentPage extends Fragment {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     switch (i) {
                         case 0:
-                            Reddit.defaultCommentSorting = CommentSort.CONFIDENCE;
+                            commentSorting = CommentSort.CONFIDENCE;
                             reloadSubs();
                             break;
                         case 1:
-                            Reddit.defaultCommentSorting = CommentSort.TOP;
+                            commentSorting = CommentSort.TOP;
                             reloadSubs();
                             break;
                         case 2:
-                            Reddit.defaultCommentSorting = CommentSort.QA;
+                            commentSorting = CommentSort.QA;
                             reloadSubs();
                             break;
                         case 3:
-                            Reddit.defaultCommentSorting = CommentSort.NEW;
+                            commentSorting = CommentSort.NEW;
                             reloadSubs();
                             break;
                         case 4:
-                            Reddit.defaultCommentSorting = CommentSort.CONTROVERSIAL;
+                            commentSorting = CommentSort.CONTROVERSIAL;
                             reloadSubs();
                             break;
                         case 5:
-                            Reddit.defaultCommentSorting = CommentSort.OLD;
+                            commentSorting = CommentSort.OLD;
                             reloadSubs();
                             break;
                     }
-                    SettingValues.prefs.edit().putString("defaultCommentSorting", Reddit.defaultCommentSorting.name()).apply();
-                    SettingValues.defaultCommentSorting = Reddit.defaultCommentSorting;
+                    SettingValues.prefs.edit().putString("defaultCommentSorting", commentSorting.name()).apply();
+                    SettingValues.defaultCommentSorting = commentSorting;
                 }
             };
-            int i = Reddit.defaultCommentSorting == CommentSort.CONFIDENCE ? 0
-                    : Reddit.defaultCommentSorting == CommentSort.TOP ? 1
-                    : Reddit.defaultCommentSorting == CommentSort.QA ? 2
-                    : Reddit.defaultCommentSorting == CommentSort.NEW ? 3
-                    : Reddit.defaultCommentSorting == CommentSort.CONTROVERSIAL ? 4
-                    : Reddit.defaultCommentSorting == CommentSort.OLD ? 5
+            int i = commentSorting == CommentSort.CONFIDENCE ? 0
+                    : commentSorting == CommentSort.TOP ? 1
+                    : commentSorting == CommentSort.QA ? 2
+                    : commentSorting == CommentSort.NEW ? 3
+                    : commentSorting == CommentSort.CONTROVERSIAL ? 4
+                    : commentSorting == CommentSort.OLD ? 5
                     : 0;
             AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
             builder.setTitle(R.string.sorting_choose);

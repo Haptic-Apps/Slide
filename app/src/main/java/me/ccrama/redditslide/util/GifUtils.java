@@ -104,6 +104,7 @@ public class GifUtils {
         @Override
         protected Void doInBackground(String... sub) {
 
+            MediaView.didLoadGif = false;
             String s = sub[0];
 
 
@@ -178,6 +179,7 @@ public class GifUtils {
                                                 CacheUtil.makeRoom(c, length);
 
                                                 f.createNewFile();
+                                                MediaView.fileLoc = f.getAbsolutePath();
 
                                                 FileOutputStream outStream = new FileOutputStream(f);
                                                 byte[] buff = new byte[5 * 1024];
@@ -187,12 +189,16 @@ public class GifUtils {
                                                 while ((len = inStream.read(buff)) != -1) {
                                                     outStream.write(buff, 0, len);
                                                     final int percent = Math.round(100.0f * f.length() / length);
+                                                    if(percent == 100)
+                                                        MediaView.didLoadGif = true;
+
                                                     if (progressBar != null) {
                                                         c.runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
                                                                 progressBar.setProgress(percent);
                                                                 if (percent == 100) {
+
                                                                     progressBar.setVisibility(View.GONE);
                                                                 }
                                                             }
@@ -323,6 +329,7 @@ public class GifUtils {
                         CacheUtil.makeRoom(c, length);
 
                         f.createNewFile();
+                        MediaView.fileLoc = f.getAbsolutePath();
 
                         FileOutputStream outStream = new FileOutputStream(f);
                         byte[] buff = new byte[5 * 1024];
@@ -333,6 +340,8 @@ public class GifUtils {
                         while ((len = inStream.read(buff)) != -1) {
                             outStream.write(buff, 0, len);
                             final int percent = Math.round(100.0f * f.length() / length);
+                            if(percent == 100)
+                                MediaView.didLoadGif = true;
                             if (progressBar != null) {
 
                                 c.runOnUiThread(new Runnable() {
@@ -455,6 +464,7 @@ public class GifUtils {
                                                                                                                                   CacheUtil.makeRoom(c, length);
 
                                                                                                                                   f.createNewFile();
+                                                                                                                                  MediaView.fileLoc = f.getAbsolutePath();
 
                                                                                                                                   FileOutputStream outStream = new FileOutputStream(f);
                                                                                                                                   byte[] buff = new byte[5 * 1024];
@@ -465,6 +475,8 @@ public class GifUtils {
                                                                                                                                   while ((len = inStream.read(buff)) != -1) {
                                                                                                                                       outStream.write(buff, 0, len);
                                                                                                                                       final int percent = Math.round(100.0f * f.length() / length);
+                                                                                                                                      if(percent == 100)
+                                                                                                                                          MediaView.didLoadGif = true;
                                                                                                                                       if (progressBar != null) {
 
                                                                                                                                           c.runOnUiThread(new Runnable() {
@@ -618,6 +630,7 @@ public class GifUtils {
                                                                                                                                                                final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
                                                                                                                                                                f.createNewFile();
+                                                                                                                                                               MediaView.fileLoc = f.getAbsolutePath();
 
                                                                                                                                                                FileOutputStream outStream = new FileOutputStream(f);
                                                                                                                                                                byte[] buff = new byte[5 * 1024];
@@ -626,6 +639,8 @@ public class GifUtils {
                                                                                                                                                                while ((len = inStream.read(buff)) != -1) {
                                                                                                                                                                    outStream.write(buff, 0, len);
                                                                                                                                                                    final int percent = Math.round(100.0f * f.length() / length);
+                                                                                                                                                                   if(percent == 100)
+                                                                                                                                                                       MediaView.didLoadGif = true;
                                                                                                                                                                    if (progressBar != null) {
                                                                                                                                                                        c.runOnUiThread(new Runnable() {
                                                                                                                                                                            @Override
@@ -776,6 +791,7 @@ public class GifUtils {
                                             CacheUtil.makeRoom(c, length);
 
                                             f.createNewFile();
+                                            MediaView.fileLoc = f.getAbsolutePath();
 
                                             FileOutputStream outStream = new FileOutputStream(f);
                                             byte[] buff = new byte[5 * 1024];
@@ -850,6 +866,7 @@ public class GifUtils {
                                         CacheUtil.makeRoom(c, length);
 
                                         f.createNewFile();
+                                        MediaView.fileLoc = f.getAbsolutePath();
 
                                         FileOutputStream outStream = new FileOutputStream(f);
                                         byte[] buff = new byte[5 * 1024];
@@ -910,6 +927,7 @@ public class GifUtils {
                                                         final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
                                                         f.createNewFile();
+                                                        MediaView.fileLoc = f.getAbsolutePath();
 
                                                         FileOutputStream outStream = new FileOutputStream(f);
                                                         byte[] buff = new byte[5 * 1024];

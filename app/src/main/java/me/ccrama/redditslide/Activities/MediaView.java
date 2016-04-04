@@ -66,11 +66,13 @@ import me.ccrama.redditslide.util.NetworkUtil;
 public class MediaView extends FullScreenActivity implements FolderChooserDialog.FolderCallback {
 
 
+    public static String fileLoc;
     public float previous;
     public static final String EXTRA_URL = "url";
     public static final String EXTRA_DISPLAY_URL = "displayUrl";
     public static final String EXTRA_LQ = "lq";
     public static final String EXTRA_SHARE_URL = "urlShare";
+    public static boolean didLoadGif;
     public boolean hidden;
     public boolean imageShown;
 
@@ -155,6 +157,11 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         if (gif != null)
             gif.cancel(true);
         doOnClick = null;
+        if(!didLoadGif){
+            if(fileLoc != null && !fileLoc.isEmpty()){
+                new File(fileLoc).delete();
+            }
+        }
     }
 
     int stopPosition;
@@ -406,6 +413,11 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         e.printStackTrace();
                     }
                     return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    findViewById(R.id.progress).setVisibility(View.GONE);
                 }
             }.execute();
 
@@ -746,7 +758,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         } else {
             File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".png");
 
-
             FileOutputStream out = null;
             try {
                 f.createNewFile();
@@ -760,7 +771,13 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     if (out != null) {
                         out.close();
                         if (!f.getAbsolutePath().isEmpty()) {
-                            Uri bmpUri = Uri.parse(f.getAbsolutePath());
+                            Intent mediaScanIntent = new Intent(
+                                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                            Uri contentUri = Uri.parse("file://" + f.getAbsolutePath());
+                            mediaScanIntent.setData(contentUri);
+                            MediaView.this.sendBroadcast(mediaScanIntent);
+
+                            Uri bmpUri = Uri.fromFile(f);
                             final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
                             shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
                             shareImageIntent.setType("image/png");
