@@ -462,10 +462,17 @@ public class Submit extends BaseActivity {
         protected void onPostExecute(final JSONObject result) {
             dialog.dismiss();
             try {
-                String url = result.getJSONObject("data").getString("link");
-                setImage(url);
-
-            } catch (JSONException e) {
+                if(result != null && result.has("data")) {
+                    String url = result.getJSONObject("data").getString("link");
+                    setImage(url);
+                } else {
+                    new AlertDialogWrapper.Builder(Submit.this)
+                            .setTitle(R.string.err_general)
+                            .setMessage("Make sure the image is accessible and try again!")
+                            .setPositiveButton(R.string.btn_ok, null)
+                            .show();
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

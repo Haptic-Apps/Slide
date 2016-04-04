@@ -191,6 +191,7 @@ public class CreateCardView {
         return CreateView(parent);
 
     }
+
     public static View setSmallTag(boolean isChecked, ViewGroup parent) {
 
         SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SMALL_TAG, isChecked).apply();
@@ -198,6 +199,7 @@ public class CreateCardView {
         return CreateView(parent);
 
     }
+
     public static View setCardViewType(CardEnum cardEnum, ViewGroup parent, Boolean secondary, String sub) {
         secondary = false; //removing secondary layouts for now
 
@@ -315,17 +317,20 @@ public class CreateCardView {
     }
 
     private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
-        ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
+        if (v != null) {
+            ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
+            animator.setInterpolator(new FastOutSlowInInterpolator());
 
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                v.setScaleY((Float) valueAnimator.getAnimatedValue());
-            }
-        });
-        return animator;
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    //Update Height
+                    v.setScaleY((Float) valueAnimator.getAnimatedValue());
+                }
+            });
+            return animator;
+        }
+        return null;
     }
 
     public static void animateIn(View l) {
@@ -368,7 +373,9 @@ public class CreateCardView {
     public static void toggleActionbar(View v) {
         if (!SettingValues.actionbarVisible) {
 
-            flipAnimator(v.findViewById(R.id.upvote).getVisibility() == View.VISIBLE, v.findViewById(R.id.secondMenu)).start();
+            ValueAnimator a = flipAnimator(v.findViewById(R.id.upvote).getVisibility() == View.VISIBLE, v.findViewById(R.id.secondMenu));
+            if (a != null)
+                a.start();
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
                 if (v2.getId() != R.id.mod) {
                     if (v2.getId() == R.id.save) {
@@ -400,7 +407,7 @@ public class CreateCardView {
     }
 
     private static void doHideObjects(final View v) {
-        if(SettingValues.smallTag){
+        if (SettingValues.smallTag) {
             v.findViewById(R.id.base).setVisibility(View.GONE);
             v.findViewById(R.id.tag).setVisibility(View.VISIBLE);
         } else {

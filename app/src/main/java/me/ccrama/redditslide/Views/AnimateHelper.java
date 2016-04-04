@@ -23,51 +23,57 @@ public class AnimateHelper {
         v.setVisibility(View.VISIBLE);
         v.setAlpha(1f);
 
-        int cx = (from.getLeft() + from.getRight()) / 2;
-        int cy = vBig.getHeight() - (from.getHeight() / 2);//from.getRight() - ( from.getWidth()/ 2);
+        final int cx = (from.getLeft() + from.getRight()) / 2;
+        final int cy = vBig.getHeight() - (from.getHeight() / 2);//from.getRight() - ( from.getWidth()/ 2);
 
 // get the final radius for the clipping circle
         int dx = Math.max(cx, vBig.getWidth() - cx);
         int dy = Math.max(cy, vBig.getHeight() - cy);
-        float finalRadius = (float) Math.hypot(dx, dy);
-        SupportAnimator animator =
-                ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-        animator.setDuration(250);
-        animator.start();
-
-        v.postDelayed(new Runnable() {
+        final float finalRadius = (float) Math.hypot(dx, dy);
+        v.post(new Runnable() {
             @Override
             public void run() {
-                ObjectAnimator animator2 = ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0f);
+                SupportAnimator animator =
+                        ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
+                animator.setInterpolator(new FastOutSlowInInterpolator());
+                animator.setDuration(250);
+                animator.start();
 
-                animator2.setInterpolator(new AccelerateDecelerateInterpolator());
-                animator2.setDuration(450);
-                animator2.addListener(new Animator.AnimatorListener() {
+                v.postDelayed(new Runnable() {
                     @Override
-                    public void onAnimationStart(Animator animation) {
+                    public void run() {
+                        ObjectAnimator animator2 = ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0f);
+
+                        animator2.setInterpolator(new AccelerateDecelerateInterpolator());
+                        animator2.setDuration(450);
+                        animator2.addListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                v.setVisibility(View.GONE);
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
+                            }
+                        });
+                        animator2.start();
 
                     }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        v.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
-                animator2.start();
+                }, 450);
 
             }
-        }, 450);
+        });
 
     }
 

@@ -318,6 +318,9 @@ public class MainActivity extends BaseActivity {
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
             first = true;
+            if (Reddit.appRestart == null)
+                Reddit.appRestart = getSharedPreferences("appRestart", 0);
+
             Reddit.appRestart.edit().putBoolean("firststart52", true).apply();
             Intent i = new Intent(this, Tutorial.class);
             startActivity(i);
@@ -431,7 +434,6 @@ public class MainActivity extends BaseActivity {
         }
 
         System.gc();
-
 
 
     }
@@ -1956,7 +1958,7 @@ public class MainActivity extends BaseActivity {
 
                             JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
                             if (s2 != null) {
-                                newSubmissions = newSubmissions + (s2.toString()  +  "<SEPARATOR>");
+                                newSubmissions = newSubmissions + (s2.toString() + "<SEPARATOR>");
                                 switch (ContentType.getImageType(s)) {
                                     case GFY:
                                     case GIF:

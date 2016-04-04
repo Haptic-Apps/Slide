@@ -464,6 +464,9 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         private int i = 0;
         private JsonElement user;
 
+        public ImageFullNoSubmission(){
+
+        }
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {

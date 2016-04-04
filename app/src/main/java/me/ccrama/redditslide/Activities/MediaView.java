@@ -208,7 +208,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             if (!firstUrl.isEmpty() && contentUrl != null) {
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
                 displayImage(firstUrl);
-            } else if (ContentType.getImageType(contentUrl) == ContentType.ImageType.IMGUR ) {
+            } else if (ContentType.getImageType(contentUrl) == ContentType.ImageType.IMGUR) {
                 displayImage(contentUrl + ".png"); //display one first
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
             }
@@ -219,9 +219,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             findViewById(R.id.hq).setVisibility(View.GONE);
             doLoad(contentUrl);
         }
-
-
-
 
 
         if (!Reddit.appRestart.contains("tutorialSwipe")) {
@@ -530,9 +527,11 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            try {
-                                i.setImage(ImageSource.uri(((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url).getAbsolutePath()));
-                            } catch (Exception e) {
+
+                            File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url);
+                            if (f != null && f.exists()) {
+                                i.setImage(ImageSource.uri(f.getAbsolutePath()));
+                            } else {
                                 i.setImage(ImageSource.bitmap(loadedImage));
                             }
                             (findViewById(R.id.progress)).setVisibility(View.GONE);
