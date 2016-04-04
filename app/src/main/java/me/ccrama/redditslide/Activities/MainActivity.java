@@ -102,7 +102,6 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -115,7 +114,6 @@ import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
-import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AlbumUtils;
@@ -324,27 +322,37 @@ public class MainActivity extends BaseActivity {
             Reddit.appRestart.edit().putBoolean("firststart52", true).apply();
             Intent i = new Intent(this, Tutorial.class);
             startActivity(i);
-        } else if (!Reddit.colors.contains("v502update") && !Reddit.colors.contains("firststart52")) {
-            new MaterialDialog.Builder(this)
-                    .title("Slide v5.0.2")
-                    .customView(R.layout.whats_new, false)
-                    .positiveText("Will do!")
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            Reddit.colors.edit().putBoolean("v502update", true).apply();
-                            doForcePrefs();
+        } else {
+            if (Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && !checkedPopups) {
+                new AsyncTask<Void, Void, Submission>() {
+                    @Override
+                    protected Submission doInBackground(Void... params) {
+                        SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
+                        p.setLimit(2);
+                        ArrayList<Submission> posts = new ArrayList<>(p.next());
+                        for (Submission s : posts) {
+                            if (s.isStickied() && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName())) {
+                                Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
+                                return s;
+                            }
                         }
-                    })
-                    .dismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
+                        return null;
+                    }
 
-                            Reddit.colors.edit().putBoolean("v502update", true).apply();
-                            doForcePrefs();
+                    @Override
+                    protected void onPostExecute(final Submission s) {
+                        checkedPopups = true;
+                        if (s != null) {
+                            Reddit.appRestart.edit().putString("page", s.getDataNode().get("selftext_html").asText()).apply();
+                            Reddit.appRestart.edit().putString("title", s.getTitle()).apply();
+                            Reddit.appRestart.edit().putString("url", s.getUrl()).apply();
+
+                            Intent i = new Intent(MainActivity.this, Announcement.class);
+                            startActivity(i);
                         }
-                    })
-                    .show();
+                    }
+                }.execute();
+            }
         }
 
         if (savedInstanceState != null && !changed) {
@@ -469,7 +477,8 @@ public class MainActivity extends BaseActivity {
             if (!s.isEmpty()) {
                 s = s.trim();
                 final String finalS = s;
-                domains.add(finalS);
+                if (!finalS.contains("youtu"))
+                    domains.add(finalS);
             }
         }
 
@@ -1375,42 +1384,6 @@ public class MainActivity extends BaseActivity {
                             .show();
                 }
             });
-
-            new AsyncTask<Void, Void, Submission>() {
-                @Override
-                protected Submission doInBackground(Void... params) {
-                    SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
-                    p.setLimit(2);
-                    ArrayList<Submission> posts = new ArrayList<>(p.next());
-                    for (Submission s : posts) {
-                        if (s.isStickied() && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("read_announcement" + s.getFullName())) {
-                            Reddit.appRestart.edit().putBoolean("read_announcement" + s.getFullName(), true).apply();
-                            return s;
-                        }
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(final Submission s) {
-                    if (s != null) {
-                        LayoutInflater inflater = (MainActivity.this).getLayoutInflater();
-                        final View dialoglayout = inflater.inflate(R.layout.submission_dialog, null);
-                        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
-                        setViews(s.getDataNode().get("selftext_html").asText(), s.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
-                        ((TitleTextView) dialoglayout.findViewById(R.id.title)).setText(s.getTitle());
-                        builder.setView(dialoglayout);
-                        builder.setPositiveButton(R.string.btn_ok, null);
-                        builder.setNeutralButton(R.string.btn_open_comments, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new OpenRedditLink(MainActivity.this, s.getUrl());
-                            }
-                        });
-                        builder.show();
-                    }
-                }
-            }.execute();
         }
 
         header.findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
@@ -2026,12 +1999,15 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public static boolean checkedPopups;
+
     @Override
     public void onResume() {
         super.onResume();
         if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && headerMain != null) {
             new AsyncNotificationBadge().execute();
         }
+
         Reddit.setDefaultErrorHandler(this);
         if (datasetChanged && UserSubscriptions.hasSubs() && !usedArray.isEmpty()) {
             usedArray = new ArrayList<>(UserSubscriptions.getSubscriptions(this));

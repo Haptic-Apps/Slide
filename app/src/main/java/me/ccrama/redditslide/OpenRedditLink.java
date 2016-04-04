@@ -25,6 +25,7 @@ public class OpenRedditLink {
         String oldUrl = url;
         boolean np = false;
 
+        LogUtil.v("Link is " + url);
         url = formatRedditUrl(url);
         if (url.isEmpty()) {
             customIntentChooser(oldUrl, context);

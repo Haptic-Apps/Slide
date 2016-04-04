@@ -111,6 +111,11 @@
             android:theme="@style/swipeable"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".Activities.Announcement"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/swipeable"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".Activities.SubredditView"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />

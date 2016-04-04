@@ -1,47 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardview="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ScrollView
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:padding="16dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="24dp"
+        android:theme="@style/popup"
+        cardview:cardBackgroundColor="?attr/card_background"
+        android:orientation="vertical">
 
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:padding="16dp">
 
-            <me.ccrama.redditslide.Views.TitleTextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="4dp"
-                android:textColor="?attr/font"
-                android:textSize="?attr/font_cardtitle" />
-            <me.ccrama.redditslide.SpoilerRobotoTextView
-                android:id="@+id/firstTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/content"
-                android:layout_toRightOf="@id/dot"
-                android:textColor="?attr/font"
-                android:textSize="?attr/font_commentbody" />
 
-            <me.ccrama.redditslide.Views.CommentOverflow
-                android:id="@+id/commentOverflow"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/firstTextView"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_toRightOf="@id/dot"
-                android:orientation="vertical"
-                android:visibility="invisible" />
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+                android:orientation="vertical">
+
+                <me.ccrama.redditslide.Views.TitleTextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:textColor="?attr/font"
+                    android:textSize="?attr/font_cardtitle" />
+
+                <me.ccrama.redditslide.SpoilerRobotoTextView
+                    android:id="@+id/firstTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/content"
+                    android:layout_toRightOf="@id/dot"
+                    android:textColor="?attr/font"
+                    android:textSize="?attr/font_commentbody" />
+
+                <me.ccrama.redditslide.Views.CommentOverflow
+                    android:id="@+id/commentOverflow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/firstTextView"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toRightOf="@id/dot"
+                    android:orientation="vertical"
+                    android:visibility="invisible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/comments"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:background="?attr/selectableItemBackground"
+                        android:layout_weight="1"
+                        android:text="@string/btn_open_comments"
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/ok"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="@string/btn_ok"
+                        android:background="?attr/selectableItemBackground"
+                        android:textAllCaps="true"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </android.support.v7.widget.CardView>
+</merge>
