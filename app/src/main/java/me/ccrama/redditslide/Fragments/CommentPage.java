@@ -484,7 +484,7 @@ public class CommentPage extends Fragment {
         if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             Submission s = ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page);
-            if(s.getDataNode().has("suggested_sort")){
+            if(s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")){
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
             }
             comments.setSorting(commentSorting);
@@ -493,7 +493,7 @@ public class CommentPage extends Fragment {
         } else if (getActivity() instanceof MainActivity && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             Submission s = ((MainActivity) getActivity()).openingComments;
-            if(s.getDataNode().has("suggested_sort")){
+            if(s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")){
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
             }
             comments.setSorting(commentSorting);
