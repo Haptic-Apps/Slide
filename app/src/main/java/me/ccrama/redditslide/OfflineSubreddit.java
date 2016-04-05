@@ -1,7 +1,5 @@
 package me.ccrama.redditslide;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -12,8 +10,6 @@ import net.dean.jraw.models.meta.SubmissionSerializer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 11/19/2015.
@@ -144,12 +140,9 @@ public class OfflineSubreddit {
 
     public void hide(int index) {
         if (submissions != null) {
-            Log.v(LogUtil.getTag(), submissions.get(index).getTitle());
-
             savedSubmission = submissions.get(index);
             submissions.remove(index);
             savedIndex = index;
-
             writeToMemory();
         }
     }

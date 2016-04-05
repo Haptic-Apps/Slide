@@ -129,7 +129,7 @@ public class PopulateSubmissionViewHolder {
                             openImage(contextActivity, submission);
                             break;
                         case IMGUR:
-                           openImage(contextActivity, submission);
+                            openImage(contextActivity, submission);
                             break;
                         case EMBEDDED:
                             if (SettingValues.video) {
@@ -459,34 +459,7 @@ public class PopulateSubmissionViewHolder {
                                 }.execute();
                                 break;
                             case 5: {
-                                final int pos = posts.indexOf(submission);
-                                final T t = posts.get(pos);
-                                posts.remove(submission);
-
-                                Hidden.setHidden(t);
-
-                                final OfflineSubreddit s;
-                                if (baseSub != null) {
-                                    s = OfflineSubreddit.getSubreddit(baseSub);
-                                    s.hide(pos);
-                                } else {
-                                    s = null;
-                                }
-                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
-
-
-                                Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (baseSub != null && s != null) {
-                                            s.unhideLast();
-                                        }
-                                        posts.add(pos, t);
-                                        recyclerview.getAdapter().notifyItemInserted(pos + 1);
-                                        Hidden.undoHidden(t);
-
-                                    }
-                                }).show();
+                                hideSubmission(submission, posts, baseSub, recyclerview);
                             }
                             break;
                             case 7:
@@ -553,6 +526,37 @@ public class PopulateSubmissionViewHolder {
 
 
         b.show();
+    }
+
+    public <T extends Contribution> void hideSubmission(final Submission submission, final List<T> posts, final String baseSub, final RecyclerView recyclerview) {
+        final int pos = posts.indexOf(submission);
+        if(pos != -1) {
+            final T t = posts.get(pos);
+            posts.remove(pos);
+            Hidden.setHidden(t);
+            final OfflineSubreddit s;
+            if (baseSub != null) {
+                s = OfflineSubreddit.getSubreddit(baseSub);
+                s.hide(pos);
+            } else {
+                s = null;
+            }
+            recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+
+
+            Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (baseSub != null && s != null) {
+                        s.unhideLast();
+                    }
+                    posts.add(pos, t);
+                    recyclerview.getAdapter().notifyItemInserted(pos + 1);
+                    Hidden.undoHidden(t);
+
+                }
+            }).show();
+        }
     }
 
     public <T extends Contribution> void showModBottomSheet(final Activity mContext, final Submission submission, final List<T> posts, final SubmissionViewHolder holder, final RecyclerView recyclerview, final Map<String, Integer> reports, final Map<String, String> reports2) {
@@ -1490,41 +1494,7 @@ public class PopulateSubmissionViewHolder {
                 hideButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (posts != null) {
-                            final int pos = posts.indexOf(submission);
-                            if (pos != -1) {
-
-                                final T t = posts.get(pos);
-                                posts.remove(submission);
-
-                                if (!offline)
-                                    Hidden.setHidden(t);
-
-                                final OfflineSubreddit s;
-                                if (baseSub != null) {
-                                    s = OfflineSubreddit.getSubreddit(baseSub);
-                                    s.hide(pos);
-                                } else {
-                                    s = null;
-                                }
-
-                                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
-
-
-                                Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (baseSub != null && s != null) {
-                                            s.unhideLast();
-                                        }
-                                        posts.add(pos, t);
-                                        recyclerview.getAdapter().notifyItemInserted(pos + 1);
-                                        Hidden.undoHidden(t);
-
-                                    }
-                                }).show();
-                            }
-                        }
+                        hideSubmission(submission, posts, baseSub, recyclerview);
                     }
                 });
             } else {

@@ -266,11 +266,24 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         }
         if (holder2 instanceof SpacerViewHolder) {
-            holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), (context).findViewById(R.id.header).getHeight()));
-            if (listView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
-                StaggeredGridLayoutManager.LayoutParams layoutParams = new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (context).findViewById(R.id.header).getHeight());
-                layoutParams.setFullSpan(true);
-                holder2.itemView.setLayoutParams(layoutParams);
+            View header = (context).findViewById(R.id.header);
+            int height =  header.getHeight();
+            if(height == 0){
+                header.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+                height = header.getMeasuredHeight();
+                holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), height));
+                if (listView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                    StaggeredGridLayoutManager.LayoutParams layoutParams = new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+                    layoutParams.setFullSpan(true);
+                    holder2.itemView.setLayoutParams(layoutParams);
+                }
+            } else {
+                holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), height));
+                if (listView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                    StaggeredGridLayoutManager.LayoutParams layoutParams = new StaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+                    layoutParams.setFullSpan(true);
+                    holder2.itemView.setLayoutParams(layoutParams);
+                }
             }
         }
     }

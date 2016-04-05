@@ -149,7 +149,7 @@ public class ContentType {
                             return ImageType.ALBUM;
                         }
                         if (isImgurImage(url)) {
-                            return ImageType.IMGUR;
+                            return ImageType.IMAGE;
                         }
                         if (isImage(url) && !url.contains("gif")) {
                             return ImageType.IMAGE;
@@ -180,7 +180,7 @@ public class ContentType {
                             return ImageType.ALBUM;
                         }
                         if (isImgurImage(url)) {
-                            return ImageType.IMGUR;
+                            return ImageType.IMAGE;
                         }
                         if (isImage(url) && !url.contains("gif")) {
                             return ImageType.IMAGE;
