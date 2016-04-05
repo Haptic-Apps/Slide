@@ -99,6 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
+                    android:textColor="?attr/font"
                     android:text="@string/settings_font_regular"
                     app:typeface="roboto_regular" />
 
@@ -107,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
-
+                    android:textColor="?attr/font"
                     android:text="@string/settings_font_slab"
                     app:typeface="roboto_slab_regular" />
 
@@ -115,7 +116,7 @@
                     android:id="@+id/ccond"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:textColor="?attr/font"
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_condensed"
                     app:typeface="roboto_condensed_regular" />
@@ -207,7 +208,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
-
+                    android:textColor="?attr/font"
                     android:text="@string/settings_font_regular"
                     app:typeface="roboto_regular" />
 
@@ -216,7 +217,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
-
+                    android:textColor="?attr/font"
                     android:text="@string/settings_font_light"
                     app:typeface="roboto_regular" />
 
@@ -225,7 +226,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
-
+                    android:textColor="?attr/font"
                     android:text="@string/settings_font_slab"
                     app:typeface="roboto_slab_regular" />
 
@@ -234,7 +235,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
-
+                    android:textColor="?attr/font"
                     android:text="@string/settings_font_slab_light"
                     app:typeface="roboto_slab_light" />
 
@@ -242,7 +243,7 @@
                     android:id="@+id/scond"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:textColor="?attr/font"
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_condensed"
                     app:typeface="roboto_condensed_regular" />
@@ -251,7 +252,7 @@
                     android:id="@+id/scondl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:textColor="?attr/font"
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_condensed_light"
                     app:typeface="roboto_condensed_light" />

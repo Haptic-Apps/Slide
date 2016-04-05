@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -47,9 +46,9 @@
             android:textStyle="bold" />
 
         <ImageView
+            android:id="@+id/headerflip"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/headerflip"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_margin="12dp"
@@ -125,16 +124,16 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
-            android:theme="@style/Ripple.List"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
-            android:gravity="center"
-            android:tint="?attr/tint"
-            android:padding="14dp"
             android:layout_marginRight="2dp"
-            app:srcCompat="@drawable/down"
+            android:gravity="center"
+            android:padding="14dp"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:theme="@style/Ripple.List"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/down" />
     </RelativeLayout>
 
 
@@ -142,9 +141,9 @@
         android:id="@+id/expand_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:background="?attr/activity_background"
         android:orientation="vertical"
+        android:visibility="gone"
         android:weightSum="5">
 
         <TextView
@@ -152,9 +151,9 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
-            android:paddingLeft="24dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingLeft="24dp"
             android:text="@string/btn_submit"
             android:textSize="14sp" />
 
@@ -163,9 +162,9 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
-            android:paddingLeft="24dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingLeft="24dp"
             android:text="@string/profile_saved"
             android:textSize="14sp" />
 
@@ -175,8 +174,8 @@
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
-            android:paddingLeft="24dp"
             android:orientation="horizontal"
+            android:paddingLeft="24dp"
             android:text="@string/profile_upvoted"
             android:textSize="14sp" />
 
@@ -185,9 +184,9 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
-            android:paddingLeft="24dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingLeft="24dp"
             android:text="@string/profile_submitted"
             android:textSize="14sp" />
 
@@ -196,9 +195,9 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
-            android:paddingLeft="24dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingLeft="24dp"
             android:text="@string/profile_comments"
             android:textSize="14sp" />
     </LinearLayout>
@@ -361,6 +360,7 @@
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/discover"
         android:layout_width="match_parent"
@@ -417,18 +417,35 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/sort"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp"
-        android:backgroundTint="?attr/tint"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
-        android:hint="@string/drawer_search"
-        android:imeOptions="actionSearch"
-        android:singleLine="true"
-        android:textColor="?attr/font"
-        android:textColorHint="?attr/font" />
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/sort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="?attr/tint"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
+            android:hint="@string/drawer_search"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:textColor="?attr/font"
+            android:textColorHint="?attr/font" />
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignBottom="@+id/sort"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="16dp"
+            android:padding="8dp"
+            android:theme="@style/Ripple.List"
+            app:srcCompat="@drawable/close" />
+    </RelativeLayout>
 </LinearLayout>

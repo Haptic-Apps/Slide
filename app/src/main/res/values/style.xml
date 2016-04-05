@@ -374,6 +374,10 @@
         <item name="font_commentinfo">8sp</item>
         <item name="font_commentbody">10sp</item>
     </style>
+    <style name="FontStyle.TinyPost">
+        <item name="font_cardtitle">14sp</item>
+        <item name="font_cardinfo">10sp</item>
+    </style>
 
     <style name="FontStyle.LargePost">
         <item name="font_cardtitle">22sp</item>

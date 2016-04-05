@@ -82,6 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/title"
                     android:layout_gravity="start"
+                    android:layout_marginRight="8dp"
                     android:layout_marginLeft="16dp"
                     android:gravity="center_vertical"
                     android:tag="tint"

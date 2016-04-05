@@ -288,8 +288,10 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
 
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
-
+            String timeAgo = TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext);
+            String time = ((timeAgo == null || timeAgo.isEmpty()) ? "just now" : timeAgo); //some users were crashing here
+            time = time + (((comment.getEditDate() != null) ? " (edit " + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) + ")" : ""));
+            holder.time.setText(time);
             setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
 
             if (comment.getTimesGilded() > 0) {

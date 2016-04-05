@@ -1449,6 +1449,12 @@ public class MainActivity extends BaseActivity {
 
         e = ((EditText) headerMain.findViewById(R.id.sort));
 
+        headerMain.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                e.setText("");
+            }
+        });
 
         sideArrayAdapter = new SideArrayAdapter(this, copy, UserSubscriptions.getAllSubreddits(this));
         drawerSubList.setAdapter(sideArrayAdapter);
@@ -1489,6 +1495,9 @@ public class MainActivity extends BaseActivity {
             }
         });
 
+        final View close = findViewById(R.id.close);
+        close.setVisibility(View.GONE);
+
         e.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
@@ -1503,6 +1512,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 String result = e.getText().toString().replaceAll(" ", "");
+                if (result.isEmpty()) {
+                    close.setVisibility(View.GONE);
+                } else {
+                    close.setVisibility(View.VISIBLE);
+                }
                 sideArrayAdapter.getFilter().filter(result);
 
             }

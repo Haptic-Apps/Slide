@@ -63,6 +63,7 @@ public class FontPreferences {
         edit().putString(FONT_TITLE, style.name()).commit();
     }
     public enum FontStyle {
+        Tiny(R.style.FontStyle_TinyPost, "Tiny"),
         Smaller(R.style.FontStyle_SmallerPost, "Smaller"),
         Small(R.style.FontStyle_SmallPost, "Small"),
         Medium(R.style.FontStyle_MediumPost, "Medium"),
