@@ -264,7 +264,7 @@
                 android:text="@string/btn_preview"
                 android:textAllCaps="true"
                 android:layout_toLeftOf="@+id/send"
-                android:textColor="?attr/font"
+                android:textColor="#ffffff"
                 android:textSize="14sp"
                 android:textStyle="bold" />
             <TextView
