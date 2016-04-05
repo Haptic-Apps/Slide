@@ -263,7 +263,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_all),
                 };
     }
-
+    public static String[] getSortingStringsComments(Context c) {
+        return new String[]
+                {c.getString(R.string.sorting_best),
+                        c.getString(R.string.sorting_top),
+                        c.getString(R.string.sorting_ama),
+                        c.getString(R.string.sorting_new),
+                        c.getString(R.string.sorting_controversial),
+                        c.getString(R.string.sorting_old),
+                };
+    }
     public static String[] getSearch(Context c) {
         return new String[]
                 {

@@ -168,6 +168,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
                     copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
                     reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                    reply.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
                     unhide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
                     BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)

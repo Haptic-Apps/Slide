@@ -693,4 +693,5 @@
     <string name="btn_view">VIEW</string>
     <string name="btn_open_comments">Open comments</string>
     <string name="btn_preview">Preview</string>
+    <string name="sorting_default_comment">Default comment sorting</string>
 </resources>

@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
@@ -18,6 +19,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.rey.material.widget.Slider;
 
+import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
@@ -166,7 +168,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             });
         }
         String loc = Reddit.appRestart.getString("imagelocation", "Not set yet");
-        ((TextView)findViewById(R.id.location)).setText(loc);
+        ((TextView) findViewById(R.id.location)).setText(loc);
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.expandedmenu);
 
@@ -364,13 +366,77 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                 }
             });
         }
+        {
+            final int i2 = SettingValues.defaultCommentSorting == CommentSort.CONFIDENCE ? 0
+                    : SettingValues.defaultCommentSorting == CommentSort.TOP ? 1
+                    : SettingValues.defaultCommentSorting == CommentSort.QA ? 2
+                    : SettingValues.defaultCommentSorting == CommentSort.NEW ? 3
+                    : SettingValues.defaultCommentSorting == CommentSort.CONTROVERSIAL ? 4
+                    : SettingValues.defaultCommentSorting == CommentSort.OLD ? 5
+                    : 0;
+            ((TextView) findViewById(R.id.sorting_current_comment)).setText(
+                    Reddit.getSortingStringsComments(getBaseContext())[i2]);
+
+            findViewById(R.id.sorting_comment).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            CommentSort commentSorting = SettingValues.defaultCommentSorting;
+                            switch (i) {
+                                case 0:
+                                    commentSorting = CommentSort.CONFIDENCE;
+                                    break;
+                                case 1:
+                                    commentSorting = CommentSort.TOP;
+                                    break;
+                                case 2:
+                                    commentSorting = CommentSort.QA;
+                                    break;
+                                case 3:
+                                    commentSorting = CommentSort.NEW;
+                                    break;
+                                case 4:
+                                    commentSorting = CommentSort.CONTROVERSIAL;
+                                    break;
+                                case 5:
+                                    commentSorting = CommentSort.OLD;
+                                    break;
+                            }
+                            SettingValues.prefs.edit().putString("defaultCommentSorting", commentSorting.name()).apply();
+                            SettingValues.defaultCommentSorting = commentSorting;
+                            ((TextView) findViewById(R.id.sorting_current_comment)).setText(
+                                    Reddit.getSortingStringsComments(getBaseContext())[i]);
+                        }
+                    };
+
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsGeneral.this);
+                    builder.setTitle(R.string.sorting_choose);
+                    Resources res = getBaseContext().getResources();
+                    builder.setSingleChoiceItems(
+                            new String[]{res.getString(R.string.sorting_best),
+                                    res.getString(R.string.sorting_top),
+                                    res.getString(R.string.sorting_ama),
+                                    res.getString(R.string.sorting_new),
+                                    res.getString(R.string.sorting_controversial),
+                                    res.getString(R.string.sorting_old)},
+                            i2, l2);
+                    builder.show();
+
+
+                }
+            });
+        }
     }
+
     @Override
     public void onFolderSelection(FolderChooserDialog dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
             Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
-            ((TextView)findViewById(R.id.location)).setText( folder.getAbsolutePath());
+            ((TextView) findViewById(R.id.location)).setText(folder.getAbsolutePath());
         }
     }
 }

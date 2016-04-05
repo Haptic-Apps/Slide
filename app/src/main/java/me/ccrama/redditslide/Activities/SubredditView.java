@@ -323,7 +323,6 @@ public class SubredditView extends BaseActivityAnim {
         setContentView(R.layout.activity_singlesubreddit);
         setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
 
-        UserSubscriptions.addSubToHistory(subreddit);
         header = findViewById(R.id.header);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setResult(3);
@@ -617,7 +616,7 @@ public class SubredditView extends BaseActivityAnim {
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
-                View submit = ( dialoglayout.findViewById(R.id.submit));
+                View submit = (dialoglayout.findViewById(R.id.submit));
                 if (!Authentication.isLoggedIn) {
                     pinned.setVisibility(View.GONE);
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
@@ -888,23 +887,30 @@ public class SubredditView extends BaseActivityAnim {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null)
+            if (subreddit != null) {
                 doSubOnlyStuff(subreddit);
-            if(subreddit.isNsfw() && !Reddit.over18){
-                new AlertDialogWrapper.Builder(SubredditView.this)
-                        .setTitle("/r/" + subreddit.getDisplayName() + " contains mature content.")
-                        .setMessage("If you are over 18 and are willing to see adult content, you can enable this in Settings > Reddit Settings > Show NSFW content")
-                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                finish();
-                            }
-                        }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                }).show();
+
+                if (subreddit.isNsfw() && SettingValues.storeHistory && SettingValues.storeNSFWHistory)
+                    UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
+                else if (SettingValues.storeHistory)
+                    UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
+
+                if (subreddit.isNsfw() && !Reddit.over18) {
+                    new AlertDialogWrapper.Builder(SubredditView.this)
+                            .setTitle("/r/" + subreddit.getDisplayName() + " contains mature content.")
+                            .setMessage("If you are over 18 and are willing to see adult content, you can enable this in Settings > Reddit Settings > Show NSFW content")
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    finish();
+                                }
+                            }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).show();
+                }
             }
         }
 

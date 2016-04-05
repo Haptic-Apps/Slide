@@ -16,9 +16,12 @@ import me.ccrama.redditslide.R;
 public class AnimateHelper {
 
 
-    public static void setFlashAnimation(final View vBig, View from, int color) {
+    public static void setFlashAnimation(final View vBig, final View from, final int color) {
         // get the center for the clipping circle
         final View v = vBig.findViewById(R.id.vote);
+        v.post(new Runnable() {
+            @Override
+            public void run() {
         v.setBackgroundColor(color);
         v.setVisibility(View.VISIBLE);
         v.setAlpha(1f);
@@ -30,9 +33,7 @@ public class AnimateHelper {
         int dx = Math.max(cx, vBig.getWidth() - cx);
         int dy = Math.max(cy, vBig.getHeight() - cy);
         final float finalRadius = (float) Math.hypot(dx, dy);
-        v.post(new Runnable() {
-            @Override
-            public void run() {
+
                 SupportAnimator animator =
                         ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
                 animator.setInterpolator(new FastOutSlowInInterpolator());

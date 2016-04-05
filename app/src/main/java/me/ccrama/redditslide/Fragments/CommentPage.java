@@ -206,6 +206,7 @@ public class CommentPage extends Fragment {
     }
 
     View v;
+    public View fastScroll;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -215,12 +216,14 @@ public class CommentPage extends Fragment {
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         rv.setLayoutManager(mLayoutManager);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        toolbar.setPopupTheme(new ColorPreferences(getActivity()).getFontStyle().getBaseId());
 
         toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header));
 
         rv.addOnScrollListener(toolbarScroll);
+        fastScroll = v.findViewById(R.id.fastscroll);
         if (!SettingValues.fastscroll) {
-            v.findViewById(R.id.fastscroll).setVisibility(View.GONE);
+            fastScroll.setVisibility(View.GONE);
         } else {
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -471,6 +474,7 @@ public class CommentPage extends Fragment {
     public CommentSort commentSorting;
 
     public void doAdapter() {
+        commentSorting = SettingValues.defaultCommentSorting;
 
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
@@ -484,7 +488,7 @@ public class CommentPage extends Fragment {
         if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             Submission s = ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page);
-            if(s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")){
+            if(s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")){
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
             }
             comments.setSorting(commentSorting);
@@ -493,7 +497,7 @@ public class CommentPage extends Fragment {
         } else if (getActivity() instanceof MainActivity && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             Submission s = ((MainActivity) getActivity()).openingComments;
-            if(s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")){
+            if(s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")){
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
             }
             comments.setSorting(commentSorting);
@@ -649,8 +653,6 @@ public class CommentPage extends Fragment {
                             reloadSubs();
                             break;
                     }
-                    SettingValues.prefs.edit().putString("defaultCommentSorting", commentSorting.name()).apply();
-                    SettingValues.defaultCommentSorting = commentSorting;
                 }
             };
             int i = commentSorting == CommentSort.CONFIDENCE ? 0
@@ -660,7 +662,7 @@ public class CommentPage extends Fragment {
                     : commentSorting == CommentSort.CONTROVERSIAL ? 4
                     : commentSorting == CommentSort.OLD ? 5
                     : 0;
-            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
+            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
             builder.setTitle(R.string.sorting_choose);
             Resources res = getActivity().getBaseContext().getResources();
             builder.setSingleChoiceItems(

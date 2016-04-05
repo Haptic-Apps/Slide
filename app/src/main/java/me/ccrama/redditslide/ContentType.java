@@ -118,7 +118,7 @@ public class ContentType {
             if (isDomain(url, "reddit.com") || isDomain(url, "redd.it")) {
                 return ImageType.REDDIT;
             }
-            if(isDomain(url, "deviantart.com")){
+            if(isDomain(url, "deviantart.com") && !url.contains("/gallery")){
                 return ImageType.DEVIANTART;
             }
             if(isDomain(url, "vid.me")){
@@ -246,7 +246,7 @@ public class ContentType {
         if(isDomain(url, "vid.me")){
             return ImageType.VID_ME;
         }
-        if(isDomain(url, "deviantart.com")){
+        if(isDomain(url, "deviantart.com") && !url.contains("/gallery")){
             return ImageType.DEVIANTART;
         }
         if (isRedditLink(url)) {

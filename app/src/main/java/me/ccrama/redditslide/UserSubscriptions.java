@@ -43,6 +43,7 @@ public class UserSubscriptions {
             c.updateSubs(subredditsForHome);
         }
     }
+
     public static class SyncMultireddits extends AsyncTask<Void, Void, Boolean> {
 
         Context c;
@@ -69,6 +70,7 @@ public class UserSubscriptions {
             return null;
         }
     }
+
     public static ArrayList<String> getSubscriptions(Context c) {
         String s = subscriptions.getString(Authentication.name, "");
         if (s.isEmpty()) {
@@ -186,6 +188,7 @@ public class UserSubscriptions {
                 //failed;
                 e.printStackTrace();
             }
+            addSubsToHistory(toReturn, true);
             return toReturn;
         } else {
             toReturn.addAll(Arrays.asList("announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts"));
@@ -252,6 +255,7 @@ public class UserSubscriptions {
 
         return finished;
     }
+
     private static void doFriendsOf() {
         friends = new ArrayList<>();
         ArrayList<String> finished = new ArrayList<>();
@@ -270,6 +274,7 @@ public class UserSubscriptions {
             e.printStackTrace();
         }
     }
+
     public static MultiReddit getMultiredditByDisplayName(String displayName) {
         for (MultiReddit multiReddit : multireddits) {
             if (multiReddit.getDisplayName().equals(displayName)) {
@@ -289,6 +294,7 @@ public class UserSubscriptions {
         finalReturn.addAll(getDefaults(c));
         return finalReturn;
     }
+
     //Gets user subscriptions + top 500 subs + subs in history
     public static ArrayList<String> getAllUserSubreddits(Context c) {
         ArrayList<String> finalReturn = new ArrayList<>();
@@ -297,8 +303,9 @@ public class UserSubscriptions {
         finalReturn.addAll(getHistory());
         return finalReturn;
     }
+
     public static ArrayList<String> getHistory() {
-        String[] hist = subscriptions.getString("subhistory", "").split(",");
+        String[] hist = subscriptions.getString("subhistory", "").toLowerCase().split(",");
         ArrayList<String> history = new ArrayList<>();
         Collections.addAll(history, hist);
         return history;
@@ -325,10 +332,30 @@ public class UserSubscriptions {
     //Sets sub as "searched for", will apply to all accounts
     public static void addSubToHistory(String s) {
         String history = subscriptions.getString("subhistory", "");
-        if (!history.contains(s)) {
-            history += "," + s;
+        if (!history.contains(s.toLowerCase())) {
+            history += "," + s.toLowerCase();
             subscriptions.edit().putString("subhistory", history).apply();
         }
+    }
+
+    //Sets a list of subreddits as "searched for", will apply to all accounts
+    public static void addSubsToHistory(ArrayList<Subreddit> s2) {
+        String history = subscriptions.getString("subhistory", "").toLowerCase();
+        for (Subreddit s : s2) {
+            if (!history.contains(s.getDisplayName().toLowerCase())) {
+                history += "," + s.getDisplayName().toLowerCase();
+            }
+        }
+        subscriptions.edit().putString("subhistory", history).apply();
+    }
+    public static void addSubsToHistory(ArrayList<String> s2, boolean b) {
+        String history = subscriptions.getString("subhistory", "").toLowerCase();
+        for (String s : s2) {
+            if (!history.contains(s.toLowerCase())) {
+                history += "," + s.toLowerCase();
+            }
+        }
+        subscriptions.edit().putString("subhistory", history).apply();
     }
 
     public static ArrayList<Subreddit> syncSubredditsGetObject() {
@@ -351,10 +378,12 @@ public class UserSubscriptions {
                 e.printStackTrace();
             }
 
+            addSubsToHistory(toReturn);
             return toReturn;
         }
         return toReturn;
     }
+
     public static void syncSubredditsGetObjectAsync(final Login mainActivity) {
         final ArrayList<Subreddit> toReturn = new ArrayList<>();
         new AsyncTask<Void, Void, Void>() {
@@ -388,6 +417,7 @@ public class UserSubscriptions {
             }
         }.execute();
     }
+
     public static ArrayList<String> sortNoExtras(ArrayList<String> copy) {
         ArrayList<String> subs = new ArrayList<>(copy);
         ArrayList<String> finals = new ArrayList<>();
@@ -427,6 +457,7 @@ public class UserSubscriptions {
         return finals;
 
     }
+
     public static boolean isSubscriber(String s) {
         return subscriptions.getString(Authentication.name, "").toLowerCase().contains(s.toLowerCase());
     }

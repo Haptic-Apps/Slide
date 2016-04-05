@@ -103,18 +103,35 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/sort"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:backgroundTint="?attr/tint"
-        android:hint="@string/drawer_search"
-        android:imeOptions="actionSearch"
-        android:singleLine="true"
-        android:textColor="?attr/font"
-        android:textColorHint="?attr/font"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/sort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="?attr/tint"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
+            android:hint="@string/drawer_search"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:textColor="?attr/font"
+            android:textColorHint="?attr/font" />
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_alignBottom="@+id/sort"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="16dp"
+            android:padding="8dp"
+            android:theme="@style/Ripple.List"
+            app:srcCompat="@drawable/close" />
+    </RelativeLayout>
 </LinearLayout>

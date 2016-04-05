@@ -55,12 +55,7 @@ public class SubredditSearchPosts extends GeneralPosts {
 
     }
     public void reset() {
-
-
-
         new LoadData(true).execute();
-
-
     }
 
     public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {

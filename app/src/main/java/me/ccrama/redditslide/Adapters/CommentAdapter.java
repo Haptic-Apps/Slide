@@ -929,6 +929,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm, (Activity) mContext);
 
                                 currentlyEditing = ((EditText) firstHolder.itemView.findViewById(R.id.replyLine));
+                                currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                                    @Override
+                                    public void onFocusChange(View v, boolean hasFocus) {
+                                        if(hasFocus){
+                                            mPage.fastScroll.setVisibility(View.GONE);
+                                        } else if(SettingValues.fastscroll){
+                                            mPage.fastScroll.setVisibility(View.VISIBLE);
+                                        }
+                                    }
+                                });
                                 editingPosition = firstHolder.getAdapterPosition();
 
                                 firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
@@ -1772,6 +1782,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     menu.setVisibility(View.GONE);
                     DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext);
                     currentlyEditing = replyLine;
+                    currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                        @Override
+                        public void onFocusChange(View v, boolean hasFocus) {
+                            if(hasFocus){
+                                mPage.fastScroll.setVisibility(View.GONE);
+                            } else if(SettingValues.fastscroll){
+                                mPage.fastScroll.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
                     currentlyEditingId = n.getFullName();
                     replyLine.setText(backedText);
                     replyLine.addTextChangedListener(new TextWatcher() {
@@ -1800,6 +1820,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         menu.setVisibility(View.GONE);
                         DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext);
                         currentlyEditing = replyLine;
+                        currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                            @Override
+                            public void onFocusChange(View v, boolean hasFocus) {
+                                if(hasFocus){
+                                    mPage.fastScroll.setVisibility(View.GONE);
+                                } else if(SettingValues.fastscroll){
+                                    mPage.fastScroll.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
                         currentlyEditingId = n.getFullName();
                         replyLine.addTextChangedListener(new TextWatcher() {
                             @Override
