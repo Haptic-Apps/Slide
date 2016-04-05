@@ -62,6 +62,7 @@ public class SettingsFont extends BaseActivityAnim {
                 popup.getMenu().add("Medium");
                 popup.getMenu().add("Small");
                 popup.getMenu().add("Smaller");
+                popup.getMenu().add("Tiny");
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
