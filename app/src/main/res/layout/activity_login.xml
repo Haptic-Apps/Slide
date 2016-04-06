@@ -10,14 +10,9 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@color/dblue"
-        android:clipToPadding="false"
-        android:paddingRight="16dp"
-        android:theme="@style/Theme.AppCompat">
-
-
-    </android.support.v7.widget.Toolbar>
+        android:theme="@style/Theme.AppCompat"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
