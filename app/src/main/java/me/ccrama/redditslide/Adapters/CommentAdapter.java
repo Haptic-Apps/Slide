@@ -1899,7 +1899,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         doShowMenu(baseView);
 
                         dataSet.refreshLayout.setRefreshing(true);
-                        new ReplyTaskComment(n, finalPos, finalPos1, baseNode).execute(replyLine.getText().toString());
+                        new ReplyTaskComment(n, finalPos, finalPos1, baseNode, holder).execute(replyLine.getText().toString());
 
                         //Hide soft keyboard
                         View view = ((Activity) mContext).getCurrentFocus();
@@ -2396,6 +2396,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return count;
     }
 
+
     public class AsyncLoadMore extends AsyncTask<MoreChildItem, Void, Integer> {
         public MoreCommentViewHolder holder;
         public int holderPos;
@@ -2482,16 +2483,98 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
+    public class AsyncForceLoadChild extends AsyncTask<String, Void, Integer> {
+        public CommentViewHolder holder;
+        CommentNode node;
+        public int holderPos;
+        public int position;
+
+
+        public AsyncForceLoadChild(int position, int holderPos, CommentViewHolder holder, CommentNode baseNode) {
+            this.holderPos = holderPos;
+            this.holder = holder;
+            this.node = baseNode;
+            this.position = position;
+        }
+
+        @Override
+        public void onPostExecute(Integer data) {
+            if (data != -1) {
+                listView.setItemAnimator(new ScaleInLeftAnimator());
+
+                notifyItemRangeInserted(holderPos + 1, data);
+
+                currentPos = holderPos + 1;
+                toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
+                shiftFrom = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
+
+                dataSet.refreshLayout.setRefreshing(false);
+            } else {
+                //Comment could not be found, force a reload
+                Handler handler2 = new Handler();
+                handler2.postDelayed(new Runnable() {
+                    public void run() {
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dataSet.refreshLayout.setRefreshing(false);
+                                dataSet.loadMoreReply(CommentAdapter.this);
+                            }
+                        });
+                    }
+                }, 2000);
+            }
+
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+
+            ArrayList<CommentObject> finalData = new ArrayList<>();
+            int i = 0;
+
+            if (params.length > 0) {
+                try {
+                    LogUtil.v("loading " + params[0]);
+                    node.insertComment(Authentication.reddit, "t1_" + params[0]);
+
+                    for (CommentNode n : node.walkTree()) {
+                        if (n.getComment().getFullName().contains(params[0])) {
+                            CommentObject obj = new CommentItem(n);
+                            finalData.add(obj);
+                            i++;
+
+                        }
+                    }
+
+                } catch (Exception e) {
+                    Log.w(LogUtil.getTag(), "Cannot load more comments " + e);
+                    i = -1;
+                }
+
+                shifted += i;
+                users.addAll(position - 1, finalData);
+
+                for (int i2 = 0; i2 < users.size(); i2++) {
+                    keys.put(users.get(i2).getName(), i2);
+                }
+            }
+            return i;
+        }
+    }
+
     public class ReplyTaskComment extends AsyncTask<String, Void, String> {
         public Contribution sub;
         int finalPos;
         int finalPos1;
         CommentNode node;
+        CommentViewHolder holder;
 
-        public ReplyTaskComment(Contribution n, int finalPos, int finalPos1, CommentNode node) {
+        public ReplyTaskComment(Contribution n, int finalPos, int finalPos1, CommentNode node, CommentViewHolder holder) {
             sub = n;
             this.finalPos = finalPos;
             this.finalPos1 = finalPos1;
+            this.holder = holder;
             this.node = node;
         }
 
@@ -2502,19 +2585,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onPostExecute(final String s) {
             if (s != null) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dataSet.refreshLayout.setRefreshing(false);
-                                currentSelectedItem = s;
-                                dataSet.loadMoreReply(CommentAdapter.this);
-                            }
-                        });
-                    }
-                }, 2000);
+                new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition()), holder.getAdapterPosition(), holder, node).execute(s);
             }
         }
 
@@ -2530,6 +2601,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             return null;
         }
+
     }
 
     public String reportReason;
