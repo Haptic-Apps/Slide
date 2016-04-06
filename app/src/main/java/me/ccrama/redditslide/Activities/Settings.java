@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
@@ -211,6 +212,7 @@ public class Settings extends BaseActivity {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
                     final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);
+                    final Resources res = getResources();
 
                     dialoglayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
                     //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
@@ -219,12 +221,14 @@ public class Settings extends BaseActivity {
                     //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
                     landscape.setProgress(Reddit.dpWidth - 1);
 
-                    ((TextView) dialoglayout.findViewById(R.id.progressnumber)).setText(landscape.getProgress() + 1 + " columns in landscape");
+                    ((TextView) dialoglayout.findViewById(R.id.progressnumber))
+                            .setText(res.getQuantityString(R.plurals.landscape_columns, landscape.getProgress() + 1, landscape.getProgress() + 1));
 
                     landscape.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                            ((TextView) dialoglayout.findViewById(R.id.progressnumber)).setText(landscape.getProgress() + 1 + " columns in landscape");
+                            ((TextView) dialoglayout.findViewById(R.id.progressnumber))
+                                    .setText(res.getQuantityString(R.plurals.landscape_columns, landscape.getProgress() + 1, landscape.getProgress() + 1));
 
                         }
 

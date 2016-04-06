@@ -94,16 +94,16 @@ public class Login extends BaseActivityAnim {
         }
         subNames = UserSubscriptions.sort(subNames);
         if (!subNames.contains("slideforreddit")) {
-            new AlertDialogWrapper.Builder(Login.this).setTitle("Subscribe to /r/slideforreddit?")
-                    .setMessage("Would you like to subscribe to /r/slideforreddit for the latest news and to report issues?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            new AlertDialogWrapper.Builder(Login.this).setTitle(R.string.login_subscribe_rslideforreddit)
+                    .setMessage(R.string.login_subscribe_rslideforreddit_desc)
+                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             subNames.add(2, "slideforreddit");
                             UserSubscriptions.setSubscriptions(subNames);
                             Reddit.forceRestart(Login.this, true);
                         }
-                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     UserSubscriptions.setSubscriptions(subNames);
@@ -121,12 +121,11 @@ public class Login extends BaseActivityAnim {
     public void doLastStuff(final ArrayList<Subreddit> subs) {
 
         d.dismiss();
-        new AlertDialogWrapper.Builder(Login.this).setTitle("Sync colors now?")
-                .setMessage("Would you like to sync your subreddit colors now? This can be done later in Settings -> Subreddit Themes")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        new AlertDialogWrapper.Builder(Login.this).setTitle(R.string.login_sync_colors)
+                .setMessage(R.string.login_sync_colors_desc)
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
 
                         for (Subreddit s : subs) {
                             if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
@@ -137,7 +136,7 @@ public class Login extends BaseActivityAnim {
                         doSubStrings(subs);
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         doSubStrings(subs);
@@ -167,7 +166,7 @@ public class Login extends BaseActivityAnim {
         protected void onPreExecute() {
             //Show a dialog to indicate progress
             MaterialDialog.Builder builder = new MaterialDialog.Builder(Login.this)
-                    .title("Slide is authenticating")
+                    .title(R.string.login_authenticating)
                     .progress(true, 0)
                     .content(R.string.misc_please_wait)
                     .cancelable(false);
@@ -216,9 +215,9 @@ public class Login extends BaseActivityAnim {
 
                 UserSubscriptions.switchAccounts();
                 d = new MaterialDialog.Builder(Login.this).cancelable(false)
-                        .title("Setting things up!")
+                        .title(R.string.login_starting)
                         .progress(true, 0)
-                        .content("This should only take a second...")
+                        .content(R.string.login_starting_desc)
                         .build();
                 d.show();
 

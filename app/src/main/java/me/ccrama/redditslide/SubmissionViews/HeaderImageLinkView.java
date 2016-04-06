@@ -319,7 +319,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     break;
 
                 case DEVIANTART:
-                    title.setText("Deviantart");
+                    title.setText(R.string.type_deviantart);
                     break;
                 case NSFW_GIF:
                 case NSFW_GFY:
@@ -344,14 +344,14 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                     break;
                 case STREAMABLE:
-                    title.setText("Streamable");
+                    title.setText(R.string.type_streamable);
                     break;
                 case SELF:
                     if (!SettingValues.smallTag || full) {
                         title.setVisibility(View.GONE);
                     } else {
                         title.setVisibility(View.VISIBLE);
-                        title.setText("Selftext");
+                        title.setText(R.string.type_selftext);
                     }
                     if (info != null)
                         info.setVisibility(View.GONE);
@@ -376,7 +376,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     title.setText(R.string.type_imgur);
                     break;
                 case VID_ME:
-                    title.setText("vid.me");
+                    title.setText(R.string.type_vidme);
                     break;
                 case GFY:
                 case GIF:

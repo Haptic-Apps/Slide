@@ -71,10 +71,10 @@
     <string name="card_actionbar">Action bar visible</string>
     <string name="card_picture">Big picture</string>
     <string name="card_picture_cropped">Crop big picture</string>
-    <string name="card_hide_post_button">\"Hide post\" button in actionbar</string>
+    <string name="card_hide_post_button">“Hide post” button in actionbar</string>
     <string name="card_tint_background">Tint card background to subreddit color</string>
     <string name="card_tint_outside">Only tint outside the subreddit</string>
-    <string name="card_save_button">\'\'Save post\'\' button in actionbar</string>
+    <string name="card_save_button">“Save post” button in actionbar</string>
     <string name="card_section_images">Images</string>
     <string name="card_section_actionbar">Actionbar</string>
 
@@ -459,7 +459,7 @@
     <string name="settings_filter_title">Title filters</string>
     <string name="settings_filter_hint">Enter strings to match separated by commas</string>
     <string name="settings_prefs_reddit">View all reddit.com preferences</string>
-    <string name="settings_nsfw_info">If you are not seeing NSFW content or previews, make sure to select \'I am 18 years old\' and \'Show NSFW thumbnails\' at the reddit.com preferences screen below.</string>
+    <string name="settings_nsfw_info">If you are not seeing NSFW content or previews, make sure to select ‘I am 18 years old’ and ‘Show NSFW thumbnails’ on the reddit.com preferences screen below.</string>
     <string name="settings_font_post">Post title font</string>
     <string name="settings_font_comment">Comment font</string>
     <string name="settings_comment_crop">Crop lead image in comment view</string>
@@ -536,7 +536,7 @@
     <string name="offline_msg">Please go online and refresh the subreddit to do that</string>
     <string name="offline_drawer_info">Slide is in offline mode. Connect to the internet to see all content!</string>
     <string name="offline_last_update">Last updated %1$s</string>
-    <string name="offline_comments_not_loaded">Please go back online and select \'Cache comments\' from the 3 dot menu to view comments offline.</string>
+    <string name="offline_comments_not_loaded">Please go back online and select ‘Cache comments’ from the 3 dot menu to view comments offline.</string>
     <string name="network_connected">Network connected</string>
     <string name="network_connected_msg">Would you like to exit offline mode?</string>
 
@@ -587,7 +587,7 @@
     <string name="btn_select">Select</string>
     <string name="dialog_choose_subreddits_to_edit">Choose subreddits to edit</string>
     <string name="dialog_color_sync_title">Color syncing</string>
-    <string name="dialog_color_sync_message">This will try to retrieve the subreddit\'s \'key color\' set by the moderators. It will not overwrite already colored subreddits.</string>
+    <string name="dialog_color_sync_message">This will try to retrieve the subreddit’s ‘key color’ set by the moderators. It will not overwrite already colored subreddits.</string>
     <string name="fab_hide">Hide viewed posts</string>
     <string name="fab_create">Create new post</string>
     <string name="fab_disabled">Disabled</string>
@@ -596,7 +596,7 @@
     <string name="settings_fastscroll_description">Enables a bottom bar with nav arrows</string>
     <string name="settings_comment_collapse">Fully collapse comments</string>
     <string name="settings_comment_collapse_description">Also disables comment animations</string>
-    <string name="settings_comment_collapse_default">Collapse children comments by default</string>
+    <string name="settings_comment_collapse_default">Collapse child comments by default</string>
     <string name="mode_list">List</string>
     <string name="mode_centered">Card with centered image</string>
     <string name="mode_card">Card</string>
@@ -618,7 +618,7 @@
     <string name="view_type_tabs">Subreddit tabs</string>
     <string name="view_type_none">No subreddit tabs</string>
     <string name="view_type_comments">Comment pane</string>
-    <string name="btn_collapse_children_all">Collapse children comments</string>
+    <string name="btn_collapse_children_all">Collapse child comments</string>
     <string name="btn_open_content">Open content</string>
     <string name="btn_report">Report</string>
     <string name="input_reason_for_report">Reason for reporting</string>
@@ -649,6 +649,11 @@
         <item quantity="other">%d minutes</item>
     </plurals>
 
+    <plurals name="landscape_columns">
+        <item quantity="one">%d column in landscape</item>
+        <item quantity="other">%d columns in landscape</item>
+    </plurals>
+
     <string name="action_settings">Settings</string>
     <string name="btn_mods">Moderators</string>
     <string name="datasave_always">Mobile data and Wi-Fi</string>
@@ -659,12 +664,12 @@
     <string name="card_background_tint">Card background</string>
     <string name="subreddit_name_tint">Subreddit name</string>
     <string name="settings_comment_hide_selftext_image">Hide lead image on selftext posts</string>
-    <string name="login_failed_err_decline">Be sure you didn\'t select \'Decline\' on the last screen, and try again in a minute</string>
+    <string name="login_failed_err_decline">Be sure you didn’t select ‘Decline’ on the last screen, and try again in a minute</string>
     <string name="thumb_type_always">Always show</string>
     <string name="thumb_type_off">Never show</string>
     <string name="thumb_type_sub">Show per subreddit settings</string>
     <string name="tutorial_swipe_navigation">Swipe navigation</string>
-    <string name="tutorial_swipe_description">Swipe from the left edge to exit.\n\nThis applies to images, gifs, albums, settings, and more!</string>
+    <string name="tutorial_swipe_description">Swipe from the left edge to exit.\n\nThis applies to images, GIFs, albums, settings, and more!</string>
     <string name="settings_data_low_quality">Load low quality images</string>
     <string name="settings_view_type">View type</string>
     <string name="handling_browser">Web browser</string>
@@ -694,4 +699,17 @@
     <string name="btn_open_comments">Open comments</string>
     <string name="btn_preview">Preview</string>
     <string name="sorting_default_comment">Default comment sorting</string>
+    <string name="theme_amoled_contrast">AMOLED with contrast</string>
+    <string name="settings_general_image_location">Select image/GIF save location</string>
+    <string name="content_deleted">[deleted]</string>
+    <string name="thread_continue">Continue this thread</string>
+    <string name="type_selftext">Selftext</string>
+    <string name="mail_re">re: %1$s</string>
+    <string name="login_subscribe_rslideforreddit">Subscribe to /r/slideforreddit?</string>
+    <string name="login_subscribe_rslideforreddit_desc">Would you like to subscribe to /r/slideforreddit for the latest news and to report issues?</string>
+    <string name="login_sync_colors">Sync colors now?</string>
+    <string name="login_sync_colors_desc">Would you like to sync your subreddit colors now? This can be done later in Settings → Subreddit themes</string>
+    <string name="login_authenticating">Slide is authenticating</string>
+    <string name="login_starting">Setting things up!</string>
+    <string name="login_starting_desc">This should only take a second...</string>
 </resources>

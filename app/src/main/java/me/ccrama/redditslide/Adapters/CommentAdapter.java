@@ -487,8 +487,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                             s.show();
 
                                                             deleted.add(comment.getFullName());
-                                                            holder.firstTextView.setTextHtml("[deleted]");
-                                                            holder.content.setText("[deleted]");
+                                                            holder.firstTextView.setTextHtml(mContext.getString(R.string.content_deleted));
+                                                            holder.content.setText(R.string.content_deleted);
                                                         } else {
                                                             new AlertDialogWrapper.Builder(mContext)
                                                                     .setTitle(R.string.err_general)
@@ -1283,7 +1283,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else if (!baseNode.children.getChildrenIds().isEmpty()) {
                 holder.content.setText(R.string.comment_load_more_number_unknown);
             } else {
-                holder.content.setText("Continue this thread");
+                holder.content.setText(R.string.thread_continue);
             }
 
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
@@ -1762,8 +1762,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                         ((Activity) mContext).runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                holder.firstTextView.setTextHtml("[deleted]");
-                                                                holder.content.setText("[deleted]");
+                                                                holder.firstTextView.setTextHtml(mContext.getString(R.string.content_deleted));
+                                                                holder.content.setText(R.string.content_deleted);
                                                             }
                                                         });
 

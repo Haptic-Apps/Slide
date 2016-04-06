@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -62,7 +63,7 @@ public class Sendmessage extends BaseActivity {
             if (reply) {
                 b.setTitle(String.format(getString(R.string.mail_reply_to), name));
                 previousMessage = DataShare.sharedMessage;
-                subject.setText("re: " + previousMessage.getSubject());
+                subject.setText(String.format(getString(R.string.mail_re), previousMessage.getSubject()));
 
                 subject.setInputType(InputType.TYPE_NULL);
 
