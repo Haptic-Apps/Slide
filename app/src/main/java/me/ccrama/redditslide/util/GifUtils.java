@@ -380,7 +380,7 @@ public class GifUtils {
                             video.setVideoPath(f.getAbsolutePath());
                             //videoView.set
 
-                            if (placeholder != null && !hideControls) {
+                            if (placeholder != null && !hideControls&& !(c instanceof Shadowbox)) {
                                 MediaController mediaController = new
                                         MediaController(c);
                                 mediaController.setAnchorView(placeholder);
@@ -515,7 +515,7 @@ public class GifUtils {
                                                                                                                                       video.setVideoPath(f.getAbsolutePath());
                                                                                                                                       //videoView.set
 
-                                                                                                                                      if (placeholder != null && !hideControls) {
+                                                                                                                                      if (placeholder != null && !hideControls&& !(c instanceof Shadowbox)) {
                                                                                                                                           MediaController mediaController = new
                                                                                                                                                   MediaController(c);
                                                                                                                                           mediaController.setAnchorView(placeholder);
@@ -668,7 +668,7 @@ public class GifUtils {
                                                                                                                                                                        video.setVideoPath(f.getAbsolutePath());
                                                                                                                                                                        //videoView.set
 
-                                                                                                                                                                       if (placeholder != null && !hideControls) {
+                                                                                                                                                                       if (placeholder != null && !hideControls&& !(c instanceof Shadowbox)) {
                                                                                                                                                                            MediaController mediaController = new
                                                                                                                                                                                    MediaController(c);
                                                                                                                                                                            mediaController.setAnchorView(placeholder);
