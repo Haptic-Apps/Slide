@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -715,7 +716,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     public void onClick(DialogInterface dialog, int which) {
                         new FolderChooserDialog.Builder(AlbumPager.this)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                                .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
                     }
                 })
@@ -802,7 +803,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     public void onClick(DialogInterface dialog, int which) {
                         new FolderChooserDialog.Builder(AlbumPager.this)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                                .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
                     }
                 })

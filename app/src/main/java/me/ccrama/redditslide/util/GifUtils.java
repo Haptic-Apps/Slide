@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
@@ -973,7 +974,7 @@ public class GifUtils {
                     public void onClick(DialogInterface dialog, int which) {
                         new FolderChooserDialog.Builder(a instanceof GifView ? (GifView) a : (MediaView) a)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                                .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
                     }
                 })
@@ -990,7 +991,7 @@ public class GifUtils {
                     public void onClick(DialogInterface dialog, int which) {
                         new FolderChooserDialog.Builder(a instanceof GifView ? (GifView) a : (MediaView) a)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                                .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
                     }
                 })

@@ -15,6 +15,7 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
@@ -659,7 +660,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     public void onClick(DialogInterface dialog, int which) {
                         new FolderChooserDialog.Builder(MediaView.this)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                                .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
                     }
                 })
@@ -703,7 +704,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     public void onClick(DialogInterface dialog, int which) {
                         new FolderChooserDialog.Builder(MediaView.this)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                                .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
                     }
                 })

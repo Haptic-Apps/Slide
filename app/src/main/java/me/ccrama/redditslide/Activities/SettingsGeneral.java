@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -162,7 +163,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                 public void onClick(View v) {
                     new FolderChooserDialog.Builder(SettingsGeneral.this)
                             .chooseButton(R.string.btn_select)  // changes label of the choose button
-                            .initialPath("/sdcard/")  // changes initial path, defaults to external storage directory
+                            .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                             .show();
                 }
             });
