@@ -39,7 +39,11 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
     }
 
     public String getItem(int position) {
-        return jsons.get(position);
+        String s = jsons.get(position);
+        if(s.contains(",")){
+            s = s.split(",")[0];
+        }
+        return s;
     }
 
     public long getItemId(int position) {

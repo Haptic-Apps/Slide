@@ -446,8 +446,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             }
 
-            LogUtil.v("Link is " + dat + " and response is " + images.get(i).toString());
-
             new GifUtils.AsyncLoadGif(AlbumPager.this, (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, new Runnable() {
                 @Override
                 public void run() {

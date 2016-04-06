@@ -51,7 +51,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         } else {
             for (final JsonElement elem : users) {
                 if (elem.getAsJsonObject().has("mp4"))
-                    list.add(elem.getAsJsonObject().get("mp4").getAsString());
+                    list.add(elem.getAsJsonObject().get("link").getAsString() + "," + elem.getAsJsonObject().get("mp4").getAsString());
                 else
                     list.add(elem.getAsJsonObject().get("link").getAsString());
             }
@@ -116,12 +116,14 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder2, int i) {
         if (holder2 instanceof AlbumViewHolder) {
-            int position = paddingBottom ? i : i - 1;
+            final int position = paddingBottom ? i : i - 1;
 
             AlbumViewHolder holder = (AlbumViewHolder) holder2;
 
             final JsonElement user = users.get(position);
-            final String url = list.get(position);
+            String url2 = list.get(position);
+            if (url2.contains(",")) url2 = url2.split(",")[0];
+            final String url = url2;
             ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(url, holder.image, ImageGridAdapter.options);
             holder.body.setVisibility(View.VISIBLE);
             holder.text.setVisibility(View.VISIBLE);
@@ -188,10 +190,13 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             View.OnClickListener onGifImageClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (url.contains("gif")) {
+                    String url3 = list.get(position);
+                    if (url3.contains(",")) url3 = url3.split(",")[1];
+
+                    if (url3.contains("mp4") || url3.contains("gif")) {
                         if (SettingValues.gif) {
                             Intent myIntent = new Intent(main, GifView.class);
-                            myIntent.putExtra(GifView.EXTRA_URL, url);
+                            myIntent.putExtra(GifView.EXTRA_URL, url3);
                             main.startActivity(myIntent);
                         } else {
                             Reddit.defaultShare(url, main);
