@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 
+import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.PublicContribution;
@@ -29,6 +31,7 @@ import net.dean.jraw.models.Submission;
 
 import java.util.List;
 
+import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Website;
@@ -113,6 +116,56 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
+    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
+        View v;
+
+        public AsyncSave(View v) {
+            this.v = v;
+        }
+
+        @Override
+        protected Void doInBackground(Submission... submissions) {
+            try {
+                if (ActionStates.isSaved(submissions[0])) {
+                    new AccountManager(Authentication.reddit).unsave(submissions[0]);
+                    final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
+                    mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
+                        }
+                    });
+
+
+                    submissions[0].saved = false;
+                    v = null;
+                } else {
+                    new AccountManager(Authentication.reddit).save(submissions[0]);
+                    final Snackbar s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
+                    mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
+                        }
+                    });
+
+
+                    submissions[0].saved = true;
+                    v = null;
+                }
+            } catch (Exception e) {
+                return null;
+            }
+            return null;
+        }
+    }
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHold, final int pos) {
         int i = pos != 0 ? pos - 1 : pos;
@@ -161,7 +214,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 ((TextView) dialoglayout.findViewById(R.id.savedtext)).setText(R.string.submission_post_saved);
 
                             }
-                            new SubmissionAdapter.AsyncSave(firstHold.itemView).execute(submission);
+                            new AsyncSave(firstHold.itemView).execute(submission);
 
                         }
                     });
