@@ -35,7 +35,7 @@ import me.ccrama.redditslide.util.LogUtil;
 public class SettingsBackup extends BaseActivityAnim {
     MaterialDialog progress;
     String title;
-    String file;
+    File file;
 
     public static void close(Closeable stream) {
         try {
@@ -223,7 +223,7 @@ public class SettingsBackup extends BaseActivityAnim {
 
 
                     File backedup = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "Slide" + new SimpleDateFormat("HH:mm-MMddyy").format(Calendar.getInstance().getTime()) + (!personal ? "-personal" : "") + ".txt");
-                    file = backedup.getAbsolutePath();
+                    file = backedup;
                     try {
                         backedup.createNewFile();
                         FileWriter fw = new FileWriter(backedup);
@@ -268,7 +268,7 @@ public class SettingsBackup extends BaseActivityAnim {
                         .setPositiveButton("VIEW", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Uri selectedUri = Uri.parse(file);
+                                Uri selectedUri = Uri.parse("file://" + file.getAbsolutePath());
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 intent.setData(selectedUri);
                                 if (intent.resolveActivityInfo(getPackageManager(), 0) != null) {

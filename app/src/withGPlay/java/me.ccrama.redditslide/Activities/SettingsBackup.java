@@ -507,13 +507,13 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                         .setPositiveButton("VIEW", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Uri selectedUri = Uri.fromFile(file);
+                                Uri selectedUri = Uri.parse("file://" + file.getAbsolutePath());
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setData("file://" + selectedUri);
+                                intent.setData(selectedUri);
                                 if (intent.resolveActivityInfo(getPackageManager(), 0) != null) {
                                     startActivity(Intent.createChooser(intent, "View backup"));
                                 } else {
-                                    Snackbar.make(findViewById(R.id.restorefile), Html.fromHtml("No file explorer found, file located at " + file.getAbsolutePath() , Snackbar.LENGTH_INDEFINITE).show();
+                                    Snackbar.make(findViewById(R.id.restorefile), "No file explorer found, file located at " + file.getAbsolutePath(), Snackbar.LENGTH_INDEFINITE).show();
                                 }
                             }
                         })
