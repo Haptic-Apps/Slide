@@ -50,7 +50,10 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         } else {
             for (final JsonElement elem : users) {
-                list.add(elem.getAsJsonObject().get("link").getAsString());
+                if (elem.getAsJsonObject().has("mp4"))
+                    list.add(elem.getAsJsonObject().get("mp4").getAsString());
+                else
+                    list.add(elem.getAsJsonObject().get("link").getAsString());
             }
         }
 
