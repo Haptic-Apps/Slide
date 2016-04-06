@@ -6,6 +6,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
@@ -229,7 +231,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                }
                                                            }
                                                        } else {
-                                                           Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT).show();
+                                                           Snackbar s = Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT);
+                                                           View view = s.getView();
+                                                           TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                           tv.setTextColor(Color.WHITE);
+                                                           s.show();
+
                                                        }
 
                                                    }
@@ -267,8 +274,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         if (holder2 instanceof SpacerViewHolder) {
             View header = (context).findViewById(R.id.header);
-            int height =  header.getHeight();
-            if(height == 0){
+            int height = header.getHeight();
+            if (height == 0) {
                 header.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
                 height = header.getMeasuredHeight();
                 holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), height));
@@ -309,7 +316,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public static class AsyncSave extends AsyncTask<Submission, Void, Void> {
+    public class AsyncSave extends AsyncTask<Submission, Void, Void> {
         View v;
 
         public AsyncSave(View v) {
@@ -321,12 +328,34 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             try {
                 if (ActionStates.isSaved(submissions[0])) {
                     new AccountManager(Authentication.reddit).unsave(submissions[0]);
-                    Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
+                    final Snackbar s = Snackbar.make(v, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
+                        }
+                    });
+
+
                     submissions[0].saved = false;
                     v = null;
                 } else {
                     new AccountManager(Authentication.reddit).save(submissions[0]);
-                    Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
+                    final Snackbar s = Snackbar.make(v, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
+                        }
+                    });
+
+
                     submissions[0].saved = true;
                     v = null;
                 }

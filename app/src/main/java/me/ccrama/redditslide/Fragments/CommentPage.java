@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -228,13 +230,13 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        goDown();
+                    goDown();
                 }
             });
             v.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        goUp();
+                    goUp();
                 }
             });
         }
@@ -375,7 +377,12 @@ public class CommentPage extends Fragment {
                                     case NONE:
                                     case SELF:
                                         if (adapter.submission.getSelftext().isEmpty()) {
-                                            Snackbar.make(rv, "Submission has no content", Snackbar.LENGTH_SHORT).show();
+                                            Snackbar s = Snackbar.make(rv, "Submission has no content", Snackbar.LENGTH_SHORT);
+                                            View view = s.getView();
+                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                            tv.setTextColor(Color.WHITE);
+                                            s.show();
+
                                         } else {
                                             LayoutInflater inflater = getActivity().getLayoutInflater();
                                             final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
@@ -468,7 +475,7 @@ public class CommentPage extends Fragment {
         }
         return v;
     }
-    
+
     public CommentSort commentSorting;
 
     public void doAdapter() {
@@ -486,7 +493,7 @@ public class CommentPage extends Fragment {
         if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             Submission s = ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page);
-            if(s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")){
+            if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
             }
             comments.setSorting(commentSorting);
@@ -495,7 +502,7 @@ public class CommentPage extends Fragment {
         } else if (getActivity() instanceof MainActivity && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             Submission s = ((MainActivity) getActivity()).openingComments;
-            if(s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")){
+            if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
             }
             comments.setSorting(commentSorting);
@@ -677,7 +684,7 @@ public class CommentPage extends Fragment {
     }
 
     public void doGoUp(int old) {
-        int pos = (old < 2) ? 0  :old-1;
+        int pos = (old < 2) ? 0 : old - 1;
 
         for (int i = pos - 1; i >= 0; i--) {
             CommentObject o = adapter.users.get(adapter.getRealPosition(i));
@@ -712,7 +719,7 @@ public class CommentPage extends Fragment {
     }
 
     public void doGoDown(int old) {
-        int pos = (old < 2) ? 0 : old-1;
+        int pos = (old < 2) ? 0 : old - 1;
 
         for (int i = pos + 1; i < adapter.users.size(); i++) {
             CommentObject o = adapter.users.get(adapter.getRealPosition(i));

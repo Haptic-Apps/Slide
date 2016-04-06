@@ -446,14 +446,19 @@ public class PopulateSubmissionViewHolder {
 
                                     @Override
                                     protected void onPostExecute(Void aVoid) {
+                                        Snackbar s;
                                         if (ActionStates.isSaved(submission)) {
                                             ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
-                                            Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
+                                            s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
                                             AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
                                         } else {
-                                            Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
+                                            s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
                                             ((ImageView) holder.save).setColorFilter(((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none"))) || full) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                                         }
+                                        View view = s.getView();
+                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                        tv.setTextColor(Color.WHITE);
+                                        s.show();
 
                                     }
                                 }.execute();
@@ -496,7 +501,11 @@ public class PopulateSubmissionViewHolder {
 
                                                     @Override
                                                     protected void onPostExecute(Void aVoid) {
-                                                        Snackbar.make(holder.itemView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT).show();
+                                                        Snackbar s = Snackbar.make(holder.itemView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+                                                        View view = s.getView();
+                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                        tv.setTextColor(Color.WHITE);
+                                                        s.show();
                                                     }
                                                 }.execute();
                                             }
@@ -530,7 +539,7 @@ public class PopulateSubmissionViewHolder {
 
     public <T extends Contribution> void hideSubmission(final Submission submission, final List<T> posts, final String baseSub, final RecyclerView recyclerview) {
         final int pos = posts.indexOf(submission);
-        if(pos != -1) {
+        if (pos != -1) {
             final T t = posts.get(pos);
             posts.remove(pos);
             Hidden.setHidden(t);
@@ -544,7 +553,7 @@ public class PopulateSubmissionViewHolder {
             recyclerview.getAdapter().notifyItemRemoved(pos + 1);
 
 
-            Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+            Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (baseSub != null && s != null) {
@@ -555,7 +564,13 @@ public class PopulateSubmissionViewHolder {
                     Hidden.undoHidden(t);
 
                 }
-            }).show();
+            });
+            View view = snack.getView();
+            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+            tv.setTextColor(Color.WHITE);
+            snack.show();
+
+
         }
     }
 
@@ -694,7 +709,11 @@ public class PopulateSubmissionViewHolder {
                                                                     dialog.dismiss();
                                                                 }
 
-                                                                Snackbar.make(holder.itemView, R.string.mod_approved, Snackbar.LENGTH_LONG).show();
+                                                                Snackbar s = Snackbar.make(holder.itemView, R.string.mod_approved, Snackbar.LENGTH_LONG);
+                                                                View view = s.getView();
+                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                tv.setTextColor(Color.WHITE);
+                                                                s.show();
 
                                                             } else {
                                                                 new AlertDialogWrapper.Builder(mContext)
@@ -834,7 +853,11 @@ public class PopulateSubmissionViewHolder {
 
                                                                     dialog.dismiss();
                                                                 }
-                                                                Snackbar.make(holder.itemView, "Submission un-pinned", Snackbar.LENGTH_LONG).show();
+                                                                Snackbar s = Snackbar.make(holder.itemView, "Submission un-pinned", Snackbar.LENGTH_LONG);
+                                                                View view = s.getView();
+                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                tv.setTextColor(Color.WHITE);
+                                                                s.show();
 
                                                             } else {
                                                                 new AlertDialogWrapper.Builder(mContext)
@@ -882,7 +905,11 @@ public class PopulateSubmissionViewHolder {
 
                                                                     dialog.dismiss();
                                                                 }
-                                                                Snackbar.make(holder.itemView, "Submission pinned", Snackbar.LENGTH_LONG).show();
+                                                                Snackbar s = Snackbar.make(holder.itemView, "Submission pinned", Snackbar.LENGTH_LONG);
+                                                                View view = s.getView();
+                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                tv.setTextColor(Color.WHITE);
+                                                                s.show();
 
                                                             } else {
                                                                 new AlertDialogWrapper.Builder(mContext)
@@ -991,7 +1018,11 @@ public class PopulateSubmissionViewHolder {
                                                                 }
                                                                 dialog.dismiss();
                                                             }
-                                                            Snackbar.make(holder.itemView, "Submission removed", Snackbar.LENGTH_LONG).show();
+                                                            Snackbar s = Snackbar.make(holder.itemView, "Submission removed", Snackbar.LENGTH_LONG);
+                                                            View view = s.getView();
+                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                            tv.setTextColor(Color.WHITE);
+                                                            s.show();
 
                                                         } else {
                                                             new AlertDialogWrapper.Builder(mContext)
@@ -1050,7 +1081,11 @@ public class PopulateSubmissionViewHolder {
 
                                                                 dialog.dismiss();
                                                             }
-                                                            Snackbar.make(holder.itemView, "Submission removed", Snackbar.LENGTH_LONG).show();
+                                                            Snackbar s = Snackbar.make(holder.itemView, "Submission removed", Snackbar.LENGTH_LONG);
+                                                            View view = s.getView();
+                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                            tv.setTextColor(Color.WHITE);
+                                                            s.show();
 
                                                         } else {
                                                             new AlertDialogWrapper.Builder(mContext)
@@ -1145,12 +1180,19 @@ public class PopulateSubmissionViewHolder {
 
                                                                                     @Override
                                                                                     protected void onPostExecute(Boolean done) {
+                                                                                        Snackbar s = null;
                                                                                         if (done) {
                                                                                             if (recyclerview != null)
-                                                                                                Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT).show();
+                                                                                                s = Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT);
                                                                                         } else {
                                                                                             if (recyclerview != null)
-                                                                                                Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT).show();
+                                                                                                s = Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                                        }
+                                                                                        if (s != null) {
+                                                                                            View view = s.getView();
+                                                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                                            tv.setTextColor(Color.WHITE);
+                                                                                            s.show();
                                                                                         }
                                                                                     }
                                                                                 }.execute();
@@ -1172,12 +1214,19 @@ public class PopulateSubmissionViewHolder {
 
                                                                     @Override
                                                                     protected void onPostExecute(Boolean done) {
+                                                                        Snackbar s = null;
                                                                         if (done) {
                                                                             if (recyclerview != null)
-                                                                                Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT).show();
+                                                                                s = Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT);
                                                                         } else {
                                                                             if (recyclerview != null)
-                                                                                Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT).show();
+                                                                                s = Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                        }
+                                                                        if (s != null) {
+                                                                            View view = s.getView();
+                                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                            tv.setTextColor(Color.WHITE);
+                                                                            s.show();
                                                                         }
                                                                     }
                                                                 }.execute();
@@ -1438,7 +1487,11 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onClick(View view) {
                 if (offline) {
-                    Snackbar.make(holder.itemView, R.string.offline_msg, Snackbar.LENGTH_SHORT).show();
+                    Snackbar s = Snackbar.make(holder.itemView, R.string.offline_msg, Snackbar.LENGTH_SHORT);
+                    View view2 = s.getView();
+                    TextView tv = (TextView) view2.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
                 } else {
                     showBottomSheet(mContext, submission, holder, posts, baseSub, recyclerview, full);
                 }
@@ -1534,14 +1587,19 @@ public class PopulateSubmissionViewHolder {
                         protected void onPostExecute(Void aVoid) {
                             if (!full && !SettingValues.actionbarVisible)
                                 CreateCardView.toggleActionbar(holder.itemView);
+                            Snackbar s;
                             if (ActionStates.isSaved(submission)) {
                                 ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
-                                Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT).show();
+                                s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
                                 AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
                             } else {
-                                Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT).show();
+                                s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
                                 ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                             }
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
 
                         }
                     }.execute();
@@ -1571,7 +1629,11 @@ public class PopulateSubmissionViewHolder {
             public boolean onLongClick(View v) {
 
                 if (offline) {
-                    Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg), Snackbar.LENGTH_SHORT).show();
+                    Snackbar s = Snackbar.make(holder.itemView, mContext.getString(R.string.offline_msg), Snackbar.LENGTH_SHORT);
+                    View view = s.getView();
+                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
                 } else {
                     if (SettingValues.actionbarTap) {
                         CreateCardView.toggleActionbar(holder.itemView);

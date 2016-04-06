@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -196,7 +198,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     int[] firstVisibleItems = null;
                     try {
                         firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                    } catch(Exception e){
+                    } catch (Exception e) {
                         firstVisibleItems = new int[]{0, 1};
                     }
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
@@ -241,7 +243,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         }
 
-        if(!(getActivity() instanceof SubredditView)){
+        if (!(getActivity() instanceof SubredditView)) {
             v.findViewById(R.id.back).setBackground(null);
         }
         rv.setLayoutManager(mLayoutManager);
@@ -330,7 +332,12 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                 }
                             }
                         };*/
-                        Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG).show();
+                        Snackbar s = Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG);
+                        View view = s.getView();
+                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        tv.setTextColor(Color.WHITE);
+                        s.show();
+
                         return false;
                     }
                 });
@@ -358,7 +365,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         int[] firstVisibleItems = null;
                         firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                         if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                            for(int i = 0; i < firstVisibleItems.length; i++) {
+                            for (int i = 0; i < firstVisibleItems.length; i++) {
                                 pastVisiblesItems = firstVisibleItems[i];
                                 if (SettingValues.scrollSeen) {
                                     if (pastVisiblesItems > 0) {

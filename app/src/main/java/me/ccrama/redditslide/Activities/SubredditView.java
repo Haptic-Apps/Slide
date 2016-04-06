@@ -219,7 +219,11 @@ public class SubredditView extends BaseActivityAnim {
                 return true;
             case R.id.action_sort:
                 if (subreddit.equalsIgnoreCase("friends")) {
-                    Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT).show();
+                    Snackbar s  = Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT);
+                    View view = s.getView();
+                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
                 } else {
                     openPopup();
                 }
@@ -546,7 +550,7 @@ public class SubredditView extends BaseActivityAnim {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
         {
-            CheckBox c = ((CheckBox) findViewById(R.id.subscribed));
+            final CheckBox c = ((CheckBox) findViewById(R.id.subscribed));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -566,8 +570,12 @@ public class SubredditView extends BaseActivityAnim {
                                 UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(), SubredditView.this);
 
                             }
-                            Snackbar.make(mToolbar, isChecked ? getString(R.string.misc_subscribed) :
+                            Snackbar s = Snackbar.make(c, isChecked ? getString(R.string.misc_subscribed) :
                                     getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
                         }
 
                         @Override

@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Fragments;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -147,7 +149,12 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                                 }
                             }
                         };*/
-                        Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG).show();
+                        Snackbar s = Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG);
+                        View view = s.getView();
+                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        tv.setTextColor(Color.WHITE);
+                        s.show();
+
                         return false;
                     }
                 });

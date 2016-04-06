@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -860,8 +861,12 @@ public class MainActivity extends BaseActivity {
                                 UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
 
                             }
-                            Snackbar.make(header, isChecked ?
+                            Snackbar s = Snackbar.make(mToolbar, isChecked ?
                                     getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
                         }
 
                         @Override
@@ -1804,7 +1809,11 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.action_sort:
                 if (subreddit.equalsIgnoreCase("friends")) {
-                    Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT).show();
+                    Snackbar s = Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT);
+                    View view = s.getView();
+                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
                 } else {
                     openPopup();
                 }
@@ -2430,13 +2439,23 @@ public class MainActivity extends BaseActivity {
                 count = Authentication.reddit.me().getInboxCount(); //Force reload of the LoggedInAccount object
                 int oldCount = Reddit.appRestart.getInt("inbox", 0);
                 if (count > oldCount) {
-                    Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new View.OnClickListener() {
+                    final Snackbar s = Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(MainActivity.this, Inbox.class);
                             startActivity(i);
                         }
-                    }).show();
+                    });
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
+                        }
+                    });
+
                 }
                 Reddit.appRestart.edit().putInt("inbox", count).apply();
 

@@ -101,7 +101,11 @@ public class SubmissionComments {
         mLoadData = new LoadData(true);
         mLoadData.execute(fullName);
     }
-
+    public void loadMoreReply(CommentAdapter adapter) {
+        this.adapter = adapter;
+        mLoadData = new LoadData(false);
+        mLoadData.execute(fullName);
+    }
     public void loadMore(CommentAdapter adapter, String subreddit, boolean forgetPlace) {
         adapter.currentSelectedItem = "";
         this.adapter = adapter;

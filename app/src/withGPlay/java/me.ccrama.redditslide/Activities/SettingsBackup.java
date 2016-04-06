@@ -513,7 +513,11 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                                 if (intent.resolveActivityInfo(getPackageManager(), 0) != null) {
                                     startActivity(Intent.createChooser(intent, "View backup"));
                                 } else {
-                                    Snackbar.make(findViewById(R.id.restorefile), "No file explorer found, file located at " + file.getAbsolutePath(), Snackbar.LENGTH_INDEFINITE).show();
+                                    Snackbar s = Snackbar.make(findViewById(R.id.restorefile), "No file explorer found, file located at " + file.getAbsolutePath(), Snackbar.LENGTH_INDEFINITE);
+                                    View view = s.getView();
+                                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                    tv.setTextColor(Color.WHITE);
+                                    s.show();
                                 }
                             }
                         })

@@ -202,6 +202,7 @@ public class SubredditPosts implements PostLoader {
             this.reset = reset;
         }
 
+        public int start;
         @Override
         public void onPostExecute(List<Submission> submissions) {
 
@@ -209,45 +210,18 @@ public class SubredditPosts implements PostLoader {
             context = null;
 
             if (submissions != null && !submissions.isEmpty()) {
-                // new submissions found
-                int start = 0;
-                if (posts != null) {
-                    start = posts.size() + 1;
-                }
-
-
-                List<Submission> filteredSubmissions = new ArrayList<>();
-                for (Submission s : submissions) {
-                    if (!PostMatch.doesMatch(s, paginator.getSubreddit())) {
-                        filteredSubmissions.add(s);
-                    }
-                }
-                String[] ids = new String[filteredSubmissions.size()];
+                String[] ids = new String[submissions.size()];
                 int i = 0;
-                for (Submission s : filteredSubmissions) {
+                for (Submission s : submissions) {
                     ids[i] = s.getId();
                     i++;
                 }
                 if (!SettingValues.synccitName.isEmpty() && !offline) {
                     new MySynccitReadTask().execute(ids);
                 }
-                loadPhotos(filteredSubmissions);
-                if (reset || offline || posts == null) {
-                    posts = new ArrayList<>(new LinkedHashSet(filteredSubmissions));
-                    start = -1;
-                } else {
-                    posts.addAll(filteredSubmissions);
-                    posts = new ArrayList<>(new LinkedHashSet(posts));
-                    offline = false;
-                }
-
-                final int finalStart = start;
-
-                if (!usedOffline)
-                    OfflineSubreddit.getSubreddit(subreddit.toLowerCase()).overwriteSubmissions(posts).writeToMemory();
-
                 // update online
-                displayer.updateSuccess(posts, finalStart);
+
+                displayer.updateSuccess(posts, start);
 
             } else if (submissions != null) {
                 // end of submissions
@@ -330,6 +304,31 @@ public class SubredditPosts implements PostLoader {
                 }
 
             }
+            start = 0;
+            if (posts != null) {
+                start = posts.size() + 1;
+            }
+
+
+            List<Submission> filteredSubmissions = new ArrayList<>();
+            for (Submission s : things) {
+                if (!PostMatch.doesMatch(s, paginator.getSubreddit())) {
+                    filteredSubmissions.add(s);
+                }
+            }
+
+            loadPhotos(filteredSubmissions);
+            if (reset || offline || posts == null) {
+                posts = new ArrayList<>(new LinkedHashSet(filteredSubmissions));
+                start = -1;
+            } else {
+                posts.addAll(filteredSubmissions);
+                posts = new ArrayList<>(new LinkedHashSet(posts));
+                offline = false;
+            }
+
+            if (!usedOffline)
+                OfflineSubreddit.getSubreddit(subreddit.toLowerCase()).overwriteSubmissions(posts).writeToMemory();
 
             return things;
         }

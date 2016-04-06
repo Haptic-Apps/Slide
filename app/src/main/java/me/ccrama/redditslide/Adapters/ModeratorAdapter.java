@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -114,7 +115,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHold, final int pos) {
-        int i = pos != 0?pos - 1:pos;
+        int i = pos != 0 ? pos - 1 : pos;
 
         if (firstHold instanceof SubmissionViewHolder) {
             SubmissionViewHolder holder = (SubmissionViewHolder) firstHold;
@@ -223,7 +224,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                             Hidden.setHidden(old);
 
-                            Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                            Snackbar s = Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     dataSet.posts.add(pos, (PublicContribution) old);
@@ -231,7 +232,11 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                     Hidden.undoHidden(old);
 
                                 }
-                            }).show();
+                            });
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
 
 
                         }
@@ -242,7 +247,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, mContext, false, false, dataSet.posts, listView, false, false, null);
 
             final ImageView hideButton = (ImageView) holder.itemView.findViewById(R.id.hide);
-            if (hideButton != null ) {
+            if (hideButton != null) {
                 hideButton.setVisibility(View.GONE);
             }
             holder.itemView.setOnClickListener(new View.OnClickListener() {

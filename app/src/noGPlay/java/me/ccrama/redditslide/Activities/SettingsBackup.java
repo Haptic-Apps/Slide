@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -274,7 +276,11 @@ public class SettingsBackup extends BaseActivityAnim {
                                 if (intent.resolveActivityInfo(getPackageManager(), 0) != null) {
                                     startActivity(Intent.createChooser(intent, "View backup"));
                                 } else {
-                                    Snackbar.make(findViewById(R.id.restorefile), "No file explorer found, file located at " + file, Snackbar.LENGTH_INDEFINITE).show();
+                                    Snackbar s = Snackbar.make(findViewById(R.id.restorefile), "No file explorer found, file located at " + file, Snackbar.LENGTH_INDEFINITE);
+                                    View view = s.getView();
+                                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                    tv.setTextColor(Color.WHITE);
+                                    s.show();
                                 }
                             }
                         })

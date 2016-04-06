@@ -304,10 +304,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                                         @Override
                                                         public void onPostExecute(Boolean b) {
+
                                                             if (b) {
                                                                 dialog.dismiss();
 
-                                                                Snackbar.make(holder.itemView, "Comment un-stickied", Snackbar.LENGTH_LONG).show();
+                                                                Snackbar s = Snackbar.make(holder.itemView, "Comment un-stickied", Snackbar.LENGTH_LONG);
+                                                                View view = s.getView();
+                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                tv.setTextColor(Color.WHITE);
+                                                                s.show();
+
 
                                                             } else {
                                                                 new AlertDialogWrapper.Builder(mContext)
@@ -343,7 +349,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                         public void onPostExecute(Boolean b) {
                                                             if (b) {
                                                                 dialog.dismiss();
-                                                                Snackbar.make(holder.itemView, "Comment stickied", Snackbar.LENGTH_LONG).show();
+                                                                Snackbar s = Snackbar.make(holder.itemView, "Comment stickied", Snackbar.LENGTH_LONG);
+                                                                View view = s.getView();
+                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                tv.setTextColor(Color.WHITE);
+                                                                s.show();
+
 
                                                             } else {
                                                                 new AlertDialogWrapper.Builder(mContext)
@@ -384,7 +395,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                             if (b) {
                                                                 dialog.dismiss();
 
-                                                                Snackbar.make(holder.itemView, "Comment un-distinguished", Snackbar.LENGTH_LONG).show();
+                                                                Snackbar s = Snackbar.make(holder.itemView, "Comment un-distinguished", Snackbar.LENGTH_LONG);
+                                                                View view = s.getView();
+                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                tv.setTextColor(Color.WHITE);
+                                                                s.show();
 
                                                             } else {
                                                                 new AlertDialogWrapper.Builder(mContext)
@@ -420,7 +435,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                         public void onPostExecute(Boolean b) {
                                                             if (b) {
                                                                 dialog.dismiss();
-                                                                Snackbar.make(holder.itemView, "Comment distinguished", Snackbar.LENGTH_LONG).show();
+                                                                Snackbar s = Snackbar.make(holder.itemView, "Comment distinguished", Snackbar.LENGTH_LONG);
+                                                                View view = s.getView();
+                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                tv.setTextColor(Color.WHITE);
+                                                                s.show();
+
 
                                                             } else {
                                                                 new AlertDialogWrapper.Builder(mContext)
@@ -460,7 +480,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                     public void onPostExecute(Boolean b) {
                                                         if (b) {
                                                             dialog.dismiss();
-                                                            Snackbar.make(holder.itemView, "Comment removed", Snackbar.LENGTH_LONG).show();
+                                                            Snackbar s = Snackbar.make(holder.itemView, "Comment removed", Snackbar.LENGTH_LONG);
+                                                            View view = s.getView();
+                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                            tv.setTextColor(Color.WHITE);
+                                                            s.show();
+
                                                             deleted.add(comment.getFullName());
                                                             holder.firstTextView.setTextHtml("[deleted]");
                                                             holder.content.setText("[deleted]");
@@ -932,9 +957,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                                     @Override
                                     public void onFocusChange(View v, boolean hasFocus) {
-                                        if(hasFocus){
+                                        if (hasFocus) {
                                             mPage.fastScroll.setVisibility(View.GONE);
-                                        } else if(SettingValues.fastscroll){
+                                        } else if (SettingValues.fastscroll) {
                                             mPage.fastScroll.setVisibility(View.VISIBLE);
                                         }
                                     }
@@ -1177,12 +1202,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                                                                         @Override
                                                                                         protected void onPostExecute(Boolean done) {
+                                                                                            Snackbar s = null;
                                                                                             if (done) {
                                                                                                 if (firstHolder.itemView != null)
-                                                                                                    Snackbar.make(firstHolder.itemView, "Flair set successfully", Snackbar.LENGTH_SHORT).show();
+                                                                                                    s = Snackbar.make(firstHolder.itemView, "Flair set successfully", Snackbar.LENGTH_SHORT);
                                                                                             } else {
                                                                                                 if (firstHolder.itemView != null)
-                                                                                                    Snackbar.make(firstHolder.itemView, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT).show();
+                                                                                                    s = Snackbar.make(firstHolder.itemView, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                                            }
+                                                                                            if (s != null) {
+                                                                                                View view = s.getView();
+                                                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                                                tv.setTextColor(Color.WHITE);
+                                                                                                s.show();
                                                                                             }
                                                                                         }
                                                                                     }.execute();
@@ -1204,12 +1236,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                                                         @Override
                                                                         protected void onPostExecute(Boolean done) {
+                                                                            Snackbar s = null;
                                                                             if (done) {
                                                                                 if (firstHolder.itemView != null)
-                                                                                    Snackbar.make(firstHolder.itemView, "Flair set successfully", Snackbar.LENGTH_SHORT).show();
+                                                                                    s = Snackbar.make(firstHolder.itemView, "Flair set successfully", Snackbar.LENGTH_SHORT);
                                                                             } else {
                                                                                 if (firstHolder.itemView != null)
-                                                                                    Snackbar.make(firstHolder.itemView, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT).show();
+                                                                                    s = Snackbar.make(firstHolder.itemView, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                            }
+                                                                            if (s != null) {
+                                                                                View view = s.getView();
+                                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                                tv.setTextColor(Color.WHITE);
+                                                                                s.show();
                                                                             }
                                                                         }
                                                                     }.execute();
@@ -1661,10 +1700,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         protected Void doInBackground(Void... params) {
                                             try {
                                                 new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(), e.getText().toString());
-                                                dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
-
-
                                                 currentSelectedItem = baseNode.getComment().getFullName();
+                                                dataSet.loadMoreReply(CommentAdapter.this);
                                                 d.dismiss();
                                             } catch (Exception e) {
                                                 ((Activity) mContext).runOnUiThread(new Runnable() {
@@ -1785,9 +1822,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
                         public void onFocusChange(View v, boolean hasFocus) {
-                            if(hasFocus){
+                            if (hasFocus) {
                                 mPage.fastScroll.setVisibility(View.GONE);
-                            } else if(SettingValues.fastscroll){
+                            } else if (SettingValues.fastscroll) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
                             }
                         }
@@ -1823,9 +1860,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
                             public void onFocusChange(View v, boolean hasFocus) {
-                                if(hasFocus){
+                                if (hasFocus) {
                                     mPage.fastScroll.setVisibility(View.GONE);
-                                } else if(SettingValues.fastscroll){
+                                } else if (SettingValues.fastscroll) {
                                     mPage.fastScroll.setVisibility(View.VISIBLE);
                                 }
                             }
@@ -2473,7 +2510,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             public void run() {
                                 dataSet.refreshLayout.setRefreshing(false);
                                 currentSelectedItem = s;
-                                dataSet.loadMore(CommentAdapter.this, submission.getSubredditName());
+                                dataSet.loadMoreReply(CommentAdapter.this);
                             }
                         });
                     }
@@ -2625,7 +2662,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                                        @Override
                                                        protected void onPostExecute(Void aVoid) {
-                                                           Snackbar.make(listView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT).show();
+
+                                                           Snackbar s = Snackbar.make(listView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+
+                                                           View view = s.getView();
+                                                           TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                           tv.setTextColor(Color.WHITE);
+                                                           s.show();
+
                                                        }
                                                    }.execute();
                                                }

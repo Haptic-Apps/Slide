@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -167,7 +169,11 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                 }
                             }).setNegativeButton(R.string.btn_cancel, null).show();
                 } else {
-                    Snackbar.make(mToolbar, "Please log in to use Color Sync", Snackbar.LENGTH_SHORT).show();
+                    Snackbar s = Snackbar.make(mToolbar, "Please log in to use Color Sync", Snackbar.LENGTH_SHORT);
+                    View view = s.getView();
+                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
                 }
             }
         });

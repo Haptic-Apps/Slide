@@ -2,9 +2,11 @@ package me.ccrama.redditslide;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.TextView;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -46,8 +48,13 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
             } catch (ApiException | RuntimeException e) {
                 ((Activity) c).runOnUiThread(new Runnable() {
                     public void run() {
-                        if (v != null)
-                            Snackbar.make(v, R.string.vote_err, Snackbar.LENGTH_SHORT).show();
+                        if (v != null) {
+                            Snackbar s = Snackbar.make(v, R.string.vote_err, Snackbar.LENGTH_SHORT);
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
+                        }
                         c = null;
                         v = null;
                     }
@@ -57,8 +64,14 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
         } else {
             ((Activity) c).runOnUiThread(new Runnable() {
                 public void run() {
-                    if (v != null)
-                        Snackbar.make(v, R.string.vote_err_login, Snackbar.LENGTH_SHORT).show();
+                    if (v != null) {
+                        Snackbar s = Snackbar.make(v, R.string.vote_err_login, Snackbar.LENGTH_SHORT);
+                        View view = s.getView();
+                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        tv.setTextColor(Color.WHITE);
+                        s.show();
+
+                    }
                     c = null;
                     v = null;
                 }

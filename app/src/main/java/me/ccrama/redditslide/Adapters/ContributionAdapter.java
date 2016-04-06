@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -231,7 +232,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                             Hidden.setHidden(old);
 
-                            Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                            Snackbar s = Snackbar.make(listView, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     dataSet.posts.add(pos, old);
@@ -239,7 +240,11 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                     Hidden.undoHidden(old);
 
                                 }
-                            }).show();
+                            });
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.show();
 
 
                         }
@@ -278,7 +283,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final Comment comment = (Comment) dataSet.posts.get(i);
             holder.score.setText(comment.getScore() + "");
 
-            if(Authentication.isLoggedIn ) {
+            if (Authentication.isLoggedIn) {
                 if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
                     holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
                 } else if (ActionStates.getVoteDirection(comment) == VoteDirection.DOWNVOTE) {
