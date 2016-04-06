@@ -157,7 +157,8 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         }
         refreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
 
-        refreshLayout.setColorSchemeColors(Palette.getColors(UserSubscriptions.getMultireddits().get(id).getDisplayName(), getActivity()));
+        if (UserSubscriptions.getMultireddits() != null && !UserSubscriptions.getMultireddits().isEmpty())
+            refreshLayout.setColorSchemeColors(Palette.getColors(UserSubscriptions.getMultireddits().get(id).getDisplayName(), getActivity()));
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
         //So, we just do 13% of the device screen height as a general estimate for the Tabs view type
@@ -210,7 +211,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     int[] firstVisibleItems = null;
                     firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                        for(int i = 0; i < firstVisibleItems.length; i++) {
+                        for (int i = 0; i < firstVisibleItems.length; i++) {
                             pastVisiblesItems = firstVisibleItems[i];
                             if (SettingValues.scrollSeen) {
                                 if (pastVisiblesItems > 0) {

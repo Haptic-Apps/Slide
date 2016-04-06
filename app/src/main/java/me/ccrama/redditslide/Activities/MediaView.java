@@ -107,9 +107,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 .title(actuallyLoaded);
 
         b.sheet(2, external, "Open externally");
-        b.sheet(3, share, "Share link");
+        b.sheet(5, share, "Share link");
         if(!isGif)
-        b.sheet(5, image, "Share image");
+        b.sheet(3, image, "Share image");
         b.sheet(4, save, "Save image");
         b.listener(new DialogInterface.OnClickListener() {
             @Override
