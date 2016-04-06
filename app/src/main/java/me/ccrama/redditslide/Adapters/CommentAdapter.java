@@ -2584,7 +2584,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void onPostExecute(final String s) {
-            if (s != null) {
+            if (holder != null) {
+                Handler handler2 = new Handler();
+                handler2.postDelayed(new Runnable() {
+                    public void run() {
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dataSet.refreshLayout.setRefreshing(false);
+                                dataSet.loadMoreReply(CommentAdapter.this);
+                            }
+                        });
+                    }
+                }, 2000);
+            } else if (s != null) {
                 new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition()), holder.getAdapterPosition(), holder, node).execute(s);
             }
         }
