@@ -18,7 +18,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -96,17 +95,20 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         int color = ta.getColor(0, Color.WHITE);
         Drawable external = getResources().getDrawable(R.drawable.openexternal);
         Drawable share = getResources().getDrawable(R.drawable.share);
+        Drawable image = getResources().getDrawable(R.drawable.image);
         Drawable save = getResources().getDrawable(R.drawable.save);
 
         external.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         BottomSheet.Builder b = new BottomSheet.Builder(this)
                 .title(actuallyLoaded);
 
         b.sheet(2, external, "Open externally");
-        b.sheet(3, share, "Share image");
+        b.sheet(3, share, "Share link");
+        b.sheet(5, image, "Share image");
         b.sheet(4, save, "Save image");
         b.listener(new DialogInterface.OnClickListener() {
             @Override
@@ -117,9 +119,12 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     }
                     break;
                     case (3): {
-                        showShareDialog(contentUrl);
+                        shareImage(contentUrl);
                     }
                     break;
+                    case (5):{
+                        Reddit.defaultShareText(contentUrl, MediaView.this);
+                    }
                     case (4): {
                         if (!isGif) {
                             String url = actuallyLoaded;
@@ -678,30 +683,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 })
                 .setNegativeButton(R.string.btn_no, null)
                 .show();
-    }
-
-    private void showShareDialog(final String url) {
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        final View dialoglayout = inflater.inflate(R.layout.sharemenu, null);
-
-        dialoglayout.findViewById(R.id.share_img).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shareImage(url);
-            }
-        });
-
-        dialoglayout.findViewById(R.id.share_link).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Reddit.defaultShareText(url, MediaView.this);
-            }
-        });
-
-
-        builder.setView(dialoglayout);
-        builder.show();
     }
 
 
