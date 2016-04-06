@@ -40,19 +40,19 @@ android {
             // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
             // to pre-dex each module and produce an APK that can be used
             // without time consuming dex merging processes.
-            flavorDimension "api"
+            dimension "api"
             minSdkVersion 21
         }
         prod {
             // The actual minSdkVersion for the application.
-            flavorDimension "api"
+            dimension "api"
             minSdkVersion 17
         }
         withGPlay{
-            flavorDimension "gplay"
+            dimension "gplay"
         }
         noGPlay{
-            flavorDimension "gplay"
+            dimension "gplay"
         }
     }
 
