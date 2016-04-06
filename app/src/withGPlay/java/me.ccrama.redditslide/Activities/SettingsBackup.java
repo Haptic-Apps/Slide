@@ -442,7 +442,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
         }
     }
 
-    String file;
+    File file;
 
     public void backupToDir(final boolean personal) {
 
@@ -462,7 +462,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
 
 
                     File backedup = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "Slide" + new SimpleDateFormat("HH:mm-MMddyy").format(Calendar.getInstance().getTime()) + (!personal ? "-personal" : "") + ".txt");
-                    file = backedup.getAbsolutePath();
+                    file = backedup;
                     try {
                         backedup.createNewFile();
                         FileWriter fw = new FileWriter(backedup);
@@ -513,7 +513,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                                 if (intent.resolveActivityInfo(getPackageManager(), 0) != null) {
                                     startActivity(Intent.createChooser(intent, "View backup"));
                                 } else {
-                                    Snackbar.make(findViewById(R.id.restorefile), Html.fromHtml("<font color=\"#ffffff\">" + "No file explorer found, file located at " + file + "</font>"), Snackbar.LENGTH_INDEFINITE).show();
+                                    Snackbar.make(findViewById(R.id.restorefile), Html.fromHtml("No file explorer found, file located at " + file.getAbsolutePath() , Snackbar.LENGTH_INDEFINITE).show();
                                 }
                             }
                         })

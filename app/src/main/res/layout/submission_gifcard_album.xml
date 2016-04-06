@@ -1,46 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+
+    android:orientation="vertical">
 
 
-        <RelativeLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        android:id="@+id/imagearea"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center">
+
+        <me.ccrama.redditslide.Views.MediaVideoView
+            android:id="@+id/gif"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
 
-            android:layout_height="match_parent"
-            android:gravity="center"
+        </me.ccrama.redditslide.Views.MediaVideoView>
 
-            android:orientation="vertical">
+        <ProgressBar
+            android:id="@+id/gifprogress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            android:max="100"
+
+            android:progress="0" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/gifheader"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@+id/imagearea"
+        android:layout_marginTop="-56dp"
+        android:gravity="right">
 
 
-            <RelativeLayout
-                android:id="@+id/imagearea"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_gravity="center">
+        <ImageView
+            android:id="@+id/save"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="15dp"
+            android:theme="@style/Ripple.List"
+            android:tint="@color/white"
 
-                <me.ccrama.redditslide.Views.MediaVideoView
-                    android:id="@+id/gif"
-                    android:layout_width="match_parent"
+            app:srcCompat="@drawable/save" />
 
+        <ImageView
+            android:id="@+id/more"
+            style="@style/Ripple.List"
+            android:layout_width="48dp"
+            android:layout_height="56dp"
+            android:layout_gravity="right"
+            android:paddingBottom="15dp"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
+            android:paddingTop="15dp"
+            android:theme="@style/Ripple.List"
+            app:srcCompat="@drawable/more" />
+    </LinearLayout>
 
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true">
-
-                </me.ccrama.redditslide.Views.MediaVideoView>
-
-                <ProgressBar
-                    android:id="@+id/gifprogress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="false"
-                    android:max="100"
-
-                    android:progress="0" />
-            </RelativeLayout>
-
-        </RelativeLayout>
+</RelativeLayout>
 
 
 

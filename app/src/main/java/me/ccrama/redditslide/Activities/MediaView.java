@@ -243,6 +243,31 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 showBottomSheetImage();
             }
         });
+        findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isGif) {
+                    String url = actuallyLoaded;
+                    final String finalUrl1 = url;
+                    final String finalUrl = actuallyLoaded;
+                    try {
+                        ((Reddit) getApplication()).getImageLoader()
+                                .loadImage(finalUrl, new SimpleImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
+                                        saveImageGallery(loadedImage, finalUrl1);
+                                    }
+
+                                });
+
+                    } catch (Exception e) {
+                        Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
+                    }
+                } else {
+                    doOnClick.run();
+                }
+            }
+        });
     }
 
     public void doLoad(final String contentUrl) {

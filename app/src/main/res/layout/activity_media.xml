@@ -65,6 +65,14 @@
             app:srcCompat="@drawable/hd"
             android:tint="@color/white" />
         <ImageView
+            android:id="@+id/save"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:theme="@style/Ripple.List"
+            android:padding="15dp"
+            app:srcCompat="@drawable/save"
+            android:tint="@color/white" />
+        <ImageView
             android:id="@+id/more"
             style="@style/Ripple.List"
             android:layout_width="48dp"

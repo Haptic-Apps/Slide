@@ -1817,15 +1817,6 @@ public class MainActivity extends BaseActivity {
                             public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
                                 term = charSequence.toString();
                             }
-                        })
-                        .neutralText(R.string.search_all)
-                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                                Intent i = new Intent(MainActivity.this, Search.class);
-                                i.putExtra(Search.EXTRA_TERM, term);
-                                startActivity(i);
-                            }
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
@@ -1838,6 +1829,25 @@ public class MainActivity extends BaseActivity {
                                     i.putExtra(Search.EXTRA_TERM, term);
                                     i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
                                     Log.v(LogUtil.getTag(), "INTENT SHOWS " + term + " AND " + subreddit);
+                                    startActivity(i);
+                                }
+                            });
+                    builder.neutralText(R.string.search_all)
+                            .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                    Intent i = new Intent(MainActivity.this, Search.class);
+                                    i.putExtra(Search.EXTRA_TERM, term);
+                                    startActivity(i);
+                                }
+                            });
+                } else {
+                    builder.positiveText(R.string.search_all)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                    Intent i = new Intent(MainActivity.this, Search.class);
+                                    i.putExtra(Search.EXTRA_TERM, term);
                                     startActivity(i);
                                 }
                             });

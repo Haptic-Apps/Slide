@@ -7,8 +7,11 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +36,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
+import com.cocosw.bottomsheet.BottomSheet;
 import com.google.gson.JsonElement;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -186,7 +190,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                         }
                     } else {
                         String title = "";
-                        if (user.getAsJsonObject().has("title")&& !user.getAsJsonObject().get("title").isJsonNull()) {
+                        if (user.getAsJsonObject().has("title") && !user.getAsJsonObject().get("title").isJsonNull()) {
                             List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
                             title = text.get(0);
                             if (getSupportActionBar() != null)
@@ -195,7 +199,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
                         }
 
-                        if (user.getAsJsonObject().has("description")&& !user.getAsJsonObject().get("description").isJsonNull()) {
+                        if (user.getAsJsonObject().has("description") && !user.getAsJsonObject().get("description").isJsonNull()) {
                             List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
                             final String done = text.get(0);
                             final String finalTitle = title;
@@ -300,7 +304,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                                 }
                             } else {
                                 String title = "";
-                                if (user.getAsJsonObject().has("title")&& !user.getAsJsonObject().get("title").isJsonNull()) {
+                                if (user.getAsJsonObject().has("title") && !user.getAsJsonObject().get("title").isJsonNull()) {
                                     List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
                                     title = text.get(0);
                                     if (getSupportActionBar() != null)
@@ -431,18 +435,37 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             final MediaVideoView v = (MediaVideoView) gif;
             v.clearFocus();
 
-            String dat;
+            final String dat;
             if (gallery) {
-
                 dat = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".gif");
-
             } else {
-                dat = (images.get(i).getAsJsonObject().get("link").getAsString());
+                if (images.get(i).getAsJsonObject().has("mp4"))
+                    dat = (images.get(i).getAsJsonObject().get("mp4").getAsString());
+                else
+                    dat = (images.get(i).getAsJsonObject().get("link").getAsString());
 
             }
 
-            new GifUtils.AsyncLoadGif(AlbumPager.this, (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, false, true).execute(dat);
+            LogUtil.v("Link is " + dat + " and response is " + images.get(i).toString());
 
+            new GifUtils.AsyncLoadGif(AlbumPager.this, (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            }, false, true).execute(dat);
+            rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showBottomSheetImage(dat, true);
+                }
+            });
+            rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MediaView.doOnClick.run();
+                }
+            });
             return rootView;
         }
 
@@ -459,21 +482,92 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
     }
 
+    public void showBottomSheetImage(final String contentUrl, final boolean isGif) {
+
+        int[] attrs = new int[]{R.attr.tint};
+        TypedArray ta = obtainStyledAttributes(attrs);
+
+        int color = ta.getColor(0, Color.WHITE);
+        Drawable external = getResources().getDrawable(R.drawable.openexternal);
+        Drawable share = getResources().getDrawable(R.drawable.share);
+        Drawable image = getResources().getDrawable(R.drawable.image);
+        Drawable save = getResources().getDrawable(R.drawable.save);
+
+        external.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+        BottomSheet.Builder b = new BottomSheet.Builder(this)
+                .title(contentUrl);
+
+        b.sheet(2, external, "Open externally");
+        b.sheet(5, share, "Share link");
+        if (!isGif)
+            b.sheet(3, image, "Share image");
+        b.sheet(4, save, "Save image");
+        b.listener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case (2): {
+                        Reddit.defaultShare(contentUrl, AlbumPager.this);
+                    }
+                    break;
+                    case (3): {
+                        shareImage(contentUrl);
+                    }
+                    break;
+                    case (5): {
+                        Reddit.defaultShareText(contentUrl, AlbumPager.this);
+                    }
+                    case (4): {
+                        if (!isGif) {
+                            String url = contentUrl;
+                            final String finalUrl1 = url;
+                            final String finalUrl = contentUrl;
+                            try {
+                                ((Reddit) getApplication()).getImageLoader()
+                                        .loadImage(finalUrl, new SimpleImageLoadingListener() {
+                                            @Override
+                                            public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
+                                                saveImageGallery(loadedImage, finalUrl1);
+                                            }
+
+                                        });
+
+                            } catch (Exception e) {
+                                Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
+                            }
+                        } else {
+                            MediaView.doOnClick.run();
+                        }
+                    }
+                    break;
+                }
+            }
+        });
+
+        b.show();
+
+    }
+
     public class ImageFullNoSubmission extends Fragment {
 
         private int i = 0;
         private JsonElement user;
 
-        public ImageFullNoSubmission(){
+        public ImageFullNoSubmission() {
 
         }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final ViewGroup rootView = (ViewGroup) inflater.inflate(
                     R.layout.album_image_pager, container, false);
 
-            String url;
+            final String url;
 
             if (gallery) {
                 url = ("https://imgur.com/" + user.getAsJsonObject().get("hash").getAsString() + ".png");
@@ -485,18 +579,10 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             final String finalUrl = url;
             {
-                final ImageView iv = (ImageView) rootView.findViewById(R.id.share);
-                rootView.findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
+                rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Reddit.defaultShare(finalUrl, AlbumPager.this);
-
-                    }
-                });
-                iv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showShareDialog(finalUrl);
+                        showBottomSheetImage(url, false);
                     }
                 });
                 {
