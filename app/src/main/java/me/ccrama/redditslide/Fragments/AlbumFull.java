@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Fragments;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,19 +34,15 @@ import me.ccrama.redditslide.util.AlbumUtils;
 public class AlbumFull extends Fragment {
 
     boolean gallery = false;
-    View placeholder;
     private View list;
     private int i = 0;
     private Submission s;
     boolean hidden;
+    View rootView;
     private ArrayList<JsonElement> images;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.submission_albumcard, container, false);
-
+    public void onAttach(Context c){
         PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
 
         if (s.getUrl().contains("gallery")) {
@@ -125,6 +122,13 @@ public class AlbumFull extends Fragment {
         });
 
         new LoadIntoRecycler(s.getUrl(), getActivity()).execute();
+
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        rootView = inflater.inflate(
+                R.layout.submission_albumcard, container, false);
 
         return rootView;
     }

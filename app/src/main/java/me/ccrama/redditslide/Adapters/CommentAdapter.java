@@ -2677,10 +2677,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                            .show();
                                    break;
                                case 10:
-                                   int pos = holder.getAdapterPosition();
+                                   int old = holder.getAdapterPosition();
+                                   int pos = (old < 2) ? 0 : old - 1;
                                    for (int i = pos - 1; i >= 0; i--) {
-                                       CommentObject o = users.get(i);
-                                       if (o instanceof CommentItem) {
+                                       CommentObject o = users.get(getRealPosition(i));
+                                       if (o instanceof CommentItem && pos - 1 != i) {
                                            if (o.comment.getDepth() < n2.getDepth()) {
                                                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
                                                final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);

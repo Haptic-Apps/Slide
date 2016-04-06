@@ -610,7 +610,10 @@ public class CommentPage extends Fragment {
         }
     }
 
-    public boolean onKeyDown(int keyCode) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //This is the filter
+        if (event.getAction() != KeyEvent.ACTION_DOWN)
+            return true;
         if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
             goDown();
             return true;
@@ -698,8 +701,13 @@ public class CommentPage extends Fragment {
     }
 
     private void goUp() {
+        int toGoto = mLayoutManager.findFirstVisibleItemPosition() ;
+        if(mLayoutManager.findFirstVisibleItemPosition() != mLayoutManager.findFirstCompletelyVisibleItemPosition()){
+            toGoto =  mLayoutManager.findFirstCompletelyVisibleItemPosition();
+        }
         if (adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
+                final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())
                         .setTitle("Discard comment?")
                         .setMessage("Do you really want to discard your comment?")
@@ -707,13 +715,13 @@ public class CommentPage extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 adapter.currentlyEditing = null;
-                                doGoUp(mLayoutManager.findFirstCompletelyVisibleItemPosition());
+                                doGoUp(finalToGoto);
                             }
                         }).setNegativeButton("No", null)
                         .show();
 
             } else {
-                doGoUp(mLayoutManager.findFirstCompletelyVisibleItemPosition());
+                doGoUp(toGoto);
             }
         }
     }
@@ -733,8 +741,13 @@ public class CommentPage extends Fragment {
     }
 
     private void goDown() {
+        int toGoto = mLayoutManager.findFirstVisibleItemPosition() ;
+        if(mLayoutManager.findFirstVisibleItemPosition() != mLayoutManager.findFirstCompletelyVisibleItemPosition()){
+            toGoto =  mLayoutManager.findFirstCompletelyVisibleItemPosition();
+        }
         if (adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
+                final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())
                         .setTitle("Discard comment?")
                         .setMessage("Do you really want to discard your comment?")
@@ -742,13 +755,14 @@ public class CommentPage extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 adapter.currentlyEditing = null;
-                                doGoDown(mLayoutManager.findFirstCompletelyVisibleItemPosition());
+                                doGoDown(finalToGoto);
                             }
                         }).setNegativeButton("No", null)
                         .show();
 
             } else {
-                doGoDown(mLayoutManager.findFirstCompletelyVisibleItemPosition());
+
+                doGoDown(toGoto);
             }
         }
     }

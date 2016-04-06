@@ -2083,9 +2083,9 @@ public class MainActivity extends BaseActivity {
             if (SettingValues.commentNav) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_VOLUME_UP:
-                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(keyCode);
+                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(keyCode, event);
                     case KeyEvent.KEYCODE_VOLUME_DOWN:
-                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(keyCode);
+                        return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(keyCode, event);
                     default:
                         return super.dispatchKeyEvent(event);
                 }

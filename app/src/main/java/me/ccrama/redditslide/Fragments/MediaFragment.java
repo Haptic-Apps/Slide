@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Fragments;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -97,51 +98,8 @@ public class MediaFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(
                 R.layout.submission_mediacard, container, false);
-        if (!firstUrl.isEmpty()) {
-            imageShown = true;
-            LogUtil.v("Displaying first image");
-            displayImage(firstUrl);
-        }
-
         if (savedInstanceState != null && savedInstanceState.containsKey("position"))
             stopPosition = savedInstanceState.getInt("position");
-
-
-        doLoad(contentUrl);
-        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
-
-        (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-
-
-        ContentType.ImageType type = ContentType.getImageType(s);
-
-
-        if (!type.toString().toLowerCase().contains("image") && type != ContentType.ImageType.DEVIANTART && !type.toString().toLowerCase().contains("gfy") && !type.toString().toLowerCase().contains("gif") && !type.toString().toLowerCase().contains("imgur") || type.toString().toLowerCase().contains("link")) {
-            if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height") || s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() <= 200) {
-                (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
-                ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
-                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), rootView, type, getActivity(), s);
-                (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
-            } else {
-                addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type, getActivity(), s);
-            }
-        } else {
-            (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type, getActivity(), s);
-        }
-
-
-        rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
-                (getActivity()).startActivity(i2);
-
-            }
-        });
         return rootView;
     }
 
@@ -239,6 +197,52 @@ public class MediaFragment extends Fragment {
         gif.execute(dat);
     }
 
+    @Override
+    public void onAttach(Context c) {
+        if (!firstUrl.isEmpty()) {
+            imageShown = true;
+            LogUtil.v("Displaying first image");
+            displayImage(firstUrl);
+        }
+
+
+        doLoad(contentUrl);
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
+
+        (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
+
+
+        ContentType.ImageType type = ContentType.getImageType(s);
+
+
+        if (!type.toString().toLowerCase().contains("image") && type != ContentType.ImageType.DEVIANTART && !type.toString().toLowerCase().contains("gfy") && !type.toString().toLowerCase().contains("gif") && !type.toString().toLowerCase().contains("imgur") || type.toString().toLowerCase().contains("link")) {
+            if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height") || s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() <= 200) {
+                (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
+                ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
+                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), rootView, type, getActivity(), s);
+                (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
+            } else {
+                addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type, getActivity(), s);
+            }
+        } else {
+            (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
+            addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type, getActivity(), s);
+        }
+
+
+        rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i2 = new Intent(getActivity(), CommentsScreen.class);
+                i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
+                (getActivity()).startActivity(i2);
+
+            }
+        });
+    }
+
     public void doLoadImgur(String url) {
         final String finalUrl = url;
         final String finalUrl1 = url;
@@ -288,13 +292,15 @@ public class MediaFragment extends Fragment {
     }
 
     public String actuallyLoaded;
+
     public void doLoadImage(String contentUrl) {
         if (contentUrl != null && ContentType.isImgurLink(contentUrl) && !contentUrl.contains("png") && !contentUrl.contains("jpg")) {
             contentUrl = contentUrl + ".png";
         }
         rootView.findViewById(R.id.gifprogress).setVisibility(View.GONE);
         LogUtil.v(contentUrl);
-        if(contentUrl.contains("m.imgur.com")) contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
+        if (contentUrl.contains("m.imgur.com"))
+            contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
         if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.contains("imgur.com")) || contentUrl != null && contentUrl.contains(".jpg") && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
             rootView.findViewById(R.id.progress).setVisibility(View.VISIBLE);
             ((ProgressBar) rootView.findViewById(R.id.progress)).setIndeterminate(true);
@@ -344,6 +350,7 @@ public class MediaFragment extends Fragment {
         actuallyLoaded = contentUrl;
 
     }
+
     private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {
         if (!PostMatch.openExternal(submission.getUrl())) {
 
@@ -563,6 +570,7 @@ public class MediaFragment extends Fragment {
             Reddit.defaultShare(submission.getUrl(), contextActivity);
         }
     }
+
     public void displayImage(final String url) {
         actuallyLoaded = url;
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) rootView.findViewById(R.id.submission_image);
