@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,13 +24,13 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
-import me.ccrama.redditslide.util.LogUtil;
 
 public class Search extends BaseActivityAnim {
 
 
     public static final String EXTRA_TERM = "term";
     public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_MULTIREDDIT = "multi";
     public static final String EXTRA_SITE = "site";
     public static final String EXTRA_URL = "url";
     public static final String EXTRA_SELF = "self";
@@ -164,6 +163,8 @@ public class Search extends BaseActivityAnim {
         return false;
     }
 
+    public boolean multireddit;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
@@ -173,26 +174,29 @@ public class Search extends BaseActivityAnim {
         setContentView(R.layout.activity_saved);
         where = getIntent().getExtras().getString(EXTRA_TERM, "");
 
-        if (getIntent().hasExtra(EXTRA_AUTHOR)) {
-            where = where + "&author=" + getIntent().getExtras().getString(EXTRA_AUTHOR);
-        }
-        if (getIntent().hasExtra(EXTRA_NSFW)) {
-            where = where + "&nsfw=" + (getIntent().getExtras().getBoolean(EXTRA_NSFW)?"yes":"no");
-        }
-        if (getIntent().hasExtra(EXTRA_SELF)) {
-            where = where + "&selftext=" + (getIntent().getExtras().getBoolean(EXTRA_SELF)?"yes":"no");
-        }
-        if (getIntent().hasExtra(EXTRA_SITE)) {
-            where = where + "&site=" + getIntent().getExtras().getString(EXTRA_SITE);
-        }
-        if (getIntent().hasExtra(EXTRA_URL)) {
-            where = where + "&url=" + getIntent().getExtras().getString(EXTRA_URL);
-        }
+        if(getIntent().hasExtra(EXTRA_MULTIREDDIT)){
+            multireddit = true;
+            subreddit  = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
+        } else {
+            if (getIntent().hasExtra(EXTRA_AUTHOR)) {
+                where = where + "&author=" + getIntent().getExtras().getString(EXTRA_AUTHOR);
+            }
+            if (getIntent().hasExtra(EXTRA_NSFW)) {
+                where = where + "&nsfw=" + (getIntent().getExtras().getBoolean(EXTRA_NSFW) ? "yes" : "no");
+            }
+            if (getIntent().hasExtra(EXTRA_SELF)) {
+                where = where + "&selftext=" + (getIntent().getExtras().getBoolean(EXTRA_SELF) ? "yes" : "no");
+            }
+            if (getIntent().hasExtra(EXTRA_SITE)) {
+                where = where + "&site=" + getIntent().getExtras().getString(EXTRA_SITE);
+            }
+            if (getIntent().hasExtra(EXTRA_URL)) {
+                where = where + "&url=" + getIntent().getExtras().getString(EXTRA_URL);
+            }
 
-        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
+            subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
+        }
         setupSubredditAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
-
-        Log.v(LogUtil.getTag(), "Searching for " + where + " in " + subreddit);
 
         time = TimePeriod.ALL;
 

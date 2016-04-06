@@ -228,14 +228,12 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (context == null || context.isEmpty())
                         goDown();
                 }
             });
             v.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (context == null || context.isEmpty())
                         goUp();
                 }
             });

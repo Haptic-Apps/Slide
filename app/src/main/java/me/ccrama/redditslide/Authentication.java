@@ -228,7 +228,11 @@ public class Authentication {
                                 Reddit.notifications.start(mContext);
 
                             }
+
+                            Thread.sleep(2000);
                             UserSubscriptions.doOnlineSyncing();
+                            LogUtil.v("Syncing stuff");
+
 
                             return null;
 

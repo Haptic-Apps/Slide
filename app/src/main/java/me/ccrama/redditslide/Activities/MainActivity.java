@@ -1471,7 +1471,7 @@ public class MainActivity extends BaseActivity {
             public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                 if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
                     //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
-                    if (sideArrayAdapter.fitems == null || sideArrayAdapter.openInSubView) {
+                    if (sideArrayAdapter.fitems == null || sideArrayAdapter.openInSubView || !usedArray.contains(e.getText().toString().toLowerCase())) {
                         Intent inte = new Intent(MainActivity.this, SubredditView.class);
                         inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
                         MainActivity.this.startActivity(inte);

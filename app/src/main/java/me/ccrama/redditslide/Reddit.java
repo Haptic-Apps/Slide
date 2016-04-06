@@ -323,31 +323,35 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return mInBackground;
     }
 
+    boolean first;
     @Override
     public void onActivityResumed(Activity activity) {
 
-        if (mBackgroundTransition != null) {
-            mBackgroundDelayHandler.removeCallbacks(mBackgroundTransition);
-            mBackgroundTransition = null;
-        }
-
-        if (mInBackground) {
-            mInBackground = false;
-            notifyOnBecameForeground();
-
-            if (hasDone && hasDone2) {
-
-                authentication.updateToken(activity);
-            } else if (authentication == null) {
-                authentication = new Authentication(this);
-
-
-            } else if (hasDone) {
-                hasDone2 = true;
-            } else {
-                hasDone = true;
+        if(!first) {
+            first = true;
+            if (mBackgroundTransition != null) {
+                mBackgroundDelayHandler.removeCallbacks(mBackgroundTransition);
+                mBackgroundTransition = null;
             }
 
+            if (mInBackground) {
+                mInBackground = false;
+                notifyOnBecameForeground();
+
+                if (hasDone && hasDone2) {
+
+                    authentication.updateToken(activity);
+                } else if (authentication == null) {
+                    authentication = new Authentication(this);
+
+
+                } else if (hasDone) {
+                    hasDone2 = true;
+                } else {
+                    hasDone = true;
+                }
+
+            }
         }
 
     }

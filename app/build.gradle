@@ -27,7 +27,7 @@ android {
         applicationId "me.ccrama.redditslide"
         targetSdkVersion 23
         generatedDensities = []
-        versionCode 154
+        versionCode 155
         generatedDensities = []
         multiDexEnabled = true
         versionName androidGitVersion.name()
@@ -93,7 +93,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:1e3b0b3545'
+    compile 'com.github.ccrama:JRAW:a3fa55b3cf'
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
         transitive = true
     }

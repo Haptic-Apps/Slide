@@ -17,7 +17,10 @@
         android:icon="@drawable/add"
         android:title="@string/title_create_multi"
         app:showAsAction="ifRoom"/>
-
+    <item android:id="@+id/search"
+        android:icon="@drawable/search"
+        android:title="@string/search_title"
+        app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_sort"
         android:icon="@drawable/sort"
         android:title="@string/sorting_change_sorting"

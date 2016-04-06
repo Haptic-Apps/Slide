@@ -55,11 +55,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
 
         subredditPosts.getPosts().addAll(OfflineSubreddit.getSubreddit(subreddit).submissions);
-        subredditPosts.loadMore(this.getApplicationContext(), this, true);
-
-
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
-
         submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(submissionsPager);
         pager.setCurrentItem(firstPage);
