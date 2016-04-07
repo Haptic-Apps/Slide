@@ -57,7 +57,9 @@ public class CustomTabUtil {
                 CustomTabsIntent customTabsIntent = builder.build();
 
                 customTabsIntent.intent.setPackage(packageName);
+                customTabsIntent.intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 customTabsIntent.launchUrl(contextActivity, Uri.parse(url));
+
             } catch (ActivityNotFoundException anfe) {
                 Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
                 Reddit.defaultShare(url, contextActivity);
