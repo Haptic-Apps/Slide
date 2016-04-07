@@ -1252,18 +1252,20 @@ public class MainActivity extends BaseActivity {
                 t.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        LogUtil.v("Switching to " + accName);
-                        if (!accounts.get(accName).isEmpty()) {
-                            Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).commit();
-                        } else {
-                            ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                            Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).commit();
+                        if(!accName.equalsIgnoreCase(Authentication.name)) {
+                            LogUtil.v("Switching to " + accName);
+                            if (!accounts.get(accName).isEmpty()) {
+                                Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).commit();
+                            } else {
+                                ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).commit();
+                            }
+
+                            Authentication.name = accName;
+                            UserSubscriptions.switchAccounts();
+
+                            Reddit.forceRestart(MainActivity.this, true);
                         }
-
-                        Authentication.name = accName;
-                        UserSubscriptions.switchAccounts();
-
-                        Reddit.forceRestart(MainActivity.this, true);
                     }
                 });
                 accountList.addView(t);

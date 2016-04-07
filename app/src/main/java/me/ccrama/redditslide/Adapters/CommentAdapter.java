@@ -926,9 +926,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
             if (comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty() && !currentlyEditingId.equals(comment.getFullName())) {
-                doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
+                doHighlighted(holder, comment, baseNode, finalPos, finalPos1, false);
             } else if (!currentlyEditingId.equals(comment.getFullName())) {
-                doUnHighlighted(holder, baseNode);
+                doUnHighlighted(holder, baseNode, false);
             }
             if (deleted.contains(comment.getFullName())) {
                 holder.firstTextView.setText(R.string.comment_deleted);
@@ -936,7 +936,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             if (currentlyEditingId.equals(comment.getFullName())) {
-                doHighlightedStuff(holder, comment, baseNode, finalPos, finalPos1, true);
+                doHighlightedStuff(holder, comment, baseNode, finalPos, finalPos1, true, false);
             }
 
         } else if (firstHolder instanceof SubmissionViewHolder && submission != null) {
@@ -972,6 +972,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         dataSet.refreshLayout.setRefreshing(true);
                                         currentlyEditing = null;
                                         editingPosition = -1;
+                                        if (SettingValues.fastscroll) {
+                                            mPage.fastScroll.setVisibility(View.VISIBLE);
+                                        }
                                         new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
                                         replyArea.setVisibility(View.GONE);
 
@@ -994,6 +997,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
                             currentlyEditing = null;
                             editingPosition = -1;
+                            if (SettingValues.fastscroll) {
+                                mPage.fastScroll.setVisibility(View.VISIBLE);
+                            }
+                            currentlyEditingId = "";
+                            backedText = "";
                         }
                     });
                 }
@@ -1575,9 +1583,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     CommentNode currentBaseNode;
 
-    public void doHighlightedStuff(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1, boolean isReplying) {
-        if (currentlySelected != null) {
-            doUnHighlighted(currentlySelected, currentBaseNode);
+    public void doHighlightedStuff(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1, boolean isReplying, boolean animate) {
+        if (currentlySelected != null && currentlySelected != holder) {
+            doUnHighlighted(currentlySelected, currentBaseNode, true);
         }
         // If a comment is hidden and (Swap long press == true), then a single click will un-hide the comment
         // and expand to show all children comments
@@ -1599,7 +1607,21 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (!isReplying) {
                 baseView.setVisibility(View.GONE);
-                expand(baseView);
+                if (animate) {
+                    expand(baseView);
+                } else {
+                    baseView.setVisibility(View.VISIBLE);
+                    final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    baseView.measure(widthSpec, heightSpec);
+                    View l2 = baseView.findViewById(R.id.replyArea) == null ? baseView.findViewById(R.id.innerSend) : baseView.findViewById(R.id.replyArea);
+                    final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    l2.measure(widthSpec2, heightSpec2);
+                    ViewGroup.LayoutParams layoutParams = baseView.getLayoutParams();
+                    layoutParams.height = baseView.getMeasuredHeight() - l2.getMeasuredHeight();
+                    baseView.setLayoutParams(layoutParams);
+                }
             }
 
 
@@ -1814,7 +1836,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             if (Authentication.isLoggedIn && !submission.isArchived() && !submission.isLocked() && Authentication.didOnline) {
                 if (isReplying) {
-                    expand(baseView, true);
+                    baseView.setVisibility(View.VISIBLE);
+
+                    final int widthSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    final int heightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    baseView.measure(widthSpec, heightSpec);
+
+                    View l2 = baseView.findViewById(R.id.replyArea) == null ? baseView.findViewById(R.id.innerSend) : baseView.findViewById(R.id.replyArea);
+                    final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                    l2.measure(widthSpec2, heightSpec2);
+                    RelativeLayout.LayoutParams params2= (RelativeLayout.LayoutParams) baseView.getLayoutParams();
+                    params2.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+                    params2.addRule(RelativeLayout.BELOW, R.id.commentOverflow);
+                    baseView.setLayoutParams(params2);
                     replyArea.setVisibility(View.VISIBLE);
                     menu.setVisibility(View.GONE);
                     DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext);
@@ -1897,7 +1932,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         backedText = "";
 
                         doShowMenu(baseView);
-
+                        if (SettingValues.fastscroll) {
+                            mPage.fastScroll.setVisibility(View.VISIBLE);
+                        }
                         dataSet.refreshLayout.setRefreshing(true);
                         new ReplyTaskComment(n, finalPos, finalPos1, baseNode, holder).execute(replyLine.getText().toString());
 
@@ -1913,6 +1950,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 discard.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        currentlyEditing = null;
+                        editingPosition = -1;
+                        currentlyEditingId = "";
+                        backedText = "";
                         doShowMenu(baseView);
                     }
                 });
@@ -1940,7 +1981,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             upvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    doUnHighlighted(holder, baseNode.getComment(), baseNode);
+                    doUnHighlighted(holder, baseNode.getComment(), baseNode, true);
                     if (up.contains(n.getFullName())) {
                         new Vote(v, mContext).execute(n);
                         up.remove(n.getFullName());
@@ -1965,7 +2006,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             downvote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    doUnHighlighted(holder, baseNode.getComment(), baseNode);
+                    doUnHighlighted(holder, baseNode.getComment(), baseNode, true);
 
                     if (down.contains(n.getFullName())) {
                         new Vote(v, mContext).execute(n);
@@ -2001,24 +2042,28 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1) {
+    public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1, boolean animate) {
         if (mAnimator != null && mAnimator.isRunning()) {
             holder.itemView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1, false);
+                    doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1, false, true);
                 }
             }, mAnimator.getDuration());
         } else {
-            doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1, false);
+            doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1, false, animate);
         }
 
     }
 
     public EditText currentlyEditing;
 
-    public void doUnHighlighted(final CommentViewHolder holder, final CommentNode baseNode) {
-        collapse(holder.menuArea);
+    public void doUnHighlighted(final CommentViewHolder holder, final CommentNode baseNode, boolean animate) {
+        if (animate) {
+            collapse(holder.menuArea);
+        } else {
+            (holder.menuArea).removeAllViews();
+        }
 
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = mContext.getTheme();
@@ -2039,7 +2084,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    public void doUnHighlighted(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode) {
+    public void doUnHighlighted(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode, boolean animate) {
         if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() && holder.getAdapterPosition() <= editingPosition) {
             new AlertDialogWrapper.Builder(mContext)
                     .setTitle("Discard comment?")
@@ -2049,14 +2094,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void onClick(DialogInterface dialog, int which) {
                             currentlyEditing = null;
                             editingPosition = -1;
-                            doUnHighlighted(holder, comment, baseNode);
+                            doUnHighlighted(holder, comment, baseNode, true);
                         }
                     }).setNegativeButton("No", null)
                     .show();
         } else {
             currentlySelected = null;
             currentSelectedItem = "";
-            collapse(holder.menuArea);
+            if (animate) {
+                collapse(holder.menuArea);
+            } else {
+                holder.menuArea.removeAllViews();
+            }
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
             int width = 0;
 
@@ -2093,9 +2142,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         } else {
             if (currentSelectedItem.contains(comment.getFullName())) {
-                doUnHighlighted(holder, comment, baseNode);
+                doUnHighlighted(holder, comment, baseNode, true);
             } else {
-                doHighlighted(holder, comment, baseNode, finalPos, finalPos1);
+                doHighlighted(holder, comment, baseNode, finalPos, finalPos1, true);
             }
         }
     }
@@ -2107,7 +2156,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 //hide the comment.
                 doOnClick(holder, baseNode, comment);
             }
-            doUnHighlighted(holder, comment, baseNode);
+            doUnHighlighted(holder, comment, baseNode, true);
         } else {
             doOnClick(holder, baseNode, comment);
         }
