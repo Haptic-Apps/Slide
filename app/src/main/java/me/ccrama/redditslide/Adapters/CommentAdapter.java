@@ -2569,6 +2569,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int finalPos1;
         CommentNode node;
         CommentViewHolder holder;
+        boolean isSubmission;
 
         public ReplyTaskComment(Contribution n, int finalPos, int finalPos1, CommentNode node, CommentViewHolder holder) {
             sub = n;
@@ -2580,11 +2581,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         public ReplyTaskComment(Contribution n) {
             sub = n;
+            isSubmission = true;
         }
 
         @Override
         public void onPostExecute(final String s) {
-            if (holder != null) {
+            if (isSubmission) {
                 Handler handler2 = new Handler();
                 handler2.postDelayed(new Runnable() {
                     public void run() {
