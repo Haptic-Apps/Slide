@@ -181,8 +181,6 @@ public class MainActivity extends BaseActivity {
             }
         } else if (requestCode == 423 && resultCode == RESULT_OK) {
             ((OverviewPagerAdapterComment) adapter).mCurrentComments.doResult(data);
-        } else if (requestCode == RESET_THEME_RESULT) {
-            restartTheme();
         } else if (requestCode == 940) {
             if (adapter != null && adapter.getCurrentFragment() != null) {
                 if (resultCode == RESULT_OK) {
@@ -1396,9 +1394,8 @@ public class MainActivity extends BaseActivity {
         header.findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent i = new Intent(MainActivity.this, Settings.class);
-                startActivityForResult(i, RESET_THEME_RESULT);
+                startActivity(i);
                 // Cancel sub loading because exiting the settings will reload it anyway
                 if (mAsyncGetSubreddit != null)
                     mAsyncGetSubreddit.cancel(true);
@@ -2054,7 +2051,23 @@ public class MainActivity extends BaseActivity {
                 scrollToTabAfterLayout(pager.getCurrentItem());
             }
         }
-
+        //Only refresh the view if a Setting was altered
+        if (Settings.changed) {
+            int current = pager.getCurrentItem();
+            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+            pager.setAdapter(adapter);
+            pager.setCurrentItem(current);
+            if (mTabLayout != null) {
+                mTabLayout.setupWithViewPager(pager);
+                scrollToTabAfterLayout(current);
+            }
+            reloadSubs();
+            //If the user changed a Setting regarding the app's theme, restartTheme()
+            if (SettingsTheme.changed) {
+                restartTheme();
+            }
+            Settings.changed = false;
+        }
     }
 
     public static boolean dontAnimate;
