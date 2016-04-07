@@ -151,6 +151,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingsTheme.changed = true;
                     SettingValues.overrideLanguage = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE, isChecked).apply();
 
@@ -213,7 +214,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                                 break;
                         }
                         ((TextView) findViewById(R.id.currentViewType)).setText(SettingValues.single ? (SettingValues.commentPager ? getString(R.string.view_type_comments) : getString(R.string.view_type_none)) : getString(R.string.view_type_tabs));
-
+                        SettingsTheme.changed = true;
                         return true;
                     }
                 });

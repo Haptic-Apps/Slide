@@ -373,7 +373,7 @@ public class CommentPage extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.search: {
-                        if (comments.comments != null) {
+                        if (comments.comments != null && comments.submission != null) {
                             DataShare.sharedComments = comments.comments;
                             DataShare.subAuthor = comments.submission.getAuthor();
                             Intent i = new Intent(getActivity(), CommentSearch.class);

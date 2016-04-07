@@ -43,6 +43,7 @@ import net.dean.jraw.models.Subreddit;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
+import me.ccrama.redditslide.Activities.SettingsTheme;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.UserSubscriptions;
@@ -61,6 +62,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
     @Override
     public void onPause() {
         UserSubscriptions.setSubscriptions(new ArrayList<>(subs));
+        SettingsTheme.changed = true;
         super.onPause();
     }
 

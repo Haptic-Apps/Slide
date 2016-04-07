@@ -504,7 +504,16 @@ public class MainActivity extends BaseActivity {
                 @Override
                 protected Void doInBackground(Void... params) {
                     try {
-                        new AccountManager(Authentication.reddit).storeVisits(SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
+                        String[] returned = new String[SynccitRead.newVisited.size()];
+                        int i = 0;
+                        for(String s : SynccitRead.newVisited){
+                            if (!s.contains("t3_")) {
+                                s = "t3_" + s;
+                            }
+                            returned[i] = s;
+                            i++;
+                        }
+                        new AccountManager(Authentication.reddit).storeVisits(returned);
                         SynccitRead.newVisited = new ArrayList<>();
                     } catch (Exception e) {
                         e.printStackTrace();
