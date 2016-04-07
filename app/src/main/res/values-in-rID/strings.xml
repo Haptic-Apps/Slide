@@ -209,4 +209,5 @@
     <item quantity="other">%d menit</item>
   </plurals>
   <string name="action_settings">Setelan</string>
+  <string name="content_deleted">[deleted]</string>
 </resources>

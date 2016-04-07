@@ -30,6 +30,7 @@
   <string name="submission_save">Beitrag speichern</string>
   <string name="submission_share">Beitrag teilen</string>
   <string name="submission_load_full">Den ganzen Beitrag laden</string>
+  <string name="submission_np_link">Dies ist ein np-Link. Bitte nicht abstimmen oder kommentieren.</string>
   <string name="submission_tap_gif">Tippe, um das GIF zu laden</string>
   <string name="submission_not_found">Beitrag nicht gefunden</string>
   <string name="submission_not_found_msg">Der Beitrag konnte leider nicht gefunden werden</string>
@@ -46,6 +47,8 @@
   <string name="theme_light">Hell</string>
   <string name="theme_dark">Dunkel</string>
   <string name="theme_black">AMOLED Schwarz</string>
+  <string name="theme_dark_blue">Dunkelblau</string>
+  <string name="theme_default_color">Primäre Farbe</string>
   <string name="theme_subreddit_color">Hauptfarbe</string>
   <string name="theme_accent_color">Akzentfarbe</string>
   <string name="theme_base">App-Thema</string>
@@ -61,6 +64,7 @@
   <string name="card_picture_cropped">Großes Bild zuschneiden</string>
   <string name="card_hide_post_button">\"Post ausblenden\" Schaltfläche in Aktionsleiste</string>
   <string name="card_tint_background">Färbe den Hintergrund der Karte zur Subreddit-Farbe</string>
+  <string name="card_tint_outside">Nur außerhalb des Subreddits einfärben</string>
   <string name="card_section_images">Bilder</string>
   <string name="card_section_actionbar">Aktionsleiste</string>
   <!-- Settings for Multi-column view -->
@@ -78,6 +82,10 @@
   <string name="drawer_search">Suche nach einem Subreddit</string>
   <string name="drawer_moderation">Moderation</string>
   <string name="drawer_sync_subs">Synchronisiere deine Subreddits</string>
+  <string name="drawer_account_switch">Wechseln oder löschen</string>
+  <string name="drawer_account_switch_msg">Willst du zu diesem Account wechseln oder ihn löschen?</string>
+  <string name="drawer_offline">Slide ist im Offline-Modus</string>
+  <string name="drawer_offline_retry">Versuche, zum Online-Modus zu wechseln</string>
   <!-- Sidebar items (That's the one on the right) -->
   <string name="sidebar_pinned">Gepinnt</string>
   <string name="sidebar_wiki">Wiki</string>
@@ -118,8 +126,12 @@
   <string name="comment_load_more">Lade %1$d mehr</string>
   <string name="comment_loading_more">Mehr Kommentare werden geladen&#8230;</string>
   <!-- Welcome view (first time setup) -->
+  <string name="welcome_start">Loslegen</string>
+  <string name="welcome_personalize">Personalisieren</string>
+  <string name="welcome_finish">Tutorial starten</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Beiträge sortieren nach</string>
+  <string name="sorting_time_choose">Wähle einen Zeitrahmen</string>
   <string name="sorting_change_sorting">Beitrag-Sortierung ändern</string>
   <string name="sorting_best">Beste</string>
   <string name="sorting_top">Top</string>
@@ -180,12 +192,15 @@
   <string name="multireddit_title_empty">Der Titel darf nicht leer sein</string>
   <string name="multireddit_title_empty_msg">Bitte gib einen Titel für dein Multireddit ein</string>
   <string name="multireddit_no_subs">Keine Subreddits wurden hinzugefügt</string>
+  <string name="multireddit_no_subs_msg">Bitte füge ein paar Subreddits hinzu, indem du auf \"+\" drückst!</string>
   <string name="multireddit_selector">Wähle Subreddits zum Hinzufügen aus</string>
   <string name="multireddit_create_hint">Multireddit-Name</string>
   <string name="multireddit_invalid_name">Ungültiger Multireddit-Name</string>
+  <string name="multireddit_invalid_name_msg">Multireddit-Namen dürfen nur Buchstaben, Zahlen und Unterstriche enthalten.</string>
   <!-- Album errors/information -->
   <string name="album_loading">Lade Album</string>
   <string name="album_err_not_found">Album nicht gefunden</string>
+  <string name="album_err_msg_not_found">Ein Fehler ist beim Laden des Albums aufgetreten. Bitte öffne das Album erneut und versuche es nochmal. Wenn das Problem weiterhin besteht, melde es bitte auf GitHub</string>
   <string name="album_title_count">Galerie (%1$d Bilder)</string>
   <!-- Content types -->
   <string name="type_nsfw_img">Unangemessenes Bild</string>
@@ -305,6 +320,7 @@
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d Abonnenten</string>
   <string name="subreddit_err_msg">Subreddit %1$s konnte nicht gefunden werden. Vielleicht ist es falsch geschrieben?</string>
+  <string name="subreddit_err_msg_new">Subreddit %1$s wurde nicht gefunden. Möglicherweise hast du dich verschrieben, oder du hast keinen Zugang dazu.</string>
   <string name="subreddit_err">Subreddit nicht gefunden</string>
   <string name="subreddit_chooser">Wähle ein Subreddit</string>
   <!-- Search -->
@@ -340,6 +356,8 @@
   <string name="settings_swap_actions">Aktion für kurzes und langes Drücken auf Kommentare tauschen</string>
   <string name="settings_disable_nsfw_photo">Unangemessene Bilder ausblenden</string>
   <string name="settings_disable_nsfw">Unangemessene Beiträge ausblenden</string>
+  <string name="settings_store_history">Verlauf speichern</string>
+  <string name="settings_store_nsfw_history">NSFW Verlauf speichern</string>
   <string name="settings_confirm_exit">Beenden von Slide bestätigen</string>
   <string name="settings_fastscroll">Zwischen Kommentaren navigieren</string>
   <string name="settings_floating_action_button">Floating Action Button</string>
@@ -365,18 +383,24 @@
   <string name="settings_middle_card">Bild in der Mitte der Karte</string>
   <string name="settings_cache_delete">Alle zwischengespeicherten Daten löschen</string>
   <string name="settings_colored_navigation_bar">Farbige Navigationsleiste</string>
+  <string name="settings_imageviewer_background">Solid Imageviewer Hintergrund verwenden</string>
   <string name="settings_filter_domain">Domänenfilter</string>
   <string name="settings_filter_selfttext">Selftext Filter</string>
   <string name="settings_filter_title">Titel-Filter</string>
+  <string name="settings_prefs_reddit">Alle reddit.com Einstellungen einsehen</string>
+  <string name="settings_font_post">Post Titel-Schriftart</string>
   <string name="settings_font_comment">Kommentar-Schriftart</string>
+  <string name="settings_general_blur_thumbs">Vorschaubilder mit niedriger Qualität ausblenden</string>
   <string name="settings_general_swipeanywhere">Von überall aus wegwischen</string>
   <string name="settings_general_alphabetical">Alphabetischer Drawer</string>
+  <string name="settings_general_scroll_read">Posts nach Vorbeiscrollen als gelesen markieren</string>
   <string name="settings_link_chrome">Internetseiten mit Chrome in der App anzeigen</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_alternative_layout">Alternative Ansicht</string>
   <string name="settings_title_backup">Sichern &amp; Wiederherstellen</string>
   <string name="settings_title_default_theme">Hauptthema</string>
   <string name="settings_title_general">Allgemein</string>
+  <string name="settings_title_history">Verlauf</string>
   <string name="settings_title_notifications">Benachrichtigungen</string>
   <string name="settings_title_pro">Hol dir PRO</string>
   <string name="settings_title_sub_theme">Subreddit Thema</string>
@@ -434,14 +458,28 @@
   <string name="website_back">Zurück</string>
   <string name="website_external">In externem Browser öffnen</string>
   <!-- Reorder subreddit activity -->
+  <string name="reorder_subreddits_title">Wähle einen Subreddit zum Hinzufügen aus</string>
+  <string name="reorder_add_subreddit">Füge einen Subreddit hinzu</string>
   <string name="reorder_subreddit_name">Subreddit-Name</string>
+  <string name="reorder_remove_title">Diesen Subreddit entfernen?</string>
   <!-- Time -->
   <string name="time_just_now">jetzt gerade</string>
   <string name="color_sync_complete">Synchronisation abgeschlossen</string>
   <string name="comment_load_more_number_unknown">Mehr Kommentare laden</string>
+  <string name="settings_volume_nav_comments">Kommentare mit Lautstärketasten navigieren</string>
+  <string name="settings_synccit_remove">SYNCCIT TRENNEN</string>
+  <string name="settings_synccit_username">Benutzername</string>
+  <string name="settings_synccit_delete">Synccit-Account wirklich löschen?</string>
+  <string name="settings_synccit_connected">Verbindung erfolgreich!</string>
+  <string name="settings_synccit_failed">Konnte nicht authentifizieren</string>
   <string name="reorder_sync_complete">Synchronisation abgeschlossen</string>
   <string name="submission_share_permalink">Beitrag teilen</string>
   <string name="mode_card">Karte</string>
+  <string name="settings_sub_tabs_description">Wische zwischen Subreddits</string>
+  <string name="submission_share_reddit_url">Kommentare teilen</string>
+  <string name="settings_general_comment_last_visit">Anzahl der Kommentare seit dem letzten Besuch anzeigen</string>
+  <string name="error_video_not_found">Video nicht gefunden</string>
+  <string name="error_video_message">Beim Laden des Videos ist ein Fehler aufgetreten</string>
   <string name="btn_report">Melden</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">vor einer Minute</item>
@@ -465,4 +503,5 @@
   </plurals>
   <string name="action_settings">Einstellungen</string>
   <string name="subreddit_name_tint">Subreddit-Name</string>
+  <string name="content_deleted">[gelöscht]</string>
 </resources>

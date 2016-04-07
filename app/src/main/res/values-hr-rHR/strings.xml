@@ -274,7 +274,6 @@
   <string name="btn_cache">Predmemoriraj komentare</string>
   <string name="btn_delete">Obriši</string>
   <string name="btn_switch">Prebaci</string>
-  <string name="btn_time">Vrijeme</string>
   <!-- Backup -->
   <string name="backup_success">Sigurnosna kopija uspjela!</string>
   <string name="backup_restoring">Vraćanje postavki</string>
@@ -541,4 +540,5 @@
   </plurals>
   <string name="action_settings">Postavke</string>
   <string name="subreddit_name_tint">Ime podreddita</string>
+  <string name="content_deleted">[izbrisano]</string>
 </resources>

@@ -526,4 +526,5 @@
   </plurals>
   <string name="action_settings">Setări</string>
   <string name="subreddit_name_tint">Numele subreddit-ului</string>
+  <string name="content_deleted">[deleted]</string>
 </resources>

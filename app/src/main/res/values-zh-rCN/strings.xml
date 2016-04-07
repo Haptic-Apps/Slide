@@ -451,4 +451,5 @@
   </plurals>
   <string name="action_settings">设置</string>
   <string name="subreddit_name_tint">板块名称</string>
+  <string name="content_deleted">[deleted]</string>
 </resources>

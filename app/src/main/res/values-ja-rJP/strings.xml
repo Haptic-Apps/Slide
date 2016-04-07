@@ -278,7 +278,6 @@
   <string name="btn_cache">コメントをキャッシュ</string>
   <string name="btn_delete">削除</string>
   <string name="btn_switch">切り替え</string>
-  <string name="btn_time">時間</string>
   <!-- Backup -->
   <string name="backup_success">正常にバックアップしました!</string>
   <string name="backup_restoring">設定を復元します</string>
@@ -319,6 +318,7 @@
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d 購読者</string>
   <string name="subreddit_err_msg">Subreddit %1$s が見つかりません。綴りが間違っていませんか?</string>
+  <string name="subreddit_err_msg_new">Subreddit %1$s が見つかりませんでした。つづりが間違っているか、この Subreddit へのアクセス許可がありません。</string>
   <string name="subreddit_err">Subreddit が見つかりません</string>
   <string name="subreddit_chooser">Subreddit を選ぶ</string>
   <!-- Search -->
@@ -354,6 +354,8 @@
   <string name="settings_swap_actions">コメントでタップと長押し操作を入れ換え</string>
   <string name="settings_disable_nsfw_photo">すべての NSFW 写真を隠す</string>
   <string name="settings_disable_nsfw">すべての NSFW 投稿を隠す</string>
+  <string name="settings_store_history">履歴を保存</string>
+  <string name="settings_store_nsfw_history">NSFW 履歴を保存</string>
   <string name="settings_confirm_exit">終了ダイアログを確認</string>
   <string name="settings_fastscroll">親コメント間を移動</string>
   <string name="settings_floating_action_button">フローティング アクションボタン</string>
@@ -401,6 +403,7 @@
   <string name="settings_title_backup">バックアップ &amp; 復元</string>
   <string name="settings_title_default_theme">メイン テーマ</string>
   <string name="settings_title_general">一般設定</string>
+  <string name="settings_title_history">履歴</string>
   <string name="settings_title_notifications">通知設定</string>
   <string name="settings_title_pro">Pro 版</string>
   <string name="settings_title_sub_theme">Subreddit テーマ</string>
@@ -522,8 +525,15 @@
   <string name="submission_share_reddit_url">コメントを共有</string>
   <string name="filter_content">このコンテンツをフィルタ リング</string>
   <string name="settings_general_comment_last_visit">前回訪問してからのコメント数を表示</string>
+  <string name="error_video_not_found">ビデオが見つかりません</string>
+  <string name="error_video_message">ビデオの読み込み中にエラーが発生しました</string>
   <string name="view_type_tabs">Subreddit タブ</string>
+  <string name="view_type_none">Subreddit タブなし</string>
+  <string name="view_type_comments">コメント ウィンドウ</string>
+  <string name="btn_open_content">コンテンツを開く</string>
   <string name="btn_report">報告する</string>
+  <string name="input_reason_for_report">報告する理由</string>
+  <string name="msg_report_sent">報告を送信しました</string>
   <plurals name="time_minutes_ago">
     <item quantity="other">%d 分前</item>
   </plurals>
@@ -540,5 +550,43 @@
     <item quantity="other">%d 分</item>
   </plurals>
   <string name="action_settings">設定</string>
+  <string name="btn_mods">モデレーター</string>
+  <string name="datasave_always">モバイル データ通信と Wi-Fi</string>
+  <string name="datasave_mobile">モバイル データ通信</string>
+  <string name="never">なし</string>
+  <string name="multi_column_force_full">強制的に完全なコメントを表示</string>
+  <string name="submission_info_locked">これはロックされた投稿です。投票やコメントはできません。</string>
+  <string name="card_background_tint">カードの背景</string>
   <string name="subreddit_name_tint">Subreddit 名</string>
+  <string name="settings_comment_hide_selftext_image">自己テキスト投稿で、先頭の画像を非表示</string>
+  <string name="login_failed_err_decline">前回の画面で「拒否」を選択していないことを確認して、しばらしてからもう一度試してください</string>
+  <string name="thumb_type_always">常に表示</string>
+  <string name="thumb_type_off">表示しない</string>
+  <string name="thumb_type_sub">Subreddit 設定ごとに表示</string>
+  <string name="tutorial_swipe_navigation">スワイプ ナビゲーション</string>
+  <string name="tutorial_swipe_description">左端からスワイプすると終了します。\n\nこれは、画像、gif、アルバム、設定などに適用されます!</string>
+  <string name="settings_data_low_quality">低品質画像を読み込む</string>
+  <string name="settings_view_type">表示の種類</string>
+  <string name="handling_browser">Web ブラウザー</string>
+  <string name="settings_comments_swap_long">長押しとタップの動作を入れ替え</string>
+  <string name="settings_redditprefs_over18">私は 18 以上で、年齢制限（NSFW）コンテンツを見ます</string>
+  <string name="settings_layout_view">表示モード</string>
+  <string name="settings_data_lowqaul_desc">それ以外の場合、常に高品質の画像を開きます</string>
+  <string name="settings_subredditspecific_bigpic">常にこの Subreddit で大きな画像を表示</string>
+  <string name="settings_layout_picture_mode">画像モード</string>
+  <string name="settings_general_expanded_toolbar">展開したツールバー メニュー</string>
+  <string name="settings_general_expanded_toolbar_desc">Subreddit ツールバーに詳細オプションを表示します</string>
+  <string name="settings_theme_tinting">サブミッション着色モード</string>
+  <string name="settings_reddit_thumbnail_mode">サムネイル モード</string>
+  <string name="settings_layout_actionbar_mode">アクションバー モード</string>
+  <string name="settings_theme_tint_outside_desc">Multireddit、フロントページ、およびすべてで、背景色のみ</string>
+  <string name="settings_layout_small_content_tag">小さいコンテンツ タグ</string>
+  <string name="settings_links_force_external">強制的に外部ブラウザー</string>
+  <string name="settings_links_force_external_desc">常に外部で開くドメインを選択します</string>
+  <string name="settings_layout_show_domain">情報ラインにドメインを表示</string>
+  <string name="profile_tag_user">タグ ユーザー</string>
+  <string name="submit_replies_to_inbox">受信トレイに返信を送信</string>
+  <string name="discover_title">発見</string>
+  <string name="settings_data">データの保存</string>
+  <string name="content_deleted">[削除済]</string>
 </resources>

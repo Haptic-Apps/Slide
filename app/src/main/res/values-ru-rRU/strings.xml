@@ -244,7 +244,6 @@
   <string name="btn_cache">Кэш комментариев</string>
   <string name="btn_delete">Удалить</string>
   <string name="btn_switch">Сменить</string>
-  <string name="btn_time">Время</string>
   <!-- Backup -->
   <string name="backup_success">Резервное копир-е успешно!</string>
   <string name="backup_restoring">Восстановление настроек</string>
@@ -406,4 +405,5 @@
   <string name="mode_card">Карточка</string>
   <string name="btn_report">Отчет</string>
   <string name="action_settings">Настройки</string>
+  <string name="content_deleted">[deleted]</string>
 </resources>

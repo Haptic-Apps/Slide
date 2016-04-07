@@ -282,7 +282,6 @@
   <string name="btn_cache">Cache des commentaires</string>
   <string name="btn_delete">Supprimer</string>
   <string name="btn_switch">Changer</string>
-  <string name="btn_time">Heure</string>
   <!-- Backup -->
   <string name="backup_success">Sauvegarde réussie!</string>
   <string name="backup_restoring">Restauration de vous paramètres</string>
@@ -323,6 +322,7 @@
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d lecteurs</string>
   <string name="subreddit_err_msg">Le subreddit %1$s n\'a pas pu être trouvé. Êtes-vous sûr de l\'avoir bien écrit ?</string>
+  <string name="subreddit_err_msg_new">Le subreddit %1$s est introuvable. Il a peut-être été mal orthographié, ou vous n\'avez pas les droits d\'accès à ce subreddit.</string>
   <string name="subreddit_err">Subreddit non trouvé</string>
   <string name="subreddit_chooser">Choisir un subreddit</string>
   <!-- Search -->
@@ -358,6 +358,8 @@
   <string name="settings_swap_actions">Échanger appui simple et appui long dans les commentaires</string>
   <string name="settings_disable_nsfw_photo">Masquer toutes les photos NSFW</string>
   <string name="settings_disable_nsfw">Masquer tous les messages NSFW</string>
+  <string name="settings_store_history">Sauvegarder l\'historique</string>
+  <string name="settings_store_nsfw_history">Enregistrer l\'historique NSFW</string>
   <string name="settings_confirm_exit">Confirmation de fermeture</string>
   <string name="settings_fastscroll">Naviguer entre les commentaires parents</string>
   <string name="settings_floating_action_button">Bouton d\'action flottant</string>
@@ -405,6 +407,7 @@
   <string name="settings_title_backup">Sauver &amp; restaurer</string>
   <string name="settings_title_default_theme">Thème principal</string>
   <string name="settings_title_general">Général</string>
+  <string name="settings_title_history">Historique</string>
   <string name="settings_title_notifications">Paramètres de notifications</string>
   <string name="settings_title_pro">Passez à la version Pro</string>
   <string name="settings_title_sub_theme">Thèmes de subreddit</string>
@@ -522,8 +525,19 @@
   <string name="press_actionbar">Appuyez sur la flèche pour montrer la barre d\'action</string>
   <string name="tap_actionbar">Appui long sur la barre d\'action</string>
   <string name="always_actionbar">Toujours afficher la barre d\'action</string>
+  <string name="sub_content_filter">Filtrage de contenu subreddit</string>
+  <string name="submission_share_reddit_url">Partager les commentaires</string>
+  <string name="filter_content">Filtrer ce contenu</string>
+  <string name="settings_general_comment_last_visit">Afficher le nombre le commentaires postés depuis la dernière visite</string>
+  <string name="error_video_not_found">Vidéo introuvable</string>
+  <string name="error_video_message">Une erreur est survenue lors du chargement de la vidéo</string>
   <string name="view_type_tabs">Tableaux subreddit</string>
+  <string name="view_type_none">Aucun onglet de subreddit</string>
+  <string name="view_type_comments">Panneau commentaires</string>
+  <string name="btn_open_content">Ouvrir le contenu</string>
   <string name="btn_report">Rapport</string>
+  <string name="input_reason_for_report">Raison du signalement</string>
+  <string name="msg_report_sent">Signalement envoyé</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">il y a %d minute</item>
     <item quantity="other">il y a %d minutes</item>
@@ -545,5 +559,21 @@
     <item quantity="other">%d minutes</item>
   </plurals>
   <string name="action_settings">Paramètres</string>
+  <string name="btn_mods">Modérateurs</string>
+  <string name="datasave_always">Données mobiles et Wi-Fi</string>
+  <string name="datasave_mobile">Données mobiles</string>
+  <string name="never">Jamais</string>
+  <string name="multi_column_force_full">Forcer l\'affichage complet des commentaires</string>
+  <string name="submission_info_locked">Ce post est verrouillé. Vous ne pouvez pas voter ou commenter.</string>
+  <string name="card_background_tint">Arrière-plan des cartes</string>
   <string name="subreddit_name_tint">Nom de la subreddit</string>
+  <string name="settings_comment_hide_selftext_image">Masquer l\'image principale des posts</string>
+  <string name="thumb_type_always">Toujours afficher</string>
+  <string name="thumb_type_off">Ne jamais afficher</string>
+  <string name="tutorial_swipe_navigation">Navigation par balayage</string>
+  <string name="settings_view_type">Type d\'affichage</string>
+  <string name="handling_browser">Navigateur Web</string>
+  <string name="settings_layout_view">Mode d\'affichage</string>
+  <string name="settings_layout_picture_mode">Mode d\'affichage des images</string>
+  <string name="content_deleted">[supprimé]</string>
 </resources>

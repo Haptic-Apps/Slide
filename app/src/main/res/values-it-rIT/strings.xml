@@ -11,7 +11,7 @@
   <string name="general_sub_sync">Sincronizzando le iscrizioni</string>
   <string name="general_login">Accesso</string>
   <!-- Used when viewing a thread -->
-  <string name="submission_info_unsaved">Post rimosso</string>
+  <string name="submission_info_unsaved">Post non salvato</string>
   <string name="submission_info_saved">Post salvato</string>
   <string name="submission_info_archived">Questo post è archiviato. Non puoi votare o commentare.</string>
   <string name="submission_post_saved">Post salvato</string>
@@ -31,7 +31,7 @@
   <string name="submission_share">Condividi post</string>
   <string name="submission_load_full">Carica discussione completa</string>
   <string name="submission_np_link">Questo è un link senza partecipazione. Per favore non votare o commentare.</string>
-  <string name="submission_tap_gif">Fai tap per caricare una GIF</string>
+  <string name="submission_tap_gif">Clicca per caricare una GIF</string>
   <string name="submission_not_found">Oh–oh, post non trovato!</string>
   <string name="submission_not_found_msg">Spiacente, non è stato possibile trovare questo post</string>
   <string name="submission_copy">Copia testo</string>
@@ -47,6 +47,8 @@
   <string name="theme_light">Chiaro</string>
   <string name="theme_dark">Scuro</string>
   <string name="theme_black">nero AMOLED</string>
+  <string name="theme_dark_blue">Blu scuro</string>
+  <string name="theme_default_color">Colore principale</string>
   <string name="theme_subreddit_color">Cambia colore</string>
   <string name="theme_accent_color">Colore particolari</string>
   <string name="theme_base">Tema base</string>
@@ -83,6 +85,8 @@
   <string name="drawer_sync_subs">Sincronizza i tuoi subreddit</string>
   <string name="drawer_account_switch">Cambia o rimuovi</string>
   <string name="drawer_account_switch_msg">Vuoi cambiare o rimuovere l\'account?</string>
+  <string name="drawer_offline">Slide è in modalità offline</string>
+  <string name="drawer_offline_retry">Prova ad entrare in modalità online</string>
   <!-- Sidebar items (That's the one on the right) -->
   <string name="sidebar_pinned">preferito</string>
   <string name="sidebar_wiki">Wiki</string>
@@ -124,8 +128,12 @@
   <string name="comment_load_more">Carica altri %1$d</string>
   <string name="comment_loading_more">Caricando ulteriori commenti&#8230;</string>
   <!-- Welcome view (first time setup) -->
+  <string name="welcome_start">Inizia</string>
+  <string name="welcome_personalize">Personalizza</string>
+  <string name="welcome_finish">Inizia il tutorial</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Ordinato per</string>
+  <string name="sorting_time_choose">Scegli un intervallo di tempo</string>
   <string name="sorting_change_sorting">Cambia ordine dei post</string>
   <string name="sorting_best">Migliori</string>
   <string name="sorting_top">Più votati</string>
@@ -314,6 +322,7 @@
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d iscritti</string>
   <string name="subreddit_err_msg">Il subreddit %1$s non è stato trovato. Forse hai sbagliato a scrivere?</string>
+  <string name="subreddit_err_msg_new">Non è stato possibile trovare il subreddit %1$s. Forse è stato scritto incorrettamente o non hai accesso a questo subreddit.</string>
   <string name="subreddit_err">Subreddit non trovato</string>
   <string name="subreddit_chooser">Segli un subreddit</string>
   <!-- Search -->
@@ -349,6 +358,8 @@
   <string name="settings_swap_actions">Scambia le azioni di tap e pressione prolungata nei commenti</string>
   <string name="settings_disable_nsfw_photo">Nascondi tutte le foto NSFW</string>
   <string name="settings_disable_nsfw">Nascondi tutti i post NSFW</string>
+  <string name="settings_store_history">Salva cronologia</string>
+  <string name="settings_store_nsfw_history">Salva cronologia NSFW</string>
   <string name="settings_confirm_exit">Dialogo di conferma all\'uscita</string>
   <string name="settings_fastscroll">Navigazione rapida tra i commenti genitori</string>
   <string name="settings_floating_action_button">Floating Action Button</string>
@@ -396,6 +407,7 @@
   <string name="settings_title_backup">Backup &amp; ripristino</string>
   <string name="settings_title_default_theme">Tema principale</string>
   <string name="settings_title_general">Generali</string>
+  <string name="settings_title_history">Cronologia</string>
   <string name="settings_title_notifications">Impostazioni notifiche</string>
   <string name="settings_title_pro">Passa alla versione Pro</string>
   <string name="settings_title_sub_theme">Temi dei subreddit</string>
@@ -478,8 +490,28 @@
   <string name="settings_synccit_failed_msg">Assicurati che l\'username e il codice di autenticazione siano corretti!</string>
   <string name="settings_synccit">Integrazione con Synccit</string>
   <string name="reorder_sync_complete">Sincronizzazione completata</string>
+  <string name="reorder_subs_added">" subreddit aggiunti"</string>
+  <string name="settings_comment_collapsefully">Nascondi interamente il commento (disattiva anche le animazioni)</string>
+  <string name="profile_manage_accounts">Gestione account</string>
+  <string name="profile_remove_account">Vuoi davvero eliminare questo account?</string>
+  <string name="profile_remove">Cancella account</string>
   <string name="submission_share_permalink">Condividi post</string>
+  <string name="submission_share_content_url">Condividi l\'URL del contenuto</string>
+  <string name="change_theme">Cambia tema</string>
+  <string name="subreddit_theme">Tema subreddit</string>
+  <string name="btn_select">Seleziona</string>
+  <string name="dialog_choose_subreddits_to_edit">Scegli i subreddit da modificare</string>
+  <string name="fab_create">Crea nuovo post</string>
+  <string name="fab_disabled">Disabilitato</string>
+  <string name="settings_comment_collapse">Nascondi interamente i commenti</string>
+  <string name="settings_comment_collapse_description">Disattiva anche le animazioni dei commenti</string>
+  <string name="mode_list">Lista</string>
   <string name="mode_card">Card</string>
+  <string name="mode_bigpic">Immagine grande</string>
+  <string name="settings_sub_tabs_description">Scorri tra i subreddit</string>
+  <string name="submission_share_reddit_url">Condividi commenti</string>
+  <string name="filter_content">Filtra questo contenuto</string>
+  <string name="settings_general_comment_last_visit">Mostra il numero di commenti dall\'ultima visita</string>
   <string name="btn_report">Segnala</string>
   <plurals name="time_minutes_ago">
     <item quantity="one">%d minuto fa</item>
@@ -503,4 +535,8 @@
   </plurals>
   <string name="action_settings">Impostazioni</string>
   <string name="subreddit_name_tint">Nome subreddit</string>
+  <string name="settings_general_expanded_toolbar_desc">Mostra più opzioni nella barra degli strumenti del subreddit</string>
+  <string name="submit_replies_to_inbox">Invia risposte alla posta in arrivo</string>
+  <string name="discover_title">Scopri</string>
+  <string name="content_deleted">[eliminato]</string>
 </resources>

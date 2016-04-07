@@ -472,4 +472,5 @@
     <item quantity="other">%d minuter</item>
   </plurals>
   <string name="action_settings">Inställningar</string>
+  <string name="content_deleted">[borttagen]</string>
 </resources>

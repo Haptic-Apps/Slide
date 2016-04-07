@@ -269,7 +269,6 @@
   <string name="btn_confirm">Megerősítés</string>
   <string name="btn_delete">Törlés</string>
   <string name="btn_switch">Váltás</string>
-  <string name="btn_time">Idő</string>
   <!-- Backup -->
   <string name="backup_success">A mentés sikerült.</string>
   <string name="backup_restoring">Beállításaid visszaállítása</string>

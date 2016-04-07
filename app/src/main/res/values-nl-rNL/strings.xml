@@ -429,4 +429,5 @@
     <item quantity="other">%d minuten</item>
   </plurals>
   <string name="action_settings">Instellingen</string>
+  <string name="content_deleted">[verwijderd]</string>
 </resources>

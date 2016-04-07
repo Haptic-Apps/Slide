@@ -221,7 +221,7 @@
   <string name="type_emb">W aplikacji</string>
   <string name="type_imgur">Imgur</string>
   <!-- Reply to message -->
-  <string name="mail_author_wrote">%1$s napisał…</string>
+  <string name="mail_author_wrote">%1$s napisał&#8230;</string>
   <string name="mail_hint_recipient">Odbiorca</string>
   <string name="mail_hint_subject">Temat</string>
   <string name="mail_hint_body">Treść</string>
@@ -287,7 +287,6 @@
   <string name="btn_cache">Zapisz komentarze do przeglądania offline</string>
   <string name="btn_delete">Usuń</string>
   <string name="btn_switch">Przełącz</string>
-  <string name="btn_time">Czas</string>
   <!-- Backup -->
   <string name="backup_success">Kopia zapasowa wykonana pomyślnie!</string>
   <string name="backup_restoring">Przywracanie ustawień</string>
@@ -447,7 +446,7 @@
   <string name="title_create_multi">Stwórz multireddit</string>
   <string name="title_mod">Moderator</string>
   <!-- Text in Donation-Activity -->
-  <string name="donate_amount_title">Ta kwota…</string>
+  <string name="donate_amount_title">Ta kwota&#8230;</string>
   <string name="donate_info_student">Jestem studenckim deweloperem, i jestem bardzo wdzięczny za dotacje! To one sprawiają, że Slide istnieje, i jest darmowy :)</string>
   <string name="donate_btn">Wesprzyj</string>
   <string name="donate_amount_ads1">Zapobiega wyświetlaniu </string>
@@ -540,7 +539,6 @@
   <string name="view_type_tabs">Z zakładkami</string>
   <string name="view_type_none">Bez zakładek</string>
   <string name="view_type_comments">Panel komentarzy</string>
-  <string name="btn_collapse_all">Zwiń komentarze</string>
   <string name="btn_open_content">Otwórz zawartość</string>
   <string name="btn_report">Zgłoś</string>
   <string name="input_reason_for_report">Powód zgłoszenia</string>
@@ -606,6 +604,8 @@
   <string name="settings_links_force_external_desc">Wybierz domeny, które będą otwierane zewnętrznie</string>
   <string name="settings_layout_show_domain">Pokazuj domenę</string>
   <string name="profile_tag_user">Otaguj użytkownika</string>
+  <string name="submit_replies_to_inbox">Informuj o odpowiedziach</string>
   <string name="discover_title">Odkrywaj</string>
   <string name="settings_data">Oszczędzanie danych</string>
+  <string name="content_deleted">[usunięte]</string>
 </resources>

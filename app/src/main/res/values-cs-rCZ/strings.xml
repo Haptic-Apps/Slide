@@ -388,4 +388,5 @@
     <item quantity="other">%d minut</item>
   </plurals>
   <string name="action_settings">Nastavení</string>
+  <string name="content_deleted">[deleted]</string>
 </resources>

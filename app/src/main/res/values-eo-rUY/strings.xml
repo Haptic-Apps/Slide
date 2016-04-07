@@ -220,4 +220,5 @@
     <item quantity="other">%d minutoj</item>
   </plurals>
   <string name="action_settings">Agordoj</string>
+  <string name="content_deleted">[forigita]</string>
 </resources>

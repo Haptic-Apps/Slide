@@ -270,4 +270,5 @@
     <item quantity="other">%d päivää sitten</item>
   </plurals>
   <string name="subreddit_name_tint">Subredditin nimi</string>
+  <string name="content_deleted">[poistettu]</string>
 </resources>

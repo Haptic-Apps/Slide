@@ -322,6 +322,7 @@
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d suscriptores</string>
   <string name="subreddit_err_msg">No se ha podido encontrar el subreddit %1$s. ¿Es posible que esté mal escrito?</string>
+  <string name="subreddit_err_msg_new">No se pudo encontrar al subreddit %1$s. Podría estar mal escrito o no tienes acceso a este subreddit.</string>
   <string name="subreddit_err">Subreddit no encontrado</string>
   <string name="subreddit_chooser">Elige un subreddit</string>
   <!-- Search -->
@@ -357,6 +358,8 @@
   <string name="settings_swap_actions">Intercambiar el toque y la pulsación larga en los comentarios</string>
   <string name="settings_disable_nsfw_photo">Ocultar todas las fotos NSFW</string>
   <string name="settings_disable_nsfw">Ocultar todos los posts NSFW</string>
+  <string name="settings_store_history">Guardar historial</string>
+  <string name="settings_store_nsfw_history">Guardar historial NSFW</string>
   <string name="settings_confirm_exit">Mensaje de confirmación de salida</string>
   <string name="settings_fastscroll">Navegar entre comentarios parejos</string>
   <string name="settings_floating_action_button">Botón de acción flotante</string>
@@ -404,6 +407,7 @@
   <string name="settings_title_backup">Copia de seguridad &amp; Restauración</string>
   <string name="settings_title_default_theme">Tema principal</string>
   <string name="settings_title_general">General</string>
+  <string name="settings_title_history">Historia</string>
   <string name="settings_title_notifications">Ajustes de notificaciones</string>
   <string name="settings_title_pro">Conviértete en Pro</string>
   <string name="settings_title_sub_theme">Temas de los subreddits</string>
@@ -525,6 +529,8 @@
   <string name="submission_share_reddit_url">Compartir comentarios</string>
   <string name="filter_content">Filtrar este contenido</string>
   <string name="settings_general_comment_last_visit">Mostrar número de comentarios desde la última visita</string>
+  <string name="error_video_not_found">Video no encontrado</string>
+  <string name="error_video_message">Ocurrió un error al cargar el video</string>
   <string name="view_type_tabs">Pestañas de subreddits</string>
   <string name="btn_report">Reportar</string>
   <plurals name="time_minutes_ago">
@@ -549,4 +555,5 @@
   </plurals>
   <string name="action_settings">Configuración</string>
   <string name="subreddit_name_tint">Nombre del subreddit</string>
+  <string name="content_deleted">[eliminado]</string>
 </resources>
