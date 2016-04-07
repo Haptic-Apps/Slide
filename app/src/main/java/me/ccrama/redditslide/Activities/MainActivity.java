@@ -135,7 +135,6 @@ public class MainActivity extends BaseActivity {
     static final int TUTORIAL_RESULT = 55;
     static final int INBOX_RESULT = 66;
     static final int RESET_ADAPTER_RESULT = 3;
-    static final int RESET_THEME_RESULT = 1;
     static final int SETTINGS_RESULT = 2;
     public static Loader loader;
     public static boolean datasetChanged;
