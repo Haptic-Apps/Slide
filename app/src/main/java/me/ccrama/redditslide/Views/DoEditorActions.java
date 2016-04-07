@@ -88,32 +88,12 @@ public class DoEditorActions {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                Fragment auxiliary = new Fragment() {
-                    @Override
-                    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                        super.onActivityResult(requestCode, resultCode, data);
-
-                        if (data != null) {
-                            Uri selectedImageUri = data.getData();
-                            Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
-                            try {
-                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                new UploadImgur(editText).execute(bitmap);
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            fm.beginTransaction().remove(this).commit();
-                        }
-                    }
-                };
-                fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
-                fm.executePendingTransactions();
-
                 if(a instanceof MainActivity){
+                    LogUtil.v("Running on main");
                     ((MainActivity)a).doImage = new Runnable() {
                         @Override
                         public void run() {
+                            LogUtil.v("Running");
                             if (((MainActivity)a).data != null) {
                                 Uri selectedImageUri = ((MainActivity)a).data.getData();
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
@@ -127,9 +107,35 @@ public class DoEditorActions {
                             }
                         }
                     };
-                }
+                    a.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
 
-                auxiliary.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
+                } else {
+
+                    Fragment auxiliary = new Fragment() {
+                        @Override
+                        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                            super.onActivityResult(requestCode, resultCode, data);
+
+                            if (data != null) {
+                                Uri selectedImageUri = data.getData();
+                                Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
+                                try {
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
+                                    new UploadImgur(editText).execute(bitmap);
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                fm.beginTransaction().remove(this).commit();
+                            }
+                        }
+                    };
+                    fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
+                    fm.executePendingTransactions();
+
+
+                    auxiliary.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
+                }
             }
         });
        /*todo baseView.findViewById(R.id.superscript).setOnClickListener(new View.OnClickListener() {

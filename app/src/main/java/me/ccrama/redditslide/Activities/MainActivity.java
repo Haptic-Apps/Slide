@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -204,8 +205,10 @@ public class MainActivity extends BaseActivity {
             //update notification badge
             new AsyncNotificationBadge().execute();
         } else if (requestCode == 3333) {
+            this.data = data;
             if(doImage != null){
-                doImage.run();
+                Handler handler = new Handler();
+                handler.post(doImage);
             }
         }
       /* todo  if(resultCode == 4 && UserSubscriptions.hasChanged){
