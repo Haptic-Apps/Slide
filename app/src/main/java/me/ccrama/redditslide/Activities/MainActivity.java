@@ -204,8 +204,9 @@ public class MainActivity extends BaseActivity {
             //update notification badge
             new AsyncNotificationBadge().execute();
         } else if (requestCode == 3333) {
-            LogUtil.v("Intent 1");
-            super.onActivityResult(requestCode, resultCode, data);
+            if(doImage != null){
+                doImage.run();
+            }
         }
       /* todo  if(resultCode == 4 && UserSubscriptions.hasChanged){
             UserSubscriptions.hasChanged = false;
@@ -213,6 +214,9 @@ public class MainActivity extends BaseActivity {
             sideArrayAdapter.notifyDataSetChanged();
         }*/
     }
+
+    public Runnable doImage;
+    public Intent data;
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

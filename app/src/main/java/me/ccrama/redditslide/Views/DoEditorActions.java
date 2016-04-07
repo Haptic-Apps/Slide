@@ -37,6 +37,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SecretConstants;
@@ -108,6 +109,25 @@ public class DoEditorActions {
                 };
                 fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
                 fm.executePendingTransactions();
+
+                if(a instanceof MainActivity){
+                    ((MainActivity)a).doImage = new Runnable() {
+                        @Override
+                        public void run() {
+                            if (((MainActivity)a).data != null) {
+                                Uri selectedImageUri = ((MainActivity)a).data.getData();
+                                Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
+                                try {
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
+                                    new UploadImgur(editText).execute(bitmap);
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    };
+                }
 
                 auxiliary.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
             }

@@ -408,15 +408,15 @@ public class PopulateSubmissionViewHolder {
                                                     e.apply();
                                                     final int pos = posts.indexOf(submission);
                                                     final T t = posts.get(pos);
-                                                    posts.remove(submission);
-
+                                                    posts.remove(pos);
                                                     Hidden.setHidden(t);
-
+                                                    final OfflineSubreddit s;
                                                     if (baseSub != null) {
-                                                        OfflineSubreddit.getSubreddit(baseSub).hide(pos);
+                                                        s = OfflineSubreddit.getSubreddit(baseSub);
+                                                        s.hide(pos);
                                                     }
-
                                                     recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+
 
                                                 }
                                             }
@@ -1653,6 +1653,9 @@ public class PopulateSubmissionViewHolder {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
             holder.body.setTextHtml(Html.fromHtml(text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length())));
+            if(holder.body.getText().toString().trim().isEmpty()){
+                holder.body.setVisibility(View.GONE);
+            }
         } else if (!full) {
             holder.body.setVisibility(View.GONE);
         }
