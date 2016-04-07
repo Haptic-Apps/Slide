@@ -29,7 +29,7 @@ import uz.shift.colorpicker.OnColorChangedListener;
  * Created by ccrama on 3/5/2015.
  */
 public class SettingsTheme extends BaseActivity {
-
+    public static boolean changed;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,10 +60,10 @@ public class SettingsTheme extends BaseActivity {
                 colorPicker.setColors(arrs);
                 colorPicker.setSelectedColor(ContextCompat.getColor(SettingsTheme.this, new ColorPreferences(SettingsTheme.this).getFontStyle().getColor()));
 
-
                 dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SettingsTheme.changed = true;
                         int color = colorPicker.getColor();
                         ColorPreferences.Theme t = null;
                         for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
@@ -74,7 +74,6 @@ public class SettingsTheme extends BaseActivity {
                             }
                         }
 
-
                         new ColorPreferences(SettingsTheme.this).setFontStyle(t);
 
                         Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
@@ -84,17 +83,12 @@ public class SettingsTheme extends BaseActivity {
 
                         finish();
                         overridePendingTransition(0, 0);
-
-
                     }
                 });
 
-
                 builder.setView(dialoglayout);
                 builder.show();
-
             }
-
         });
 
         findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
@@ -109,6 +103,7 @@ public class SettingsTheme extends BaseActivity {
                 dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SettingsTheme.changed = true;
                         String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
@@ -132,6 +127,7 @@ public class SettingsTheme extends BaseActivity {
                 dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SettingsTheme.changed = true;
                         String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
@@ -155,6 +151,7 @@ public class SettingsTheme extends BaseActivity {
                 dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SettingsTheme.changed = true;
                         String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
@@ -178,6 +175,7 @@ public class SettingsTheme extends BaseActivity {
                 dialoglayout.findViewById(R.id.blacklighter).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SettingsTheme.changed = true;
                         String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
@@ -200,6 +198,7 @@ public class SettingsTheme extends BaseActivity {
                 dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        SettingsTheme.changed = true;
                         String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
@@ -223,7 +222,6 @@ public class SettingsTheme extends BaseActivity {
 
                 builder.setView(dialoglayout);
                 builder.show();
-
             }
 
         });
@@ -236,7 +234,6 @@ public class SettingsTheme extends BaseActivity {
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsTheme.this);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
-
 
                 LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                 final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
@@ -254,21 +251,19 @@ public class SettingsTheme extends BaseActivity {
                     }
                 }
 
-
                 colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int c) {
-
+                        SettingsTheme.changed = true;
                         colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), c));
                         colorPicker2.setSelectedColor(c);
-
-
                     }
                 });
 
                 colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int i) {
+                        SettingsTheme.changed = true;
                         title.setBackgroundColor(colorPicker2.getColor());
                         if (mToolbar != null)
                             mToolbar.setBackgroundColor(colorPicker2.getColor());
@@ -282,7 +277,6 @@ public class SettingsTheme extends BaseActivity {
                     }
                 });
 
-
                 dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -294,7 +288,6 @@ public class SettingsTheme extends BaseActivity {
 
                         finish();
                         overridePendingTransition(0, 0);
-
                     }
                 });
 

@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,7 +31,9 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class Settings extends BaseActivity {
     private final static int RESTART_SETTINGS_RESULT = 2;
-
+    private int scrollY;
+    private SharedPreferences.OnSharedPreferenceChangeListener prefsListener;
+    public static boolean changed; //whether or not a Setting was changed
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -42,13 +45,8 @@ public class Settings extends BaseActivity {
             overridePendingTransition(0, 0);
             finish();
             overridePendingTransition(0, 0);
-
-
         }
     }
-
-    int scrollY;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +59,16 @@ public class Settings extends BaseActivity {
         setSettingItems();
 
         final ScrollView mScrollView = ((ScrollView) findViewById(R.id.base));
+
+        prefsListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+                                                  String key) {
+                Settings.changed = true;
+            }
+        };
+
+        SettingValues.prefs.registerOnSharedPreferenceChangeListener(prefsListener);
 
 
         mScrollView.post(new Runnable() {
@@ -320,4 +328,9 @@ public class Settings extends BaseActivity {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SettingValues.prefs.unregisterOnSharedPreferenceChangeListener(prefsListener);
+    }
 }
