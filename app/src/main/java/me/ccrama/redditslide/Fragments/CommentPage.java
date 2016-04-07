@@ -220,7 +220,7 @@ public class CommentPage extends Fragment {
 
     View v;
     public View fastScroll;
-    FloatingActionButton fab;
+    public FloatingActionButton fab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

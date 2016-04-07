@@ -896,7 +896,9 @@ public class MainActivity extends BaseActivity {
         } else {
             findViewById(R.id.sub_title).setVisibility(View.GONE);
         }
+        ((ImageView) findViewById(R.id.subimage)).setImageResource(0);
         if (subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode().get("icon_img").asText().isEmpty()) {
+            findViewById(R.id.subimage).setVisibility(View.VISIBLE);
             ((Reddit) getApplication()).getImageLoader().displayImage(subreddit.getDataNode().get("icon_img").asText(), (ImageView) findViewById(R.id.subimage));
         } else {
             findViewById(R.id.subimage).setVisibility(View.GONE);

@@ -959,6 +959,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     public void onFocusChange(View v, boolean hasFocus) {
                                         if (hasFocus) {
                                             mPage.fastScroll.setVisibility(View.GONE);
+                                            if(mPage.fab != null)
+                                                mPage.fab.hide();
                                         } else if (SettingValues.fastscroll) {
                                             mPage.fastScroll.setVisibility(View.VISIBLE);
                                         }
@@ -1864,6 +1866,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void onFocusChange(View v, boolean hasFocus) {
                             if (hasFocus) {
                                 mPage.fastScroll.setVisibility(View.GONE);
+                                if(mPage.fab != null)
+                                    mPage.fab.hide();
                             } else if (SettingValues.fastscroll) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
                             }
@@ -1902,6 +1906,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             public void onFocusChange(View v, boolean hasFocus) {
                                 if (hasFocus) {
                                     mPage.fastScroll.setVisibility(View.GONE);
+                                    if(mPage.fab != null)
+                                        mPage.fab.hide();
                                 } else if (SettingValues.fastscroll) {
                                     mPage.fastScroll.setVisibility(View.VISIBLE);
                                 }
