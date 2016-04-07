@@ -406,7 +406,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                                     commentSorting = CommentSort.OLD;
                                     break;
                             }
-                            SettingValues.prefs.edit().putString("defaultCommentSorting", commentSorting.name()).apply();
+                            SettingValues.prefs.edit().putString("defaultCommentSortingNew", commentSorting.name()).apply();
                             SettingValues.defaultCommentSorting = commentSorting;
                             ((TextView) findViewById(R.id.sorting_current_comment)).setText(
                                     Reddit.getSortingStringsComments(getBaseContext())[i]);

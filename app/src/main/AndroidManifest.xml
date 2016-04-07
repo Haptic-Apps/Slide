@@ -29,7 +29,7 @@
         </activity>
         <activity
             android:name=".Activities.SettingsSynccit"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable"
             android:windowSoftInputMode="adjustResize" />
         <activity

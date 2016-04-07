@@ -43,6 +43,7 @@ public class SettingValues {
     public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
     public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
     public static final String PREF_CROP_IMAGE = "cropImage";
+    public static final String PREF_COMMENT_FAB = "commentFab";
     public static final String PREF_SWITCH_THUMB = "switchThumb";
     public static final String PREF_LOW_RES_ALWAYS = "lowResAlways";
     public static final String PREF_LOW_RES_MOBILE = "lowRes";
@@ -89,6 +90,7 @@ public class SettingValues {
     public static boolean album;
     public static boolean cache;
     public static boolean expandedSettings;
+    public static boolean fabComments;
     public static boolean cacheDefault;
     public static boolean image;
     public static boolean video;
@@ -160,7 +162,7 @@ public class SettingValues {
         colorIndicator = ColorIndicator.valueOf(settings.getString("colorIndicatorNew", "CARD_BACKGROUND"));
         defaultSorting = Sorting.valueOf(settings.getString("defaultSorting", "HOT"));
         timePeriod = TimePeriod.valueOf(settings.getString("timePeriod", "DAY"));
-        defaultCommentSorting = CommentSort.valueOf(settings.getString("defaultCommentSorting", "CONFIDENCE"));
+        defaultCommentSorting = CommentSort.valueOf(settings.getString("defaultCommentSortingNew", "CONFIDENCE"));
 
         single = prefs.getBoolean(PREF_SINGLE, false);
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
@@ -204,6 +206,7 @@ public class SettingValues {
         synccitName = prefs.getString(SYNCCIT_NAME, "");
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
 
+        fabComments = prefs.getBoolean(PREF_COMMENT_FAB, false);
         titleFilters = prefs.getString(PREF_TITLE_FILTERS, "");
         textFilters = prefs.getString(PREF_TEXT_FILTERS, "");
         domainFilters = prefs.getString(PREF_DOMAIN_FILTERS, "");

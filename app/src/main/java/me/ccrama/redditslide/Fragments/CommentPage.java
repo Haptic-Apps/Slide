@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -7,7 +8,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,16 +19,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
+import net.dean.jraw.ApiException;
+import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.CommentSort;
+import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Activities.Album;
@@ -52,6 +62,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CommentOverflow;
+import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
@@ -209,6 +220,7 @@ public class CommentPage extends Fragment {
 
     View v;
     public View fastScroll;
+    FloatingActionButton fab;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -219,8 +231,64 @@ public class CommentPage extends Fragment {
         rv.setLayoutManager(mLayoutManager);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         toolbar.setPopupTheme(new ColorPreferences(getActivity()).getFontStyle().getBaseId());
+        if (!SettingValues.fabComments) {
+            v.findViewById(R.id.comment_floating_action_button).setVisibility(View.GONE);
+        } else {
+            fab = (FloatingActionButton) v.findViewById(R.id.comment_floating_action_button);
+            if(SettingValues.fastscroll) {
+                FrameLayout.LayoutParams fabs = (FrameLayout.LayoutParams) fab.getLayoutParams();
+                fabs.setMargins(fabs.leftMargin, fabs.topMargin, fabs.rightMargin, fabs.bottomMargin * 3);
+                fab.setLayoutParams(fabs);
+            }
+            v.findViewById(R.id.comment_floating_action_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater inflater = (getActivity()).getLayoutInflater();
 
-        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header));
+                    final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
+                    final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+
+                    final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+
+                    DoEditorActions.doActions(e, dialoglayout, getActivity().getSupportFragmentManager(), getActivity());
+
+                    builder.setView(dialoglayout);
+                    final Dialog d = builder.create();
+                    d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+                    d.show();
+                    dialoglayout.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            d.dismiss();
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            adapter.dataSet.refreshLayout.setRefreshing(true);
+                            new ReplyTaskComment(adapter.submission).execute(e.getText().toString());
+                            d.dismiss();
+                        }
+
+                    });
+                }
+            });
+        }
+        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header)) {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (fab != null) {
+                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fabComments) {
+                        fab.show();
+                    } else {
+                        fab.hide();
+
+                    }
+                }
+            }
+        };
 
         rv.addOnScrollListener(toolbarScroll);
         fastScroll = v.findViewById(R.id.fastscroll);
@@ -290,6 +358,7 @@ public class CommentPage extends Fragment {
                     }
                 }
         );
+
         toolbar.setTitle(subreddit);
         toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_mtrl_am_alpha);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -701,9 +770,9 @@ public class CommentPage extends Fragment {
     }
 
     private void goUp() {
-        int toGoto = mLayoutManager.findFirstVisibleItemPosition() ;
-        if(mLayoutManager.findFirstVisibleItemPosition() != mLayoutManager.findFirstCompletelyVisibleItemPosition()){
-            toGoto =  mLayoutManager.findFirstCompletelyVisibleItemPosition();
+        int toGoto = mLayoutManager.findFirstVisibleItemPosition();
+        if (mLayoutManager.findFirstVisibleItemPosition() != mLayoutManager.findFirstCompletelyVisibleItemPosition()) {
+            toGoto = mLayoutManager.findFirstCompletelyVisibleItemPosition();
         }
         if (adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
@@ -726,6 +795,35 @@ public class CommentPage extends Fragment {
         }
     }
 
+    public class ReplyTaskComment extends AsyncTask<String, Void, String> {
+        public Contribution sub;
+
+        public ReplyTaskComment(Contribution n) {
+            sub = n;
+        }
+
+        @Override
+        public void onPostExecute(final String s) {
+            adapter.dataSet.refreshLayout.setRefreshing(false);
+            adapter.dataSet.loadMoreReplyTop(adapter, s);
+
+        }
+
+        @Override
+        protected String doInBackground(String... comment) {
+            if (Authentication.me != null) {
+                try {
+                    return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
+                } catch (ApiException e) {
+                    Log.v(LogUtil.getTag(), "UH OH!!");
+                    //todo this
+                }
+            }
+            return null;
+        }
+
+    }
+
     public void doGoDown(int old) {
         int pos = (old < 2) ? 0 : old - 1;
 
@@ -741,9 +839,9 @@ public class CommentPage extends Fragment {
     }
 
     private void goDown() {
-        int toGoto = mLayoutManager.findFirstVisibleItemPosition() ;
-        if(mLayoutManager.findFirstVisibleItemPosition() != mLayoutManager.findFirstCompletelyVisibleItemPosition()){
-            toGoto =  mLayoutManager.findFirstCompletelyVisibleItemPosition();
+        int toGoto = mLayoutManager.findFirstVisibleItemPosition();
+        if (mLayoutManager.findFirstVisibleItemPosition() != mLayoutManager.findFirstCompletelyVisibleItemPosition()) {
+            toGoto = mLayoutManager.findFirstCompletelyVisibleItemPosition();
         }
         if (adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {

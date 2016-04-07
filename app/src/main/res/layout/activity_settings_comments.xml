@@ -327,7 +327,48 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:background="?attr/tint"
+                android:alpha=".25"
+                android:layout_height="0.25dp"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="?android:selectableItemBackground"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
 
+                <LinearLayout
+                    android:layout_marginRight="42dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_fab_create"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/fab"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?android:selectableItemBackground"
+                    android:backgroundTint="?attr/tint"
+                    android:button="@null"
+                    android:buttonTint="?attr/tint"
+                    android:hapticFeedbackEnabled="true"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font" />
+            </RelativeLayout>
             <View
                 android:layout_width="match_parent"
                 android:background="?attr/tint"

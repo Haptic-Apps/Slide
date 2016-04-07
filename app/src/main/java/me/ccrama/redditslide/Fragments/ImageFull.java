@@ -238,7 +238,14 @@ public class ImageFull extends Fragment {
                     break;
 
                 case NONE:
+                    base.setOnClickListener(new View.OnClickListener() {
 
+                        @Override
+                        public void onClick(View v2) {
+                            CustomTabUtil.openUrl(
+                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
+                        }
+                    });
                     break;
                 case NONE_IMAGE:
                     base.setOnClickListener(new View.OnClickListener() {

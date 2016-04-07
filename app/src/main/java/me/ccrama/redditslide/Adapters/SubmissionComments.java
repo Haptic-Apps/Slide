@@ -1,7 +1,11 @@
 package me.ccrama.redditslide.Adapters;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
+import android.widget.TextView;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -103,8 +107,20 @@ public class SubmissionComments {
     }
     public void loadMoreReply(CommentAdapter adapter) {
         this.adapter = adapter;
+        adapter.currentSelectedItem = context;
         mLoadData = new LoadData(false);
         mLoadData.execute(fullName);
+    }
+    public void loadMoreReplyTop(CommentAdapter adapter, String context) {
+        this.adapter = adapter;
+        adapter.currentSelectedItem = context;
+        mLoadData = new LoadData(true);
+        mLoadData.execute(fullName);
+        Snackbar s = Snackbar.make(page.rv, "Comment submitted", Snackbar.LENGTH_SHORT);
+        View view = s.getView();
+        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+        tv.setTextColor(Color.WHITE);
+        s.show();
     }
     public void loadMore(CommentAdapter adapter, String subreddit, boolean forgetPlace) {
         adapter.currentSelectedItem = "";

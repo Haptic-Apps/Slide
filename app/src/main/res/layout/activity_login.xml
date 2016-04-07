@@ -2,28 +2,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/activity_background"
-    android:elevation="8dp"
-    android:fitsSystemWindows="true">
+    android:background="?attr/activity_background">
 
+    <WebView
+        android:id="@+id/web"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/dblue"
-        android:theme="@style/Theme.AppCompat"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <WebView
-            android:id="@+id/web"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-
-    </RelativeLayout>
+        android:background="@color/md_blue_500"
+        android:theme="@style/Theme.AppCompat" />
 </FrameLayout>

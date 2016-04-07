@@ -56,6 +56,7 @@
             android:text="@string/submission_info_archived"
             android:textColor="#fff"
             android:textSize="14sp" />
+
         <TextView
             android:id="@+id/locked"
             android:layout_width="match_parent"
@@ -65,6 +66,7 @@
             android:text="@string/submission_info_locked"
             android:textColor="#fff"
             android:textSize="14sp" />
+
         <TextView
             android:id="@+id/loadall"
             android:layout_width="match_parent"
@@ -103,4 +105,23 @@
             android:layout_weight="1"
             app:srcCompat="@drawable/down" />
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/comment_floating_action_button"
+        layout="@layout/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        app:elevation="4dp"
+
+        app:fabSize="normal"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
+        app:pressedTranslationZ="12dp"
+        app:srcCompat="@drawable/reply" />
 </FrameLayout>

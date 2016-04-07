@@ -1002,6 +1002,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                             currentlyEditingId = "";
                             backedText = "";
+                            View view = ((Activity) mContext).getCurrentFocus();
+                            if (view != null) {
+                                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
                         }
                     });
                 }
@@ -1723,7 +1728,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             try {
                                                 new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(), e.getText().toString());
                                                 currentSelectedItem = baseNode.getComment().getFullName();
-                                                dataSet.loadMoreReply(CommentAdapter.this);
+                                                dataSet.loadMoreReply(CommentAdapter.this );
                                                 d.dismiss();
                                             } catch (Exception e) {
                                                 ((Activity) mContext).runOnUiThread(new Runnable() {
@@ -1954,6 +1959,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         editingPosition = -1;
                         currentlyEditingId = "";
                         backedText = "";
+                        View view = ((Activity) mContext).getCurrentFocus();
+                        if (view != null) {
+                            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
                         doShowMenu(baseView);
                     }
                 });
@@ -2092,9 +2102,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+
+                            doUnHighlighted(holder, comment, baseNode, true);
                             currentlyEditing = null;
                             editingPosition = -1;
-                            doUnHighlighted(holder, comment, baseNode, true);
+                            if (SettingValues.fastscroll) {
+                                mPage.fastScroll.setVisibility(View.VISIBLE);
+                            }
+                            currentlyEditingId = "";
+                            backedText = "";
+                            View view = ((Activity) mContext).getCurrentFocus();
+                            if (view != null) {
+                                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
                         }
                     }).setNegativeButton("No", null)
                     .show();
@@ -2133,9 +2154,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            currentlyEditing = null;
-                            doLongClick(holder, comment, baseNode, finalPos, finalPos1);
 
+                            doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                            currentlyEditing = null;
+                            editingPosition = -1;
+                            if (SettingValues.fastscroll) {
+                                mPage.fastScroll.setVisibility(View.VISIBLE);
+                            }
+                            currentlyEditingId = "";
+                            backedText = "";
+                            View view = ((Activity) mContext).getCurrentFocus();
+                            if (view != null) {
+                                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
                         }
                     }).setNegativeButton("No", null)
                     .show();
@@ -2236,9 +2268,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+
+                            doOnClick(holder, baseNode, comment);
                             currentlyEditing = null;
                             editingPosition = -1;
-                            doOnClick(holder, baseNode, comment);
+                            if (SettingValues.fastscroll) {
+                                mPage.fastScroll.setVisibility(View.VISIBLE);
+                            }
+                            currentlyEditingId = "";
+                            backedText = "";
+                            View view = ((Activity) mContext).getCurrentFocus();
+                            if (view != null) {
+                                InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
 
                         }
                     }).setNegativeButton("No", null)
@@ -2460,9 +2503,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onPostExecute(Integer data) {
             listView.setItemAnimator(new ScaleInLeftAnimator());
-
             notifyItemRangeInserted(holderPos, data);
-
             currentPos = holderPos;
             toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
             shiftFrom = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
@@ -2522,11 +2563,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         notifyItemRemoved(holderPos);
                     }
                 });
+                int oldSize = users.size();
                 users.addAll(position, finalData);
+                int newSize = users.size();
 
                 for (int i2 = 0; i2 < users.size(); i2++) {
                     keys.put(users.get(i2).getName(), i2);
                 }
+                i = newSize - oldSize;
             }
             return i;
         }
@@ -2643,7 +2687,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             @Override
                             public void run() {
                                 dataSet.refreshLayout.setRefreshing(false);
-                                dataSet.loadMoreReply(CommentAdapter.this);
+                                dataSet.loadMoreReplyTop(CommentAdapter.this, s);
                             }
                         });
                     }

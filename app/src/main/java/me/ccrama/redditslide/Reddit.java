@@ -323,7 +323,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return mInBackground;
     }
 
-    boolean first;
+    static boolean first;
     @Override
     public void onActivityResumed(Activity activity) {
 

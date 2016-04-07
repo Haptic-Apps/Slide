@@ -126,6 +126,7 @@
             android:id="@+id/close"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:tint="?attr/tint"
             android:layout_alignBottom="@+id/sort"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="8dp"

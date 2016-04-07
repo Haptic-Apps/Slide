@@ -442,6 +442,7 @@
             android:layout_height="36dp"
             android:layout_alignBottom="@+id/sort"
             android:layout_alignParentRight="true"
+            android:tint="?attr/tint"
             android:layout_marginBottom="8dp"
             android:layout_marginRight="16dp"
             android:padding="8dp"

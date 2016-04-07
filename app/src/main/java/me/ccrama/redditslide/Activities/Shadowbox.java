@@ -3,7 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import net.dean.jraw.models.Submission;
@@ -115,7 +115,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public void updateError() {
     }
 
-    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+    public class OverviewPagerAdapter extends FragmentPagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);

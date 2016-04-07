@@ -115,6 +115,9 @@ public class ContentType {
             } else {
                 url = url.replaceFirst("^//", "https://");
             }
+            if(isDomain(url, "reddituploads.com")){
+                return ImageType.IMAGE;
+            }
             if (isDomain(url, "reddit.com") || isDomain(url, "redd.it")) {
                 return ImageType.REDDIT;
             }
@@ -242,6 +245,9 @@ public class ContentType {
             url = "reddit.com" + url;
         } else {
             url = url.replaceFirst("^//", "https://");
+        }
+        if(isDomain(url, "reddituploads.com")){
+            return ImageType.IMAGE;
         }
         if(isDomain(url, "vid.me")){
             return ImageType.VID_ME;
