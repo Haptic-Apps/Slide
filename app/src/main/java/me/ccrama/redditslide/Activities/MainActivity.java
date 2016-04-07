@@ -2052,7 +2052,7 @@ public class MainActivity extends BaseActivity {
             }
         }
         //Only refresh the view if a Setting was altered
-        if (Settings.changed) {
+        if (Settings.changed || SettingsTheme.changed) {
             int current = pager.getCurrentItem();
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
@@ -2066,6 +2066,7 @@ public class MainActivity extends BaseActivity {
             if (SettingsTheme.changed) {
                 restartTheme();
             }
+            SettingsTheme.changed = false;
             Settings.changed = false;
         }
     }
