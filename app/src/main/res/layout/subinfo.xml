@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sidebar_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -38,8 +39,8 @@
                     android:id="@+id/sub_infotitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
                     android:layout_toLeftOf="@+id/subimage"
+                    android:paddingLeft="16dp"
                     android:text="/r/Android"
                     android:textColor="#fff"
                     android:textSize="18sp"
@@ -49,18 +50,19 @@
                     android:id="@+id/subscribers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="16dp"
-                    android:layout_toLeftOf="@+id/subimage"
                     android:layout_below="@+id/sub_infotitle"
+                    android:layout_toLeftOf="@+id/subimage"
+                    android:paddingLeft="16dp"
                     android:text="A sub for 2 years"
                     android:textColor="#fff"
                     android:textSize="14sp" />
+
                 <ImageView
-                    android:layout_width="50dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
                     android:id="@+id/subimage"
-                    android:layout_height="50dp" />
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true" />
             </RelativeLayout>
 
             <me.ccrama.redditslide.SpoilerRobotoTextView
@@ -141,57 +143,105 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="16dp"
+                android:orientation="vertical"
                 android:paddingEnd="16dp"
-                android:orientation="vertical">
+                android:paddingStart="16dp">
 
-                <Button
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:id="@+id/theme"
-                    android:text="@string/subreddit_theme"
-                    android:drawableStart="@drawable/theme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="16dp"
-                    android:theme="?android:attr/buttonBarButtonStyle"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:textAllCaps="true" />
+                    android:layout_height="wrap_content">
 
-                <Button
+                    <ImageView
+                        android:layout_width="48dp"
+                        app:srcCompat="@drawable/theme"
+                        android:padding="12dp"
+                        android:layout_height="48dp" />
+
+                    <Button
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:paddingLeft="52dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="16dp"
+                        android:text="@string/subreddit_theme"
+                        android:textAllCaps="true"
+                        android:theme="?android:attr/buttonBarButtonStyle"
+                       />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:id="@+id/wiki"
-                    android:text="@string/sidebar_wiki"
-                    android:drawableStart="@drawable/wiki"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="16dp"
-                    android:theme="?android:attr/buttonBarButtonStyle"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:textAllCaps="true" />
+                    android:layout_height="wrap_content">
 
-                <Button
+                    <ImageView
+                        android:layout_width="48dp"
+                        app:srcCompat="@drawable/wiki"
+                        android:padding="12dp"
+                        android:layout_height="48dp" />
+
+                    <Button
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:paddingLeft="52dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="16dp"
+                        android:text="@string/sidebar_wiki"
+                        android:textAllCaps="true"
+                        android:theme="?android:attr/buttonBarButtonStyle"
+                      />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:id="@+id/submit"
-                    android:text="@string/editor_submit"
-                    android:drawableStart="@drawable/send"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="16dp"
-                    android:theme="?android:attr/buttonBarButtonStyle"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:textAllCaps="true" />
+                    android:layout_height="wrap_content">
 
-                <Button
+                    <ImageView
+                        android:layout_width="48dp"
+                        app:srcCompat="@drawable/send"
+                        android:padding="12dp"
+                        android:layout_height="48dp" />
+
+                    <Button
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:paddingLeft="52dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="16dp"
+                        android:text="@string/editor_submit"
+                        android:textAllCaps="true"
+                        android:theme="?android:attr/buttonBarButtonStyle"
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:id="@+id/mods"
-                    android:text="@string/sidebar_mods"
-                    android:drawableStart="@drawable/mod"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawablePadding="16dp"
-                    android:theme="?android:attr/buttonBarButtonStyle"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:textAllCaps="true" />
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        app:srcCompat="@drawable/mod"
+                        android:padding="12dp"
+                        android:layout_height="48dp" />
+
+                    <Button
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="wrap_content"
+                        android:paddingLeft="52dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="16dp"
+                        android:text="@string/sidebar_mods"
+                        android:textAllCaps="true"
+                        android:theme="?android:attr/buttonBarButtonStyle"
+                        app:srcCompat="@drawable/theme" />
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -203,8 +253,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <me.ccrama.redditslide.SpoilerRobotoTextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <me.ccrama.redditslide.SpoilerRobotoTextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/sidebar_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
