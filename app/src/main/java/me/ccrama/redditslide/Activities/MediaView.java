@@ -109,8 +109,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         b.sheet(2, external, "Open externally");
         b.sheet(5, share, "Share link");
-        if(!isGif)
-        b.sheet(3, image, "Share image");
+        if (!isGif)
+            b.sheet(3, image, "Share image");
         b.sheet(4, save, "Save image");
         b.listener(new DialogInterface.OnClickListener() {
             @Override
@@ -124,7 +124,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         shareImage(contentUrl);
                     }
                     break;
-                    case (5):{
+                    case (5): {
                         Reddit.defaultShareText(contentUrl, MediaView.this);
                     }
                     case (4): {
@@ -161,11 +161,12 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     @Override
     public void onDestroy() {
         super.onDestroy();
+        ((SubsamplingScaleImageView) findViewById(R.id.submission_image)).recycle();
         if (gif != null)
             gif.cancel(true);
         doOnClick = null;
-        if(!didLoadGif){
-            if(fileLoc != null && !fileLoc.isEmpty()){
+        if (!didLoadGif) {
+            if (fileLoc != null && !fileLoc.isEmpty()) {
                 new File(fileLoc).delete();
             }
         }
@@ -410,7 +411,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
         findViewById(R.id.gifprogress).setVisibility(View.GONE);
         LogUtil.v(contentUrl);
-        if(contentUrl.contains("m.imgur.com")) contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
+        if (contentUrl.contains("m.imgur.com"))
+            contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
         if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.contains("imgur.com")) || contentUrl != null && contentUrl.contains(".jpg") && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
             findViewById(R.id.progress).setVisibility(View.VISIBLE);
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);

@@ -141,6 +141,13 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 case IMAGE:
                 case NONE_GFY:
                 case NONE_GIF:
+                case REDDIT:
+                case EMBEDDED:
+                case LINK:
+                case IMAGE_LINK:
+                case NSFW_LINK:
+                case VIDEO:
+                case NONE_URL:
                 case NONE_IMAGE:
                 {
                     f = new MediaFragment();
@@ -154,51 +161,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     args.putString("firstUrl", previewUrl);
                     args.putInt("page", i);
                     args.putString("sub", subreddit);
-                    f.setArguments(args);
-                }
-                break;
-                case REDDIT: {
-                    f = new ImageFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-
-                    f.setArguments(args);
-                }
-                break;
-                case EMBEDDED: {
-                    f = new ImageFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-
-                    f.setArguments(args);
-                }
-                break;
-                case LINK: {
-                    f = new ImageFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-
-                    f.setArguments(args);
-                }
-                break;
-                case IMAGE_LINK: {
-                    f = new ImageFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-
-                    f.setArguments(args);
-                }
-                break;
-                case NSFW_LINK: {
-                    f = new ImageFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-
                     f.setArguments(args);
                 }
                 break;
@@ -257,24 +219,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     }
                 }
                 break;
-                case VIDEO: {
-                    f = new ImageFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
 
-                    f.setArguments(args);
-                }
-                break;
-                case NONE_URL: {
-                    f = new ImageFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-
-                    f.setArguments(args);
-                }
-                break;
                 default: {
                     f = new ImageFull();
                     Bundle args = new Bundle();
