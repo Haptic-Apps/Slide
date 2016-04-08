@@ -16,7 +16,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -90,9 +90,9 @@ public class MultiredditOverview extends BaseActivityAnim {
         int currentOrientation = getResources().getConfiguration().orientation;
         if (((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             position = ((LinearLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() - 1;
-        } else if (((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+        } else if (((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
             int[] firstVisibleItems = null;
-            firstVisibleItems = ((StaggeredGridLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+            firstVisibleItems = ((CatchStaggeredGridLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
             if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                 position = firstVisibleItems[0] - 1;
             }

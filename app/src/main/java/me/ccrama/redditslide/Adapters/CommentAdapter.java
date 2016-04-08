@@ -2179,7 +2179,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     .show();
 
         } else {
-            if (currentSelectedItem.contains(comment.getFullName())) {
+            if (currentSelectedItem != null && currentSelectedItem.contains(comment.getFullName())) {
                 doUnHighlighted(holder, comment, baseNode, true);
             } else {
                 doHighlighted(holder, comment, baseNode, finalPos, finalPos1, true);

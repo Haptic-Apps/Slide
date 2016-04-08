@@ -305,10 +305,7 @@ public class SubredditPosts implements PostLoader {
                 }
 
             }
-            start = 0;
-            if (posts != null) {
-                start = posts.size() + 1;
-            }
+
 
 
             List<Submission> filteredSubmissions = new ArrayList<>();
@@ -330,7 +327,10 @@ public class SubredditPosts implements PostLoader {
 
             if (!usedOffline)
                 OfflineSubreddit.getSubreddit(subreddit.toLowerCase()).overwriteSubmissions(posts).writeToMemory();
-
+            start = 0;
+            if (posts != null) {
+                start = posts.size() + 1;
+            }
             return things;
         }
     }

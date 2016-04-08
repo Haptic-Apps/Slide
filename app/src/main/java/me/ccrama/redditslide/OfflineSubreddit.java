@@ -33,8 +33,8 @@ public class OfflineSubreddit {
 
     public void writeToMemory() {
         if (subreddit != null) {
+            System.gc();
             if (dataNodes == null) {
-
                 String s = System.currentTimeMillis() + "<SEPARATOR>";
                 for (Submission sub : submissions) {
                     s = s + (sub.getDataNode().toString()) + "<SEPARATOR>";

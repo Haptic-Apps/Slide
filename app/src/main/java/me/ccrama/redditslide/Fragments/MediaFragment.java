@@ -305,6 +305,7 @@ public class MediaFragment extends Fragment {
                         URL obj = new URL(finalUrl2);
                         URLConnection conn = obj.openConnection();
                         final String type = conn.getHeaderField("Content-Type");
+                        if(getActivity() != null)
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

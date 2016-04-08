@@ -16,7 +16,6 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +50,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
@@ -87,9 +87,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 position = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
                 smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), rv.getLayoutManager());
 
-            } else if (rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+            } else if (rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
                 int[] firstVisibleItems = null;
-                firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                 if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                     position = firstVisibleItems[0];
                     (rv.getLayoutManager()).smoothScrollToPosition(rv, new RecyclerView.State(), position - 1);
@@ -119,9 +119,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 position = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
                 smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), rv.getLayoutManager());
 
-            } else if (rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+            } else if (rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
                 int[] firstVisibleItems = null;
-                firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                 if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                     position = firstVisibleItems[0];
                     (rv.getLayoutManager()).smoothScrollToPosition(rv, new RecyclerView.State(), position + 1);
@@ -181,9 +181,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             }
             final RecyclerView.LayoutManager mLayoutManager;
             if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-                mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+                mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
             } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-                mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                mLayoutManager = new CatchStaggeredGridLayoutManager(2, CatchStaggeredGridLayoutManager.VERTICAL);
             } else {
                 mLayoutManager = new PreCachingLayoutManager(getContext());
             }
@@ -195,10 +195,10 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             final RecyclerView.LayoutManager mLayoutManager;
 
             if (rv.getAdapter() != null) {
-                if (rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                if (rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
                     int[] firstVisibleItems = null;
                     try {
-                        firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                        firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                     } catch (Exception e) {
                         firstVisibleItems = new int[]{0, 1};
                     }
@@ -210,9 +210,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             }
             if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-                mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+                mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
             } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-                mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                mLayoutManager = new CatchStaggeredGridLayoutManager(2, CatchStaggeredGridLayoutManager.VERTICAL);
             } else {
                 mLayoutManager = new PreCachingLayoutManager(getContext());
             }
@@ -235,9 +235,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-            mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+            mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-            mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            mLayoutManager = new CatchStaggeredGridLayoutManager(2, CatchStaggeredGridLayoutManager.VERTICAL);
 
         } else {
             mLayoutManager = new PreCachingLayoutManager(getActivity());
@@ -364,7 +364,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         }
                     } else {
                         int[] firstVisibleItems = null;
-                        firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                        firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                         if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                             for (int i = 0; i < firstVisibleItems.length; i++) {
                                 pastVisiblesItems = firstVisibleItems[i];

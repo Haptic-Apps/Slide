@@ -11,7 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,9 +65,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-            mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+            mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-            mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            mLayoutManager = new CatchStaggeredGridLayoutManager(2, CatchStaggeredGridLayoutManager.VERTICAL);
         } else {
             mLayoutManager = new PreCachingLayoutManager(getActivity());
         }
@@ -182,72 +182,74 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 refreshLayout.setRefreshing(true);
             }
         });
-        posts = new MultiredditPosts(UserSubscriptions.getMultireddits().get(id).getDisplayName());
+        if (UserSubscriptions.getMultireddits() != null && !UserSubscriptions.getMultireddits().isEmpty()) {
+            posts = new MultiredditPosts(UserSubscriptions.getMultireddits().get(id).getDisplayName());
 
-        adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
-        rv.setAdapter(adapter);
-        rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
-        posts.loadMore(getActivity(), this, true, adapter);
+            adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
+            rv.setAdapter(adapter);
+            rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
+            posts.loadMore(getActivity(), this, true, adapter);
 
-        refreshLayout.setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        posts.loadMore(getActivity(), MultiredditView.this, true, adapter);
+            refreshLayout.setOnRefreshListener(
+                    new SwipeRefreshLayout.OnRefreshListener() {
+                        @Override
+                        public void onRefresh() {
+                            posts.loadMore(getActivity(), MultiredditView.this, true, adapter);
 
-                        //TODO catch errors
-                    }
-                }
-        );
-
-        rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                visibleItemCount = rv.getLayoutManager().getChildCount();
-                totalItemCount = rv.getLayoutManager().getItemCount();
-                if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
-                    pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                    if (SettingValues.scrollSeen) {
-                        if (pastVisiblesItems > 0) {
-                            HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                            //TODO catch errors
                         }
                     }
-                } else {
-                    int[] firstVisibleItems = null;
-                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                        for (int i = 0; i < firstVisibleItems.length; i++) {
-                            pastVisiblesItems = firstVisibleItems[i];
-                            if (SettingValues.scrollSeen) {
-                                if (pastVisiblesItems > 0) {
-                                    HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+            );
+
+            rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    visibleItemCount = rv.getLayoutManager().getChildCount();
+                    totalItemCount = rv.getLayoutManager().getItemCount();
+                    if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
+                        pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                        if (SettingValues.scrollSeen) {
+                            if (pastVisiblesItems > 0) {
+                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                            }
+                        }
+                    } else {
+                        int[] firstVisibleItems = null;
+                        firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                        if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                            for (int i = 0; i < firstVisibleItems.length; i++) {
+                                pastVisiblesItems = firstVisibleItems[i];
+                                if (SettingValues.scrollSeen) {
+                                    if (pastVisiblesItems > 0) {
+                                        HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                if (!posts.loading) {
-                    if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount && !posts.nomore) {
-                        posts.loading = true;
-                        posts.loadMore(getActivity(), MultiredditView.this, false, adapter);
+                    if (!posts.loading) {
+                        if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount && !posts.nomore) {
+                            posts.loading = true;
+                            posts.loadMore(getActivity(), MultiredditView.this, false, adapter);
+                        }
+                    }
+                    if (fab != null) {
+                        if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
+
+                            fab.show();
+
+
+                        } else {
+                            fab.hide();
+
+                        }
                     }
                 }
-                if (fab != null) {
-                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
-
-                        fab.show();
-
-
-                    } else {
-                        fab.hide();
-
-                    }
-                }
-            }
-        });
+            });
+        }
         return v;
     }
 
@@ -305,9 +307,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             }
             final RecyclerView.LayoutManager mLayoutManager;
             if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-                mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+                mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
             } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-                mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                mLayoutManager = new CatchStaggeredGridLayoutManager(2, CatchStaggeredGridLayoutManager.VERTICAL);
             } else {
                 mLayoutManager = new PreCachingLayoutManager(getContext());
             }
@@ -319,9 +321,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             final RecyclerView.LayoutManager mLayoutManager;
 
             if (rv.getAdapter() != null) {
-                if (rv.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                if (rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
                     int[] firstVisibleItems = null;
-                    firstVisibleItems = ((StaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+                    firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         i = firstVisibleItems[0];
                     }
@@ -330,9 +332,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 }
             }
             if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-                mLayoutManager = new StaggeredGridLayoutManager(Reddit.dpWidth, StaggeredGridLayoutManager.VERTICAL);
+                mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
             } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-                mLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                mLayoutManager = new CatchStaggeredGridLayoutManager(2, CatchStaggeredGridLayoutManager.VERTICAL);
             } else {
                 mLayoutManager = new PreCachingLayoutManager(getContext());
             }
