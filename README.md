@@ -57,7 +57,7 @@ If you have any questions, feel free to
 
 ## Changelog
 
-The file [History.md](History.md) provides an overview of the changes for a
+The file [CHANGELOG.md](CHANGELOG.md) provides an overview of the changes for a
 release; for a more detailed look at changes to the app, [view individual
 commits](https://github.com/ccrama/Slide/commits/master).
 
