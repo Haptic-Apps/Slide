@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -505,6 +506,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
         if (getActivity() != null) {
+            if(getActivity() instanceof MainActivity){
+                if(((MainActivity)getActivity()).runAfterLoad != null){
+                    new Handler().post(((MainActivity)getActivity()).runAfterLoad);
+                }
+            }
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -564,7 +570,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateOffline(List<Submission> submissions, final long cacheTime) {
-
+        if(getActivity() instanceof MainActivity){
+            if(((MainActivity)getActivity()).runAfterLoad != null){
+                new Handler().post(((MainActivity)getActivity()).runAfterLoad);
+            }
+        }
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(false);
             Toast.makeText(mSwipeRefreshLayout.getContext(), getString(R.string.offline_last_update, TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext())), Toast.LENGTH_SHORT).show();
@@ -576,12 +586,22 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateOfflineError() {
+        if(getActivity() instanceof MainActivity){
+            if(((MainActivity)getActivity()).runAfterLoad != null){
+                new Handler().post(((MainActivity)getActivity()).runAfterLoad);
+            }
+        }
         mSwipeRefreshLayout.setRefreshing(false);
         adapter.setError(true);
     }
 
     @Override
     public void updateError() {
+        if(getActivity() instanceof MainActivity){
+            if(((MainActivity)getActivity()).runAfterLoad != null){
+                new Handler().post(((MainActivity)getActivity()).runAfterLoad);
+            }
+        }
         mSwipeRefreshLayout.setRefreshing(false);
         adapter.setError(true);
     }

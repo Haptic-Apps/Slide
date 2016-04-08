@@ -228,12 +228,7 @@ public class Authentication {
                                 Reddit.notifications.start(mContext);
 
                             }
-
-                            Thread.sleep(2000);
-                            UserSubscriptions.doOnlineSyncing();
-                            LogUtil.v("Syncing stuff");
-
-
+                            Reddit.notFirst = true;
                             return null;
 
                         }
@@ -251,6 +246,8 @@ public class Authentication {
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);
                         reddit.authenticate(authData);
                         Authentication.name = "LOGGEDOUT";
+                        Reddit.notFirst = true;
+
                         return null;
 
                     } catch (Exception e) {

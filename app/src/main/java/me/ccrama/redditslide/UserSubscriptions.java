@@ -95,7 +95,6 @@ public class UserSubscriptions {
 
 
     public static void doOnlineSyncing() {
-
         if (Authentication.mod) {
             doModOf();
         }
@@ -309,6 +308,7 @@ public class UserSubscriptions {
         }
         subscriptions.edit().putString("subhistory", history).apply();
     }
+
     public static void addSubsToHistory(ArrayList<String> s2, boolean b) {
         String history = subscriptions.getString("subhistory", "").toLowerCase();
         for (String s : s2) {
