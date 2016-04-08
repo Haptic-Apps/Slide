@@ -76,6 +76,7 @@ import net.dean.jraw.http.RestResponse;
 import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.CommentSort;
+import net.dean.jraw.models.LoggedInAccount;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.models.UserRecord;
@@ -1212,10 +1213,11 @@ public class MainActivity extends BaseActivity {
                                                     d = true;
                                                     LogUtil.v("Switching to " + s);
                                                     if (!accounts.get(s).isEmpty()) {
-                                                        Authentication.authentication.edit().putString("lasttoken", accounts.get(s)).commit();
+                                                        Authentication.authentication.edit().putString("lasttoken", accounts.get(s)).remove("backedCreds").commit();
+
                                                     } else {
                                                         ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                                                        Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(s))).commit();
+                                                        Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(s))).remove("backedCreds").commit();
                                                     }
                                                     Authentication.name = s;
                                                     UserSubscriptions.switchAccounts();
@@ -1226,7 +1228,7 @@ public class MainActivity extends BaseActivity {
                                             if (!d) {
                                                 Authentication.name = "";
                                                 Authentication.isLoggedIn = false;
-                                                Authentication.authentication.edit().remove("lasttoken").commit();
+                                                Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").commit();
                                                 UserSubscriptions.switchAccounts();
                                                 Reddit.forceRestart(MainActivity.this, true);
                                             }
@@ -1248,10 +1250,10 @@ public class MainActivity extends BaseActivity {
                         if (!accName.equalsIgnoreCase(Authentication.name)) {
                             LogUtil.v("Switching to " + accName);
                             if (!accounts.get(accName).isEmpty()) {
-                                Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).commit();
+                                Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).remove("backedCreds").commit();
                             } else {
                                 ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                                Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).commit();
+                                Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).remove("backedCreds").commit();
                             }
 
                             Authentication.name = accName;
@@ -1305,8 +1307,9 @@ public class MainActivity extends BaseActivity {
             }
             headerMain = header;
 
-            if(runAfterLoad == null)
-            new AsyncNotificationBadge().execute();
+            if (runAfterLoad == null) {
+                new AsyncNotificationBadge().execute();
+            }
 
         } else if (Authentication.didOnline) {
             header = inflater.inflate(R.layout.drawer_loggedout, drawerSubList, false);
@@ -1538,7 +1541,7 @@ public class MainActivity extends BaseActivity {
         }
         final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
         if (keys.size() == 0) {
-            Authentication.authentication.edit().remove("lasttoken").commit();
+            Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").commit();
 
             Reddit.forceRestart(this, true);
         } else {
@@ -1740,7 +1743,6 @@ public class MainActivity extends BaseActivity {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 d.dismiss();
                                 recreate();
-
                                 break;
                             }
                         }
@@ -2448,7 +2450,14 @@ public class MainActivity extends BaseActivity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                count = Authentication.reddit.me().getInboxCount(); //Force reload of the LoggedInAccount object
+                LoggedInAccount me;
+                if(Authentication.me ==null){
+                    Authentication.me = Authentication.reddit.me();
+                    me = Authentication.me;
+                } else {
+                    me = Authentication.reddit.me();
+                }
+                count = me.getInboxCount(); //Force reload of the LoggedInAccount object
                 int oldCount = Reddit.appRestart.getInt("inbox", 0);
                 if (count > oldCount) {
                     final Snackbar s = Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new View.OnClickListener() {

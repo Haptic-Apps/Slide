@@ -10,12 +10,14 @@ import android.util.Log;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.RedditClient;
+import net.dean.jraw.http.LoggingMode;
 import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.http.oauth.Credentials;
 import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthHelper;
 import net.dean.jraw.models.LoggedInAccount;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -51,6 +53,7 @@ public class Authentication {
             hasDone = true;
             isLoggedIn = false;
             reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
+            reddit.setLoggingMode(LoggingMode.ALWAYS);
             didOnline = true;
 
             new VerifyCredentials(context).execute();
@@ -78,6 +81,8 @@ public class Authentication {
         new UpdateToken(c).execute();
     }
 
+    public static boolean authedOnce;
+
     public class UpdateToken extends AsyncTask<Void, Void, Void> {
 
         Context context;
@@ -88,83 +93,91 @@ public class Authentication {
 
         @Override
         protected Void doInBackground(Void... params) {
-            if (NetworkUtil.isConnected(context)) {
-                didOnline = true;
-                if (name != null && !name.isEmpty()) {
-                    Log.v(LogUtil.getTag(), "REAUTH");
-                    if (isLoggedIn) {
-                        try {
-
-                            final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
-                            Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
-
-                            OAuthHelper oAuthHelper = reddit.getOAuthHelper();
-
-                            oAuthHelper.setRefreshToken(refresh);
-                            OAuthData finalData = oAuthHelper.refreshToken(credentials);
-
-
-                            reddit.authenticate(finalData);
-                            refresh = reddit.getOAuthHelper().getRefreshToken();
-
-                            if (reddit.isAuthenticated()) {
-                                if (me == null) {
-                                    me = reddit.me();
-                                }
-                                Reddit.over18 = me.isOver18();
-                                Authentication.isLoggedIn = true;
-
-                            }
-                            Log.v(LogUtil.getTag(), "AUTHENTICATED");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    } else {
-                        final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
-                        OAuthData authData = null;
-                        try {
-
-                            authData = reddit.getOAuthHelper().easyAuth(fcreds);
-                            Authentication.name = "LOGGEDOUT";
-                            mod = false;
-
-
-                            reddit.authenticate(authData);
-                            Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
-
-                        } catch (Exception e) {
+            if (authedOnce) {
+                if (NetworkUtil.isConnected(context)) {
+                    didOnline = true;
+                    if (name != null && !name.isEmpty()) {
+                        Log.v(LogUtil.getTag(), "REAUTH");
+                        if (isLoggedIn) {
                             try {
-                                ((Activity) context).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
-                                                .setMessage(R.string.err_no_connection)
-                                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        new UpdateToken(context).execute();
-                                                    }
-                                                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Reddit.forceRestart(context);
 
-                                            }
-                                        }).show();
+                                final Credentials credentials = Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
+                                Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
+
+                                OAuthHelper oAuthHelper = reddit.getOAuthHelper();
+
+                                oAuthHelper.setRefreshToken(refresh);
+                                OAuthData finalData;
+                                if (authentication.contains("backedCreds") && authentication.getLong("expires", 0) > Calendar.getInstance().getTimeInMillis()) {
+                                    finalData = oAuthHelper.refreshToken(credentials, authentication.getString("backedCreds", "")); //does a request
+                                } else {
+                                    finalData = oAuthHelper.refreshToken(credentials); //does a request
+                                    authentication.edit().putLong("expires", finalData.getExpirationDate().getTime()).apply();
+                                }
+                                authentication.edit().putString("backedCreds", finalData.getDataNode().toString()).apply();
+                                reddit.authenticate(finalData);
+                                refresh = oAuthHelper.getRefreshToken();
+                                refresh = reddit.getOAuthHelper().getRefreshToken();
+
+                                if (reddit.isAuthenticated()) {
+                                    if (me == null) {
+                                        me = reddit.me();
                                     }
-                                });
-                            } catch (Exception ignored) {
+                                    Reddit.over18 = me.isOver18();
+                                    Authentication.isLoggedIn = true;
 
+                                }
+                                Log.v(LogUtil.getTag(), "AUTHENTICATED");
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            //TODO fail
+
+                        } else {
+                            final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
+                            OAuthData authData = null;
+                            LogUtil.v("Not logged in");
+                            try {
+
+                                authData = reddit.getOAuthHelper().easyAuth(fcreds);
+                                Authentication.name = "LOGGEDOUT";
+                                mod = false;
+
+
+                                reddit.authenticate(authData);
+                                Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
+
+                            } catch (Exception e) {
+                                try {
+                                    ((Activity) context).runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
+                                                    .setMessage(R.string.err_no_connection)
+                                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            new UpdateToken(context).execute();
+                                                        }
+                                                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    Reddit.forceRestart(context);
+
+                                                }
+                                            }).show();
+                                        }
+                                    });
+                                } catch (Exception ignored) {
+
+                                }
+                                //TODO fail
+                            }
                         }
+
+
                     }
 
-
                 }
-
-
             }
             return null;
 
@@ -194,13 +207,19 @@ public class Authentication {
                     oAuthHelper.setRefreshToken(token);
 
                     try {
-                        OAuthData finalData = oAuthHelper.refreshToken(credentials);
-
+                        OAuthData finalData;
+                        if (authentication.contains("backedCreds") && authentication.getLong("expires", 0) > Calendar.getInstance().getTimeInMillis()) {
+                            finalData = oAuthHelper.refreshToken(credentials, authentication.getString("backedCreds", "")); //does a request
+                        } else {
+                            finalData = oAuthHelper.refreshToken(credentials); //does a request
+                            authentication.edit().putLong("expires", finalData.getExpirationDate().getTime()).apply();
+                        }
+                        authentication.edit().putString("backedCreds", finalData.getDataNode().toString()).apply();
                         reddit.authenticate(finalData);
                         refresh = oAuthHelper.getRefreshToken();
 
                         Authentication.isLoggedIn = true;
-                        me = reddit.me();
+                        authedOnce = true;
                         Reddit.over18 = me.isOver18();
 
                         if (Reddit.notificationTime != -1) {
@@ -238,7 +257,7 @@ public class Authentication {
                     didOnline = true;
 
                 } else {
-                    Log.v(LogUtil.getTag(), "NOT LOGGED IN");
+                    LogUtil.v("NOT LOGGED IN");
 
                     final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                     OAuthData authData = null;

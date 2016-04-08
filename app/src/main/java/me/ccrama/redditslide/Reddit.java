@@ -34,6 +34,7 @@ import java.io.Writer;
 import java.lang.ref.WeakReference;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,6 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class Reddit extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
     public static final String EMPTY_STRING = "NOTHING";
-    public static final long BACKGROUND_DELAY = 500;
 
     public static final long enter_animation_time_original = 600;
     public static final String PREF_LAYOUT = "PRESET";
@@ -87,15 +87,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean over18;
     public static boolean overrideLanguage;
     private final List<Listener> listeners = new ArrayList<>();
-    private final Handler mBackgroundDelayHandler = new Handler();
     public boolean active;
-    public boolean mInBackground = true;
-    boolean firstStart = false;
-    boolean hasDone;
-    boolean hasDone2;
     private ImageLoader defaultImageLoader;
-    private boolean closed = false;
-    private Runnable mBackgroundTransition;
     public static boolean isRestarting;
 
     public static void forceRestart(Context context) {
@@ -311,81 +304,22 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return defaultImageLoader;
     }
 
-    public void registerListener(Listener listener) {
-        listeners.add(listener);
-    }
 
-    public void unregisterListener(Listener listener) {
-        listeners.remove(listener);
-    }
 
-    public boolean isInBackground() {
-        return mInBackground;
-    }
+    static boolean notFirst = false;
 
-    static boolean notFirst;
     @Override
     public void onActivityResumed(Activity activity) {
 
-        if(notFirst) {
-            if (mBackgroundTransition != null) {
-                mBackgroundDelayHandler.removeCallbacks(mBackgroundTransition);
-                mBackgroundTransition = null;
-            }
-
-            if (mInBackground) {
-                mInBackground = false;
-                notifyOnBecameForeground();
-
-                if (hasDone && hasDone2) {
-
-                    authentication.updateToken(activity);
-                } else if (authentication == null) {
-                    authentication = new Authentication(this);
-
-
-                } else if (hasDone) {
-                    hasDone2 = true;
-                } else {
-                    hasDone = true;
-                }
-
-            }
+        if(authentication != null && authentication.reddit.getOAuthData() != null && authentication.reddit.getOAuthData().getExpirationDate().getTime() <= Calendar.getInstance().getTimeInMillis()){
+            authentication.updateToken(activity);
         }
 
     }
 
-    private void notifyOnBecameForeground() {
-        for (Listener listener : listeners) {
-            try {
-                listener.onBecameForeground();
-            } catch (Exception e) {
-            }
-        }
-    }
 
     @Override
     public void onActivityPaused(Activity activity) {
-        if (!mInBackground && mBackgroundTransition == null) {
-            mBackgroundTransition = new Runnable() {
-                @Override
-                public void run() {
-                    mInBackground = true;
-                    mBackgroundTransition = null;
-                    notifyOnBecameBackground();
-                }
-            };
-            mBackgroundDelayHandler.postDelayed(mBackgroundTransition, BACKGROUND_DELAY);
-        }
-    }
-
-    private void notifyOnBecameBackground() {
-        for (Listener listener : listeners) {
-            try {
-                listener.onBecameBackground();
-            } catch (Exception e) {
-            }
-        }
     }
 
     public static void setDefaultErrorHandler(Context base) {

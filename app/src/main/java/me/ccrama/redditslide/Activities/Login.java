@@ -191,6 +191,7 @@ public class Login extends BaseActivityAnim {
                     tokens.add(refreshToken);
                     editor.putStringSet("tokens", tokens);
                     editor.putString("lasttoken", refreshToken);
+                    editor.remove("backedCreds");
                     Reddit.appRestart.edit().remove("back").commit();
                     editor.commit();
                 } else {
