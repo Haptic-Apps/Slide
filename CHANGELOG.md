@@ -1,3 +1,495 @@
+5.1.0 / 2016-04-07
+==================
+
+  * Added a reply FAB to comments
+  * Added frontpage and all to first start not logged in
+  * Added search for multireddits
+  * Added support for reddituploads.com images
+  * Collapse comments when long pressing on a highlighted comment
+  * Cut start-up time by many API calls (down 3 seconds in my testing)
+  * Externalise and tweak strings
+  * Fixed build error related to album_image.xml
+  * Fixed crash creating a top-level reply
+  * Fixed images flashing in subreddit sidebar
+  * Fixed inserting images on the comment pane layout
+  * Fixed link syncing with Reddit gold
+  * Fixed many Shadowbox issues
+  * Fixed some issues with navigating comments and showing the parent comment
+  * Fixed some issues with the AsyncSaveTask
+  * Fixed some issues with the Tutorial activity and colors
+  * Fixed the activity restarting if no visual changes are made in settings
+  * Hid the body text if it was just a newline in the card paragraph mode, Fixed filtering offset not working
+  * Hide the FAB if replying to a comment
+  * Made comments not lose collapsed state after commenting
+  * Made replying to comments not reload the whole comment view, and instead insert into the current dataset (using my latest change on /ccrama/JRAW)
+  * Made seekbar not show in Shadowbox mode
+  * Made the Snackbar text always white
+  * Replace hardcoded '/sdcard' references
+  * Set FLAG_ACTIVITY_NO_HISTORY on the Chrome CustomTab Intent prior to launch. This prevents the webpage to keep running when the Activity is moved to the background.
+  * Updated Gradle
+  * Updated translations
+
+5.0.4 / 2016-04-05
+==================
+
+  * Added a catch if the header height is 0 while laying out the top spacer in the Submission view
+  * Added a preview markdown button to all send fields
+  * Added a tiny font option in Font Settings
+  * Added an announcement system which checks for stickied posts marked as 'Announcement' on /r/slideforreddit on first open
+  * Added clear button to the drawer text field
+  * Added setting for default comment sorting
+  * Added the ability to distinguish comments and sticky comments
+  * Added the new menu style to the album view images/gifs
+  * Cleaned up login layout
+  * Fixed album height jumping on scroll
+  * Fixed crash if image is too large to display correctly
+  * Fixed crash opening comments
+  * Fixed gif loading issue in album view
+  * Fixed images not loading first time when clicking from comments
+  * Fixed inbox crash
+  * Fixed incorrect font color on light theme comment menu
+  * Fixed loading m.imgur.com links
+  * Fixed offline mode comments not loading
+  * Fixed opening file in the backup activity
+  * Fixed PTR offset in comments for np.reddit links
+  * Fixed sharing images directly not working
+  * Fixed some hiding post bugs
+  * Fixed zooming in internal browser
+  * Lots of theme fixes for KitKat
+  * Made Imgur content follow the SettingValues.image setting (follows whether to show images in app or not)
+  * Made loading into the zooming state as fast as loading into the image state
+  * Made sub history follow the Settings > History settings (and only save if the sub exists)
+  * Made the announcement dialog into its own activity
+  * Made the comment nav bar hide when typing a reply
+  * Made the MediaView load into the zooming state by default and removed the option to load into the non-zooming state first
+  * Made your subscribed subs add as history subs automatically
+  * Moved the share image and share link buttons from a popup to the 3 dot menu in the MediaView
+  * New AMOLED theme with more contrast
+  * Now replying to a comment saves the state, and you can scroll up and down without losing your input
+  * Reduced memory usage saving submissions
+  * Sped up view scrolling speed (removed resetViewBeforeLoading from the UIL config)
+  * Updated black/white icons for widgets
+  * Use suggested comment sort for submissions from a list
+
+5.0.3 / 2016-03-31
+==================
+
+  * Added internal Vid.me support
+  * Added new buttons to the sidebar
+  * Added tooltips to the sidebar buttons
+  * Changed to Imgur API v3
+  * Fix not being able to open comment menu
+  * Fixed comment layout when comment is fully collapsed and then expanded
+  * Fixed some z axis issues on KitKat
+
+5.0.2 / 2016-03-30
+==================
+
+  * Account for code.reddit.com
+  * Accurate SwipeRefreshLayout offset for all devices
+  * Added a bottomsheet with actions to the Inbox
+  * Added an inbox count snackbar if you have new messages since last visit
+  * Added setting for first paragraph of selftext on submissions
+  * Added setting to change image/gif save location
+  * Added support for showing friends
+  * Allow adding 21 character subreddits
+  * Allow typing /r/reddit.com
+  * Collapse parent comments regardless of settings
+  * Correct offset for pull-to-refresh in SubmissionsView
+  * Enables 'help' wiki links and reddit.com/wiki
+  * Externalise and tweak some strings
+  * Fixed black background on single submissions
+  * Fixed failing test, add more content/link type tests
+  * Fixed hiding sometimes ghosting the current view
+  * Fixed login not working
+  * Fixed lots of bugs with the new swiping system and the sidebar being populated with the wrong list of subs
+  * Fixed moving parent comments after collapsing some
+  * Fixed name of overflow menu item
+  * Fixed navigating comments not working
+  * Fixed NSFW Imgur links not being tagged correctly
+  * Fixed posts not opening
+  * Fixed removing all accounts keeping you logged in
+  * Fixed some inconsistencies with the new swipe system, now it should look and act like the old system!
+  * Insert new subreddits into sorted order if list was already sorted
+  * Made CommentsScreen and SubredditView use a new swipe layout (using a ViewPager) instead of SwipeViewLayout in order to better handle scrolling
+  * Made opening non-subscribed subreddits save history for later visiting
+  * Made paragraph in card mode default off
+  * Made swiping to exit comments and single subreddit look and act more like the SwipeBackLayout system
+  * Made the submission vote and save animation area smaller (more stability)
+  * More improvements to the new swipe to close system
+  * Pull to refresh offset now starts behind toolbar in all views
+  * Recoded the SubredditStorage to not use static arrays and work much faster
+  * Setting for collapsing comments by default
+  * Stricter URL content type checks
+  * Tweaked design of profiles (font and vote color)
+  * Tweaked the edit submission design (now it's a bottom sheet)
+  * Updated translations
+
+5.0.1 / 2016-03-26
+==================
+
+  * Added option to override default language
+  * Added option to show the domain name in the info bar
+  * LOTS of bug fixes and improvements
+
+5.0.0 / 2016-03-25
+================
+
+  * Added /r/mod modqueue to the ModQueue activity
+  * Added a 'Largest' font size for comments and submissions
+  * Added a 'Show content' button to the comments screen (view content at any time)
+  * Added a 'Show parent comment' button to comment menu
+  * Added a Data saving section to Settings
+  * Added a discover screen with popular and trending subs
+  * added a flavor for no gplay version
+  * Added a MediaFragment to replace the ImageFull and Gif fragments
+  * Added a moderators button to the subreddit sidebar
+  * Added a search button in Discover to search for subs by name or topic
+  * Added a small content tag in info bar if big pic is disabled
+  * Added ability to backup and restore from file (in addition to Google Drive)
+  * Added ability to edit submissions
+  * Added ability to force full comment view in Multicolumn settings
+  * Added album titles to the text popup on the AlbumPager
+  * Added an option to show more items in the subreddit toolbar
+  * Added approved tag and who approved to submissions in subs you moderate
+  * Added autocomplete for your subscriptions in the Submit screen
+  * Added better detection of spoiler links (should support all common ones now)
+  * Added editor actions to comment edit screen
+  * Added grid popup for albums
+  * Added method in OpenRedditLink to just show comments without option to load more
+  * Added mod tools to comments
+  * Added option for smaller and less obtrusive content tag on big images
+  * Added option to hide header image on selftext submissions
+  * Added SettingsHistory activity.
+  * Added sorting to profiles
+  * Added submit button to the toolbar overflow
+  * Added support for 'Continue this thread'
+  * Added support for flairing submissions
+  * Added support for reporting comments and submissions
+  * Added support for some Reddit preferences in Settings > Reddit preferences. Included is option to show thumbnails, nsfw content, and set the thumbnail type
+  * Added trophies, gold expiry, and user since to the Profile info button
+  * Added unmoderated panel to the Modqueue activity
+  * Added user tagging
+  * Addeed a new 'MediaView' which handles images, gifs, and imgur content. It displays the initial image while doing imgur checks and if it's a gif, it loads the gif or does nothing if it's an image. This saves data and makes loading content much faster
+  * Changed SettingsTheme activity to use a triple choice option for subreddit tinting
+  * Changed the PopulateSubmissionViewHolder method of setting info (switched to a SpannableStringBuilder, added color tags and user tags)
+  * Check content type on PNG images (in case it's a gif)
+  * Fixed /r/all and frontpage not being added to sub list on first load of subs
+  * Fixed a big content logic bug with loading images
+  * Fixed archived and locked status not showing up for direct comment links
+  * Fixed black background on Synccit settings
+  * Fixed choppyness in the comment swipe layout
+  * Fixed comment fragment being destroyed on re-open
+  * Fixed crash if search parameter contained a `:`
+  * Fixed crash issues and data issues with the ModPage fragment and adapter
+  * Fixed crash opening the last sub on comment swipe layout
+  * Fixed crash starting first time
+  * Fixed dark background in History settings
+  * Fixed dataset not being changed when changing accounts
+  * Fixed duplicate setting in General settings
+  * Fixed flickering returning to submission view
+  * Fixed i.imgur.com links opening webview on top
+  * Fixed incorrect RoundedBackgroundSpan sizes
+  * Fixed lag in MediaView
+  * Fixed MediaView not tiling images (led to RAM use and speed issues)
+  * Fixed missing content tags for some Imgur links
+  * Fixed multireddit sorting
+  * Fixed newline in whatsnew.xml
+  * Fixed not selecting the correct tab on return from settings or sorting
+  * Fixed ordered lists not showing without an unordered list present
+  * Fixed posts getting out of order if hiding while loading more data
+  * Fixed progress bar not showing in albums
+  * Fixed reporting of comments
+  * Fixed some bugs with the comment parent dialog
+  * Fixed some bugs with the profile info dialog
+  * Fixed some crashes
+  * Fixed some galleries not showing more than 10 images
+  * Fixed some images not opening
+  * Fixed some incorrect content tags
+  * Fixed some more bugs with the MediaView and MediaFragment
+  * Fixed some Settings toolbar styles
+  * Fixed sorting on multis and subreddits, Updated JRAW version to fix sorting of non-submission paginators
+  * Fixed spacing in ModPage RecyclerView
+  * Fixed the ripple type on media view buttons
+  * Fixed threading issues with mark posts as read on scroll turned on
+  * Fixed thumbnail overlay on gifs
+  * Fixed visibility of smaller content tag on lightly colored backgrounds
+  * Go to correct position tapping the grid item in the vertical album view
+  * Handle tagging NSFW posts correctly and cleaned up ContentType
+  * Made AMOLED background a tad darker
+  * Made hide NSFW content work per-account
+  * Made history settings work in the SubmissionView as well
+  * Made it so you can't sort /r/friends (reddit limitation)
+  * Made light theme text a bit lighter
+  * Made linking to specific wiki pages work, Added support for /w wiki urls
+  * Made links work in album descriptions
+  * Made MediaView and MediaFragment play video onResume
+  * Made posts show as read correctly coming back from comments
+  * Made Slide load 50 submissions by default instead of 25 (alleviates the 'No more posts' issue)
+  * Made submission reload on comment refresh
+  * Made the refresh button and spacer height use the correct offset height value in comments
+  * Made the SubsamplingScaleImageView switch to a different ImageRegionDecoder if 'Image failed to decode using JPEG decoder'
+  * Made view type a multi-choice item in General Settings
+  * Make surrounding spaces inside flairs nonbreaking
+  * More improvements to comment reports
+  * Moved comment count settings to Post Layout settings
+  * Much better swipe logic for comment swipe layout
+  * New comment menu with more options
+  * Re-introduced color sub name only
+  * Removed in-app handling of NSFW previews, instead make it follow the Reddit default. This allows it to be per-account and interfaces better with Reddit.com
+  * Show selftext in 'Show content' in the CommentPage fragment
+  * Support for locked submissions
+  * Support links with custom search parameters
+  * Switched to new code to fully kill and restart Slide using ProcessPhoenix, Should fix some issues after login and switching accounts
+  * Table autosync for now
+  * Tentative fix for lag in some images
+  * Tons of bug fixes and improvements
+  * Totally revamped submission mod tools, No longer crashes and now utilizes the bottom sheet
+  * Updated the dark theme
+
+4.7.5 / 2016-03-20
+==================
+
+  * Added animations to the flip icons in the drawer
+  * Added more options to the sidebar under Profile
+  * Added support for Streamable.com content piggybacking off of the GifView activity
+  * Changed the icon in drawables to the new icon
+  * Crash fixes
+  * Fixed some index issues in Comments and Submissions
+  * Fixed some streamable issues
+  * Made clicking Profile in sidebar go straight to the Profile activity
+  * More powerful Multireddit editor, Can now add un-subscribed subs to Multireddits
+  * New icon is here
+  * Removed old icons from drawables
+  * Support for /f spoilers
+  * Updated translations
+
+4.7.4 / 2016-03-12
+==================
+
+  * Added a reload button to the 'No more posts' footer
+  * Added setting to always open certain domains externally, ignoring other link handling settings
+  * Added sidebar button to MainActivity
+  * Comment, Wiki, and Submission bug fixes and improvements
+  * Fixed double selection on sidebar button in MainActivity
+  * Fixed FAB not showing in reorder screen if FABs are disabled
+  * Fixed inability to remove domains from the always open externally Settings screen
+  * Fixes to the Customtabs util
+  * Hide sidebars in /r/mod and /r/friends
+  * Improved comment color tags, Moved op, mod, and you tags to the author text
+  * Lots of bug fixes and improvements
+  * Made tags centered and look better, Merged the other spannables into the RoundedBackgroundSpan
+  * Made the save button in comments and submissions show the correct state (save or unsave)
+  * Promote special subreddits to the top of the list when sorting
+  * Re-ordered search dialog buttons
+  * Redesigned comment menu using BottomSheets
+  * Removed the tooltip tutorial, Replaced it with a swipe tutorial for content (images, gifs, albums) and a different swipe tutorial for comments (more info about enabling swipe from anywhere)
+  * Use default share in chrome custom tabs, open custom tabs directly if package available
+
+4.7.3.2 / 2016-03-12
+====================
+
+  * Bugfixes, Fixed embedded content opening twice
+
+4.7.3.1 / 2016-03-11
+====================
+
+  * Added a comments since last seen feature
+  * Better handling of finding resource value in CommentOverflow
+  * Converted the multiple views used for tags into spannables that look like tags (faster inflation and smoother scrolling)
+  * Fix streamables opening externally
+  * Fixed crash on some galleries
+  * Fixed cut off 'PINNED' tag
+  * Fixed description button in the AlbumPager
+  * Fixed filters not re-applying after leaving the Filter Settings screen
+  * Fixed heights of some tags
+  * Fixed issue with tables in CommentOverflow
+  * Fixed some cut off text on submission views
+  * Improved album view
+  * Improved gif view in album pager
+  * Improvements to the submission views
+  * Made buttons in AlbumPager work for the image fragment
+  * Made clicking the image in a notification work
+  * Made comment last visit count a setting
+  * Made CommentsScreen handle orientation instead of getting it through intent
+  * Made gild flair same height as the other flairs
+  * Made Multireddit adapter and fragment work closer to how the Submission adapter and fragment work
+  * Made Multireddits and Single Subreddit views rotate correctly
+  * Made the comment view use only one TextView for the title and created the rest of the formatting with spans, Some more improvement to submission tag spans
+  * Made the CommentOverflow class use the correct theme attributes
+  * Merged CommentsScreenPopup with CommentsScreen
+  * More album fixes
+  * More comment tag fixes
+  * Start of widget code for the future
+
+4.7.2 / 2016-03-10
+==================
+
+  * Better direct linking to context support
+  * Fixed clearing seen posts clearing the wrong data
+  * Fixed filters filtering all posts out of a value is a space or newline
+  * Fixed inability to open direct links
+  * Fixed some back buttons not working, Made caching comments cancellable
+  * Hopeful fix for the slow scrolling issue and high CPU usage
+  * Lots of bug fixes
+  * Lots of improvements to the CommentsScreen code and adapter, attempt to fix scrolling lag
+  * Many comment view improvements
+  * More back arrow and comment screen fixes
+  * Much improved filter screen
+  * Removed Video handler settings
+  * Some code reformatting
+  * Start of major improvements to scrolling smoothness in comments
+
+4.7.0 / 2016-03-08
+==================
+
+  * Added a 'quick filter' button to the overflow menu, Now you can filter submissions by content type on a per-subreddit basis
+  * Added a better animation to submissions views
+  * Added a compose message button to inbox
+  * Added a new 'Dark Blue' base theme
+  * Added a reset button to the sub theme dialog that resets all the customization values (also works with multiple select)
+  * Added a setting for low res image previews to save data
+  * Added animation for hiding/showing children comments,
+  * Added animations for voting
+  * Added animations to full post submission view
+  * Added checkbox item to the overflow menu to override showing big pics in a sub
+  * Added content activity entrance animation
+  * Added debug build target
+  * Added edit time and controversial status to comments
+  * Added editor actions to the send message screen
+  * Added fab to SubredditView
+  * Added long press to show actionbar setting
+  * Added multi select to reorder subreddit screen
+  * Added new library for use in emote processing.
+  * Added new post style to fullscreen submission view
+  * Added setting option to switch thumbnail position
+  * Added style to Post Layout settings, Now uses multi select popups and more consise options for less confusion and more direct customization
+  * Added submit button to navigation drawer under Profile
+  * Added support for /c spoilers
+  * Added tap to go to top for MainActivity, Multireddits, and SubredditView
+  * Added TeslaUnread support for messages
+  * Added title to url when sharing a submission
+  * Added vote states to replace the bad voting code based on the submission objects. Now it respects changes between activities and is much cleaner
+  * Added voting flash animation
+  * Allow user to add subreddits with spaces in them
+  * AutoFit text for multireddits displayed in drawer
+  * Changed sub theme activity to use the RecyclerView instad of a ListView
+  * Complete Shadowbox revamp, New Shadowbox view layouts, New fading animation while zooming and scrolling in Shadowbox, Removed GIF controls from Gif in Shadowbox, Added deepzoom to images in Shadowbox
+  * Content activity backgrounds darkened
+  * Converted all drawable resources to Vector drawables for smaller APK and less memory use
+  * Fixed accent colors not saving
+  * Fixed album crash if no layoutmanger is set
+  * Fixed alpha on some images getting set to 0.2 on zoom out in Shadowbox
+  * Fixed another crash when first starting Slide
+  * Fixed back arrow on Multireddits and Search
+  * Fixed bottom sheet being the wrong color
+  * Fixed bottom sheet style not matching the base theme
+  * Fixed bug changing the amber accent color and the dark blue theme
+  * Fixed comment color disappearing on full hide
+  * Fixed comment screen crashing for some users due to a view that is too big to animate
+  * Fixed comment scrolling arrows (made them work again)
+  * Fixed crash changing subreddit theme from the overflow menu
+  * Fixed crash if checking for filter on the frontpage
+  * Fixed crash in album view of Shadowbox
+  * Fixed crash opening sub theme activity
+  * Fixed crash opening the Submit activity
+  * Fixed crash when first starting Slide
+  * Fixed crashing if trying to instantiate a fragment which doesn't have data yet in the MainActivity
+  * Fixed double comments if collapse fully is enabled
+  * Fixed duplicate posts in main view
+  * Fixed duplication of moving items to top in sort screen
+  * Fixed extra spacing in recyclerview after updating support libraries
+  * Fixed extra spacing on Search activity, Fixed toolbar not hiding in search results, Made FAB autohide in Subreddit Settings
+  * Fixed filters (and switched away from regex which was a bit overkill)
+  * Fixed first items in submission view being laggy
+  * Fixed height of item separators in settings
+  * Fixed height of views in Multireddit editor
+  * Fixed incorrect menu in Link Handling settings
+  * Fixed incorrect thumbnail placement if long press actionbar is enabled
+  * Fixed multicolumn and configuration changes getting ignored
+  * Fixed out of bounds error with CommentsScreenPopup
+  * Fixed rotation crash
+  * Fixed save button not working in full view
+  * Fixed some album issues in Shadowbox
+  * Fixed some image saving logic flow fixes
+  * Fixed some lag in list view
+  * Fixed some more spacing issues in Search's toolbar
+  * Fixed some settings being disabled because of old code
+  * Fixed sorting always showing hot
+  * Fixed spacing issues on right side of toolbar actions in the Inbox Activity
+  * Fixed submission view 'jumping' after returning from comments
+  * Fixed subreddit list from getting replaced after sort
+  * Fixed theme chooser for blue theme
+  * Fixed toolbar not working in KitKat
+  * Fixed toolbar on top of content on pre-lolipop devices
+  * Forced font size in whatsnew.xml
+  * HtmlSpanner didn't play well with others, so it's now removed and implemented code by searching for existing converted Spans.
+  * Imgur gifs are no longer transcribed through Gfycat
+  * Improved loading of data from the FragmentStatePagerAdapter (no more instantiating fragments)
+  * Improved scrolling FPS in submission views
+  * Improved the submission BottomSheet
+  * Improvements to Font settings screen
+  * Improvements to sorting mode switcher
+  * Lots of scrolling smoothness improvements
+  * Made a sub show up in the SubredditSettings page if it has the big pics value set
+  * Made actionbar collapse after voting, saving, or hiding
+  * Made actionbar show/hide animate in/out
+  * Made big pic cropped setting work
+  * Made browser select menu work
+  * Made button to change subreddit theme in the toolbar overflow menu
+  * Made centered image setting work
+  * Made comment scrolling instant instead of slow scrolling
+  * Made donation view scrollable
+  * Made FAB in compose message screen not cover up the text
+  * Made fab setting in General settings work with a popup
+  * Made HasSeen respect gold viewed posts as well, Bug fixes
+  * Made image links check the mime type from the content header before loading if not from Imgur or Reddit, and open the appropriate view if not an image
+  * Made images and title turn opaque instead of the whole view
+  * Made it possible to set the big pics enabled for multiple subs
+  * Made list actionbar items correct height when actionbar is toggled
+  * Made list view less cramped
+  * Made popup in toolbar use the current theme style
+  * Made reply area expand out in main post of comments view
+  * Made returning only refresh the clicked view instead of animating all current items in the recyclerview
+  * Made save and hide buttons behave properly in edit layout screen
+  * Made saving work across activities using the new ActionStates class
+  * Made Search toolbar autocollapse (for real this time)
+  * Made Slide ask the user to choose save location for images and gifs (will fix all the content not saving issues)
+  * Made tapping the thumbnail turn the content opaque like the head image
+  * Made the correct dialogs show in gif error messages
+  * Made the default notification time 6 hours instead of 1 hour
+  * Made the FullscreenImage view use a new UIL configuration to fix resolution issues
+  * Made the gif cache stay at or under 50 mb
+  * Made the link insert EditText font readable on Light theme
+  * Made the url unescape if loading half-quality images
+  * Made toggle dark theme button open a base theme dialog with all four theme options
+  * Many changes and improvements to various setting layouts and logic
+  * More accurate fragment handling in MainActivity
+  * More concise names for theme options in overflow menu
+  * Moved list and center image cards to the new layout
+  * Moved set big pics enabled for this sub to the sub theme dialog box
+  * Moved to a new bottom sheet dialog for submission overflow menu
+  * Multi select improvements in reorder screen
+  * Re-added support for hiding the actionbar, Submission views now have a 3 dot menu to enable/disable the actionbar if it's hidden
+  * Re-formatted Settings and General Settings layout to be more in line with standard preference styles, Removed some extraneous settings
+  * Redid logic on how the SubmissionsView fragment should choose wether to load content or remain in a loading state
+  * Refresh recyclerview when returning from comments screen (updates vote and seen status)
+  * Remove youtube player .jar, open normally instead.
+  * Removed alphabetical subreddit list
+  * Removed alphabetical subreddit sidebar option
+  * Removed option to disable animations in the main layout
+  * Removed setting option to hide actionbar
+  * Removed some niche or uneccessary settings
+  * Removed some unused files and resources
+  * Revamped look of Comment settings
+  * Revert "AutoFit text for multireddits displayed in drawer"
+  * Scrolling improvements, View flattening
+  * Slide now only loads the currently vibile sub (less data use, less lag when populating intial data)
+  * Some text value improvements for the subreddit theme dialog
+  * Support loading custom sub emotes from storage. Only tested with http://dinsfire.com/projects/reddit-emotes/
+  * Update translations
+  * When a comment is collapsed, the user can single tap on it to expand the comment if they have swap == true
+  * You can now share links and images to Slide for submitting, Fab in submit screen doesn't cover the text or editor anymore
 
 4.6.2 / 2016-02-23
 ==================
