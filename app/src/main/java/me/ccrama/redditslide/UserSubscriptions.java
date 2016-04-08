@@ -103,46 +103,6 @@ public class UserSubscriptions {
         loadMultireddits();
     }
 
-    public static ArrayList<String> sort(ArrayList<String> copy) {
-        ArrayList<String> subs = new ArrayList<>(copy);
-        ArrayList<String> finals = new ArrayList<>();
-        finals.add("frontpage");
-        finals.add("all");
-
-        if (subs.contains("frontpage")) {
-            subs.remove("frontpage");
-        }
-
-        if (subs.contains("all")) {
-            subs.remove("all");
-        }
-
-        if (subs.contains("random")) {
-            subs.remove("random");
-            finals.add("random");
-        }
-
-        if (subs.contains("randnsfw")) {
-            subs.remove("randnsfw");
-            finals.add("randnsfw");
-        }
-
-        if (subs.contains("friends")) {
-            subs.remove("friends");
-            finals.add("friends");
-        }
-
-        if (subs.contains("mod")) {
-            subs.remove("mod");
-            finals.add("mod");
-        }
-
-        java.util.Collections.sort(subs);
-        finals.addAll(subs);
-        return finals;
-
-    }
-
     public static ArrayList<String> toreturn;
     public static ArrayList<String> friends = new ArrayList<>();
 
@@ -419,38 +379,48 @@ public class UserSubscriptions {
         }.execute();
     }
 
-    public static ArrayList<String> sortNoExtras(ArrayList<String> copy) {
-        ArrayList<String> subs = new ArrayList<>(copy);
+    /**
+     * Sorts the subreddit ArrayList, keeping special subreddits at the top of the list
+     * (e.g. frontpage, all, the random subreddits). Always adds frontpage and all
+     *
+     * @param unsorted the ArrayList to sort
+     * @return the sorted ArrayList
+     * @see #sortNoExtras(ArrayList)
+     */
+    public static ArrayList<String> sort(ArrayList<String> unsorted) {
+        ArrayList<String> subs = new ArrayList<>(unsorted);
+
+        if (!subs.contains("frontpage")) {
+            subs.add("frontpage");
+        }
+
+        if (!subs.contains("all")) {
+            subs.add("all");
+        }
+
+        return sortNoExtras(subs);
+    }
+
+    /**
+     * Sorts the subreddit ArrayList, keeping special subreddits at the top of the list
+     * (e.g. frontpage, all, the random subreddits)
+     *
+     * @param unsorted the ArrayList to sort
+     * @return the sorted ArrayList
+     * @see #sort(ArrayList)
+     */
+    public static ArrayList<String> sortNoExtras(ArrayList<String> unsorted) {
+        ArrayList<String> subs = new ArrayList<>(unsorted);
         ArrayList<String> finals = new ArrayList<>();
+        final List<String> specialSubreddits = Arrays.asList(
+                "frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod"
+        );
 
-        if (subs.contains("frontpage")) {
-            subs.remove("frontpage");
-            finals.add("frontpage");
-        }
-
-        if (subs.contains("all")) {
-            subs.remove("all");
-            finals.add("all");
-        }
-
-        if (subs.contains("random")) {
-            subs.remove("random");
-            finals.add("random");
-        }
-
-        if (subs.contains("randnsfw")) {
-            subs.remove("randnsfw");
-            finals.add("randnsfw");
-        }
-
-        if (subs.contains("friends")) {
-            subs.remove("friends");
-            finals.add("friends");
-        }
-
-        if (subs.contains("mod")) {
-            subs.remove("mod");
-            finals.add("mod");
+        for (String subreddit : specialSubreddits) {
+            if (subs.contains(subreddit)) {
+                subs.remove(subreddit);
+                finals.add(subreddit);
+            }
         }
 
         java.util.Collections.sort(subs);

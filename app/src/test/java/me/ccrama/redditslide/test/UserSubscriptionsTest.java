@@ -15,8 +15,8 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by Alex Macleod on 28/03/2016.
  */
-public class SubredditStorageTest {
-    private ArrayList<String> subreddits = new ArrayList<>(Arrays.asList(
+public class UserSubscriptionsTest {
+    private final ArrayList<String> subreddits = new ArrayList<>(Arrays.asList(
             "xyy", "xyz", "frontpage", "mod", "friends", "random", "aaa"
     ));
 
