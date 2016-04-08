@@ -388,11 +388,25 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                                                     } else if (!imageShown) { //only load if there is no image
                                                                         doLoadImage(urls);
                                                                     }
+                                                                }  else if(obj.has("data")){
+                                                                    String type = obj.get("data").getAsJsonObject().get("type").getAsString();
+                                                                    String urls = obj.get("data").getAsJsonObject().get("link").getAsString();
+                                                                    String mp4 = "";
+                                                                    if(obj.get("data").getAsJsonObject().has("mp4")){
+                                                                        mp4 =obj.get("data").getAsJsonObject().get("mp4").getAsString();
+                                                                    }
+
+                                                                    if (type.contains("gif")) {
+                                                                        doLoadGif(((mp4==null||mp4.isEmpty())?urls:mp4));
+                                                                    } else if (!imageShown) { //only load if there is no image
+                                                                        doLoadImage(urls);
+                                                                    }
                                                                 } else {
                                                                     if (!imageShown)
                                                                         doLoadImage(finalUrl1);
                                                                 }
                                                             } catch (Exception e2) {
+                                                                e2.printStackTrace();
                                                                 Intent i = new Intent(MediaView.this, Website.class);
                                                                 i.putExtra(Website.EXTRA_URL, finalUrl);
                                                                 MediaView.this.startActivity(i);
