@@ -36,7 +36,6 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -723,39 +722,6 @@ public class SubredditView extends BaseActivityAnim {
                                         }).show();
                             }
                         }.execute();
-                    }
-                });
-
-                //Long press on buttons to get a "tooltip" describing the action
-                dialoglayout.findViewById(R.id.wiki).setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        Toast.makeText(v.getContext(), getString(R.string.sidebar_wiki), Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                });
-
-                dialoglayout.findViewById(R.id.submit).setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        Toast.makeText(v.getContext(), getString(R.string.editor_submit), Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                });
-
-                dialoglayout.findViewById(R.id.theme).setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        Toast.makeText(v.getContext(), getString(R.string.subreddit_theme), Toast.LENGTH_SHORT).show();
-                        return true;
-                    }
-                });
-
-                dialoglayout.findViewById(R.id.mods).setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        Toast.makeText(v.getContext(), getString(R.string.sidebar_mods), Toast.LENGTH_SHORT).show();
-                        return true;
                     }
                 });
             }
