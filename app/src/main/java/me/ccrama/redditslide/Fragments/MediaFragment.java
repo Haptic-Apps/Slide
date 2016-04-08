@@ -41,7 +41,6 @@ import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OfflineSubreddit;
-import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
@@ -305,24 +304,24 @@ public class MediaFragment extends Fragment {
                         URL obj = new URL(finalUrl2);
                         URLConnection conn = obj.openConnection();
                         final String type = conn.getHeaderField("Content-Type");
-                        if(getActivity() != null)
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (type != null && !type.isEmpty() && type.startsWith("image/")) {
-                                    //is image
-                                    if (type.contains("gif")) {
-                                        doLoadGif(finalUrl2.replace(".jpg", ".gif"));
-                                    } else if (!imageShown) {
-                                        displayImage(finalUrl2);
+                        if (getActivity() != null)
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (type != null && !type.isEmpty() && type.startsWith("image/")) {
+                                        //is image
+                                        if (type.contains("gif")) {
+                                            doLoadGif(finalUrl2.replace(".jpg", ".gif"));
+                                        } else if (!imageShown) {
+                                            displayImage(finalUrl2);
+                                        }
+                                        actuallyLoaded = finalUrl2;
+                                    } else {
+                                        if (!imageShown)
+                                            doLoadImage(finalUrl2);
                                     }
-                                    actuallyLoaded = finalUrl2;
-                                } else {
-                                    if (!imageShown)
-                                        doLoadImage(finalUrl2);
                                 }
-                            }
-                        });
+                            });
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -344,223 +343,220 @@ public class MediaFragment extends Fragment {
     }
 
     private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {
-        if (!PostMatch.openExternal(submission.getUrl())) {
 
-            switch (type) {
-                case NSFW_IMAGE:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openImage(contextActivity, submission);
+        switch (type) {
+            case NSFW_IMAGE:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        PopulateSubmissionViewHolder.openImage(contextActivity, submission);
 
-                        }
-                    });
-                    break;
-                case VID_ME:
-                case STREAMABLE:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (SettingValues.video) {
-                                Intent myIntent = new Intent(contextActivity, GifView.class);
+                    }
+                });
+                break;
+            case VID_ME:
+            case STREAMABLE:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (SettingValues.video) {
+                            Intent myIntent = new Intent(contextActivity, GifView.class);
 
-                                myIntent.putExtra(GifView.EXTRA_STREAMABLE, submission.getUrl());
-                                contextActivity.startActivity(myIntent);
+                            myIntent.putExtra(GifView.EXTRA_STREAMABLE, submission.getUrl());
+                            contextActivity.startActivity(myIntent);
 
-                            } else {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
-                            }
-                        }
-                    });
-                case EMBEDDED:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            if (SettingValues.video) {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
-                                String data = submission.getDataNode().get("media_embed").get("content").asText();
-                                {
-                                    Intent i = new Intent(contextActivity, FullscreenVideo.class);
-                                    i.putExtra(FullscreenVideo.EXTRA_HTML, data);
-                                    contextActivity.startActivity(i);
-                                }
-                            } else {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
-                            }
-                        }
-
-                    });
-                    break;
-                case NSFW_GIF:
-
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-                case NSFW_GFY:
-
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-                case REDDIT:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(), contextActivity);
-                        }
-                    });
-                    break;
-                case LINK:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            CustomTabUtil.openUrl(
-                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        }
-                    });
-                    break;
-                case IMAGE_LINK:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            CustomTabUtil.openUrl(
-                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        }
-                    });
-                    break;
-                case NSFW_LINK:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            CustomTabUtil.openUrl(
-                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        }
-                    });
-                    break;
-                case SELF:
-
-                    break;
-                case GFY:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-                case ALBUM:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-
-                            if (SettingValues.album) {
-                                if (SettingValues.albumSwipe) {
-                                    Intent i = new Intent(contextActivity, AlbumPager.class);
-                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                    contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
-                                } else {
-                                    Intent i = new Intent(contextActivity, Album.class);
-                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                    contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
-                                }
-
-
-                            } else {
-                                Reddit.defaultShare(submission.getUrl(), contextActivity);
-                            }
-
-                        }
-                    });
-                    break;
-                case DEVIANTART:
-                case IMAGE:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openImage(contextActivity, submission);
-
-                        }
-                    });
-                    break;
-                case GIF:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-                case NONE_GFY:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-                case NONE_GIF:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-
-                case NONE:
-
-                    break;
-                case NONE_IMAGE:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openImage(contextActivity, submission);
-
-
-                        }
-                    });
-                    break;
-                case NONE_URL:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            CustomTabUtil.openUrl(
-                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        }
-                    });
-                    break;
-                case VIDEO:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
+                        } else {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
                         }
-                    });
-            }
-        } else {
-            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                    }
+                });
+            case EMBEDDED:
+                base.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v2) {
+                        if (SettingValues.video) {
+                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            String data = submission.getDataNode().get("media_embed").get("content").asText();
+                            {
+                                Intent i = new Intent(contextActivity, FullscreenVideo.class);
+                                i.putExtra(FullscreenVideo.EXTRA_HTML, data);
+                                contextActivity.startActivity(i);
+                            }
+                        } else {
+                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                        }
+                    }
+
+                });
+                break;
+            case NSFW_GIF:
+
+                base.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v2) {
+                        PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
+
+                    }
+                });
+                break;
+            case NSFW_GFY:
+
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
+
+                    }
+                });
+                break;
+            case REDDIT:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(), contextActivity);
+                    }
+                });
+                break;
+            case LINK:
+                base.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v2) {
+                        CustomTabUtil.openUrl(
+                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
+                    }
+                });
+                break;
+            case IMAGE_LINK:
+                base.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v2) {
+                        CustomTabUtil.openUrl(
+                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
+                    }
+                });
+                break;
+            case NSFW_LINK:
+                base.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v2) {
+                        CustomTabUtil.openUrl(
+                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
+                    }
+                });
+                break;
+            case SELF:
+
+                break;
+            case GFY:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
+
+                    }
+                });
+                break;
+            case ALBUM:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+
+                        if (SettingValues.album) {
+                            if (SettingValues.albumSwipe) {
+                                Intent i = new Intent(contextActivity, AlbumPager.class);
+                                i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                contextActivity.startActivity(i);
+                                contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                            } else {
+                                Intent i = new Intent(contextActivity, Album.class);
+                                i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                contextActivity.startActivity(i);
+                                contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                            }
+
+
+                        } else {
+                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                        }
+
+                    }
+                });
+                break;
+            case DEVIANTART:
+            case IMAGE:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        PopulateSubmissionViewHolder.openImage(contextActivity, submission);
+
+                    }
+                });
+                break;
+            case GIF:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
+
+                    }
+                });
+                break;
+            case NONE_GFY:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
+
+                    }
+                });
+                break;
+            case NONE_GIF:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
+
+                    }
+                });
+                break;
+
+            case NONE:
+
+                break;
+            case NONE_IMAGE:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v2) {
+                        PopulateSubmissionViewHolder.openImage(contextActivity, submission);
+
+
+                    }
+                });
+                break;
+            case NONE_URL:
+                base.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v2) {
+                        CustomTabUtil.openUrl(
+                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
+                    }
+                });
+                break;
+            case VIDEO:
+                base.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                    }
+                });
         }
+
     }
 
     public void displayImage(final String url) {
@@ -720,6 +716,7 @@ public class MediaFragment extends Fragment {
                                 });
                             }
                         }
+
                         @Override
                         public void onLoadingCancelled(String imageUri, View view) {
                             Log.v(LogUtil.getTag(), "LOADING CANCELLED");
