@@ -184,7 +184,7 @@
                 <Button
                     android:id="@+id/mods"
                     android:text="@string/sidebar_mods"
-                    android:drawableStart="@drawable/support"
+                    android:drawableStart="@drawable/mod"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
