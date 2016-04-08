@@ -323,12 +323,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return mInBackground;
     }
 
-    static boolean first;
+    static boolean notFirst;
     @Override
     public void onActivityResumed(Activity activity) {
 
-        if(!first) {
-            first = true;
+        if(notFirst) {
             if (mBackgroundTransition != null) {
                 mBackgroundDelayHandler.removeCallbacks(mBackgroundTransition);
                 mBackgroundTransition = null;

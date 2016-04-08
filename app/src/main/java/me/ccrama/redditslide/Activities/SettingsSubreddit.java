@@ -60,6 +60,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_subreddit);
+        SettingsTheme.changed = true;
 
         setupAppBar(R.id.toolbar, R.string.title_subreddit_settings, true, true);
 

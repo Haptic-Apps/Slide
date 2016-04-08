@@ -206,7 +206,7 @@ public class MainActivity extends BaseActivity {
             new AsyncNotificationBadge().execute();
         } else if (requestCode == 3333) {
             this.data = data;
-            if(doImage != null){
+            if (doImage != null) {
                 Handler handler = new Handler();
                 handler.post(doImage);
             }
@@ -329,34 +329,44 @@ public class MainActivity extends BaseActivity {
             startActivity(i);
         } else {
             if (Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && !checkedPopups) {
-                new AsyncTask<Void, Void, Submission>() {
+                runAfterLoad = new Runnable() {
                     @Override
-                    protected Submission doInBackground(Void... params) {
-                        SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
-                        p.setLimit(2);
-                        ArrayList<Submission> posts = new ArrayList<>(p.next());
-                        for (Submission s : posts) {
-                            if (s.isStickied() && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName())) {
-                                Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
-                                return s;
+                    public void run() {
+                        runAfterLoad = null;
+                        new AsyncNotificationBadge().execute();
+                        new AsyncTask<Void, Void, Submission>() {
+                            @Override
+                            protected Submission doInBackground(Void... params) {
+                                UserSubscriptions.doOnlineSyncing();
+                                LogUtil.v("Doing this");
+                                SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
+                                p.setLimit(2);
+                                ArrayList<Submission> posts = new ArrayList<>(p.next());
+                                for (Submission s : posts) {
+                                    if (s.isStickied() && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName())) {
+                                        Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
+                                        return s;
+                                    }
+                                }
+                                return null;
                             }
-                        }
-                        return null;
-                    }
 
-                    @Override
-                    protected void onPostExecute(final Submission s) {
-                        checkedPopups = true;
-                        if (s != null) {
-                            Reddit.appRestart.edit().putString("page", s.getDataNode().get("selftext_html").asText()).apply();
-                            Reddit.appRestart.edit().putString("title", s.getTitle()).apply();
-                            Reddit.appRestart.edit().putString("url", s.getUrl()).apply();
+                            @Override
+                            protected void onPostExecute(final Submission s) {
+                                checkedPopups = true;
+                                if (s != null) {
+                                    Reddit.appRestart.edit().putString("page", s.getDataNode().get("selftext_html").asText()).apply();
+                                    Reddit.appRestart.edit().putString("title", s.getTitle()).apply();
+                                    Reddit.appRestart.edit().putString("url", s.getUrl()).apply();
 
-                            Intent i = new Intent(MainActivity.this, Announcement.class);
-                            startActivity(i);
-                        }
+                                    Intent i = new Intent(MainActivity.this, Announcement.class);
+                                    startActivity(i);
+                                }
+                            }
+                        }.execute();
                     }
-                }.execute();
+                };
+
             }
         }
 
@@ -451,6 +461,8 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    public Runnable runAfterLoad;
+
 
     public void updateSubs(ArrayList<String> subs) {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -513,7 +525,7 @@ public class MainActivity extends BaseActivity {
                     try {
                         String[] returned = new String[SynccitRead.newVisited.size()];
                         int i = 0;
-                        for(String s : SynccitRead.newVisited){
+                        for (String s : SynccitRead.newVisited) {
                             if (!s.contains("t3_")) {
                                 s = "t3_" + s;
                             }
@@ -1267,7 +1279,7 @@ public class MainActivity extends BaseActivity {
                 t.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!accName.equalsIgnoreCase(Authentication.name)) {
+                        if (!accName.equalsIgnoreCase(Authentication.name)) {
                             LogUtil.v("Switching to " + accName);
                             if (!accounts.get(accName).isEmpty()) {
                                 Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).commit();
@@ -1327,6 +1339,7 @@ public class MainActivity extends BaseActivity {
             }
             headerMain = header;
 
+            if(runAfterLoad == null)
             new AsyncNotificationBadge().execute();
 
         } else if (Authentication.didOnline) {
@@ -2053,7 +2066,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && headerMain != null) {
+        if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && headerMain != null && runAfterLoad == null) {
             new AsyncNotificationBadge().execute();
         }
 
