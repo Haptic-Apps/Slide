@@ -90,6 +90,7 @@ public class AlbumUtils {
 
         }
 
+        public boolean dontClose;
         public void doGallery(JsonObject result) {
             if (result != null && result.has("data")) {
                 Log.v(LogUtil.getTag(), result.toString());
@@ -109,7 +110,7 @@ public class AlbumUtils {
                         doWithData(jsons);
 
                     }
-                } else if (result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images")) {
+                } else if (result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images") ) {
                     JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
                     if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
                         overrideAlbum = true;
@@ -123,14 +124,20 @@ public class AlbumUtils {
 
                     }
                 } else if (result.get("data").getAsJsonObject().has("image")) {
-                    Intent i = new Intent(baseActivity, MediaView.class);
-                    if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
-                        i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
+                    if(dontClose){
+                        jsons.add(result.get("data").getAsJsonObject().get("image"));
+                        gallery = true;
+                        doWithData(jsons);
                     } else {
-                        i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
+                        Intent i = new Intent(baseActivity, MediaView.class);
+                        if (result.getAsJsonObject("data").getAsJsonObject("image").get("mimetype").getAsString().contains("gif")) {
+                            i.putExtra(GifView.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".gif"); //could be a gif
+                        } else {
+                            i.putExtra(FullscreenImage.EXTRA_URL, "http://imgur.com/" + result.getAsJsonObject("data").getAsJsonObject("image").get("hash").getAsString() + ".png"); //could be a gif
+                        }
+                        baseActivity.startActivity(i);
+                        baseActivity.finish();
                     }
-                    baseActivity.startActivity(i);
-                    baseActivity.finish();
                 }
             }
         }
@@ -173,7 +180,6 @@ public class AlbumUtils {
                             @Override
                             public void run() {
                                 doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
-
                             }
                         });
 
@@ -194,7 +200,7 @@ public class AlbumUtils {
                                                     doGallery(result);
                                                 }
                                             });
-                                        } else {
+                                        } else if(!dontClose) {
                                             Intent i = new Intent(baseActivity, Website.class);
                                             i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + hash);
                                             baseActivity.startActivity(i);
@@ -230,7 +236,7 @@ public class AlbumUtils {
                                                                  doAlbum(result);
                                                              }
                                                          });
-                                                     } else {
+                                                     } else if(!dontClose){
                                                          Intent i = new Intent(baseActivity, Website.class);
                                                          i.putExtra(Website.EXTRA_URL, "https://imgur.com/a" + hash);
                                                          baseActivity.startActivity(i);

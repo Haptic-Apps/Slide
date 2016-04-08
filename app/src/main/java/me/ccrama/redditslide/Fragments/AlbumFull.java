@@ -134,6 +134,7 @@ public class AlbumFull extends Fragment {
         String url;
         public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
             super(url, baseActivity);
+            dontClose = true;
             this.url = url;
         }
 
@@ -144,11 +145,12 @@ public class AlbumFull extends Fragment {
                 new LoadIntoRecycler(url.replace("/gallery", "/a"), getActivity()).execute();
             } else {
                 images = new ArrayList<>(jsonElements);
-                AlbumView adapter = new AlbumView(baseActivity, images, false, 0);
+                AlbumView adapter = new AlbumView(baseActivity, images, gallery, 0);
                 ((RecyclerView) list).setAdapter(adapter);
 
             }
         }
+
     }
 
     @Override
