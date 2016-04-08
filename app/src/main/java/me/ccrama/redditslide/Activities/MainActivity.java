@@ -338,7 +338,6 @@ public class MainActivity extends BaseActivity {
                             @Override
                             protected Submission doInBackground(Void... params) {
                                 UserSubscriptions.doOnlineSyncing();
-                                LogUtil.v("Doing this");
                                 SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
                                 p.setLimit(2);
                                 ArrayList<Submission> posts = new ArrayList<>(p.next());
