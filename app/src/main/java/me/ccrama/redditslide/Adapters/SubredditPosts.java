@@ -49,11 +49,19 @@ public class SubredditPosts implements PostLoader {
     public OfflineSubreddit cached;
     boolean doneOnce;
     Context c;
+    boolean force18;
 
     public SubredditPosts(String subreddit, Context c) {
         posts = new ArrayList<>();
         this.subreddit = subreddit;
         this.c = c;
+    }
+
+    public SubredditPosts(String subreddit, Context c, boolean force18) {
+        posts = new ArrayList<>();
+        this.subreddit = subreddit;
+        this.c = c;
+        this.force18 = force18;
     }
 
     @Override
@@ -233,7 +241,7 @@ public class SubredditPosts implements PostLoader {
 
                 List<Submission> finalSubs = new ArrayList<>();
                 for (Submission s : cached.submissions) {
-                    if (!PostMatch.doesMatch(s, subreddit)) {
+                    if (!PostMatch.doesMatch(s, subreddit, force18)) {
                         finalSubs.add(s);
                     }
                 }
@@ -291,8 +299,12 @@ public class SubredditPosts implements PostLoader {
 
             List<Submission> things = new ArrayList<>();
 
+
             try {
                 if (paginator != null && paginator.hasNext()) {
+                    if(force18){
+                        paginator.setObeyOver18(false);
+                    }
                     things.addAll(paginator.next());
                 } else {
                     nomore = true;
@@ -310,7 +322,7 @@ public class SubredditPosts implements PostLoader {
 
             List<Submission> filteredSubmissions = new ArrayList<>();
             for (Submission s : things) {
-                if (!PostMatch.doesMatch(s, paginator.getSubreddit())) {
+                if (!PostMatch.doesMatch(s, paginator.getSubreddit(), force18)) {
                     filteredSubmissions.add(s);
                 }
             }

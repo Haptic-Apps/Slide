@@ -125,7 +125,17 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         }, 500);
     }
-
+    public void refreshView(boolean ignore18) {
+        final RecyclerView.ItemAnimator a = listView.getItemAnimator();
+        listView.setItemAnimator(null);
+        notifyItemChanged(clicked);
+        listView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listView.setItemAnimator(a);
+            }
+        }, 500);
+    }
     public void refreshView(ArrayList<Integer> seen) {
         listView.setItemAnimator(null);
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();

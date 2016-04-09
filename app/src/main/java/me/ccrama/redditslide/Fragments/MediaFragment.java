@@ -70,10 +70,23 @@ public class MediaFragment extends Fragment {
     Submission s;
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onStop();
         ((SubsamplingScaleImageView) rootView.findViewById(R.id.submission_image)).recycle();
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            if (videoView != null) {
+                videoView.seekTo(0);
+                videoView.start();
+            }
+        }
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();

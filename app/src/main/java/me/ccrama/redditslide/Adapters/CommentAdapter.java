@@ -959,7 +959,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     public void onFocusChange(View v, boolean hasFocus) {
                                         if (hasFocus) {
                                             mPage.fastScroll.setVisibility(View.GONE);
-                                            if(mPage.fab != null)
+                                            if (mPage.fab != null)
                                                 mPage.fab.hide();
                                         } else if (SettingValues.fastscroll) {
                                             mPage.fastScroll.setVisibility(View.VISIBLE);
@@ -1730,7 +1730,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             try {
                                                 new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(), e.getText().toString());
                                                 currentSelectedItem = baseNode.getComment().getFullName();
-                                                dataSet.loadMoreReply(CommentAdapter.this );
+                                                dataSet.loadMoreReply(CommentAdapter.this);
                                                 d.dismiss();
                                             } catch (Exception e) {
                                                 ((Activity) mContext).runOnUiThread(new Runnable() {
@@ -1853,7 +1853,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     final int widthSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
                     final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
                     l2.measure(widthSpec2, heightSpec2);
-                    RelativeLayout.LayoutParams params2= (RelativeLayout.LayoutParams) baseView.getLayoutParams();
+                    RelativeLayout.LayoutParams params2 = (RelativeLayout.LayoutParams) baseView.getLayoutParams();
                     params2.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
                     params2.addRule(RelativeLayout.BELOW, R.id.commentOverflow);
                     baseView.setLayoutParams(params2);
@@ -1866,7 +1866,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void onFocusChange(View v, boolean hasFocus) {
                             if (hasFocus) {
                                 mPage.fastScroll.setVisibility(View.GONE);
-                                if(mPage.fab != null)
+                                if (mPage.fab != null)
                                     mPage.fab.hide();
                             } else if (SettingValues.fastscroll) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
@@ -1906,7 +1906,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             public void onFocusChange(View v, boolean hasFocus) {
                                 if (hasFocus) {
                                     mPage.fastScroll.setVisibility(View.GONE);
-                                    if(mPage.fab != null)
+                                    if (mPage.fab != null)
                                         mPage.fab.hide();
                                 } else if (SettingValues.fastscroll) {
                                     mPage.fastScroll.setVisibility(View.VISIBLE);
@@ -2732,6 +2732,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
         Drawable share = mContext.getResources().getDrawable(R.drawable.share);
         Drawable parent = mContext.getResources().getDrawable(R.drawable.commentchange);
+        Drawable permalink = mContext.getResources().getDrawable(R.drawable.link);
         Drawable report = mContext.getResources().getDrawable(R.drawable.report);
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -2741,6 +2742,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         parent.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        permalink.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
                 .title(Html.fromHtml(n.getBody()));
@@ -2760,6 +2762,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         b.sheet(5, gild, mContext.getString(R.string.comment_gild))
                 .sheet(7, copy, mContext.getString(R.string.submission_copy))
+                .sheet(23, permalink, "Load comment permalink")
                 .sheet(4, share, mContext.getString(R.string.comment_share));
         if (!currentBaseNode.isTopLevel()) {
             b.sheet(10, parent, "Show parent comment");
@@ -2812,6 +2815,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                    }
 
                                    break;
+                               case 23: {
+                                   String s = "https://reddit.com" + submission.getPermalink() +
+                                           n.getFullName().substring(3, n.getFullName().length()) + "?context=3";
+                                   new OpenRedditLink(mContext, s);
+
+                               }
+                               break;
                                case 5: {
                                    Intent i = new Intent(mContext, Website.class);
                                    i.putExtra(Website.EXTRA_URL, "https://reddit.com" + submission.getPermalink() +

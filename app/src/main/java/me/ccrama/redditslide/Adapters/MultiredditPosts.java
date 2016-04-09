@@ -218,7 +218,7 @@ public class MultiredditPosts implements PostLoader {
 
                 List<Submission> filteredSubmissions = new ArrayList<>();
                 for (Submission s : submissions) {
-                    if (!PostMatch.doesMatch(s, paginator.getMultiReddit().getDisplayName())) {
+                    if (!PostMatch.doesMatch(s, paginator.getMultiReddit().getDisplayName(), false)) {
                         filteredSubmissions.add(s);
                     }
                 }
@@ -258,7 +258,7 @@ public class MultiredditPosts implements PostLoader {
 
                 List<Submission> finalSubs = new ArrayList<>();
                 for (Submission s : cached.submissions) {
-                    if (!PostMatch.doesMatch(s, "multi" + multiReddit.getDisplayName().toLowerCase())) {
+                    if (!PostMatch.doesMatch(s, "multi" + multiReddit.getDisplayName().toLowerCase(), false)) {
                         finalSubs.add(s);
                     }
                 }

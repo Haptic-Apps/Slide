@@ -218,7 +218,7 @@ public class SubredditView extends BaseActivityAnim {
                 return true;
             case R.id.action_sort:
                 if (subreddit.equalsIgnoreCase("friends")) {
-                    Snackbar s  = Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT);
+                    Snackbar s = Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT);
                     View view = s.getView();
                     TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
@@ -317,7 +317,7 @@ public class SubredditView extends BaseActivityAnim {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
-        if(SettingValues.commentPager && SettingValues.single){
+        if (SettingValues.commentPager && SettingValues.single) {
             disableSwipeBackLayout();
         }
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -876,15 +876,15 @@ public class SubredditView extends BaseActivityAnim {
                     new AlertDialogWrapper.Builder(SubredditView.this)
                             .setTitle("/r/" + subreddit.getDisplayName() + " contains mature content.")
                             .setMessage("If you are over 18 and are willing to see adult content, you can enable this in Settings > Reddit Settings > Show NSFW content")
-                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    finish();
-                                }
-                            }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            .setCancelable(false).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
+                        }
+                    }).setNeutralButton("Continue anyway", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ((SubmissionsView) adapter.getCurrentFragment()).doAdapter(true);
                         }
                     }).show();
                 }
@@ -942,8 +942,6 @@ public class SubredditView extends BaseActivityAnim {
 
     public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
         private SubmissionsView mCurrentFragment;
-        private CommentPage mCurrentComments;
-
         public int size = 2;
 
         @Override
@@ -1026,8 +1024,6 @@ public class SubredditView extends BaseActivityAnim {
                         }
                     }
                 }
-            } else if (object instanceof CommentPage) {
-                mCurrentComments = (CommentPage) object;
             }
 
         }

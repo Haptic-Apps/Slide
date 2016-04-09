@@ -33,7 +33,7 @@ public class PostMatch {
     public static String[] externalDomain = null;
 
 
-    public static boolean doesMatch(Submission s, String baseSubreddit) {
+    public static boolean doesMatch(Submission s, String baseSubreddit, boolean ignore18) {
         String title = s.getTitle();
         String body = s.getSelftext();
         String domain = s.getUrl();
@@ -74,7 +74,7 @@ public class PostMatch {
 
         if (s.isNsfw()) {
             if (nsfw) contentMatch = true;
-            if (!Reddit.over18) contentMatch = true;
+            if (!Reddit.over18 && !ignore18) contentMatch = true;
         }
         switch (ContentType.getImageType(s)) {
 

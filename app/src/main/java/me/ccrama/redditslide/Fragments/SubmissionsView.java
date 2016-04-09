@@ -439,7 +439,28 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
         );
     }
+    public void doAdapter(boolean force18) {
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                if (posts == null || (posts != null && !posts.offline))
+                    mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
 
+        posts = new SubredditPosts(id, getContext(), force18);
+        adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
+        rv.setAdapter(adapter);
+        posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
+        mSwipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        refresh();
+                    }
+                }
+        );
+    }
     private List<Submission> clearSeenPosts(boolean forever) {
         if (adapter.dataSet.posts != null) {
 

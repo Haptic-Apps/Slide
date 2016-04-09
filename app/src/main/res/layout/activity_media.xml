@@ -62,7 +62,7 @@
             android:theme="@style/Ripple.List"
             android:padding="15dp"
             app:srcCompat="@drawable/hd"
-            android:tint="@color/white" />
+            android:tint="#e1e1e1" />
         <ImageView
             android:id="@+id/save"
             android:layout_width="56dp"
@@ -70,7 +70,7 @@
             android:theme="@style/Ripple.List"
             android:padding="15dp"
             app:srcCompat="@drawable/save"
-            android:tint="@color/white" />
+            android:tint="#e1e1e1" />
         <ImageView
             android:id="@+id/more"
             style="@style/Ripple.List"
@@ -82,7 +82,9 @@
             android:paddingRight="11dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
-            app:srcCompat="@drawable/more" />
+            app:srcCompat="@drawable/more"
+            android:tint="#e1e1e1" />
+
     </LinearLayout>
 
     <ProgressBar
