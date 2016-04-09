@@ -2634,7 +2634,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (params.length > 0) {
                 try {
-                    LogUtil.v("loading " + params[0]);
                     node.insertComment(Authentication.reddit, "t1_" + params[0]);
 
                     for (CommentNode n : node.walkTree()) {

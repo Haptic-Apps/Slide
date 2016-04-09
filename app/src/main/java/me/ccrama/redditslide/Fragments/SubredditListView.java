@@ -69,6 +69,7 @@ public class SubredditListView extends Fragment {
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, getActivity().findViewById(R.id.header)) {
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -105,6 +106,7 @@ public class SubredditListView extends Fragment {
 
             }
         });
+
 
         doAdapter();
 

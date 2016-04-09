@@ -165,11 +165,12 @@
                         android:layout_height="match_parent"
                         android:textStyle="bold"
                         android:layout_weight="1"
-                        android:clickable="false"
                         android:drawablePadding="16dp"
                         android:text="@string/subreddit_theme"
                         android:textAllCaps="true"
-                        android:theme="?android:attr/buttonBarButtonStyle"
+                        android:height="48dp"
+                        android:textColor="?attr/colorAccent"
+                        android:gravity="center_vertical"
                        />
                 </RelativeLayout>
 
@@ -190,12 +191,13 @@
                         android:paddingLeft="52dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:clickable="false"
                         android:textStyle="bold"
                         android:drawablePadding="16dp"
                         android:text="@string/sidebar_wiki"
                         android:textAllCaps="true"
-                        android:theme="?android:attr/buttonBarButtonStyle"
+                        android:height="48dp"
+                        android:textColor="?attr/colorAccent"
+                        android:gravity="center_vertical"
                       />
                 </RelativeLayout>
 
@@ -216,12 +218,13 @@
                         android:paddingLeft="52dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:clickable="false"
                         android:textStyle="bold"
                         android:drawablePadding="16dp"
                         android:text="@string/editor_submit"
                         android:textAllCaps="true"
-                        android:theme="?android:attr/buttonBarButtonStyle"
+                        android:height="48dp"
+                        android:textColor="?attr/colorAccent"
+                        android:gravity="center_vertical"
                         />
                 </RelativeLayout>
 
@@ -243,11 +246,12 @@
                         android:textStyle="bold"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:clickable="false"
                         android:drawablePadding="16dp"
                         android:text="@string/sidebar_mods"
                         android:textAllCaps="true"
-                        android:theme="?android:attr/buttonBarButtonStyle"
+                        android:height="48dp"
+                        android:textColor="?attr/colorAccent"
+                        android:gravity="center_vertical"
                         />
                 </RelativeLayout>
 

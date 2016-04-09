@@ -58,6 +58,9 @@ public class Website extends BaseActivityAnim {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.refresh:
                 v.reload();
                 return true;
@@ -95,7 +98,8 @@ public class Website extends BaseActivityAnim {
         client = new MyWebViewClient();
         v.setWebChromeClient(client);
         v.setWebViewClient(new WebViewClient());
-        v.getSettings().setSupportZoom(true);
+        v.getSettings().setBuiltInZoomControls(true);
+        v.getSettings().setDisplayZoomControls(false);
         v.getSettings().setJavaScriptEnabled(true);
         v.loadUrl(url);
 

@@ -64,8 +64,14 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
         imageView.setLayoutParams(new GridView.LayoutParams(size, size));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(getItem(position), imageView, options);
+        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(getSmallerImageUrl(getItem(position)), imageView, options);
         return imageView;
+    }
+
+    public String getSmallerImageUrl(String s){
+        s = s.substring(0, s.lastIndexOf("."));
+        s = s + "s.png";
+        return s;
     }
 
 }
