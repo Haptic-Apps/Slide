@@ -335,12 +335,11 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void run() {
                         runAfterLoad = null;
-                        if (Authentication.isLoggedIn)
-                            new AsyncNotificationBadge().execute();
+                        if (Authentication.isLoggedIn) new AsyncNotificationBadge().execute();
                         new AsyncTask<Void, Void, Submission>() {
                             @Override
                             protected Submission doInBackground(Void... params) {
-                                UserSubscriptions.doOnlineSyncing();
+                                if (Authentication.isLoggedIn) UserSubscriptions.doOnlineSyncing();
                                 SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
                                 p.setLimit(2);
                                 ArrayList<Submission> posts = new ArrayList<>(p.next());
@@ -2480,27 +2479,7 @@ public class MainActivity extends BaseActivity {
                     me = Authentication.reddit.me();
                 }
                 count = me.getInboxCount(); //Force reload of the LoggedInAccount object
-                int oldCount = Reddit.appRestart.getInt("inbox", 0);
-                if (count > oldCount) {
-                    final Snackbar s = Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(MainActivity.this, Inbox.class);
-                            startActivity(i);
-                        }
-                    });
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
-                        }
-                    });
 
-                }
-                Reddit.appRestart.edit().putInt("inbox", count).apply();
 
             } catch (Exception e) {
                 Log.w(LogUtil.getTag(), "Cannot fetch inbox count");
@@ -2511,6 +2490,8 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+
             if (Authentication.mod && headerMain.findViewById(R.id.mod).getVisibility() == View.GONE) {
                 headerMain.findViewById(R.id.mod).setVisibility(View.VISIBLE);
                 headerMain.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
@@ -2521,6 +2502,24 @@ public class MainActivity extends BaseActivity {
                     }
                 });
             }
+
+            int oldCount = Reddit.appRestart.getInt("inbox", 0);
+            if (count > oldCount) {
+                final Snackbar s = Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(MainActivity.this, Inbox.class);
+                        startActivity(i);
+                    }
+                });
+
+                View view = s.getView();
+                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.WHITE);
+                s.show();
+            }
+            Reddit.appRestart.edit().putInt("inbox", count).apply();
+
             View badge = headerMain.findViewById(R.id.count);
             if (count == 0) {
                 if (badge != null) badge.setVisibility(View.GONE);
