@@ -99,6 +99,7 @@ import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.CommentPage;
@@ -344,7 +345,7 @@ public class MainActivity extends BaseActivity {
                                 p.setLimit(2);
                                 ArrayList<Submission> posts = new ArrayList<>(p.next());
                                 for (Submission s : posts) {
-                                    if (s.isStickied() && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName())) {
+                                    if (s.isStickied() && s.getSubmissionFlair().getText() != null &&  s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(BuildConfig.VERSION_NAME)) {
                                         Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
                                         return s;
                                     }
