@@ -157,6 +157,7 @@
                         android:layout_width="48dp"
                         app:srcCompat="@drawable/theme"
                         android:padding="12dp"
+                        android:tint="?attr/tint"
                         android:layout_height="48dp" />
 
                     <TextView
@@ -184,6 +185,7 @@
                         android:layout_width="48dp"
                         app:srcCompat="@drawable/wiki"
                         android:padding="12dp"
+                        android:tint="?attr/tint"
                         android:layout_height="48dp" />
 
                     <TextView
@@ -210,6 +212,7 @@
                     <ImageView
                         android:layout_width="48dp"
                         app:srcCompat="@drawable/send"
+                        android:tint="?attr/tint"
                         android:padding="12dp"
                         android:layout_height="48dp" />
 
@@ -238,6 +241,7 @@
                         android:layout_width="48dp"
                         app:srcCompat="@drawable/mod"
                         android:padding="12dp"
+                        android:tint="?attr/tint"
                         android:layout_height="48dp" />
 
                     <TextView

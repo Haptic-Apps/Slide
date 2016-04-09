@@ -487,8 +487,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     }
 
+    public boolean forced;
+
     private void refresh() {
         posts.forced = true;
+        forced = true;
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true, id);
     }
 
@@ -519,9 +522,10 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
-                    if (startIndex != -1) {
+                    if (startIndex != -1 && !forced) {
                         adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
                     } else {
+                        forced = false;
                         adapter.notifyDataSetChanged();
                     }
 
