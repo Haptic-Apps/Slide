@@ -576,6 +576,7 @@ public class PopulateSubmissionViewHolder {
 
     public <T extends Contribution> void showModBottomSheet(final Activity mContext, final Submission submission, final List<T> posts, final SubmissionViewHolder holder, final RecyclerView recyclerview, final Map<String, Integer> reports, final Map<String, String> reports2) {
 
+        final Resources res = mContext.getResources();
         int[] attrs = new int[]{R.attr.tint};
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
@@ -606,38 +607,33 @@ public class PopulateSubmissionViewHolder {
 
         int reportCount = reports.size() + reports2.size();
 
-        if (reportCount == 0) {
-            b.sheet(0, report, "No reports");
-        } else {
-            b.sheet(0, report, "View " + reportCount + " reports");
-        }
+        b.sheet(0, report, res.getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
 
         boolean approved = false;
         String whoApproved = "";
         if (submission.getDataNode().get("approved_by").asText().equals("null")) {
-            b.sheet(1, approve, "Approve submission");
+            b.sheet(1, approve, res.getString(R.string.mod_btn_approve));
         } else {
             approved = true;
             whoApproved = submission.getDataNode().get("approved_by").asText();
-            b.sheet(1, approve, "Approved by /u/" + whoApproved);
+            b.sheet(1, approve, String.format(res.getString(R.string.mod_btn_approved), whoApproved));
         }
 
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
-        b.sheet(20, flair, "Set submission flair");
+        b.sheet(20, flair, res.getString(R.string.mod_btn_submission_flair));
 
-        final boolean isnsfw = submission.isNsfw();
-        if (isnsfw) {
-            b.sheet(3, nsfw, "Remove NSFW tag");
+        final boolean isNsfw = submission.isNsfw();
+        if (isNsfw) {
+            b.sheet(3, nsfw, res.getString(R.string.mod_btn_unmark_nsfw));
         } else {
-            b.sheet(3, nsfw, mContext.getString(R.string.misc_nsfw));
-
+            b.sheet(3, nsfw, res.getString(R.string.mod_btn_mark_nsfw));
         }
 
         final boolean stickied = submission.isStickied();
         if (stickied) {
-            b.sheet(4, pin, "Un-pin submission");
+            b.sheet(4, pin, res.getString(R.string.mod_btn_unpin));
         } else {
-            b.sheet(4, pin, "Pin submission");
+            b.sheet(4, pin, res.getString(R.string.mod_btn_pin));
         }
 
         final String finalWhoApproved = whoApproved;
@@ -748,7 +744,7 @@ public class PopulateSubmissionViewHolder {
                                 //todo this
                                 break;
                             case 3:
-                                if (isnsfw) {
+                                if (isNsfw) {
                                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_remove_nsfw)
                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                 @Override
@@ -1425,7 +1421,7 @@ public class PopulateSubmissionViewHolder {
         SpannableStringBuilder titleString = new SpannableStringBuilder();
         titleString.append(Html.fromHtml(submission.getTitle()));
         if (submission.isStickied()) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.sidebar_pinned).toUpperCase() + "\u00A0");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.submission_stickied).toUpperCase() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);

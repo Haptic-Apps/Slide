@@ -80,7 +80,6 @@
                     android:textSize="18sp"
                     android:layout_height="wrap_content" />
                 <RelativeLayout
-                    android:id="@+id/body3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 

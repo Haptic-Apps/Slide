@@ -9,9 +9,6 @@
     <string name="example_title">Chameleons are Cool!</string>
     <string name="example_sub">animals</string>
     <string name="example_time">ccrama 6 hours ago</string>
-    <string name="example_points">204 points</string>
-    <string name="example_points_short">204</string>
-    <string name="example_comments">420 comments</string>
     <string name="submission_properties_seperator_comments">"•"</string>
 
     <string name="submission_properties_seperator">"  •  "</string>
@@ -47,18 +44,6 @@
         <item>Showered in upvotes</item>
         <item>Fixing that for OP</item>
         <item>Making it to the frontpage</item>
-    </string-array>
-
-
-    <!-- Add libraries here, it's important that items have the same position in both arrays -->
-    <string-array name="libs">
-        <item>Test</item>
-        <item>Test2</item>
-    </string-array>
-
-    <string-array name="libs_links">
-        <item>https://github.com/ccrama/Slide/network</item>
-        <item>https://github.com/ccrama/Slide/issues</item>
     </string-array>
 
 </resources>

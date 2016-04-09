@@ -109,7 +109,7 @@
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                     android:drawableTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:text="@string/sidebar_pinned"
+                    android:text="@string/submission_stickied"
                     android:textAllCaps="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
