@@ -116,11 +116,13 @@ public class SubmissionComments {
         adapter.currentSelectedItem = context;
         mLoadData = new LoadData(true);
         mLoadData.execute(fullName);
-        Snackbar s = Snackbar.make(page.rv, "Comment submitted", Snackbar.LENGTH_SHORT);
-        View view = s.getView();
-        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setTextColor(Color.WHITE);
-        s.show();
+        if(context == null || context.isEmpty()) {
+            Snackbar s = Snackbar.make(page.rv, "Comment submitted", Snackbar.LENGTH_SHORT);
+            View view = s.getView();
+            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+            tv.setTextColor(Color.WHITE);
+            s.show();
+        }
     }
     public void loadMore(CommentAdapter adapter, String subreddit, boolean forgetPlace) {
         adapter.currentSelectedItem = "";

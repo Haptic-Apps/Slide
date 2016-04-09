@@ -306,7 +306,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
 
 
-    static boolean notFirst = false;
+    public static boolean notFirst = false;
 
     @Override
     public void onActivityResumed(Activity activity) {

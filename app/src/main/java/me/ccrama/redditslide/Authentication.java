@@ -19,10 +19,8 @@ import net.dean.jraw.models.LoggedInAccount;
 
 import java.util.Calendar;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
 
-import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -38,7 +36,7 @@ public class Authentication {
     public static boolean mod;
     public static String name;
     public static SharedPreferences authentication;
-    private static String refresh;
+    public static String refresh;
     private Reddit a;
 
     public boolean hasDone;
@@ -220,37 +218,7 @@ public class Authentication {
 
                         Authentication.isLoggedIn = true;
                         authedOnce = true;
-                        Reddit.over18 = me.isOver18();
 
-                        if (Reddit.notificationTime != -1) {
-                            Reddit.notifications = new NotificationJobScheduler(a);
-                            Reddit.notifications.start(mContext);
-
-                        }
-                        final String name = me.getFullName();
-                        Authentication.name = name;
-                        LogUtil.v("AUTHENTICATED");
-
-                        if (reddit.isAuthenticated()) {
-                            final Set<String> accounts = authentication.getStringSet("accounts", new HashSet<String>());
-                            if (accounts.contains(name)) { //convert to new system
-                                accounts.remove(name);
-                                accounts.add(name + ":" + token);
-                                Authentication.authentication.edit().putStringSet("accounts", accounts).commit(); //force commit
-
-                            }
-                            mod = me.isMod();
-
-                            Authentication.isLoggedIn = true;
-                            if (Reddit.notificationTime != -1) {
-                                Reddit.notifications = new NotificationJobScheduler(a);
-                                Reddit.notifications.start(mContext);
-
-                            }
-                            Reddit.notFirst = true;
-                            return null;
-
-                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

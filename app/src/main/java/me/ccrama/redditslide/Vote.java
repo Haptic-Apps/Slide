@@ -48,7 +48,7 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
             } catch (ApiException | RuntimeException e) {
                 ((Activity) c).runOnUiThread(new Runnable() {
                     public void run() {
-                        if (v != null && c != null) {
+                        if (v != null && c != null && v.getContext() != null) {
                             Snackbar s = Snackbar.make(v, R.string.vote_err, Snackbar.LENGTH_SHORT);
                             View view = s.getView();
                             TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -64,7 +64,7 @@ public class Vote extends AsyncTask<PublicContribution, Void, Void> {
         } else {
             ((Activity) c).runOnUiThread(new Runnable() {
                 public void run() {
-                    if (v != null && c != null) {
+                    if (v != null && c != null && v.getContext() != null) {
                         Snackbar s = Snackbar.make(v, R.string.vote_err_login, Snackbar.LENGTH_SHORT);
                         View view = s.getView();
                         TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);

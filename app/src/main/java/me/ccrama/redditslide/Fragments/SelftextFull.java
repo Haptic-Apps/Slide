@@ -42,7 +42,7 @@ public class SelftextFull extends Fragment {
             setViews(s.getDataNode().get("selftext_html").asText(), s.getSubredditName(), rootView);
 
         }
-        rootView.findViewById(R.id.text).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.desc).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

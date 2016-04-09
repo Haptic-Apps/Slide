@@ -103,6 +103,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -2454,6 +2455,26 @@ public class MainActivity extends BaseActivity {
                 if(Authentication.me ==null){
                     Authentication.me = Authentication.reddit.me();
                     me = Authentication.me;
+                    Authentication.mod = me.isMod();
+                    Reddit.over18 = me.isOver18();
+
+                    if (Reddit.notificationTime != -1) {
+                        Reddit.notifications = new NotificationJobScheduler(MainActivity.this);
+                        Reddit.notifications.start(getApplicationContext());
+                    }
+                    final String name = me.getFullName();
+                    Authentication.name = name;
+                    LogUtil.v("AUTHENTICATED");
+                    if (Authentication.reddit.isAuthenticated()) {
+                        final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                        if (accounts.contains(name)) { //convert to new system
+                            accounts.remove(name);
+                            accounts.add(name + ":" + Authentication.refresh);
+                            Authentication.authentication.edit().putStringSet("accounts", accounts).commit(); //force commit
+                        }
+                        Authentication.isLoggedIn = true;
+                        Reddit.notFirst = true;
+                    }
                 } else {
                     me = Authentication.reddit.me();
                 }
@@ -2489,6 +2510,16 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            if (Authentication.mod && headerMain.findViewById(R.id.mod).getVisibility() == View.GONE) {
+                headerMain.findViewById(R.id.mod).setVisibility(View.VISIBLE);
+                headerMain.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent inte = new Intent(MainActivity.this, ModQueue.class);
+                        MainActivity.this.startActivity(inte);
+                    }
+                });
+            }
             View badge = headerMain.findViewById(R.id.count);
             if (count == 0) {
                 if (badge != null) badge.setVisibility(View.GONE);
