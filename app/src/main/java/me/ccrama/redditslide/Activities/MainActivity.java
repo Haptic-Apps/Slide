@@ -335,7 +335,8 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void run() {
                         runAfterLoad = null;
-                        new AsyncNotificationBadge().execute();
+                        if (Authentication.isLoggedIn)
+                            new AsyncNotificationBadge().execute();
                         new AsyncTask<Void, Void, Submission>() {
                             @Override
                             protected Submission doInBackground(Void... params) {
@@ -2452,7 +2453,7 @@ public class MainActivity extends BaseActivity {
         protected Void doInBackground(Void... params) {
             try {
                 LoggedInAccount me;
-                if(Authentication.me ==null){
+                if (Authentication.me == null) {
                     Authentication.me = Authentication.reddit.me();
                     me = Authentication.me;
                     Authentication.mod = me.isMod();

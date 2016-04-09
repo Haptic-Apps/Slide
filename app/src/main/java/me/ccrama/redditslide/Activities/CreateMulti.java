@@ -167,12 +167,12 @@ public class CreateMulti extends BaseActivityAnim {
 
         for (String s : all) {
             if (s != null && s.length() > 0) {
-                list.add(s);
+                if (!s2.contains(s))
+                    list.add(s);
             }
         }
 
         all = list.toArray(new String[list.size()]);
-
 
         final ArrayList<String> toCheck = new ArrayList<>();
 
@@ -195,7 +195,6 @@ public class CreateMulti extends BaseActivityAnim {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         subs = toCheck;
-                        Log.v(LogUtil.getTag(), subs.size() + "SIZE ");
                         adapter = new CustomAdapter(subs);
                         recyclerView.setAdapter(adapter);
 
@@ -286,7 +285,7 @@ public class CreateMulti extends BaseActivityAnim {
     /**
      * Responsible for showing a list of subreddits which are added to this Multireddit
      */
-    public static class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+    public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
         private final ArrayList<String> items;
 
         public CustomAdapter(ArrayList<String> items) {
@@ -301,14 +300,30 @@ public class CreateMulti extends BaseActivityAnim {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            String origPos = items.get(position);
+            final String origPos = items.get(position);
             holder.text.setText(origPos);
 
             holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
             holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
 
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle("Really remove this subreddit?")
+                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    subs.remove(origPos);
+                                    adapter = new CustomAdapter(subs);
+                                    recyclerView.setAdapter(adapter);
+                                }
+                            })
+                            .setNegativeButton(R.string.btn_no, null)
+                            .show();
+                }
+            });
 
         }
 
@@ -317,7 +332,7 @@ public class CreateMulti extends BaseActivityAnim {
             return items.size();
         }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
+        public class ViewHolder extends RecyclerView.ViewHolder {
             final TextView text;
 
             public ViewHolder(View itemView) {
