@@ -432,8 +432,8 @@
         <item name="list_background">#212121</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark</item>
 
-        <item name="font">#FFFFFFFF</item> <!-- 100% white -->
-        <item name="tint">#B3FFFFFF</item> <!-- 70% white -->
+        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
 
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
@@ -444,8 +444,8 @@
         <item name="list_background">#263238</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark_Blue</item>
 
-        <item name="font">#FFFFFFFF</item> <!-- 100% white -->
-        <item name="tint">#B3FFFFFF</item> <!-- 70% white -->
+        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
 
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
@@ -458,8 +458,8 @@
         <item name="list_background">#000000</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
 
-        <item name="font">#FFFFFFFF</item>
-        <item name="tint">#B3FFFFFF</item>
+        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
 
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
@@ -471,8 +471,8 @@
         <item name="list_background">#000000</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
 
-        <item name="font">#FFFFFFFF</item>
-        <item name="tint">#B3FFFFFF</item>
+        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
 
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>

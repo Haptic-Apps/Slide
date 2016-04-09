@@ -86,7 +86,8 @@ public class CreateCardView {
         }
 
         doColor(getViewsByTag((ViewGroup) v, "tint"));
-        doColor(getViewsByTag((ViewGroup) v, "tintactionbar"));
+        doColorSecond(getViewsByTag((ViewGroup) v, "tintsecond"));
+        doColorSecond(getViewsByTag((ViewGroup) v, "tintactionbar"));
 
     }
 
@@ -100,7 +101,16 @@ public class CreateCardView {
             }
         }
     }
+    public static void doColorSecond(ArrayList<View> v) {
+        for (View v2 : v) {
+            if (v2 instanceof TextView) {
+                ((TextView) v2).setTextColor(getSecondFontColor(v2.getContext()));
+            } else if (v2 instanceof ImageView) {
+                ((ImageView) v2).setColorFilter(getCurrentTintColor(v2.getContext()));
 
+            }
+        }
+    }
     public static void resetColor(ArrayList<View> v) {
         for (View v2 : v) {
             if (v2 instanceof TextView) {
@@ -148,7 +158,9 @@ public class CreateCardView {
     public static int getCurrentFontColor(Context v) {
         return getStyleAttribColorValue(v, R.attr.font, Color.WHITE);
     }
-
+    public static int getSecondFontColor(Context v) {
+        return getStyleAttribColorValue(v, R.attr.tint, Color.WHITE);
+    }
     public static int getWhiteFontColor() {
         return Palette.ThemeEnum.DARK.getFontColor();
 
