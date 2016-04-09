@@ -311,7 +311,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @Override
     public void onActivityResumed(Activity activity) {
 
-        if(Authentication.didOnline && authentication != null && authentication.reddit.getOAuthData() != null && authentication.reddit.getOAuthData().getExpirationDate().getTime() <= Calendar.getInstance().getTimeInMillis()){
+        if(Authentication.didOnline && authentication != null && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance().getTimeInMillis()){
             authentication.updateToken(activity);
         }
 

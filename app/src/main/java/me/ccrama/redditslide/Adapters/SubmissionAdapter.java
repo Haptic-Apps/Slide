@@ -11,7 +11,6 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +34,11 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.util.LogUtil;
+
+;
 
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -162,7 +164,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                                                            if (context instanceof MainActivity) {
                                                                final MainActivity a = (MainActivity) context;
-                                                               if (a.singleMode && a.commentPager) {
+                                                               if (a.singleMode && a.commentPager && a.adapter instanceof MainActivity.OverviewPagerAdapterComment) {
 
                                                                    if (a.openingComments != submission) {
                                                                        clicked = holder2.getAdapterPosition();

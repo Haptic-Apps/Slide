@@ -389,7 +389,7 @@ public class CommentPage extends Fragment {
                         return true;
                     }
                     case R.id.content: {
-                        if (adapter.submission != null)
+                        if (adapter != null && adapter.submission != null)
                             if (!PostMatch.openExternal(adapter.submission.getUrl())) {
 
                                 switch (ContentType.getImageType(adapter.submission)) {

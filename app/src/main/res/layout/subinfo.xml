@@ -150,6 +150,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:id="@+id/theme"
+                    android:background="?android:selectableItemBackground"
                     android:layout_height="wrap_content">
 
                     <ImageView
@@ -158,12 +159,13 @@
                         android:padding="12dp"
                         android:layout_height="48dp" />
 
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:paddingLeft="52dp"
                         android:layout_height="match_parent"
+                        android:textStyle="bold"
                         android:layout_weight="1"
+                        android:clickable="false"
                         android:drawablePadding="16dp"
                         android:text="@string/subreddit_theme"
                         android:textAllCaps="true"
@@ -174,6 +176,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:id="@+id/wiki"
+                    android:background="?android:selectableItemBackground"
                     android:layout_height="wrap_content">
 
                     <ImageView
@@ -182,12 +185,13 @@
                         android:padding="12dp"
                         android:layout_height="48dp" />
 
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:paddingLeft="52dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:clickable="false"
+                        android:textStyle="bold"
                         android:drawablePadding="16dp"
                         android:text="@string/sidebar_wiki"
                         android:textAllCaps="true"
@@ -198,6 +202,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:id="@+id/submit"
+                    android:background="?android:selectableItemBackground"
                     android:layout_height="wrap_content">
 
                     <ImageView
@@ -206,12 +211,13 @@
                         android:padding="12dp"
                         android:layout_height="48dp" />
 
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:paddingLeft="52dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:clickable="false"
+                        android:textStyle="bold"
                         android:drawablePadding="16dp"
                         android:text="@string/editor_submit"
                         android:textAllCaps="true"
@@ -222,6 +228,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:id="@+id/mods"
+                    android:background="?android:selectableItemBackground"
                     android:layout_height="wrap_content">
 
                     <ImageView
@@ -230,17 +237,18 @@
                         android:padding="12dp"
                         android:layout_height="48dp" />
 
-                    <Button
-                        style="@style/Widget.AppCompat.Button.Borderless"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:paddingLeft="52dp"
+                        android:textStyle="bold"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:clickable="false"
                         android:drawablePadding="16dp"
                         android:text="@string/sidebar_mods"
                         android:textAllCaps="true"
                         android:theme="?android:attr/buttonBarButtonStyle"
-                        app:srcCompat="@drawable/theme" />
+                        />
                 </RelativeLayout>
 
                 <View
