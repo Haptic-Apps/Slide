@@ -4,7 +4,6 @@
   <!-- Generic text used anywhere -->
   <string name="general_confirm_exit">אשר יציאה</string>
   <string name="general_confirm_exit_msg">אתה באמת רוצה לצאת מ-Slide?</string>
-  <string name="general_switch_acc">החלף חשבון</string>
   <string name="general_enable_shadowbox">הפעל מצב Shadowbox</string>
   <string name="general_open_settings">פתח הגדרות Subreddit</string>
   <string name="general_sub_sync">מסנכרן רישומים</string>
@@ -14,7 +13,6 @@
   <string name="submission_post_saved">פוסט נשמר</string>
   <string name="submission_info_hidden">פוסט מוסתר לעד.</string>
   <string name="submission_stickied">נעוץ</string>
-  <string name="submission_link_internal">פתח פנימית</string>
   <string name="submission_link_extern">פתח חיצונית</string>
   <string name="submission_link_share">שתף לינק</string>
   <string name="submission_share_title">איזה קישור תרצה לשתף?</string>
@@ -30,10 +28,6 @@
     <item quantity="one">נקודה %d</item>
     <item quantity="other">%d נקודות</item>
   </plurals>
-  <plurals name="submission_comment_count">
-    <item quantity="one">תגובה %d</item>
-    <item quantity="other">%d תגובות</item>
-  </plurals>
   <!-- Theme settings -->
   <string name="theme_light">בהיר</string>
   <string name="theme_dark">כהה</string>
@@ -44,12 +38,7 @@
   <string name="theme_card">קלף</string>
   <!-- Font settings -->
   <string name="font_size">גודל גופן</string>
-  <string name="font_large">גדול</string>
-  <string name="font_medium">בינוני</string>
-  <string name="font_small">קטן</string>
   <!-- For editing the submission card layout -->
-  <string name="card_actionbar">שורת פעולה גלויה</string>
-  <string name="card_picture">תמונה גדולה</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">הגדרות עמודות מרובות</string>
   <string name="multi_column_landscape">רוחב</string>
@@ -58,21 +47,10 @@
   <string name="drawer_goto_profile">צפה בפרופיל</string>
   <string name="drawer_add_account">הוסף משתמש</string>
   <string name="drawer_hello">היי</string>
-  <string name="drawer_change_account">החלף משתמש</string>
   <string name="drawer_search">חיפוש subreddit</string>
   <string name="drawer_moderation">ניהול</string>
-  <string name="drawer_sync_subs">סינכרון הסאבים שלך</string>
   <!-- Sidebar items (That's the one on the right) -->
-  <string name="sidebar_pinned">נעוץ</string>
-  <!-- Crash reporting screen -->
-  <string name="crash_title">Slide קרסה.</string>
-  <string name="crash_report">דיווח באג בGitHub</string>
-  <string name="crash_restart">אתחול אפליקציה</string>
-  <string name="crash_msg_hint">תאר/י כיצד ניתן לדמות את הקריסה</string>
-  <string name="crash_title_hint">תאר/י את הקריסה במשפט אחד</string>
-  <string name="crash_btn">דיווח</string>
   <!-- User profile -->
-  <string name="profile_yours">הפרופיל שלך</string>
   <string name="profile_karma_link">קארמת לינקים</string>
   <string name="profile_karma_comment">קארמת תגובות</string>
   <string name="profile_message">הודעה פרטית</string>
@@ -84,7 +62,6 @@
   <string name="profile_gilded">מוזהב</string>
   <!-- Comment text options -->
   <string name="comment_gild">תן בזהב</string>
-  <string name="comment_report">דווח/י על התגובה</string>
   <string name="comment_share">שתף/י תגובה</string>
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
@@ -115,16 +92,12 @@
   <string name="editor_submit">הוסף פרסום</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">תמונה נשמרה</string>
-  <string name="info_connecting">מתחבר לרדיט</string>
   <!-- General errors / errors without a category -->
   <string name="err_invalid_url">לינק לא תקין</string>
   <string name="err_connection_lost">או או! נראה כי איבדת חיבור לרשת. אנא התחבר/י מחדש לרשת ונסה/י שוב.</string>
   <string name="err_general">אירעה שגיאה</string>
   <!-- Gif -->
-  <!-- Pin infos -->
-  <!-- Login strings -->
   <!-- Multireddit errors -->
-  <!-- Album errors/information -->
   <!-- Content types -->
   <!-- Reply to message -->
   <string name="mail_hint_body">טקסט</string>

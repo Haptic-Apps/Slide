@@ -67,7 +67,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/previewContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -174,7 +173,6 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal" />
             <LinearLayout
-                android:id="@+id/bod"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingLeft="16dp"
@@ -323,7 +321,6 @@
                 android:textColorHint="?attr/font" />
 
             <LinearLayout
-                android:id="@+id/innersend2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

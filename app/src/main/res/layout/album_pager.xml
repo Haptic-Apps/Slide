@@ -48,7 +48,6 @@
         android:layout_height="match_parent" />
 
     <View
-        android:id="@+id/tutorial"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center_vertical" />

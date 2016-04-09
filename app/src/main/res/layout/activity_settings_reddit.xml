@@ -23,29 +23,6 @@
             android:background="?attr/activity_background"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/nsfw_box"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal"
-
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="@string/settings_nsfw_info"
-                    android:textSize="14sp" />
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:alpha=".25"
-                android:background="?attr/tint" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

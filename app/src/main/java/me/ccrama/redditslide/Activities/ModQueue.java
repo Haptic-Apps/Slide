@@ -127,7 +127,7 @@ public class ModQueue extends BaseActivityAnim {
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
-                return getString(R.string.mai_mod_unread);
+                return getString(R.string.mod_mail_unread);
             } else if (position == 1) {
                 return getString(R.string.mod_mail);
             } else if (position == 2) {

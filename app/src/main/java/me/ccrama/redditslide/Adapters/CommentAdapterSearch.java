@@ -123,7 +123,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         titleString.append("  ");
 
         if (comment.getDataNode().get("stickied").asBoolean()) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.sidebar_pinned).toUpperCase() + "\u00A0");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.submission_stickied).toUpperCase() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");

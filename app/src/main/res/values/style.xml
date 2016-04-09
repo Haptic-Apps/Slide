@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="swipestyle">
 
@@ -9,9 +9,9 @@
         </item>
     </style>
 
-    <style name="Ripple"/>
+    <style name="Ripple" tools:keep="@style/Ripple" />
 
-    <style name="Ripple.List">
+    <style name="Ripple.List" tools:keep="@style/Ripple_List">
         <item name="android:background">?android:selectableItemBackground</item>
     </style>
     <!-- From SwipeBackLayout !-->

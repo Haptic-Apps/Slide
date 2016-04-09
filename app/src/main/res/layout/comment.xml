@@ -42,7 +42,6 @@
 
 
     <include
-        android:id="@+id/children"
         android:layout_marginTop="6dp"
         layout="@layout/commentnumber"
         android:layout_width="wrap_content"

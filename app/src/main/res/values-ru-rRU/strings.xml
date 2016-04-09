@@ -4,18 +4,15 @@
   <!-- Generic text used anywhere -->
   <string name="general_confirm_exit">Подтвердите выход</string>
   <string name="general_confirm_exit_msg">Вы уверены что хотите выйти?</string>
-  <string name="general_switch_acc">Сменить аккаунт</string>
   <string name="general_enable_shadowbox">Включить Shadowbox Mode</string>
   <string name="general_pro_msg">Я решил сделать некоторые функции Slide (включая многоколонный режим) доступными только при покупке Pro Unlock ключа в Play Store. \n\n Это дает возможность дальше работать над проектом, без рекламы в приложении. \n\n Pro-версия включает режим Shadowbox (только картинки и названия записей), многоколонный режим и, вскоре, многое еще!\n\n Хотели бы вы приобрести Pro-версию приложения?</string>
   <string name="general_open_settings">Открыть Настройки Сабреддита</string>
   <string name="general_sub_sync">Синхронизация Подписок</string>
-  <string name="general_login">Вход</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_saved">Запись сохранена</string>
   <string name="submission_post_saved">Пост сохранён</string>
   <string name="submission_info_hidden">Пост скрыт навсегда.</string>
   <string name="submission_stickied">закреплён</string>
-  <string name="submission_link_internal">Открыть в Slide</string>
   <string name="submission_link_extern">Открыть в другом приложении</string>
   <string name="submission_link_copy">Скопировать ссылку</string>
   <string name="submission_link_share">Поделиться ссылкой</string>
@@ -42,20 +39,15 @@
   <string name="theme_dark">Тёмная</string>
   <string name="theme_black">Чёрная AMOLED</string>
   <string name="theme_dark_blue">Тёмно-синий</string>
+  <string name="theme_default_color">Основной цвет</string>
   <string name="theme_subreddit_color">Изменить цвет</string>
   <string name="theme_accent_color">Контрастный цвет</string>
   <string name="theme_base">Основная тема</string>
   <string name="theme_card">Карточка</string>
   <!-- Font settings -->
   <string name="font_size">Размер Шрифта</string>
-  <string name="font_large">Большой</string>
-  <string name="font_medium">Средний</string>
-  <string name="font_small">Маленький</string>
   <!-- For editing the submission card layout -->
-  <string name="card_actionbar">Отображать Панель действий</string>
-  <string name="card_picture">Большая картинка</string>
   <string name="card_hide_post_button">«Скрыть запись» в панеле действий</string>
-  <string name="card_section_images">Изображения</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Многостолбцовый</string>
   <string name="multi_column_landscape">Горизонтально</string>
@@ -65,24 +57,11 @@
   <string name="drawer_goto_profile">Перейти в профиль</string>
   <string name="drawer_add_account">Добавить аккаунт</string>
   <string name="drawer_hello">Привет,</string>
-  <string name="drawer_change_account">Сменить аккаунт</string>
   <string name="drawer_search">Искать сабреддит</string>
   <string name="drawer_moderation">Модерация</string>
-  <string name="drawer_sync_subs">Синхронизировать ваши Сабреддиты</string>
-  <string name="drawer_account_switch">Сменить или удалить</string>
   <string name="drawer_offline_retry">Попробуйте ввести в режиме онлайн</string>
   <!-- Sidebar items (That's the one on the right) -->
-  <string name="sidebar_pinned">закреплён</string>
-  <string name="sidebar_wiki">Вики</string>
-  <!-- Crash reporting screen -->
-  <string name="crash_title">Slide вылетел.</string>
-  <string name="crash_report">Сообщить об ошибке на GitHub</string>
-  <string name="crash_restart">Перезапустите приложение</string>
-  <string name="crash_msg_hint">Опишите ваши действия до вылета приложения</string>
-  <string name="crash_title_hint">Опишите вылет приложения одним предложением</string>
-  <string name="crash_btn">Отчет</string>
   <!-- User profile -->
-  <string name="profile_yours">Ваш профиль</string>
   <string name="profile_karma_link">карма ссылки</string>
   <string name="profile_karma_comment">карма комментария</string>
   <string name="profile_message">Личное сообщение</string>
@@ -101,7 +80,6 @@
   <string name="profile_remove_friend">Удалить из друзей</string>
   <!-- Comment text options -->
   <string name="comment_gild">Позолотить комментарий</string>
-  <string name="comment_report">Сообщить о нарушении</string>
   <string name="comment_share">Поделиться комментарием</string>
   <string name="comment_delete">Удалить комментарий</string>
   <string name="comment_delete_msg">Вы действительно хотите удалить этот комментарий? Действие не может быть отменено.</string>
@@ -144,29 +122,19 @@
   <string name="editor_hint_subreddit">Сабреддит</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Фото сохранено</string>
-  <string name="info_connecting">Подключение к Reddit</string>
   <!-- General errors / errors without a category -->
-  <string name="err_network_title">Ох, Slide не смог подключиться к Reddit!</string>
   <string name="err_title">Ох, что-то пошло не так!</string>
-  <string name="err_network_msg">Пожалуйста, проверьте Ваше подключение к Интернету и попробуйте снова!</string>
   <string name="err_invalid_url">Неверный URL-адрес</string>
   <string name="err_loading_content">Ошибка при загрузке содержимого</string>
   <string name="err_connection_lost">Ох! Похоже, вы потеряли Интернет-соединение. Пожалуйста, подключитесь к Интернету и вернитесь назад!</string>
   <string name="err_general">Ох, произошла ошибка</string>
   <string name="err_no_connection">Реддит не отвечает. Попробуйте снова.</string>
   <string name="err_retry_later">Попробуйте еще через минуту!</string>
-  <string name="err_login">Вы должны войти для этого! Войти сейчас?</string>
   <string name="err_permission">Отказано в доступе</string>
   <string name="err_permission_msg">Похоже, вы отказали Slided в записи данных на внешнее хранилище. Это не даст возможности сохранят кэш и изображения :(. \nОткроете Slide доступ на внешнее хранилище?</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF не найдена</string>
   <string name="gif_err_msg">Произошла ошибка при загрузке этого GIF. Пожалуйста, повторите попытку.</string>
-  <string name="gif_saved">GIF сохранена</string>
-  <!-- Pin infos -->
-  <string name="pin_select">Выберите сабреддиты для закрепления</string>
-  <!-- Login strings -->
-  <string name="login_restarting_title">Приложение перезапускается</string>
-  <string name="login_restart_msg">Чтобы синхронизировать сабреддиты и параметры, приложение перезапустится</string>
   <!-- Multireddit errors -->
   <string name="multireddit_err_title">Нет мультиреддитов (пока)!</string>
   <string name="multireddit_err_msg">Хотите создать новый Multireddit?</string>
@@ -174,10 +142,6 @@
   <string name="multireddit_title_empty_msg">Пожалуйста, введите название для вашего мультиреддита</string>
   <string name="multireddit_selector">Выберите сабреддиты для добавления</string>
   <string name="multireddit_invalid_name">Неверное название мультиреддита</string>
-  <!-- Album errors/information -->
-  <string name="album_loading">Загрузка альбома</string>
-  <string name="album_err_not_found">Альбом не найден</string>
-  <string name="album_title_count">Галерея (Фото%1$d)</string>
   <!-- Content types -->
   <string name="type_nsfw_img">NSFW изображение</string>
   <string name="type_nsfw_gif">NSFW GIF</string>
@@ -198,7 +162,6 @@
   <string name="mail_send_to">Отправить сообщение %1$s</string>
   <string name="mail_send">Отправить сообщение</string>
   <string name="mail_notification_msg">Новое сообщение от %1$s</string>
-  <string name="mail_mod_notification_msg">Новое модераторское сообщение от %1$s</string>
   <string name="mail_reply_to">Ответ %1$s</string>
   <string name="mail_notification_author">%1$s от %2$s</string>
   <string name="mail_theirs">Просмотреть их сообщение</string>
@@ -207,7 +170,6 @@
   <string name="misc_none">Ничего</string>
   <string name="misc_retry">Хотите попробовать еще раз?</string>
   <string name="misc_score_hidden">оценка скрыта</string>
-  <string name="misc_you">вы</string>
   <string name="misc_nsfw">Небезопасно для работы</string>
   <string name="misc_subscribed">Подписан</string>
   <string name="misc_continue">Продолжить</string>
@@ -217,7 +179,6 @@
   <!-- Goto User -->
   <string name="user_enter">Введите имя пользователя</string>
   <string name="user_btn_goto">Перейти к пользователю</string>
-  <string name="user_invalid">Неверное имя пользователя</string>
   <string name="user_invalid_msg">Имена пользователей на Reddit могут содержать только буквы, цифры, нижние подчёркивания и тире.</string>
   <!-- Buttons -->
   <string name="btn_add">Добавить</string>
@@ -232,18 +193,15 @@
   <string name="btn_remove">Удалить</string>
   <string name="btn_reply">Oтветить</string>
   <string name="btn_reset">Сброс</string>
-  <string name="btn_retry">Повторить</string>
   <string name="btn_save">Сохранить</string>
   <string name="btn_submit">Добавить</string>
   <string name="btn_sure">Конечно!</string>
   <string name="btn_undo">Отменить</string>
   <string name="btn_yes">Да</string>
   <string name="btn_refresh">обновить</string>
-  <string name="btn_confirm">Подтвердить</string>
-  <string name="btn_theme_toggle">Переключить тёмную тему</string>
   <string name="btn_cache">Кэш комментариев</string>
   <string name="btn_delete">Удалить</string>
-  <string name="btn_switch">Сменить</string>
+  <string name="btn_time">Период</string>
   <!-- Backup -->
   <string name="backup_success">Резервное копир-е успешно!</string>
   <string name="backup_restoring">Восстановление настроек</string>
@@ -258,26 +216,16 @@
   <string name="vote_err_login">Вы должны войти, чтобы голосовать!</string>
   <!-- Moderation tools -->
   <string name="mod_mail">Почта от мод-ов</string>
-  <string name="mai_mod_unread">Непрочитанная почта от мод-ов</string>
-  <string name="mod_actions">действия мод-а</string>
   <string name="mod_reports">Отчеты</string>
   <string name="mod_approve">Вы точно хотите одобрить эту запись?</string>
   <string name="mod_approved">Запись одобрена.</string>
   <string name="mod_mark_nsfw">Вы точно хотите отметить это как NSFW?</string>
   <string name="mod_remove_nsfw">Вы действительно хотите удалить тег NSFW?</string>
   <string name="mod_flair_post">Флаер поста</string>
-  <string name="mod_remove">Вы точно хотите удалить этот пост? Это действие нельзя отменить.</string>
-  <string name="mod_remove_hint">Причина удаления</string>
-  <string name="mod_remove_hint_msg">Почему вы удаляете эту запись?</string>
-  <string name="mod_flair">Флаир</string>
-  <string name="mod_flair_desc">Добавить флаир к этому посту (опционально)</string>
   <string name="mod_flair_hint">Текст флаира</string>
-  <string name="mod_post_removed">Пост удалён.</string>
-  <string name="mod_show_user">Показать пользователя и отчеты мод-ов</string>
-  <string name="mod_btn_approve">Подтвердить</string>
-  <string name="mod_btn_spam">Спам</string>
-  <string name="mod_ban">Заблокировать пользователя</string>
   <string name="mod_no_reports">Нет отчетов</string>
+  <string name="mod_btn_approve">Подтвердить</string>
+  <string name="mod_btn_remove">Удалить</string>
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Вики не найдена</string>
   <string name="wiki_err_msg">У этого сабреддита нет вики!</string>
@@ -289,7 +237,6 @@
   <!-- Search -->
   <string name="search_comments_hint">Искать комментарий</string>
   <string name="search_goto">Перейти к</string>
-  <string name="search_hint">Искать слово</string>
   <string name="search_title">Искать</string>
   <string name="search_msg">Что вы ищете?</string>
   <string name="search_all">Искать все</string>
@@ -300,52 +247,34 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Параметры Reddit</string>
   <string name="settings_accent_title">Цвет элементов</string>
-  <string name="settings_card_mode">Режим Карточек</string>
   <string name="settings_delete_sub_settings">Вы действительно хотите удалить настройки для /r/%1$s?</string>
   <string name="settings_layout_default">Разметка поста</string>
   <string name="settings_link_album">Вид внутреннего альбома</string>
-  <string name="settings_link_browser">Встроенный веб-браузер</string>
   <string name="settings_link_gif">Встроенный просмотр GIF</string>
   <string name="settings_link_handling">Обработка ссылок</string>
   <string name="settings_link_image">Встроенный просмотр изображений</string>
-  <string name="settings_link_video">Встроенный видео-плеер</string>
   <string name="settings_mail_check">Проверка наличия новых сообщений</string>
   <string name="settings_mail_info">Чем выше частота, тем больше Slide может использовать батарею в фоновом режиме!</string>
   <string name="settings_main_color_title">Изменить основной цвет</string>
   <string name="settings_notification">Проверить наличие новых сообщений каждые %1$s</string>
   <string name="settings_notification_short">Проверять каждые %1$s</string>
-  <string name="settings_swap_actions">Замена действия нажатия и долгого нажатия в комм-ях</string>
   <string name="settings_disable_nsfw_photo">Скрыть все NSFW фото</string>
-  <string name="settings_disable_nsfw">Скрыть все NSFW посты</string>
   <string name="settings_confirm_exit">Подтверждать Выход</string>
   <string name="settings_fastscroll">Перемещаться между родительскими комментариями</string>
-  <string name="settings_floating_action_button">Поведение плавающей кнопки</string>
-  <string name="settings_floating_action_button_visible">Отображать плавающую кнопку</string>
   <string name="share_link">Поделиться ссылкой</string>
   <string name="posts_hidden_forever">Пост скрыт навсегда</string>
   <string name="share_image">Поделиться изображением</string>
   <string name="settings_libs">Библиотеки с открытым исходным кодом</string>
   <string name="settings_bugs">Сообщить об ошибке</string>
   <string name="settings_changelog">Посмотреть список изменений</string>
-  <string name="settings_floating_action_button_type">Плавающая кнопка действия убирает просмотренные зписи</string>
   <string name="settings_google">Подключение к Google</string>
   <string name="settings_google_msg">Slide соединяется с Google. Попробуйте снова через несколько секунд!</string>
   <string name="settings_fabclear_msg">Нажатие кнопки Очистить уберет записи из вида, но не удалит навсегда.. \nДолгое нажатие удалит навсегда!</string>
   <string name="settings_notifdisabled">Уведомления отключены.</string>
-  <string name="settings_comments_click_username_for_profile">Нажимать на имена пользователей для просмотра их профиля.</string>
-  <string name="settings_cache">Кэшировать посты для просмотра без Интернета</string>
-  <string name="settings_auto_night">Вкл. ночную тему авто-ки</string>
-  <string name="settings_auto_end">День начинается в</string>
-  <string name="settings_cache_always">Всегда сначала показывать оффлайн данные</string>
-  <string name="settings_auto_start">Ночь начинается в</string>
-  <string name="settings_middle_card">Изображение посередине карты</string>
-  <string name="settings_cache_delete">Удалить все кэш-данные</string>
   <string name="settings_filter_domain">Фильтры доменов</string>
   <string name="settings_filter_title">Фильтры титров</string>
-  <string name="settings_general_swipeanywhere">Приведите пальцем где угодно</string>
   <string name="settings_link_chrome">Использовать Chrome Customtabs</string>
   <!-- Settings titles displayed in settings activity-->
-  <string name="settings_title_alternative_layout">Альтернативный макет</string>
   <string name="settings_title_backup">Резервное копирование &amp; восстановление</string>
   <string name="settings_title_default_theme">Основная тема</string>
   <string name="settings_title_general">Основное</string>
@@ -354,22 +283,16 @@
   <string name="settings_title_sub_theme">Темы сабреддитов</string>
   <string name="settings_title_sorting">Сортировка по умолчанию</string>
   <string name="settings_title_support">Пожертвовать</string>
-  <string name="settings_title_appearance">Вид</string>
   <string name="settings_title_about">О приложении</string>
   <string name="settings_title_multi_column">Многостолбцовый</string>
   <string name="settings_title_fab">Поведение плавающей кнопки</string>
-  <string name="settings_title_caching">Параметры кэша</string>
-  <string name="settings_title_cache">Кэшировать</string>
-  <string name="settings_title_auto">Подобрать тему</string>
   <string name="settings_title_comments">Коментарии</string>
-  <string name="settings_title_other">Другое</string>
   <string name="settings_section_general">Основное</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Темы и макеты сабреддиттов</string>
   <string name="title_edit_theme">Редактировать тему</string>
   <string name="title_submit_post">Отправить пост</string>
   <string name="title_settings">Настройки</string>
-  <string name="title_report_crash">Сообщить о падении</string>
   <string name="title_share">Поделиться через</string>
   <string name="title_login">Войдите в Reddit</string>
   <string name="title_multireddits">Мультиреддиты</string>
@@ -393,9 +316,6 @@
   <!-- Offline mode -->
   <string name="offline_caching">Кэширование публикаций</string>
   <string name="offline_msg">Проверьте подключение к сети и обновите сабреддит</string>
-  <string name="offline_drawer_info">Slide оффлайн. Подключитесь к Интернету, чтобы увидеть все содержимое!</string>
-  <string name="network_connected">Подключен к сети</string>
-  <string name="network_connected_msg">Вы хотите выйти из режима оффлайн?</string>
   <!-- Website -->
   <string name="website_back">Назад</string>
   <!-- Reorder subreddit activity -->
@@ -404,6 +324,5 @@
   <string name="submission_share_permalink">Поделиться постом</string>
   <string name="mode_card">Карточка</string>
   <string name="btn_report">Отчет</string>
-  <string name="action_settings">Настройки</string>
   <string name="content_deleted">[deleted]</string>
 </resources>

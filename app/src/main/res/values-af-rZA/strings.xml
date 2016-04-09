@@ -4,10 +4,8 @@
   <!-- Generic text used anywhere -->
   <string name="general_confirm_exit">Bevestig terminasie</string>
   <string name="general_confirm_exit_msg">Bevestig weereens terminasie</string>
-  <string name="general_switch_acc">Verander rekening</string>
   <string name="general_enable_shadowbox">Skaduwee raam wyse</string>
   <string name="general_pro_msg">Ek het besluit om \'n paar aspekte van Slide (insluitend veelvuldige kolomme) te ontsluit deur die koop van \'n Pro sleutel van die Play Store af. \n\nDit ondersteun verdere ontwikkeling, en vervang die advertensies in die gratis weergawe van Slide!\n\nDit sluit veelvuldige kolomme, Skaduwee raam (vir foto subreddits), en nog veel meer wat binnekort kom!\n\nStel jy belang om Slide vir Reddit Pro te ontsluit?</string>
-  <string name="general_login">Teken in</string>
   <!-- Used when viewing a thread -->
   <string name="submission_post_saved">Artikel gespaar</string>
   <string name="submission_stickied">Vasgepen</string>
@@ -22,10 +20,6 @@
     <item quantity="one">%d punt</item>
     <item quantity="other">%d punte</item>
   </plurals>
-  <plurals name="submission_comment_count">
-    <item quantity="one">%d opmerking</item>
-    <item quantity="other">%d opmerkings</item>
-  </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Lig</string>
   <string name="theme_dark">Donker</string>
@@ -37,12 +31,7 @@
   <string name="theme_card">Kaart</string>
   <!-- Font settings -->
   <string name="font_size">Lettergrootte</string>
-  <string name="font_large">Groot</string>
-  <string name="font_medium">Medium</string>
-  <string name="font_small">Klein</string>
   <!-- For editing the submission card layout -->
-  <string name="card_picture">Groot prentjie</string>
-  <string name="card_section_images">Prente</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Multi-kolom</string>
   <string name="multi_column_landscape">Landskap</string>
@@ -52,11 +41,8 @@
   <string name="drawer_goto_profile">Gaan na profiel</string>
   <string name="drawer_add_account">Voeg rekening by</string>
   <string name="drawer_hello">Hallo,</string>
-  <string name="drawer_change_account">Verander rekening</string>
   <string name="drawer_offline">Slide in aflyn mode</string>
   <!-- Sidebar items (That's the one on the right) -->
-  <string name="sidebar_pinned">Vasgepen</string>
-  <!-- Crash reporting screen -->
   <!-- User profile -->
   <string name="profile_message">Privaat boodskap</string>
   <string name="profile_overview">Oorsig</string>
@@ -85,10 +71,7 @@
   <string name="info_photo_saved">Prent gebêre</string>
   <!-- General errors / errors without a category -->
   <!-- Gif -->
-  <!-- Pin infos -->
-  <!-- Login strings -->
   <!-- Multireddit errors -->
-  <!-- Album errors/information -->
   <!-- Content types -->
   <!-- Reply to message -->
   <string name="mail_hint_body">Teks</string>
