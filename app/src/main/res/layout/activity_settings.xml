@@ -211,7 +211,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:text="@string/settings_title_appearance"
+                    android:text="@string/settings_section_appearance"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -370,7 +370,7 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:paddingTop="16dp"
-                    android:text="@string/settings_title_other"
+                    android:text="@string/settings_section_other"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 

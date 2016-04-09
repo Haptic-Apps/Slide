@@ -7,6 +7,7 @@
     <string name="general_open_settings">Sidebar</string>
     <string name="general_sub_sync">Syncing subscriptions</string>
 
+
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Submission unsaved</string>
     <string name="submission_info_saved">Submission saved</string>
@@ -303,13 +304,16 @@
     <string name="mod_flair_hint">Flair text</string>
     <string name="mod_no_reports">No reports</string>
 
-    <string name="mod_btn_approve">Approve submission</string>
+    <string name="mod_btn_approve">Approve</string>
     <string name="mod_btn_approved">Approved by /u/%1$s</string>
-    <string name="mod_btn_submission_flair">Set submission flair</string>
+    <string name="mod_btn_submission_flair">Set flair</string>
     <string name="mod_btn_mark_nsfw">Mark NSFW</string>
-    <string name="mod_btn_unmark_nsfw">Remove NSFW tag</string>
-    <string name="mod_btn_pin">Pin submission</string>
-    <string name="mod_btn_unpin">Unpin submission</string>
+    <string name="mod_btn_unmark_nsfw">Unmark NSFW</string>
+    <string name="mod_btn_sticky">Pin</string>
+    <string name="mod_btn_unsticky">Unpin</string>
+    <string name="mod_btn_remove">Remove</string>
+    <string name="mod_btn_remove_reason">Remove with reason</string>
+    <string name="mod_btn_author">Author profile</string>
     <plurals name="mod_btn_reports">
         <item quantity="one">View %d report</item>
         <item quantity="other">View %d reports</item>
@@ -379,7 +383,6 @@
     <string name="settings_filter_title">Title filters</string>
     <string name="settings_filter_hint">Enter strings to match separated by commas</string>
     <string name="settings_prefs_reddit">View all reddit.com preferences</string>
-    <string name="settings_nsfw_info">If you are not seeing NSFW content or previews, make sure to select ‘I am 18 years old’ and ‘Show NSFW thumbnails’ on the reddit.com preferences screen below.</string>
     <string name="settings_font_post">Post title font</string>
     <string name="settings_font_comment">Comment font</string>
     <string name="settings_comment_crop">Crop lead image in comment view</string>
@@ -397,16 +400,16 @@
     <string name="settings_title_sub_theme">Subreddit themes</string>
     <string name="settings_title_sorting">Default sorting</string>
     <string name="settings_title_support">Donate</string>
-    <string name="settings_title_appearance">Appearance</string>
     <string name="settings_title_about">About</string>
     <string name="settings_title_multi_column">Multi-column</string>
     <string name="settings_title_fab">Floating action button</string>
     <string name="settings_title_comments">Comments</string>
     <string name="settings_title_filter">Filters</string>
     <string name="settings_title_font">Font</string>
-    <string name="settings_title_other">Other</string>
 
     <string name="settings_section_general">General</string>
+    <string name="settings_section_appearance">Appearance</string>
+    <string name="settings_section_other">Other</string>
 
 
     <!-- Titles displayed in action bar / head / recents overview-->

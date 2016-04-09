@@ -631,16 +631,16 @@ public class PopulateSubmissionViewHolder {
 
         final boolean stickied = submission.isStickied();
         if (stickied) {
-            b.sheet(4, pin, res.getString(R.string.mod_btn_unpin));
+            b.sheet(4, pin, res.getString(R.string.mod_btn_unsticky));
         } else {
-            b.sheet(4, pin, res.getString(R.string.mod_btn_pin));
+            b.sheet(4, pin, res.getString(R.string.mod_btn_sticky));
         }
 
         final String finalWhoApproved = whoApproved;
         final boolean finalApproved = approved;
-        b.sheet(6, remove, mContext.getString(R.string.btn_remove))
-                .sheet(7, remove_reason, "Remove with reason")
-                .sheet(8, profile, "Author profile")
+        b.sheet(6, remove, mContext.getString(R.string.mod_btn_remove))
+                .sheet(7, remove_reason, res.getString(R.string.mod_btn_remove_reason))
+                .sheet(8, profile, res.getString(R.string.mod_btn_author))
                 .listener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -652,7 +652,7 @@ public class PopulateSubmissionViewHolder {
 
                                         ArrayList<String> finalReports = new ArrayList<>();
                                         for (String s : reports.keySet()) {
-                                            finalReports.add("x" + reports.get(s) + " " + s);
+                                            finalReports.add( reports.get(s) + "× " + s);
                                         }
                                         for (String s : reports2.keySet()) {
                                             finalReports.add(s + ": " + reports2.get(s));
