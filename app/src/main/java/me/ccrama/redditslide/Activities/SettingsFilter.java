@@ -109,7 +109,8 @@ public class SettingsFilter extends BaseActivityAnim {
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SettingValues.domainFilters = SettingValues.domainFilters.replace(finalS, "");
+                        domains.remove(finalS);
+                        SettingValues.domainFilters = Reddit.arrayToString(domains);
                         updateFilters();
                     }
                 });
@@ -132,7 +133,8 @@ public class SettingsFilter extends BaseActivityAnim {
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SettingValues.subredditFilters = SettingValues.subredditFilters.replace(finalS, "");
+                        subs.remove(finalS);
+                        SettingValues.subredditFilters = Reddit.arrayToString(subs);
                         updateFilters();
 
                     }
@@ -156,7 +158,8 @@ public class SettingsFilter extends BaseActivityAnim {
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SettingValues.textFilters = SettingValues.textFilters.replace(finalS, "");
+                        textlist.remove(finalS);
+                        SettingValues.textFilters = Reddit.arrayToString(textlist);
                         updateFilters();
 
                     }
@@ -180,7 +183,8 @@ public class SettingsFilter extends BaseActivityAnim {
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SettingValues.titleFilters = SettingValues.titleFilters.replace(finalS, "");
+                        titlelist.remove(finalS);
+                        SettingValues.titleFilters = Reddit.arrayToString(titlelist);
                         updateFilters();
 
                     }

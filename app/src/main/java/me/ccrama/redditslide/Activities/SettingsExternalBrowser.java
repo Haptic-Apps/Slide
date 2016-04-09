@@ -61,7 +61,8 @@ public class SettingsExternalBrowser extends BaseActivityAnim {
                 t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        SettingValues.alwaysExternal = SettingValues.alwaysExternal.replace(finalS, "");
+                        domains.remove(finalS);
+                        SettingValues.alwaysExternal = Reddit.arrayToString(domains);
                         updateFilters();
                     }
                 });

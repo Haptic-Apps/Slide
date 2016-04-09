@@ -296,8 +296,8 @@ public class Submit extends BaseActivity {
 
                         } else {
                             Submission s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()));
-                            new OpenRedditLink(Submit.this, "reddit.com/r/" + ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.getFullName().substring(3, s.getFullName().length()));
                             new AccountManager(Authentication.reddit).sendRepliesToInbox(s, inboxReplies.isChecked());
+                            new OpenRedditLink(Submit.this, "reddit.com/r/" + ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.getFullName().substring(3, s.getFullName().length()));
                             Submit.this.finish();
                         }
 
@@ -327,8 +327,9 @@ public class Submit extends BaseActivity {
                 } else if (link.getVisibility() == View.VISIBLE) {
 
                     try {
-                        String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(new URL(((EditText) findViewById(R.id.urltext)).getText().toString()), ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
-                        new OpenRedditLink(Submit.this, "reddit.com/r/" + ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
+                        Submission s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(new URL(((EditText) findViewById(R.id.urltext)).getText().toString()), ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()));
+                        new AccountManager(Authentication.reddit).sendRepliesToInbox(s, inboxReplies.isChecked());
+                        new OpenRedditLink(Submit.this, "reddit.com/r/" + ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.getFullName().substring(3, s.getFullName().length()));
 
                         Submit.this.finish();
 
@@ -375,9 +376,9 @@ public class Submit extends BaseActivity {
                     }
                 } else if (image.getVisibility() == View.VISIBLE) {
                     try {
-                        String s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(new URL(URL), ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString())).getFullName();
-
-                        new OpenRedditLink(Submit.this, "reddit.com/r/" + ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.substring(3, s.length()));
+                        Submission s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(new URL(URL), ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()));
+                        new AccountManager(Authentication.reddit).sendRepliesToInbox(s, inboxReplies.isChecked());
+                        new OpenRedditLink(Submit.this, "reddit.com/r/" + ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.getFullName().substring(3, s.getFullName().length()));
 
                         Submit.this.finish();
 
