@@ -230,6 +230,7 @@ public class Authentication {
                     final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
                     OAuthData authData = null;
                     try {
+
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);
                         reddit.authenticate(authData);
                         Authentication.name = "LOGGEDOUT";
