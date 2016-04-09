@@ -9,7 +9,6 @@
   <!-- Settings for Multi-column view -->
   <!-- Drawer items (That's the one on the left) -->
   <!-- Sidebar items (That's the one on the right) -->
-  <!-- Crash reporting screen -->
   <!-- User profile -->
   <!-- Comment text options -->
   <!-- Welcome view (first time setup) -->
@@ -18,10 +17,7 @@
   <!-- General information / information without a category -->
   <!-- General errors / errors without a category -->
   <!-- Gif -->
-  <!-- Pin infos -->
-  <!-- Login strings -->
   <!-- Multireddit errors -->
-  <!-- Album errors/information -->
   <!-- Content types -->
   <!-- Reply to message -->
   <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->

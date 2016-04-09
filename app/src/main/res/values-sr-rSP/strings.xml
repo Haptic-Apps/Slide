@@ -4,17 +4,14 @@
   <!-- Generic text used anywhere -->
   <string name="general_confirm_exit">Потврди излазак</string>
   <string name="general_confirm_exit_msg">Да ли стварно желите да изађете из Slide?</string>
-  <string name="general_switch_acc">Промени налог</string>
   <string name="general_enable_shadowbox">Shadowbox режим</string>
   <string name="general_sub_sync">Синхронизованје претплата</string>
-  <string name="general_login">Пријави се</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">Пост несачуван</string>
   <string name="submission_info_saved">Пост сачуван</string>
   <string name="submission_post_saved">Пост снимљен</string>
   <string name="submission_info_hidden">Пост сакривен заувек.</string>
   <string name="submission_stickied">пинован</string>
-  <string name="submission_link_internal">Отвори у интерном прегледачу</string>
   <string name="submission_link_extern">Отвори у вањском прегледачу</string>
   <string name="submission_link_copy">копирај URL</string>
   <string name="submission_link_share">Подели URL</string>
@@ -41,12 +38,7 @@
   <string name="theme_card">Картица</string>
   <!-- Font settings -->
   <string name="font_size">Величина фонта</string>
-  <string name="font_large">Велики</string>
-  <string name="font_medium">Средњи</string>
-  <string name="font_small">Мали</string>
   <!-- For editing the submission card layout -->
-  <string name="card_actionbar">Акцијска трака видлјива</string>
-  <string name="card_picture">Велика слика</string>
   <string name="card_hide_post_button">\"Сакриј пост\" дугме у акцијској траци</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Више колона</string>
@@ -57,22 +49,10 @@
   <string name="drawer_goto_profile">Иди на профил</string>
   <string name="drawer_add_account">Додај налог</string>
   <string name="drawer_hello">Здраво,</string>
-  <string name="drawer_change_account">Промени налог</string>
   <string name="drawer_search">Тражи субредит</string>
   <string name="drawer_moderation">Модерација</string>
-  <string name="drawer_sync_subs">Синхронизуј своје субредите</string>
   <!-- Sidebar items (That's the one on the right) -->
-  <string name="sidebar_pinned">пинован</string>
-  <string name="sidebar_wiki">Wiki</string>
-  <!-- Crash reporting screen -->
-  <string name="crash_title">Slide се срушио.</string>
-  <string name="crash_report">Пријаби буг на GitHub</string>
-  <string name="crash_restart">Рестартуј апликацију</string>
-  <string name="crash_msg_hint">Опишите како се може репродуковати рушење апликације</string>
-  <string name="crash_title_hint">Опишите рушење апликације у једној реченици</string>
-  <string name="crash_btn">Извештај</string>
   <!-- User profile -->
-  <string name="profile_yours">Твој профил</string>
   <string name="profile_karma_link">линк карма</string>
   <string name="profile_karma_comment">карма коментара</string>
   <string name="profile_message">Приватна порука</string>
@@ -88,7 +68,6 @@
   <string name="profile_add_friend">Додај пријатеља</string>
   <string name="profile_remove_friend">Уклони пријатеља</string>
   <!-- Comment text options -->
-  <string name="comment_report">Пријави коментар</string>
   <string name="comment_share">Подели коментар</string>
   <string name="comment_delete">Избриши коментар</string>
   <string name="comment_delete_msg">Да ли сигурно желите да избришете овај коментар? Ово се не може поништити.</string>
@@ -130,10 +109,7 @@
   <string name="info_photo_saved">Слика сачувана</string>
   <!-- General errors / errors without a category -->
   <!-- Gif -->
-  <!-- Pin infos -->
-  <!-- Login strings -->
   <!-- Multireddit errors -->
-  <!-- Album errors/information -->
   <!-- Content types -->
   <!-- Reply to message -->
   <string name="mail_hint_subject">Тема</string>
@@ -141,7 +117,6 @@
   <string name="mail_send_to">Пошаљи поруку кориснику %1$s</string>
   <string name="mail_send">Пошаљи поруку</string>
   <string name="mail_notification_msg">Нова порука од %1$s</string>
-  <string name="mail_mod_notification_msg">Нова модераторска порука од %1$s</string>
   <string name="mail_reply_to">Одговори кориснику %1$s</string>
   <string name="mail_notification_author">%1$s од %2$s</string>
   <string name="mail_theirs">Погледај њихову поруку</string>
@@ -150,7 +125,6 @@
   <string name="misc_none">Ништа</string>
   <string name="misc_retry">Да ли желите да покушате поново?</string>
   <string name="misc_score_hidden">оцена сакривена</string>
-  <string name="misc_you">ти</string>
   <string name="misc_nsfw">Несигурно за рад</string>
   <string name="misc_subscribed">Пријавлјен</string>
   <string name="misc_continue">Настави</string>
@@ -159,7 +133,6 @@
   <!-- Goto User -->
   <string name="user_enter">Унеси корисничко име</string>
   <string name="user_btn_goto">Иди на корисника</string>
-  <string name="user_invalid">Неисправно корисничко име</string>
   <string name="user_invalid_msg">Редит корисничка имена могу имати само слова, бројеве, доње црте и цртице.</string>
   <!-- Buttons -->
   <string name="btn_add">Додај</string>
@@ -174,21 +147,19 @@
   <string name="btn_remove">Уклони</string>
   <string name="btn_reply">Одговори</string>
   <string name="btn_reset">Ресетуј</string>
-  <string name="btn_retry">Покушај поново</string>
   <string name="btn_save">Сачувај</string>
   <string name="btn_submit">Пошаљи</string>
   <string name="btn_sure">Сигурно!</string>
   <string name="btn_undo">Поништи</string>
   <string name="btn_yes">Да</string>
   <string name="btn_refresh">Освежи</string>
-  <string name="btn_confirm">Потврди</string>
-  <string name="btn_theme_toggle">Укључи/искључи тамну тему</string>
   <!-- Backup -->
   <string name="backup_success">Сигурноса копија успјешна!</string>
   <string name="backup_restoring">Враћање ваших поставки</string>
   <string name="backup_backing_up">Стварање сигурносне копије поставки</string>
   <!-- Vote -->
   <!-- Moderation tools -->
+  <string name="mod_btn_remove">Уклони</string>
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
@@ -196,7 +167,6 @@
   <!-- Settings -->
   <string name="settings_layout_default">Изглед поста</string>
   <string name="settings_link_album">Интерни приказ албума</string>
-  <string name="settings_link_browser">Интерни интернет прегледач</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_pro">Купи про</string>
   <string name="settings_title_multi_column">Више колона</string>

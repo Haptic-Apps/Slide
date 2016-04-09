@@ -13,12 +13,7 @@
   <!-- Settings for Multi-column view -->
   <!-- Drawer items (That's the one on the left) -->
   <string name="drawer_hello">Sveicināts,</string>
-  <string name="drawer_sync_subs">Sinhronizē savus Subredditus</string>
   <!-- Sidebar items (That's the one on the right) -->
-  <!-- Crash reporting screen -->
-  <string name="crash_title">Slide uzkārās.</string>
-  <string name="crash_restart">Restartēt Aplikāciju</string>
-  <string name="crash_btn">Ziņo</string>
   <!-- User profile -->
   <string name="profile_karma_comment">komentāru karma</string>
   <string name="profile_message">Privāts ziņojums</string>
@@ -44,18 +39,12 @@
   <!-- General information / information without a category -->
   <!-- General errors / errors without a category -->
   <string name="err_retry_later">Pēc minūtes mēģini vēlreiz!</string>
-  <string name="err_login">Lai veiktu šo darbību jāpierakstās! Pierakstīties tagad?</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF netika atrasts</string>
-  <string name="gif_saved">GIF saglabāts</string>
-  <!-- Pin infos -->
-  <!-- Login strings -->
-  <string name="login_restarting_title">Aplikācija restartējas</string>
   <!-- Multireddit errors -->
   <string name="multireddit_err_title">Multiredditi (vēl) nav pieejami!</string>
   <string name="multireddit_title_empty">Virsraksts nevar būt tukšs</string>
   <string name="multireddit_selector">Izvēlaties subredditu ko vēlaties pievienot</string>
-  <!-- Album errors/information -->
   <!-- Content types -->
   <!-- Reply to message -->
   <string name="mail_hint_subject">Tēma</string>
@@ -63,7 +52,6 @@
   <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
   <!-- Goto User -->
   <string name="user_btn_goto">Doties uz lietotāja profilu</string>
-  <string name="user_invalid">Nederīgs lietotājvārds</string>
   <string name="user_invalid_msg">Reddit lietotājvārds drīkst saturēt tikai burtus, ciparus, zemsvītras un domuzīmes.</string>
   <!-- Buttons -->
   <string name="btn_add">Pievienot</string>
@@ -74,7 +62,6 @@
   <string name="btn_remove">Noņemt</string>
   <string name="btn_reply">Atbildēt</string>
   <string name="btn_reset">Atiestatīt</string>
-  <string name="btn_retry">Mēģiniet vēlreiz</string>
   <string name="btn_save">Saglabāt</string>
   <string name="btn_submit">Publicēt</string>
   <string name="btn_undo">Atsaukt</string>
@@ -82,6 +69,7 @@
   <!-- Vote -->
   <!-- Moderation tools -->
   <string name="mod_mark_nsfw">Vai tiešām vēlaties šo marķēt NSFW?</string>
+  <string name="mod_btn_remove">Noņemt</string>
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <string name="subreddit_err">Subreddits netika atrasts</string>
@@ -95,26 +83,19 @@
   <string name="captcha_title">Pierādiet ka neesat robots</string>
   <!-- Settings -->
   <string name="settings_accent_title">Uzstādīt akcentu krāsu</string>
-  <string name="settings_card_mode">Kāršu režīms</string>
   <string name="settings_link_album">Iebūvētais albumu skatītājs</string>
-  <string name="settings_link_browser">Iebūvētais tīmekļa pārlūks</string>
   <string name="settings_link_gif">Iebūvētais GIF skatītājs</string>
   <string name="settings_link_image">Iebūvētais attēlu skatītājs</string>
   <string name="settings_libs">Atvērtā pirmkoda koda bibliotēkas</string>
   <string name="settings_google">Slide veido savienojumu ar Google</string>
-  <string name="settings_auto_end">Diena sākas</string>
-  <string name="settings_auto_start">Nakts sākas</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_pro">Pirkt Pro versiju</string>
   <string name="settings_title_support">Ziedot</string>
-  <string name="settings_title_appearance">Izskats</string>
   <string name="settings_title_about">Par aplikāciju</string>
-  <string name="settings_title_cache">Kešatmiņa</string>
   <string name="settings_title_comments">komentāri</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_edit_theme">Rediģēt motīvu</string>
   <string name="title_settings">Iestatījumi</string>
-  <string name="title_report_crash">Ziņo par uzkāršanos</string>
   <string name="title_login">Ielogoties Reddit</string>
   <string name="title_multireddits">Multiredditi</string>
   <string name="title_inbox">Iesūtne</string>
@@ -126,5 +107,4 @@
   <!-- Reorder subreddit activity -->
   <!-- Time -->
   <string name="btn_report">Ziņo</string>
-  <string name="action_settings">Iestatījumi</string>
 </resources>

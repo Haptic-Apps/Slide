@@ -4,17 +4,14 @@
   <!-- Generic text used anywhere -->
   <string name="general_confirm_exit">تأكيد الخروج</string>
   <string name="general_confirm_exit_msg">هل تريد حقاً الخروج من سلايد؟</string>
-  <string name="general_switch_acc">تغيير الحساب</string>
   <string name="general_enable_shadowbox">نمط Shadowbox</string>
   <string name="general_sub_sync">مزامنة الاشتراكات</string>
-  <string name="general_login">الدخول</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">لم يتم حفظ البيانات</string>
   <string name="submission_info_saved">تم حفظ الادخال</string>
   <string name="submission_post_saved">حُفظ المنشور</string>
   <string name="submission_info_hidden">المنشور مخفى للأبد</string>
   <string name="submission_stickied">مثبت</string>
-  <string name="submission_link_internal">فتح بالداخل</string>
   <string name="submission_link_extern">فتح بالخارج</string>
   <string name="submission_link_share">مشاركة الرابط</string>
   <string name="submission_share_title">تريد مشاركة اي رابط ؟</string>
@@ -40,19 +37,10 @@
   <string name="theme_card">بطاقة</string>
   <!-- Font settings -->
   <string name="font_size">حجم حروف الطباعة</string>
-  <string name="font_large">كبير</string>
-  <string name="font_medium">وسط</string>
-  <string name="font_small">صغير</string>
   <!-- For editing the submission card layout -->
-  <string name="card_actionbar">إظهار شريط العمل</string>
-  <string name="card_picture">صورة كبيرة</string>
-  <string name="card_picture_cropped">اقتصاص الصور الكبيرة</string>
   <string name="card_hide_post_button">زر \"اخفاء البوست\" في شريط العمل</string>
-  <string name="card_tint_background">تظليل خلفية الكرت بلون السب ريديت</string>
   <string name="card_tint_outside">التظليل فقط خارج السب ريديت</string>
   <string name="card_save_button">زر حفظ البوست في شريط العمل</string>
-  <string name="card_section_images">الصور</string>
-  <string name="card_section_actionbar">شريط العمل</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">متعدد الأعمدة</string>
   <string name="multi_column_landscape">أفقي</string>
@@ -61,27 +49,14 @@
   <string name="drawer_profile">الصفحة الشخصية</string>
   <string name="drawer_support">اشتر نسخة Pro</string>
   <string name="drawer_goto_profile">انتقل إلى الصفحة الشخصية</string>
-  <string name="drawer_reorder_subs">إعادة ترتيب السب ريديت الخاصه بك</string>
   <string name="drawer_add_account">إضافة حساب</string>
   <string name="drawer_hello">مرحباً,</string>
-  <string name="drawer_change_account">تغيير الحساب</string>
   <string name="drawer_search">اذهب إلى سب ريديت</string>
   <string name="drawer_moderation">الإشراف</string>
-  <string name="drawer_sync_subs">المزامنة subreddits الخاص بك</string>
-  <string name="drawer_account_switch">تبديل أو حذف</string>
-  <string name="drawer_account_switch_msg">هل ترغب في التبديل إلى هذا الحساب أو إزالة هذا الحساب؟</string>
   <string name="drawer_offline">Slide غير متصل</string>
   <string name="drawer_offline_retry">حاول لدخول وضع على الإنترنت</string>
   <!-- Sidebar items (That's the one on the right) -->
-  <string name="sidebar_pinned">مثبت</string>
-  <string name="sidebar_wiki">Wiki</string>
-  <!-- Crash reporting screen -->
-  <string name="crash_title">Slide انهار.</string>
-  <string name="crash_report">إبلاغ الخطأ الى GitHub</string>
-  <string name="crash_restart">إعادة تشغيل البرنامج</string>
-  <string name="crash_btn">ابلاغ</string>
   <!-- User profile -->
-  <string name="profile_yours">صفحتك الشخصية</string>
   <string name="profile_message">رسالة خاصة</string>
   <string name="profile_saved">تم الحفظ</string>
   <string name="profile_upvoted">التصويت للأعلى</string>
@@ -96,7 +71,6 @@
   <string name="profile_add_friend">أضف كصديق</string>
   <string name="profile_remove_friend">حذف صديق</string>
   <!-- Comment text options -->
-  <string name="comment_report">التبليغ على التعليق</string>
   <string name="comment_share">شارك التعليق</string>
   <string name="comment_delete">حذف التعليق</string>
   <string name="comment_delete_msg">هل تريد حذف هذا التعليق حقاً؟ وهذا لا يمكن التراجع عنه.</string>
@@ -128,26 +102,16 @@
   <string name="editor_submit">أرسِل المنشورة</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">حُفظت الصورة</string>
-  <string name="info_connecting">الاتصال ب Reddit</string>
   <!-- General errors / errors without a category -->
-  <string name="err_network_title">Slide لم يستطع الاتصال ب Reddit!</string>
   <string name="err_title">حدث خطأ!</string>
-  <string name="err_network_msg">الرجاء التحقق من اتصال الإنترنت الخاص بك وحاول مرة أخرى!</string>
   <string name="err_invalid_url">الرابط غير صالح</string>
   <string name="err_loading_content">خطأ في تحميل المحتوى</string>
   <string name="err_connection_lost">يبدو أنك فقدت الاتصال بشبكة الإنترنت. يرجى الاتصال بالإنترنت والذهاب مرة أخرى!</string>
   <!-- Gif -->
   <string name="gif_err_title">لم يتم العثور على GIF</string>
   <string name="gif_err_msg">حدث خطأ عند تحميل ال GIF. الرجاء إعادة فتح GIF ثم أعد المحاولة.</string>
-  <string name="gif_saved">حفظت ال GIF</string>
-  <!-- Pin infos -->
-  <!-- Login strings -->
-  <string name="login_restarting_title">تتم إعادة تشغيل البرنامج</string>
   <!-- Multireddit errors -->
   <string name="multireddit_title_empty">العنوان لا يمكن أن يكون فارغاً</string>
-  <!-- Album errors/information -->
-  <string name="album_loading">تحميل الألبوم</string>
-  <string name="album_err_not_found">لم يتم العثور على ألبوم</string>
   <!-- Content types -->
   <string name="type_nsfw_img">صورة NSFW</string>
   <string name="type_nsfw_gif">GIF NSFW</string>
@@ -171,12 +135,10 @@
   <string name="misc_err">خطأ</string>
   <string name="misc_none">لاشيء</string>
   <string name="misc_score_hidden">النقاط مخفية</string>
-  <string name="misc_you">أنت</string>
   <string name="misc_nsfw">NSFW</string>
   <!-- Goto User -->
   <string name="user_enter">أدخل اسم المستخدم</string>
   <string name="user_btn_goto">الانتقال إلى استخدام</string>
-  <string name="user_invalid">اسم مستخدم غير صالح</string>
   <!-- Buttons -->
   <string name="btn_add">اضف</string>
   <string name="btn_cancel">الغاء</string>
@@ -190,14 +152,12 @@
   <string name="btn_remove">إزالة</string>
   <string name="btn_reply">رد </string>
   <string name="btn_reset">اعادة ضبط</string>
-  <string name="btn_retry">حاول مرة اخرى</string>
   <string name="btn_save">حفظ</string>
   <string name="btn_submit">ارسال</string>
   <string name="btn_sure">بالتأكيد!</string>
   <string name="btn_undo">ارجع</string>
   <string name="btn_yes">نعم</string>
   <string name="btn_refresh">تحديث</string>
-  <string name="btn_confirm">تأكيد</string>
   <!-- Backup -->
   <string name="backup_success">لقد نجحت عملية النسخ الإحتياطي!</string>
   <string name="backup_restoring">استعادة الإعدادات الخاصة بك</string>
@@ -209,10 +169,8 @@
   <string name="vote_err_login">يجب أن تكون مسجلاً للتصويت!</string>
   <!-- Moderation tools -->
   <string name="mod_reports">ابلاغ</string>
-  <string name="mod_remove_hint">إزالة السبب</string>
-  <string name="mod_btn_spam">مزعج</string>
-  <string name="mod_ban">حظر المستخدم</string>
   <string name="mod_no_reports">لا توجد تقارير</string>
+  <string name="mod_btn_remove">إزالة</string>
   <!-- Subreddit Wiki -->
   <string name="wiki_err">لم يتم العصور على wiki</string>
   <!-- Subreddits -->
@@ -221,31 +179,20 @@
   <!-- Captcha -->
   <string name="captcha_title">أثبت أنك لست روبوت</string>
   <!-- Settings -->
-  <string name="settings_card_mode">وضع البطاقه</string>
   <string name="settings_layout_default">شكل الموضوع</string>
   <string name="settings_link_album">عرض الالبومات بالداخل</string>
-  <string name="settings_link_browser">استخدام متصفح الويب الداخلي</string>
   <string name="settings_link_gif">عرض الـGIF بالداخل</string>
   <string name="settings_link_handling">التعامل مع الرابط</string>
   <string name="settings_link_image">عرض الصور بالداخل</string>
-  <string name="settings_link_video">عرض الفديو بالداخل</string>
   <string name="settings_mail_check">التحقق من وجود بريد جديد</string>
   <string name="settings_main_color_title">تحرير اللون الرئيسي</string>
   <string name="settings_notification_short">تحقق كل %1$s</string>
-  <string name="settings_floating_action_button">زر العمل عائم</string>
-  <string name="settings_floating_action_button_visible">إظهار زر العمل العائم</string>
   <string name="share_link">مشاركة الرابط</string>
   <string name="posts_hidden_forever">إخفاء الموضوع للأبد</string>
   <string name="share_image">مشاركة الصوره</string>
   <string name="settings_libs">مكتبات مفتوحة المصدر</string>
   <string name="settings_bugs">أرسل تقريراً بالخطأ</string>
   <string name="settings_changelog">عرض سجل التغيير</string>
-  <string name="settings_auto_night">تمكين الوضع الليلي الاوتوماتيكي</string>
-  <string name="settings_auto_end">يبدأ اليوم من</string>
-  <string name="settings_cache_always">اظهار بيانات غير محدثه (بدء تشغيل اسرع)</string>
-  <string name="settings_auto_start">يبدأ الليل من</string>
-  <string name="settings_middle_card">صورة في منتصف البطاقة</string>
-  <string name="settings_cache_delete">حذف كافة البيانات المخزنة مؤقتاً</string>
   <string name="settings_colored_navigation_bar">شريط التنقل ملون</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_general">عامّ</string>
@@ -254,19 +201,13 @@
   <string name="settings_title_support">التبرع</string>
   <string name="settings_title_multi_column">متعدد الأعمدة</string>
   <string name="settings_title_fab">زر العمل عائم</string>
-  <string name="settings_title_caching">إعدادات ذاكرة التخزين المؤقتة</string>
-  <string name="settings_title_cache">ذاكرة التخزين المؤقت</string>
-  <string name="settings_title_auto">شكل اوتوماتيكي</string>
   <string name="settings_title_comments">تعليقات</string>
   <string name="settings_title_filter">فلترة</string>
   <string name="settings_title_font">الخط</string>
-  <string name="settings_title_other">آخرى</string>
-  <string name="settings_section_support">الدعم</string>
   <string name="settings_section_general">عامّ</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_submit_post">إرسال المنشورة</string>
   <string name="title_settings">إعدادات</string>
-  <string name="title_report_crash">تبليغ اللإنهيار</string>
   <string name="title_share">مشاركة باستخدام</string>
   <string name="title_login">تسجيل الدخول إلى Reddit</string>
   <string name="title_inbox">صندوق الوارد</string>
@@ -304,6 +245,5 @@
   <string name="submission_share_permalink">مشاركة المنشور</string>
   <string name="mode_card">بطاقة</string>
   <string name="btn_report">ابلاغ</string>
-  <string name="action_settings">إعدادات</string>
   <string name="subreddit_name_tint">اسم السوبريديت</string>
 </resources>

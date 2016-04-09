@@ -4,13 +4,11 @@
   <!-- Generic text used anywhere -->
   <string name="general_confirm_exit">Confirmar a saída</string>
   <string name="general_confirm_exit_msg">De seguro que queres saír?</string>
-  <string name="general_switch_acc">Trocar contas</string>
   <string name="general_enable_shadowbox">Activar o modo Shadowbox</string>
   <!-- Used when viewing a thread -->
   <string name="submission_post_saved">Post gardado</string>
   <string name="submission_info_hidden">Post oculto para sempre.</string>
   <string name="submission_stickied">fixado</string>
-  <string name="submission_link_internal">Abrir internamente</string>
   <string name="submission_link_extern">Abrir externamente</string>
   <string name="submission_link_share">Compartir url</string>
   <string name="submission_hide">Agochar post</string>
@@ -27,8 +25,6 @@
   <string name="theme_card">Tarxeta</string>
   <!-- Font settings -->
   <!-- For editing the submission card layout -->
-  <string name="card_actionbar">Barra de acción visible</string>
-  <string name="card_picture">Imaxe grande</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Axustes da Multi-Columna</string>
   <string name="multi_column_landscape">Apaisado</string>
@@ -37,13 +33,9 @@
   <string name="drawer_goto_profile">Ir ao perfil</string>
   <string name="drawer_add_account">Engadir unha conta</string>
   <string name="drawer_hello">Ola,</string>
-  <string name="drawer_change_account">TROCAR CONTAS</string>
   <string name="drawer_search">Atopar un subreddit</string>
   <!-- Sidebar items (That's the one on the right) -->
-  <string name="sidebar_pinned">fixado</string>
-  <!-- Crash reporting screen -->
   <!-- User profile -->
-  <string name="profile_yours">O teu perfil</string>
   <!-- Comment text options -->
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
@@ -60,10 +52,7 @@
   <!-- General errors / errors without a category -->
   <string name="err_invalid_url">URL inválida</string>
   <!-- Gif -->
-  <!-- Pin infos -->
-  <!-- Login strings -->
   <!-- Multireddit errors -->
-  <!-- Album errors/information -->
   <!-- Content types -->
   <string name="type_link">Ligazón</string>
   <string name="type_album">Álbum</string>
@@ -73,7 +62,6 @@
   <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
   <string name="misc_err">Erro</string>
   <string name="misc_none">Ningún</string>
-  <string name="misc_you">ti</string>
   <!-- Goto User -->
   <!-- Buttons -->
   <string name="btn_add">Engadir</string>
@@ -112,5 +100,4 @@
   <string name="time_just_now">xusto agora</string>
   <string name="submission_share_permalink">Compartir post</string>
   <string name="mode_card">Tarxeta</string>
-  <string name="action_settings">Axustes</string>
 </resources>

@@ -4,11 +4,9 @@
   <!-- Generic text used anywhere -->
   <string name="general_confirm_exit">Bekræft lukning</string>
   <string name="general_confirm_exit_msg">Er du sikker på at du vil lukke Slide?</string>
-  <string name="general_switch_acc">Skift konto</string>
   <string name="general_enable_shadowbox">Aktiver Shadowbox tilstand</string>
   <string name="general_open_settings">Åben Subreddit indstillinger</string>
   <string name="general_sub_sync">Synkroniser abonnementer</string>
-  <string name="general_login">Log ind</string>
   <!-- Used when viewing a thread -->
   <!-- Theme settings -->
   <!-- Font settings -->
@@ -16,7 +14,6 @@
   <!-- Settings for Multi-column view -->
   <!-- Drawer items (That's the one on the left) -->
   <!-- Sidebar items (That's the one on the right) -->
-  <!-- Crash reporting screen -->
   <!-- User profile -->
   <!-- Comment text options -->
   <!-- Welcome view (first time setup) -->
@@ -25,10 +22,7 @@
   <!-- General information / information without a category -->
   <!-- General errors / errors without a category -->
   <!-- Gif -->
-  <!-- Pin infos -->
-  <!-- Login strings -->
   <!-- Multireddit errors -->
-  <!-- Album errors/information -->
   <!-- Content types -->
   <!-- Reply to message -->
   <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
