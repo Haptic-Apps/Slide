@@ -5,27 +5,7 @@
     android:background="?attr/activity_background"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/md_light_blue_500"
-        android:theme="@style/Theme.AppCompat">
-
-        <TextView
-            android:id="@+id/reset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:padding="16dp"
-            android:text="@string/btn_reset"
-            android:textAllCaps="true"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
-
-
-    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/settings_toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"

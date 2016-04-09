@@ -599,4 +599,6 @@
     <string name="login_starting">Setting things up!</string>
     <string name="login_starting_desc">This should only take a second...</string>
     <string name="settings_fab_create">Show create comment FAB</string>
+    <string name="submission_unhide">Unhide post</string>
+    <string name="submission_info_unhidden">Submission unhidden</string>
 </resources>

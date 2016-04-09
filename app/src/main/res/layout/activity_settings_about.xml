@@ -12,13 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/md_light_blue_500"
-            android:theme="@style/Theme.AppCompat">
-        </android.support.v7.widget.Toolbar>
+        <include layout="@layout/settings_toolbar" />
 
         <LinearLayout
             android:layout_width="match_parent"

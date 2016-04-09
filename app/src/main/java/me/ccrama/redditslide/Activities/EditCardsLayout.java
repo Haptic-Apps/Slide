@@ -267,39 +267,6 @@ public class EditCardsLayout extends BaseActivity {
             }
         });
 
-        findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences.Editor edit = SettingValues.prefs.edit();
-                edit.remove("largeThumbnailsNew");
-                edit.remove("defaultCardViewNew");
-                edit.remove("infoBarTypeNew");
-                edit.apply();
-                layout.removeAllViews();
-                layout.addView(CreateCardView.CreateView(layout, false, ""));
-
-            }
-        });
-
-
-
-
-       /*todo findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CreateCardView.setCardViewType(SettingValues.defaultCardView, layout, subreddit, subreddit);
-                CreateCardView.setActionBarVisible(SettingValues.actionBarVisible, layout, subreddit, subreddit);
-                CreateCardView.setInfoBarVisible(SettingValues.infoBar, layout, subreddit, subreddit);
-                layout.removeAllViews();
-                layout.addView(CreateCardView.setLargeThumbnails(SettingValues.largeThumbnails, layout, subreddit, subreddit));
-                largeimage.setChecked(CreateCardView.isLarge(subreddit));
-                actionbar.setChecked(CreateCardView.isActionBar(subreddit));
-                infobar.setChecked(CreateCardView.isInfoBar(subreddit));
-                int chosen = list.indexOf(CreateCardView.getCardView(subreddit).getDisplayName());
-                sp.setSelection(chosen);
-            }
-        });*/
-
 
     }
 

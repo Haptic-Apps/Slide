@@ -7,19 +7,11 @@
     android:background="?attr/activity_background"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/md_light_blue_500"
-        android:theme="@style/Theme.AppCompat"
-        app:layout_scrollFlags="scroll|enterAlways">
-
-    </android.support.v7.widget.Toolbar>
+    <include layout="@layout/settings_toolbar" />
 
     <ScrollView
-        android:layout_width="match_parent"
         android:id="@+id/base"
+        android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
@@ -59,8 +51,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/settings"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/settings" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -85,8 +77,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/link"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/link" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -96,6 +88,7 @@
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/history"
                     android:layout_width="match_parent"
@@ -108,8 +101,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/history"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/history" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -120,29 +113,29 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-              <!--  <LinearLayout
-                    android:id="@+id/autocache"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal">
+                <!--  <LinearLayout
+                      android:id="@+id/autocache"
+                      android:layout_width="match_parent"
+                      android:layout_height="56dp"
+                      android:background="?android:selectableItemBackground"
+                      android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="16dp"
-                        android:padding="16dp"
-                        app:srcCompat="@drawable/save"
-                        android:tint="?attr/tint" />
+                      <ImageView
+                          android:layout_width="56dp"
+                          android:layout_height="match_parent"
+                          android:layout_marginRight="16dp"
+                          android:padding="16dp"
+                          app:srcCompat="@drawable/save"
+                          android:tint="?attr/tint" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:text="Autosync"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>!-->
+                      <TextView
+                          android:layout_width="wrap_content"
+                          android:layout_height="match_parent"
+                          android:gravity="center_vertical"
+                          android:text="Autosync"
+                          android:textColor="?attr/font"
+                          android:textSize="16sp" />
+                  </LinearLayout>!-->
                 <LinearLayout
                     android:id="@+id/tablet"
                     android:layout_width="match_parent"
@@ -156,8 +149,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/multicolumn"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/multicolumn" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -181,8 +174,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/sub"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/sub" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -228,8 +221,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/theme"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/theme" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -238,8 +231,7 @@
 
                         android:text="@string/settings_title_default_theme"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
 
@@ -256,8 +248,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/card"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/card" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -266,8 +258,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_layout_default"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
 
@@ -284,8 +275,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/sub"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/sub" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -294,8 +285,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_sub_theme"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -311,8 +301,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/fontsizedarker"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/fontsizedarker" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -321,8 +311,7 @@
 
                         android:text="@string/settings_title_font"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -338,8 +327,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/commentchange"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/commentchange" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -348,8 +337,7 @@
 
                         android:text="@string/settings_title_comments"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -388,8 +376,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/ic_backup"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/ic_backup" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -398,8 +386,7 @@
                         android:text="@string/settings_title_backup"
 
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -425,9 +412,9 @@
                         android:text="@string/settings_synccit"
 
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/datasave"
                     android:layout_width="match_parent"
@@ -440,8 +427,8 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/world"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/world" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -450,9 +437,9 @@
                         android:text="@string/settings_data"
 
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/filter"
                     android:layout_width="match_parent"
@@ -466,8 +453,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/filter"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/filter" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -475,8 +462,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_filter"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -492,8 +478,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/crown"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/crown" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -501,8 +487,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_pro"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -518,8 +503,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/reddit"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/reddit" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -527,8 +512,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_reddit_prefs"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -544,8 +528,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/donate"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/donate" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -553,8 +537,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_support"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -571,8 +554,8 @@
 
                         android:layout_marginRight="16dp"
                         android:padding="16dp"
-                        app:srcCompat="@drawable/infonew"
-                        android:tint="?attr/tint" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/infonew" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -580,8 +563,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_about"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"
-                        />
+                        android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

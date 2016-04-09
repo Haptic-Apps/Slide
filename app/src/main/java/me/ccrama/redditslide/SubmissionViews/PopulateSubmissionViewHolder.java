@@ -60,6 +60,7 @@ import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.ModQueue;
+import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
@@ -106,7 +107,7 @@ public class PopulateSubmissionViewHolder {
                     if ((type != ContentType.ImageType.NSFW_LINK && type != ContentType.ImageType.NSFW_IMAGE
                             && type != ContentType.ImageType.NSFW_GFY && type != ContentType.ImageType.NSFW_GIF) || SettingValues.storeNSFWHistory) {
                         HasSeen.addSeen(submission.getFullName());
-                        if (contextActivity instanceof MainActivity) {
+                        if (contextActivity instanceof MainActivity || contextActivity instanceof MultiredditOverview || contextActivity instanceof SubredditView) {
                             holder.title.setAlpha(0.54f);
                         }
                     }
@@ -333,8 +334,14 @@ public class PopulateSubmissionViewHolder {
         if (submission.getSelftext() != null && !submission.getSelftext().isEmpty()) {
             b.sheet(25, copy, "Copy selftext");
         }
-        if (!full && Authentication.didOnline)
-            b.sheet(5, hide, mContext.getString(R.string.submission_hide));
+        boolean hidden = submission.isHidden();
+        if (!full && Authentication.didOnline) {
+            if (!hidden)
+                b.sheet(5, hide, mContext.getString(R.string.submission_hide));
+            else
+                b.sheet(5, hide, mContext.getString(R.string.submission_unhide));
+
+        }
         b.sheet(7, open, mContext.getString(R.string.submission_link_extern))
                 .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url))
@@ -540,36 +547,46 @@ public class PopulateSubmissionViewHolder {
     public <T extends Contribution> void hideSubmission(final Submission submission, final List<T> posts, final String baseSub, final RecyclerView recyclerview) {
         final int pos = posts.indexOf(submission);
         if (pos != -1) {
-            final T t = posts.get(pos);
-            posts.remove(pos);
-            Hidden.setHidden(t);
-            final OfflineSubreddit s;
-            if (baseSub != null) {
-                s = OfflineSubreddit.getSubreddit(baseSub);
-                s.hide(pos);
+            if(submission.isHidden()){
+                posts.remove(pos);
+                Hidden.undoHidden(submission);
+                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_unhidden, Snackbar.LENGTH_LONG);
+                View view = snack.getView();
+                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.WHITE);
+                snack.show();
             } else {
-                s = null;
-            }
-            recyclerview.getAdapter().notifyItemRemoved(pos + 1);
-
-
-            Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (baseSub != null && s != null) {
-                        s.unhideLast();
-                    }
-                    posts.add(pos, t);
-                    recyclerview.getAdapter().notifyItemInserted(pos + 1);
-                    Hidden.undoHidden(t);
-
+                final T t = posts.get(pos);
+                posts.remove(pos);
+                Hidden.setHidden(t);
+                final OfflineSubreddit s;
+                if (baseSub != null) {
+                    s = OfflineSubreddit.getSubreddit(baseSub);
+                    s.hide(pos);
+                } else {
+                    s = null;
                 }
-            });
-            View view = snack.getView();
-            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-            tv.setTextColor(Color.WHITE);
-            snack.show();
+                recyclerview.getAdapter().notifyItemRemoved(pos + 1);
 
+
+                Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (baseSub != null && s != null) {
+                            s.unhideLast();
+                        }
+                        posts.add(pos, t);
+                        recyclerview.getAdapter().notifyItemInserted(pos + 1);
+                        Hidden.undoHidden(t);
+
+                    }
+                });
+                View view = snack.getView();
+                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.WHITE);
+                snack.show();
+            }
 
         }
     }
@@ -1649,7 +1666,7 @@ public class PopulateSubmissionViewHolder {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
             holder.body.setTextHtml(Html.fromHtml(text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length())));
-            if(holder.body.getText().toString().trim().isEmpty()){
+            if (holder.body.getText().toString().trim().isEmpty()) {
                 holder.body.setVisibility(View.GONE);
             }
         } else if (!full) {
