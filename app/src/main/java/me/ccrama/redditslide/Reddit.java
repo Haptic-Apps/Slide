@@ -244,18 +244,18 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 {c.getString(R.string.sorting_hot),
                         c.getString(R.string.sorting_new),
                         c.getString(R.string.sorting_rising),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_hour),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_day),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_week),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_month),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_year),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_all),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_hour),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_day),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_week),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_month),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_year),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_all),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_hour).toLowerCase(),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_day).toLowerCase(),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_week).toLowerCase(),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_month).toLowerCase(),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_year).toLowerCase(),
+                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_all).toLowerCase(),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_hour).toLowerCase(),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_day).toLowerCase(),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_week).toLowerCase(),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_month).toLowerCase(),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_year).toLowerCase(),
+                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_all).toLowerCase(),
                 };
     }
     public static String[] getSortingStringsComments(Context c) {
@@ -271,10 +271,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static String[] getSearch(Context c) {
         return new String[]
                 {
-                        "Relevance",
-                        "Top",
-                        "New",
-                        "Comments"
+                        c.getString(R.string.search_relevance),
+                        c.getString(R.string.search_top),
+                        c.getString(R.string.search_new),
+                        c.getString(R.string.search_comments)
                 };
     }
 

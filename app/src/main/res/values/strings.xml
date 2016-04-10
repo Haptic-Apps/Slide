@@ -11,9 +11,9 @@
     <!-- Used when viewing a thread -->
     <string name="submission_info_unsaved">Submission unsaved</string>
     <string name="submission_info_saved">Submission saved</string>
-    <string name="submission_info_archived">This is an archived post. You won\'t be able to vote or comment.</string>
+    <string name="submission_info_archived">This is an archived post. You won\'t be able to vote or comment</string>
     <string name="submission_post_saved">Post saved</string>
-    <string name="submission_info_hidden">Post hidden forever.</string>
+    <string name="submission_info_hidden">Post hidden forever</string>
     <string name="submission_stickied">Pinned</string>
     <string name="submission_link_extern">Open externally</string>
     <string name="submission_link_copy">Copy URL</string>
@@ -27,7 +27,7 @@
     <string name="submission_save">Save post</string>
     <string name="submission_share">Share post</string>
     <string name="submission_load_full">Load full thread</string>
-    <string name="submission_np_link">This is a no participation link. Please don\'t vote or comment.</string>
+    <string name="submission_np_link">This is a no participation link. Please don\'t vote or comment</string>
     <string name="submission_tap_gif">Tap to load GIF</string>
     <string name="submission_not_found">Uh oh, post not found!</string>
     <string name="submission_not_found_msg">Sorry, this post could not be found</string>
@@ -94,7 +94,7 @@
     <string name="profile_saved">Saved</string>
     <string name="profile_upvoted">Upvoted</string>
     <string name="profile_err_title">User not found</string>
-    <string name="profile_err_msg">Reddit user could not be retrieved.</string>
+    <string name="profile_err_msg">Reddit user could not be retrieved</string>
     <string name="profile_overview">Overview</string>
     <string name="profile_comments">Comments</string>
     <string name="profile_submitted">Submitted</string>
@@ -110,13 +110,15 @@
     <string name="comment_gild">Gild comment</string>
     <string name="comment_share">Share comment</string>
     <string name="comment_delete">Delete comment</string>
-    <string name="comment_delete_msg">Do you really want to delete this comment? This cannot be undone.</string>
-    <string name="comment_delete_err">Uh oh, something went wrong.</string>
+    <string name="comment_delete_msg">Do you really want to delete this comment? This cannot be undone</string>
+    <string name="comment_delete_err">Uh oh, something went wrong</string>
     <string name="comment_delete_err_msg">Would you like to try again?</string>
     <string name="comment_deleted">[deleted]</string>
     <string name="comment_unsave">Unsave</string>
     <string name="comment_load_more">Load %1$d more</string>
     <string name="comment_loading_more">Loading more comments…</string>
+    <string name="comment_permalink">Load comment permalink</string>
+    <string name="comment_parent">Show parent comment</string>
 
 
     <!-- Welcome view (first time setup) -->
@@ -151,7 +153,7 @@
     <string name="editor_title_link">Insert link</string>
     <string name="editor_action_link">INSERT</string>
     <string name="editor_title">Title</string>
-    <string name="editor_err_msg">Please try again in a few seconds.</string>
+    <string name="editor_err_msg">Please try again in a few seconds</string>
     <string name="editor_uploading_image">Uploading image to Imgur</string>
     <string name="editor_self">Self text</string>
     <string name="editor_select_img">Select picture</string>
@@ -192,7 +194,7 @@
     <string name="multireddit_selector">Select subreddits to add</string>
     <string name="multireddit_create_hint">Multireddit name</string>
     <string name="multireddit_invalid_name">Invalid multireddit name</string>
-    <string name="multireddit_invalid_name_msg">Multireddit names may only contain letters, numbers and underscores.</string>
+    <string name="multireddit_invalid_name_msg">Multireddit names may only contain letters, numbers and underscores</string>
 
 
     <!-- Content types -->
@@ -247,7 +249,7 @@
     <!-- Goto User -->
     <string name="user_enter">Enter username</string>
     <string name="user_btn_goto">Go to user</string>
-    <string name="user_invalid_msg">Reddit usernames can only contain letters, numbers, underscores and dashes.</string>
+    <string name="user_invalid_msg">Reddit usernames can only contain letters, numbers, underscores and dashes</string>
 
 
     <!-- Buttons -->
@@ -279,7 +281,7 @@
     <string name="backup_restoring">Restoring your settings</string>
     <string name="backup_backing_up">Backing up your settings</string>
     <string name="backup_restore_settings">Restoring settings successful!</string>
-    <string name="backup_restarting">App will now restart.</string>
+    <string name="backup_restarting">App will now restart</string>
     <string name="backup_info">Slide backs up all your data to a private Google Drive folder. You can sync this data across devices (or to the same device), and your data never goes through a third-party service or server.</string>
     <string name="backup_btn">Backup</string>
     <string name="backup_btn_restore">Restore</string>
@@ -297,7 +299,7 @@
     <string name="mod_mail_unread">Mod mail unread</string>
     <string name="mod_reports">Reports</string>
     <string name="mod_approve">Do you really want to approve this post?</string>
-    <string name="mod_approved">Post approved.</string>
+    <string name="mod_approved">Post approved</string>
     <string name="mod_mark_nsfw">Do you really want to mark this as NSFW?</string>
     <string name="mod_remove_nsfw">Do you really want to remove the NSFW tag?</string>
     <string name="mod_flair_post">Flair post</string>
@@ -340,6 +342,10 @@
     <string name="search_msg">What are you searching for?</string>
     <string name="search_all">Search all</string>
     <string name="search_subreddit">Search %1$s</string>
+    <string name="search_relevance">Relevance</string>
+    <string name="search_top">Top</string>
+    <string name="search_new">New</string>
+    <string name="search_comments">Comments</string>
 
 
     <!-- Captcha -->
@@ -376,7 +382,7 @@
     <string name="settings_google_msg">Slide is connecting to Google. Try again in a few seconds!</string>
     <string name="settings_fabclear_msg">Tapping the clear button will remove the posts from the current view, but will not hide the posts forever. \nLong pressing the button will hide the posts forever!</string>
     <string name="settings_fabclear">FAB clear actions</string>
-    <string name="settings_notifdisabled">Notifications disabled.</string>
+    <string name="settings_notifdisabled">Notifications disabled</string>
     <string name="settings_colored_navigation_bar">Colored navigation bar</string>
     <string name="settings_filter_domain">Domain filters</string>
     <string name="settings_filter_selfttext">Selftext filters</string>
@@ -447,7 +453,7 @@
     <string name="offline_caching">Caching submissions</string>
     <string name="offline_msg">Please go online and refresh the subreddit to do that</string>
     <string name="offline_last_update">Last updated %1$s</string>
-    <string name="offline_comments_not_loaded">Please go back online and select ‘Cache comments’ from the 3 dot menu to view comments offline.</string>
+    <string name="offline_comments_not_loaded">Please go back online and select ‘Cache comments’ from the 3 dot menu to view comments offline</string>
 
 
     <!-- Website -->
@@ -465,6 +471,25 @@
 
     <!-- Time -->
     <string name="time_just_now">just now</string>
+
+
+    <!-- Strings present during the login process -->
+    <string name="login_subscribe_rslideforreddit">Subscribe to /r/slideforreddit?</string>
+    <string name="login_subscribe_rslideforreddit_desc">Would you like to subscribe to /r/slideforreddit for the latest news and to report issues?</string>
+    <string name="login_sync_colors">Sync colors now?</string>
+    <string name="login_sync_colors_desc">Would you like to sync your subreddit colors now? This can be done later in Settings → Subreddit themes</string>
+    <string name="login_authenticating">Slide is authenticating</string>
+    <string name="login_starting">Setting things up!</string>
+    <string name="login_starting_desc">This should only take a second…</string>
+
+
+    <!-- Over 18 prompt when visiting a NSFW subreddit -->
+    <string name="over18_title">/r/%1$s contains mature content</string>
+    <string name="over18_desc">Are you over eighteen and willing to see adult content?</string>
+    <string name="over18_desc_loggedout">Log in to disable this warning permanently</string>
+    <string name="over18_desc_loggedin">You can disable this permanently in Settings → Reddit preferences → Show NSFW content</string>
+
+
     <string name="color_sync_complete">Sync complete</string>
     <string name="color_sync_colored">" subreddits were colored"</string>
     <string name="comment_load_more_number_unknown">Load more comments</string>
@@ -591,13 +616,6 @@
     <string name="thread_continue">Continue this thread</string>
     <string name="type_selftext">Selftext</string>
     <string name="mail_re">re: %1$s</string>
-    <string name="login_subscribe_rslideforreddit">Subscribe to /r/slideforreddit?</string>
-    <string name="login_subscribe_rslideforreddit_desc">Would you like to subscribe to /r/slideforreddit for the latest news and to report issues?</string>
-    <string name="login_sync_colors">Sync colors now?</string>
-    <string name="login_sync_colors_desc">Would you like to sync your subreddit colors now? This can be done later in Settings → Subreddit themes</string>
-    <string name="login_authenticating">Slide is authenticating</string>
-    <string name="login_starting">Setting things up!</string>
-    <string name="login_starting_desc">This should only take a second...</string>
     <string name="settings_fab_create">Show create comment FAB</string>
     <string name="submission_unhide">Unhide post</string>
     <string name="submission_info_unhidden">Submission unhidden</string>

@@ -873,21 +873,24 @@ public class SubredditView extends BaseActivityAnim {
                 else if (SettingValues.storeHistory)
                     UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
 
+                // Over 18 interstitial for signed out users or those who haven't enabled NSFW content
                 if (subreddit.isNsfw() && !Reddit.over18) {
                     new AlertDialogWrapper.Builder(SubredditView.this)
-                            .setTitle("/r/" + subreddit.getDisplayName() + " contains mature content.")
-                            .setMessage("If you are over 18 and are willing to see adult content, you can enable this in Settings > Reddit Settings > Show NSFW content")
-                            .setCancelable(false).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).setNeutralButton("Continue anyway", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            ((SubmissionsView) adapter.getCurrentFragment()).doAdapter(true);
-                        }
-                    }).show();
+                            .setTitle(String.format(getString(R.string.over18_title), subreddit.getDisplayName()))
+                            .setMessage(getString(R.string.over18_desc) + "\n\n"
+                                    + getString(Authentication.isLoggedIn ? R.string.over18_desc_loggedin : R.string.over18_desc_loggedout))
+                            .setCancelable(false)
+                            .setPositiveButton(R.string.misc_continue, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ((SubmissionsView) adapter.getCurrentFragment()).doAdapter(true);
+                                    }
+                            }).setNeutralButton(R.string.btn_go_back, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                            }).show();
                 }
             }
         }
