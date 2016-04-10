@@ -1,3 +1,56 @@
+
+5.1.3 / 2016-04-09
+==================
+
+  * Added override for viewing a NSFW sub despite your profile settings
+  * Added shadow to Settings toolbars
+  * Added support for reddituploads.com links
+  * Bold score text when voted
+  * Changed moderator strings
+  * Changed order of operations when voting
+  * Check for version number in update popups
+  * Don't check for friends if logged out
+  * Don't do authenticated related actions if logged out
+  * Fixed 'Send to inbox' not working sometimes
+  * Fixed moderation not working
+  * Fixed sidebar colors on light theme
+  * Fixed some filter and external domain issues
+  * Fixed some null pointers in authentication
+  * Remove unused resources
+  * Tap to remove subs from the multi creation screen
+  * Updated JRAW, now it doesn't do an extraneous /me request
+  * Updated translations
+
+5.1.2 / 2016-04-08
+==================
+
+  * Add /r/myrandom to special subreddits and shorten the sort methods
+  * Added a default catch in the RecyclerView LayoutManagers for IndexOutOfBoundsException (fixes a crash while changing the dataset and scrolling in a different thread)
+  * Changed moderator icon in sidebar
+  * Edited the view styles a little bit, added more contrast between the title and the info
+  * Fixed clicking items in the sidebar not working
+  * Fixed crash on KitKat opening the sidebar
+  * Fixed gallery links in Shadowbox
+  * Fixed opening externally for viewpager posts
+  * Fixed some imgur issues in the MediaView
+  * Heavily modified the authentication workflow, now it uses cached authentication data if possible (if the token isn't expired), Loading should be much faster and the calls are in a more logical order
+  * Made album grid view use smaller image sizes
+  * Made overflow Refresh action consistent
+  * Made the inbox count, multireddits, moderated subs, and friends list load after loading the initial subreddit
+  * Made the SubsamplingScaleImageView release the bitmap on the MediaFragment destruction, Switched to the MediaFragment for the rest of the Shadowbox links
+  * Make domain filter and open external fields textUri inputs
+  * Make the order of the overflow menu for direct viewed subreddits closer to that of a normal subreddit
+  * Redesigned sidebar with flat buttons
+  * Removed tooltips for sidebar buttons
+  * Updated gradle
+
+5.1.1 / 2016-04-07
+==================
+
+  * Made the inbox count, multireddits, moderated subs, and friends list load after loading the initial subreddit
+  * Removed debug message
+  * Use only top 500 safe for work subreddits in suggestions
+
 5.1.0 / 2016-04-07
 ==================
 
