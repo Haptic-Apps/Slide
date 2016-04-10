@@ -94,7 +94,7 @@ repositories {
 
 dependencies {
     compile 'com.github.ccrama:JRAW:8cb3bcdeef'
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
+    compile('com.github.afollestad.material-dialogs:commons:0.8.5.8@aar') {
         transitive = true
     }
     compile 'com.jakewharton:process-phoenix:1.0.2'

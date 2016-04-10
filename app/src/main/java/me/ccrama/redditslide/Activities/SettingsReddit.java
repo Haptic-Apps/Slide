@@ -60,8 +60,11 @@ public class SettingsReddit extends BaseActivityAnim {
 
             @Override
             protected void onPreExecute() {
-                d = new MaterialDialog.Builder(SettingsReddit.this).title("Syncing with Reddit")
-                        .progress(true, 100).show();
+                d = new MaterialDialog.Builder(SettingsReddit.this)
+                        .title("Syncing with Reddit")
+                        .content(R.string.misc_please_wait)
+                        .progress(true, 100)
+                        .show();
             }
 
             @Override

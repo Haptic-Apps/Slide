@@ -687,6 +687,7 @@ public class SubredditView extends BaseActivityAnim {
                         final Dialog d = new MaterialDialog.Builder(SubredditView.this).title("Finding moderators")
                                 .cancelable(true)
                                 .progress(true, 100)
+                                .content(R.string.misc_please_wait)
                                 .show();
                         new AsyncTask<Void, Void, Void>() {
                             ArrayList<UserRecord> mods;

@@ -75,6 +75,7 @@ public class SettingsSynccit extends BaseActivityAnim {
                 final Dialog d = new MaterialDialog.Builder(SettingsSynccit.this)
                         .title(R.string.settings_synccit_authenticate)
                         .progress(true, 100)
+                        .content(R.string.misc_please_wait)
                         .cancelable(false)
                         .show();
                 SettingValues.synccitName = name.getText().toString();
