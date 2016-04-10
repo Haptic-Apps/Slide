@@ -26,6 +26,7 @@ public class SettingsExternalBrowser extends BaseActivityAnim {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         applyColorTheme();
+        Settings.changed = true;
         setContentView(R.layout.activity_settings_openexternal);
         setupAppBar(R.id.toolbar, "Force external browser", true, true);
         domain = (EditText) findViewById(R.id.domain);

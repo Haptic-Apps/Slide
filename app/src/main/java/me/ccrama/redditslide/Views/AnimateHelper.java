@@ -34,15 +34,17 @@ public class AnimateHelper {
         int dy = Math.max(cy, vBig.getHeight() - cy);
         final float finalRadius = (float) Math.hypot(dx, dy);
 
-                SupportAnimator animator =
-                        ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
-                animator.setInterpolator(new FastOutSlowInInterpolator());
-                animator.setDuration(250);
-                animator.start();
+
 
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        SupportAnimator animator =
+                                ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
+                        animator.setInterpolator(new FastOutSlowInInterpolator());
+                        animator.setDuration(250);
+                        animator.start();
                         ObjectAnimator animator2 = ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0f);
 
                         animator2.setInterpolator(new AccelerateDecelerateInterpolator());

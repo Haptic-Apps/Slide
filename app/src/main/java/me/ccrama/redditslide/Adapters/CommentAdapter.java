@@ -2188,7 +2188,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void doOnClick(CommentViewHolder holder, Comment comment, CommentNode baseNode) {
-        if (currentSelectedItem.contains(comment.getFullName())) {
+        if (currentSelectedItem != null && currentSelectedItem.contains(comment.getFullName())) {
             if (SettingValues.swap) {
                 //If the comment is highlighted and the user is long pressing the comment,
                 //hide the comment.

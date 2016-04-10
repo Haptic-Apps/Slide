@@ -96,7 +96,7 @@ public class VidMeUtil {
                                 @Override
                                 protected Void doInBackground(Void... params) {
                                     String obj = "";
-                                    if (result == null || result.get("video") == null || !result.get("video").getAsJsonObject().has("complete_url")) {
+                                    if (result == null || result.isJsonNull() ||!result.has("video") || result.get("video").isJsonNull()|| !result.get("video").getAsJsonObject().has("complete_url")|| result.get("video").getAsJsonObject().get("complete_url").isJsonNull()) {
 
                                         if (closeIfNull) {
                                             Intent web = new Intent(c, Website.class);

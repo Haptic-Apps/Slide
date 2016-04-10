@@ -43,7 +43,7 @@ public class SettingsFont extends BaseActivityAnim {
 
                         new FontPreferences(SettingsFont.this).setCommentFontStyle(FontPreferences.FontStyleComment.valueOf(item.getTitle().toString()));
                         colorComment.setText(new FontPreferences(SettingsFont.this).getCommentFontStyle().getTitle());
-
+                        SettingsTheme.changed = true;
                         return true;
                     }
                 });
@@ -70,7 +70,7 @@ public class SettingsFont extends BaseActivityAnim {
 
                         new FontPreferences(SettingsFont.this).setPostFontStyle(FontPreferences.FontStyle.valueOf(item.getTitle().toString()));
                         colorPost.setText(new FontPreferences(SettingsFont.this).getPostFontStyle().getTitle());
-
+                        SettingsTheme.changed = true;
                         return true;
                     }
                 });

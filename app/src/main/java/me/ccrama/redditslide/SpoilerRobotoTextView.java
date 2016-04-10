@@ -127,7 +127,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
         if (text.toString().contains("[")) {
             setCodeFont(builder);
-            setSpoilerStyle(builder);
+            setSpoilerStyle(builder, subreddit);
         }
         if (text.toString().contains("[[d[")) {
             setStrikethrough(builder);
@@ -441,7 +441,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      * @param sequence
      * @return
      */
-    private CharSequence setSpoilerStyle(SpannableStringBuilder sequence) {
+    private CharSequence setSpoilerStyle(SpannableStringBuilder sequence, String subreddit) {
         int start = 0;
         int end = 0;
         for (int i = 0; i < sequence.length(); i++) {
@@ -459,8 +459,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 sequence.delete(end, end + 4);
                 sequence.delete(start, start + 4);
 
-                BackgroundColorSpan backgroundColorSpan = new BackgroundColorSpan(Color.BLACK);
-                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.BLACK);
+                BackgroundColorSpan backgroundColorSpan = new BackgroundColorSpan(Palette.getDarkerColor(Palette.getColor(subreddit)));
+                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Palette.getDarkerColor(Palette.getColor(subreddit)));
                 ForegroundColorSpan underneathColorSpan = new ForegroundColorSpan(Color.WHITE);
 
                 URLSpan urlSpan = sequence.getSpans(start, start, URLSpan.class)[0];

@@ -405,7 +405,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     }
                 }
             }
-          
         });
 
         Reddit.isLoading = false;
@@ -439,6 +438,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
         );
     }
+
     public void doAdapter(boolean force18) {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
@@ -461,6 +461,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
         );
     }
+
     private List<Submission> clearSeenPosts(boolean forever) {
         if (adapter.dataSet.posts != null) {
 
@@ -531,9 +532,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
         if (getActivity() != null) {
-            if(getActivity() instanceof MainActivity){
-                if(((MainActivity)getActivity()).runAfterLoad != null){
-                    new Handler().post(((MainActivity)getActivity()).runAfterLoad);
+            if (getActivity() instanceof MainActivity) {
+                if (((MainActivity) getActivity()).runAfterLoad != null) {
+                    new Handler().post(((MainActivity) getActivity()).runAfterLoad);
                 }
             }
             getActivity().runOnUiThread(new Runnable() {
@@ -596,25 +597,25 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateOffline(List<Submission> submissions, final long cacheTime) {
-        if(getActivity() instanceof MainActivity){
-            if(((MainActivity)getActivity()).runAfterLoad != null){
-                new Handler().post(((MainActivity)getActivity()).runAfterLoad);
+        if (getActivity() instanceof MainActivity) {
+            if (((MainActivity) getActivity()).runAfterLoad != null) {
+                new Handler().post(((MainActivity) getActivity()).runAfterLoad);
             }
         }
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(false);
-            Toast.makeText(mSwipeRefreshLayout.getContext(), getString(R.string.offline_last_update, TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext())), Toast.LENGTH_SHORT).show();
+        if (this.isAdded()) {
+            if (mSwipeRefreshLayout != null) {
+                mSwipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(mSwipeRefreshLayout.getContext(), getString(R.string.offline_last_update, TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext())), Toast.LENGTH_SHORT).show();
+            }
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
-
-
     }
 
     @Override
     public void updateOfflineError() {
-        if(getActivity() instanceof MainActivity){
-            if(((MainActivity)getActivity()).runAfterLoad != null){
-                new Handler().post(((MainActivity)getActivity()).runAfterLoad);
+        if (getActivity() instanceof MainActivity) {
+            if (((MainActivity) getActivity()).runAfterLoad != null) {
+                new Handler().post(((MainActivity) getActivity()).runAfterLoad);
             }
         }
         mSwipeRefreshLayout.setRefreshing(false);
@@ -623,9 +624,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateError() {
-        if(getActivity() instanceof MainActivity){
-            if(((MainActivity)getActivity()).runAfterLoad != null){
-                new Handler().post(((MainActivity)getActivity()).runAfterLoad);
+        if (getActivity() instanceof MainActivity) {
+            if (((MainActivity) getActivity()).runAfterLoad != null) {
+                new Handler().post(((MainActivity) getActivity()).runAfterLoad);
             }
         }
         mSwipeRefreshLayout.setRefreshing(false);

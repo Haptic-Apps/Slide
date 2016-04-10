@@ -39,6 +39,7 @@ public class ModQueue extends BaseActivityAnim {
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
 
+        findViewById(R.id.compose).setVisibility(View.GONE);
         findViewById(R.id.notifs).setVisibility(View.GONE);
     }
 

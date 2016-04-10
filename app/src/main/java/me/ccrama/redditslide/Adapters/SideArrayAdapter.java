@@ -80,7 +80,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
                     ((Activity) getContext()).startActivityForResult(inte, 4);
                 } else {
-                    if (((MainActivity) getContext()).commentPager) {
+                    if (((MainActivity) getContext()).commentPager && ((MainActivity) getContext()).adapter instanceof MainActivity.OverviewPagerAdapterComment) {
                         ((MainActivity) getContext()).openingComments = null;
                         ((MainActivity) getContext()).toOpenComments = -1;
                         ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size = (((MainActivity) getContext()).usedArray.size() + 1);

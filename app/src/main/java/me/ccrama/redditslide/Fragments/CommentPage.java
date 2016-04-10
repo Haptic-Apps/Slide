@@ -762,7 +762,7 @@ public class CommentPage extends Fragment {
             CommentObject o = adapter.users.get(adapter.getRealPosition(i));
             if (o instanceof CommentItem && pos - 1 != i) {
                 if (o.comment.isTopLevel()) {
-                    (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
+                    (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header)).getHeight());
                     break;
                 }
             }
@@ -831,7 +831,7 @@ public class CommentPage extends Fragment {
             CommentObject o = adapter.users.get(adapter.getRealPosition(i));
             if (o instanceof CommentItem) {
                 if (o.comment.isTopLevel()) {
-                    (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : toolbar.getHeight());
+                    (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header).getHeight()));
                     break;
                 }
             }

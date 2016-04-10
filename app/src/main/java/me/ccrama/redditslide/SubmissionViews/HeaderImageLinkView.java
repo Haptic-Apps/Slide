@@ -350,10 +350,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                 case SELF:
                     title.setVisibility(View.VISIBLE);
                     title.setText(R.string.type_selftext);
-
-                    if (info != null)
-                        info.setVisibility(View.GONE);
-
                     break;
 
                 case ALBUM:

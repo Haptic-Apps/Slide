@@ -848,7 +848,8 @@ public class MainActivity extends BaseActivity {
                                 UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
                             } else {
                                 UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
-
+                                pager.setCurrentItem(pager.getCurrentItem() - 1);
+                                restartTheme();
                             }
                             Snackbar s = Snackbar.make(mToolbar, isChecked ?
                                     getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
@@ -2047,7 +2048,7 @@ public class MainActivity extends BaseActivity {
             }
         }
         //Only refresh the view if a Setting was altered
-        if (Settings.changed || SettingsTheme.changed) {
+        if (Settings.changed || SettingsTheme.changed || (usedArray != null && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())) {
             int current = pager.getCurrentItem();
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
@@ -2058,7 +2059,7 @@ public class MainActivity extends BaseActivity {
             }
             reloadSubs();
             //If the user changed a Setting regarding the app's theme, restartTheme()
-            if (SettingsTheme.changed) {
+            if (SettingsTheme.changed || (usedArray != null && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())) {
                 restartTheme();
             }
             SettingsTheme.changed = false;

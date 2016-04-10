@@ -34,14 +34,14 @@
             android:layout_height="56dp"
             android:layout_gravity="right"
             android:padding="15dp"
-            app:srcCompat="@drawable/grid" />
+            app:srcCompat="@drawable/album_grid" />
         <ImageView
             android:id="@+id/slider"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_gravity="right"
             android:padding="15dp"
-            app:srcCompat="@drawable/shadowbox" />
+            app:srcCompat="@drawable/album_pager" />
 
 
     </android.support.v7.widget.Toolbar>
