@@ -30,8 +30,9 @@ public class TitleExtractor {
      */
     public static String getPageTitle(String url) throws IOException {
         if(!url.contains("http://") || !url.contains("https://")){
-            url = "https://"+url;
+            url = "http://"+url;
         }
+        url = url.replace("https://" , "http://");
         URL u = new URL(url);
         URLConnection conn = u.openConnection();
 

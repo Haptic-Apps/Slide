@@ -139,7 +139,7 @@ public class Submit extends BaseActivity {
                     protected String doInBackground(String... params) {
                         try {
                             return TitleExtractor.getPageTitle(params[0]);
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                         return null;
