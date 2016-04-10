@@ -126,11 +126,13 @@ public class DoEditorActions {
                                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialog, int which) {
-                                                                    for (int i = 0; i < drafts.size(); i++) {
-                                                                        if (selected[i]) {
-                                                                            Drafts.deleteDraft(i);
+                                                                    ArrayList<String> draf = new ArrayList<>();
+                                                                    for (int i = 0; i < draftText.length; i++) {
+                                                                        if (!selected[i]) {
+                                                                            draf.add(draftText[i]);
                                                                         }
                                                                     }
+                                                                    Drafts.save(draf);
                                                                 }
                                                             }).setNegativeButton(R.string.btn_no, null)
                                                             .show();
