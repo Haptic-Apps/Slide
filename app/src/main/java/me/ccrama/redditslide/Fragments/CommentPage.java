@@ -1,8 +1,6 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -56,6 +54,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -665,9 +664,7 @@ public class CommentPage extends Fragment {
     public void onPause(){
         if (adapter != null && adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
-                ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Comment text", adapter.currentlyEditing.getText().toString());
-                clipboard.setPrimaryClip(clip);
+                Drafts.addDraft(adapter.currentlyEditing.getText().toString());
             }
         }
     }

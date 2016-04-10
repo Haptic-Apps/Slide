@@ -85,6 +85,7 @@ import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -2688,18 +2689,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void onPostExecute(final String s) {
             if (s == null) {
 
+                if (!commentBack.isEmpty() && commentBack != null)
+                    Drafts.addDraft(commentBack);
                 new AlertDialogWrapper.Builder(mContext)
                         .setTitle(R.string.err_comment_post)
                         .setMessage(((why == null) ? "" : mContext.getString(R.string.err_comment_post_reason) + why) + mContext.getString(R.string.err_comment_post_message))
                         .setPositiveButton(R.string.btn_ok, null)
-                        .setNeutralButton(R.string.err_comment_post_copy, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("Comment text", commentBack);
-                                clipboard.setPrimaryClip(clip);
-                            }
-                        })
                         .show();
             } else {
                 if (isSubmission) {
@@ -2925,7 +2920,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                    break;
                                case 4:
                                    Reddit.defaultShareText("https://reddit.com" + submission.getPermalink() +
-                                           n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
+                                                   n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
                                            , mContext);
                                    break;
 
