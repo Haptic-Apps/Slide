@@ -29,6 +29,9 @@ public class TitleExtractor {
      * @throws IOException
      */
     public static String getPageTitle(String url) throws IOException {
+        if(!url.contains("http://") || !url.contains("https://")){
+            url = "https://"+url;
+        }
         URL u = new URL(url);
         URLConnection conn = u.openConnection();
 

@@ -157,6 +157,7 @@ public class Submit extends BaseActivity {
                     protected void onPostExecute(String s) {
                         if(s != null){
                             ((EditText) findViewById(R.id.titletext)).setText(s);
+                            d.dismiss();
                         } else {
                             d.dismiss();
                             new AlertDialogWrapper.Builder(Submit.this)
@@ -164,7 +165,7 @@ public class Submit extends BaseActivity {
                                     .setPositiveButton(R.string.btn_ok, null).show();
                         }
                     }
-                }.execute();
+                }.execute(((EditText) findViewById(R.id.urltext)).getText().toString());
             }
         });
         findViewById(R.id.selImage).setOnClickListener(new View.OnClickListener() {
