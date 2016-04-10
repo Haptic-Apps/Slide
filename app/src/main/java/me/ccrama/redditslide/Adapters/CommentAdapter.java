@@ -2684,32 +2684,48 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void onPostExecute(final String s) {
-            if (isSubmission) {
-                Handler handler2 = new Handler();
-                handler2.postDelayed(new Runnable() {
-                    public void run() {
-                        ((Activity) mContext).runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                dataSet.refreshLayout.setRefreshing(false);
-                                dataSet.loadMoreReplyTop(CommentAdapter.this, s);
-                            }
-                        });
-                    }
-                }, 2000);
-            } else if (s != null) {
-                new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition()), holder.getAdapterPosition(), holder, node).execute(s);
+            if (s == null) {
+                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Comment text", commentBack);
+                clipboard.setPrimaryClip(clip);
+                new AlertDialogWrapper.Builder(mContext)
+                        .setTitle(R.string.err_comment_post)
+                        .setMessage(((why == null) ? "" : mContext.getString(R.string.err_comment_post_reason) + why) + mContext.getString(R.string.err_comment_post_message))
+                        .setPositiveButton(R.string.btn_ok, null)
+                        .show();
+            } else {
+                if (isSubmission) {
+                    Handler handler2 = new Handler();
+                    handler2.postDelayed(new Runnable() {
+                        public void run() {
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    dataSet.refreshLayout.setRefreshing(false);
+                                    dataSet.loadMoreReplyTop(CommentAdapter.this, s);
+                                }
+                            });
+                        }
+                    }, 2000);
+                } else if (s != null) {
+                    new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition()), holder.getAdapterPosition(), holder, node).execute(s);
+                }
             }
         }
+
+        String why;
+        String commentBack;
 
         @Override
         protected String doInBackground(String... comment) {
             if (Authentication.me != null) {
                 try {
                     return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
-                } catch (ApiException e) {
-                    Log.v(LogUtil.getTag(), "UH OH!!");
-                    //todo this
+                } catch (Exception e) {
+                    if (e instanceof ApiException) {
+                        why = ((ApiException) e).getExplanation();
+                    }
+                    commentBack = comment[0];
                 }
             }
             return null;

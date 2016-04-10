@@ -621,4 +621,7 @@
     <string name="submission_info_unhidden">Submission unhidden</string>
     <string name="settings_handling_external_desc">Domains entered below will always open externally</string>
     <string name="settings_handling_enterdomain">Enter a domain or part of a domain</string>
+    <string name="err_comment_post">Uh oh, posting this comment failed!</string>
+    <string name="err_comment_post_reason">"Reason: "</string>
+    <string name="err_comment_post_message">\n\nYour message has been copied to the clipboard. Please try again later.</string>
 </resources>
