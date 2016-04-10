@@ -134,7 +134,6 @@ public class MainActivity extends BaseActivity {
     // Instance state keys
     static final String SUBS = "subscriptions";
     static final String LOGGED_IN = "loggedIn";
-    static final String IS_MOD = "ismod";
     static final String USERNAME = "username";
     static final int TUTORIAL_RESULT = 55;
     static final int INBOX_RESULT = 66;
@@ -153,13 +152,12 @@ public class MainActivity extends BaseActivity {
     public OverviewPagerAdapter adapter;
     public int toGoto = 0;
     public boolean first = true;
+    public TabLayout mTabLayout;
+    public ListView drawerSubList;
     boolean changed;
     String term;
     View headerMain;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
-    public TabLayout mTabLayout;
-    public ListView drawerSubList;
-    private boolean mShowInfoButton;
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -167,7 +165,6 @@ public class MainActivity extends BaseActivity {
         savedInstanceState.putStringArrayList(SUBS, (ArrayList<String>) usedArray);
         savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
         savedInstanceState.putBoolean(IS_ONLINE, Authentication.didOnline);
-        savedInstanceState.putBoolean(IS_MOD, Authentication.mod);
         savedInstanceState.putString(USERNAME, Authentication.name);
     }
 
@@ -376,7 +373,6 @@ public class MainActivity extends BaseActivity {
             Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
             Authentication.name = savedInstanceState.getString(USERNAME);
             Authentication.didOnline = savedInstanceState.getBoolean(IS_ONLINE);
-            Authentication.mod = savedInstanceState.getBoolean(IS_MOD);
         } else {
             changed = false;
         }
@@ -554,7 +550,6 @@ public class MainActivity extends BaseActivity {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
-            mShowInfoButton = true;
             invalidateOptionsMenu();
 
             mAsyncGetSubreddit = new AsyncGetSubreddit();
@@ -635,6 +630,7 @@ public class MainActivity extends BaseActivity {
                     public void onClick(View v) {
                         final Dialog d = new MaterialDialog.Builder(MainActivity.this).title("Finding moderators")
                                 .cancelable(true)
+                                .content(R.string.misc_please_wait)
                                 .progress(true, 100)
                                 .show();
                         new AsyncTask<Void, Void, Void>() {
@@ -676,7 +672,6 @@ public class MainActivity extends BaseActivity {
             }
         } else {
             //Hide info button on frontpage and all
-            mShowInfoButton = false;
             invalidateOptionsMenu();
 
             if (drawerLayout != null)
@@ -2447,6 +2442,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public class AsyncNotificationBadge extends AsyncTask<Void, Void, Void> {
+
         int count;
 
         @Override
@@ -2458,6 +2454,9 @@ public class MainActivity extends BaseActivity {
                     me = Authentication.me;
                     Authentication.mod = me.isMod();
                     Reddit.over18 = me.isOver18();
+
+                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod).apply();
+                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18).apply();
 
                     if (Reddit.notificationTime != -1) {
                         Reddit.notifications = new NotificationJobScheduler(MainActivity.this);

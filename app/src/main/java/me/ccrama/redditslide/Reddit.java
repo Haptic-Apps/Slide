@@ -56,6 +56,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static final long enter_animation_time_original = 600;
     public static final String PREF_LAYOUT = "PRESET";
+    public static final String SHARED_PREF_IS_MOD = "is_mod";
+    public static final String SHARED_PREF_IS_OVER_18 = "is_over_18";
 
     public static IabHelper mHelper;
     public static SubmissionSearchPaginator.SearchSort search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
@@ -86,10 +88,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean noGapps = true; //for testing
     public static boolean over18;
     public static boolean overrideLanguage;
+    public static boolean isRestarting;
     private final List<Listener> listeners = new ArrayList<>();
     public boolean active;
     private ImageLoader defaultImageLoader;
-    public static boolean isRestarting;
 
     public static void forceRestart(Context context) {
         if (appRestart.contains("back")) {
@@ -532,6 +534,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
 
         authentication = new Authentication(this);
+
+        Authentication.mod = Authentication.authentication.getBoolean(SHARED_PREF_IS_MOD, false);
+        over18 = Authentication.authentication.getBoolean(SHARED_PREF_IS_OVER_18, false);
 
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
 
