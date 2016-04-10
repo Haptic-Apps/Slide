@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -44,9 +43,12 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
+
+;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -211,6 +213,24 @@ public class MultiredditOverview extends BaseActivityAnim {
             protected void onPostExecute(List<MultiReddit> multiReddits) {
                 if (multiReddits != null && !multiReddits.isEmpty())
                     setDataSet(multiReddits);
+                else
+                    new AlertDialogWrapper.Builder(MultiredditOverview.this)
+                            .setTitle(R.string.multireddit_err_title)
+                    .setMessage(R.string.multireddit_err_msg)
+                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                            startActivity(i);
+                            finish();
+                        }
+                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).setCancelable(false)
+                    .show();
             }
         }.execute();
         tabs.setOnTabSelectedListener(

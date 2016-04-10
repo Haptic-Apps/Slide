@@ -326,6 +326,7 @@ public class MainActivity extends BaseActivity {
 
             Reddit.appRestart.edit().putBoolean("firststart52", true).apply();
             Intent i = new Intent(this, Tutorial.class);
+            doForcePrefs();
             startActivity(i);
         } else {
             if (Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && !checkedPopups) {

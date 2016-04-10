@@ -167,7 +167,7 @@ public class CreateMulti extends BaseActivityAnim {
 
         for (String s : all) {
             if (s != null && s.length() > 0) {
-                if (!s2.contains(s))
+                if (!s2.contains(s) && !(s.equals("all") || !s.equals("frontpage")) || !s.contains("+"))
                     list.add(s);
             }
         }
