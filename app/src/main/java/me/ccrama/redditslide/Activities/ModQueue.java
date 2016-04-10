@@ -92,7 +92,7 @@ public class ModQueue extends BaseActivityAnim {
                 f.setArguments(args);
 
                 return f;
-            }  else if (i == 3) {
+            } else if (i == 3) {
                 Fragment f = new ModPage();
                 Bundle args = new Bundle();
 
@@ -120,7 +120,7 @@ public class ModQueue extends BaseActivityAnim {
 
         @Override
         public int getCount() {
-            return UserSubscriptions.modOf == null ? 2 : UserSubscriptions.modOf.size() + 3;
+            return UserSubscriptions.modOf == null ? 2 : UserSubscriptions.modOf.size() + 4;
         }
 
 
@@ -135,7 +135,7 @@ public class ModQueue extends BaseActivityAnim {
             } else if (position == 3) {
                 return "modqueue";
             } else {
-                return UserSubscriptions.modOf.get(position - 3);
+                return UserSubscriptions.modOf.get(position - 4);
             }
         }
     }
