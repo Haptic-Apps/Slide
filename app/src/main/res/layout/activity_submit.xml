@@ -183,6 +183,7 @@
             <LinearLayout
                 android:id="@+id/url"
                 android:layout_width="match_parent"
+                android:orientation="vertical"
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
@@ -196,6 +197,15 @@
                         android:backgroundTint="?attr/tint"
                         android:hint="@string/editor_url" />
                 </android.support.design.widget.TextInputLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:padding="16dp"
+                    android:text="Suggest title"
+                    android:layout_gravity="right"
+                    android:textAllCaps="true"
+                    android:id="@+id/suggest"
+                    android:textSize="14sp"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
         </LinearLayout>

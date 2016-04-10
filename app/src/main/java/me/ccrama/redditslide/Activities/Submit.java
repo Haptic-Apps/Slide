@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -50,6 +51,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.DoEditorActions;
+import me.ccrama.redditslide.util.TitleExtractor;
 
 
 /**
@@ -127,6 +129,44 @@ public class Submit extends BaseActivity {
             }
         });
 
+        findViewById(R.id.suggest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AsyncTask<String, Void, String>() {
+                    Dialog d;
+
+                    @Override
+                    protected String doInBackground(String... params) {
+                        try {
+                            return TitleExtractor.getPageTitle(params[0]);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPreExecute() {
+                        d = new MaterialDialog.Builder(Submit.this)
+                                .progress(true, 100)
+                                .title("Finding the title")
+                                .show();
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        if(s != null){
+                            ((EditText) findViewById(R.id.titletext)).setText(s);
+                        } else {
+                            d.dismiss();
+                            new AlertDialogWrapper.Builder(Submit.this)
+                                    .setTitle("Title not found")
+                                    .setPositiveButton(R.string.btn_ok, null).show();
+                        }
+                    }
+                }.execute();
+            }
+        });
         findViewById(R.id.selImage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

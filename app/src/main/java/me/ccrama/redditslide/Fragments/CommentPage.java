@@ -29,6 +29,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -665,6 +666,7 @@ public class CommentPage extends Fragment {
         if (adapter != null && adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 Drafts.addDraft(adapter.currentlyEditing.getText().toString());
+                Toast.makeText(getActivity().getApplicationContext(), R.string.msg_save_draft, Toast.LENGTH_LONG).show();
             }
         }
     }
