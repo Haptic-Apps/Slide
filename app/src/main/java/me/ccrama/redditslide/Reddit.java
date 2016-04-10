@@ -499,6 +499,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         registerActivityLifecycleCallbacks(this);
         Authentication.authentication = getSharedPreferences("AUTH", 0);
         UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);
+        UserSubscriptions.multiNameToSubs = getSharedPreferences("MULTITONAME", 0);
         PostMatch.filters = getSharedPreferences("FILTERS", 0);
         SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
         defaultSorting = SettingValues.defaultSorting;
