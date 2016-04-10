@@ -40,7 +40,10 @@
         <item quantity="one">%d new message</item>
         <item quantity="other">%d new messages</item>
     </plurals>
-
+    <plurals name="points">
+        <item quantity="one">pt</item>
+        <item quantity="other">pts</item>
+    </plurals>
 
     <!-- Theme settings -->
     <string name="theme_light">Light</string>
@@ -624,4 +627,8 @@
     <string name="err_comment_post">Uh oh, posting this comment failed!</string>
     <string name="err_comment_post_reason">"Reason: "</string>
     <string name="err_comment_post_message">\n\nYour message has been copied to the clipboard. Please try again later.</string>
+    <string name="err_comment_post_copy">Copy comment</string>
+    <string name="choose_draft">Select a draft</string>
+    <string name="dialog_no_drafts">No drafts yet</string>
+    <string name="dialog_no_drafts_msg">You can add a draft by clicking the \'save\' icon in the editor bar!</string>
 </resources>

@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Base64;
@@ -35,10 +36,12 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
@@ -76,6 +79,74 @@ public class DoEditorActions {
                 wrapString("*", editText);
             }
         });
+        baseView.findViewById(R.id.savedraft).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtil.v("Saving draft");
+                Drafts.addDraft(editText.getText().toString());
+                Snackbar.make(baseView.findViewById(R.id.save), "Draft saved", Snackbar.LENGTH_SHORT).show();
+            }
+        });
+        baseView.findViewById(R.id.draft).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final ArrayList<String> drafts = Drafts.getDrafts();
+                final String[] draftText = new String[drafts.size()];
+                for (int i = 0; i < drafts.size(); i++) {
+                    draftText[i] = drafts.get(i);
+                }
+                if (drafts.isEmpty()) {
+                    new AlertDialogWrapper.Builder(a).setTitle(R.string.dialog_no_drafts)
+                            .setMessage(R.string.dialog_no_drafts_msg)
+                            .setPositiveButton(R.string.btn_ok, null)
+                            .show();
+                } else {
+                    new AlertDialogWrapper.Builder(a)
+                            .setTitle(R.string.choose_draft)
+                            .setItems(draftText, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    editText.setText(editText.getText().toString() + draftText[which]);
+                                }
+                            })
+                            .setNeutralButton(R.string.btn_cancel, null)
+                            .setPositiveButton("Manage drafts", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    final boolean[] selected = new boolean[drafts.size()];
+                                    new AlertDialogWrapper.Builder(a)
+                                            .setTitle(R.string.choose_draft)
+                                            .setNeutralButton(R.string.btn_cancel, null)
+                                            .alwaysCallMultiChoiceCallback()
+                                            .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    new AlertDialogWrapper.Builder(a).setTitle("Really delete these drafts?")
+                                                            .setCancelable(false)
+                                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    for (int i = 0; i < drafts.size(); i++) {
+                                                                        if (selected[i]) {
+                                                                            Drafts.deleteDraft(i);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }).setNegativeButton(R.string.btn_no, null)
+                                                            .show();
+                                                }
+                                            })
+                                            .setMultiChoiceItems(draftText, selected, new DialogInterface.OnMultiChoiceClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                                    selected[which] = isChecked;
+                                                }
+                                            }).show();
+                                }
+                            }).show();
+                }
+            }
+        });
        /*todo baseView.findViewById(R.id.strikethrough).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,14 +159,14 @@ public class DoEditorActions {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                if(a instanceof MainActivity){
+                if (a instanceof MainActivity) {
                     LogUtil.v("Running on main");
-                    ((MainActivity)a).doImage = new Runnable() {
+                    ((MainActivity) a).doImage = new Runnable() {
                         @Override
                         public void run() {
                             LogUtil.v("Running");
-                            if (((MainActivity)a).data != null) {
-                                Uri selectedImageUri = ((MainActivity)a).data.getData();
+                            if (((MainActivity) a).data != null) {
+                                Uri selectedImageUri = ((MainActivity) a).data.getData();
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                                 try {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
@@ -171,7 +242,7 @@ public class DoEditorActions {
         baseView.findViewById(R.id.preview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String html =  Processor.process(editText.getText().toString());
+                String html = Processor.process(editText.getText().toString());
                 LayoutInflater inflater = (a).getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
                 final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
@@ -262,6 +333,7 @@ public class DoEditorActions {
         final EditText editText;
         private final ProgressDialog dialog;
         public Bitmap b;
+
         public UploadImgur(EditText editText) {
             this.c = editText.getContext();
             this.editText = editText;
@@ -376,6 +448,7 @@ public class DoEditorActions {
         }
 
     }
+
     private static void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;

@@ -15,9 +15,8 @@
         android:clipToPadding="false"
         android:elevation="5dp"
         android:paddingRight="16dp"
-        android:title="@string/editor_submit"
         android:theme="@style/Theme.AppCompat"
-        >
+        android:title="@string/editor_submit">
 
 
     </android.support.v7.widget.Toolbar>
@@ -25,14 +24,14 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="72dp"
         android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="72dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/area"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/area"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -99,7 +98,6 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:textColorHint="?attr/font">
 
                     <EditText
@@ -113,142 +111,20 @@
                         android:textColor="?attr/font" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="-6dp"
-                android:layout_marginRight="-6dp"
-                android:alpha=".56"
 
-                android:gravity="center"
-                android:orientation="horizontal"
-
-                android:weightSum="8">
-
-                <ImageButton
-                    android:id="@+id/imagerep"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/image"
-                    android:tint="?attr/tint"/>
-
-
-                <ImageButton
-                    android:id="@+id/link"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/link"
-                    android:tint="?attr/tint"/>
-
-                <ImageButton
-                    android:id="@+id/bold"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_format_bold_white_48dp"
-                    android:tint="?attr/tint"/>
-
-                <ImageButton
-                    android:id="@+id/italics"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_format_italic_white_48dp"
-                    android:tint="?attr/tint"/>
-
-                <ImageButton
-                    android:id="@+id/bulletlist"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp"
-                    android:tint="?attr/tint"/>
-
-                <ImageButton
-                    android:id="@+id/numlist"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_format_list_numbered_white_48dp"
-                    android:tint="?attr/tint"/>
-
-                <ImageButton
-                    android:id="@+id/quote"
-                    android:layout_width="0dp"
-
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/ic_format_quote_white_48dp"
-                    android:tint="?attr/tint"/>
-
-                <ImageButton
-                    android:id="@+id/size"
-                    android:layout_width="0dp"
-
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:height="48dp"
-                    android:background="#00000000"
-                    android:cropToPadding="false"
-                    android:padding="8dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/fontsizedarker"
-                    android:tint="?attr/tint"/>
-            </LinearLayout>
+            <include
+                layout="@layout/editor_items"/>
 
             <TextView
                 android:id="@+id/preview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_toLeftOf="@+id/send"
                 android:background="?android:selectableItemBackground"
                 android:padding="6dp"
-                android:layout_gravity="right"
                 android:text="@string/btn_preview"
                 android:textAllCaps="true"
-                android:layout_toLeftOf="@+id/send"
                 android:textColor="?attr/font"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -263,9 +139,9 @@
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        app:srcCompat="@drawable/send"
         android:tint="@color/white"
         app:fabSize="normal"
         app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
-        app:pressedTranslationZ="12dp" />
+        app:pressedTranslationZ="12dp"
+        app:srcCompat="@drawable/send" />
 </RelativeLayout>

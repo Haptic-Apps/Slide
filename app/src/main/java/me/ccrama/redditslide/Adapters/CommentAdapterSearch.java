@@ -113,6 +113,8 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
 
         titleString.append(score);
+        if (!scoreText.contains("["))
+            titleString.append(mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
         titleString.append((comment.isControversial() ? "†" : ""));
 
         titleString.append(spacer);

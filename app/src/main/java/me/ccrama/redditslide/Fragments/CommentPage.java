@@ -1,6 +1,8 @@
 package me.ccrama.redditslide.Fragments;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -657,6 +659,17 @@ public class CommentPage extends Fragment {
         super.onDestroy();
         if (comments != null)
             comments.cancelLoad();
+    }
+
+    @Override
+    public void onPause(){
+        if (adapter != null && adapter.users != null && adapter.users.size() > 0) {
+            if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
+                ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Comment text", adapter.currentlyEditing.getText().toString());
+                clipboard.setPrimaryClip(clip);
+            }
+        }
     }
 
     public static class TopSnappedSmoothScroller extends LinearSmoothScroller {

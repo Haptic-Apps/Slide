@@ -1,0 +1,124 @@
+<HorizontalScrollView android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:scrollbarSize="2.5dp"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha=".56"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/savedraft"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:background="#00000000"
+            android:cropToPadding="false"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/savecontent" />
+
+        <ImageButton
+            android:id="@+id/draft"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:background="#00000000"
+            android:cropToPadding="false"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/restorefile" />
+
+        <ImageButton
+            android:id="@+id/imagerep"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:background="#00000000"
+            android:cropToPadding="false"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/image" />
+
+
+        <ImageButton
+            android:id="@+id/link"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:background="#00000000"
+            android:cropToPadding="false"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/link" />
+
+        <ImageButton
+            android:id="@+id/bold"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:background="#00000000"
+            android:cropToPadding="false"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/ic_format_bold_white_48dp" />
+
+        <ImageButton
+            android:id="@+id/italics"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:background="#00000000"
+            android:cropToPadding="false"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/ic_format_italic_white_48dp" />
+
+        <ImageButton
+            android:id="@+id/bulletlist"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:background="#00000000"
+            android:cropToPadding="false"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp" />
+
+        <ImageButton
+            android:id="@+id/numlist"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:background="#00000000"
+            android:cropToPadding="false"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/ic_format_list_numbered_white_48dp" />
+
+        <ImageButton
+            android:id="@+id/quote"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:background="#00000000"
+            android:cropToPadding="false"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/ic_format_quote_white_48dp" />
+
+        <ImageButton
+            android:id="@+id/size"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:background="#00000000"
+            android:cropToPadding="false"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/fontsizedarker" />
+    </LinearLayout>
+</HorizontalScrollView>

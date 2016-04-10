@@ -732,6 +732,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         score.setSpan(new ForegroundColorSpan(scoreColor), 0, score.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         titleString.append(score);
+        if (!scoreText.contains("["))
+            titleString.append(mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
         titleString.append((comment.isControversial() ? "†" : ""));
 
         titleString.append(spacer);
@@ -2685,13 +2687,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onPostExecute(final String s) {
             if (s == null) {
-                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Comment text", commentBack);
-                clipboard.setPrimaryClip(clip);
+
                 new AlertDialogWrapper.Builder(mContext)
                         .setTitle(R.string.err_comment_post)
                         .setMessage(((why == null) ? "" : mContext.getString(R.string.err_comment_post_reason) + why) + mContext.getString(R.string.err_comment_post_message))
                         .setPositiveButton(R.string.btn_ok, null)
+                        .setNeutralButton(R.string.err_comment_post_copy, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("Comment text", commentBack);
+                                clipboard.setPrimaryClip(clip);
+                            }
+                        })
                         .show();
             } else {
                 if (isSubmission) {

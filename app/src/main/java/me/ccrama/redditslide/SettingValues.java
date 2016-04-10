@@ -36,6 +36,7 @@ public class SettingValues {
     public static final String PREF_TEXT_FILTERS = "textFilters";
     public static final String PREF_DOMAIN_FILTERS = "domainFilters";
     public static final String PREF_ALWAYS_EXTERNAL = "alwaysExternal";
+    public static final String PREF_DRAFTS = "drafts";
     public static final String PREF_SUBREDDIT_FILTERS = "subredditFilters";
     public static final String PREF_COMMENT_LAST_VISIT = "commentLastVisit";
     public static final String PREF_COMMENT_PAGER = "commentPager";
