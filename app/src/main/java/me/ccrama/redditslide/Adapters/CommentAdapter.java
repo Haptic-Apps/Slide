@@ -700,7 +700,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+        } else if (Authentication.name != null && comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (submission != null && comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1699,7 +1699,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             {
                 final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
-                if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase()) && Authentication.didOnline) {
+                if (Authentication.name != null && Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase()) && Authentication.didOnline) {
                     edit.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

@@ -663,6 +663,7 @@ public class CommentPage extends Fragment {
 
     @Override
     public void onPause(){
+        super.onPause();
         if (adapter != null && adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 Drafts.addDraft(adapter.currentlyEditing.getText().toString());

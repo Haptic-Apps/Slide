@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -15,7 +16,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
-import android.support.v7.view.ContextThemeWrapper;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -232,6 +232,18 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             activity = (Activity) context;
         } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
             activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) context).getBaseContext();
+        } else if (context instanceof ContextWrapper) {
+            Context context1 = ((ContextWrapper) context).getBaseContext();
+            if (context1 instanceof Activity) {
+                activity = (Activity) context1;
+            } else if (context1 instanceof ContextWrapper) {
+                Context context2 = ((ContextWrapper) context1).getBaseContext();
+                if (context2 instanceof Activity) {
+                    activity = (Activity) context2;
+                } else if (context2 instanceof ContextWrapper) {
+                    activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) context2).getBaseContext();
+                }
+            }
         } else {
             throw new RuntimeException("Could not find activity from context:" + context);
         }
@@ -330,16 +342,30 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         if (url == null) {
             return;
         }
-        final Activity activity;
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-
-        if (getContext() instanceof ContextThemeWrapper) {
-            activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) getContext()).getBaseContext();
+        Activity activity = null;
+        Context context = getContext();
+        if (context instanceof Activity) {
+            activity = (Activity) context;
+        } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
+            activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) context).getBaseContext();
+        } else if (context instanceof ContextWrapper) {
+            Context context1 = ((ContextWrapper) context).getBaseContext();
+            if (context1 instanceof Activity) {
+                activity = (Activity) context1;
+            } else if (context1 instanceof ContextWrapper) {
+                Context context2 = ((ContextWrapper) context1).getBaseContext();
+                if (context2 instanceof Activity) {
+                    activity = (Activity) context2;
+                } else if (context2 instanceof ContextWrapper) {
+                    activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) context2).getBaseContext();
+                }
+            }
         } else {
-            activity = (Activity) getContext();
+            throw new RuntimeException("Could not find activity from context:" + context);
         }
 
-        if (!activity.isFinishing()) {
+        if (activity != null && !activity.isFinishing()) {
             BottomSheet.Builder b = new BottomSheet.Builder(activity)
                     .title(url)
                     .grid();
@@ -357,6 +383,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             b.sheet(R.id.open_link, open, getResources().getString(R.string.submission_link_extern));
             b.sheet(R.id.share_link, share, getResources().getString(R.string.share_link));
             b.sheet(R.id.copy_link, copy, getResources().getString(R.string.submission_link_copy));
+            final Activity finalActivity = activity;
             b.listener(new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -367,13 +394,13 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             getContext().startActivity(Intent.createChooser(intent, "Open externally"));
                             break;
                         case R.id.share_link:
-                            Reddit.defaultShareText(url, activity);
+                            Reddit.defaultShareText(url, finalActivity);
                             break;
                         case R.id.copy_link:
-                            ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipboardManager clipboard = (ClipboardManager) finalActivity.getSystemService(Context.CLIPBOARD_SERVICE);
                             ClipData clip = ClipData.newPlainText("Link", url);
                             clipboard.setPrimaryClip(clip);
-                            Toast.makeText(activity, "Link copied", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(finalActivity, "Link copied", Toast.LENGTH_SHORT).show();
                             break;
                     }
                 }
