@@ -64,7 +64,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
     ArrayList<String> subs;
     CustomAdapter adapter;
     RecyclerView recyclerView;
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
