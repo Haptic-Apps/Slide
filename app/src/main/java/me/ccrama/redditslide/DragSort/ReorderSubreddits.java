@@ -58,11 +58,13 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
 public class ReorderSubreddits extends BaseActivityAnim {
-    private String input;
-    private ArrayList<String> subs;
-    private CustomAdapter adapter;
-    private RecyclerView recyclerView;
+    public static final String MULTI_REDDIT = " multi reddit";
+    String input;
 
+    ArrayList<String> subs;
+    CustomAdapter adapter;
+    RecyclerView recyclerView;
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -248,7 +250,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                                 }
                                                                 String finalS = b.toString().substring(0, b.length() - 1);
                                                                 Log.v(LogUtil.getTag(), finalS);
-                                                                subs.add(finalS);
+                                                                subs.add(r.getDisplayName()+ MULTI_REDDIT);
+                                                                UserSubscriptions.setSubNameToProperties(r.getDisplayName()+ MULTI_REDDIT, b.toString());
                                                                 adapter.notifyDataSetChanged();
                                                                 recyclerView.smoothScrollToPosition(subs.size());
                                                                 return false;
