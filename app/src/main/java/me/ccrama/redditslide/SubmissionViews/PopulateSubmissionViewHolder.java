@@ -36,6 +36,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.fluent.FlairReference;
@@ -82,6 +83,7 @@ import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -1667,6 +1669,10 @@ public class PopulateSubmissionViewHolder {
         if (!full && SettingValues.cardText && submission.isSelfPost() && !submission.getSelftext().isEmpty()) {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
+            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                    mContext,
+                    new FontPreferences(mContext).getFontTypeComment().getTypeface());
+            holder.body.setTypeface(typeface);
             holder.body.setTextHtml(Html.fromHtml(text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length())));
             if (holder.body.getText().toString().trim().isEmpty()) {
                 holder.body.setVisibility(View.GONE);
@@ -1677,6 +1683,10 @@ public class PopulateSubmissionViewHolder {
 
         if (fullscreen) {
             if (!submission.getSelftext().isEmpty()) {
+                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                        mContext,
+                        new FontPreferences(mContext).getFontTypeComment().getTypeface());
+                holder.firstTextView.setTypeface(typeface);
                 setViews(submission.getDataNode().get("selftext_html").asText(), submission.getSubredditName(), holder);
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
