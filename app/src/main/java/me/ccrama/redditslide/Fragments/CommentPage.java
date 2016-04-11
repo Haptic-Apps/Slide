@@ -672,11 +672,6 @@ public class CommentPage extends Fragment {
         super.onDestroy();
         if (comments != null)
             comments.cancelLoad();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
         if (adapter != null && adapter.users != null) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 Drafts.addDraft(adapter.currentlyEditing.getText().toString());

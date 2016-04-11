@@ -2725,9 +2725,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void onPostExecute(final String s) {
-            if (s == null) {
+            if (s == null || s.isEmpty()) {
 
-                if (!commentBack.isEmpty() && commentBack != null)
+                if (commentBack != null && !commentBack.isEmpty())
                     Drafts.addDraft(commentBack);
                 new AlertDialogWrapper.Builder(mContext)
                         .setTitle(R.string.err_comment_post)
@@ -2748,7 +2748,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             });
                         }
                     }, 2000);
-                } else if (s != null) {
+                } else {
                     new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition()), holder.getAdapterPosition(), holder, node).execute(s);
                 }
             }
@@ -2763,13 +2763,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 try {
                     return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
                 } catch (Exception e) {
+                    commentBack = comment[0];
                     if (e instanceof ApiException) {
                         why = ((ApiException) e).getExplanation();
                     }
-                    commentBack = comment[0];
+                    return null;
                 }
+            } else {
+                return null;
             }
-            return null;
         }
 
     }

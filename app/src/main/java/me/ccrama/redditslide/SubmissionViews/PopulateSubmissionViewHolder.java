@@ -549,7 +549,7 @@ public class PopulateSubmissionViewHolder {
     public <T extends Contribution> void hideSubmission(final Submission submission, final List<T> posts, final String baseSub, final RecyclerView recyclerview) {
         final int pos = posts.indexOf(submission);
         if (pos != -1) {
-            if(submission.isHidden()){
+            if (submission.isHidden()) {
                 posts.remove(pos);
                 Hidden.undoHidden(submission);
                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
@@ -671,7 +671,7 @@ public class PopulateSubmissionViewHolder {
 
                                         ArrayList<String> finalReports = new ArrayList<>();
                                         for (String s : reports.keySet()) {
-                                            finalReports.add( reports.get(s) + "× " + s);
+                                            finalReports.add(reports.get(s) + "× " + s);
                                         }
                                         for (String s : reports2.keySet()) {
                                             finalReports.add(s + ": " + reports2.get(s));
@@ -1157,97 +1157,103 @@ public class PopulateSubmissionViewHolder {
 
                                     @Override
                                     public void onPostExecute(final ArrayList<String> data) {
-                                        if (data.isEmpty()) {
-                                            new AlertDialogWrapper.Builder(mContext)
-                                                    .setTitle("No flair found for this subreddit")
-                                                    .setPositiveButton(R.string.btn_ok, null)
-                                                    .show();
-                                        } else {
-                                            new MaterialDialog.Builder(mContext).items(data)
-                                                    .title("Select flair")
-                                                    .itemsCallback(new MaterialDialog.ListCallback() {
-                                                        @Override
-                                                        public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                                            final FlairTemplate t = flair.get(which);
-                                                            if (t.isTextEditable()) {
-                                                                new MaterialDialog.Builder(mContext).title("Set flair text")
-                                                                        .input("Flair text", t.getText(), true, new MaterialDialog.InputCallback() {
-                                                                            @Override
-                                                                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                        try {
 
+                                            if (data.isEmpty()) {
+                                                new AlertDialogWrapper.Builder(mContext)
+                                                        .setTitle("No flair found for this subreddit")
+                                                        .setPositiveButton(R.string.btn_ok, null)
+                                                        .show();
+                                            } else {
+                                                new MaterialDialog.Builder(mContext).items(data)
+                                                        .title("Select flair")
+                                                        .itemsCallback(new MaterialDialog.ListCallback() {
+                                                            @Override
+                                                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                                                final FlairTemplate t = flair.get(which);
+                                                                if (t.isTextEditable()) {
+                                                                    new MaterialDialog.Builder(mContext).title("Set flair text")
+                                                                            .input("Flair text", t.getText(), true, new MaterialDialog.InputCallback() {
+                                                                                @Override
+                                                                                public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                                                                }
+                                                                            }).positiveText("Set")
+                                                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                                                @Override
+                                                                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                                                    final String flair = dialog.getInputEditText().getText().toString();
+                                                                                    new AsyncTask<Void, Void, Boolean>() {
+                                                                                        @Override
+                                                                                        protected Boolean doInBackground(Void... params) {
+                                                                                            try {
+                                                                                                new ModerationManager(Authentication.reddit).setFlair(submission.getSubredditName(), t, flair, submission);
+                                                                                                return true;
+                                                                                            } catch (ApiException e) {
+                                                                                                e.printStackTrace();
+                                                                                                return false;
+                                                                                            }
+                                                                                        }
+
+                                                                                        @Override
+                                                                                        protected void onPostExecute(Boolean done) {
+                                                                                            Snackbar s = null;
+                                                                                            if (done) {
+                                                                                                if (recyclerview != null)
+                                                                                                    s = Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                                            } else {
+                                                                                                if (recyclerview != null)
+                                                                                                    s = Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                                            }
+                                                                                            if (s != null) {
+                                                                                                View view = s.getView();
+                                                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                                                tv.setTextColor(Color.WHITE);
+                                                                                                s.show();
+                                                                                            }
+                                                                                        }
+                                                                                    }.execute();
+                                                                                }
+                                                                            }).negativeText(R.string.btn_cancel)
+                                                                            .show();
+                                                                } else {
+                                                                    new AsyncTask<Void, Void, Boolean>() {
+                                                                        @Override
+                                                                        protected Boolean doInBackground(Void... params) {
+                                                                            try {
+                                                                                new ModerationManager(Authentication.reddit).setFlair(submission.getSubredditName(), t, null, submission);
+                                                                                return true;
+                                                                            } catch (ApiException e) {
+                                                                                e.printStackTrace();
+                                                                                return false;
                                                                             }
-                                                                        }).positiveText("Set")
-                                                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                                                            @Override
-                                                                            public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                                                final String flair = dialog.getInputEditText().getText().toString();
-                                                                                new AsyncTask<Void, Void, Boolean>() {
-                                                                                    @Override
-                                                                                    protected Boolean doInBackground(Void... params) {
-                                                                                        try {
-                                                                                            new ModerationManager(Authentication.reddit).setFlair(submission.getSubredditName(), t, flair, submission);
-                                                                                            return true;
-                                                                                        } catch (ApiException e) {
-                                                                                            e.printStackTrace();
-                                                                                            return false;
-                                                                                        }
-                                                                                    }
+                                                                        }
 
-                                                                                    @Override
-                                                                                    protected void onPostExecute(Boolean done) {
-                                                                                        Snackbar s = null;
-                                                                                        if (done) {
-                                                                                            if (recyclerview != null)
-                                                                                                s = Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT);
-                                                                                        } else {
-                                                                                            if (recyclerview != null)
-                                                                                                s = Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
-                                                                                        }
-                                                                                        if (s != null) {
-                                                                                            View view = s.getView();
-                                                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                                                            tv.setTextColor(Color.WHITE);
-                                                                                            s.show();
-                                                                                        }
-                                                                                    }
-                                                                                }.execute();
+                                                                        @Override
+                                                                        protected void onPostExecute(Boolean done) {
+                                                                            Snackbar s = null;
+                                                                            if (done) {
+                                                                                if (recyclerview != null)
+                                                                                    s = Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                            } else {
+                                                                                if (recyclerview != null)
+                                                                                    s = Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
                                                                             }
-                                                                        }).negativeText(R.string.btn_cancel)
-                                                                        .show();
-                                                            } else {
-                                                                new AsyncTask<Void, Void, Boolean>() {
-                                                                    @Override
-                                                                    protected Boolean doInBackground(Void... params) {
-                                                                        try {
-                                                                            new ModerationManager(Authentication.reddit).setFlair(submission.getSubredditName(), t, null, submission);
-                                                                            return true;
-                                                                        } catch (ApiException e) {
-                                                                            e.printStackTrace();
-                                                                            return false;
+                                                                            if (s != null) {
+                                                                                View view = s.getView();
+                                                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                                tv.setTextColor(Color.WHITE);
+                                                                                s.show();
+                                                                            }
                                                                         }
-                                                                    }
-
-                                                                    @Override
-                                                                    protected void onPostExecute(Boolean done) {
-                                                                        Snackbar s = null;
-                                                                        if (done) {
-                                                                            if (recyclerview != null)
-                                                                                s = Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT);
-                                                                        } else {
-                                                                            if (recyclerview != null)
-                                                                                s = Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
-                                                                        }
-                                                                        if (s != null) {
-                                                                            View view = s.getView();
-                                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                                            tv.setTextColor(Color.WHITE);
-                                                                            s.show();
-                                                                        }
-                                                                    }
-                                                                }.execute();
+                                                                    }.execute();
+                                                                }
                                                             }
-                                                        }
-                                                    }).show();
+                                                        }).show();
+
+                                            }
+                                        } catch (Exception ignored) {
+
                                         }
                                     }
                                 }.execute();
@@ -1304,7 +1310,7 @@ public class PopulateSubmissionViewHolder {
         SpannableStringBuilder author = new SpannableStringBuilder(" " + submission.getAuthor() + " ");
         int authorcolor = Palette.getFontColorUser(submission.getAuthor());
 
-        if(submission.getAuthor() != null) {
+        if (submission.getAuthor() != null) {
             if (Authentication.name != null && submission.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
                 author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {

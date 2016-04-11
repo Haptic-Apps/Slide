@@ -495,6 +495,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         imageShown = true;
 
         i.setMinimumDpi(70);
+        i.setMinimumTileDpi(240);
         final ProgressBar bar = (ProgressBar) findViewById(R.id.progress);
         bar.setIndeterminate(false);
         bar.setProgress(0);
