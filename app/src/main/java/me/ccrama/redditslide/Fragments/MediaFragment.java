@@ -178,15 +178,6 @@ public class MediaFragment extends Fragment {
 
     public void doLoad(final String contentUrl) {
         switch (ContentType.getImageType(contentUrl)) {
-            case NSFW_IMAGE:
-                doLoadImage(contentUrl);
-                break;
-            case NSFW_GIF:
-                doLoadGif(contentUrl);
-                break;
-            case NSFW_GFY:
-                doLoadGif(contentUrl);
-                break;
             case DEVIANTART:
                 if (!imageShown) {
                     Ion.with(this).load("http://backend.deviantart.com/oembed?url=" + contentUrl).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
@@ -209,12 +200,6 @@ public class MediaFragment extends Fragment {
                     });
                 }
                 break;
-            case IMAGE_LINK:
-                doLoadImage(contentUrl);
-                break;
-            case GFY:
-                doLoadGif(contentUrl);
-                break;
             case IMAGE:
                 doLoadImage(contentUrl);
                 break;
@@ -223,15 +208,6 @@ public class MediaFragment extends Fragment {
                 break;
             case GIF:
                 doLoadGif(contentUrl);
-                break;
-            case NONE_GFY:
-                doLoadGif(contentUrl);
-                break;
-            case NONE_GIF:
-                doLoadGif(contentUrl);
-                break;
-            case NONE_IMAGE:
-                doLoadImage(contentUrl);
                 break;
         }
     }
@@ -303,7 +279,7 @@ public class MediaFragment extends Fragment {
     public String actuallyLoaded;
 
     public void doLoadImage(String contentUrl) {
-        if (contentUrl != null && ContentType.isImgurLink(contentUrl) && !contentUrl.contains("png") && !contentUrl.contains("jpg")) {
+        if (contentUrl != null && ContentType.isImgurLink(contentUrl)) {
             contentUrl = contentUrl + ".png";
         }
         rootView.findViewById(R.id.gifprogress).setVisibility(View.GONE);
@@ -363,15 +339,6 @@ public class MediaFragment extends Fragment {
     private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {
 
         switch (type) {
-            case NSFW_IMAGE:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openImage(contextActivity, submission);
-
-                    }
-                });
-                break;
             case VID_ME:
             case STREAMABLE:
                 base.setOnClickListener(new View.OnClickListener() {
@@ -408,27 +375,6 @@ public class MediaFragment extends Fragment {
 
                 });
                 break;
-            case NSFW_GIF:
-
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
-
-                    }
-                });
-                break;
-            case NSFW_GFY:
-
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                    }
-                });
-                break;
             case REDDIT:
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -447,37 +393,8 @@ public class MediaFragment extends Fragment {
                     }
                 });
                 break;
-            case IMAGE_LINK:
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
-                        CustomTabUtil.openUrl(
-                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                    }
-                });
-                break;
-            case NSFW_LINK:
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
-                        CustomTabUtil.openUrl(
-                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                    }
-                });
-                break;
             case SELF:
 
-                break;
-            case GFY:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                    }
-                });
                 break;
             case ALBUM:
                 base.setOnClickListener(new View.OnClickListener() {
@@ -519,52 +436,13 @@ public class MediaFragment extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
+                        PopulateSubmissionViewHolder.openGif(contextActivity, submission);
 
                     }
                 });
                 break;
-            case NONE_GFY:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                    }
-                });
-                break;
-            case NONE_GIF:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
-
-                    }
-                });
-                break;
-
             case NONE:
 
-                break;
-            case NONE_IMAGE:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openImage(contextActivity, submission);
-
-
-                    }
-                });
-                break;
-            case NONE_URL:
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
-                        CustomTabUtil.openUrl(
-                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                    }
-                });
                 break;
             case VIDEO:
                 base.setOnClickListener(new View.OnClickListener() {

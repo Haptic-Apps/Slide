@@ -1978,12 +1978,7 @@ public class MainActivity extends BaseActivity {
                             if (s2 != null) {
                                 newSubmissions = newSubmissions + (s2.toString() + "<SEPARATOR>");
                                 switch (ContentType.getImageType(s)) {
-                                    case GFY:
                                     case GIF:
-                                    case NONE_GIF:
-                                    case NSFW_GIF:
-                                    case NONE_GFY:
-                                    case NSFW_GFY:
                                         if (chosen[0])
                                             GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
                                         break;

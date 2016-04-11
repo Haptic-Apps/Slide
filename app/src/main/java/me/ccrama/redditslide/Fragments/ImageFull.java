@@ -57,15 +57,6 @@ public class ImageFull extends Fragment {
         if(!PostMatch.openExternal(submission.getUrl())) {
 
             switch (type) {
-                case NSFW_IMAGE:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openImage(contextActivity, submission);
-
-                        }
-                    });
-                    break;
                 case VID_ME:
                 case STREAMABLE:
                     base.setOnClickListener(new View.OnClickListener() {
@@ -102,27 +93,6 @@ public class ImageFull extends Fragment {
 
                     });
                     break;
-                case NSFW_GIF:
-
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-                case NSFW_GFY:
-
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                        }
-                    });
-                    break;
                 case REDDIT:
                     base.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -141,37 +111,8 @@ public class ImageFull extends Fragment {
                         }
                     });
                     break;
-                case IMAGE_LINK:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            CustomTabUtil.openUrl(
-                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        }
-                    });
-                    break;
-                case NSFW_LINK:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            CustomTabUtil.openUrl(
-                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        }
-                    });
-                    break;
                 case SELF:
 
-                    break;
-                case GFY:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                        }
-                    });
                     break;
                 case ALBUM:
                     base.setOnClickListener(new View.OnClickListener() {
@@ -213,51 +154,12 @@ public class ImageFull extends Fragment {
                     base.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
+                            PopulateSubmissionViewHolder.openGif(contextActivity, submission);
 
                         }
                     });
                     break;
-                case NONE_GFY:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-                case NONE_GIF:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-
                 case NONE:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            CustomTabUtil.openUrl(
-                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        }
-                    });
-                    break;
-                case NONE_IMAGE:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openImage(contextActivity, submission);
-
-
-                        }
-                    });
-                    break;
-                case NONE_URL:
                     base.setOnClickListener(new View.OnClickListener() {
 
                         @Override
@@ -296,7 +198,8 @@ public class ImageFull extends Fragment {
 
         type = ContentType.getImageType(s);
 
-        if (type.toString().toLowerCase().contains("image") && type != ContentType.ImageType.IMAGE_LINK) {
+        // TODO: Check old IMAGE_LINK affect on things
+        if (type.equals(ContentType.ImageType.IMAGE)) {
             addClickFunctions(image, rootView, type, getActivity(), s);
             loadImage(s.getUrl());
         } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height") && s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
