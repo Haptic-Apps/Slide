@@ -238,7 +238,7 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.comment_floating_action_button).setVisibility(View.GONE);
         } else {
             fab = (FloatingActionButton) v.findViewById(R.id.comment_floating_action_button);
-            if(SettingValues.fastscroll) {
+            if (SettingValues.fastscroll) {
                 FrameLayout.LayoutParams fabs = (FrameLayout.LayoutParams) fab.getLayoutParams();
                 fabs.setMargins(fabs.leftMargin, fabs.topMargin, fabs.rightMargin, fabs.bottomMargin * 3);
                 fab.setLayoutParams(fabs);
@@ -282,8 +282,8 @@ public class CommentPage extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (fab != null&& !overrideFab) {
-                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fabComments ) {
+                if (fab != null && !overrideFab) {
+                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fabComments) {
                         fab.show();
                     } else {
                         fab.hide();
@@ -663,7 +663,7 @@ public class CommentPage extends Fragment {
     }
 
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
         if (adapter != null && adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
@@ -776,7 +776,11 @@ public class CommentPage extends Fragment {
             CommentObject o = adapter.users.get(adapter.getRealPosition(i));
             if (o instanceof CommentItem && pos - 1 != i) {
                 if (o.comment.isTopLevel()) {
-                    (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header)).getHeight());
+                    if (i + 2 == old) {
+                        doGoUp(old - 1);
+                    } else {
+                        (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header)).getHeight());
+                    }
                     break;
                 }
             }
@@ -841,11 +845,15 @@ public class CommentPage extends Fragment {
     public void doGoDown(int old) {
         int pos = (old < 2) ? 0 : old - 1;
 
-        for (int i = pos + 1; i < adapter.users.size(); i++) {
+        for (int i = pos; i < adapter.users.size(); i++) {
             CommentObject o = adapter.users.get(adapter.getRealPosition(i));
             if (o instanceof CommentItem) {
                 if (o.comment.isTopLevel()) {
-                    (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header).getHeight()));
+                    if (i + 2 == old) {
+                        doGoDown(old + 1);
+                    } else {
+                        (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header).getHeight()));
+                    }
                     break;
                 }
             }
