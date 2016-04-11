@@ -343,7 +343,7 @@ public class MainActivity extends BaseActivity {
                                 p.setLimit(2);
                                 ArrayList<Submission> posts = new ArrayList<>(p.next());
                                 for (Submission s : posts) {
-                                    if (s.isStickied() && s.getSubmissionFlair().getText() != null &&  s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(BuildConfig.VERSION_NAME)) {
+                                    if (s.isStickied() && s.getSubmissionFlair().getText() != null && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(BuildConfig.VERSION_NAME)) {
                                         Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
                                         return s;
                                     }
@@ -1717,7 +1717,8 @@ public class MainActivity extends BaseActivity {
                 dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
@@ -1734,7 +1735,8 @@ public class MainActivity extends BaseActivity {
                 dialoglayout.findViewById(R.id.blacklighter).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
@@ -1750,7 +1752,8 @@ public class MainActivity extends BaseActivity {
                 dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
@@ -1766,7 +1769,8 @@ public class MainActivity extends BaseActivity {
                 dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
@@ -1782,7 +1786,8 @@ public class MainActivity extends BaseActivity {
                 dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(MainActivity.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
@@ -2446,6 +2451,7 @@ public class MainActivity extends BaseActivity {
     public class AsyncNotificationBadge extends AsyncTask<Void, Void, Void> {
 
         int count;
+        int modCount;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -2481,7 +2487,6 @@ public class MainActivity extends BaseActivity {
                     me = Authentication.reddit.me();
                 }
                 count = me.getInboxCount(); //Force reload of the LoggedInAccount object
-
 
             } catch (Exception e) {
                 Log.w(LogUtil.getTag(), "Cannot fetch inbox count");
@@ -2531,6 +2536,16 @@ public class MainActivity extends BaseActivity {
                 if (badge != null) badge.setVisibility(View.VISIBLE);
                 ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
             }
+
+            /* Todo possibly
+            View modBadge = headerMain.findViewById(R.id.count_mod);
+
+            if (modCount == 0) {
+                if (modBadge != null) modBadge.setVisibility(View.GONE);
+            } else if (modCount != -1) {
+                if (modBadge != null) modBadge.setVisibility(View.VISIBLE);
+                ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
+            }*/
         }
 
     }

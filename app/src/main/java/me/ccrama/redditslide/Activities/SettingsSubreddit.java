@@ -219,6 +219,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                 super.onScrollStateChanged(recyclerView, newState);
             }
         });
+        fab.show();
     }
 
 

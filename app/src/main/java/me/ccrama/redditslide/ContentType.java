@@ -235,10 +235,13 @@ public class ContentType {
     }
 
     public static ImageType getImageType(String url) {
-        if (!url.startsWith("//") && url.equals("#s") || url.equals("#spoiler")|| url.equals("#spoilers")
-                || url.equals("/spoiler") || url.equals("#sp")
+        if (!url.startsWith("//") && (url.equals("#s")
+                || url.equals("#spoiler")
+                || url.equals("#spoilers")
+                || url.equals("/spoiler")
+                || url.equals("#sp")
                 || url.equals("#b")
-                || (url.startsWith("/") && url.length() < 4)) {
+                || (url.startsWith("/") && url.length() < 4))) {
             return ImageType.SPOILER;
         }
         if (url.startsWith("/") && !url.startsWith("//")) {

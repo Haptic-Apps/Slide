@@ -16,6 +16,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -88,7 +89,16 @@ public class SubredditView extends BaseActivityAnim {
     }
 
     public OverviewPagerAdapter adapter;
-
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START) || drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawers();
+        } else if (commentPager && pager.getCurrentItem() == 2) {
+            pager.setCurrentItem(pager.getCurrentItem() - 1);
+        } else {
+            super.onBackPressed();
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -125,7 +135,8 @@ public class SubredditView extends BaseActivityAnim {
                 dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
@@ -142,7 +153,8 @@ public class SubredditView extends BaseActivityAnim {
                 dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
@@ -158,7 +170,8 @@ public class SubredditView extends BaseActivityAnim {
                 dialoglayout.findViewById(R.id.blacklighter).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
@@ -174,7 +187,8 @@ public class SubredditView extends BaseActivityAnim {
                 dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
@@ -190,7 +204,8 @@ public class SubredditView extends BaseActivityAnim {
                 dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(SubredditView.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 3) {

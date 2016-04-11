@@ -246,7 +246,7 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/mod"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -256,6 +256,7 @@
         android:paddingLeft="0dp">
 
         <ImageView
+            android:id="@+id/mo"
             android:layout_width="26dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
@@ -266,13 +267,28 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/mo"
             android:gravity="center_vertical"
             android:text="@string/drawer_moderation"
-
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
-    </LinearLayout>
+
+        <TextView
+            android:id="@+id/count_mod"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/roundedbackmod"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+    </RelativeLayout>
 
 
     <LinearLayout

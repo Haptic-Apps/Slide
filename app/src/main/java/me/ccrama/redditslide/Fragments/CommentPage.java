@@ -665,7 +665,7 @@ public class CommentPage extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (adapter != null && adapter.users != null && adapter.users.size() > 0) {
+        if (adapter != null && adapter.users != null) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 Drafts.addDraft(adapter.currentlyEditing.getText().toString());
                 Toast.makeText(getActivity().getApplicationContext(), R.string.msg_save_draft, Toast.LENGTH_LONG).show();

@@ -104,7 +104,8 @@ public class SettingsTheme extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         SettingsTheme.changed = true;
-                        String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
@@ -128,7 +129,8 @@ public class SettingsTheme extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         SettingsTheme.changed = true;
-                        String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
@@ -152,7 +154,8 @@ public class SettingsTheme extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         SettingsTheme.changed = true;
-                        String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
@@ -176,7 +179,8 @@ public class SettingsTheme extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         SettingsTheme.changed = true;
-                        String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
@@ -199,7 +203,8 @@ public class SettingsTheme extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         SettingsTheme.changed = true;
-                        String name = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_")[1];
+                        String[] names = new ColorPreferences(SettingsTheme.this).getFontStyle().getTitle().split("_");
+                        String name = names[names.length - 1];
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 3) {

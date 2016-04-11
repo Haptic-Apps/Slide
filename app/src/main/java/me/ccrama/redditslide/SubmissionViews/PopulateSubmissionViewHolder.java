@@ -1650,7 +1650,7 @@ public class PopulateSubmissionViewHolder {
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
-                    if (SettingValues.actionbarTap) {
+                    if (SettingValues.actionbarTap && !full) {
                         CreateCardView.toggleActionbar(holder.itemView);
                     } else {
                         holder.itemView.findViewById(R.id.menu).callOnClick();

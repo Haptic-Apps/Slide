@@ -223,6 +223,7 @@
     <string name="mail_send_to">Send a message to %1$s</string>
     <string name="mail_send">Send a message</string>
     <string name="mail_notification_msg">New message from %1$s</string>
+    <string name="mod_mail_notification_msg">New modmail from %1$s</string>
     <string name="mail_reply_to">Reply to %1$s</string>
     <string name="mail_notification_author">%1$s from %2$s</string>
     <string name="mail_theirs">View their message</string>
@@ -230,6 +231,10 @@
     <plurals name="mail_notification_title">
         <item quantity="one">You have %d new message!</item>
         <item quantity="other">You have %d new messages!</item>
+    </plurals>
+    <plurals name="mod_mail_notification_title">
+        <item quantity="one">You have %d new modmail!</item>
+        <item quantity="other">You have %d new mod modmail!</item>
     </plurals>
 
 

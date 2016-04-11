@@ -277,7 +277,8 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
@@ -301,7 +302,8 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
@@ -325,7 +327,8 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
@@ -349,7 +352,8 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.blacklighter).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
@@ -373,7 +377,8 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
@@ -574,7 +579,8 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
@@ -598,7 +604,8 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
@@ -622,7 +629,8 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.blacklighter).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
@@ -646,7 +654,8 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String name = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_")[1];
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
