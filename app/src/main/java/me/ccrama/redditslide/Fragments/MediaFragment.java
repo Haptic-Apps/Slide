@@ -583,6 +583,7 @@ public class MediaFragment extends Fragment {
         imageShown = true;
 
         i.setMinimumDpi(70);
+        i.setMinimumTileDpi(240);
         final ProgressBar bar = (ProgressBar) rootView.findViewById(R.id.progress);
         bar.setIndeterminate(false);
         bar.setProgress(0);
