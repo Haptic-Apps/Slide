@@ -182,8 +182,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        a.toOpenComments = a.pager.getCurrentItem() + 1;
                                                                        a.currentComment = holder.getAdapterPosition() - 1;
                                                                        ContentType.ImageType type = ContentType.getImageType(submission);
-                                                                       if ((type == ContentType.ImageType.NSFW_LINK || type == ContentType.ImageType.NSFW_IMAGE
-                                                                               || type == ContentType.ImageType.NSFW_GFY || type == ContentType.ImageType.NSFW_GIF) && !SettingValues.storeNSFWHistory) {
+                                                                       if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                                                                            //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
                                                                        } else {
                                                                            HasSeen.addSeen(submission.getFullName());
@@ -216,8 +215,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        a.openingComments = submission;
                                                                        a.currentComment = holder.getAdapterPosition() - 1;
                                                                        ContentType.ImageType type = ContentType.getImageType(submission);
-                                                                       if ((type == ContentType.ImageType.NSFW_LINK || type == ContentType.ImageType.NSFW_IMAGE
-                                                                               || type == ContentType.ImageType.NSFW_GFY || type == ContentType.ImageType.NSFW_GIF) && !SettingValues.storeNSFWHistory) {
+                                                                       if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                                                                            //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
                                                                        } else {
                                                                            HasSeen.addSeen(submission.getFullName());

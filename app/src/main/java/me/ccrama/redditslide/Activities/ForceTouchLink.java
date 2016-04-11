@@ -62,7 +62,6 @@ public class ForceTouchLink extends BaseActivityAnim {
                 ((Reddit)getApplication()).getImageLoader().displayImage(url, mainImage);
 
                 break;
-            case GFY:
             case GIF:
                 mainVideo.setVisibility(View.VISIBLE);
                 new GifUtils.AsyncLoadGif(this, mainVideo,null,null,false, true).execute(url);

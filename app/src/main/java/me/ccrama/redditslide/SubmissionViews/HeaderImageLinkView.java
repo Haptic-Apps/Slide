@@ -314,95 +314,10 @@ public class HeaderImageLinkView extends RelativeLayout {
                 ((TransparentTagTextView) title).init(getContext());
             }
 
-            switch (type) {
-                case NSFW_IMAGE:
-                    title.setText(R.string.type_nsfw_img);
-                    break;
+            title.setText(ContentType.getContentDescription(submission));
 
-                case DEVIANTART:
-                    title.setText(R.string.type_deviantart);
-                    break;
-                case NSFW_GIF:
-                case NSFW_GFY:
-                    title.setText(R.string.type_nsfw_gif);
-                    break;
-
-                case REDDIT:
-                    title.setText(R.string.type_reddit);
-                    break;
-
-                case LINK:
-                case IMAGE_LINK:
-                    String domain = submission.getDomain();
-                    if (domain.contains("youtube") || domain.contains("youtu.be"))
-                        title.setText(R.string.type_vid);
-                    else
-                        title.setText(R.string.type_link);
-                    break;
-
-                case NSFW_LINK:
-                    title.setText(R.string.type_nsfw_link);
-
-                    break;
-                case STREAMABLE:
-                    title.setText(R.string.type_streamable);
-                    break;
-                case SELF:
-                    title.setVisibility(View.VISIBLE);
-                    title.setText(R.string.type_selftext);
-                    break;
-
-                case ALBUM:
-                    title.setText(R.string.type_album);
-                    break;
-
-                case IMAGE:
-                    if (submission.isNsfw()) {
-                        title.setText(R.string.type_nsfw_img);
-
-                    } else {
-                        title.setVisibility(View.GONE);
-                        if (info != null)
-                            info.setVisibility(View.GONE);
-                    }
-                    break;
-                case IMGUR:
-                    title.setText(R.string.type_imgur);
-                    break;
-                case VID_ME:
-                    title.setText(R.string.type_vidme);
-                    break;
-                case GFY:
-                case GIF:
-                case NONE_GFY:
-                case NONE_GIF:
-                    title.setText(R.string.type_gif);
-                    break;
-
-                case NONE:
-                    title.setText(R.string.type_title_only);
-                    break;
-
-                case NONE_IMAGE:
-                    title.setText(R.string.type_img);
-                    break;
-
-                case VIDEO:
-                    title.setText(R.string.type_vid);
-                    break;
-
-                case EMBEDDED:
-                    title.setText(R.string.type_emb);
-                    break;
-
-                case NONE_URL:
-                    title.setText(R.string.type_link);
-                    break;
-
-            }
-
-                if (info != null)
-                    info.setText(submission.getDomain());
+            if (info != null)
+                info.setText(submission.getDomain());
 
         }
     }
