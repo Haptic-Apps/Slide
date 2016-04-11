@@ -1,4 +1,26 @@
 
+5.1.4 / 2016-04-10
+==================
+
+  * Add a comment draft if exiting the view before sending and if sending a reply failed
+  * Add get title button to submit screen, Gets the URL title if possible
+  * Added a new 'Drafts' feature in all the editor toolbars, Can save and restore drafts, and manage saved drafts
+  * Added space between score and "pts"
+  * Change "pts" to color of vote on comments
+  * Externalise more mod actions, over18 prompt, search scope
+  * Fix visual issue with some progress dialogs
+  * Fixed a voting animation bug
+  * Fixed fastscrolling comments skipping some collapsed comments
+  * Fixed some issues with suggesting the title
+  * Fixes that not all moderated subreddits where shown in the ModQueue Activity
+  * Merged link handling and external link handling settings
+  * New album icons
+  * Save whether user is mod & over 18
+  * Share button on profiles
+  * Spoilers are now a darker version of the main color
+  * Temporarily revert "Prevent a webpage to keep running (with sound) in the background when custom tab is closed"
+  * Workaround for crash getting the activity from a context in SpoilerRobotoTextView
+
 5.1.3 / 2016-04-09
 ==================
 
