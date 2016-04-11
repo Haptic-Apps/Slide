@@ -163,7 +163,7 @@ public class CommentPage extends Fragment {
 
                     toSubtract++;
                     headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
-                    if (headerHeight == 0) {
+                    if (headerHeight <= 0) {
                         header.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                             @Override
                             public void onGlobalLayout() {

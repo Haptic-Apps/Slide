@@ -333,7 +333,8 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //IS COMMENT
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHolder;
             final Comment comment = (Comment) dataSet.posts.get(i);
-            holder.score.setText(comment.getScore() + "");
+
+            holder.score.setText(comment.getScore() + " " + mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
 
             if (Authentication.isLoggedIn) {
                 if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {

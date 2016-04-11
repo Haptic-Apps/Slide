@@ -194,16 +194,20 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 if (!full && !SettingValues.isPicsEnabled(baseSub) || forceThumb) {
 
-                    if (!full) {
-                        thumbImage2.setVisibility(View.VISIBLE);
-                    } else {
-                        wrapArea.setVisibility(View.VISIBLE);
-                    }
+                    if(!submission.isSelfPost() || full) {
+                        if (!full) {
+                            thumbImage2.setVisibility(View.VISIBLE);
+                        } else {
+                            wrapArea.setVisibility(View.VISIBLE);
+                        }
 
-                    if (!full) {
-                        ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
+                        if (!full) {
+                            ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
+                        } else {
+                            ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2, bigOptions);
+                        }
                     } else {
-                        ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2, bigOptions);
+                        thumbImage2.setVisibility(View.GONE);
                     }
                     setVisibility(View.GONE);
 

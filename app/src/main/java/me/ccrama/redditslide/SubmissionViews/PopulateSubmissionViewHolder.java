@@ -1666,7 +1666,7 @@ public class PopulateSubmissionViewHolder {
         doInfoLine(holder, submission, mContext, baseSub, full);
 
 
-        if (!full && SettingValues.cardText && submission.isSelfPost() && !submission.getSelftext().isEmpty()) {
+        if (!full && SettingValues.cardText && submission.isSelfPost() && !submission.getSelftext().isEmpty() && !submission.isNsfw()) {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
             Typeface typeface = RobotoTypefaceManager.obtainTypeface(
