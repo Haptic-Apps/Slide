@@ -729,12 +729,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             scoreColor = (holder.textColorRegular);
         }
 
-        if (score == null || score.toString().isEmpty()) score = new SpannableStringBuilder("0");
+        if (score == null || score.toString().isEmpty()) {
+            score = new SpannableStringBuilder("0");
+        }
+        if (!scoreText.contains("[")) {
+            score.append(mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
+        }
         score.setSpan(new ForegroundColorSpan(scoreColor), 0, score.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         titleString.append(score);
-        if (!scoreText.contains("["))
-            titleString.append(mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
         titleString.append((comment.isControversial() ? "†" : ""));
 
         titleString.append(spacer);
