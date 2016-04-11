@@ -105,7 +105,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tint"
                     android:hint="@string/editor_title"
-                    android:inputType="textCapSentences"
+                    android:inputType="text|textCapSentences"
                     android:maxLength="300" />
             </android.support.design.widget.TextInputLayout>
 

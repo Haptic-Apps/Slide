@@ -59,7 +59,8 @@ public class PostMatch {
 
         domainc = !SettingValues.domainFilters.isEmpty() && contains(domain.toLowerCase(), domains, false);
 
-        subredditc = !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(), subreddits, true);
+        subredditc = !subreddit.equalsIgnoreCase(baseSubreddit) && !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(), subreddits, true);
+
         boolean contentMatch = false;
 
         if (baseSubreddit == null || baseSubreddit.isEmpty()) baseSubreddit = "frontpage";

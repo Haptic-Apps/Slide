@@ -92,7 +92,7 @@ public class Profile extends BaseActivityAnim {
 
         profSort = Sorting.HOT;
         profTime = TimePeriod.ALL;
-        
+
         findViewById(R.id.header).setBackgroundColor(Palette.getColorUser(name));
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -136,7 +136,7 @@ public class Profile extends BaseActivityAnim {
                         .translationY(0)
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
-                if(position < 3){
+                if (position < 3) {
                     findViewById(R.id.sort).setVisibility(View.VISIBLE);
                 } else {
                     findViewById(R.id.sort).setVisibility(View.GONE);
@@ -156,7 +156,7 @@ public class Profile extends BaseActivityAnim {
             pager.setCurrentItem(2);
         if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name))
             pager.setCurrentItem(4);
-        if(pager.getCurrentItem() < 3){
+        if (pager.getCurrentItem() < 3) {
             findViewById(R.id.sort).setVisibility(View.VISIBLE);
         } else {
             findViewById(R.id.sort).setVisibility(View.GONE);
@@ -191,6 +191,13 @@ public class Profile extends BaseActivityAnim {
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setText(name);
+
+                dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Reddit.defaultShareText(name + "'s profile" + "\n" + "https://www.reddit.com/u/" + name, Profile.this);
+                    }
+                });
                 final int currentColor = Palette.getColorUser(name);
                 title.setBackgroundColor(currentColor);
                 StringBuilder info = new StringBuilder();
@@ -580,68 +587,68 @@ public class Profile extends BaseActivityAnim {
                         break;
                     case 1:
                         profSort = (Sorting.NEW);
-                        
+
                         break;
                     case 2:
                         profSort = (Sorting.RISING);
-                        
+
                         break;
                     case 3:
                         profSort = (Sorting.TOP);
-                        profTime = ( TimePeriod.HOUR);
-                        
+                        profTime = (TimePeriod.HOUR);
+
                         break;
                     case 4:
                         profSort = (Sorting.TOP);
-                        profTime = ( TimePeriod.DAY);
-                        
+                        profTime = (TimePeriod.DAY);
+
                         break;
                     case 5:
                         profSort = (Sorting.TOP);
-                        profTime = ( TimePeriod.WEEK);
-                        
+                        profTime = (TimePeriod.WEEK);
+
                         break;
                     case 6:
                         profSort = (Sorting.TOP);
-                        profTime = ( TimePeriod.MONTH);
-                        
+                        profTime = (TimePeriod.MONTH);
+
                         break;
                     case 7:
                         profSort = (Sorting.TOP);
-                        profTime = ( TimePeriod.YEAR);
-                        
+                        profTime = (TimePeriod.YEAR);
+
                         break;
                     case 8:
                         profSort = (Sorting.TOP);
-                        profTime = ( TimePeriod.ALL);
-                        
+                        profTime = (TimePeriod.ALL);
+
                         break;
                     case 9:
                         profSort = (Sorting.CONTROVERSIAL);
-                        profTime = ( TimePeriod.HOUR);
-                        
+                        profTime = (TimePeriod.HOUR);
+
                         break;
                     case 10:
                         profSort = (Sorting.CONTROVERSIAL);
-                        profTime = ( TimePeriod.DAY);
-                        
+                        profTime = (TimePeriod.DAY);
+
                         break;
                     case 11:
                         profSort = (Sorting.CONTROVERSIAL);
-                        profTime = ( TimePeriod.WEEK);
-                        
+                        profTime = (TimePeriod.WEEK);
+
                     case 12:
                         profSort = (Sorting.CONTROVERSIAL);
-                        profTime = ( TimePeriod.MONTH);
-                        
+                        profTime = (TimePeriod.MONTH);
+
                     case 13:
                         profSort = (Sorting.CONTROVERSIAL);
-                        profTime = ( TimePeriod.YEAR);
-                        
+                        profTime = (TimePeriod.YEAR);
+
                     case 14:
                         profSort = (Sorting.CONTROVERSIAL);
-                        profTime = ( TimePeriod.ALL);
-                        
+                        profTime = (TimePeriod.ALL);
+
                 }
 
                 Reddit.sorting.put(name, profSort);

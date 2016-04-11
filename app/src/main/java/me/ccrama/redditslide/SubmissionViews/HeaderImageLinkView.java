@@ -401,12 +401,9 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             }
 
-            try {
                 if (info != null)
-                    info.setText(getDomainName(submission.getUrl()));
-            } catch (URISyntaxException e1) {
-                e1.printStackTrace();
-            }
+                    info.setText(submission.getDomain());
+
         }
     }
 

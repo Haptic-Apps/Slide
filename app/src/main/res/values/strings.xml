@@ -632,4 +632,5 @@
     <string name="dialog_no_drafts">No drafts yet</string>
     <string name="dialog_no_drafts_msg">You can add a draft by clicking the \'save\' icon in the editor bar!</string>
     <string name="msg_save_draft">Message saved as a draft</string>
+    <string name="content_removed">[removed]</string>
 </resources>

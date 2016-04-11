@@ -96,6 +96,7 @@ public class CommentPage extends Fragment {
     private PreCachingLayoutManagerComments mLayoutManager;
     public String subreddit;
     public boolean loaded = false;
+    public boolean overrideFab;
 
 
     public void doResult(Intent data) {
@@ -281,8 +282,8 @@ public class CommentPage extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (fab != null) {
-                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fabComments) {
+                if (fab != null&& !overrideFab) {
+                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fabComments ) {
                         fab.show();
                     } else {
                         fab.hide();

@@ -479,7 +479,7 @@ public class PopulateSubmissionViewHolder {
                                 mContext.startActivity(browserIntent);
                                 break;
                             case 4:
-                                Reddit.defaultShareText(submission.getTitle() + " \n" + submission.getUrl(), mContext);
+                                Reddit.defaultShareText(submission.getTitle() + "\n" + submission.getUrl(), mContext);
                                 break;
                             case 12:
                                 reportReason = "";

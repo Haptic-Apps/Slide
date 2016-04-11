@@ -182,7 +182,12 @@ public class Submit extends BaseActivity {
         DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)), findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this);
         if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras().getString(Intent.EXTRA_TEXT, "").isEmpty()) {
             String data = intent.getStringExtra(Intent.EXTRA_TEXT);
-            ((EditText) findViewById(R.id.urltext)).setText(data);
+            if(data.contains("\n")){
+                ((EditText) findViewById(R.id.titletext)).setText(data.substring(0, data.indexOf("\n")));
+                ((EditText) findViewById(R.id.urltext)).setText(data.substring(data.indexOf("\n") , data.length()));
+            } else {
+                ((EditText) findViewById(R.id.urltext)).setText(data);
+            }
             self.setVisibility(View.GONE);
             image.setVisibility(View.GONE);
             link.setVisibility(View.VISIBLE);

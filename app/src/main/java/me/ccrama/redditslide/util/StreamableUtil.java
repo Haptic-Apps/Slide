@@ -94,7 +94,7 @@ public class StreamableUtil {
                                 @Override
                                 protected Void doInBackground(Void... params) {
                                     String obj = "";
-                                    if (result == null || result.get("files") == null || result.getAsJsonObject("files").get("mp4").isJsonNull()) {
+                                    if (result == null || result.get("files") == null || !(result.getAsJsonObject("files").has("mp4") || result.getAsJsonObject("files").has("mp4-mobile"))) {
 
                                         if (closeIfNull) {
                                             c.runOnUiThread(new Runnable() {
@@ -116,7 +116,11 @@ public class StreamableUtil {
 
 
                                     } else {
-                                        obj = "https:" + result.getAsJsonObject().get("files").getAsJsonObject().get("mp4").getAsJsonObject().get("url").getAsString();
+                                        if (result.getAsJsonObject().get("files").getAsJsonObject().has("mp4"))
+                                            obj = "https:" + result.getAsJsonObject().get("files").getAsJsonObject().get("mp4").getAsJsonObject().get("url").getAsString();
+                                        else
+                                            obj = "https:" + result.getAsJsonObject().get("files").getAsJsonObject().get("mp4-mobile").getAsJsonObject().get("url").getAsString();
+
                                     }
                                     try {
                                         final URL url = new URL(obj);

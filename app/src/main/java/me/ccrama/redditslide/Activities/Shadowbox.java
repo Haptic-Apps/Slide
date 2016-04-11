@@ -3,7 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import net.dean.jraw.models.Submission;
@@ -32,6 +32,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
+    public OfflineSubreddit submissions;
     private PostLoader subredditPosts;
     private String subreddit;
     int firstPage;
@@ -54,7 +55,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         }
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
 
-        subredditPosts.getPosts().addAll(OfflineSubreddit.getSubreddit(subreddit).submissions);
+        submissions = OfflineSubreddit.getSubreddit(subreddit);
+        subredditPosts.getPosts().addAll(submissions.submissions);
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(submissionsPager);
@@ -115,7 +117,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public void updateError() {
     }
 
-    public class OverviewPagerAdapter extends FragmentPagerAdapter {
+    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -152,7 +154,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 {
                     f = new MediaFragment();
                     Bundle args = new Bundle();
-                    Submission submission = OfflineSubreddit.getSubreddit(subreddit).submissions.get(i);
+                    Submission submission = submissions.submissions.get(i);
                     String previewUrl = "";
                     if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                         previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();

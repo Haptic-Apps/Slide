@@ -488,8 +488,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                             s.show();
 
                                                             deleted.add(comment.getFullName());
-                                                            holder.firstTextView.setTextHtml(mContext.getString(R.string.content_deleted));
-                                                            holder.content.setText(R.string.content_deleted);
+                                                            holder.firstTextView.setTextHtml(mContext.getString(R.string.content_removed));
+                                                            holder.content.setText(R.string.content_removed);
                                                         } else {
                                                             new AlertDialogWrapper.Builder(mContext)
                                                                     .setTitle(R.string.err_general)
@@ -966,9 +966,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         if (hasFocus) {
                                             mPage.fastScroll.setVisibility(View.GONE);
                                             if (mPage.fab != null)
-                                                mPage.fab.hide();
+                                                mPage.fab.setVisibility(View.GONE);
+                                            mPage.overrideFab = true;
                                         } else if (SettingValues.fastscroll) {
                                             mPage.fastScroll.setVisibility(View.VISIBLE);
+                                            if (mPage.fab != null)
+                                                mPage.fab.setVisibility(View.VISIBLE);
+                                            mPage.overrideFab = false;
+
                                         }
                                     }
                                 });
@@ -983,6 +988,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                         if (SettingValues.fastscroll) {
                                             mPage.fastScroll.setVisibility(View.VISIBLE);
                                         }
+                                        if (mPage.fab != null)
+                                            mPage.fab.setVisibility(View.VISIBLE);
+                                        mPage.overrideFab = false;
+
                                         new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
                                         replyArea.setVisibility(View.GONE);
 
@@ -1008,6 +1017,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (SettingValues.fastscroll) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
                             }
+                            if (mPage.fab != null)
+                                mPage.fab.setVisibility(View.VISIBLE);
+                            mPage.overrideFab = false;
                             currentlyEditingId = "";
                             backedText = "";
                             View view = ((Activity) mContext).getCurrentFocus();
@@ -1033,7 +1045,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final View edit = firstHolder.itemView.findViewById(R.id.edit);
 
-            if (Authentication.name.toLowerCase().equals(submission.getAuthor().toLowerCase()) && Authentication.didOnline) {
+            if (Authentication.name != null && Authentication.name.toLowerCase().equals(submission.getAuthor().toLowerCase()) && Authentication.didOnline) {
                 new AsyncTask<Void, Void, ArrayList<String>>() {
                     List<FlairTemplate> flairlist;
 
@@ -1775,7 +1787,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             {
                 final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
-                if (Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase()) && Authentication.didOnline) {
+                if (Authentication.name != null && Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase()) && Authentication.didOnline) {
                     delete.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -1873,9 +1885,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (hasFocus) {
                                 mPage.fastScroll.setVisibility(View.GONE);
                                 if (mPage.fab != null)
-                                    mPage.fab.hide();
+                                    mPage.fab.setVisibility(View.GONE);
+                                mPage.overrideFab = true;
                             } else if (SettingValues.fastscroll) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
+                                if (mPage.fab != null)
+                                    mPage.fab.setVisibility(View.VISIBLE);
+                                mPage.overrideFab = false;
                             }
                         }
                     });
@@ -1913,9 +1929,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 if (hasFocus) {
                                     mPage.fastScroll.setVisibility(View.GONE);
                                     if (mPage.fab != null)
-                                        mPage.fab.hide();
+                                        mPage.fab.setVisibility(View.GONE);
+                                    mPage.overrideFab = true;
                                 } else if (SettingValues.fastscroll) {
                                     mPage.fastScroll.setVisibility(View.VISIBLE);
+                                    if (mPage.fab != null)
+                                        mPage.fab.setVisibility(View.VISIBLE);
+                                    mPage.overrideFab = false;
                                 }
                             }
                         });
@@ -1951,6 +1971,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         doShowMenu(baseView);
                         if (SettingValues.fastscroll) {
                             mPage.fastScroll.setVisibility(View.VISIBLE);
+                            if (mPage.fab != null)
+                                mPage.fab.setVisibility(View.VISIBLE);
+                            mPage.overrideFab = false;
                         }
                         dataSet.refreshLayout.setRefreshing(true);
                         new ReplyTaskComment(n, finalPos, finalPos1, baseNode, holder).execute(replyLine.getText().toString());
@@ -1971,6 +1994,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         editingPosition = -1;
                         currentlyEditingId = "";
                         backedText = "";
+                        mPage.overrideFab = false;
                         View view = ((Activity) mContext).getCurrentFocus();
                         if (view != null) {
                             InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -2121,6 +2145,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (SettingValues.fastscroll) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
                             }
+                            if (mPage.fab != null)
+                                mPage.fab.setVisibility(View.VISIBLE);
+                            mPage.overrideFab = false;
                             currentlyEditingId = "";
                             backedText = "";
                             View view = ((Activity) mContext).getCurrentFocus();
@@ -2173,6 +2200,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (SettingValues.fastscroll) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
                             }
+                            if (mPage.fab != null)
+                                mPage.fab.setVisibility(View.VISIBLE);
+                            mPage.overrideFab = false;
                             currentlyEditingId = "";
                             backedText = "";
                             View view = ((Activity) mContext).getCurrentFocus();
@@ -2287,6 +2317,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             if (SettingValues.fastscroll) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
                             }
+                            if (mPage.fab != null)
+                                mPage.fab.setVisibility(View.VISIBLE);
+                            mPage.overrideFab = false;
                             currentlyEditingId = "";
                             backedText = "";
                             View view = ((Activity) mContext).getCurrentFocus();

@@ -84,7 +84,7 @@ public class DoEditorActions {
             public void onClick(View v) {
                 LogUtil.v("Saving draft");
                 Drafts.addDraft(editText.getText().toString());
-                Snackbar.make(baseView.findViewById(R.id.save), "Draft saved", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(baseView.findViewById(R.id.savedraft), "Draft saved", Snackbar.LENGTH_SHORT).show();
             }
         });
         baseView.findViewById(R.id.draft).setOnClickListener(new View.OnClickListener() {

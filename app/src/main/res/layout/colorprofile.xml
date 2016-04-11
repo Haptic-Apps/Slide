@@ -19,15 +19,26 @@
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:textColor="#fff"
 
                     android:background="@color/md_light_green_500"
-                    android:padding="24dp"
+                    android:paddingLeft="24dp"
+                    android:gravity="center_vertical"
                     android:text="@string/example_sub"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
+                <ImageView
+                    android:layout_width="48dp"
+                    android:padding="12dp"
+                    android:theme="@style/Ripple.List"
+                    android:src="@drawable/share"
+                    android:id="@+id/share"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="-59dp"
+                    android:layout_gravity="right"
+                    android:layout_height="48dp" />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

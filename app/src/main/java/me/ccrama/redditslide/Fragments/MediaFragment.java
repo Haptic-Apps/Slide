@@ -38,9 +38,9 @@ import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Activities.Shadowbox;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
@@ -172,7 +172,7 @@ public class MediaFragment extends Fragment {
         firstUrl = bundle.getString("firstUrl");
         sub = bundle.getString("sub");
         i = bundle.getInt("page");
-        s = OfflineSubreddit.getSubreddit(sub).submissions.get(i);
+        s = ((Shadowbox)getActivity()).submissions.submissions.get(i);
         contentUrl = bundle.getString("contentUrl");
     }
 
