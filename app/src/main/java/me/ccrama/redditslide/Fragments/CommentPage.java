@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -124,7 +125,6 @@ public class CommentPage extends Fragment {
         if (requestCode == 423 && resultCode == getActivity().RESULT_OK) {
             doResult(data);
         } else if (requestCode == 3333) {
-            LogUtil.v("GEtting intent!");
             for (Fragment fragment : getFragmentManager().getFragments()) {
                 fragment.onActivityResult(requestCode, resultCode, data);
             }
@@ -163,8 +163,20 @@ public class CommentPage extends Fragment {
 
                     toSubtract++;
                     headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
-                    if (adapter != null)
-                        adapter.notifyItemChanged(0);
+                    if (headerHeight == 0) {
+                        header.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @Override
+                            public void onGlobalLayout() {
+                                headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
+                                if (adapter != null)
+                                    adapter.notifyItemChanged(0);
+                                header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            }
+                        });
+                    } else {
+                        if (adapter != null)
+                            adapter.notifyItemChanged(0);
+                    }
                     //avoid crashes when load more is clicked before loading is finished
                     if (comments.mLoadData != null) comments.mLoadData.cancel(true);
 
