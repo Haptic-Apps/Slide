@@ -733,7 +733,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             score = new SpannableStringBuilder("0");
         }
         if (!scoreText.contains("[")) {
-            score.append(mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
+            score.append(" " + mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
         }
         score.setSpan(new ForegroundColorSpan(scoreColor), 0, score.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
