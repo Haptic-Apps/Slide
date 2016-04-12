@@ -81,5 +81,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="16dp" />
+        android:layout_margin="@dimen/activity_vertical_margin" />
 </RelativeLayout>
