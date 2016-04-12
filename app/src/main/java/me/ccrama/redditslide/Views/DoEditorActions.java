@@ -52,34 +52,36 @@ import me.ccrama.redditslide.util.SubmissionParser;
  * Created by carlo_000 on 10/18/2015.
  */
 public class DoEditorActions {
-    /*
-                android:id="@+id/imagerep"
 
-                android:id="@+id/link"
-
-             */
     public static void doActions(final EditText editText, final View baseView, final FragmentManager fm, final Activity a) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wrapString("**", editText);
+                if (editText.hasSelection()) {
+                    wrapString("**", editText); //If the user has text selected, wrap that text in the symbols
+                } else {
+                    //If the user doesn't have text selected, put the symbols around the cursor's position
+                    int pos = editText.getSelectionStart();
+                    editText.getText().insert(pos, "**");
+                    editText.getText().insert(pos + 1, "**");
+                    editText.setSelection(pos + 2); //put the cursor between the symbols
+                }
             }
         });
-
         baseView.findViewById(R.id.italics).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                wrapString("*", editText);
+                if (editText.hasSelection()) {
+                    wrapString("*", editText); //If the user has text selected, wrap that text in the symbols
+                } else {
+                    //If the user doesn't have text selected, put the symbols around the cursor's position
+                    int pos = editText.getSelectionStart();
+                    editText.getText().insert(pos, "*");
+                    editText.getText().insert(pos + 1, "*");
+                    editText.setSelection(pos + 1); //put the cursor between the symbols
+                }
             }
         });
-
-        baseView.findViewById(R.id.italics).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wrapString("*", editText);
-            }
-        });
-
         baseView.findViewById(R.id.savedraft).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,7 +176,6 @@ public class DoEditorActions {
                                 try {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
                                     new UploadImgur(editText).execute(bitmap);
-
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -182,9 +183,7 @@ public class DoEditorActions {
                         }
                     };
                     a.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
-
                 } else {
-
                     Fragment auxiliary = new Fragment() {
                         @Override
                         public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -196,7 +195,6 @@ public class DoEditorActions {
                                 try {
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
                                     new UploadImgur(editText).execute(bitmap);
-
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -206,7 +204,6 @@ public class DoEditorActions {
                     };
                     fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
                     fm.executePendingTransactions();
-
 
                     auxiliary.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
                 }
@@ -227,7 +224,7 @@ public class DoEditorActions {
         baseView.findViewById(R.id.quote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insertBefore(">", editText);
+                insertBefore("> ", editText);
             }
         });
         baseView.findViewById(R.id.bulletlist).setOnClickListener(new View.OnClickListener() {
@@ -289,13 +286,6 @@ public class DoEditorActions {
                                         editText.getText().insert(Math.max(start, end), s);
                                     }
                                 }).show();
-
-            }
-        });
-        baseView.findViewById(R.id.size).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                insertBefore("#", editText);
             }
         });
     }
@@ -305,23 +295,22 @@ public class DoEditorActions {
         int end = Math.max(editText.getSelectionEnd(), 0);
         editText.getText().insert(Math.min(start, end), wrapText);
         editText.getText().insert(Math.max(start, end) + wrapText.length(), wrapText);
-
-    }
-
-    public static void wrapNewline(String wrapText, EditText editText) {
-        int start = Math.max(editText.getSelectionStart(), 0);
-        int end = Math.max(editText.getSelectionEnd(), 0);
-        String s = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
-        s = s.replace("\n", "\n" + wrapText);
-        editText.getText().replace(Math.min(start, end), Math.max(start, end), s);
     }
 
     public static void insertBefore(String wrapText, EditText editText) {
         int start = Math.max(editText.getSelectionStart(), 0);
         int end = Math.max(editText.getSelectionEnd(), 0);
         editText.getText().insert(Math.min(start, end), wrapText);
-
     }
+
+    /* not using this method anywhere ¯\_(ツ)_/¯ */
+//    public static void wrapNewline(String wrapText, EditText editText) {
+//        int start = Math.max(editText.getSelectionStart(), 0);
+//        int end = Math.max(editText.getSelectionEnd(), 0);
+//        String s = editText.getText().toString().substring(Math.min(start, end), Math.max(start, end));
+//        s = s.replace("\n", "\n" + wrapText);
+//        editText.getText().replace(Math.min(start, end), Math.max(start, end), s);
+//    }
 
     public static String getImageLink(Bitmap b) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -358,11 +347,9 @@ public class DoEditorActions {
                 layout.addView(titleBox);
                 titleBox.setTextColor(ta.getColor(0, Color.WHITE));
 
-
                 final EditText descriptionBox = new EditText(editText.getContext());
                 descriptionBox.setHint(R.string.editor_title);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
-
 
                 ta.recycle();
                 layout.setPadding(16, 16, 16, 16);
@@ -383,12 +370,10 @@ public class DoEditorActions {
                 new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title).setMessage(R.string.editor_err_msg).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 }).show();
                 e.printStackTrace();
             }
-
         }
 
         @Override
@@ -399,17 +384,15 @@ public class DoEditorActions {
             dialog.show();
         }
 
-
         @Override
         protected JSONObject doInBackground(Bitmap... sub) {
-
             Bitmap bitmap = sub[0];
             b = bitmap;
 
-// Creates Byte Array from picture
             URL url;
-            try {
 
+            // Creates Byte Array from picture
+            try {
                 url = new URL("https://imgur-apiv3.p.mashape.com/3/image");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -446,10 +429,8 @@ public class DoEditorActions {
                 e.printStackTrace();
             }
 
-
             return null;
         }
-
     }
 
     private static void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
