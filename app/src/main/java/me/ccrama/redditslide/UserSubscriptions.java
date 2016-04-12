@@ -236,11 +236,12 @@ public class UserSubscriptions {
     }
 
     public static MultiReddit getMultiredditByDisplayName(String displayName) {
-        for (MultiReddit multiReddit : multireddits) {
-            if (multiReddit.getDisplayName().equals(displayName)) {
-                return multiReddit;
+        if (multireddits != null)
+            for (MultiReddit multiReddit : multireddits) {
+                if (multiReddit.getDisplayName().equals(displayName)) {
+                    return multiReddit;
+                }
             }
-        }
         return null;
     }
 

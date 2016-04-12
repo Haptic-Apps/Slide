@@ -40,7 +40,7 @@ android {
             // to pre-dex each module and produce an APK that can be used
             // without time consuming dex merging processes.
             dimension "api"
-            minSdkVersion 17
+            minSdkVersion 21
         }
         prod {
             // The actual minSdkVersion for the application.
@@ -93,7 +93,7 @@ repositories {
 
 dependencies {
     compile 'com.github.ccrama:JRAW:8cb3bcdeef'
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
+    compile('com.github.afollestad.material-dialogs:commons:0.8.5.8@aar') {
         transitive = true
     }
     compile 'com.jakewharton:process-phoenix:1.0.2'
