@@ -46,7 +46,7 @@ public class ForceTouchLink extends BaseActivityAnim {
 
         final String url = getIntent().getExtras().getString("url");
 
-        ContentType.ImageType t = ContentType.getImageType(url);
+        ContentType.contentTypes t = ContentType.getContentType(url);
 
         final ImageView mainImage = ((ImageView) findViewById(R.id.image));
         MediaVideoView mainVideo = ((MediaVideoView) findViewById(R.id.gif));

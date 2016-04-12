@@ -395,7 +395,7 @@ public class CommentPage extends Fragment {
                         if (adapter != null && adapter.submission != null)
                             if (!PostMatch.openExternal(adapter.submission.getUrl())) {
 
-                                switch (ContentType.getImageType(adapter.submission)) {
+                                switch (ContentType.getContentType(adapter.submission)) {
                                     case VID_ME:
                                     case STREAMABLE:
                                         if (SettingValues.video) {

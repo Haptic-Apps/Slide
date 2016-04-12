@@ -1966,7 +1966,7 @@ public class MainActivity extends BaseActivity {
                             JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
                             if (s2 != null) {
                                 newSubmissions = newSubmissions + (s2.toString() + "<SEPARATOR>");
-                                switch (ContentType.getImageType(s)) {
+                                switch (ContentType.getContentType(s)) {
                                     case GIF:
                                         if (chosen[0])
                                             GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
