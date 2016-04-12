@@ -149,7 +149,6 @@
     <string name="sorting_year">Past year</string>
     <string name="sorting_all">All time</string>
 
-
     <!-- Editor (save/submit a post) actions -->
     <string name="editor_url">URL</string>
     <string name="editor_text">Text</string>
@@ -420,10 +419,20 @@
     <string name="settings_title_comments">Comments</string>
     <string name="settings_title_filter">Filters</string>
     <string name="settings_title_font">Font</string>
-
     <string name="settings_section_general">General</string>
     <string name="settings_section_appearance">Appearance</string>
     <string name="settings_section_other">Other</string>
+
+    <!-- Setting subheaders -->
+    <string name="sorting">Sorting</string>
+    <string name="display">Display</string>
+    <string name="image_downloads">Images</string>
+    <string name="app_theme">App theme</string>
+    <string name="tinting">Tinting</string>
+    <string name="post_info">Post information</string>
+    <string name="post_buttons">Post buttons</string>
+    <string name="navigation">Navigation</string>
+    <string name="collapse_comments">Collapse actions</string>
 
 
     <!-- Titles displayed in action bar / head / recents overview-->
@@ -624,7 +633,7 @@
     <string name="thread_continue">Continue this thread</string>
     <string name="type_selftext">Selftext</string>
     <string name="mail_re">re: %1$s</string>
-    <string name="settings_fab_create">Show create comment FAB</string>
+    <string name="settings_fab_create">Show \"create comment\" floating action button</string>
     <string name="submission_unhide">Unhide post</string>
     <string name="submission_info_unhidden">Submission unhidden</string>
     <string name="settings_handling_external_desc">Domains entered below will always open externally</string>
