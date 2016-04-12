@@ -224,7 +224,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             if (!firstUrl.isEmpty() && contentUrl != null) {
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
                 displayImage(firstUrl);
-            } else if (ContentType.getImageType(contentUrl) == ContentType.ImageType.IMGUR) {
+            } else if (ContentType.getContentType(contentUrl) == ContentType.contentTypes.IMGUR) {
                 displayImage(contentUrl + ".png"); //display one first
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
             }
@@ -274,16 +274,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     }
 
     public void doLoad(final String contentUrl) {
-        switch (ContentType.getImageType(contentUrl)) {
-            case NSFW_IMAGE:
-                doLoadImage(contentUrl);
-                break;
-            case NSFW_GIF:
-                doLoadGif(contentUrl);
-                break;
-            case NSFW_GFY:
-                doLoadGif(contentUrl);
-                break;
+        switch (ContentType.getContentType(contentUrl)) {
             case DEVIANTART:
                 if (!imageShown) {
                     Ion.with(this).load("http://backend.deviantart.com/oembed?url=" + contentUrl).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
@@ -307,12 +298,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     });
                 }
                 break;
-            case IMAGE_LINK:
-                doLoadImage(contentUrl);
-                break;
-            case GFY:
-                doLoadGif(contentUrl);
-                break;
             case IMAGE:
                 doLoadImage(contentUrl);
                 break;
@@ -321,15 +306,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 break;
             case GIF:
                 doLoadGif(contentUrl);
-                break;
-            case NONE_GFY:
-                doLoadGif(contentUrl);
-                break;
-            case NONE_GIF:
-                doLoadGif(contentUrl);
-                break;
-            case NONE_IMAGE:
-                doLoadImage(contentUrl);
                 break;
         }
     }
@@ -421,7 +397,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     }
 
     public void doLoadImage(String contentUrl) {
-        if (contentUrl != null && ContentType.isImgurLink(contentUrl) && !contentUrl.contains("png") && !contentUrl.contains("jpg")) {
+        if (contentUrl != null && ContentType.isImgurLink(contentUrl)) {
             contentUrl = contentUrl + ".png";
         }
         findViewById(R.id.gifprogress).setVisibility(View.GONE);

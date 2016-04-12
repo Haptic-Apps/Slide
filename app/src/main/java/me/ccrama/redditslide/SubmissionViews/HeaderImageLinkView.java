@@ -92,13 +92,13 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void doImageAndText(Submission submission, boolean full, String baseSub) {
 
-        final ContentType.ImageType type = ContentType.getImageType(submission);
+        final ContentType.contentTypes type = ContentType.getContentType(submission);
 
         setVisibility(View.VISIBLE);
         String url = "";
         boolean forceThumb = false;
 
-        if (type == ContentType.ImageType.SELF && full && SettingValues.hideSelftextLeadImage) {
+        if (type == ContentType.contentTypes.SELF && full && SettingValues.hideSelftextLeadImage) {
             setVisibility(View.GONE);
             wrapArea.setVisibility(View.GONE);
         } else {
@@ -108,7 +108,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 int width = submission.getThumbnails().getSource().getWidth();
 
                 if (full) {
-                    if (height < dpToPx(50) && type != ContentType.ImageType.SELF) {
+                    if (height < dpToPx(50) && type != ContentType.contentTypes.SELF) {
                         forceThumb = true;
                     } else if (SettingValues.cropImage) {
                         backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
@@ -168,7 +168,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
 
                 }
-            } else if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (!submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
+            } else if (type != ContentType.contentTypes.IMAGE && type != ContentType.contentTypes.SELF && (!submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
 
                 setVisibility(View.GONE);
                 if (!full) {
@@ -178,7 +178,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 }
 
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
-            } else if (type == ContentType.ImageType.IMAGE) {
+            } else if (type == ContentType.contentTypes.IMAGE) {
                 if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
 
                     int length = submission.getThumbnails().getVariations().length;
@@ -289,7 +289,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     title = (TextView) findViewById(R.id.textimage);
                     info = (TextView) findViewById(R.id.subtextimage);
                     if (forceThumb
-                            || (submission.isNsfw() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW || type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && !submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
+                            || (submission.isNsfw() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW || type != ContentType.contentTypes.IMAGE && type != ContentType.contentTypes.SELF && !submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
                         setBottomSheet(thumbImage2, submission.getUrl());
                     } else {
                         setBottomSheet(this, submission.getUrl());
@@ -318,95 +318,10 @@ public class HeaderImageLinkView extends RelativeLayout {
                 ((TransparentTagTextView) title).init(getContext());
             }
 
-            switch (type) {
-                case NSFW_IMAGE:
-                    title.setText(R.string.type_nsfw_img);
-                    break;
+            title.setText(ContentType.getContentDescription(submission));
 
-                case DEVIANTART:
-                    title.setText(R.string.type_deviantart);
-                    break;
-                case NSFW_GIF:
-                case NSFW_GFY:
-                    title.setText(R.string.type_nsfw_gif);
-                    break;
-
-                case REDDIT:
-                    title.setText(R.string.type_reddit);
-                    break;
-
-                case LINK:
-                case IMAGE_LINK:
-                    String domain = submission.getDomain();
-                    if (domain.contains("youtube") || domain.contains("youtu.be"))
-                        title.setText(R.string.type_vid);
-                    else
-                        title.setText(R.string.type_link);
-                    break;
-
-                case NSFW_LINK:
-                    title.setText(R.string.type_nsfw_link);
-
-                    break;
-                case STREAMABLE:
-                    title.setText(R.string.type_streamable);
-                    break;
-                case SELF:
-                    title.setVisibility(View.VISIBLE);
-                    title.setText(R.string.type_selftext);
-                    break;
-
-                case ALBUM:
-                    title.setText(R.string.type_album);
-                    break;
-
-                case IMAGE:
-                    if (submission.isNsfw()) {
-                        title.setText(R.string.type_nsfw_img);
-
-                    } else {
-                        title.setVisibility(View.GONE);
-                        if (info != null)
-                            info.setVisibility(View.GONE);
-                    }
-                    break;
-                case IMGUR:
-                    title.setText(R.string.type_imgur);
-                    break;
-                case VID_ME:
-                    title.setText(R.string.type_vidme);
-                    break;
-                case GFY:
-                case GIF:
-                case NONE_GFY:
-                case NONE_GIF:
-                    title.setText(R.string.type_gif);
-                    break;
-
-                case NONE:
-                    title.setText(R.string.type_title_only);
-                    break;
-
-                case NONE_IMAGE:
-                    title.setText(R.string.type_img);
-                    break;
-
-                case VIDEO:
-                    title.setText(R.string.type_vid);
-                    break;
-
-                case EMBEDDED:
-                    title.setText(R.string.type_emb);
-                    break;
-
-                case NONE_URL:
-                    title.setText(R.string.type_link);
-                    break;
-
-            }
-
-                if (info != null)
-                    info.setText(submission.getDomain());
+            if (info != null)
+                info.setText(submission.getDomain());
 
         }
     }

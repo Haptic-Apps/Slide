@@ -68,16 +68,16 @@ public class MultiredditPosts implements PostLoader {
         for (Submission submission : submissions) {
             boolean forceThumb = false;
             String url;
-            ContentType.ImageType type = ContentType.getImageType(submission);
+            ContentType.contentTypes type = ContentType.getContentType(submission);
             if (submission.getThumbnails() != null) {
 
                 int height = submission.getThumbnails().getSource().getHeight();
                 int width = submission.getThumbnails().getSource().getWidth();
 
-                 if (type != ContentType.ImageType.IMAGE && type != ContentType.ImageType.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
+                 if (type != ContentType.contentTypes.IMAGE && type != ContentType.contentTypes.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
 
 
-                } else if (type == ContentType.ImageType.IMAGE) {
+                } else if (type == ContentType.contentTypes.IMAGE) {
                     if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
 
                         int length = submission.getThumbnails().getVariations().length;

@@ -225,7 +225,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             return;
         }
 
-        ContentType.ImageType type = ContentType.getImageType(url);
+        ContentType.contentTypes type = ContentType.getContentType(url);
         Context context = getContext();
         Activity activity = null;
         if (context instanceof Activity) {
@@ -261,21 +261,10 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         Reddit.defaultShare(url, activity);
                     }
                     break;
-                case NSFW_IMAGE:
-                    openImage(url);
-                    break;
-                case NSFW_GIF:
-                    openGif(false, url);
-                    break;
-                case NSFW_GFY:
-                    openGif(true, url);
-                    break;
                 case REDDIT:
                     new OpenRedditLink(activity, url);
                     break;
                 case LINK:
-                case IMAGE_LINK:
-                case NSFW_LINK:
                     CustomTabUtil.openUrl(url.startsWith("//") ? url.replace("//", "https://") : url, Palette.getColor(subreddit), activity);
                     break;
                 case SELF:
@@ -283,9 +272,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 case STREAMABLE:
                 case VID_ME:
                     openStreamable(url);
-                    break;
-                case GFY:
-                    openGif(true, url);
                     break;
                 case ALBUM:
                     if (SettingValues.album) {
@@ -309,27 +295,18 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     openImage(url);
                     break;
                 case GIF:
-                    openGif(false, url);
-                    break;
-                case NONE_GFY:
-                    openGif(true, url);
-                    break;
-                case NONE_GIF:
-                    openGif(false, url);
+                    openGif(url);
                     break;
                 case NONE:
-                    break;
-                case NONE_IMAGE:
-                    openImage(url);
-                    break;
-                case NONE_URL:
-                    CustomTabUtil.openUrl(url, Palette.getColor(subreddit), activity);
                     break;
                 case VIDEO:
                     Reddit.defaultShare(url, activity);
                 case SPOILER:
                     spoilerClicked = true;
                     setOrRemoveSpoilerSpans(xOffset);
+                    break;
+                case EXTERNAL:
+                    Reddit.defaultShare(url, activity);
                     break;
             }
         } else {
@@ -409,7 +386,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
     }
 
-    private void openGif(boolean gfy, String url) {
+    private void openGif(String url) {
         if (SettingValues.gif) {
             Intent myIntent = new Intent(getContext(), MediaView.class);
             myIntent.putExtra(MediaView.EXTRA_URL, "" + url);

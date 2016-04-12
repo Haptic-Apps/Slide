@@ -407,7 +407,7 @@ public class CommentPage extends Fragment {
                         if (adapter != null && adapter.submission != null)
                             if (!PostMatch.openExternal(adapter.submission.getUrl())) {
 
-                                switch (ContentType.getImageType(adapter.submission)) {
+                                switch (ContentType.getContentType(adapter.submission)) {
                                     case VID_ME:
                                     case STREAMABLE:
                                         if (SettingValues.video) {
@@ -419,9 +419,6 @@ public class CommentPage extends Fragment {
                                         } else {
                                             Reddit.defaultShare(adapter.submission.getUrl(), getActivity());
                                         }
-                                        break;
-                                    case NSFW_IMAGE:
-                                        PopulateSubmissionViewHolder.openImage(getActivity(), adapter.submission);
                                         break;
                                     case IMGUR:
                                         Intent i2 = new Intent(getActivity(), MediaView.class);
@@ -444,18 +441,10 @@ public class CommentPage extends Fragment {
                                             Reddit.defaultShare(adapter.submission.getUrl(), getActivity());
                                         }
                                         break;
-                                    case NSFW_GIF:
-                                        PopulateSubmissionViewHolder.openGif(false, getActivity(), adapter.submission);
-                                        break;
-                                    case NSFW_GFY:
-                                        PopulateSubmissionViewHolder.openGif(true, getActivity(), adapter.submission);
-                                        break;
                                     case REDDIT:
                                         PopulateSubmissionViewHolder.openRedditContent(adapter.submission.getUrl(), getActivity());
                                         break;
                                     case LINK:
-                                    case IMAGE_LINK:
-                                    case NSFW_LINK:
                                         CustomTabUtil.openUrl(adapter.submission.getUrl(), Palette.getColor(adapter.submission.getSubredditName()), getActivity());
                                         break;
                                     case NONE:
@@ -475,9 +464,6 @@ public class CommentPage extends Fragment {
                                             builder.setView(dialoglayout);
                                             builder.show();
                                         }
-                                        break;
-                                    case GFY:
-                                        PopulateSubmissionViewHolder.openGif(true, getActivity(), adapter.submission);
                                         break;
                                     case ALBUM:
                                         if (SettingValues.album) {
@@ -501,19 +487,7 @@ public class CommentPage extends Fragment {
                                         PopulateSubmissionViewHolder.openImage(getActivity(), adapter.submission);
                                         break;
                                     case GIF:
-                                        PopulateSubmissionViewHolder.openGif(false, getActivity(), adapter.submission);
-                                        break;
-                                    case NONE_GFY:
-                                        PopulateSubmissionViewHolder.openGif(true, getActivity(), adapter.submission);
-                                        break;
-                                    case NONE_GIF:
-                                        PopulateSubmissionViewHolder.openGif(false, getActivity(), adapter.submission);
-                                        break;
-                                    case NONE_IMAGE:
-                                        PopulateSubmissionViewHolder.openImage(getActivity(), adapter.submission);
-                                        break;
-                                    case NONE_URL:
-                                        CustomTabUtil.openUrl(adapter.submission.getUrl(), Palette.getColor(adapter.submission.getSubredditName()), getActivity());
+                                        PopulateSubmissionViewHolder.openGif(getActivity(), adapter.submission);
                                         break;
                                     case VIDEO:
                                         Reddit.defaultShare(adapter.submission.getUrl(), getActivity());
