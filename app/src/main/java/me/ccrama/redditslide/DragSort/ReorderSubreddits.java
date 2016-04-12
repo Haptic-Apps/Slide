@@ -117,7 +117,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 new AsyncTask<Void, Void, ArrayList<String>>() {
                     @Override
                     protected ArrayList<String> doInBackground(Void... params) {
-                        ArrayList<String> newSubs = new ArrayList<>(UserSubscriptions.syncSubreddits(ReorderSubreddits.this));
+                        ArrayList<String> newSubs = new ArrayList<>(UserSubscriptions.loadSubreddits(ReorderSubreddits.this));
                         return newSubs;
                     }
 

@@ -129,4 +129,5 @@ dependencies {
         transitive = true;
     }
     compile 'com.github.rjeschke:txtmark:0.13'
+    compile 'com.google.code.gson:gson:2.2.4'
 }
