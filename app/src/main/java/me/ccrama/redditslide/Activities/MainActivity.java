@@ -1112,6 +1112,15 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
+            header.findViewById(R.id.history).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, Profile.class);
+                    inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
+                    inte.putExtra(Profile.EXTRA_SAVED, true);
+                    MainActivity.this.startActivity(inte);
+                }
+            });
             header.findViewById(R.id.commented).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

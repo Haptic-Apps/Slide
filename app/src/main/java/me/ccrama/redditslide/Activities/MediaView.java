@@ -389,16 +389,16 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                                                     } else if (!imageShown) { //only load if there is no image
                                                                         doLoadImage(urls);
                                                                     }
-                                                                }  else if(obj.has("data")){
+                                                                } else if (obj.has("data")) {
                                                                     String type = obj.get("data").getAsJsonObject().get("type").getAsString();
                                                                     String urls = obj.get("data").getAsJsonObject().get("link").getAsString();
                                                                     String mp4 = "";
-                                                                    if(obj.get("data").getAsJsonObject().has("mp4")){
-                                                                        mp4 =obj.get("data").getAsJsonObject().get("mp4").getAsString();
+                                                                    if (obj.get("data").getAsJsonObject().has("mp4")) {
+                                                                        mp4 = obj.get("data").getAsJsonObject().get("mp4").getAsString();
                                                                     }
 
                                                                     if (type.contains("gif")) {
-                                                                        doLoadGif(((mp4==null||mp4.isEmpty())?urls:mp4));
+                                                                        doLoadGif(((mp4 == null || mp4.isEmpty()) ? urls : mp4));
                                                                     } else if (!imageShown) { //only load if there is no image
                                                                         doLoadImage(urls);
                                                                     }
@@ -670,20 +670,24 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     }
 
     public void showFirstDialog() {
-        new AlertDialogWrapper.Builder(this)
-                .setTitle("Set image save location")
-                .setMessage("Slide's image save location has not been set yet. Would you like to set this now?")
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder(MediaView.this)
-                                .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
-                .setNegativeButton(R.string.btn_no, null)
-                .show();
+        try {
+            new AlertDialogWrapper.Builder(this)
+                    .setTitle("Set image save location")
+                    .setMessage("Slide's image save location has not been set yet. Would you like to set this now?")
+                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new FolderChooserDialog.Builder(MediaView.this)
+                                    .chooseButton(R.string.btn_select)  // changes label of the choose button
+                                    .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
+                                    .show();
+                        }
+                    })
+                    .setNegativeButton(R.string.btn_no, null)
+                    .show();
+        } catch(Exception ignored){
+            
+        }
     }
 
     public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {

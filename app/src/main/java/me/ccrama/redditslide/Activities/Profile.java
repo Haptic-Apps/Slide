@@ -42,6 +42,7 @@ import java.util.List;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.ContributionsView;
+import me.ccrama.redditslide.Fragments.HistoryView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
@@ -62,6 +63,7 @@ public class Profile extends BaseActivityAnim {
     public static final String EXTRA_COMMENT = "comment";
     public static final String EXTRA_SUBMIT = "submitted";
     public static final String EXTRA_UPVOTE = "upvoted";
+    public static final String EXTRA_HISTORY = "history";
     private String name;
     private Account account;
     private List<Trophy> trophyCase;
@@ -107,7 +109,9 @@ public class Profile extends BaseActivityAnim {
                     getString(R.string.profile_upvoted),
                     getString(R.string.profile_downvoted),
                     getString(R.string.profile_saved),
-                    getString(R.string.profile_hidden)});
+                    getString(R.string.profile_hidden),
+                    getString(R.string.profile_history)
+            });
 
         else setDataSet(new String[]{getString(R.string.profile_overview),
                 getString(R.string.profile_comments),
@@ -154,6 +158,8 @@ public class Profile extends BaseActivityAnim {
             pager.setCurrentItem(1);
         if (getIntent().hasExtra(EXTRA_SUBMIT) && name.equals(Authentication.name))
             pager.setCurrentItem(2);
+        if (getIntent().hasExtra(EXTRA_HISTORY) && name.equals(Authentication.name))
+            pager.setCurrentItem(8);
         if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name))
             pager.setCurrentItem(4);
         if (pager.getCurrentItem() < 3) {
@@ -506,44 +512,49 @@ public class Profile extends BaseActivityAnim {
         @Override
         public Fragment getItem(int i) {
 
-            Fragment f = new ContributionsView();
-            Bundle args = new Bundle();
+            if(i < 8) {
+                Fragment f = new ContributionsView();
+                Bundle args = new Bundle();
 
-            args.putString("id", name);
-            String place;
-            switch (i) {
-                case 0:
-                    place = "overview";
-                    break;
-                case 1:
-                    place = "comments";
-                    break;
-                case 2:
-                    place = "submitted";
-                    break;
-                case 3:
-                    place = "gilded";
-                    break;
-                case 4:
-                    place = "liked";
-                    break;
-                case 5:
-                    place = "disliked";
-                    break;
-                case 6:
-                    place = "saved";
-                    break;
-                case 7:
-                    place = "hidden";
-                    break;
-                default:
-                    place = "overview";
+                args.putString("id", name);
+                String place;
+                switch (i) {
+                    case 0:
+                        place = "overview";
+                        break;
+                    case 1:
+                        place = "comments";
+                        break;
+                    case 2:
+                        place = "submitted";
+                        break;
+                    case 3:
+                        place = "gilded";
+                        break;
+                    case 4:
+                        place = "liked";
+                        break;
+                    case 5:
+                        place = "disliked";
+                        break;
+                    case 6:
+                        place = "saved";
+                        break;
+                    case 7:
+                        place = "hidden";
+                        break;
+                    default:
+                        place = "overview";
+                }
+                args.putString("where", place);
+
+                f.setArguments(args);
+                return f;
             }
-            args.putString("where", place);
-
-            f.setArguments(args);
-
-            return f;
+            else {
+                Fragment f = new HistoryView();
+                return f;
+            }
 
 
         }
