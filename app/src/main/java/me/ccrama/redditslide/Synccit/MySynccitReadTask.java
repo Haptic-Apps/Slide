@@ -8,6 +8,7 @@ import com.synccit.android.SynccitReadTask;
 
 import java.util.HashSet;
 
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.SettingValues;
 
 public class MySynccitReadTask extends SynccitReadTask {
@@ -23,9 +24,11 @@ public class MySynccitReadTask extends SynccitReadTask {
     protected void onVisited(HashSet<String> visitedThreadIds) {
         SynccitRead.visitedIds.addAll(visitedThreadIds);
 
-
+        //save the newly "seen" synccit posts to SEEN
+        for (String id : visitedThreadIds) {
+            HasSeen.addSeen(id);
+        }
     }
-
 
     @Override
     protected String getUsername() {
