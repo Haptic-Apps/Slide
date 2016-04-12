@@ -74,7 +74,7 @@ public class SettingsAbout extends BaseActivityAnim {
         changelog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Reddit.defaultShare("https://github.com/ccrama/Slide/blob/master/History.md", SettingsAbout.this);
+                Reddit.defaultShare("https://github.com/ccrama/Slide/blob/master/CHANGELOG.md", SettingsAbout.this);
             }
         });
 
