@@ -98,25 +98,28 @@ public class SettingsFont extends BaseActivityAnim {
         ((RobotoRadioButton) findViewById(R.id.ccond)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-
+                if (isChecked) {
+                    SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setCommentFont(FontPreferences.FontTypeComment.Condensed);
+                }
             }
         });
         ((RobotoRadioButton) findViewById(R.id.cslab)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-
+                if (isChecked) {
+                    SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setCommentFont(FontPreferences.FontTypeComment.Slab);
+                }
             }
         });
         ((RobotoRadioButton) findViewById(R.id.creg)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-
+                if (isChecked) {
+                    SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setCommentFont(FontPreferences.FontTypeComment.Regular);
+                }
             }
         });
 
@@ -152,51 +155,56 @@ public class SettingsFont extends BaseActivityAnim {
         ((RobotoRadioButton) findViewById(R.id.scond)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
+                if (isChecked) {
+                    SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.CondensedReg);
+                }
             }
         });
         ((RobotoRadioButton) findViewById(R.id.sslab)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-
+                if (isChecked) {
+                    SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.SlabReg);
+                }
             }
         });
         ((RobotoRadioButton) findViewById(R.id.scondl)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
+                if (isChecked) {
+                    SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Condensed);
+                }
             }
         });
         ((RobotoRadioButton) findViewById(R.id.sslabl)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-
+                if (isChecked) {
+                    SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Slab);
+                }
             }
         });
         ((RobotoRadioButton) findViewById(R.id.sreg)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-
+                if (isChecked) {
+                    SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Regular);
+                }
             }
         });
         ((RobotoRadioButton) findViewById(R.id.sregl)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked)
-
+                if (isChecked) {
+                    SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Light);
+                }
             }
         });
-
     }
-
-
 }

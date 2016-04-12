@@ -20,11 +20,8 @@
                 android:id="@+id/card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginBottom="20dp"
-
                 android:orientation="vertical">
-
             </LinearLayout>
 
             <LinearLayout
@@ -32,6 +29,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Body2"
+                    android:id="@+id/displayHeader"
+                    android:text="@string/display"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <RelativeLayout
                     android:id="@+id/view"
@@ -146,11 +153,16 @@
                             android:textSize="13sp" />
                     </LinearLayout>
                 </RelativeLayout>
-                <View
+
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Body2"
+                    android:id="@+id/postInfoHeader"
+                    android:text="@string/post_info"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="0.25dp"
-                    android:alpha=".25"
-                    android:background="?attr/tint" />
+                    android:layout_height="wrap_content" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -174,7 +186,6 @@
                             android:text="@string/settings_card_show_selftext"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -188,8 +199,8 @@
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
@@ -218,7 +229,6 @@
                             android:text="@string/settings_layout_small_content_tag"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -232,8 +242,8 @@
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
@@ -262,7 +272,6 @@
                             android:text="@string/settings_layout_show_domain"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -276,8 +285,8 @@
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
@@ -306,13 +315,11 @@
                             android:text="@string/card_right_thumb"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/action"
                         android:layout_width="match_parent"
-
                         android:layout_height="match_parent"
                         android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tint"
@@ -321,13 +328,14 @@
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-
                 </RelativeLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:background="?attr/tint"
                     android:alpha=".25"
                     android:layout_height="0.25dp"/>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -350,7 +358,6 @@
                             android:text="@string/settings_general_comment_last_visit"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -364,14 +371,17 @@
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-
                 </RelativeLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.25dp"
-                    android:alpha=".25"
-                    android:background="?attr/tint" />
 
+                <TextView
+                    style="@style/TextAppearance.AppCompat.Body2"
+                    android:id="@+id/postButtonsHeader"
+                    android:text="@string/post_buttons"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -410,7 +420,6 @@
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-
                 </RelativeLayout>
 
                 <View
@@ -418,7 +427,6 @@
                     android:layout_height="0.25dp"
                     android:alpha=".25"
                     android:background="?attr/tint" />
-
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -442,7 +450,6 @@
                             android:text="@string/card_save_button"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
-
                     </LinearLayout>
 
                     <android.support.v7.widget.AppCompatCheckBox
@@ -457,7 +464,6 @@
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
