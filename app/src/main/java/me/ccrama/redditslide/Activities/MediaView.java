@@ -224,7 +224,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             if (!firstUrl.isEmpty() && contentUrl != null) {
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
                 displayImage(firstUrl);
-            } else if (ContentType.getImageType(contentUrl) == ContentType.ImageType.IMGUR) {
+            } else if (ContentType.getContentType(contentUrl) == ContentType.contentTypes.IMGUR) {
                 displayImage(contentUrl + ".png"); //display one first
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
             }
@@ -274,7 +274,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     }
 
     public void doLoad(final String contentUrl) {
-        switch (ContentType.getImageType(contentUrl)) {
+        switch (ContentType.getContentType(contentUrl)) {
             case DEVIANTART:
                 if (!imageShown) {
                     Ion.with(this).load("http://backend.deviantart.com/oembed?url=" + contentUrl).asJsonObject().setCallback(new FutureCallback<JsonObject>() {

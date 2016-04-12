@@ -560,13 +560,13 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     private void loadImages(List<Submission> submissions) {
         for (Submission s : submissions) {
-            ContentType.ImageType type = ContentType.getImageType(s);
+            ContentType.contentTypes type = ContentType.getContentType(s);
 
             String url = "";
 
             ImageLoadingListener l = new SimpleImageLoadingListener();
 
-            if (type == ContentType.ImageType.IMAGE) {
+            if (type == ContentType.contentTypes.IMAGE) {
                 url = s.getUrl();
                 if (SettingValues.bigPicEnabled) {
                     ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);

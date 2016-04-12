@@ -77,7 +77,7 @@ public class PostMatch {
             if (nsfw) contentMatch = true;
             if (!Reddit.over18 && !ignore18) contentMatch = true;
         }
-        switch (ContentType.getImageType(s)) {
+        switch (ContentType.getContentType(s)) {
             case REDDIT:
             case EMBEDDED:
             case LINK:

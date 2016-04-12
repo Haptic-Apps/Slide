@@ -101,7 +101,7 @@ public class PopulateSubmissionViewHolder {
         return found ? tv.data : defaultValue;
     }
 
-    private static void addClickFunctions(final View base, final ContentType.ImageType type, final Activity contextActivity, final Submission submission, final SubmissionViewHolder holder, final boolean full) {
+    private static void addClickFunctions(final View base, final ContentType.contentTypes type, final Activity contextActivity, final Submission submission, final SubmissionViewHolder holder, final boolean full) {
         base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1327,7 +1327,7 @@ public class PopulateSubmissionViewHolder {
         if (holder.leadImage.getVisibility() == View.GONE && !full) {
             String text = "";
 
-            switch (ContentType.getImageType(submission)) {
+            switch (ContentType.getContentType(submission)) {
                 case NSFW_IMAGE:
                     text = mContext.getString(R.string.type_nsfw_img);
                     break;
@@ -1616,7 +1616,7 @@ public class PopulateSubmissionViewHolder {
 
         holder.leadImage.setSubmission(submission, full, baseSub);
 
-        final ContentType.ImageType type = ContentType.getImageType(submission);
+        final ContentType.contentTypes type = ContentType.getContentType(submission);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

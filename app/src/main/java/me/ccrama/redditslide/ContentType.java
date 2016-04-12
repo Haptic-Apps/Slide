@@ -1,14 +1,9 @@
 package me.ccrama.redditslide;
 
-import android.util.Log;
-
 import net.dean.jraw.models.Submission;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.StreamableUtil;
 
 /**
  * Created by ccrama on 5/26/2015.
@@ -53,7 +48,7 @@ public class ContentType {
 
         return (host.endsWith("reddit.com") || host.endsWith("redd.it")) && !path.startsWith("/live");
     }
-    
+
     public static boolean isImgurLink(String url) {
         try {
             final URI uri = new URI(url);
@@ -69,19 +64,19 @@ public class ContentType {
     }
 
     /**
-     * Gets the ContentType from a URL
+     * Attempt to determine the content type of a link from the URL
      *
      * @param url URL to get ContentType from
      * @return ContentType of the URL
      */
-    public static ImageType getImageType(String url) {
+    public static contentTypes getContentType(String url) {
         if (!url.startsWith("//") && ((url.startsWith("/") && url.length() < 4)
                 || url.startsWith("#spoil")
                 || url.startsWith("/spoil")
                 || url.equals("#s")
                 || url.equals("#b")
                 || url.equals("#sp"))) {
-            return ImageType.SPOILER;
+            return contentTypes.SPOILER;
         }
 
         if (url.startsWith("//")) url = "https:" + url;
@@ -94,56 +89,58 @@ public class ContentType {
             final String scheme = uri.getScheme();
 
             if (!scheme.equals("http") && !scheme.equals("https")) {
-                return ImageType.EXTERNAL;
+                return contentTypes.EXTERNAL;
             }
             if (isGif(uri)) {
-                return ImageType.GIF;
+                return contentTypes.GIF;
             }
             if (isImage(uri)) {
-                return ImageType.IMAGE;
+                return contentTypes.IMAGE;
             }
             if (isAlbum(uri)) {
-                return ImageType.ALBUM;
+                return contentTypes.ALBUM;
             }
             if (host.endsWith("imgur.com")) {
-                return ImageType.IMGUR;
+                return contentTypes.IMGUR;
             }
             if (isRedditLink(uri)) {
-                return ImageType.REDDIT;
+                return contentTypes.REDDIT;
             }
             if (host.endsWith("vid.me")) {
-                return ImageType.VID_ME;
+                return contentTypes.VID_ME;
             }
             if (host.endsWith("deviantart.com")) {
-                return ImageType.DEVIANTART;
+                return contentTypes.DEVIANTART;
             }
             if (host.endsWith("streamable.com")) {
-                return ImageType.STREAMABLE;
+                return contentTypes.STREAMABLE;
             }
 
-            return ImageType.LINK;
+            return contentTypes.LINK;
         } catch (URISyntaxException e) {
-            return ImageType.NONE;
+            return contentTypes.NONE;
         }
     }
 
     /**
-     * Gets the ContentType from a Submission
-     * @param submission Submission to get the ContentType from
-     * @return ContentType of the Submission
+     * Attempts to determine the content of a submission, mostly based on the URL
+     *
+     * @param submission Submission to get the content type from
+     * @return Content type of the Submission
+     * @see #getContentType(String)
      */
-    public static ImageType getImageType(Submission submission) {
+    public static contentTypes getContentType(Submission submission) {
         final String url = submission.getUrl();
-        final ImageType basicType = getImageType(url);
+        final contentTypes basicType = getContentType(url);
 
         if (submission.isSelfPost()) {
-            return ImageType.SELF;
+            return contentTypes.SELF;
         }
         // TODO: Decide whether internal youtube links should be EMBEDDED or LINK
-        if (basicType.equals(ImageType.LINK)
+        if (basicType.equals(contentTypes.LINK)
                 && submission.getDataNode().has("media_embed")
                 && submission.getDataNode().get("media_embed").has("content")) {
-            return ImageType.EMBEDDED;
+            return contentTypes.EMBEDDED;
         }
 
         return basicType;
@@ -156,7 +153,7 @@ public class ContentType {
      * @return the String identifier
      */
     public static int getContentDescription(Submission submission) {
-        final ImageType contentType = getImageType(submission);
+        final contentTypes contentType = getContentType(submission);
 
         if (submission.isNsfw()) {
             switch (contentType) {
@@ -201,7 +198,7 @@ public class ContentType {
         return R.string.type_link;
     }
 
-    public enum ImageType {
+    public enum contentTypes {
         ALBUM,
         DEVIANTART,
         EMBEDDED,
