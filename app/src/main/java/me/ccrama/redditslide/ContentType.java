@@ -239,6 +239,7 @@ public class ContentType {
                 || url.equals("#spoiler")
                 || url.equals("#spoilers")
                 || url.equals("/spoiler")
+                || url.equals("#ln")
                 || url.equals("#sp")
                 || url.equals("#b")
                 || (url.startsWith("/") && url.length() < 4))) {

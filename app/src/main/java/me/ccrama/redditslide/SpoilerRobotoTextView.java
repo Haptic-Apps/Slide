@@ -120,7 +120,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      * @param subreddit the subreddit to theme
      */
     public void setTextHtml(CharSequence text, String subreddit) {
-        SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(saveEmotesFromDestruction(text.toString().trim()));
+        SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(wrapAlternateSpoilers(saveEmotesFromDestruction(text.toString().trim())));
 
         if (text.toString().contains("<a")) {
             setEmoteSpans(builder); //for emote enabled subreddits
@@ -146,6 +146,21 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         builder = removeNewlines(builder);
 
         super.setText(builder, BufferType.SPANNABLE);
+    }
+
+    private String wrapAlternateSpoilers(String html){
+        Pattern htmlSpoilerPattern = Pattern.compile("<a href=\"(/spoiler|/s)\">(.*?)</a>");
+        Matcher htmlSpoilerMatcher = htmlSpoilerPattern.matcher(html);
+        while (htmlSpoilerMatcher.find()) {
+            String newPiece = htmlSpoilerMatcher.group();
+
+            if (htmlSpoilerMatcher.group().contains("href=\"/s\"") || htmlSpoilerMatcher.group().contains("href=\"/sp")) {
+                String inner = "<a href=\"/spoiler\">spoiler [[s[" + newPiece.substring(newPiece.indexOf(">"), newPiece.indexOf("<", newPiece.indexOf(">"))) + "]s]]</a>";
+                html = html.replace(htmlSpoilerMatcher.group(), inner);
+            }
+        }
+
+        return html;
     }
 
     private String saveEmotesFromDestruction(String html) {
