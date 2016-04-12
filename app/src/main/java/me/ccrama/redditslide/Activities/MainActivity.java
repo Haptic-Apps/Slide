@@ -1117,7 +1117,7 @@ public class MainActivity extends BaseActivity {
                 public void onClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
                     inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
-                    inte.putExtra(Profile.EXTRA_SAVED, true);
+                    inte.putExtra(Profile.EXTRA_HISTORY, true);
                     MainActivity.this.startActivity(inte);
                 }
             });

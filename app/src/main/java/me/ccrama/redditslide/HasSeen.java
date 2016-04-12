@@ -25,7 +25,7 @@ public class HasSeen {
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3, fullname.length());
         }
-        Reddit.seen.edit().putBoolean(fullname, false).apply();
+        Reddit.seen.edit().putLong(fullname, System.currentTimeMillis()).apply();
 
         SynccitRead.newVisited.add(fullname);
         SynccitRead.visitedIds.add(fullname);

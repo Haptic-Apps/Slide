@@ -10,7 +10,10 @@ import net.dean.jraw.models.Thing;
 import net.dean.jraw.paginators.FullnamesPaginator;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
@@ -109,11 +112,23 @@ public class HistoryPosts extends GeneralPosts {
             try {
                 if (reset || paginator == null) {
                     ArrayList<String> ids = new ArrayList<>();
+                    HashMap<Long, String> idsSorted = new HashMap<>();
                     Map<String, ?> values = Reddit.seen.getAll();
                     for (String value : values.keySet()) {
-                        if (value.length() == 6)
+                        if (value.length() == 6 && values.get(value) instanceof Boolean){
                             ids.add("t3_" + value);
+                        } else if(values.get(value) instanceof Long){
+                            idsSorted.put((Long) values.get(value), "t3_" + value);
+                        }
                     }
+
+                    if(!idsSorted.isEmpty()) {
+                        TreeMap<Long, String> result2 = new TreeMap<>(Collections.reverseOrder());
+                        result2.putAll(idsSorted);
+                        LogUtil.v("Size is " + result2.size());
+                        ids.addAll(0, result2.values());
+                    }
+
                     paginator = new FullnamesPaginator(Authentication.reddit, ids.toArray(new String[ids.size()]));
                     if (!paginator.hasNext()) {
                         nomore = true;
