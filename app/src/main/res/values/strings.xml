@@ -634,6 +634,7 @@
     <string name="type_selftext">Selftext</string>
     <string name="mail_re">re: %1$s</string>
     <string name="settings_fab_create">Show \"create comment\" floating action button</string>
+    <string name="settings_right_handed_comment_menu">Right-handed comment reply menu</string>
     <string name="submission_unhide">Unhide post</string>
     <string name="submission_info_unhidden">Submission unhidden</string>
     <string name="settings_handling_external_desc">Domains entered below will always open externally</string>

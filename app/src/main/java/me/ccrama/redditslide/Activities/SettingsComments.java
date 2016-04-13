@@ -23,7 +23,6 @@ public class SettingsComments extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.fastscroll = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FASTSCROLL, isChecked).apply();
-
                 }
             });
         }
@@ -35,7 +34,17 @@ public class SettingsComments extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.fabComments = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_FAB, isChecked).apply();
-
+                }
+            });
+        }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.rightHandedComments);
+            single.setChecked(SettingValues.rightHandedCommentMenu);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.rightHandedCommentMenu = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_RIGHT_HANDED_COMMENT_MENU, isChecked).apply();
                 }
             });
         }
@@ -47,7 +56,6 @@ public class SettingsComments extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.colorCommentDepth = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_COMMENT_DEPTH, isChecked).apply();
-
                 }
             });
         }
@@ -59,7 +67,6 @@ public class SettingsComments extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.hideSelftextLeadImage = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SELFTEXT_IMAGE_COMMENT, isChecked).apply();
-
                 }
             });
         }
@@ -71,7 +78,6 @@ public class SettingsComments extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.collapseComments = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_COMMENTS, isChecked).apply();
-
                 }
             });
         }
@@ -83,7 +89,6 @@ public class SettingsComments extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.collapseCommentsDefault = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLLAPSE_COMMENTS_DEFAULT, isChecked).apply();
-
                 }
             });
         }
@@ -94,7 +99,6 @@ public class SettingsComments extends BaseActivityAnim {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SettingValues.swap = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SWAP, isChecked).apply();
-
             }
         });
         {
@@ -106,7 +110,6 @@ public class SettingsComments extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.commentNav = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_NAV, isChecked).apply();
-
                 }
             });
         }
@@ -119,7 +122,6 @@ public class SettingsComments extends BaseActivityAnim {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.cropImage = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_CROP_IMAGE, isChecked).apply();
-
                 }
             });
         }

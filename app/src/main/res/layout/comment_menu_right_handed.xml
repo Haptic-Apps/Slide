@@ -12,31 +12,22 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/mod"
+            android:id="@+id/more"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:background="?android:selectableItemBackground"
             android:padding="12dp"
-            app:srcCompat="@drawable/mod" />
+            app:srcCompat="@drawable/more" />
 
         <ImageView
-            android:id="@+id/edit"
+            android:id="@+id/reply"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:background="?android:selectableItemBackground"
             android:padding="12dp"
-            app:srcCompat="@drawable/edit" />
-
-        <ImageView
-            android:id="@+id/delete"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_weight="1"
-            android:background="?android:selectableItemBackground"
-            android:padding="12dp"
-            app:srcCompat="@drawable/delete" />
+            app:srcCompat="@drawable/reply" />
 
         <ImageView
             android:id="@+id/upvote"
@@ -57,22 +48,31 @@
             app:srcCompat="@drawable/downvote" />
 
         <ImageView
-            android:id="@+id/reply"
+            android:id="@+id/delete"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:background="?android:selectableItemBackground"
             android:padding="12dp"
-            app:srcCompat="@drawable/reply" />
+            app:srcCompat="@drawable/delete" />
 
         <ImageView
-            android:id="@+id/more"
+            android:id="@+id/edit"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
             android:background="?android:selectableItemBackground"
             android:padding="12dp"
-            app:srcCompat="@drawable/more" />
+            app:srcCompat="@drawable/edit" />
+
+        <ImageView
+            android:id="@+id/mod"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="?android:selectableItemBackground"
+            android:padding="12dp"
+            app:srcCompat="@drawable/mod" />
     </LinearLayout>
 
     <LinearLayout
