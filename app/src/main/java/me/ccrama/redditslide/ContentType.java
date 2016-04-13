@@ -3,7 +3,6 @@ package me.ccrama.redditslide;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.net.Uri;
 
@@ -11,6 +10,7 @@ import net.dean.jraw.models.Submission;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 
 /**
  * Created by ccrama on 5/26/2015.
@@ -242,24 +242,46 @@ public class ContentType {
         return R.string.type_link;
     }
 
+    static HashMap<String, String> contentDescriptions = new HashMap<>();
+
+    /**
+     * Returns a description of the submission, for example "Link", "NSFW link", if the link is set
+     * to open externally it returns the package name of the app that opens it, or "External"
+     *
+     * @param submission The submission to describe
+     * @param context Current context
+     * @return The content description
+     */
     public static String getContentDescription(Submission submission, Context context) {
         final int generic = getContentID(submission);
         final Resources res = context.getResources();
+        final String domain = submission.getDomain();
 
         if (generic != R.string.type_external) {
             return res.getString(generic);
+        }
+
+        if (contentDescriptions.containsKey(domain)) {
+            return contentDescriptions.get(domain);
         }
 
         try {
             final PackageManager pm = context.getPackageManager();
             final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
             final String packageName = pm.resolveActivity(intent, 0).activityInfo.packageName;
+            String description;
+
             if (!packageName.equals("android")) {
-                return pm.getApplicationLabel(pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA)).toString();
+                description = pm.getApplicationLabel(pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA)).toString();
             } else {
-                return res.getString(generic);
+                description = res.getString(generic);
             }
+
+            // Looking up a package name takes a long time (3~10ms), memoize it
+            contentDescriptions.put(domain, description);
+            return description;
         } catch (PackageManager.NameNotFoundException|NullPointerException e) {
+            contentDescriptions.put(domain, res.getString(generic));
             return res.getString(generic);
         }
     }
