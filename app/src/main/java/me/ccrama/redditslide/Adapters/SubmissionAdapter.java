@@ -181,7 +181,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        a.openingComments = submission;
                                                                        a.toOpenComments = a.pager.getCurrentItem() + 1;
                                                                        a.currentComment = holder.getAdapterPosition() - 1;
-                                                                       ContentType.contentTypes type = ContentType.getContentType(submission);
+                                                                       ContentType.Type type = ContentType.getContentType(submission);
                                                                        if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                                                                            //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
                                                                        } else {
@@ -214,7 +214,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        clicked = holder2.getAdapterPosition();
                                                                        a.openingComments = submission;
                                                                        a.currentComment = holder.getAdapterPosition() - 1;
-                                                                       ContentType.contentTypes type = ContentType.getContentType(submission);
+                                                                       ContentType.Type type = ContentType.getContentType(submission);
                                                                        if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                                                                            //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
                                                                        } else {

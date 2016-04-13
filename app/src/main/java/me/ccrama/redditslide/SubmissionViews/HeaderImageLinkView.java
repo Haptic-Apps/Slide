@@ -92,13 +92,13 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void doImageAndText(Submission submission, boolean full, String baseSub) {
 
-        final ContentType.contentTypes type = ContentType.getContentType(submission);
+        final ContentType.Type type = ContentType.getContentType(submission);
 
         setVisibility(View.VISIBLE);
         String url = "";
         boolean forceThumb = false;
 
-        if (type == ContentType.contentTypes.SELF && full && SettingValues.hideSelftextLeadImage) {
+        if (type == ContentType.Type.SELF && full && SettingValues.hideSelftextLeadImage) {
             setVisibility(View.GONE);
             wrapArea.setVisibility(View.GONE);
         } else {
@@ -108,7 +108,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 int width = submission.getThumbnails().getSource().getWidth();
 
                 if (full) {
-                    if (height < dpToPx(50) && type != ContentType.contentTypes.SELF) {
+                    if (height < dpToPx(50) && type != ContentType.Type.SELF) {
                         forceThumb = true;
                     } else if (SettingValues.cropImage) {
                         backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
@@ -168,7 +168,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
 
                 }
-            } else if (type != ContentType.contentTypes.IMAGE && type != ContentType.contentTypes.SELF && (!submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
+            } else if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (!submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
 
                 setVisibility(View.GONE);
                 if (!full) {
@@ -178,7 +178,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 }
 
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
-            } else if (type == ContentType.contentTypes.IMAGE) {
+            } else if (type == ContentType.Type.IMAGE) {
                 if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
 
                     int length = submission.getThumbnails().getVariations().length;
@@ -289,7 +289,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     title = (TextView) findViewById(R.id.textimage);
                     info = (TextView) findViewById(R.id.subtextimage);
                     if (forceThumb
-                            || (submission.isNsfw() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW || type != ContentType.contentTypes.IMAGE && type != ContentType.contentTypes.SELF && !submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
+                            || (submission.isNsfw() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW || type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && !submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
                         setBottomSheet(thumbImage2, submission.getUrl());
                     } else {
                         setBottomSheet(this, submission.getUrl());

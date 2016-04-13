@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 
@@ -87,6 +88,10 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
         if (subreddit.equals(Reddit.EMPTY_STRING)) {
             new AsyncGetSubredditName().execute(name);
+            TypedValue typedValue = new TypedValue();
+            getTheme().resolveAttribute(R.attr.activity_background, typedValue, true);
+            int color = typedValue.data;
+            findViewById(R.id.content_view).setBackgroundColor(color);
         } else {
             setupAdapter();
         }
@@ -108,6 +113,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         pager = (ViewPager) findViewById(R.id.content_view);
         comments = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(comments);
+        pager.setBackgroundColor(Color.TRANSPARENT);
         pager.setCurrentItem(1);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

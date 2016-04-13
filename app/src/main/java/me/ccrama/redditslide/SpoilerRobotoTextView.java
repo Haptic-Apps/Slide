@@ -240,7 +240,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             return;
         }
 
-        ContentType.contentTypes type = ContentType.getContentType(url);
+        ContentType.Type type = ContentType.getContentType(url);
         Context context = getContext();
         Activity activity = null;
         if (context instanceof Activity) {

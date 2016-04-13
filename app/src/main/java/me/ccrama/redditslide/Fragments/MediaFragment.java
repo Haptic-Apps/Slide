@@ -128,10 +128,10 @@ public class MediaFragment extends Fragment {
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
 
 
-        ContentType.contentTypes type = ContentType.getContentType(s);
+        ContentType.Type type = ContentType.getContentType(s);
 
 
-        if (!type.toString().toLowerCase().contains("image") && type != ContentType.contentTypes.DEVIANTART && !type.toString().toLowerCase().contains("gfy") && !type.toString().toLowerCase().contains("gif") && !type.toString().toLowerCase().contains("imgur") || type.toString().toLowerCase().contains("link")) {
+        if (!type.toString().toLowerCase().contains("image") && type != ContentType.Type.DEVIANTART && !type.toString().toLowerCase().contains("gfy") && !type.toString().toLowerCase().contains("gif") && !type.toString().toLowerCase().contains("imgur") || type.toString().toLowerCase().contains("link")) {
             if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height") || s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() <= 200) {
                 (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
@@ -336,7 +336,7 @@ public class MediaFragment extends Fragment {
 
     }
 
-    private static void addClickFunctions(final View base, final View clickingArea, ContentType.contentTypes type, final Activity contextActivity, final Submission submission) {
+    private static void addClickFunctions(final View base, final View clickingArea, ContentType.Type type, final Activity contextActivity, final Submission submission) {
 
         switch (type) {
             case VID_ME:

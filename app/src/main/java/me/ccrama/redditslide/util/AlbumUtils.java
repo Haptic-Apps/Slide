@@ -62,6 +62,7 @@ public class AlbumUtils {
 
         public GetAlbumJsonFromUrl(@NotNull String url, @NotNull Activity baseActivity) {
 
+
             this.baseActivity = baseActivity;
 
             String rawDat = cutEnds(url);
@@ -78,11 +79,9 @@ public class AlbumUtils {
             if (rawDat.contains("?")) {
                 rawDat = rawDat.substring(0, rawDat.indexOf("?"));
             }
-            {
 
-                hash = getHash(rawDat);
+            hash = getHash(rawDat);
 
-            }
         }
 
 
@@ -91,6 +90,7 @@ public class AlbumUtils {
         }
 
         public boolean dontClose;
+
         public void doGallery(JsonObject result) {
             if (result != null && result.has("data")) {
                 Log.v(LogUtil.getTag(), result.toString());
@@ -110,7 +110,7 @@ public class AlbumUtils {
                         doWithData(jsons);
 
                     }
-                } else if (result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images") ) {
+                } else if (result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images")) {
                     JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
                     if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
                         overrideAlbum = true;
@@ -124,7 +124,7 @@ public class AlbumUtils {
 
                     }
                 } else if (result.get("data").getAsJsonObject().has("image")) {
-                    if(dontClose){
+                    if (dontClose) {
                         jsons.add(result.get("data").getAsJsonObject().get("image"));
                         gallery = true;
                         doWithData(jsons);
@@ -169,90 +169,127 @@ public class AlbumUtils {
             }
         }
 
+        int target;
+        int count;
+
         @Override
         protected ArrayList<JsonElement> doInBackground(final String... sub) {
-            if (baseActivity != null) {
-
-                if (gallery) {
-                    if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json") && new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject().has("data")) {
-                        Log.v(LogUtil.getTag(), albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", ""));
-                        baseActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
+            if (hash.startsWith("/")) {
+                hash = hash.substring(1, hash.length());
+            }
+            if (hash.contains(",")) {
+                final ArrayList<JsonElement> jsons = new ArrayList<>();
+                target = hash.split("/").length;
+                count = 0;
+                for (String s : hash.split(",")) {
+                    Ion.with(baseActivity).load("https://imgur-apiv3.p.mashape.com/3/image/" + s + ".json")
+                            .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(baseActivity)).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
+                            .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                        @Override
+                        public void onCompleted(Exception e, JsonObject obj) {
+                            if (obj != null && obj.has("data")) {
+                                jsons.add(obj.get("data"));
                             }
-                        });
-
-                    } else {
-                        Ion.with(baseActivity)
-                                .load("https://imgur.com/gallery/" + hash + ".json")
-                                .asJsonObject()
-
-                                .setCallback(new FutureCallback<JsonObject>() {
-                                    @Override
-                                    public void onCompleted(Exception e, final JsonObject result) {
-                                        if (result != null && result.has("data")) {
-                                            albumRequests.edit().putString("https://imgur.com/gallery/" + hash + ".json", result.toString()).apply();
-
-                                            baseActivity.runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    doGallery(result);
-                                                }
-                                            });
-                                        } else if(!dontClose) {
-                                            Intent i = new Intent(baseActivity, Website.class);
-                                            i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + hash);
-                                            baseActivity.startActivity(i);
-                                            baseActivity.finish();
-
-                                        }
-                                    }
-
-                                });
-                    }
-                } else {
-                    if (albumRequests.contains("https://imgur-apiv3.p.mashape.com/3/album" + hash + ".json")) {
-                        baseActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                doAlbum(new JsonParser().parse(albumRequests.getString("https://imgur-apiv3.p.mashape.com/3/album" + hash + ".json", "")).getAsJsonObject());
+                            count++;
+                            if (count == target + 1) {
+                                if (jsons.isEmpty()) {
+                                    Intent i = new Intent(baseActivity, Website.class);
+                                    i.putExtra(Website.EXTRA_URL, "https://imgur.com/" + hash);
+                                    baseActivity.startActivity(i);
+                                    baseActivity.finish();
+                                } else {
+                                    doWithData(jsons);
+                                }
                             }
-                        });
-                    } else {
-                        Ion.with(baseActivity)
-                                .load("https://imgur-apiv3.p.mashape.com/3/album" + hash + ".json")
-                                .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(baseActivity))
-                                .addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
-                                .asJsonObject()
-                                .setCallback(new FutureCallback<JsonObject>() {
-                                                 @Override
-                                                 public void onCompleted(Exception e, final JsonObject result) {
-                                                     if (result != null && !result.isJsonNull()) {
-                                                         albumRequests.edit().putString("https://imgur-apiv3.p.mashape.com/3/album" + hash + ".json", result.toString()).apply();
-                                                         baseActivity.runOnUiThread(new Runnable() {
-                                                             @Override
-                                                             public void run() {
-                                                                 doAlbum(result);
-                                                             }
-                                                         });
-                                                     } else if(!dontClose){
-                                                         Intent i = new Intent(baseActivity, Website.class);
-                                                         i.putExtra(Website.EXTRA_URL, "https://imgur.com/a" + hash);
-                                                         baseActivity.startActivity(i);
-                                                         baseActivity.finish();
-                                                     }
-                                                 }
+                        }
+                    });
 
-                                             }
-
-                                );
-                    }
                 }
 
-                return null;
+            } else {
+                if (baseActivity != null) {
+
+                    if (gallery) {
+                        if (albumRequests.contains("https://imgur.com/gallery/" + hash + ".json") && new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject().has("data")) {
+                            Log.v(LogUtil.getTag(), albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", ""));
+                            baseActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    doGallery(new JsonParser().parse(albumRequests.getString("https://imgur.com/gallery/" + hash + ".json", "")).getAsJsonObject());
+                                }
+                            });
+
+                        } else {
+                            Ion.with(baseActivity)
+                                    .load("https://imgur.com/gallery/" + hash + ".json")
+                                    .asJsonObject()
+
+                                    .setCallback(new FutureCallback<JsonObject>() {
+                                        @Override
+                                        public void onCompleted(Exception e, final JsonObject result) {
+                                            if (result != null && result.has("data")) {
+                                                albumRequests.edit().putString("https://imgur.com/gallery/" + hash + ".json", result.toString()).apply();
+
+                                                baseActivity.runOnUiThread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        doGallery(result);
+                                                    }
+                                                });
+                                            } else if (!dontClose) {
+                                                Intent i = new Intent(baseActivity, Website.class);
+                                                i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + hash);
+                                                baseActivity.startActivity(i);
+                                                baseActivity.finish();
+
+                                            }
+                                        }
+
+                                    });
+                        }
+                    } else {
+                        if (albumRequests.contains("https://imgur-apiv3.p.mashape.com/3/album/" + hash + ".json")) {
+                            baseActivity.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    doAlbum(new JsonParser().parse(albumRequests.getString("https://imgur-apiv3.p.mashape.com/3/album/" + hash + ".json", "")).getAsJsonObject());
+                                }
+                            });
+                        } else {
+                            Ion.with(baseActivity)
+                                    .load("https://imgur-apiv3.p.mashape.com/3/album/" + hash + ".json")
+                                    .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(baseActivity))
+                                    .addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
+                                    .asJsonObject()
+                                    .setCallback(new FutureCallback<JsonObject>() {
+                                                     @Override
+                                                     public void onCompleted(Exception e, final JsonObject result) {
+                                                         if (result != null && !result.isJsonNull()) {
+                                                             albumRequests.edit().putString("https://imgur-apiv3.p.mashape.com/3/album/" + hash + ".json", result.toString()).apply();
+                                                             baseActivity.runOnUiThread(new Runnable() {
+                                                                 @Override
+                                                                 public void run() {
+                                                                     doAlbum(result);
+                                                                 }
+                                                             });
+                                                         } else if (!dontClose) {
+                                                             Intent i = new Intent(baseActivity, Website.class);
+                                                             i.putExtra(Website.EXTRA_URL, "https://imgur.com/a/" + hash);
+                                                             baseActivity.startActivity(i);
+                                                             baseActivity.finish();
+                                                         }
+                                                     }
+
+                                                 }
+
+                                    );
+                        }
+                    }
+
+                    return null;
 
 
+                }
             }
             return null;
 

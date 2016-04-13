@@ -14,7 +14,7 @@ public class ForceTouchBuilder {
         this.c = c;
         popup = new Dialog(c);
 
-        ContentType.contentTypes t = ContentType.getContentType(url);
+        ContentType.Type t = ContentType.getContentType(url);
 
         switch(t){
 

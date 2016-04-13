@@ -42,6 +42,8 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.UUID;
@@ -189,6 +191,19 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
     String contentUrl;
 
+    public static boolean shouldTruncate(String url) {
+        try {
+            final URI uri = new URI(url);
+            final String path = uri.getPath();
+
+            return !ContentType.isGif(uri)
+                    && !ContentType.isImage(uri)
+                    && path.contains(".");
+        } catch (URISyntaxException e) {
+            return false;
+        }
+    }
+
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
         super.onCreate(savedInstanceState);
@@ -209,7 +224,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         final String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
         contentUrl = getIntent().getExtras().getString(EXTRA_URL);
 
-        if(contentUrl != null && !contentUrl.endsWith(".jpg") && !contentUrl.endsWith(".png") && !contentUrl.endsWith(".webm") && !contentUrl.endsWith(".mp4") && !contentUrl.endsWith(".gif")){
+        if (contentUrl != null && shouldTruncate(contentUrl)) {
             contentUrl = contentUrl.substring(0, contentUrl.lastIndexOf("."));
         }
         actuallyLoaded = contentUrl;
@@ -224,14 +239,14 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 }
             });
         } else {
+            ContentType.Type type = ContentType.getContentType(contentUrl);
             if (!firstUrl.isEmpty() && contentUrl != null) {
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
                 displayImage(firstUrl);
-            } else if (ContentType.getContentType(contentUrl) == ContentType.contentTypes.IMGUR) {
+            } else if (type == ContentType.Type.IMGUR) {
                 displayImage(contentUrl + ".png"); //display one first
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
-            }
-            if (firstUrl.isEmpty()) {
+            } else if (firstUrl.isEmpty()) {
                 imageShown = false;
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
             }
@@ -664,8 +679,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     })
                     .setNegativeButton(R.string.btn_no, null)
                     .show();
-        } catch(Exception ignored){
-            
+        } catch (Exception ignored) {
+
         }
     }
 

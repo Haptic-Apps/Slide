@@ -76,15 +76,15 @@ public class SubredditPosts implements PostLoader {
         for (Submission submission : submissions) {
             boolean forceThumb = false;
             String url;
-            ContentType.contentTypes type = ContentType.getContentType(submission);
+            ContentType.Type type = ContentType.getContentType(submission);
             if (submission.getThumbnails() != null) {
 
                 int height = submission.getThumbnails().getSource().getHeight();
                 int width = submission.getThumbnails().getSource().getWidth();
-                 if (type != ContentType.contentTypes.IMAGE && type != ContentType.contentTypes.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
+                 if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
 
 
-                } else if (type == ContentType.contentTypes.IMAGE) {
+                } else if (type == ContentType.Type.IMAGE) {
                     if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
 
                         int length = submission.getThumbnails().getVariations().length;

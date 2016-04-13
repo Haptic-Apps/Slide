@@ -101,7 +101,7 @@ public class PopulateSubmissionViewHolder {
         return found ? tv.data : defaultValue;
     }
 
-    private static void addClickFunctions(final View base, final ContentType.contentTypes type, final Activity contextActivity, final Submission submission, final SubmissionViewHolder holder, final boolean full) {
+    private static void addClickFunctions(final View base, final ContentType.Type type, final Activity contextActivity, final Submission submission, final SubmissionViewHolder holder, final boolean full) {
         base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1616,7 +1616,7 @@ public class PopulateSubmissionViewHolder {
 
         holder.leadImage.setSubmission(submission, full, baseSub);
 
-        final ContentType.contentTypes type = ContentType.getContentType(submission);
+        final ContentType.Type type = ContentType.getContentType(submission);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

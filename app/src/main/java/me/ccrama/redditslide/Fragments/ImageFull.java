@@ -53,7 +53,7 @@ public class ImageFull extends Fragment {
     private SubsamplingScaleImageView image;
 
 
-    private static void addClickFunctions(final View base, final View clickingArea, ContentType.contentTypes type, final Activity contextActivity, final Submission submission) {
+    private static void addClickFunctions(final View base, final View clickingArea, ContentType.Type type, final Activity contextActivity, final Submission submission) {
         if(!PostMatch.openExternal(submission.getUrl())) {
 
             switch (type) {
@@ -182,7 +182,7 @@ public class ImageFull extends Fragment {
         }
     }
 
-    ContentType.contentTypes type;
+    ContentType.Type type;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -199,7 +199,7 @@ public class ImageFull extends Fragment {
         type = ContentType.getContentType(s);
 
         // TODO: Check old IMAGE_LINK affect on things
-        if (type.equals(ContentType.contentTypes.IMAGE)) {
+        if (type.equals(ContentType.Type.IMAGE)) {
             addClickFunctions(image, rootView, type, getActivity(), s);
             loadImage(s.getUrl());
         } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height") && s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
@@ -264,7 +264,7 @@ public class ImageFull extends Fragment {
                         image.setImage(ImageSource.bitmap(loadedImage));
                         (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
 
-                        if (type == ContentType.contentTypes.IMAGE || type == ContentType.contentTypes.IMGUR) {
+                        if (type == ContentType.Type.IMAGE || type == ContentType.Type.IMGUR) {
                             image.setMinimumDpi(30);
                             previous = image.scale;
                             final float base = image.scale;

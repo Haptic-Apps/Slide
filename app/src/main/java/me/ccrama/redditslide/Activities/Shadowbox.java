@@ -128,7 +128,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         public Fragment getItem(int i) {
 
             Fragment f;
-            ContentType.contentTypes t = ContentType.getContentType(subredditPosts.getPosts().get(i));
+            ContentType.Type t = ContentType.getContentType(subredditPosts.getPosts().get(i));
 
             if (subredditPosts.getPosts().size() - 2 <= i && subredditPosts.hasMore()) {
                 subredditPosts.loadMore(Shadowbox.this.getApplicationContext(), Shadowbox.this, false);
