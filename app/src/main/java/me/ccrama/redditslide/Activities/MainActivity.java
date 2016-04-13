@@ -372,7 +372,7 @@ public class MainActivity extends BaseActivity {
 
         if (savedInstanceState != null && !changed) {
             Authentication.isLoggedIn = savedInstanceState.getBoolean(LOGGED_IN);
-            Authentication.name = savedInstanceState.getString(USERNAME);
+            Authentication.name = savedInstanceState.getString(USERNAME, "LOGGEDOUT");
             Authentication.didOnline = savedInstanceState.getBoolean(IS_ONLINE);
         } else {
             changed = false;
@@ -419,14 +419,14 @@ public class MainActivity extends BaseActivity {
         {
             LogUtil.v("Starting main " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
-            Authentication.name = Reddit.appRestart.getString("name", "");
+            Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
             UserSubscriptions.doMainActivitySubs(this);
         } else if (!first)
 
         {
             LogUtil.v("Starting main 2 " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
-            Authentication.name = Reddit.appRestart.getString("name", "");
+            Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
             Reddit.appRestart.edit().putBoolean("isRestarting", false).commit();
             Reddit.isRestarting = false;
             UserSubscriptions.doMainActivitySubs(this);
@@ -1238,7 +1238,7 @@ public class MainActivity extends BaseActivity {
 
                                                 }
                                                 if (!d) {
-                                                    Authentication.name = "";
+                                                    Authentication.name = "LOGGEDOUT";
                                                     Authentication.isLoggedIn = false;
                                                     Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").commit();
                                                     UserSubscriptions.switchAccounts();
@@ -1414,7 +1414,7 @@ public class MainActivity extends BaseActivity {
 
                                                 }
                                                 if (!d) {
-                                                    Authentication.name = "";
+                                                    Authentication.name = "LOGGEDOUT";
                                                     Authentication.isLoggedIn = false;
                                                     Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").commit();
                                                     UserSubscriptions.switchAccounts();

@@ -543,7 +543,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         if (!appRestart.contains("startScreen")) {
             Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
-            Authentication.name = appRestart.getString("name", "");
+            Authentication.name = appRestart.getString("name", "LOGGEDOUT");
             active = true;
         } else {
             appRestart.edit().remove("startScreen").apply();
