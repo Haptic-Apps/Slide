@@ -101,6 +101,7 @@ public class InboxMessages extends GeneralPosts {
             try {
                 if (reset || paginator == null) {
                     paginator = new InboxPaginator(Authentication.reddit, where);
+                    nomore = false;
                 }
                 if (paginator.hasNext()) {
                     ArrayList<Message> done = new ArrayList<>();

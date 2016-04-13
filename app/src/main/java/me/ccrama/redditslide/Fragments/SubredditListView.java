@@ -20,11 +20,8 @@ import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Adapters.SubredditAdapter;
 import me.ccrama.redditslide.Adapters.SubredditNames;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
@@ -77,25 +74,6 @@ public class SubredditListView extends Fragment {
 
                     visibleItemCount = rv.getLayoutManager().getChildCount();
                     totalItemCount = rv.getLayoutManager().getItemCount();
-                    if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
-                        pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                        if (SettingValues.scrollSeen) {
-                            if (pastVisiblesItems > 0) {
-                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
-                            }
-                        }
-                    } else {
-                        int[] firstVisibleItems = null;
-                        firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                        if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                            pastVisiblesItems = firstVisibleItems[0];
-                            if (SettingValues.scrollSeen) {
-                                if (pastVisiblesItems > 0) {
-                                    HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
-                                }
-                            }
-                        }
-                    }
 
                     if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
                         posts.loading = true;
@@ -157,7 +135,7 @@ public class SubredditListView extends Fragment {
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
-                    if (startIndex != -1) {
+                    if (startIndex > 0) {
                         adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
                     } else {
                         adapter.notifyDataSetChanged();

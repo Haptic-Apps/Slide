@@ -1070,7 +1070,7 @@ public class MainActivity extends BaseActivity {
     public void doDrawer() {
         drawerSubList = (ListView) findViewById(R.id.drawerlistview);
         drawerSubList.setDividerHeight(0);
-        drawerSubList.setDescendantFocusability(ListView.FOCUS_AFTER_DESCENDANTS);
+        drawerSubList.setDescendantFocusability(ListView.FOCUS_BEFORE_DESCENDANTS);
         final LayoutInflater inflater = getLayoutInflater();
         final View header;
 

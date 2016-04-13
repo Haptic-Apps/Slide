@@ -81,7 +81,7 @@ public class SubredditNames {
                     start = posts.size() + 1;
                 }
 
-                if (reset || posts == null) {
+                if (reset || posts == null ) {
                     posts = new ArrayList<>(new LinkedHashSet(submissions));
                     start = -1;
                 } else {
@@ -94,8 +94,7 @@ public class SubredditNames {
                 //update online
                 parent.updateSuccess(posts, finalStart);
 
-            } else if (submissions != null) {
-                // end of subreddits
+            } else if (!nomore) {
                 parent.updateError();
             }
         }

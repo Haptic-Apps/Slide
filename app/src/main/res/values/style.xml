@@ -441,6 +441,8 @@
     <style name="Theme.DARK_BLUE" parent="swipestyle">
         <item name="activity_background">#2F3D44</item>
         <item name="card_background">#37474F</item>
+        <item name="android:colorBackground">#37474F</item>
+        <item name="md_background_color">#37474F</item>
         <item name="list_background">#263238</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark_Blue</item>
 
@@ -455,6 +457,8 @@
     <style name="Theme.AMOLED" parent="swipestyle">
         <item name="activity_background">#000000</item>
         <item name="card_background">#000000</item>
+        <item name="android:colorBackground">#000000</item>
+        <item name="md_background_color">#000000</item>
         <item name="list_background">#000000</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
 
@@ -468,6 +472,8 @@
     <style name="Theme.AMOLED_lighter" parent="swipestyle">
         <item name="activity_background">#121212</item>
         <item name="card_background">#000000</item>
+        <item name="android:colorBackground">#121212</item>
+        <item name="md_background_color">#121212</item>
         <item name="list_background">#000000</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
 
