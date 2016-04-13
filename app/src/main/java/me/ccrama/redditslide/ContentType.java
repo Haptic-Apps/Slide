@@ -74,6 +74,7 @@ public class ContentType {
                 || url.startsWith("#spoil")
                 || url.startsWith("/spoil")
                 || url.equals("#s")
+                || url.equals("#ln")
                 || url.equals("#b")
                 || url.equals("#sp"))) {
             return contentTypes.SPOILER;

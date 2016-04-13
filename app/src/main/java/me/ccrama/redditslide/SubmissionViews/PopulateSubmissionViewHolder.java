@@ -132,7 +132,7 @@ public class PopulateSubmissionViewHolder {
                             break;
                         case EMBEDDED:
                             if (SettingValues.video) {
-                                String data = submission.getDataNode().get("media_embed").get("content").asText();
+                                String data = Html.fromHtml(submission.getDataNode().get("media_embed").get("content").asText()).toString();
                                 {
                                     Intent i = new Intent(contextActivity, FullscreenVideo.class);
                                     i.putExtra(FullscreenVideo.EXTRA_HTML, data);

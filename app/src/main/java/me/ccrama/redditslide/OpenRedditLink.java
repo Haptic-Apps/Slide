@@ -16,6 +16,7 @@ import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SubredditView;
+import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -212,7 +213,9 @@ public class OpenRedditLink {
                 break;
             }
             case OTHER: {
-                customIntentChooser(oldUrl, context);
+                Intent i = new Intent(context, Website.class);
+                i.putExtra(Website.EXTRA_URL, oldUrl);
+                context.startActivity(i);
                 break;
             }
         }

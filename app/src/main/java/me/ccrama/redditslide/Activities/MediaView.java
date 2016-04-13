@@ -209,6 +209,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         final String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
         contentUrl = getIntent().getExtras().getString(EXTRA_URL);
 
+        if(contentUrl != null && !contentUrl.endsWith(".jpg") && !contentUrl.endsWith(".png") && !contentUrl.endsWith(".webm") && !contentUrl.endsWith(".mp4") && !contentUrl.endsWith(".gif")){
+            contentUrl = contentUrl.substring(0, contentUrl.lastIndexOf("."));
+        }
         actuallyLoaded = contentUrl;
         if (getIntent().hasExtra(EXTRA_LQ)) {
             doLoadImage(getIntent().getStringExtra(EXTRA_DISPLAY_URL));

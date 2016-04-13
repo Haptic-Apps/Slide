@@ -115,14 +115,14 @@ public class GifUtils {
 
             if (s.endsWith("v")) {
                 s = s.substring(0, s.length() - 1);
-            } else if (s.contains("gfycat")) {
+            } else if (s.contains("gfycat") && !s.contains("mp4")) {
                 s = s.substring(3, s.length());
             }
             if (s.contains(".gif") && !s.contains(".gifv") && s.contains("imgur.com")) {
                 s = s.replace(".gif", ".mp4");
             }
 
-            if (s.contains("gfycat")) {
+            if (s.contains("gfycat") && !s.contains("mp4")) {
                 s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
 
 
@@ -309,8 +309,7 @@ public class GifUtils {
 
                         });
 
-            } else if (s.contains("imgur.com")) {
-                LogUtil.v("Loading gif " + s);
+            } else if (s.contains("imgur.com") || s.contains("mp4")) {
 
                 try {
 
