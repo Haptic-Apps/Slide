@@ -967,20 +967,22 @@ public class MainActivity extends BaseActivity {
                         Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
                         Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.WEEK);
                         reloadSubs();
+                        break;
                     case 12:
                         Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
                         Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.MONTH);
                         reloadSubs();
+                        break;
                     case 13:
                         Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
                         Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.YEAR);
                         reloadSubs();
+                        break;
                     case 14:
                         Reddit.setSorting(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, Sorting.CONTROVERSIAL);
                         Reddit.setTime(((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id, TimePeriod.ALL);
                         reloadSubs();
-
-
+                        break;
                 }
                 return true;
             }
