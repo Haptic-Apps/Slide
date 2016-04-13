@@ -1623,8 +1623,8 @@ public class MainActivity extends BaseActivity {
                         inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
                         MainActivity.this.startActivity(inte);
                     } else {
-                        if (usedArray.contains(e.getText().toString())) {
-                            pager.setCurrentItem(usedArray.indexOf(e.getText().toString()));
+                        if (usedArray.contains(e.getText().toString().toLowerCase())) {
+                            pager.setCurrentItem(usedArray.indexOf(e.getText().toString().toLowerCase()));
                         } else {
                             pager.setCurrentItem(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
                         }
