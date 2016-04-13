@@ -648,4 +648,5 @@
     <string name="msg_save_draft">Message saved as a draft</string>
     <string name="content_removed">[removed]</string>
     <string name="profile_history">History</string>
+    <string name="guest">Guest</string>
 </resources>

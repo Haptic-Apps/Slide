@@ -1183,91 +1183,101 @@ public class MainActivity extends BaseActivity {
                 if (s.contains(":")) {
                     accounts.put(s.split(":")[0], s.split(":")[1]);
                 } else {
-
                     accounts.put(s, "");
                 }
             }
             final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
 
+            final String guest = getString(R.string.guest);
+            keys.add(guest);
             final LinearLayout accountList = (LinearLayout) header.findViewById(R.id.accountsarea);
             for (final String accName : keys) {
                 LogUtil.v(accName);
                 final View t = getLayoutInflater().inflate(R.layout.account_textview, accountList, false);
-
                 ((TextView) t.findViewById(R.id.name)).setText(accName);
-                t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                if (!accName.equals(guest)) {
+                    t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        new AlertDialogWrapper.Builder(MainActivity.this)
-                                .setTitle(R.string.profile_remove)
-                                .setMessage(R.string.profile_remove_account)
-                                .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog2, int which2) {
-                                        Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
-                                        Set<String> done = new HashSet<>();
-                                        for (String s : accounts2) {
-                                            if (!s.contains(accName)) {
-                                                done.add(s);
+                            new AlertDialogWrapper.Builder(MainActivity.this)
+                                    .setTitle(R.string.profile_remove)
+                                    .setMessage(R.string.profile_remove_account)
+                                    .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog2, int which2) {
+                                            Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                                            Set<String> done = new HashSet<>();
+                                            for (String s : accounts2) {
+                                                if (!s.contains(accName)) {
+                                                    done.add(s);
+                                                }
                                             }
-                                        }
-                                        Authentication.authentication.edit().putStringSet("accounts", done).commit();
-                                        dialog2.dismiss();
-                                        accountList.removeView(t);
-                                        if (accName.equalsIgnoreCase(Authentication.name)) {
+                                            Authentication.authentication.edit().putStringSet("accounts", done).commit();
+                                            dialog2.dismiss();
+                                            accountList.removeView(t);
+                                            if (accName.equalsIgnoreCase(Authentication.name)) {
 
-                                            boolean d = false;
-                                            for (String s : keys) {
+                                                boolean d = false;
+                                                for (String s : keys) {
 
-                                                if (!s.equalsIgnoreCase(accName)) {
-                                                    d = true;
-                                                    LogUtil.v("Switching to " + s);
-                                                    if (!accounts.get(s).isEmpty()) {
-                                                        Authentication.authentication.edit().putString("lasttoken", accounts.get(s)).remove("backedCreds").commit();
+                                                    if (!s.equalsIgnoreCase(accName)) {
+                                                        d = true;
+                                                        LogUtil.v("Switching to " + s);
+                                                        if (!accounts.get(s).isEmpty()) {
+                                                            Authentication.authentication.edit().putString("lasttoken", accounts.get(s)).remove("backedCreds").commit();
 
-                                                    } else {
-                                                        ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                                                        Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(s))).remove("backedCreds").commit();
+                                                        } else {
+                                                            ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                                            Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(s))).remove("backedCreds").commit();
+                                                        }
+                                                        Authentication.name = s;
+                                                        UserSubscriptions.switchAccounts();
+                                                        Reddit.forceRestart(MainActivity.this, true);
                                                     }
-                                                    Authentication.name = s;
+
+                                                }
+                                                if (!d) {
+                                                    Authentication.name = "";
+                                                    Authentication.isLoggedIn = false;
+                                                    Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").commit();
                                                     UserSubscriptions.switchAccounts();
                                                     Reddit.forceRestart(MainActivity.this, true);
                                                 }
 
+                                            } else {
+                                                accounts.remove(accName);
+                                                keys.remove(accName);
                                             }
-                                            if (!d) {
-                                                Authentication.name = "";
-                                                Authentication.isLoggedIn = false;
-                                                Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").commit();
-                                                UserSubscriptions.switchAccounts();
-                                                Reddit.forceRestart(MainActivity.this, true);
-                                            }
-
-                                        } else {
-                                            accounts.remove(accName);
-                                            keys.remove(accName);
                                         }
-                                    }
-                                })
-                                .setPositiveButton(R.string.btn_cancel, null).show();
+                                    })
+                                    .setPositiveButton(R.string.btn_cancel, null).show();
 
 
-                    }
-                });
+                        }
+                    });
+                } else {
+                    t.findViewById(R.id.remove).setVisibility(View.GONE);
+                }
                 t.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (!accName.equalsIgnoreCase(Authentication.name)) {
                             LogUtil.v("Switching to " + accName);
-                            if (!accounts.get(accName).isEmpty()) {
-                                Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).remove("backedCreds").commit();
+                            if (!accName.equals(guest)) {
+                                if (!accounts.get(accName).isEmpty()) {
+                                    Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).remove("backedCreds").commit();
+                                } else {
+                                    ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                    Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).remove("backedCreds").commit();
+                                }
+                                Authentication.name = accName;
                             } else {
-                                ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                                Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).remove("backedCreds").commit();
+                                Authentication.name = "LOGGEDOUT";
+                                Authentication.isLoggedIn = false;
+                                Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").commit();
                             }
 
-                            Authentication.name = accName;
                             UserSubscriptions.switchAccounts();
 
                             Reddit.forceRestart(MainActivity.this, true);
@@ -1328,13 +1338,136 @@ public class MainActivity extends BaseActivity {
             headerMain = header;
             hea = header.findViewById(R.id.back);
 
-            header.findViewById(R.id.profile).setOnClickListener(new View.OnClickListener() {
+            final LinearLayout profStuff = (LinearLayout) header.findViewById(R.id.accountsarea);
+            profStuff.setVisibility(View.GONE);
+            findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (profStuff.getVisibility() == View.GONE) {
+                        expand(profStuff);
+                        flipAnimator(false, header.findViewById(R.id.headerflip)).start();
+                    } else {
+                        collapse(profStuff);
+                        flipAnimator(true, header.findViewById(R.id.headerflip)).start();
+                    }
+
+                }
+            });
+            final HashMap<String, String> accounts = new HashMap<>();
+
+            for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
+                if (s.contains(":")) {
+                    accounts.put(s.split(":")[0], s.split(":")[1]);
+                } else {
+                    accounts.put(s, "");
+                }
+            }
+            final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
+
+            final String guest = getString(R.string.guest);
+            keys.add(guest);
+            final LinearLayout accountList = (LinearLayout) header.findViewById(R.id.accountsarea);
+            for (final String accName : keys) {
+                LogUtil.v(accName);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview, accountList, false);
+                ((TextView) t.findViewById(R.id.name)).setText(accName);
+                if (!accName.equals(guest)) {
+                    t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            new AlertDialogWrapper.Builder(MainActivity.this)
+                                    .setTitle(R.string.profile_remove)
+                                    .setMessage(R.string.profile_remove_account)
+                                    .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog2, int which2) {
+                                            Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                                            Set<String> done = new HashSet<>();
+                                            for (String s : accounts2) {
+                                                if (!s.contains(accName)) {
+                                                    done.add(s);
+                                                }
+                                            }
+                                            Authentication.authentication.edit().putStringSet("accounts", done).commit();
+                                            dialog2.dismiss();
+                                            accountList.removeView(t);
+                                            if (accName.equalsIgnoreCase(Authentication.name)) {
+
+                                                boolean d = false;
+                                                for (String s : keys) {
+
+                                                    if (!s.equalsIgnoreCase(accName)) {
+                                                        d = true;
+                                                        LogUtil.v("Switching to " + s);
+                                                        if (!accounts.get(s).isEmpty()) {
+                                                            Authentication.authentication.edit().putString("lasttoken", accounts.get(s)).remove("backedCreds").commit();
+
+                                                        } else {
+                                                            ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                                            Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(s))).remove("backedCreds").commit();
+                                                        }
+                                                        Authentication.name = s;
+                                                        UserSubscriptions.switchAccounts();
+                                                        Reddit.forceRestart(MainActivity.this, true);
+                                                    }
+
+                                                }
+                                                if (!d) {
+                                                    Authentication.name = "";
+                                                    Authentication.isLoggedIn = false;
+                                                    Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").commit();
+                                                    UserSubscriptions.switchAccounts();
+                                                    Reddit.forceRestart(MainActivity.this, true);
+                                                }
+
+                                            } else {
+                                                accounts.remove(accName);
+                                                keys.remove(accName);
+                                            }
+                                        }
+                                    })
+                                    .setPositiveButton(R.string.btn_cancel, null).show();
+
+
+                        }
+                    });
+                } else {
+                    t.findViewById(R.id.remove).setVisibility(View.GONE);
+                }
+                t.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!accName.equalsIgnoreCase(Authentication.name)) {
+                            if (!accName.equals(guest)) {
+                                if (!accounts.get(accName).isEmpty()) {
+                                    Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).remove("backedCreds").commit();
+                                } else {
+                                    ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                    Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).remove("backedCreds").commit();
+                                }
+                                Authentication.isLoggedIn = true;
+                                Authentication.name = accName;
+                                UserSubscriptions.switchAccounts();
+                                Reddit.forceRestart(MainActivity.this, true);
+                            }
+                        }
+                    }
+                });
+                accountList.addView(t);
+            }
+
+
+            header.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Login.class);
                     MainActivity.this.startActivity(inte);
                 }
             });
+
+            headerMain = header;
+
         } else {
             header = inflater.inflate(R.layout.drawer_offline, drawerSubList, false);
             headerMain = header;
