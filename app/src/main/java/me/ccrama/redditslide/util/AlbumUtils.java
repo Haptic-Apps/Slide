@@ -169,8 +169,9 @@ public class AlbumUtils {
             }
         }
 
-        int target;
+        JsonElement[] target;
         int count;
+        int done;
 
         @Override
         protected ArrayList<JsonElement> doInBackground(final String... sub) {
@@ -178,20 +179,27 @@ public class AlbumUtils {
                 hash = hash.substring(1, hash.length());
             }
             if (hash.contains(",")) {
-                final ArrayList<JsonElement> jsons = new ArrayList<>();
-                target = hash.split(",").length;
+                target = new JsonElement[hash.split(",").length];
                 count = 0;
+                done = 0;
                 for (String s : hash.split(",")) {
+                    final int pos = count;
+                    count++;
                     Ion.with(baseActivity).load("https://imgur-apiv3.p.mashape.com/3/image/" + s + ".json")
                             .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(baseActivity)).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
                             .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                         @Override
                         public void onCompleted(Exception e, JsonObject obj) {
                             if (obj != null && obj.has("data")) {
-                                jsons.add(obj.get("data"));
+                                target[pos] = obj.get("data");
                             }
-                            count++;
-                            if (count == target - 1) {
+                            done += 1;
+                            if (done == target.length -1) {
+                                ArrayList<JsonElement> jsons = new ArrayList<>();
+                                for(JsonElement el : target){
+                                    if(el != null)
+                                        jsons.add(el);
+                                }
                                 if (jsons.isEmpty()) {
                                     Intent i = new Intent(baseActivity, Website.class);
                                     i.putExtra(Website.EXTRA_URL, "https://imgur.com/" + hash);
