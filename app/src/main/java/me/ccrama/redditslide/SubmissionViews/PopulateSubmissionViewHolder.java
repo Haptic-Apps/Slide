@@ -101,13 +101,12 @@ public class PopulateSubmissionViewHolder {
         return found ? tv.data : defaultValue;
     }
 
-    private static void addClickFunctions(final View base, final ContentType.ImageType type, final Activity contextActivity, final Submission submission, final SubmissionViewHolder holder, final boolean full) {
+    private static void addClickFunctions(final View base, final ContentType.contentTypes type, final Activity contextActivity, final Submission submission, final SubmissionViewHolder holder, final boolean full) {
         base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (SettingValues.storeHistory && !full) {
-                    if ((type != ContentType.ImageType.NSFW_LINK && type != ContentType.ImageType.NSFW_IMAGE
-                            && type != ContentType.ImageType.NSFW_GFY && type != ContentType.ImageType.NSFW_GIF) || SettingValues.storeNSFWHistory) {
+                    if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
                         HasSeen.addSeen(submission.getFullName());
                         if (contextActivity instanceof MainActivity || contextActivity instanceof MultiredditOverview || contextActivity instanceof SubredditView) {
                             holder.title.setAlpha(0.54f);
@@ -128,15 +127,12 @@ public class PopulateSubmissionViewHolder {
                                 Reddit.defaultShare(submission.getUrl(), contextActivity);
                             }
                             break;
-                        case NSFW_IMAGE:
-                            openImage(contextActivity, submission);
-                            break;
                         case IMGUR:
                             openImage(contextActivity, submission);
                             break;
                         case EMBEDDED:
                             if (SettingValues.video) {
-                                String data = submission.getDataNode().get("media_embed").get("content").asText();
+                                String data = Html.fromHtml(submission.getDataNode().get("media_embed").get("content").asText()).toString();
                                 {
                                     Intent i = new Intent(contextActivity, FullscreenVideo.class);
                                     i.putExtra(FullscreenVideo.EXTRA_HTML, data);
@@ -146,27 +142,16 @@ public class PopulateSubmissionViewHolder {
                                 Reddit.defaultShare(submission.getUrl(), contextActivity);
                             }
                             break;
-                        case NSFW_GIF:
-                            openGif(false, contextActivity, submission);
-                            break;
-                        case NSFW_GFY:
-                            openGif(true, contextActivity, submission);
-                            break;
                         case REDDIT:
                             openRedditContent(submission.getUrl(), contextActivity);
                             break;
                         case LINK:
-                        case IMAGE_LINK:
-                        case NSFW_LINK:
                             CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                             break;
                         case SELF:
                             if (holder != null) {
                                 holder.itemView.performClick();
                             }
-                            break;
-                        case GFY:
-                            openGif(true, contextActivity, submission);
                             break;
                         case ALBUM:
                             if (SettingValues.album) {
@@ -191,24 +176,12 @@ public class PopulateSubmissionViewHolder {
                             openImage(contextActivity, submission);
                             break;
                         case GIF:
-                            openGif(false, contextActivity, submission);
-                            break;
-                        case NONE_GFY:
-                            openGif(true, contextActivity, submission);
-                            break;
-                        case NONE_GIF:
-                            openGif(false, contextActivity, submission);
+                            openGif(contextActivity, submission);
                             break;
                         case NONE:
                             if (holder != null) {
                                 holder.itemView.performClick();
                             }
-                            break;
-                        case NONE_IMAGE:
-                            openImage(contextActivity, submission);
-                            break;
-                        case NONE_URL:
-                            CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                             break;
                         case VIDEO:
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -253,16 +226,14 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    public static void openGif(final boolean gfy, Activity contextActivity, Submission submission) {
+    public static void openGif(Activity contextActivity, Submission submission) {
         if (SettingValues.gif) {
             DataShare.sharedSubmission = submission;
 
             Intent myIntent = new Intent(contextActivity, MediaView.class);
-            if (gfy) {
-                myIntent.putExtra(MediaView.EXTRA_URL, "gfy" + submission.getUrl());
-            } else {
-                myIntent.putExtra(MediaView.EXTRA_URL, "" + submission.getUrl());
-            }
+
+            myIntent.putExtra(MediaView.EXTRA_URL, "" + submission.getUrl());
+
             if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                 String previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
@@ -1356,7 +1327,7 @@ public class PopulateSubmissionViewHolder {
         if (holder.leadImage.getVisibility() == View.GONE && !full) {
             String text = "";
 
-            switch (ContentType.getImageType(submission)) {
+            switch (ContentType.getContentType(submission)) {
                 case NSFW_IMAGE:
                     text = mContext.getString(R.string.type_nsfw_img);
                     break;
@@ -1645,7 +1616,7 @@ public class PopulateSubmissionViewHolder {
 
         holder.leadImage.setSubmission(submission, full, baseSub);
 
-        final ContentType.ImageType type = ContentType.getImageType(submission);
+        final ContentType.contentTypes type = ContentType.getContentType(submission);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -1722,8 +1693,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View view) {
                             if (SettingValues.storeHistory && !full) {
-                                if ((type != ContentType.ImageType.NSFW_LINK && type != ContentType.ImageType.NSFW_IMAGE
-                                        && type != ContentType.ImageType.NSFW_GFY && type != ContentType.ImageType.NSFW_GIF) || SettingValues.storeNSFWHistory) {
+                                if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
                                     HasSeen.addSeen(submission.getFullName());
                                     if (mContext instanceof MainActivity) {
                                         holder.title.setAlpha(0.54f);
@@ -1758,8 +1728,7 @@ public class PopulateSubmissionViewHolder {
                         @Override
                         public void onClick(View view) {
                             if (SettingValues.storeHistory && !full) {
-                                if ((type != ContentType.ImageType.NSFW_LINK && type != ContentType.ImageType.NSFW_IMAGE
-                                        && type != ContentType.ImageType.NSFW_GFY && type != ContentType.ImageType.NSFW_GIF) || SettingValues.storeNSFWHistory) {
+                                if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
                                     HasSeen.addSeen(submission.getFullName());
                                     if (mContext instanceof MainActivity) {
                                         holder.title.setAlpha(0.54f);

@@ -1975,13 +1975,8 @@ public class MainActivity extends BaseActivity {
                             JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
                             if (s2 != null) {
                                 newSubmissions = newSubmissions + (s2.toString() + "<SEPARATOR>");
-                                switch (ContentType.getImageType(s)) {
-                                    case GFY:
+                                switch (ContentType.getContentType(s)) {
                                     case GIF:
-                                    case NONE_GIF:
-                                    case NSFW_GIF:
-                                    case NONE_GFY:
-                                    case NSFW_GFY:
                                         if (chosen[0])
                                             GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
                                         break;

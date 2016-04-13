@@ -77,19 +77,10 @@ public class PostMatch {
             if (nsfw) contentMatch = true;
             if (!Reddit.over18 && !ignore18) contentMatch = true;
         }
-        switch (ContentType.getImageType(s)) {
-
-            case NSFW_IMAGE:
-            case NSFW_GIF:
-            case NSFW_GFY:
-            case NSFW_LINK:
-                if (nsfw) contentMatch = true;
-                break;
+        switch (ContentType.getContentType(s)) {
             case REDDIT:
             case EMBEDDED:
             case LINK:
-            case IMAGE_LINK:
-            case NONE_URL:
             case VID_ME:
             case VIDEO:
             case STREAMABLE:
@@ -105,16 +96,11 @@ public class PostMatch {
             case IMAGE:
             case DEVIANTART:
             case IMGUR:
-            case NONE_IMAGE:
                 if (images) contentMatch = true;
                 break;
-            case GFY:
             case GIF:
-            case NONE_GFY:
-            case NONE_GIF:
                 if (gifs) contentMatch = true;
                 break;
-
         }
 
         return (titlec || bodyc || domainc || subredditc || contentMatch);

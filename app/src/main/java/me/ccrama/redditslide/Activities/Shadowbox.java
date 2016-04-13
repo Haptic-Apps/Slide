@@ -128,29 +128,18 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         public Fragment getItem(int i) {
 
             Fragment f;
-            ContentType.ImageType t = ContentType.getImageType(subredditPosts.getPosts().get(i));
+            ContentType.contentTypes t = ContentType.getContentType(subredditPosts.getPosts().get(i));
 
             if (subredditPosts.getPosts().size() - 2 <= i && subredditPosts.hasMore()) {
                 subredditPosts.loadMore(Shadowbox.this.getApplicationContext(), Shadowbox.this, false);
             }
             switch (t) {
-
-                case NSFW_IMAGE:
-                case NSFW_GIF:
-                case NSFW_GFY:
-                case GFY:
                 case GIF:
                 case IMAGE:
-                case NONE_GFY:
-                case NONE_GIF:
                 case REDDIT:
                 case EMBEDDED:
                 case LINK:
-                case IMAGE_LINK:
-                case NSFW_LINK:
                 case VIDEO:
-                case NONE_URL:
-                case NONE_IMAGE:
                 {
                     f = new MediaFragment();
                     Bundle args = new Bundle();

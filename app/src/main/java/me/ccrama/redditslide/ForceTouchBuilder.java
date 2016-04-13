@@ -14,29 +14,17 @@ public class ForceTouchBuilder {
         this.c = c;
         popup = new Dialog(c);
 
-        ContentType.ImageType t = ContentType.getImageType(url);
+        ContentType.contentTypes t = ContentType.getContentType(url);
 
         switch(t){
 
-            case NSFW_IMAGE:
-                break;
-            case NSFW_GIF:
-                break;
-            case NSFW_GFY:
-                break;
             case REDDIT:
                 break;
             case EMBEDDED:
                 break;
             case LINK:
                 break;
-            case IMAGE_LINK:
-                break;
-            case NSFW_LINK:
-                break;
             case SELF:
-                break;
-            case GFY:
                 break;
             case ALBUM:
                 break;
@@ -46,17 +34,9 @@ public class ForceTouchBuilder {
                 break;
             case GIF:
                 break;
-            case NONE_GFY:
-                break;
-            case NONE_GIF:
-                break;
             case NONE:
                 break;
-            case NONE_IMAGE:
-                break;
             case VIDEO:
-                break;
-            case NONE_URL:
                 break;
             case SPOILER:
                 break;

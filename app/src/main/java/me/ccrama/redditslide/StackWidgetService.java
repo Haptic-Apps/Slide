@@ -59,8 +59,8 @@ class StackRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
             final Submission submission = submissions.get(position);
 
             String url = "";
-            ContentType.ImageType type = ContentType.getImageType(submission);
-            if (type == ContentType.ImageType.IMAGE) {
+            ContentType.contentTypes type = ContentType.getContentType(submission);
+            if (type == ContentType.contentTypes.IMAGE) {
                 url = submission.getUrl();
             } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height") && submission.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
 

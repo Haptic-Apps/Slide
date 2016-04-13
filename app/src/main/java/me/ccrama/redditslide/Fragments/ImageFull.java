@@ -53,19 +53,10 @@ public class ImageFull extends Fragment {
     private SubsamplingScaleImageView image;
 
 
-    private static void addClickFunctions(final View base, final View clickingArea, ContentType.ImageType type, final Activity contextActivity, final Submission submission) {
+    private static void addClickFunctions(final View base, final View clickingArea, ContentType.contentTypes type, final Activity contextActivity, final Submission submission) {
         if(!PostMatch.openExternal(submission.getUrl())) {
 
             switch (type) {
-                case NSFW_IMAGE:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openImage(contextActivity, submission);
-
-                        }
-                    });
-                    break;
                 case VID_ME:
                 case STREAMABLE:
                     base.setOnClickListener(new View.OnClickListener() {
@@ -102,27 +93,6 @@ public class ImageFull extends Fragment {
 
                     });
                     break;
-                case NSFW_GIF:
-
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-                case NSFW_GFY:
-
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                        }
-                    });
-                    break;
                 case REDDIT:
                     base.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -141,37 +111,8 @@ public class ImageFull extends Fragment {
                         }
                     });
                     break;
-                case IMAGE_LINK:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            CustomTabUtil.openUrl(
-                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        }
-                    });
-                    break;
-                case NSFW_LINK:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            CustomTabUtil.openUrl(
-                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        }
-                    });
-                    break;
                 case SELF:
 
-                    break;
-                case GFY:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                        }
-                    });
                     break;
                 case ALBUM:
                     base.setOnClickListener(new View.OnClickListener() {
@@ -213,51 +154,12 @@ public class ImageFull extends Fragment {
                     base.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
+                            PopulateSubmissionViewHolder.openGif(contextActivity, submission);
 
                         }
                     });
                     break;
-                case NONE_GFY:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(true, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-                case NONE_GIF:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openGif(false, contextActivity, submission);
-
-                        }
-                    });
-                    break;
-
                 case NONE:
-                    base.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            CustomTabUtil.openUrl(
-                                    submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
-                        }
-                    });
-                    break;
-                case NONE_IMAGE:
-                    base.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v2) {
-                            PopulateSubmissionViewHolder.openImage(contextActivity, submission);
-
-
-                        }
-                    });
-                    break;
-                case NONE_URL:
                     base.setOnClickListener(new View.OnClickListener() {
 
                         @Override
@@ -280,7 +182,7 @@ public class ImageFull extends Fragment {
         }
     }
 
-    ContentType.ImageType type;
+    ContentType.contentTypes type;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -294,9 +196,10 @@ public class ImageFull extends Fragment {
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
 
 
-        type = ContentType.getImageType(s);
+        type = ContentType.getContentType(s);
 
-        if (type.toString().toLowerCase().contains("image") && type != ContentType.ImageType.IMAGE_LINK) {
+        // TODO: Check old IMAGE_LINK affect on things
+        if (type.equals(ContentType.contentTypes.IMAGE)) {
             addClickFunctions(image, rootView, type, getActivity(), s);
             loadImage(s.getUrl());
         } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height") && s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() > 200) {
@@ -361,7 +264,7 @@ public class ImageFull extends Fragment {
                         image.setImage(ImageSource.bitmap(loadedImage));
                         (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
 
-                        if (type == ContentType.ImageType.IMAGE || type == ContentType.ImageType.IMGUR) {
+                        if (type == ContentType.contentTypes.IMAGE || type == ContentType.contentTypes.IMGUR) {
                             image.setMinimumDpi(30);
                             previous = image.scale;
                             final float base = image.scale;
