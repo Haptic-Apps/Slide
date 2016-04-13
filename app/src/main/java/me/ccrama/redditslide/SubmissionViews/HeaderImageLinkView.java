@@ -36,6 +36,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.TransparentTagTextView;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -318,7 +319,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 ((TransparentTagTextView) title).init(getContext());
             }
 
-            title.setText(ContentType.getContentDescription(submission));
+            title.setText(ContentType.getContentDescription(submission, getContext()));
 
             if (info != null)
                 info.setText(submission.getDomain());

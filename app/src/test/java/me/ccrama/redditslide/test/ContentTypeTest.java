@@ -1,24 +1,35 @@
 package me.ccrama.redditslide.test;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ContentType.Type;
+import me.ccrama.redditslide.SettingValues;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 
 public class ContentTypeTest {
+
+    @BeforeClass
+    public static void setUp() {
+        SettingValues.alwaysExternal = "twitter.com,github.com";
+    }
 
     @Test
     public void detectsAlbum() {
         assertThat(ContentType.getContentType("http://www.imgur.com/a/duARTe"), is(Type.ALBUM));
         assertThat(ContentType.getContentType("https://imgur.com/gallery/DmXJ4"), is(Type.ALBUM));
         assertThat(ContentType.getContentType("http://imgur.com/82UIrJk,dIjBFjv"), is(Type.ALBUM));
+    }
+
+    @Test
+    public void detectsExternal() {
+        assertThat(ContentType.getContentType("https://twitter.com/jaffathecake/status/718071903378735105?s=09"), is(Type.EXTERNAL));
+        assertThat(ContentType.getContentType("https://github.com/ccrama/Slide"), is(Type.EXTERNAL));
     }
 
     @Test

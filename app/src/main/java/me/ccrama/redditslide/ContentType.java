@@ -1,5 +1,12 @@
 package me.ccrama.redditslide;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
+import android.net.Uri;
+
 import net.dean.jraw.models.Submission;
 
 import java.net.URI;
@@ -113,6 +120,9 @@ public class ContentType {
             if (!scheme.equals("http") && !scheme.equals("https")) {
                 return Type.EXTERNAL;
             }
+            if (PostMatch.openExternal(url)) {
+                return Type.EXTERNAL;
+            }
             if (isGif(uri)) {
                 return Type.GIF;
             }
@@ -175,7 +185,7 @@ public class ContentType {
      * @param submission Submission to get the description for
      * @return the String identifier
      */
-    public static int getContentDescription(Submission submission) {
+    private static int getContentID(Submission submission) {
         final Type contentType = getContentType(submission);
 
         if (submission.isNsfw()) {
@@ -207,7 +217,7 @@ public class ContentType {
                 case EMBEDDED:
                     return R.string.type_emb;
                 case EXTERNAL:
-                    return R.string.type_link;
+                    return R.string.type_external;
                 case GIF:
                     return R.string.type_gif;
                 case IMAGE:
@@ -230,6 +240,28 @@ public class ContentType {
             }
         }
         return R.string.type_link;
+    }
+
+    public static String getContentDescription(Submission submission, Context context) {
+        final int generic = getContentID(submission);
+        final Resources res = context.getResources();
+
+        if (generic != R.string.type_external) {
+            return res.getString(generic);
+        }
+
+        try {
+            final PackageManager pm = context.getPackageManager();
+            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
+            final String packageName = pm.resolveActivity(intent, 0).activityInfo.packageName;
+            if (!packageName.equals("android")) {
+                return pm.getApplicationLabel(pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA)).toString();
+            } else {
+                return res.getString(generic);
+            }
+        } catch (PackageManager.NameNotFoundException|NullPointerException e) {
+            return res.getString(generic);
+        }
     }
 
     public enum Type {
