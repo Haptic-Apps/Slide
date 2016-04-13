@@ -1630,7 +1630,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             currentSelectedItem = n.getFullName();
 
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-            final View baseView = inflater.inflate(R.layout.comment_menu, holder.menuArea);
+            final View baseView = (SettingValues.rightHandedCommentMenu)
+                    ? inflater.inflate(R.layout.comment_menu_right_handed, holder.menuArea)
+                    : inflater.inflate(R.layout.comment_menu, holder.menuArea);
 
             if (!isReplying) {
                 baseView.setVisibility(View.GONE);

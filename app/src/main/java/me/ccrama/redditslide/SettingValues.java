@@ -42,6 +42,7 @@ public class SettingValues {
     public static final String PREF_COMMENT_PAGER = "commentPager";
     public static final String PREF_COLLAPSE_COMMENTS = "collapseCOmments";
     public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
+    public static final String PREF_RIGHT_HANDED_COMMENT_MENU = "rightHandedCommentMenu";
     public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
     public static final String PREF_CROP_IMAGE = "cropImage";
     public static final String PREF_COMMENT_FAB = "commentFab";
@@ -56,10 +57,8 @@ public class SettingValues {
     public static final String PREF_ZOOM_DEFAULT = "zoomDefault";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
-    public static final String PREF_SWIPE_ANYWHERE = "swipeAnywhere";
     public static final String PREF_ALBUM = "album";
     public static final String PREF_GIF = "gif";
-    public static final String PREF_VIDEO = "video";
     public static final String PREF_EXIT = "Exit";
     public static final String PREF_FASTSCROLL = "Fastscroll";
     public static final String PREF_FAB_CLEAR = "fabClear";
@@ -120,6 +119,7 @@ public class SettingValues {
     public static boolean smallTag;
     public static boolean collapseComments;
     public static boolean collapseCommentsDefault;
+    public static boolean rightHandedCommentMenu;
 
     public static String synccitName;
     public static String synccitAuth;
@@ -185,6 +185,7 @@ public class SettingValues {
         alwaysZoom = prefs.getBoolean(PREF_ZOOM_DEFAULT, true);
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
         collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
+        rightHandedCommentMenu = prefs.getBoolean(PREF_RIGHT_HANDED_COMMENT_MENU, false);
 
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);
