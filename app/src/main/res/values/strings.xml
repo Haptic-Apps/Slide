@@ -208,10 +208,14 @@
     <string name="type_gif">GIF</string>
     <string name="type_title_only">Title post</string>
     <string name="type_album">Album</string>
+    <string name="type_nsfw_album">NSFW album</string>
     <string name="type_img">Image</string>
     <string name="type_vid">Video</string>
+    <string name="type_nsfw_video">NSFW video</string>
     <string name="type_emb">Embedded</string>
+    <string name="type_nsfw_emb">NSFW embedded</string>
     <string name="type_imgur">Imgur content</string>
+    <string name="type_nsfw_imgur">NSFW Imgur content</string>
 
 
     <!-- Reply to message -->

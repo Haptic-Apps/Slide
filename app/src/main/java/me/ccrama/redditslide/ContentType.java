@@ -158,12 +158,23 @@ public class ContentType {
 
         if (submission.isNsfw()) {
             switch (contentType) {
+                case ALBUM:
+                    return R.string.type_nsfw_album;
+                case EMBEDDED:
+                    return R.string.type_nsfw_emb;
+                case EXTERNAL:
+                    return R.string.type_nsfw_link;
                 case GIF:
                     return R.string.type_nsfw_gif;
                 case IMAGE:
                     return R.string.type_nsfw_img;
+                case IMGUR:
+                    return R.string.type_nsfw_imgur;
                 case LINK:
                     return R.string.type_nsfw_link;
+                case VIDEO:
+                case VID_ME:
+                    return R.string.type_nsfw_video;
             }
         } else {
             switch (contentType) {
