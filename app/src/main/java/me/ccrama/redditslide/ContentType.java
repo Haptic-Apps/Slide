@@ -147,7 +147,6 @@ public class ContentType {
         return basicType;
     }
 
-
     /**
      * Returns a string identifier for a submission e.g. Link, GIF, NSFW Image
      *
