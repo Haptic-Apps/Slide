@@ -1224,9 +1224,8 @@ public class MainActivity extends BaseActivity {
                                                     if (!s.equalsIgnoreCase(accName)) {
                                                         d = true;
                                                         LogUtil.v("Switching to " + s);
-                                                        if (!accounts.get(s).isEmpty()) {
+                                                        if (accounts.containsKey(s) && !accounts.get(s).isEmpty()) {
                                                             Authentication.authentication.edit().putString("lasttoken", accounts.get(s)).remove("backedCreds").commit();
-
                                                         } else {
                                                             ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
                                                             Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(s))).remove("backedCreds").commit();

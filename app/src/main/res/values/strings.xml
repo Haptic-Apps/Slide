@@ -654,4 +654,5 @@
     <string name="content_removed">[removed]</string>
     <string name="profile_history">History</string>
     <string name="guest">Guest</string>
+    <string name="err_comment_post_nosave_message">\nPlease try again in a minute.</string>
 </resources>

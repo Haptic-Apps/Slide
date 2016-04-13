@@ -12,20 +12,20 @@ public class ContentType {
 
     public static boolean isGif(URI uri) {
         final String host = uri.getHost();
-        final String path = uri.getPath();
+        final String path = uri.getPath().toLowerCase();
 
         return path.endsWith(".gif")
                 || path.endsWith(".gifv")
                 || path.endsWith(".webm")
                 || path.endsWith(".mp4")
-                || host.endsWith("gfycat.com");
+                || (host != null && host.toLowerCase().endsWith("gfycat.com"));
     }
 
     public static boolean isImage(URI uri) {
         final String host = uri.getHost();
-        final String path = uri.getPath();
+        final String path = uri.getPath().toLowerCase();
 
-        return host.equals("i.reddituploads.com")
+        return (host != null && host.toLowerCase().equals("i.reddituploads.com"))
                 || path.endsWith(".png")
                 || path.endsWith(".jpg")
                 || path.endsWith(".jpeg");
@@ -33,9 +33,9 @@ public class ContentType {
 
     private static boolean isAlbum(URI uri) {
         final String host = uri.getHost();
-        final String path = uri.getPath();
+        final String path = uri.getPath().toLowerCase();
 
-        return host.endsWith("imgur.com")
+        return (host != null && host.toLowerCase().endsWith("imgur.com"))
                 && (path.startsWith("/a/")
                 || path.startsWith("/gallery/")
                 || path.startsWith("/g/")
@@ -44,8 +44,9 @@ public class ContentType {
 
     private static boolean isRedditLink(URI uri) {
         final String host = uri.getHost();
+        final String path = uri.getPath().toLowerCase();
 
-        return (host.endsWith("reddit.com") || host.endsWith("redd.it"));
+        return (host != null && (host.toLowerCase().endsWith("reddit.com") || host.toLowerCase().endsWith("redd.it")) && !path.startsWith("/live"));
     }
 
     public static boolean isImgurLink(String url) {
@@ -53,7 +54,7 @@ public class ContentType {
             final URI uri = new URI(url);
             final String host = uri.getHost();
 
-            return host.endsWith("imgur.com")
+            return (host != null && host.toLowerCase().endsWith("imgur.com"))
                     && !isAlbum(uri)
                     && !isGif(uri)
                     && !isImage(uri);
@@ -69,6 +70,7 @@ public class ContentType {
      * @return ContentType of the URL
      */
     public static Type getContentType(String url) {
+        url = url.toLowerCase();
         if (!url.startsWith("//") && ((url.startsWith("/") && url.length() < 4)
                 || url.startsWith("#spoil")
                 || url.startsWith("/spoil")
@@ -88,7 +90,7 @@ public class ContentType {
             final String host = uri.getHost();
             final String scheme = uri.getScheme().toLowerCase();
 
-            if (!scheme.equals("http") && !scheme.equals("https")) {
+            if (scheme != null && !scheme.equalsIgnoreCase("http") && !scheme.equalsIgnoreCase("https")) {
                 return Type.EXTERNAL;
             }
             if (isGif(uri)) {
@@ -100,19 +102,19 @@ public class ContentType {
             if (isAlbum(uri)) {
                 return Type.ALBUM;
             }
-            if (host.endsWith("imgur.com")) {
+            if (host != null && host.endsWith("imgur.com")) {
                 return Type.IMGUR;
             }
             if (isRedditLink(uri)) {
                 return Type.REDDIT;
             }
-            if (host.endsWith("vid.me")) {
+            if (host != null &&host.endsWith("vid.me")) {
                 return Type.VID_ME;
             }
-            if (host.endsWith("deviantart.com")) {
+            if (host != null &&host.endsWith("deviantart.com")) {
                 return Type.DEVIANTART;
             }
-            if (host.endsWith("streamable.com")) {
+            if (host != null &&host.endsWith("streamable.com")) {
                 return Type.STREAMABLE;
             }
 

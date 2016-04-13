@@ -49,8 +49,6 @@ public class FullscreenVideo extends FullScreenActivity {
         }
 
         String dat = data;
-
-        LogUtil.v(dat);
         final WebSettings settings = v.getSettings();
 
         settings.setJavaScriptEnabled(true);
@@ -59,6 +57,13 @@ public class FullscreenVideo extends FullScreenActivity {
 
         v.setWebChromeClient(new WebChromeClient());
 
-        v.loadDataWithBaseURL("", dat, "text/html", "utf-8", "");
+        if(dat.contains("src=")){
+            dat = dat.substring(dat.indexOf("src=") + 4, dat.indexOf("\"", dat.indexOf("src=")));
+            LogUtil.v(dat);
+            v.loadUrl("https:" + dat);
+        } else {
+            LogUtil.v(dat);
+            v.loadDataWithBaseURL("", dat, "text/html", "utf-8", "");
+        }
     }
 }

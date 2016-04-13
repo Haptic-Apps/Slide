@@ -2729,13 +2729,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void onPostExecute(final String s) {
             if (s == null || s.isEmpty()) {
 
-                if (commentBack != null && !commentBack.isEmpty())
+                if (commentBack != null && !commentBack.isEmpty()) {
                     Drafts.addDraft(commentBack);
-                new AlertDialogWrapper.Builder(mContext)
-                        .setTitle(R.string.err_comment_post)
-                        .setMessage(((why == null) ? "" : mContext.getString(R.string.err_comment_post_reason) + why) + mContext.getString(R.string.err_comment_post_message))
-                        .setPositiveButton(R.string.btn_ok, null)
-                        .show();
+                    new AlertDialogWrapper.Builder(mContext)
+                            .setTitle(R.string.err_comment_post)
+                            .setMessage(((why == null) ? "" : mContext.getString(R.string.err_comment_post_reason) + why) + mContext.getString(R.string.err_comment_post_message))
+                            .setPositiveButton(R.string.btn_ok, null)
+                            .show();
+                } else {
+                    new AlertDialogWrapper.Builder(mContext)
+                            .setTitle(R.string.err_comment_post)
+                            .setMessage(((why == null) ? "" : mContext.getString(R.string.err_comment_post_reason) + why) + mContext.getString(R.string.err_comment_post_nosave_message))
+                            .setPositiveButton(R.string.btn_ok, null)
+                            .show();
+                }
             } else {
                 if (isSubmission) {
                     Handler handler2 = new Handler();
@@ -2763,9 +2770,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         protected String doInBackground(String... comment) {
             if (Authentication.me != null) {
                 try {
+                    commentBack = comment[0];
                     return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
                 } catch (Exception e) {
-                    commentBack = comment[0];
                     if (e instanceof ApiException) {
                         why = ((ApiException) e).getExplanation();
                     }

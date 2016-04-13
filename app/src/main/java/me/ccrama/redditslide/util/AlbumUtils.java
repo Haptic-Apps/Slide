@@ -179,7 +179,7 @@ public class AlbumUtils {
             }
             if (hash.contains(",")) {
                 final ArrayList<JsonElement> jsons = new ArrayList<>();
-                target = hash.split("/").length;
+                target = hash.split(",").length;
                 count = 0;
                 for (String s : hash.split(",")) {
                     Ion.with(baseActivity).load("https://imgur-apiv3.p.mashape.com/3/image/" + s + ".json")
@@ -191,7 +191,7 @@ public class AlbumUtils {
                                 jsons.add(obj.get("data"));
                             }
                             count++;
-                            if (count == target + 1) {
+                            if (count == target - 1) {
                                 if (jsons.isEmpty()) {
                                     Intent i = new Intent(baseActivity, Website.class);
                                     i.putExtra(Website.EXTRA_URL, "https://imgur.com/" + hash);

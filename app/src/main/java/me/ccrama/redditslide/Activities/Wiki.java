@@ -51,6 +51,8 @@ public class Wiki extends BaseActivityAnim {
         if(getIntent().hasExtra(EXTRA_PAGE)) {
             page = getIntent().getExtras().getString(EXTRA_PAGE);
             LogUtil.v("Page is " + page);
+        } else {
+            page = "index";
         }
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);

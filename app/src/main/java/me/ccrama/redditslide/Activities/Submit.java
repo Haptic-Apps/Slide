@@ -51,6 +51,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.DoEditorActions;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.TitleExtractor;
 
 
@@ -155,7 +156,7 @@ public class Submit extends BaseActivity {
 
                     @Override
                     protected void onPostExecute(String s) {
-                        if(s != null){
+                        if (s != null) {
                             ((EditText) findViewById(R.id.titletext)).setText(s);
                             d.dismiss();
                         } else {
@@ -182,9 +183,9 @@ public class Submit extends BaseActivity {
         DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)), findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this);
         if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras().getString(Intent.EXTRA_TEXT, "").isEmpty()) {
             String data = intent.getStringExtra(Intent.EXTRA_TEXT);
-            if(data.contains("\n")){
+            if (data.contains("\n")) {
                 ((EditText) findViewById(R.id.titletext)).setText(data.substring(0, data.indexOf("\n")));
-                ((EditText) findViewById(R.id.urltext)).setText(data.substring(data.indexOf("\n") , data.length()));
+                ((EditText) findViewById(R.id.urltext)).setText(data.substring(data.indexOf("\n"), data.length()));
             } else {
                 ((EditText) findViewById(R.id.urltext)).setText(data);
             }
@@ -242,17 +243,20 @@ public class Submit extends BaseActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
 
-            if (requestCode == 1) {
-                Uri selectedImageUri = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                    new UploadImgur().execute(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        LogUtil.v("Got result");
+        if (resultCode == RESULT_OK && requestCode == 1) {
+
+            Uri selectedImageUri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                new UploadImgur().execute(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+
             }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -509,7 +513,7 @@ public class Submit extends BaseActivity {
         protected void onPostExecute(final JSONObject result) {
             dialog.dismiss();
             try {
-                if(result != null && result.has("data")) {
+                if (result != null && result.has("data")) {
                     String url = result.getJSONObject("data").getString("link");
                     setImage(url);
                 } else {
