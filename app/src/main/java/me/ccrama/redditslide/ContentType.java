@@ -44,9 +44,8 @@ public class ContentType {
 
     private static boolean isRedditLink(URI uri) {
         final String host = uri.getHost();
-        final String path = uri.getPath();
 
-        return (host.endsWith("reddit.com") || host.endsWith("redd.it")) && !path.startsWith("/live");
+        return (host.endsWith("reddit.com") || host.endsWith("redd.it"));
     }
 
     public static boolean isImgurLink(String url) {
@@ -87,7 +86,7 @@ public class ContentType {
         try {
             final URI uri = new URI(url);
             final String host = uri.getHost();
-            final String scheme = uri.getScheme();
+            final String scheme = uri.getScheme().toLowerCase();
 
             if (!scheme.equals("http") && !scheme.equals("https")) {
                 return Type.EXTERNAL;

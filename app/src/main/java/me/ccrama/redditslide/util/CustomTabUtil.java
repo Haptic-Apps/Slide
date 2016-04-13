@@ -57,7 +57,7 @@ public class CustomTabUtil {
                 CustomTabsIntent customTabsIntent = builder.build();
 
                 customTabsIntent.intent.setPackage(packageName);
-                customTabsIntent.launchUrl(contextActivity, Uri.parse(url));
+                customTabsIntent.launchUrl(contextActivity, formatURL(url));
             } catch (ActivityNotFoundException anfe) {
                 Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
                 Reddit.defaultShare(url, contextActivity);
@@ -71,6 +71,24 @@ public class CustomTabUtil {
             Reddit.defaultShare(url, contextActivity);
         }
     }
+
+    /**
+     * Corrects mistakes users might make when typing URLs, e.g. case sensitivity in the scheme
+     * and converts to Uri
+     * @param url URL to correct
+     * @return corrected as a Uri
+     */
+    public static Uri formatURL(String url) {
+        if (url.startsWith("//")) {
+            url = url + "https:";
+        }
+
+        Uri uri = Uri.parse(url);
+        return uri.buildUpon()
+                .scheme(uri.getScheme().toLowerCase())
+                .build();
+    }
+
 
     public static CustomTabsSession getSession() {
         if (mClient == null) {

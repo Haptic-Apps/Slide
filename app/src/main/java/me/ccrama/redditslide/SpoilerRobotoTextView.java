@@ -280,7 +280,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     new OpenRedditLink(activity, url);
                     break;
                 case LINK:
-                    CustomTabUtil.openUrl(url.startsWith("//") ? url.replace("//", "https://") : url, Palette.getColor(subreddit), activity);
+                    CustomTabUtil.openUrl(url, Palette.getColor(subreddit), activity);
                     break;
                 case SELF:
                     break;

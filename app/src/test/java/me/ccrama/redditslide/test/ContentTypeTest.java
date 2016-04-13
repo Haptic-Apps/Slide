@@ -64,9 +64,7 @@ public class ContentTypeTest {
         assertThat(ContentType.getContentType("/r/Android"), is(Type.REDDIT));
         assertThat(ContentType.getContentType("https://www.reddit.com/r/Android/wiki/index"), is(Type.REDDIT));
         assertThat(ContentType.getContentType("https://www.reddit.com/r/Android/help"), is(Type.REDDIT));
-
-
-        assertThat(ContentType.getContentType("https://www.reddit.com/live/wbjbjba8zrl6"), is(not(Type.REDDIT)));
+        assertThat(ContentType.getContentType("https://www.reddit.com/live/wbjbjba8zrl6"), is(Type.REDDIT));
     }
 
     @Test
