@@ -86,7 +86,7 @@ public class ContentType {
                     && !isGif(uri)
                     && !isImage(uri);
 
-        } catch (URISyntaxException|NullPointerException e) {
+        } catch (URISyntaxException | NullPointerException e) {
             return false;
         }
     }
@@ -141,7 +141,7 @@ public class ContentType {
             if (host.endsWith("vid.me")) {
                 return Type.VID_ME;
             }
-            if (Reddit.videoPlugin && ( host.endsWith("youtu.be") || host.endsWith("youtube.co"))) {
+            if (Reddit.videoPlugin && (host.endsWith("youtu.be") || host.endsWith("youtube.co"))) {
                 return Type.VIDEO;
             }
             if (host.endsWith("deviantart.com")) {
@@ -153,7 +153,7 @@ public class ContentType {
 
             return Type.LINK;
 
-        } catch (URISyntaxException|NullPointerException e) {
+        } catch (URISyntaxException | NullPointerException e) {
             return Type.NONE;
         }
     }
@@ -180,6 +180,32 @@ public class ContentType {
         }
 
         return basicType;
+    }
+
+    public static boolean fullImage(Type t) {
+        switch (t) {
+
+            case ALBUM:
+            case DEVIANTART:
+            case GIF:
+            case IMAGE:
+            case IMGUR:
+            case STREAMABLE:
+            case VIDEO:
+            case VID_ME:
+                return true;
+
+            case SELF:
+            case EMBEDDED:
+            case EXTERNAL:
+            case LINK:
+            case NONE:
+            case REDDIT:
+            case SPOILER:
+            default:
+                return false;
+
+        }
     }
 
     /**
@@ -252,7 +278,7 @@ public class ContentType {
      * to open externally it returns the package name of the app that opens it, or "External"
      *
      * @param submission The submission to describe
-     * @param context Current context
+     * @param context    Current context
      * @return The content description
      */
     public static String getContentDescription(Submission submission, Context context) {
@@ -283,7 +309,7 @@ public class ContentType {
             // Looking up a package name takes a long time (3~10ms), memoize it
             contentDescriptions.put(domain, description);
             return description;
-        } catch (PackageManager.NameNotFoundException|NullPointerException e) {
+        } catch (PackageManager.NameNotFoundException | NullPointerException e) {
             contentDescriptions.put(domain, res.getString(generic));
             return res.getString(generic);
         }

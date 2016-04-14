@@ -36,7 +36,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.TransparentTagTextView;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -94,6 +93,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     public void doImageAndText(Submission submission, boolean full, String baseSub) {
 
         final ContentType.Type type = ContentType.getContentType(submission);
+        boolean fullImage = ContentType.fullImage(type);
 
         setVisibility(View.VISIBLE);
         String url = "";
@@ -109,7 +109,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 int width = submission.getThumbnails().getSource().getWidth();
 
                 if (full) {
-                    if (height < dpToPx(50) && type != ContentType.Type.SELF) {
+                    if (!fullImage && height < dpToPx(50) && type != ContentType.Type.SELF) {
                         forceThumb = true;
                     } else if (SettingValues.cropImage) {
                         backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
@@ -131,12 +131,12 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                     }
                 } else if (SettingValues.bigPicCropped) {
-                    if (height < dpToPx(50)) {
+                    if (!fullImage && height < dpToPx(50)) {
                         forceThumb = true;
                     } else {
                         backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                     }
-                } else if (height >= dpToPx(50)) {
+                } else if (fullImage && height >= dpToPx(50)) {
                     double h = getHeightFromAspectRatio(height, width);
                     if (h != 0) {
                         if (h > 3500) {

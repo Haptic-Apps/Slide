@@ -30,9 +30,9 @@
             android:layout_toRightOf="@+id/welcome"
             android:padding="16dp"
             android:text="@string/guest"
+            android:textStyle="bold|italic"
             android:textColor="#fff"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
 
         <ImageView
             android:id="@+id/headerflip"
