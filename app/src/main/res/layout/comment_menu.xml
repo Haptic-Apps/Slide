@@ -87,11 +87,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/btn_reply"
-            android:textColor="#fff"
-            android:textColorHint="#fff"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:imeOptions="actionDone|flagNoEnterAction"
             android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
-            android:minHeight="30dp" />
+            android:minHeight="30dp"
+            android:theme="@style/ReplyEditTextTheme"/>
 
         <include
             layout="@layout/editor_items"/>
