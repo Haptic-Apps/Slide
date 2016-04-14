@@ -44,7 +44,6 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
         final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
         final CheckBox checkBox = (CheckBox) dialoglayout.findViewById(R.id.load);
 
-
         if (Reddit.notificationTime == -1) {
             checkBox.setChecked(false);
             checkBox.setText(context.getString(R.string.settings_mail_check));
@@ -53,7 +52,6 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             landscape.setValue(Reddit.notificationTime / 15, false);
             checkBox.setText(context.getString(R.string.settings_notification,
                     TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, context.getBaseContext())));
-
         }
         landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
             @Override
@@ -63,7 +61,6 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                             TimeUtils.getTimeInHoursAndMins(i1 * 15, context.getBaseContext())));
             }
         });
-
 
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -371,13 +368,13 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
         {
             final int i2 = SettingValues.defaultCommentSorting == CommentSort.CONFIDENCE ? 0
                     : SettingValues.defaultCommentSorting == CommentSort.TOP ? 1
-                    : SettingValues.defaultCommentSorting == CommentSort.QA ? 2
-                    : SettingValues.defaultCommentSorting == CommentSort.NEW ? 3
-                    : SettingValues.defaultCommentSorting == CommentSort.CONTROVERSIAL ? 4
-                    : SettingValues.defaultCommentSorting == CommentSort.OLD ? 5
+                    : SettingValues.defaultCommentSorting == CommentSort.NEW ? 2
+                    : SettingValues.defaultCommentSorting == CommentSort.CONTROVERSIAL ? 3
+                    : SettingValues.defaultCommentSorting == CommentSort.OLD ? 4
+                    : SettingValues.defaultCommentSorting == CommentSort.QA ? 5
                     : 0;
-            ((TextView) findViewById(R.id.sorting_current_comment)).setText(
-                    Reddit.getSortingStringsComments(getBaseContext())[i2]);
+            ((TextView) findViewById(R.id.sorting_current_comment))
+                    .setText(Reddit.getSortingStringsComments(getBaseContext())[i2]);
 
             findViewById(R.id.sorting_comment).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -387,6 +384,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             CommentSort commentSorting = SettingValues.defaultCommentSorting;
+
                             switch (i) {
                                 case 0:
                                     commentSorting = CommentSort.CONFIDENCE;
@@ -395,22 +393,22 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                                     commentSorting = CommentSort.TOP;
                                     break;
                                 case 2:
-                                    commentSorting = CommentSort.QA;
-                                    break;
-                                case 3:
                                     commentSorting = CommentSort.NEW;
                                     break;
-                                case 4:
+                                case 3:
                                     commentSorting = CommentSort.CONTROVERSIAL;
                                     break;
-                                case 5:
+                                case 4:
                                     commentSorting = CommentSort.OLD;
+                                    break;
+                                case 5:
+                                    commentSorting = CommentSort.QA;
                                     break;
                             }
                             SettingValues.prefs.edit().putString("defaultCommentSortingNew", commentSorting.name()).apply();
                             SettingValues.defaultCommentSorting = commentSorting;
-                            ((TextView) findViewById(R.id.sorting_current_comment)).setText(
-                                    Reddit.getSortingStringsComments(getBaseContext())[i]);
+                            ((TextView) findViewById(R.id.sorting_current_comment))
+                                    .setText(Reddit.getSortingStringsComments(getBaseContext())[i]);
                         }
                     };
 
@@ -418,7 +416,8 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                     builder.setTitle(R.string.sorting_choose);
                     Resources res = getBaseContext().getResources();
                     builder.setSingleChoiceItems(
-                            new String[]{res.getString(R.string.sorting_best),
+                            new String[] {
+                                    res.getString(R.string.sorting_best),
                                     res.getString(R.string.sorting_top),
                                     res.getString(R.string.sorting_new),
                                     res.getString(R.string.sorting_controversial),
@@ -426,8 +425,6 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                                     res.getString(R.string.sorting_ama)},
                             i2, l2);
                     builder.show();
-
-
                 }
             });
         }
