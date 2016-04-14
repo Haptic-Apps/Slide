@@ -99,6 +99,8 @@ public class Profile extends BaseActivityAnim {
 
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabs.setSelectedTabIndicatorColor(new ColorPreferences(Profile.this).getColor("no sub"));
+
 
         pager = (ViewPager) findViewById(R.id.content_view);
         if (name.equals(Authentication.name))

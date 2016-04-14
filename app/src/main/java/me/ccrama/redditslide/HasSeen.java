@@ -27,10 +27,11 @@ public class HasSeen {
         }
         Reddit.seen.edit().putLong(fullname, System.currentTimeMillis()).apply();
 
-        SynccitRead.newVisited.add(fullname);
-        SynccitRead.visitedIds.add(fullname);
+        if(!fullname.contains("t1_")) {
+            SynccitRead.newVisited.add(fullname);
+            SynccitRead.visitedIds.add(fullname);
+        }
     }
-
 
     public static boolean getHidden(String fullname) {
         return Reddit.hidden.contains(fullname);

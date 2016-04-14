@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.WikiPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -56,6 +57,8 @@ public class Wiki extends BaseActivityAnim {
         }
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabs.setSelectedTabIndicatorColor(new ColorPreferences(Wiki.this).getColor("no sub"));
+
         pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Palette.getColor(subreddit));
 

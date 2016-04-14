@@ -17,6 +17,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -1045,6 +1046,13 @@ public class PopulateSubmissionViewHolder {
                                             }
                                         })
                                         .inputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
+                                        .neutralText("Insert draft")
+                                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                                            }
+                                        })
                                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                                             @Override
                                             public void onClick(final MaterialDialog dialog, DialogAction which) {
@@ -1085,6 +1093,7 @@ public class PopulateSubmissionViewHolder {
                                                         try {
                                                             new ModerationManager(Authentication.reddit).remove(submission, false);
                                                             new AccountManager(Authentication.reddit).reply(submission, reason);
+                                                            new ModerationManager(Authentication.reddit).setDistinguishedStatus(submission, DistinguishedStatus.MODERATOR);
                                                         } catch (ApiException e) {
                                                             e.printStackTrace();
                                                             return false;

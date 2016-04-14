@@ -160,6 +160,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         nsfw.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         distinguish.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
                 .title(Html.fromHtml(comment.getBody()));
@@ -987,18 +988,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     @Override
                                     public void onClick(View v) {
                                         dataSet.refreshLayout.setRefreshing(true);
-                                        currentlyEditing = null;
-                                        editingPosition = -1;
+
                                         if (SettingValues.fastscroll) {
                                             mPage.fastScroll.setVisibility(View.VISIBLE);
                                         }
                                         if (mPage.fab != null)
                                             mPage.fab.setVisibility(View.VISIBLE);
                                         mPage.overrideFab = false;
-
-                                        new ReplyTaskComment(submission).execute(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)).getText().toString());
+                                        String text = currentlyEditing.getText().toString();
+                                        new ReplyTaskComment(submission).execute(text);
                                         replyArea.setVisibility(View.GONE);
-
+                                        currentlyEditing = null;
+                                        editingPosition = -1;
                                         //Hide soft keyboard
                                         View view = ((Activity) mContext).getCurrentFocus();
                                         if (view != null) {
@@ -1969,8 +1970,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 send.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        currentlyEditing = null;
-                        editingPosition = -1;
                         currentlyEditingId = "";
                         backedText = "";
 
@@ -1982,7 +1981,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             mPage.overrideFab = false;
                         }
                         dataSet.refreshLayout.setRefreshing(true);
-                        new ReplyTaskComment(n, finalPos, finalPos1, baseNode, holder).execute(replyLine.getText().toString());
+                        String text = currentlyEditing.getText().toString();
+                        new ReplyTaskComment(n, finalPos, finalPos1, baseNode, holder).execute(text);
+                        currentlyEditing = null;
+                        editingPosition = -1;
 
                         //Hide soft keyboard
                         View view = ((Activity) mContext).getCurrentFocus();

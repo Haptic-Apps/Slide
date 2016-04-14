@@ -362,6 +362,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         if (NetworkUtil.isConnected(this)) {
 
+            if(hash.startsWith("/"))
+                hash = hash.substring(1, hash.length());
             LogUtil.v("Loading" + "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json");
             Ion.with(this).load("https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json")
                     .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(MediaView.this)).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
