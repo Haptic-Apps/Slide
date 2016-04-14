@@ -358,7 +358,12 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             } else if (holder.gild.getVisibility() == View.VISIBLE)
                 holder.gild.setVisibility(View.GONE);
 
+            if(comment.getSubmissionTitle() != null)
             holder.title.setText(Html.fromHtml(comment.getSubmissionTitle()));
+            else
+                holder.title.setText(Html.fromHtml(comment.getAuthor()));
+
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
