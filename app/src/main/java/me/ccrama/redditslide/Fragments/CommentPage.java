@@ -255,7 +255,7 @@ public class CommentPage extends Fragment {
                 fabs.setMargins(fabs.leftMargin, fabs.topMargin, fabs.rightMargin, fabs.bottomMargin * 3);
                 fab.setLayoutParams(fabs);
             }
-            v.findViewById(R.id.comment_floating_action_button).setOnClickListener(new View.OnClickListener() {
+            fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LayoutInflater inflater = (getActivity()).getLayoutInflater();
@@ -264,7 +264,6 @@ public class CommentPage extends Fragment {
                     final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
 
                     final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
-
                     DoEditorActions.doActions(e, dialoglayout, getActivity().getSupportFragmentManager(), getActivity());
 
                     builder.setView(dialoglayout);
