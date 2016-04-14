@@ -420,10 +420,10 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                     builder.setSingleChoiceItems(
                             new String[]{res.getString(R.string.sorting_best),
                                     res.getString(R.string.sorting_top),
-                                    res.getString(R.string.sorting_ama),
                                     res.getString(R.string.sorting_new),
                                     res.getString(R.string.sorting_controversial),
-                                    res.getString(R.string.sorting_old)},
+                                    res.getString(R.string.sorting_old),
+                                    res.getString(R.string.sorting_ama)},
                             i2, l2);
                     builder.show();
 
