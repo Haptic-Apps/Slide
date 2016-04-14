@@ -14,6 +14,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,8 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +39,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.google.gson.JsonElement;
@@ -87,9 +91,65 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         if (id == android.R.id.home) {
             onBackPressed();
         }
+        if(id == R.id.vertical){
+            SettingValues.albumSwipe = false;
+            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, false).apply();
+            Intent i = new Intent(AlbumPager.this, Album.class);
+            i.putExtra("url", getIntent().getExtras().getString("url", ""));
+            startActivity(i);
+            finish();
+        }
+        if(id == R.id.grid){
+            mToolbar.findViewById(R.id.grid).callOnClick();
+        }
+        if(id == R.id.external){
+            Reddit.defaultShare(getIntent().getExtras().getString("url", ""), this);
+        }
+        if (id == R.id.download) {
+            final MaterialDialog d = new MaterialDialog.Builder(AlbumPager.this)
+                    .title("Saving album")
+                    .progress(false, images.size())
+                    .show();
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    if (images != null && !images.isEmpty()) {
+                        if (gallery) {
+                            for (final JsonElement elem : images) {
+                                final String url = "https://imgur.com/" + elem.getAsJsonObject().get("hash").getAsString() + ".png";
+                                saveImageGallery(((Reddit) getApplicationContext()).getImageLoader().loadImageSync(url), url);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        d.setProgress(d.getCurrentProgress() + 1);
+
+                                    }
+                                });
+                            }
+                        } else {
+                            for (final JsonElement elem : images) {
+                                final String url = elem.getAsJsonObject().get("link").getAsString();
+                                saveImageGallery(((Reddit) getApplicationContext()).getImageLoader().loadImageSync(url), url);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        d.setProgress(d.getCurrentProgress() + 1);
+
+                                    }
+                                });
+                            }
+                        }
+                        d.dismiss();
+                    }
+                    return null;
+                }
+            }.execute();
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -106,29 +166,19 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         applyColorTheme();
         setContentView(R.layout.album_pager);
 
-        final Toolbar b = (Toolbar) findViewById(R.id.toolbar);
-        b.setTitle(R.string.type_album);
-        ToolbarColorizeHelper.colorizeToolbar(b, Color.WHITE, this);
-        setSupportActionBar(b);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(R.string.type_album);
+        ToolbarColorizeHelper.colorizeToolbar(mToolbar, Color.WHITE, this);
+        setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
         if (!Reddit.appRestart.contains("tutorialSwipe")) {
             startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
         }
 
-        findViewById(R.id.slider).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SettingValues.albumSwipe = false;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, false).apply();
-                Intent i = new Intent(AlbumPager.this, Album.class);
-                i.putExtra("url", getIntent().getExtras().getString("url", ""));
-                startActivity(i);
-                finish();
-            }
-        });
     }
 
 
@@ -352,6 +402,16 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
     }
 
     public ArrayList<JsonElement> images;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.album_pager, menu);
+
+        //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
+        //   else menu.findItem(R.id.action_info).setVisible(false);
+
+        return true;
+    }
 
     public class AlbumViewPager extends FragmentStatePagerAdapter {
 

@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SubredditOverview">
+
+    <item
+        android:id="@+id/slider"
+        android:icon="@drawable/album_pager"
+        android:title="@string/album_slide_view"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/grid"
+        android:icon="@drawable/album_grid"
+        android:title="@string/album_grid"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/download"
+        android:title="@string/download_album"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/external"
+        android:title="@string/open_externally"
+        app:showAsAction="never" />
+
+</menu>
