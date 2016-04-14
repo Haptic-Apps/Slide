@@ -1,6 +1,8 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
@@ -50,6 +52,19 @@ public class SettingsHandling extends BaseActivityAnim implements
         gif.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
 
+        if (Reddit.videoPlugin)
+            findViewById(R.id.video).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=ccrama.me.slideyoutubeplugin")));
+                    } catch (android.content.ActivityNotFoundException anfe) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=ccrama.me.slideyoutubeplugin")));
+                    }
+                }
+            });
+        else
+            findViewById(R.id.video).setVisibility(View.GONE);
         ((TextView) findViewById(R.id.browser)).setText(SettingValues.web ? (SettingValues.customtabs ? getString(R.string.settings_link_chrome) : getString(R.string.handling_internal_browser)) : getString(R.string.handling_external_browser));
 
         findViewById(R.id.select_browser).setOnClickListener(new View.OnClickListener() {

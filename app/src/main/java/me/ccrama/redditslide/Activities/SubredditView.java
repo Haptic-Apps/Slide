@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
@@ -65,7 +67,9 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CommentOverflow;
+import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -285,7 +289,7 @@ public class SubredditView extends BaseActivityAnim {
                     List<Submission> posts = ((SubmissionsView) ((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         Intent i2 = new Intent(this, Shadowbox.class);
-                        i2.putExtra(Shadowbox.EXTRA_PAGE, 0);
+                        i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
                         i2.putExtra(Shadowbox.EXTRA_SUBREDDIT, subreddit);
                         startActivity(i2);
                     }
@@ -313,6 +317,22 @@ public class SubredditView extends BaseActivityAnim {
         }
     }
 
+    public int getCurrentPage() {
+        int position = 0;
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            position = ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition() - 1;
+        } else if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
+            int[] firstVisibleItems = null;
+            firstVisibleItems = ((CatchStaggeredGridLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPositions(firstVisibleItems);
+            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                position = firstVisibleItems[0] - 1;
+            }
+        } else {
+            position = ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition() - 1;
+        }
+        return position;
+    }
 
     public String term;
 

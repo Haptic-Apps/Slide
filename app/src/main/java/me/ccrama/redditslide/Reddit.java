@@ -76,6 +76,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static int dpWidth;
     public static int notificationTime;
+    public static boolean videoPlugin;
     public static NotificationJobScheduler notifications;
     public static SharedPreferences seen;
     public static SharedPreferences hidden;
@@ -158,6 +159,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return false;
     }
 
+    private static boolean isVideoPluginInstalled(final Context ctx) {
+        try {
+            final PackageManager pm = ctx.getPackageManager();
+            final PackageInfo pi = pm.getPackageInfo("ccrama.me.slideyoutubeplugin", 0);
+            if (pi != null && pi.applicationInfo.enabled)
+                return true;
+        } catch (final Throwable ignored) {
+        }
+        return false;
+    }
 
     public static String arrayToString(ArrayList<String> array) {
         if (array != null) {
@@ -571,6 +582,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         int defaultDPWidth = fina / 300;
 
         SettingValues.tabletUI = isPackageInstalled(this);
+        videoPlugin = isVideoPluginInstalled(this);
+
     }
 
     public static void setSorting(String s, Sorting sort) {

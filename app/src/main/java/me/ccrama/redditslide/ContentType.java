@@ -141,6 +141,9 @@ public class ContentType {
             if (host.endsWith("vid.me")) {
                 return Type.VID_ME;
             }
+            if (Reddit.videoPlugin && ( host.endsWith("youtu.be") || host.endsWith("youtube.co"))) {
+                return Type.VIDEO;
+            }
             if (host.endsWith("deviantart.com")) {
                 return Type.DEVIANTART;
             }
