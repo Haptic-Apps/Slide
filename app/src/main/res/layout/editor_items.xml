@@ -18,6 +18,7 @@
             android:cropToPadding="false"
             android:padding="8dp"
             android:scaleType="fitCenter"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/savecontent" />
 
         <ImageView
@@ -28,6 +29,7 @@
             android:cropToPadding="false"
             android:padding="8dp"
             android:scaleType="fitCenter"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/restorefile" />
 
         <ImageView
@@ -38,6 +40,7 @@
             android:cropToPadding="false"
             android:padding="8dp"
             android:scaleType="fitCenter"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/image" />
 
 
@@ -49,6 +52,7 @@
             android:cropToPadding="false"
             android:padding="8dp"
             android:scaleType="fitCenter"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/link" />
 
         <ImageView
@@ -59,6 +63,7 @@
             android:cropToPadding="false"
             android:padding="8dp"
             android:scaleType="fitCenter"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/ic_format_bold_white_48dp" />
 
         <ImageView
@@ -69,6 +74,7 @@
             android:cropToPadding="false"
             android:padding="8dp"
             android:scaleType="fitCenter"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/ic_format_italic_white_48dp" />
 
         <ImageView
@@ -79,6 +85,7 @@
             android:cropToPadding="false"
             android:padding="8dp"
             android:scaleType="fitCenter"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/ic_format_list_bulleted_white_48dp" />
 
         <ImageView
@@ -89,6 +96,7 @@
             android:cropToPadding="false"
             android:padding="8dp"
             android:scaleType="fitCenter"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/ic_format_list_numbered_white_48dp" />
 
         <ImageView
@@ -99,6 +107,7 @@
             android:cropToPadding="false"
             android:padding="8dp"
             android:scaleType="fitCenter"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/ic_format_quote_white_48dp" />
 
         <ImageView
@@ -109,6 +118,7 @@
             android:cropToPadding="false"
             android:padding="8dp"
             android:scaleType="fitCenter"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/fontsizedarker" />
     </LinearLayout>
 </HorizontalScrollView>
