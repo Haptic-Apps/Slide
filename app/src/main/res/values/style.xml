@@ -2,8 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="AppTheme" parent="swipestyle">
-
-
         <item name="android:spinnerItemStyle">
             @style/spinnerItemStyle
         </item>
@@ -14,14 +12,14 @@
     <style name="Ripple.List" tools:keep="@style/Ripple_List">
         <item name="android:background">?android:selectableItemBackground</item>
     </style>
-    <!-- From SwipeBackLayout !-->
 
-        <style name="SwipeBackLayout">
-            <item name="edge_size">50dip</item>
-            <item name="shadow_left">@drawable/shadow_left</item>
-            <item name="shadow_right">@drawable/shadow_right</item>
-            <item name="shadow_bottom">@drawable/shadow_bottom</item>
-        </style>
+    <!-- From SwipeBackLayout !-->
+    <style name="SwipeBackLayout">
+        <item name="edge_size">50dip</item>
+        <item name="shadow_left">@drawable/shadow_left</item>
+        <item name="shadow_right">@drawable/shadow_right</item>
+        <item name="shadow_bottom">@drawable/shadow_bottom</item>
+    </style>
 
     <!-- !-->
     <style name="swipeable" parent="Theme.AppCompat.NoActionBar">
@@ -32,7 +30,6 @@
 
     <style name="swipestyle" parent="Theme.AppCompat.NoActionBar">
         <item name="colorAccent">@color/md_amber_A700</item>
-
     </style>
 
     <style name="swipestylelight" parent="Theme.AppCompat.Light.NoActionBar">
@@ -41,306 +38,553 @@
 
     </style>
 
-    <style name="popup" parent="Theme.AppCompat.Dialog.Alert"
-        >
+    <style name="popup" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:background">@color/transparent</item>
-        </style>
+    </style>
 
     <style name="spinnerItemStyle">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-   
 
     <style name="white_amoled" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_blue_grey_200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="white_light" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_blue_grey_200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="teal_light" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_teal_A200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="teal_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_teal_A200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="teal_amoled" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_teal_A200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="teal_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_teal_A200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="teal_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_teal_A200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="pink_amoled" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_pink_A200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="pink_light" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_pink_A200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="pink_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_pink_A200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="yellow_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_yellow_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="white_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_blue_grey_200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="amber_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_amber_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="blue_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_blue_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="lightblue_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_light_blue_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="deeporange_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_deep_orange_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="cyan_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_cyan_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="green_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_green_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="indigo_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_indigo_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="lime_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_lime_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
 
     <style name="pink_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_pink_A200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="yellow_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_yellow_A700</item>
-
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="white_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_blue_grey_200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="amber_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_amber_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="blue_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_blue_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="lightblue_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_light_blue_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="deeporange_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_deep_orange_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="cyan_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_cyan_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="green_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_green_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="indigo_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_indigo_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="lime_blue" parent="Theme.DARK_BLUE">
         <item name="colorAccent">@color/md_lime_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="pink_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_pink_A200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="yellow_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_yellow_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="white_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_blue_grey_200</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
+
     <style name="amber_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_amber_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="blue_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_blue_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="lightblue_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_light_blue_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="deeporange_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_deep_orange_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="cyan_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_cyan_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="green_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_green_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="indigo_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_indigo_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="lime_AMOLED_lighter" parent="Theme.AMOLED_lighter">
         <item name="colorAccent">@color/md_lime_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="yellow_LIGHT" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_yellow_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="amber_LIGHT" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_amber_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="blue_LIGHT" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_blue_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="lightblue_LIGHT" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_light_blue_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="deeporange_LIGHT" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_deep_orange_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="cyan_LIGHT" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_cyan_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="green_LIGHT" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_green_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="indigo_LIGHT" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_indigo_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="lime_LIGHT" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_lime_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
-
 
     <style name="yellow_AMOLED" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_yellow_A700</item>
+
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="amber_AMOLED" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_amber_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="blue_AMOLED" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_blue_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="lightblue_AMOLED" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_light_blue_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="deeporange_AMOLED" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_deep_orange_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="cyan_AMOLED" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_cyan_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="green_AMOLED" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_green_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="indigo_AMOLED" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_indigo_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="lime_AMOLED" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_lime_A700</item>
 
+        <!-- EditText line color -->
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="FontStyle.MediumPost">
