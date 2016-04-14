@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:orientation="horizontal"
-        android:paddingLeft="16dp">
+        android:paddingStart="16dp">
 
         <View
             android:id="@+id/color"
@@ -20,7 +20,7 @@
             android:layout_height="15dp"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="8dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
             android:adjustViewBounds="true"
             android:background="@drawable/circle" />
@@ -32,7 +32,7 @@
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="2"
-            android:paddingRight="8dp"
+            android:paddingEnd="8dp"
             android:text="Android"
             android:textColor="?attr/font"
             android:textSize="16sp" />
@@ -46,8 +46,8 @@
         <ImageView
             android:layout_width="15dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             app:srcCompat="@drawable/subscribed"
             android:id="@+id/subbed"
             android:layout_height="15dp" />
@@ -61,7 +61,7 @@
                 android:id="@+id/body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="8dp"
+                android:paddingEnd="8dp"
                 android:textColor="?attr/font"
                 android:textSize="14sp" />
 
@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:paddingRight="8dp" />
+                android:paddingEnd="8dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

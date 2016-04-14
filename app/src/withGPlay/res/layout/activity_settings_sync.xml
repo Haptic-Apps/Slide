@@ -41,7 +41,7 @@
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     android:tint="?attr/tint"
                     app:srcCompat="@drawable/upload"/>
@@ -65,7 +65,7 @@
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     android:tint="?attr/tint"
                     app:srcCompat="@drawable/restorecloud"/>
@@ -88,7 +88,7 @@
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     android:tint="?attr/tint"
                     app:srcCompat="@drawable/save"/>
@@ -112,7 +112,7 @@
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     android:tint="?attr/tint"
                     app:srcCompat="@drawable/restorefile"/>

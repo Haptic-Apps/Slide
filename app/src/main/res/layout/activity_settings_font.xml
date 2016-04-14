@@ -29,7 +29,7 @@
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     app:srcCompat="@drawable/commentchange"
                     android:tint="?attr/tint" />
@@ -50,15 +50,15 @@
                 android:gravity="center_vertical"
 
                 android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
-                    android:paddingRight="16dp">
+                    android:paddingEnd="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -85,8 +85,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingBottom="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
@@ -137,7 +137,7 @@
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
                     android:padding="16dp"
                     app:srcCompat="@drawable/ic_format_size_white_48dp"
                     android:tint="?attr/tint" />
@@ -159,15 +159,15 @@
                 android:gravity="center_vertical"
 
                 android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:gravity="center_vertical"
                     android:orientation="vertical"
-                    android:paddingRight="16dp">
+                    android:paddingEnd="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -194,8 +194,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingBottom="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
 
                 <com.devspark.robototextview.widget.RobotoRadioButton

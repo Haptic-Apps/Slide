@@ -10,7 +10,7 @@
         android:background="?android:selectableItemBackground"
 
         android:orientation="horizontal"
-        android:paddingLeft="16dp">
+        android:paddingStart="16dp">
 
         <View
             android:id="@+id/color"
@@ -18,7 +18,7 @@
             android:layout_height="15dp"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="8dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
 
             android:layout_marginTop="8dp"
             android:adjustViewBounds="true"

@@ -26,14 +26,14 @@
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
 
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingTop="16dp"
                     app:srcCompat="@drawable/report"
                     android:tint="?attr/tint"/>
@@ -55,14 +55,14 @@
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
 
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingTop="16dp"
                     app:srcCompat="@drawable/infonew"
                     android:tint="?attr/tint"/>
@@ -84,14 +84,14 @@
                 android:background="?android:selectableItemBackground"
                 android:orientation="horizontal"
 
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <ImageView
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:paddingBottom="16dp"
-                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingTop="16dp"
                     app:srcCompat="@drawable/infonew"
                     android:tint="?attr/tint"/>
@@ -113,8 +113,8 @@
                 android:gravity="center_horizontal"
                 android:orientation="horizontal"
 
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp">
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
                 <TextView
                     android:id="@+id/version"
