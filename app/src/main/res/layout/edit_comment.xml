@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
+                <Button
                     android:id="@+id/cancel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -56,11 +56,9 @@
                     android:gravity="center"
                     android:padding="16dp"
                     android:text="@string/btn_cancel"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    style="?attr/borderlessButtonStyle" />
 
-                <TextView
+                <Button
                     android:id="@+id/preview"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -68,11 +66,9 @@
                     android:gravity="center"
                     android:padding="16dp"
                     android:text="@string/btn_preview"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    style="?attr/borderlessButtonStyle" />
 
-                <TextView
+                <Button
                     android:id="@+id/submit"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -80,9 +76,7 @@
                     android:gravity="center"
                     android:padding="16dp"
                     android:text="@string/btn_submit"
-                    android:textAllCaps="true"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    style="?attr/borderlessButtonStyle" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
