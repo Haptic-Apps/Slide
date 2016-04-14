@@ -216,6 +216,7 @@
     <string name="type_nsfw_emb">NSFW embedded</string>
     <string name="type_imgur">Imgur content</string>
     <string name="type_nsfw_imgur">NSFW Imgur content</string>
+    <string name="type_external">External</string>
 
 
     <!-- Reply to message -->
