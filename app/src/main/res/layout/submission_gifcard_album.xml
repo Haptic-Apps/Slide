@@ -62,8 +62,8 @@
             android:layout_height="56dp"
             android:layout_gravity="right"
             android:paddingBottom="15dp"
-            android:paddingLeft="11dp"
-            android:paddingRight="11dp"
+            android:paddingStart="11dp"
+            android:paddingEnd="11dp"
             android:paddingTop="15dp"
             android:theme="@style/Ripple.List"
             app:srcCompat="@drawable/more" />

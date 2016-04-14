@@ -38,7 +38,7 @@
         android:layout_gravity="center_vertical"
         android:background="#55000000"
         android:orientation="vertical"
-        android:paddingLeft="16dp">
+        android:paddingStart="16dp">
 
         <TextView
             android:id="@+id/textimage"

@@ -40,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@+id/subimage"
-                    android:paddingLeft="16dp"
+                    android:paddingStart="16dp"
                     android:text="/r/Android"
                     android:textColor="#fff"
                     android:textSize="18sp"
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/sub_infotitle"
                     android:layout_toLeftOf="@+id/subimage"
-                    android:paddingLeft="16dp"
+                    android:paddingStart="16dp"
                     android:text="A sub for 2 years"
                     android:textColor="#fff"
                     android:textSize="14sp" />
@@ -162,7 +162,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:paddingLeft="52dp"
+                        android:paddingStart="52dp"
                         android:layout_height="match_parent"
                         android:textStyle="bold"
                         android:layout_weight="1"
@@ -190,7 +190,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:paddingLeft="52dp"
+                        android:paddingStart="52dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textStyle="bold"
@@ -218,7 +218,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:paddingLeft="52dp"
+                        android:paddingStart="52dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textStyle="bold"
@@ -246,7 +246,7 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:paddingLeft="52dp"
+                        android:paddingStart="52dp"
                         android:textStyle="bold"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -282,8 +282,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
             android:visibility="gone" />
     </LinearLayout>
 </ScrollView>

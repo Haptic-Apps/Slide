@@ -61,7 +61,7 @@
             android:gravity="center_vertical"
 
             android:orientation="horizontal"
-            android:paddingLeft="18dp"
+            android:paddingStart="18dp"
             android:text="@string/drawer_add_account"
             android:textSize="14sp" />
 
@@ -74,13 +74,13 @@
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
 
-        android:paddingLeft="0dp">
+        android:paddingStart="0dp">
 
         <ImageView
             android:layout_width="26dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="26dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="26dp"
 
             app:srcCompat="@drawable/crown"
             android:tint="?attr/tint" />
@@ -104,13 +104,13 @@
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
 
-        android:paddingLeft="0dp">
+        android:paddingStart="0dp">
 
         <ImageView
             android:layout_width="26dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="26dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="26dp"
             app:srcCompat="@drawable/profile"
             android:tint="?attr/tint" />
 
@@ -132,13 +132,13 @@
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
 
-        android:paddingLeft="0dp">
+        android:paddingStart="0dp">
 
         <ImageView
             android:layout_width="26dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="26dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="26dp"
             app:srcCompat="@drawable/settings"
             android:tint="?attr/tint" />
 
@@ -161,8 +161,8 @@
             android:id="@+id/sort"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="?attr/tint"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
@@ -180,7 +180,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="8dp"
             android:tint="?attr/tint"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:padding="8dp"
             android:theme="@style/Ripple.List"
             app:srcCompat="@drawable/close" />

@@ -36,7 +36,7 @@
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"
                         android:padding="16dp"
                         app:srcCompat="@drawable/link"
                         android:tint="?attr/tint" />
@@ -60,8 +60,8 @@
                     android:id="@+id/domain"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
                     android:singleLine="true"
                     android:imeOptions="actionDone"
                     android:hint="@string/settings_filter_hint"
@@ -90,7 +90,7 @@
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"
                         android:padding="16dp"
                         app:srcCompat="@drawable/fontsizedarker"
                         android:tint="?attr/tint" />
@@ -114,8 +114,8 @@
                     android:singleLine="true"
                     android:imeOptions="actionDone"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
                     android:hint="@string/settings_filter_hint"
                     android:textSize="14sp" />
 
@@ -141,7 +141,7 @@
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"
                         android:padding="16dp"
                         app:srcCompat="@drawable/infonew"
                         android:tint="?attr/tint" />
@@ -165,8 +165,8 @@
                     android:singleLine="true"
                     android:imeOptions="actionDone"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
                     android:hint="@string/settings_filter_hint"
                     android:textSize="14sp" />
 
@@ -192,7 +192,7 @@
                     <ImageView
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
-                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"
                         android:padding="16dp"
                         app:srcCompat="@drawable/sub"
                         android:tint="?attr/tint" />
@@ -216,8 +216,8 @@
                     android:id="@+id/subreddit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
                     android:singleLine="true"
                     android:imeOptions="actionDone"
                     android:hint="@string/settings_filter_hint"

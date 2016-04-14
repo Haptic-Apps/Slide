@@ -23,7 +23,7 @@
                     android:textColor="#fff"
 
                     android:background="@color/md_light_green_500"
-                    android:paddingLeft="24dp"
+                    android:paddingStart="24dp"
                     android:gravity="center_vertical"
                     android:text="@string/example_sub"
                     android:textSize="18sp"
@@ -36,7 +36,7 @@
                     app:srcCompat="@drawable/share"
                     android:tint="#ffffff"
                     android:id="@+id/share"
-                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="-59dp"
                     android:layout_gravity="right"
@@ -52,8 +52,8 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:paddingBottom="20dp"
-                        android:paddingLeft="20dp"
-                        android:paddingRight="20dp"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
 
                         android:paddingTop="8dp">
 
@@ -64,7 +64,7 @@
                             android:gravity="center_vertical"
 
                             android:orientation="horizontal"
-                            android:paddingRight="16dp">
+                            android:paddingEnd="16dp">
 
                             <TextView
                                 android:id="@+id/linkkarma"
@@ -73,7 +73,7 @@
                                 android:layout_height="wrap_content"
 
 
-                                android:paddingLeft="12dp"
+                                android:paddingStart="12dp"
                                 android:text="43015"
                                 android:textColor="?attr/font"
                                 android:textSize="18sp"
@@ -84,7 +84,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginStart="5dp"
                                 android:text="@string/profile_karma_link"
 
 
@@ -101,14 +101,14 @@
                             android:gravity="center_vertical"
 
                             android:orientation="horizontal"
-                            android:paddingRight="16dp">
+                            android:paddingEnd="16dp">
 
                             <TextView
                                 android:id="@+id/commentkarma"
                                 android:layout_width="wrap_content"
 
                                 android:layout_height="wrap_content"
-                                android:paddingLeft="12dp"
+                                android:paddingStart="12dp"
 
 
                                 android:text="2034"
@@ -121,7 +121,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
 
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginStart="5dp"
                                 android:text="@string/profile_karma_comment"
 
 
@@ -134,15 +134,15 @@
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
                             android:gravity="center_vertical"
-                            android:paddingLeft="8dp"
+                            android:paddingStart="8dp"
                             android:orientation="horizontal"
-                            android:paddingRight="16dp">
+                            android:paddingEnd="16dp">
 
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
+                                android:layout_marginStart="5dp"
                                 android:text="Redditor for 2 years, 3 months of gold remiaing"
                                 android:id="@+id/moreinfo"
                                 android:textColor="?attr/font"
@@ -176,7 +176,7 @@
                             android:gravity="center_vertical"
 
                             android:orientation="horizontal"
-                            android:paddingRight="16dp">
+                            android:paddingEnd="16dp">
 
                             <ImageView
                                 android:layout_width="56dp"
@@ -206,7 +206,7 @@
                             android:id="@+id/friend_body"
 
                             android:orientation="horizontal"
-                            android:paddingRight="16dp">
+                            android:paddingEnd="16dp">
 
                             <ImageView
                                 android:layout_width="56dp"
@@ -238,7 +238,7 @@
                             android:gravity="center_vertical"
 
                             android:orientation="horizontal"
-                            android:paddingRight="16dp">
+                            android:paddingEnd="16dp">
 
                             <ImageView
                                 android:id="@+id/colorExpandFrom"
@@ -270,7 +270,7 @@
                             android:gravity="center_vertical"
 
                             android:orientation="horizontal"
-                            android:paddingRight="16dp">
+                            android:paddingEnd="16dp">
 
                             <ImageView
                                 android:layout_width="56dp"

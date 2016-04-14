@@ -8,9 +8,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="4dp"
-    android:layout_marginLeft="8dp"
+    android:layout_marginStart="8dp"
 
-    android:layout_marginRight="8dp"
+    android:layout_marginEnd="8dp"
 
     android:layout_marginTop="4dp"
     android:gravity="center"
@@ -37,7 +37,7 @@
                 android:layout_height="65dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/chameleon"
@@ -70,8 +70,8 @@
 
                     android:layout_height="wrap_content"
 
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:tag="tint"
                     android:text="@string/example_title"
 
@@ -84,8 +84,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/title"
                     android:layout_gravity="start"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
                     android:gravity="center_vertical"
                     android:tag="tintsecond"
                     android:text="@string/example_time"
@@ -98,8 +98,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/information"
                     android:layout_gravity="start"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
                     android:tag="tintsecond"
                     android:gravity="center_vertical"
@@ -136,8 +136,8 @@
                 android:layout_height="36dp"
                 android:layout_below="@+id/headerimage"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="4dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tint"
                 app:srcCompat="@drawable/upvoted" />
@@ -162,8 +162,8 @@
 
                 android:layout_below="@+id/headerimage"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="4dp"
                 android:layout_toRightOf="@+id/score"
                 android:tag="tintactionbar"
 
