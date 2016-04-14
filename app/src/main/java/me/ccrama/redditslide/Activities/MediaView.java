@@ -275,7 +275,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
                     }
                 } else {
-                    System.out.println("FUCK");
                     doOnClick.run();
                 }
             }
