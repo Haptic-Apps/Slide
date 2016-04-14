@@ -26,7 +26,6 @@ import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -224,9 +223,10 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
                 args.putString("id", name);
                 args.putString("context", context);
-                if(context != null && !context.isEmpty()){
-                    LogUtil.v(context);
+                if(context != null && !context.isEmpty() && !context.equals(Reddit.EMPTY_STRING)){
                     HasSeen.addSeen("t1_" + context);
+                } else {
+                    HasSeen.addSeen(name);
                 }
                 args.putBoolean("archived", archived);
                 args.putBoolean("locked", locked);

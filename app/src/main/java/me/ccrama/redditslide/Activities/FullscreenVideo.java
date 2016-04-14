@@ -56,9 +56,11 @@ public class FullscreenVideo extends FullScreenActivity {
         settings.setPluginState(WebSettings.PluginState.ON);
 
         v.setWebChromeClient(new WebChromeClient());
+        LogUtil.v(dat);
 
-        if(dat.contains("src=")){
-            dat = dat.substring(dat.indexOf("src=") + 4, dat.indexOf("\"", dat.indexOf("src=")));
+        if(dat.contains("src=\"")){
+            int start = dat.indexOf("src=\"") + 5;
+            dat = dat.substring(start, dat.indexOf("\"", start));
             LogUtil.v(dat);
             v.loadUrl("https:" + dat);
         } else {
