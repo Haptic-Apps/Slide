@@ -161,6 +161,7 @@
                         android:layout_height="48dp" />
 
                     <TextView
+                        android:id="@+id/theme_text"
                         android:layout_width="wrap_content"
                         android:paddingStart="52dp"
                         android:layout_height="match_parent"
@@ -171,8 +172,7 @@
                         android:textAllCaps="true"
                         android:height="48dp"
                         android:textColor="?attr/colorAccent"
-                        android:gravity="center_vertical"
-                       />
+                        android:gravity="center_vertical" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -189,6 +189,7 @@
                         android:layout_height="48dp" />
 
                     <TextView
+                        android:id="@+id/wiki_text"
                         android:layout_width="wrap_content"
                         android:paddingStart="52dp"
                         android:layout_height="match_parent"
@@ -199,8 +200,7 @@
                         android:textAllCaps="true"
                         android:height="48dp"
                         android:textColor="?attr/colorAccent"
-                        android:gravity="center_vertical"
-                      />
+                        android:gravity="center_vertical" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -217,6 +217,7 @@
                         android:layout_height="48dp" />
 
                     <TextView
+                        android:id="@+id/post_text"
                         android:layout_width="wrap_content"
                         android:paddingStart="52dp"
                         android:layout_height="match_parent"
@@ -227,8 +228,7 @@
                         android:textAllCaps="true"
                         android:height="48dp"
                         android:textColor="?attr/colorAccent"
-                        android:gravity="center_vertical"
-                        />
+                        android:gravity="center_vertical" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -245,6 +245,7 @@
                         android:layout_height="48dp" />
 
                     <TextView
+                        android:id="@+id/mods_text"
                         android:layout_width="wrap_content"
                         android:paddingStart="52dp"
                         android:textStyle="bold"
@@ -255,8 +256,7 @@
                         android:textAllCaps="true"
                         android:height="48dp"
                         android:textColor="?attr/colorAccent"
-                        android:gravity="center_vertical"
-                        />
+                        android:gravity="center_vertical" />
                 </RelativeLayout>
 
                 <View
