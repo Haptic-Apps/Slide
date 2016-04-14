@@ -239,14 +239,10 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 }
             });
         } else {
-            ContentType.Type type = ContentType.getContentType(contentUrl);
             if (!firstUrl.isEmpty() && contentUrl != null) {
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
                 displayImage(firstUrl);
-            } else if (type == ContentType.Type.IMGUR) {
-                displayImage(contentUrl + ".png"); //display one first
-                ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
-            } else if (firstUrl.isEmpty()) {
+            }  else if (firstUrl.isEmpty()) {
                 imageShown = false;
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
             }
@@ -362,6 +358,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         if (NetworkUtil.isConnected(this)) {
 
+            if(hash.startsWith("/"))
+                hash = hash.substring(1, hash.length());
             LogUtil.v("Loading" + "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json");
             Ion.with(this).load("https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json")
                     .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(MediaView.this)).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
@@ -486,7 +484,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public void displayImage(final String url) {
         actuallyLoaded = url;
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
-        imageShown = true;
 
         i.setMinimumDpi(70);
         i.setMinimumTileDpi(240);
@@ -508,8 +505,10 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url);
         if (f != null && f.exists()) {
+
             try {
                 i.setImage(ImageSource.uri(f.getAbsolutePath()));
+                imageShown = true;
             } catch (Exception e) {
                 //todo  i.setImage(ImageSource.bitmap(loadedImage));
             }

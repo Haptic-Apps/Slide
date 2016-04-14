@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.SubredditListView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -90,6 +91,8 @@ public class Discover extends BaseActivityAnim {
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_FIXED);
+        tabs.setSelectedTabIndicatorColor(new ColorPreferences(Discover.this).getColor("no sub"));
+
         pager = (ViewPager) findViewById(R.id.content_view);
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);

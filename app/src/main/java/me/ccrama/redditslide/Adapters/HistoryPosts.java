@@ -70,6 +70,7 @@ public class HistoryPosts extends GeneralPosts {
                             filteredSubmissions.add(c);
                         }
                     } else {
+                        LogUtil.v("Not a submission");
                         filteredSubmissions.add(c);
                     }
                 }
@@ -118,7 +119,11 @@ public class HistoryPosts extends GeneralPosts {
                         if (value.length() == 6 && values.get(value) instanceof Boolean){
                             ids.add("t3_" + value);
                         } else if(values.get(value) instanceof Long){
-                            idsSorted.put((Long) values.get(value), "t3_" + value);
+                            if(value.contains("_")){
+                                idsSorted.put((Long) values.get(value), value);
+                            } else {
+                                idsSorted.put((Long) values.get(value), "t3_" + value);
+                            }
                         }
                     }
 
@@ -136,9 +141,8 @@ public class HistoryPosts extends GeneralPosts {
                     }
                 }
                 for (Thing c : paginator.next()) {
-                    if (c instanceof Submission) {
-                        Submission s = (Submission) c;
-                        newData.add(s);
+                    if (c instanceof Contribution) {
+                        newData.add(((Contribution)c));
                     }
                 }
 
