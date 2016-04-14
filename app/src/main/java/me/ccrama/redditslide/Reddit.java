@@ -187,7 +187,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             if (f.length() > 0) {
                 f = f.substring(0, f.length() - separator.length());
             }
-
             return f;
         } else {
             return "";
@@ -226,86 +225,79 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
 
     public static Integer getSortingIdSearch() {
-        return
-                timePeriod == TimePeriod.HOUR ? 0 :
-                        timePeriod == TimePeriod.DAY ? 1 :
-                                timePeriod == TimePeriod.WEEK ? 2 :
-                                        timePeriod == TimePeriod.MONTH ? 3 :
-                                                timePeriod == TimePeriod.YEAR ? 4 :
-                                                        5
-                ;
+        return timePeriod == TimePeriod.HOUR ? 0 :
+                timePeriod == TimePeriod.DAY ? 1 :
+                        timePeriod == TimePeriod.WEEK ? 2 :
+                                timePeriod == TimePeriod.MONTH ? 3 :
+                                        timePeriod == TimePeriod.YEAR ? 4 :
+                                                5;
     }
 
     public static Integer getSortingIdSearch(Search s) {
-        return
-                s.time == TimePeriod.HOUR ? 0 :
-                        s.time == TimePeriod.DAY ? 1 :
-                                s.time == TimePeriod.WEEK ? 2 :
-                                        s.time == TimePeriod.MONTH ? 3 :
-                                                s.time == TimePeriod.YEAR ? 4 :
-                                                        5
-                ;
+        return s.time == TimePeriod.HOUR ? 0 :
+                s.time == TimePeriod.DAY ? 1 :
+                        s.time == TimePeriod.WEEK ? 2 :
+                                s.time == TimePeriod.MONTH ? 3 :
+                                        s.time == TimePeriod.YEAR ? 4 :
+                                                5;
     }
 
     public static Integer getTypeSearch() {
-        return
-                search == SubmissionSearchPaginator.SearchSort.RELEVANCE ? 0 :
-                        search == SubmissionSearchPaginator.SearchSort.TOP ? 1 :
-                                search == SubmissionSearchPaginator.SearchSort.NEW ? 2 :
-                                        3
-                ;
+        return search == SubmissionSearchPaginator.SearchSort.RELEVANCE ? 0 :
+                search == SubmissionSearchPaginator.SearchSort.TOP ? 1 :
+                        search == SubmissionSearchPaginator.SearchSort.NEW ? 2 :
+                                3;
     }
 
     public static String[] getSortingStrings(Context c) {
-        return new String[]
-                {c.getString(R.string.sorting_hot),
-                        c.getString(R.string.sorting_new),
-                        c.getString(R.string.sorting_rising),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_hour).toLowerCase(),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_day).toLowerCase(),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_week).toLowerCase(),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_month).toLowerCase(),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_year).toLowerCase(),
-                        c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_all).toLowerCase(),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_hour).toLowerCase(),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_day).toLowerCase(),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_week).toLowerCase(),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_month).toLowerCase(),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_year).toLowerCase(),
-                        c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_all).toLowerCase(),
-                };
+        return new String[] {
+                c.getString(R.string.sorting_hot),
+                c.getString(R.string.sorting_new),
+                c.getString(R.string.sorting_rising),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_hour).toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_day).toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_week).toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_month).toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_year).toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_all).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_hour).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_day).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_week).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_month).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_year).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_all).toLowerCase(),
+        };
     }
+
     public static String[] getSortingStringsComments(Context c) {
-        return new String[]
-                {c.getString(R.string.sorting_best),
-                        c.getString(R.string.sorting_top),
-                        c.getString(R.string.sorting_ama),
-                        c.getString(R.string.sorting_new),
-                        c.getString(R.string.sorting_controversial),
-                        c.getString(R.string.sorting_old),
-                };
+        return new String[] {
+                c.getString(R.string.sorting_best),
+                c.getString(R.string.sorting_top),
+                c.getString(R.string.sorting_new),
+                c.getString(R.string.sorting_controversial),
+                c.getString(R.string.sorting_old),
+                c.getString(R.string.sorting_ama),
+        };
     }
+
     public static String[] getSearch(Context c) {
-        return new String[]
-                {
-                        c.getString(R.string.search_relevance),
-                        c.getString(R.string.search_top),
-                        c.getString(R.string.search_new),
-                        c.getString(R.string.search_comments)
-                };
+        return new String[] {
+                c.getString(R.string.search_relevance),
+                c.getString(R.string.search_top),
+                c.getString(R.string.search_new),
+                c.getString(R.string.search_comments)
+        };
     }
 
     public static String[] getSortingStringsSearch(Context c) {
-        return new String[]
-                {
-                        WordUtils.capitalize(c.getString(R.string.sorting_hour)),
-                        WordUtils.capitalize(c.getString(R.string.sorting_day)),
-                        WordUtils.capitalize(c.getString(R.string.sorting_week)),
-                        WordUtils.capitalize(c.getString(R.string.sorting_month)),
-                        WordUtils.capitalize(c.getString(R.string.sorting_year)),
-                        WordUtils.capitalize(c.getString(R.string.sorting_all)),
-
-                };
+        return new String[] {
+                WordUtils.capitalize(c.getString(R.string.sorting_hour)),
+                WordUtils.capitalize(c.getString(R.string.sorting_day)),
+                WordUtils.capitalize(c.getString(R.string.sorting_week)),
+                WordUtils.capitalize(c.getString(R.string.sorting_month)),
+                WordUtils.capitalize(c.getString(R.string.sorting_year)),
+                WordUtils.capitalize(c.getString(R.string.sorting_all)),
+        };
     }
 
     @Override
@@ -323,19 +315,14 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return defaultImageLoader;
     }
 
-
-
     public static boolean notFirst = false;
 
     @Override
     public void onActivityResumed(Activity activity) {
-
         if(Authentication.didOnline && authentication != null && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance().getTimeInMillis()){
             authentication.updateToken(activity);
         }
-
     }
-
 
     @Override
     public void onActivityPaused(Activity activity) {
@@ -345,7 +332,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         //START code adapted from https://github.com/QuantumBadger/RedReader/
         final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
         final WeakReference<Context> cont = new WeakReference<>(base);
-
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             public void uncaughtException(Thread thread, Throwable t) {
@@ -493,7 +479,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public void doMainStuff() {
         Log.v(LogUtil.getTag(), "ON CREATED AGAIN");
-       overrideLanguage = getSharedPreferences("SETTINGS", 0).getBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE, false);
+        overrideLanguage = getSharedPreferences("SETTINGS", 0).getBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE, false);
         appRestart = getSharedPreferences("appRestart", 0);
         AlbumUtils.albumRequests = getSharedPreferences("albums", 0);
 
@@ -584,11 +570,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
         int defaultDPWidth = fina / 300;
 
-
-
         SettingValues.tabletUI = isPackageInstalled(this);
-
-
     }
 
     public static void setSorting(String s, Sorting sort) {
@@ -604,7 +586,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             return defaultSorting;
         }
     }
-
 
     public static void setTime(String s, TimePeriod sort) {
         times.put(s, sort);

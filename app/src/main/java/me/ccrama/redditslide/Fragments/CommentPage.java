@@ -709,41 +709,44 @@ public class CommentPage extends Fragment {
                             reloadSubs();
                             break;
                         case 2:
-                            commentSorting = CommentSort.QA;
-                            reloadSubs();
-                            break;
-                        case 3:
                             commentSorting = CommentSort.NEW;
                             reloadSubs();
                             break;
-                        case 4:
+                        case 3:
                             commentSorting = CommentSort.CONTROVERSIAL;
                             reloadSubs();
                             break;
-                        case 5:
+                        case 4:
                             commentSorting = CommentSort.OLD;
+                            reloadSubs();
+                            break;
+                        case 5:
+                            commentSorting = CommentSort.QA;
                             reloadSubs();
                             break;
                     }
                 }
             };
-            int i = commentSorting == CommentSort.CONFIDENCE ? 0
+
+            final int i = commentSorting == CommentSort.CONFIDENCE ? 0
                     : commentSorting == CommentSort.TOP ? 1
-                    : commentSorting == CommentSort.QA ? 2
-                    : commentSorting == CommentSort.NEW ? 3
-                    : commentSorting == CommentSort.CONTROVERSIAL ? 4
-                    : commentSorting == CommentSort.OLD ? 5
+                    : commentSorting == CommentSort.NEW ? 2
+                    : commentSorting == CommentSort.CONTROVERSIAL ? 3
+                    : commentSorting == CommentSort.OLD ? 4
+                    : commentSorting == CommentSort.QA ? 5
                     : 0;
+
             AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
             builder.setTitle(R.string.sorting_choose);
             Resources res = getActivity().getBaseContext().getResources();
             builder.setSingleChoiceItems(
-                    new String[]{res.getString(R.string.sorting_best),
+                    new String[] {
+                            res.getString(R.string.sorting_best),
                             res.getString(R.string.sorting_top),
-                            res.getString(R.string.sorting_ama),
                             res.getString(R.string.sorting_new),
                             res.getString(R.string.sorting_controversial),
-                            res.getString(R.string.sorting_old)},
+                            res.getString(R.string.sorting_old),
+                            res.getString(R.string.sorting_ama)},
                     i, l2);
             builder.show();
         }
