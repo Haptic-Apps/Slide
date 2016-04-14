@@ -562,6 +562,13 @@ public class MainActivity extends BaseActivity {
 
             findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subreddit));
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
+
+            //Sidebar buttons should use subreddit's accent color
+            ((TextView) findViewById(R.id.theme_text)).setTextColor(new ColorPreferences(this).getColor(subreddit));
+            ((TextView) findViewById(R.id.wiki_text)).setTextColor(new ColorPreferences(this).getColor(subreddit));
+            ((TextView) findViewById(R.id.post_text)).setTextColor(new ColorPreferences(this).getColor(subreddit));
+            ((TextView) findViewById(R.id.mods_text)).setTextColor(new ColorPreferences(this).getColor(subreddit));
+
             View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
