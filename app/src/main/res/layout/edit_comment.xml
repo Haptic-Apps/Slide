@@ -32,6 +32,7 @@
                     android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                     android:textColor="?attr/font"
                     android:textSize="16sp"
+                    android:minHeight="30dp"
                     android:theme="@style/ReplyEditTextTheme"/>
             </LinearLayout>
 
