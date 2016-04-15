@@ -1353,6 +1353,7 @@ public class MainActivity extends BaseActivity {
                 }
             });
 
+
             headerMain = header;
 
             if (runAfterLoad == null) {
@@ -2679,8 +2680,10 @@ public class MainActivity extends BaseActivity {
                 headerMain.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent inte = new Intent(MainActivity.this, ModQueue.class);
-                        MainActivity.this.startActivity(inte);
+                        if(UserSubscriptions.modOf != null && !UserSubscriptions.modOf.isEmpty()) {
+                            Intent inte = new Intent(MainActivity.this, ModQueue.class);
+                            MainActivity.this.startActivity(inte);
+                        }
                     }
                 });
             }
