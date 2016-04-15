@@ -619,8 +619,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             if (users != null && !reset) {
                 notifyItemRangeChanged(2, users.size() + 1);
-            } else {
+            } else if(users == null) {
                 users = new ArrayList<>();
+                notifyDataSetChanged();
+            } else {
                 notifyDataSetChanged();
             }
         }
