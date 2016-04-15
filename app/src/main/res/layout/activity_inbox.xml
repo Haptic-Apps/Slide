@@ -32,29 +32,6 @@
             android:background="#00000000"
             android:clipToPadding="false">
 
-            <ImageView
-                android:id="@+id/compose"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end|center_vertical"
-                android:background="?android:selectableItemBackground"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/edit" />
-
-            <ImageView
-                android:id="@+id/notifs"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="end|center_vertical"
-                android:background="?android:selectableItemBackground"
-                android:paddingBottom="12dp"
-                android:paddingTop="12dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/notifs" />
-
-
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout

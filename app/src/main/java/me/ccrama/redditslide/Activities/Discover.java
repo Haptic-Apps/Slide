@@ -85,7 +85,8 @@ public class Discover extends BaseActivityAnim {
 
         applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
-        setupAppBar(R.id.toolbar, R.string.discover_title, true, false);
+        setupAppBar(R.id.toolbar, "Discover", true, false);
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);

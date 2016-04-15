@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -91,6 +92,7 @@ public class Website extends BaseActivityAnim {
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         setupAppBar(R.id.toolbar, "", true, subredditColor, R.id.appbar);
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         p = (ProgressBar) findViewById(R.id.progress);
         v = (WebView) findViewById(R.id.web);

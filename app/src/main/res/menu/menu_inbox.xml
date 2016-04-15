@@ -16,7 +16,6 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/notifs"
-        android:icon="@drawable/notif"
         android:title="@string/settings_title_notifications"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>

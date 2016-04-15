@@ -41,6 +41,9 @@ public class Inbox extends BaseActivityAnim {
 
         return true;
     }
+
+    boolean changed;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -53,26 +56,33 @@ public class Inbox extends BaseActivityAnim {
             final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
             SettingsGeneral.setupNotificationSettings(dialoglayout, Inbox.this);
         }
-        if(id == R.id.compose){
+        if (id == R.id.compose) {
             Intent i = new Intent(Inbox.this, Sendmessage.class);
             startActivity(i);
         }
-        if(id == R.id.read){
+        if (id == R.id.read) {
+            changed = false;
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
-                    new InboxManager(Authentication.reddit).setAllRead();
+                    try {
+                        new InboxManager(Authentication.reddit).setAllRead();
+                        changed = true;
+                    } catch (Exception ignored) {
+                    }
                     return null;
                 }
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
-                    adapter.notifyDataSetChanged();
+                    if (changed)
+                        adapter.notifyDataSetChanged();
                 }
             }.execute();
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -81,6 +91,7 @@ public class Inbox extends BaseActivityAnim {
         applyColorTheme("");
         setContentView(R.layout.activity_inbox);
         setupAppBar(R.id.toolbar, R.string.title_inbox, true, true);
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -88,7 +99,8 @@ public class Inbox extends BaseActivityAnim {
 
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
-        pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
+        adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
 
         tabs.setupWithViewPager(pager);
 

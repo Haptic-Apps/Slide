@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,11 +18,15 @@ import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+
+;
 
 public class Search extends BaseActivityAnim {
 
@@ -209,6 +212,8 @@ public class Search extends BaseActivityAnim {
                 onBackPressed(); //Simulate a system's "Back" button functionality.
             }
         });
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
+
         getSupportActionBar().setSubtitle(Reddit.getSortingStringsSearch(getBaseContext())[Reddit.getSortingIdSearch(this)]);
         final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
         final PreCachingLayoutManager mLayoutManager;
