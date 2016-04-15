@@ -296,8 +296,6 @@ public class GifUtils {
                                         return null;
                                     }
 
-                                    ;
-
 
                                 }
 
@@ -542,8 +540,6 @@ public class GifUtils {
                                                                                                                                               }
                                                                                                                                           };
                                                                                                                                       }
-
-
                                                                                                                                       video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                                                                                                                           @Override
                                                                                                                                           public void onPrepared(MediaPlayer mp) {
@@ -557,24 +553,16 @@ public class GifUtils {
 
                                                                                                                                       });
                                                                                                                                       video.start();
-
-
                                                                                                                                   }
                                                                                                                               });
-
-
                                                                                                                           } catch (Exception ex) {
                                                                                                                               ex.printStackTrace();
                                                                                                                           }
                                                                                                                           return null;
                                                                                                                       }
 
-                                                                                                                      ;
                                                                                                                   }.execute();
-
-
                                                                                                               } else {
-
                                                                                                                   Log.v(LogUtil.getTag(), "https://upload.gfycat.com/transcode?fetchUrl=" + finalS);
                                                                                                                   if (progressBar != null)
                                                                                                                       progressBar.setIndeterminate(true);
@@ -585,7 +573,6 @@ public class GifUtils {
                                                                                                                                            @Override
                                                                                                                                            public void onCompleted(Exception e, final JsonObject result) {
                                                                                                                                                if (result.has("error")) {
-
                                                                                                                                                }
                                                                                                                                                if (progressBar != null)
                                                                                                                                                    progressBar.setIndeterminate(false);
@@ -594,9 +581,7 @@ public class GifUtils {
                                                                                                                                                    @Override
                                                                                                                                                    protected Void doInBackground(Void... params) {
                                                                                                                                                        try {
-
                                                                                                                                                            if (result == null || result.get("mp4Url") == null || result.get("mp4Url").isJsonNull()) {
-
 
                                                                                                                                                                if (closeIfNull)
                                                                                                                                                                    c.runOnUiThread(new Runnable() {
@@ -656,8 +641,6 @@ public class GifUtils {
 
                                                                                                                                                                    }
                                                                                                                                                                }
-
-
                                                                                                                                                                outStream.flush();
                                                                                                                                                                outStream.close();
                                                                                                                                                                inStream.close();
@@ -680,9 +663,7 @@ public class GifUtils {
                                                                                                                                                                            gifSave.setOnClickListener(new View.OnClickListener() {
                                                                                                                                                                                @Override
                                                                                                                                                                                public void onClick(View v) {
-
                                                                                                                                                                                    saveGif(f, c);
-
                                                                                                                                                                                }
                                                                                                                                                                            });
                                                                                                                                                                        }else if(doOnClick != null){
@@ -694,7 +675,6 @@ public class GifUtils {
                                                                                                                                                                                }
                                                                                                                                                                            };
                                                                                                                                                                        }
-
 
                                                                                                                                                                        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                                                                                                                                                                            @Override
@@ -721,26 +701,18 @@ public class GifUtils {
                                                                                                                                                }.execute();
                                                                                                                                            }
                                                                                                                                        }
-
                                                                                                                           );
                                                                                                               }
                                                                                                           }
                                                                                                       }
-
                 );
             }
-
             return null;
-
         }
-
-
     }
 
     public static void saveGifToCache(final Activity c, String... sub) {
-
         String s = sub[0];
-
 
         if (s.contains("webm") && s.contains("imgur")) {
             s = s.replace("webm", "gifv");
@@ -757,7 +729,6 @@ public class GifUtils {
         if (s.contains("gfycat")) {
             s = sub[0].substring(sub[0].lastIndexOf("/"), sub[0].length());
 
-
             Log.v("Slide", "http://gfycat.com/cajax/get" + s);
             Ion.with(c)
                     .load("http://gfycat.com/cajax/get" + s)
@@ -772,12 +743,10 @@ public class GifUtils {
                                     String obj = "";
                                     if (result != null && result.get("gfyItem") != null && !result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
                                         obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
-
                                     }
                                     try {
                                         final URL url = new URL(obj);
                                         final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
-
 
                                         if (!f.exists()) {
                                             URLConnection ucon = url.openConnection();
@@ -800,37 +769,20 @@ public class GifUtils {
                                             int readBytes = 0;
                                             while ((len = inStream.read(buff)) != -1) {
                                                 outStream.write(buff, 0, len);
-
                                             }
-
-
                                             outStream.flush();
                                             outStream.close();
                                             inStream.close();
                                         }
-
-
-                                    } catch (
-                                            Exception e2
-                                            )
-
-                                    {
+                                    } catch (Exception e2) {
                                         e2.printStackTrace();
                                     }
-
                                     return null;
                                 }
-
-
                             }.execute();
                         }
-
-
                     });
-
-        } else
-
-        {
+        } else {
             if (s.endsWith("v")) {
                 s = s.substring(0, s.length() - 1);
             }
@@ -849,10 +801,8 @@ public class GifUtils {
                             @Override
                             protected Void doInBackground(Void... params) {
                                 try {
-
                                     final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
                                     final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
-
 
                                     if (!f.exists()) {
                                         URLConnection ucon = url.openConnection();
@@ -877,29 +827,18 @@ public class GifUtils {
                                         while ((len = inStream.read(buff)) != -1) {
                                             outStream.write(buff, 0, len);
                                             final int percent = Math.round(100.0f * f.length() / length);
-
-
                                         }
-
-
                                         outStream.flush();
                                         outStream.close();
                                         inStream.close();
                                     }
-
-
                                 } catch (Exception ex) {
                                     ex.printStackTrace();
                                 }
                                 return null;
                             }
-
-                            ;
                         }.execute();
-
-
                     } else {
-
                         Ion.with(c)
                                 .load("http://upload.gfycat.com/transcode?fetchUrl=" + finalS)
                                 .asJsonObject()
@@ -936,15 +875,10 @@ public class GifUtils {
                                                         while ((len = inStream.read(buff)) != -1) {
                                                             outStream.write(buff, 0, len);
                                                             int percent = Math.round(100.0f * f.length() / length);
-
                                                         }
-
-
                                                         outStream.flush();
                                                         outStream.close();
                                                         inStream.close();
-
-
                                                     }
                                                 } catch (Exception e3) {
                                                     e3.printStackTrace();
@@ -957,11 +891,7 @@ public class GifUtils {
                     }
                 }
             });
-
-
         }
-
-
     }
 
     public static void showErrorDialog(final Activity a) {
@@ -1005,7 +935,6 @@ public class GifUtils {
             showErrorDialog(a);
         } else {
             File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".mp4");
-
 
             FileOutputStream out = null;
             try {
@@ -1055,7 +984,6 @@ public class GifUtils {
                 .setSmallIcon(R.drawable.notif)
                 .setContentIntent(contentIntent)
                 .build();
-
 
         NotificationManager mNotificationManager =
                 (NotificationManager) c.getSystemService(Activity.NOTIFICATION_SERVICE);
