@@ -25,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -162,28 +161,19 @@ public class CommentPage extends Fragment {
                     mSwipeRefreshLayout.setRefreshing(true);
 
                     toSubtract++;
-                    headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
-                    if (headerHeight <= 0) {
-                        header.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                            @Override
-                            public void onGlobalLayout() {
-                                headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
-                                if (adapter != null)
-                                    adapter.notifyItemChanged(0);
-                                header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            }
-                        });
-                    } else {
-                        if (adapter != null)
-                            adapter.notifyItemChanged(0);
-                    }
+                    v.findViewById(R.id.loadall).setVisibility(View.GONE);
+
+                    headerHeight = header.getHeight();
+
+                    if (adapter != null)
+                        adapter.notifyDataSetChanged();
+
                     //avoid crashes when load more is clicked before loading is finished
                     if (comments.mLoadData != null) comments.mLoadData.cancel(true);
 
                     comments = new SubmissionComments(fullname, CommentPage.this, mSwipeRefreshLayout);
                     comments.setSorting(CommentSort.CONFIDENCE);
                     loadMore = false;
-                    v.findViewById(R.id.loadall).setVisibility(View.GONE);
 
                 }
             });
@@ -489,7 +479,7 @@ public class CommentPage extends Fragment {
                                         PopulateSubmissionViewHolder.openGif(getActivity(), adapter.submission);
                                         break;
                                     case VIDEO:
-                                        if(Reddit.videoPlugin){
+                                        if (Reddit.videoPlugin) {
                                             try {
                                                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                                 sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
@@ -752,7 +742,7 @@ public class CommentPage extends Fragment {
             builder.setTitle(R.string.sorting_choose);
             Resources res = getActivity().getBaseContext().getResources();
             builder.setSingleChoiceItems(
-                    new String[] {
+                    new String[]{
                             res.getString(R.string.sorting_best),
                             res.getString(R.string.sorting_top),
                             res.getString(R.string.sorting_new),

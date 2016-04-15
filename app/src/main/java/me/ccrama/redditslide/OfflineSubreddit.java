@@ -139,14 +139,18 @@ public class OfflineSubreddit {
     Submission savedSubmission;
 
     public void hide(int index) {
+        hide(index, true);
+    }
+    public void hide(int index, boolean save) {
         if (submissions != null) {
             savedSubmission = submissions.get(index);
             submissions.remove(index);
-            savedIndex = index;
-            writeToMemory();
+            if(save) {
+                savedIndex = index;
+                writeToMemory();
+            }
         }
     }
-
     public void unhideLast() {
         if (submissions != null && savedSubmission != null) {
             submissions.add(savedIndex, savedSubmission);

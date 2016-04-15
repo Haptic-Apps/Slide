@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -8,9 +9,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
+import net.dean.jraw.managers.InboxManager;
+
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentGrabber;
 import me.ccrama.redditslide.Fragments.InboxPage;
@@ -24,6 +31,48 @@ public class Inbox extends BaseActivityAnim {
 
     public Inbox.OverviewPagerAdapter adapter;
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_inbox, menu);
+
+        //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
+        //   else menu.findItem(R.id.action_info).setVisible(false);
+
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+        }
+        if (id == R.id.notifs) {
+            LayoutInflater inflater = getLayoutInflater();
+            final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
+            SettingsGeneral.setupNotificationSettings(dialoglayout, Inbox.this);
+        }
+        if(id == R.id.compose){
+            Intent i = new Intent(Inbox.this, Sendmessage.class);
+            startActivity(i);
+        }
+        if(id == R.id.read){
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    new InboxManager(Authentication.reddit).setAllRead();
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    adapter.notifyDataSetChanged();
+                }
+            }.execute();
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -43,14 +92,6 @@ public class Inbox extends BaseActivityAnim {
 
         tabs.setupWithViewPager(pager);
 
-        findViewById(R.id.notifs).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = getLayoutInflater();
-                final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
-                SettingsGeneral.setupNotificationSettings(dialoglayout, Inbox.this);
-            }
-        });
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -70,13 +111,7 @@ public class Inbox extends BaseActivityAnim {
 
             }
         });
-        findViewById(R.id.compose).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Inbox.this, Sendmessage.class);
-                startActivity(i);
-            }
-        });
+
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {

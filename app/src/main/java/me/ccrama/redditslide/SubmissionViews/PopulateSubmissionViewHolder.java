@@ -88,6 +88,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -400,17 +401,27 @@ public class PopulateSubmissionViewHolder {
 
                                                 if (filtered) {
                                                     e.apply();
-                                                    final int pos = posts.indexOf(submission);
-                                                    final T t = posts.get(pos);
-                                                    posts.remove(pos);
-                                                    Hidden.setHidden(t);
-                                                    final OfflineSubreddit s;
-                                                    if (baseSub != null) {
-                                                        s = OfflineSubreddit.getSubreddit(baseSub);
-                                                        s.hide(pos);
+                                                    PostMatch.domains = null;
+                                                    PostMatch.subreddits = null;
+                                                    ArrayList<Contribution> toRemove = new ArrayList<>();
+                                                    for(Contribution s : posts){
+                                                        if(s instanceof Submission && PostMatch.doesMatch((Submission)s)){
+                                                            toRemove.add(s);
+                                                            LogUtil.v("Matching with " + ((Submission) s).getDomain());
+                                                        }
                                                     }
-                                                    recyclerview.getAdapter().notifyItemRemoved(pos + 1);
+                                                    OfflineSubreddit s = OfflineSubreddit.getSubreddit(baseSub);
 
+                                                    for(Contribution remove : toRemove){
+                                                        final int pos = posts.indexOf(remove);
+                                                        posts.remove(pos);
+                                                        if (baseSub != null) {
+                                                            s.hide(pos, false);
+                                                        }
+                                                        s.writeToMemory();
+                                                        recyclerview.getAdapter().notifyDataSetChanged();
+
+                                                    }
 
                                                 }
                                             }

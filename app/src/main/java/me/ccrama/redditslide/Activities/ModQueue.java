@@ -61,9 +61,6 @@ public class ModQueue extends BaseActivityAnim {
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
-
-        findViewById(R.id.compose).setVisibility(View.GONE);
-        findViewById(R.id.notifs).setVisibility(View.GONE);
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
