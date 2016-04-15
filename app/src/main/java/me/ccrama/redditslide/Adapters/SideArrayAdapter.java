@@ -13,6 +13,7 @@ import android.widget.Filter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
@@ -25,30 +26,17 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 8/17/2015.
  */
 public class SideArrayAdapter extends ArrayAdapter<String> {
+    private final List<String> objects;
     private Filter filter;
     public ArrayList<String> baseItems;
     public ArrayList<String> fitems;
     public boolean openInSubView = true;
-    public ArrayList<String> history;
-    public ArrayList<String> user;
-    public ArrayList<String> allSubs;
 
-
-    public SideArrayAdapter(Context context, ArrayList<String> objects, ArrayList<String> userSubs, ArrayList<String> historySubs, ArrayList<String> allSubs) {
+    public SideArrayAdapter(Context context, ArrayList<String> objects, ArrayList<String> allSubreddits) {
         super(context, 0, objects);
-        this.allSubs = allSubs;
-        this.history = historySubs;
-        this.user = userSubs;
-
-        for(String s : this.user){
-            history.remove(s);
-            this.allSubs.remove(s);
-        }
-        for(String s : this.history){
-            this.allSubs.remove(s);
-        }
+        this.objects = new ArrayList<>(allSubreddits);
         filter = new SubFilter();
-        fitems = new ArrayList<>(objects); 
+        fitems = new ArrayList<>(objects);
         baseItems = new ArrayList<>(objects);
     }
 
@@ -123,21 +111,10 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 results.count = list.size();
             } else {
                 openInSubView = true;
+                final ArrayList<String> list = new ArrayList<>(objects);
                 final ArrayList<String> nlist = new ArrayList<>();
 
-                for (String sub : user) {
-                    if (sub.contains(prefix))
-                        nlist.add(sub);
-                    if (sub.equals(prefix))
-                        openInSubView = false;
-                }
-                for (String sub : history) {
-                    if (sub.contains(prefix))
-                        nlist.add(sub);
-                    if (sub.equals(prefix))
-                        openInSubView = false;
-                }
-                for (String sub : allSubs) {
+                for (String sub : list) {
                     if (sub.contains(prefix))
                         nlist.add(sub);
                     if (sub.equals(prefix))

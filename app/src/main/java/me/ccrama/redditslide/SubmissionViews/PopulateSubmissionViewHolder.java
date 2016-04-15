@@ -319,7 +319,7 @@ public class PopulateSubmissionViewHolder {
                 b.sheet(12, report, mContext.getString(R.string.btn_report));
             }
         }
-        if (submission.getSelftext() != null && !submission.getSelftext().isEmpty()) {
+        if (submission.getSelftext() != null && !submission.getSelftext().isEmpty() && full) {
             b.sheet(25, copy, "Copy selftext");
         }
         boolean hidden = submission.isHidden();
