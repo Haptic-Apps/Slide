@@ -7,14 +7,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
-import java.io.IOException;
-
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.util.GifUtils;
-import me.ccrama.redditslide.util.ImageExtractor;
 
 /**
  * Created by ccrama on 01/29/2016.
@@ -75,11 +72,11 @@ public class ForceTouchLink extends BaseActivityAnim {
                     String urlGotten;
                     @Override
                     protected Void doInBackground(Void... params) {
-                        try {
-                            urlGotten =  ImageExtractor.extractImageUrl(url);
+                        /*try {
+                           urlGotten =  ImageExtractor.extractImageUrl(url);
                         } catch (IOException e) {
                             e.printStackTrace();
-                        }
+                        }*/
                         return null;
                     }
 

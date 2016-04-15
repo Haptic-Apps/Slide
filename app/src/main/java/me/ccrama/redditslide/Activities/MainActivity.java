@@ -85,8 +85,6 @@ import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
 import net.dean.jraw.util.JrawUtils;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -273,6 +271,14 @@ public class MainActivity extends BaseActivity {
             // other 'case' lines to check for other
             // permissions this app might request
         }
+    }
+    public static String abbreviate(final String str, final int maxWidth) {
+        if (str.length() <= maxWidth) {
+            return str;
+        }
+
+        final String abrevMarker = "...";
+            return str.substring(0, maxWidth - 3) + abrevMarker;
     }
 
     public boolean commentPager = false;
@@ -1102,8 +1108,10 @@ public class MainActivity extends BaseActivity {
             header.findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
-                    MainActivity.this.startActivity(inte);
+                    if(runAfterLoad == null) {
+                        Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
+                        MainActivity.this.startActivity(inte);
+                    }
                 }
             });
 
@@ -1344,17 +1352,8 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivityForResult(inte, INBOX_RESULT);
                 }
             });
-            if (Authentication.mod) {
-                header.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent inte = new Intent(MainActivity.this, ModQueue.class);
-                        MainActivity.this.startActivity(inte);
-                    }
-                });
-            } else {
                 header.findViewById(R.id.mod).setVisibility(View.GONE);
-            }
+
             headerMain = header;
 
             if (runAfterLoad == null) {
@@ -2409,7 +2408,7 @@ public class MainActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
 
             if (usedArray != null) {
-                return StringUtils.abbreviate(usedArray.get(position), 25);
+                return abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }
@@ -2597,7 +2596,7 @@ public class MainActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
 
             if (usedArray != null && position != toOpenComments) {
-                return StringUtils.abbreviate(usedArray.get(position), 25);
+                return abbreviate(usedArray.get(position), 25);
             } else {
                 return "";
             }
