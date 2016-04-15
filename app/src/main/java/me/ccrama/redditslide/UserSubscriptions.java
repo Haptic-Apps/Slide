@@ -21,10 +21,10 @@ import net.dean.jraw.paginators.UserSubredditsPaginator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Login;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -36,25 +36,13 @@ import static me.ccrama.redditslide.UserSubscriptions.SubscriptionType.NORMAL;
  * Created by carlo_000 on 1/16/2016.
  */
 public class UserSubscriptions {
+    public static final int POSITION_NOT_FOUND = -1337;
     public static SharedPreferences subscriptions;
     public static ArrayList<String> modOf;
     public static ArrayList<Subscription> toreturn;
     public static ArrayList<String> friends = new ArrayList<>();
     private static ArrayList<MultiReddit> multireddits;
 
-    public static void doMainActivitySubs(MainActivity c) {
-        String s = subscriptions.getString(Authentication.name, "");
-        if (s.isEmpty()) {
-            //get online subs
-            c.updateSubs(getNamesFromSubscriptions(loadSubscriptionsOverwrite(c), false));
-        } else {
-            ArrayList<String> subredditsForHome = new ArrayList<>();
-            for (String s2 : s.split(",")) {
-                subredditsForHome.add(s2.toLowerCase());
-            }
-            c.updateSubs(subredditsForHome);
-        }
-    }
 
     /**
      * Gets subscriptions from sharedPrefs or syncs them if there are no subs stored
@@ -73,6 +61,10 @@ public class UserSubscriptions {
             return gson.fromJson(s, new TypeToken<List<Subscription>>() {
             }.getType());
         }
+    }
+
+    public static ArrayList<String> getSubscriptionNames(Context c) {
+        return getNamesFromSubscriptions(getSubscriptions(c), true);
     }
 
     public static boolean hasSubs() {
@@ -94,7 +86,7 @@ public class UserSubscriptions {
             @Override
             protected Void doInBackground(Void... params) {
                 toreturn = loadSubreddits(c);
-                toreturn = sort(toreturn);
+                toreturn = sortSubscriptions(toreturn);
                 setSubscriptions(toreturn);
                 return null;
             }
@@ -124,7 +116,7 @@ public class UserSubscriptions {
             try {
                 while (pag.hasNext()) {
                     for (net.dean.jraw.models.Subreddit s : pag.next()) {
-                        subs.add(new Subscription(s, NORMAL));
+                        subs.add(new Subscription(s));
                     }
                 }
                 if (subs.size() != 0) {
@@ -297,7 +289,7 @@ public class UserSubscriptions {
      */
     public static void addSubreddit(Subreddit s, Context c) {
         ArrayList<Subscription> subs = getSubscriptions(c);
-        subs.add(new Subscription(s, NORMAL));
+        subs.add(new Subscription(s));
         setSubscriptions(subs);
     }
 
@@ -452,6 +444,27 @@ public class UserSubscriptions {
 
     /**
      * Sorts the subreddit ArrayList, keeping special subreddits at the top of the list
+     * (e.g. frontpage, all, the random subreddits). Always adds frontpage and all
+     *
+     * @param unsorted the SUBSCRIPTION ArrayList to sort
+     * @return the sorted ArrayList
+     * @see #sortNoExtras(ArrayList)
+     */
+    public static ArrayList<Subscription> sortSubscriptions(ArrayList<Subscription> unsorted) {
+
+        if (getPositionOfName(unsorted, "frontpage") != POSITION_NOT_FOUND) {
+            unsorted.add(0, new Subscription("frontpage", false));
+        }
+
+        if (getPositionOfName(unsorted, "all") != POSITION_NOT_FOUND) {
+            unsorted.add(1, new Subscription("all", false));
+        }
+
+        return sortSubscriptionNoExtras(unsorted);
+    }
+
+    /**
+     * Sorts the subreddit ArrayList, keeping special subreddits at the top of the list
      * (e.g. frontpage, all, the random subreddits)
      *
      * @param unsorted the ArrayList to sort
@@ -476,6 +489,49 @@ public class UserSubscriptions {
         finals.addAll(subs);
         return finals;
 
+    }
+
+    /**
+     * Sorts the subreddit ArrayList, keeping special subreddits at the top of the list
+     * (e.g. frontpage, all, the random subreddits)
+     *
+     * @param unsorted the ArrayList to sort
+     * @return the sorted ArrayList
+     * @see #sortSubscriptions(ArrayList)
+     */
+    public static ArrayList<Subscription> sortSubscriptionNoExtras(ArrayList<Subscription> unsorted) {
+        ArrayList<Subscription> finals = new ArrayList<>();
+        final List<String> specialSubreddits = Arrays.asList(
+                "frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod"
+        );
+
+        for (String subreddit : specialSubreddits) {
+            int position = getPositionOfName(unsorted, subreddit);
+            if (position != POSITION_NOT_FOUND) {
+                unsorted.remove(position);
+                finals.add(new Subscription(subreddit, false));
+            }
+        }
+
+        Collections.sort(unsorted, new Comparator<Subscription>() {
+            public int compare(Subscription sub1, Subscription sub2) {
+                return sub1.getName().compareToIgnoreCase(sub2.getName());
+            }
+        });
+        finals.addAll(unsorted);
+        return finals;
+
+    }
+
+    public static int getPositionOfName(ArrayList<Subscription> c, String name) {
+        int i = 0;
+        for (Subscription sub : c) {
+            if (sub != null && sub.getName().equals(name)) {
+                return i;
+            }
+            i++;
+        }
+        return POSITION_NOT_FOUND;
     }
 
     public static boolean isSubscriber(String s) {
@@ -546,11 +602,10 @@ public class UserSubscriptions {
          * Add subreddit from Subreddit object
          *
          * @param subreddit Subreddit object
-         * @param type      Type of the subreddit
          */
-        public Subscription(Subreddit subreddit, SubscriptionType type) {
+        public Subscription(Subreddit subreddit) {
             this.mName = subreddit.getDisplayName().toLowerCase();
-            this.mType = type;
+            this.mType = NORMAL;
             this.mIsMulti = false;
         }
 
@@ -558,11 +613,10 @@ public class UserSubscriptions {
          * Add multireddit from Multireddit object
          *
          * @param multiReddit Multireddit object
-         * @param type        Type of the multireddit
          */
-        public Subscription(MultiReddit multiReddit, SubscriptionType type) {
+        public Subscription(MultiReddit multiReddit) {
             this.mName = multiReddit.getDisplayName().toLowerCase();
-            this.mType = type;
+            this.mType = NORMAL;
             this.mIsMulti = true;
         }
 

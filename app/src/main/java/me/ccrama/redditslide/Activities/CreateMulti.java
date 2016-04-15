@@ -146,7 +146,7 @@ public class CreateMulti extends BaseActivityAnim {
     String[] all;
 
     public void showSelectDialog() {
-        ArrayList<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(this));
+        ArrayList<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptionNames(this));
         sorted.addAll(subs);
         final List<String> s2 = new ArrayList<>(subs);
         all = new String[sorted.size()];

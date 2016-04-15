@@ -599,7 +599,7 @@ public class SubredditView extends BaseActivityAnim {
                         @Override
                         public void onPostExecute(Void voids) {
                             if (isChecked) {
-                                UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(), SubredditView.this);
+                                UserSubscriptions.addSubreddit(subreddit, SubredditView.this);
                             } else {
                                 UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(), SubredditView.this);
 
