@@ -278,12 +278,11 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
         if (Reddit.notificationTime > 0) {
             ((TextView) findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
                     TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));
-
         } else {
             ((TextView) findViewById(R.id.notifications_current)).setText(R.string.settings_notifdisabled);
         }
 
-        if (Authentication.isLoggedIn)
+        if (Authentication.isLoggedIn) {
             findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -292,11 +291,12 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                     setupNotificationSettings(dialoglayout, SettingsGeneral.this);
                 }
             });
-        else findViewById(R.id.notifications).setVisibility(View.GONE);
-
+        } else {
+            findViewById(R.id.notifications).setEnabled(false);
+            findViewById(R.id.notifications).setAlpha((float) 0.25);
+        }
 
         ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId("")]);
-
         {
             findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
                 @Override
