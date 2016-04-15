@@ -166,7 +166,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                 }
             });
         }
-        String loc = Reddit.appRestart.getString("imagelocation", "Not set yet");
+        String loc = Reddit.appRestart.getString("imagelocation", getString(R.string.settings_image_location_unset));
         ((TextView) findViewById(R.id.location)).setText(loc);
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.expandedmenu);
@@ -434,7 +434,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
     public void onFolderSelection(FolderChooserDialog dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
-            Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.settings_set_image_location, folder.getAbsolutePath()), Toast.LENGTH_LONG).show();
             ((TextView) findViewById(R.id.location)).setText(folder.getAbsolutePath());
         }
     }

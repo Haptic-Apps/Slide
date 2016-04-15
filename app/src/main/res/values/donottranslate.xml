@@ -27,6 +27,7 @@
     <string name="type_deviantart">DeviantArt</string>
     <string name="type_streamable">Streamable</string>
     <string name="type_vidme">vid.me</string>
+    <string name="type_youtube">YouTube</string>
 
 
     <!-- Useful strings displayed at startup -->

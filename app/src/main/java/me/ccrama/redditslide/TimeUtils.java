@@ -27,25 +27,25 @@ public class TimeUtils {
             return null;
         }
 
-
         final long diff = now - time;
         if (diff < MINUTE_MILLIS) {
-            String just_now = c.getString(R.string.time_just_now);
-            if(just_now == null ||just_now.isEmpty()) just_now = "just now";
-            return just_now;
-        } else if (diff < 60 * MINUTE_MILLIS) {
-            Integer value = longToInt(diff / MINUTE_MILLIS);
-            return  value + "m";
-        } else if (diff < 24 * HOUR_MILLIS) {
-            Integer value = longToInt(diff / HOUR_MILLIS);
-            return value + "h";
+            return c.getString(R.string.time_just_now);
+        } else if (diff < HOUR_MILLIS) {
+            int minutes = longToInt(diff / MINUTE_MILLIS);
+            return c.getString(R.string.time_minutes_short, minutes);
+        } else if (diff < DAY_MILLIS) {
+            int hours = longToInt(diff / HOUR_MILLIS);
+            return c.getString(R.string.time_hours_short, hours);
+        } else if (diff < YEAR_MILLIS){
+            int days = longToInt(diff / DAY_MILLIS);
+            return c.getString(R.string.time_days_short, days);
         } else {
-            Integer value = longToInt(diff / DAY_MILLIS);
-            return value + "d";
+            int years = longToInt(diff / YEAR_MILLIS);
+            return c.getString(R.string.time_years_short, years);
         }
-
     }
-    public static String getLengthTimeSince(long time, Context c) {
+
+    public static String getTimeSince(long time, Context c) {
         if (time < 1000000000000L) {
             // if timestamp given in seconds, convert to millis
             time *= 1000;
@@ -59,13 +59,27 @@ public class TimeUtils {
         Resources res = c.getResources();
 
         final long diff = now - time;
-        if (diff < YEAR_MILLIS) {
-            return longToInt(diff / MONTH_MILLIS) + " month"+ (longToInt(diff / MONTH_MILLIS) > 1?"s":"");
-        } else  {
-            Integer value = longToInt(diff / YEAR_MILLIS);
-            return  value + " year" + (value > 1?"s":"");
+        if (diff < SECOND_MILLIS) {
+            return res.getQuantityString(R.plurals.time_seconds, 0, 0);
+        } else if (diff < MINUTE_MILLIS) {
+            int seconds = longToInt(diff / MINUTE_MILLIS);
+            return res.getQuantityString(R.plurals.time_seconds, seconds, seconds);
+        } else if (diff < HOUR_MILLIS) {
+            int minutes = longToInt(diff / MINUTE_MILLIS);
+            return res.getQuantityString(R.plurals.time_minutes, minutes, minutes);
+        } else if (diff < DAY_MILLIS) {
+            int hours = longToInt(diff / HOUR_MILLIS);
+            return res.getQuantityString(R.plurals.time_hours, hours, hours);
+        } else if (diff < MONTH_MILLIS) {
+            int days = longToInt(diff / DAY_MILLIS);
+            return res.getQuantityString(R.plurals.time_days, days, days);
+        } else if (diff < YEAR_MILLIS) {
+            int months = longToInt(diff / MONTH_MILLIS);
+            return res.getQuantityString(R.plurals.time_months, months, months);
+        } else {
+            int years = longToInt(diff / YEAR_MILLIS);
+            return res.getQuantityString(R.plurals.time_years, years, years);
         }
-
     }
 
     private static Integer longToInt(Long temp) {
@@ -78,6 +92,7 @@ public class TimeUtils {
         Resources res = c.getResources();
         String hour = "";
         String minute = "";
+
         if (hours > 0)
             hour = res.getQuantityString(R.plurals.time_hours, hours, hours);
         if (minutes > 0)

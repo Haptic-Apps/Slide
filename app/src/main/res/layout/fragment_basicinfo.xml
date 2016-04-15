@@ -129,7 +129,7 @@
 
             android:layout_height="56dp"
             android:padding="16dp"
-            android:text="@string/welcome_finish"
+            android:text="@string/btn_done"
             android:textSize="14sp"
             android:textAllCaps="true"
 

@@ -620,7 +620,7 @@ public class PopulateSubmissionViewHolder {
         } else {
             approved = true;
             whoApproved = submission.getDataNode().get("approved_by").asText();
-            b.sheet(1, approve, String.format(res.getString(R.string.mod_btn_approved), whoApproved));
+            b.sheet(1, approve, res.getString(R.string.mod_btn_approved, whoApproved));
         }
 
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this

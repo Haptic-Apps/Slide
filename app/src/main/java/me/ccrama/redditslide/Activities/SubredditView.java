@@ -911,7 +911,7 @@ public class SubredditView extends BaseActivityAnim {
                 // Over 18 interstitial for signed out users or those who haven't enabled NSFW content
                 if (subreddit.isNsfw() && !Reddit.over18) {
                     new AlertDialogWrapper.Builder(SubredditView.this)
-                            .setTitle(String.format(getString(R.string.over18_title), subreddit.getDisplayName()))
+                            .setTitle(getString(R.string.over18_title, subreddit.getDisplayName()))
                             .setMessage(getString(R.string.over18_desc) + "\n\n"
                                     + getString(Authentication.isLoggedIn ? R.string.over18_desc_loggedin : R.string.over18_desc_loggedout))
                             .setCancelable(false)

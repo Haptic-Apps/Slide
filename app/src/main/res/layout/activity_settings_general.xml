@@ -303,7 +303,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_general_image_location"
+                        android:text="@string/settings_image_location"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 

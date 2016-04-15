@@ -177,17 +177,17 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     if(comment.getAuthor()!=null)
                     b.sheet(1, profile, "/u/" + comment.getAuthor());
 
-                    String read = "Mark read";
+                    String read = mContext.getString(R.string.mail_mark_read);
                     Drawable rDrawable = hide;
                     if (comment.isRead()) {
-                        read = "Mark unread";
+                        read = mContext.getString(R.string.mail_mark_unread);
                         rDrawable = unhide;
                     }
                     b.sheet(2, rDrawable, read);
                     b.sheet(3, reply, mContext.getString(R.string.btn_reply));
-                    b.sheet(25, copy, "Copy text");
+                    b.sheet(25, copy, mContext.getString(R.string.misc_copy_text));
                     if (comment.isComment()) {
-                        b.sheet(30, reddit, "View full thread");
+                        b.sheet(30, reddit, mContext.getString(R.string.mail_view_full_thread));
                     }
                     b.listener(new DialogInterface.OnClickListener() {
                         @Override
@@ -227,7 +227,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                     ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                                     ClipData clip = ClipData.newPlainText("Message", comment.getBody());
                                     clipboard.setPrimaryClip(clip);
-                                    Toast.makeText(mContext, "Message copied", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, mContext.getString(R.string.mail_message_copied), Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                                 case 30: {

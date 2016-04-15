@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -158,10 +159,11 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                         protected void onPostExecute(Void aVoid) {
 
                                             reloadSubList();
+                                            Resources res = getResources();
 
                                             new AlertDialogWrapper.Builder(SettingsSubreddit.this)
                                                     .setTitle(R.string.color_sync_complete)
-                                                    .setMessage(done + getString(R.string.color_sync_colored))
+                                                    .setMessage(res.getQuantityString(R.plurals.color_sync_colored, done, done))
                                                     .setPositiveButton(getString(R.string.btn_ok), null)
                                                     .show();
                                         }

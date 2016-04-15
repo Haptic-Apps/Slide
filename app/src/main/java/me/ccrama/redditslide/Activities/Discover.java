@@ -49,14 +49,13 @@ public class Discover extends BaseActivityAnim {
                         .alwaysCallInputCallback()
                         .inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
                         .inputRange(3, 100)
-                        .input("Search term or topic", null, new MaterialDialog.InputCallback() {
+                        .input(getString(R.string.discover_search), null, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 if (input.length() >= 3) {
                                     dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
                                 } else {
                                     dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-
                                 }
                             }
                         })
@@ -86,7 +85,7 @@ public class Discover extends BaseActivityAnim {
 
         applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
-        setupAppBar(R.id.toolbar, "Discover", true, false);
+        setupAppBar(R.id.toolbar, R.string.discover_title, true, false);
 
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -123,9 +122,9 @@ public class Discover extends BaseActivityAnim {
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
-                return "popular";
+                return getString(R.string.discover_popular);
             } else {
-                return "trending";
+                return getString(R.string.discover_trending);
             }
         }
     }

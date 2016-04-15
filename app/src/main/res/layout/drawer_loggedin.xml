@@ -103,7 +103,7 @@
             android:layout_height="match_parent"
             android:layout_toEndOf="@+id/proficon"
             android:gravity="center_vertical"
-            android:text="You"
+            android:text="@string/drawer_profile"
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />

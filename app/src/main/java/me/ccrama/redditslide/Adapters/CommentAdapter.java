@@ -2835,7 +2835,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         b.sheet(5, gild, mContext.getString(R.string.comment_gild))
-                .sheet(7, copy, mContext.getString(R.string.submission_copy))
+                .sheet(7, copy, mContext.getString(R.string.misc_copy_text))
                 .sheet(23, permalink, mContext.getString(R.string.comment_permalink))
                 .sheet(4, share, mContext.getString(R.string.comment_share));
         if (!currentBaseNode.isTopLevel()) {
