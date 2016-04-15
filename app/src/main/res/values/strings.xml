@@ -438,6 +438,9 @@
     <string name="post_buttons">Post buttons</string>
     <string name="navigation">Navigation</string>
     <string name="collapse_comments">Collapse actions</string>
+    <string name="nsfw">NSFW content</string>
+    <string name="content_thumbnails">Content thumbnails</string>
+    <string name="view_reddit_settings">Open Reddit settings in browser</string>
 
 
     <!-- Titles displayed in action bar / head / recents overview-->

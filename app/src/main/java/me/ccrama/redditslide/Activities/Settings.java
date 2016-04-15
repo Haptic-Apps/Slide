@@ -323,7 +323,7 @@ public class Settings extends BaseActivity {
                 }
             });
         } else {
-            findViewById(R.id.reddit_settings).setVisibility(View.GONE);
+            findViewById(R.id.reddit_settings).setEnabled(false);
         }
 
     }
