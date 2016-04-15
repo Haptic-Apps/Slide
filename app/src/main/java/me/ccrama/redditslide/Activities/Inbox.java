@@ -69,6 +69,7 @@ public class Inbox extends BaseActivityAnim {
                         new InboxManager(Authentication.reddit).setAllRead();
                         changed = true;
                     } catch (Exception ignored) {
+                        ignored.printStackTrace();
                     }
                     return null;
                 }
