@@ -712,4 +712,5 @@
     <string name="vertical_album_view">Vertical album view</string>
     <string name="download_album">Download album</string>
     <string name="compose_message">Compose message</string>
+    <string name="mark_all_as_read">Mark all as read</string>
 </resources>

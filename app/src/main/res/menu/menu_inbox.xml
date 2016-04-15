@@ -12,7 +12,7 @@
     <item
         android:id="@+id/read"
         android:icon="@drawable/ic_visibility"
-        android:title="@string/misc_mark_read"
+        android:title="@string/mark_all_as_read"
         app:showAsAction="always" />
     <item
         android:id="@+id/notifs"
