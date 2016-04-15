@@ -67,7 +67,6 @@ import me.ccrama.redditslide.util.NetworkUtil;
  */
 public class MediaView extends FullScreenActivity implements FolderChooserDialog.FolderCallback {
 
-
     public static String fileLoc;
     public float previous;
     public static final String EXTRA_URL = "url";
@@ -120,16 +119,16 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 switch (which) {
                     case (2): {
                         Reddit.defaultShare(contentUrl, MediaView.this);
+                        break;
                     }
-                    break;
                     case (3): {
                         shareImage(contentUrl);
+                        break;
                     }
-                    break;
                     case (5): {
                         Reddit.defaultShareText(contentUrl, MediaView.this);
+                        break;
                     }
-                    break;
                     case (4): {
                         if (!isGif) {
                             String url = actuallyLoaded;
@@ -142,23 +141,19 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                             public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
                                                 saveImageGallery(loadedImage, finalUrl1);
                                             }
-
                                         });
-
                             } catch (Exception e) {
                                 Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
                             }
                         } else {
                             doOnClick.run();
                         }
+                        break;
                     }
-                    break;
                 }
             }
         });
-
         b.show();
-
     }
 
     @Override
@@ -249,7 +244,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             findViewById(R.id.hq).setVisibility(View.GONE);
             doLoad(contentUrl);
         }
-
 
         if (!Reddit.appRestart.contains("tutorialSwipe")) {
             startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
@@ -407,7 +401,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                                         }
                                                     }
                                                 }
-
             );
         }
     }
@@ -470,14 +463,12 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             //todo maybe something better
         }
         actuallyLoaded = contentUrl;
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 3) {
             Reddit.appRestart.edit().putBoolean("tutorialSwipe", true).apply();
-
         }
     }
 
@@ -505,7 +496,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url);
         if (f != null && f.exists()) {
-
             try {
                 i.setImage(ImageSource.uri(f.getAbsolutePath()));
                 imageShown = true;
@@ -533,9 +523,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                 base.setAlpha(value);
                             }
                         });
-
                         va.start();
-
                         //hide
                     } else if (zoom <= previous && hidden) {
                         hidden = false;
@@ -550,17 +538,13 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                 base.setAlpha(value);
                             }
                         });
-
                         va.start();
-
                         //unhide
                     }
                     previous = zoom;
-
                 }
             });
         } else {
-
             ((Reddit) getApplication()).getImageLoader()
                     .displayImage(url, new ImageViewAware(fakeImage), new DisplayImageOptions.Builder()
                             .resetViewBeforeLoading(true)
@@ -583,7 +567,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
                             File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url);
                             if (f != null && f.exists()) {
                                 i.setImage(ImageSource.uri(f.getAbsolutePath()));
@@ -611,9 +594,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                                 base.setAlpha(value);
                                             }
                                         });
-
                                         va.start();
-
                                         //hide
                                     } else if (zoom <= previous && hidden) {
                                         hidden = false;
@@ -628,13 +609,10 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                                 base.setAlpha(value);
                                             }
                                         });
-
                                         va.start();
-
                                         //unhide
                                     }
                                     previous = zoom;
-
                                 }
                             });
                         }
@@ -650,7 +628,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                             ((ProgressBar) findViewById(R.id.progress)).setProgress(Math.round(100.0f * current / total));
                         }
                     });
-
         }
 
         findViewById(R.id.submission_image).setOnClickListener(new View.OnClickListener() {
@@ -691,7 +668,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath), "image/*");
                 PendingIntent contentIntent = PendingIntent.getActivity(MediaView.this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-
                 Notification notif = new NotificationCompat.Builder(MediaView.this)
                         .setContentTitle(getString(R.string.info_photo_saved))
                         .setSmallIcon(R.drawable.notif)
@@ -700,13 +676,11 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         .setStyle(new NotificationCompat.BigPictureStyle()
                                 .bigPicture(loadedImage)).build();
 
-
                 NotificationManager mNotificationManager =
                         (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 mNotificationManager.notify(1, notif);
                 loadedImage.recycle();
             }
-
         });
     }
 
@@ -727,7 +701,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 .show();
     }
 
-
     private void shareImage(String finalUrl) {
         ((Reddit) getApplication()).getImageLoader()
                 .loadImage(finalUrl, new SimpleImageLoadingListener() {
@@ -738,7 +711,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 });
     }
 
-
     private void saveImageGallery(final Bitmap bitmap, String URL) {
         if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
             showFirstDialog();
@@ -746,7 +718,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             showErrorDialog();
         } else {
             File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".png");
-
 
             FileOutputStream out = null;
             try {
@@ -761,8 +732,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     if (out != null) {
                         out.close();
                         showNotifPhoto(f, bitmap);
-
-
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -770,11 +739,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 }
             }
         }
-
     }
 
     private void shareImage(final Bitmap bitmap) {
-
         if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
             showFirstDialog();
         } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
@@ -817,8 +784,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 }
             }
         }
-
-
     }
 
     @Override
