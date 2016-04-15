@@ -50,7 +50,6 @@
   <string name="multi_column_title">Usean sarakkeen asetukset</string>
   <string name="multi_column_landscape">Vaakakuva</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profiili</string>
   <string name="drawer_support">Hanki Pro</string>
   <string name="drawer_goto_profile">Profiiliin</string>
   <string name="drawer_add_account">Lisää tili</string>
@@ -89,7 +88,6 @@
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Aloita</string>
   <string name="welcome_personalize">Personalisoi</string>
-  <string name="welcome_finish">Aloita opastus</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Valitse lajittelun tyyppi</string>
   <string name="sorting_time_choose">Valitse aikaväli</string>
@@ -132,16 +130,17 @@
   <string name="gif_err_title">GIF:iä ei löytynyt</string>
   <!-- Multireddit errors -->
   <!-- Content types -->
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_hint_recipient">Vastaanottaja</string>
   <string name="mail_hint_subject">Aihe</string>
   <string name="mail_hint_body">Teksti</string>
   <string name="mail_send">Lähetä viesti</string>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Virhe</string>
   <string name="misc_nsfw">NSFW</string>
   <string name="misc_subscribed">Tilatut</string>
   <string name="misc_continue">Jatka</string>
+  <string name="misc_copy_text">Kopioi teksti</string>
   <!-- Goto User -->
   <!-- Buttons -->
   <string name="btn_add">Lisää</string>
@@ -171,6 +170,9 @@
   <string name="search_title">Etsi</string>
   <string name="search_all">Etsi kaikki</string>
   <string name="search_subreddit">Etsi %1$s</string>
+  <string name="search_top">Parhaat</string>
+  <string name="search_new">Uudet</string>
+  <string name="search_comments">Kommentit</string>
   <!-- Captcha -->
   <string name="captcha">Syötä yllä oleva koodi</string>
   <string name="captcha_title">Todista että et ole robotti</string>
@@ -185,6 +187,7 @@
   <string name="settings_title_comments">Kommentit</string>
   <string name="settings_title_font">Fontti</string>
   <string name="settings_section_general">Yleiset</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_share">Jaa</string>
   <string name="title_login">Kirjaudu Reddittiin</string>
@@ -207,13 +210,16 @@
   <string name="reorder_subreddit_name">Subredditin nimi</string>
   <string name="reorder_remove_title">Poistetaanko tämä subredditti?</string>
   <string name="reorder_remove_msg">Tilaustasi ei peruta, mutta et näe enää tätä subreddittiä sivupalkissasi!</string>
+  <string name="reorder_sync_complete">Synkronointi valmis</string>
   <!-- Time -->
-  <string name="time_just_now">juuri nyt</string>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Synkronointi valmis</string>
-  <string name="color_sync_colored">" subredditit väritettiin"</string>
+  <!-- Discover section: find -->
   <string name="comment_load_more_number_unknown">Lataa lisää kommentteja</string>
   <string name="settings_synccit_username">Käyttäjänimi</string>
-  <string name="reorder_sync_complete">Synkronointi valmis</string>
   <string name="submission_share_permalink">Jaa postaus</string>
   <string name="mode_card">Kortti</string>
   <string name="submission_share_reddit_url">Jaa kommentit</string>
@@ -221,4 +227,5 @@
   <string name="btn_report">Ilmoita</string>
   <string name="subreddit_name_tint">Subredditin nimi</string>
   <string name="content_deleted">[poistettu]</string>
+  <string name="open_externally">Avaa ulkoisesti</string>
 </resources>

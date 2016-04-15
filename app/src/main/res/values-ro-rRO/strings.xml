@@ -58,7 +58,6 @@
   <string name="multi_column_landscape">Orizontală</string>
   <string name="multi_column_portrait">Două coloane în modul portret</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Cumpără Pro</string>
   <string name="drawer_goto_profile">Vezi profilul</string>
   <string name="drawer_add_account">Adaugă un cont</string>
@@ -85,6 +84,9 @@
   <string name="profile_friend">Prieten</string>
   <string name="profile_add_friend">Adaugă prieten</string>
   <string name="profile_remove_friend">Elimină prieten</string>
+  <string name="profile_manage_accounts">Gestionează conturile</string>
+  <string name="profile_remove_account">Eşti sigur că vrei să ştergi acest cont?</string>
+  <string name="profile_remove">Șterge contul</string>
   <!-- Comment text options -->
   <string name="comment_gild">Dă-i aur comentariului</string>
   <string name="comment_share">Distribuie comentariul</string>
@@ -99,7 +101,6 @@
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Să începem</string>
   <string name="welcome_personalize">Personalizare</string>
-  <string name="welcome_finish">Începe tutorial</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Alege un tip de sortare</string>
   <string name="sorting_change_sorting">Mod sortare</string>
@@ -170,7 +171,7 @@
   <string name="type_vid">Video</string>
   <string name="type_emb">Încorporat</string>
   <string name="type_imgur">Conținut de pe Imgur</string>
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s a scris&#8230;</string>
   <string name="mail_hint_recipient">Destinatar</string>
   <string name="mail_hint_subject">Subiect</string>
@@ -186,7 +187,7 @@
     <item quantity="few">Ai %d mesaje noi!</item>
     <item quantity="other">Ai %d mesaje noi!</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Eroare</string>
   <string name="misc_none">Nimic</string>
   <string name="misc_retry">Dorești sa încerci din nou?</string>
@@ -199,7 +200,7 @@
   <string name="misc_please_wait">Răbdare&#8230;</string>
   <string name="misc_img_share">Distribuie imaginea cu</string>
   <string name="misc_link_chooser">Deschide URL-ul cu</string>
-  <string name="misc_mark_read">Marchează ca citit</string>
+  <string name="misc_copy_text">Copiază textul</string>
   <!-- Goto User -->
   <string name="user_enter">Introdu numele de utilizator</string>
   <string name="user_btn_goto">Du-te la utilizator</string>
@@ -264,6 +265,9 @@
   <string name="search_msg">Ce cauți?</string>
   <string name="search_all">Caută tot</string>
   <string name="search_subreddit">Caută %1$s</string>
+  <string name="search_top">Top</string>
+  <string name="search_new">Noi</string>
+  <string name="search_comments">Comentarii</string>
   <!-- Captcha -->
   <string name="captcha">Introdu codul de mai sus</string>
   <string name="captcha_title">Demonstrează că nu ești un robot</string>
@@ -322,6 +326,7 @@
   <string name="settings_title_filter">Filtre</string>
   <string name="settings_title_font">Font</string>
   <string name="settings_section_general">General</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Setări subreddit</string>
   <string name="title_edit_theme">Editare temă</string>
@@ -363,10 +368,24 @@
   <string name="reorder_subreddit_name">Numele subreddit-ului</string>
   <string name="reorder_remove_title">Elimini acest subreddit?</string>
   <string name="reorder_remove_msg">Nu vei fi dezabonat, dar nu vei mai vedea subredditul acesta în bara laterală!</string>
+  <string name="reorder_sync_complete">Sincronizare reușită</string>
   <!-- Time -->
-  <string name="time_just_now">chiar acum</string>
+  <plurals name="time_hours">
+    <item quantity="one">%d oră</item>
+    <item quantity="few">%d ore</item>
+    <item quantity="other">%d ore</item>
+  </plurals>
+  <plurals name="time_minutes">
+    <item quantity="one">%d minut</item>
+    <item quantity="few">%d minute</item>
+    <item quantity="other">%d minute</item>
+  </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Sincronizare reușită</string>
-  <string name="color_sync_colored">" subreddit-urile au fost colorate"</string>
+  <!-- Discover section: find -->
   <string name="comment_load_more_number_unknown">Încarcă mai multe comentarii</string>
   <string name="settings_comment_color">Indicatoare colorate pentru profunditatea comentariilor</string>
   <string name="settings_volume_nav_comments">Navighează între comentarii folosind butoanele de volum</string>
@@ -380,25 +399,11 @@
   <string name="settings_synccit_failed">Nu s-a putut autentifica</string>
   <string name="settings_synccit_failed_msg">Asigură-te că numele de utilizator și cheia de autentificare sunt corecte!</string>
   <string name="settings_synccit">Integrare Synccit</string>
-  <string name="reorder_sync_complete">Sincronizare reușită</string>
-  <string name="reorder_subs_added">" subbredit-uri adăugate"</string>
-  <string name="profile_manage_accounts">Gestionează conturile</string>
-  <string name="profile_remove_account">Eşti sigur că vrei să ştergi acest cont?</string>
-  <string name="profile_remove">Șterge contul</string>
   <string name="card_right_thumb">Miniatură în partea dreapta</string>
   <string name="submission_share_permalink">Distribuiți postarea</string>
   <string name="mode_card">Card</string>
   <string name="btn_report">Reportează</string>
-  <plurals name="time_hours">
-    <item quantity="one">%d oră</item>
-    <item quantity="few">%d ore</item>
-    <item quantity="other">%d ore</item>
-  </plurals>
-  <plurals name="time_minutes">
-    <item quantity="one">%d minut</item>
-    <item quantity="few">%d minute</item>
-    <item quantity="other">%d minute</item>
-  </plurals>
   <string name="subreddit_name_tint">Numele subreddit-ului</string>
   <string name="content_deleted">[deleted]</string>
+  <string name="open_externally">Deschideți extern</string>
 </resources>

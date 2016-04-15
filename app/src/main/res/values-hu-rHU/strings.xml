@@ -54,7 +54,6 @@
   <string name="multi_column_landscape">Fekvő</string>
   <string name="multi_column_portrait">Kettő oszlop álló módban</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Pro megvásárlása</string>
   <string name="drawer_goto_profile">Ugrás profilra</string>
   <string name="drawer_add_account">Fiók hozzáadása</string>
@@ -80,6 +79,9 @@
   <string name="profile_friend">Barát</string>
   <string name="profile_add_friend">Barát hozzáadása</string>
   <string name="profile_remove_friend">Barát törlése</string>
+  <string name="profile_manage_accounts">Fiókok kezelése</string>
+  <string name="profile_remove_account">Biztosan el szeretnéd távolítani ezt a fiókot?</string>
+  <string name="profile_remove">Fiók törlése</string>
   <!-- Comment text options -->
   <string name="comment_gild">Hozzászólás aranyozása</string>
   <string name="comment_share">Hozzászólás megosztása</string>
@@ -93,7 +95,6 @@
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Vágjunk bele</string>
   <string name="welcome_personalize">Személyre szabás</string>
-  <string name="welcome_finish">Útmutató elkezdése</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Válaszd ki egy rendezési módot</string>
   <string name="sorting_time_choose">Válaszd ki az időkeretet</string>
@@ -163,7 +164,7 @@
   <string name="type_vid">Videó</string>
   <string name="type_emb">Beágyazott</string>
   <string name="type_imgur">Imgur tartalom</string>
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s ezt írta&#8230;</string>
   <string name="mail_hint_recipient">Címzett</string>
   <string name="mail_hint_subject">Tárgy</string>
@@ -178,7 +179,7 @@
     <item quantity="one">%d új üzeneted van!</item>
     <item quantity="other">%d új üzeneted van!</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Hiba</string>
   <string name="misc_none">Egyik sem</string>
   <string name="misc_retry">Meg szeretnéd próbálni újra?</string>
@@ -191,7 +192,7 @@
   <string name="misc_please_wait">Kérlek, várj&#8230;</string>
   <string name="misc_img_share">Kép megosztása ezzel</string>
   <string name="misc_link_chooser">URL megnyitása ezzel</string>
-  <string name="misc_mark_read">Megjelölés olvasottként</string>
+  <string name="misc_copy_text">Szöveg másolása</string>
   <!-- Goto User -->
   <string name="user_enter">Add meg a felhasználónevet</string>
   <string name="user_btn_goto">Ugrás felhasználóra</string>
@@ -243,6 +244,9 @@
   <string name="search_title">Keresés</string>
   <string name="search_msg">Mit keresel?</string>
   <string name="search_subreddit">%1$s keresése</string>
+  <string name="search_top">Csúcs</string>
+  <string name="search_new">Legújabb</string>
+  <string name="search_comments">Hozzászólások</string>
   <!-- Captcha -->
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit beállítások</string>
@@ -278,6 +282,7 @@
   <string name="settings_title_filter">Szűrők</string>
   <string name="settings_title_font">Betűtípus</string>
   <string name="settings_section_general">Általános</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Alreddit témák &amp; elrendezések</string>
   <string name="title_edit_theme">Téma szerkesztése</string>
@@ -315,10 +320,14 @@
   <string name="reorder_subreddit_name">Alreddit neve</string>
   <string name="reorder_remove_title">Eltávolítod ezt az alredditet?</string>
   <string name="reorder_remove_msg">Nem iratkozol le erről az alredditről, de nem lesz látható az oldalsávodban!</string>
+  <string name="reorder_sync_complete">Szinkronizálás befejezve</string>
   <!-- Time -->
-  <string name="time_just_now">épp most</string>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Szinkronizálás befejezve</string>
-  <string name="color_sync_colored">" alreddit lett beszínezve"</string>
+  <!-- Discover section: find -->
   <string name="comment_load_more_number_unknown">További hozzászólások betöltése</string>
   <string name="settings_comment_color">Hozzászólásszálak jelölése színekkel</string>
   <string name="settings_synccit_remove">SYNCCIT LECSATLAKOZTATÁSA</string>
@@ -331,11 +340,6 @@
   <string name="settings_synccit_failed">Nem sikerült a hitelesítés</string>
   <string name="settings_synccit_failed_msg">Győzödj meg róla, hogy a felhasználónév és a hitelesítő kód helyes!</string>
   <string name="settings_synccit">Synccit integráció</string>
-  <string name="reorder_sync_complete">Szinkronizálás befejezve</string>
-  <string name="reorder_subs_added">" alreddit hozzáadva"</string>
-  <string name="profile_manage_accounts">Fiókok kezelése</string>
-  <string name="profile_remove_account">Biztosan el szeretnéd távolítani ezt a fiókot?</string>
-  <string name="profile_remove">Fiók törlése</string>
   <string name="card_right_thumb">Jobbra igazított miniatűr</string>
   <string name="submission_share_permalink">Bejegyzés megosztása</string>
   <string name="setting_filter_subreddits">Alreddit szűrők</string>
@@ -357,4 +361,5 @@
   <string name="view_type_tabs">Alreddit fülek</string>
   <string name="btn_report">Jelentés</string>
   <string name="subreddit_name_tint">Alreddit neve</string>
+  <string name="open_externally">Megnyitás külső alkalmazásban</string>
 </resources>

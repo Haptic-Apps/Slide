@@ -52,7 +52,6 @@
   <string name="multi_column_landscape">风景</string>
   <string name="multi_column_portrait">纵向模式时显示双栏</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">帐户</string>
   <string name="drawer_support">升级为专业版</string>
   <string name="drawer_goto_profile">查看用户资料</string>
   <string name="drawer_add_account">添加帐户</string>
@@ -152,7 +151,7 @@
   <string name="type_vid">视频</string>
   <string name="type_emb">内嵌</string>
   <string name="type_imgur">Imgur 内容</string>
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s 写道&#8230;</string>
   <string name="mail_hint_recipient">接收者</string>
   <string name="mail_hint_subject">主题</string>
@@ -166,7 +165,7 @@
   <plurals name="mail_notification_title">
     <item quantity="other">你有 %d 条信息！</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">错误</string>
   <string name="misc_none">无</string>
   <string name="misc_retry">你想再试一次吗？</string>
@@ -179,7 +178,7 @@
   <string name="misc_please_wait">请稍等...</string>
   <string name="misc_img_share">分享图片方式</string>
   <string name="misc_link_chooser">打开链接方式</string>
-  <string name="misc_mark_read">标记已读</string>
+  <string name="misc_copy_text">复制文字</string>
   <!-- Goto User -->
   <string name="user_enter">输入用户名</string>
   <string name="user_btn_goto">前往用户信息</string>
@@ -244,6 +243,9 @@
   <string name="search_msg">你在搜索什么？</string>
   <string name="search_all">全部搜索</string>
   <string name="search_subreddit">搜索 %1$s</string>
+  <string name="search_top">置顶</string>
+  <string name="search_new">新的</string>
+  <string name="search_comments">评论</string>
   <!-- Captcha -->
   <string name="captcha">输入上面的代码</string>
   <string name="captcha_title">证明你不是个机器人</string>
@@ -298,6 +300,7 @@
   <string name="settings_title_filter">过滤</string>
   <string name="settings_title_font">字体</string>
   <string name="settings_section_general">通用</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">版块设置</string>
   <string name="title_edit_theme">编辑主题</string>
@@ -336,16 +339,21 @@
   <string name="reorder_subreddit_name">板块名称</string>
   <string name="reorder_remove_msg">你不会取消订阅，但你不会在侧边栏看见此板块！</string>
   <!-- Time -->
-  <string name="time_just_now">马上</string>
-  <string name="submission_share_permalink">分享告示</string>
-  <string name="mode_card">卡片</string>
-  <string name="btn_report">报告</string>
   <plurals name="time_hours">
     <item quantity="other">%d 小时</item>
   </plurals>
   <plurals name="time_minutes">
     <item quantity="other">%d 分钟</item>
   </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
+  <string name="submission_share_permalink">分享告示</string>
+  <string name="mode_card">卡片</string>
+  <string name="btn_report">报告</string>
   <string name="subreddit_name_tint">板块名称</string>
   <string name="content_deleted">[deleted]</string>
+  <string name="open_externally">外部打开</string>
 </resources>

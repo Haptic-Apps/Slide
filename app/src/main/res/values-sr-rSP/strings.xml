@@ -44,7 +44,6 @@
   <string name="multi_column_title">Више колона</string>
   <string name="multi_column_landscape">Водоравно</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Профил</string>
   <string name="drawer_support">Купи про</string>
   <string name="drawer_goto_profile">Иди на профил</string>
   <string name="drawer_add_account">Додај налог</string>
@@ -111,7 +110,7 @@
   <!-- Gif -->
   <!-- Multireddit errors -->
   <!-- Content types -->
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_hint_subject">Тема</string>
   <string name="mail_hint_body">Тело</string>
   <string name="mail_send_to">Пошаљи поруку кориснику %1$s</string>
@@ -120,7 +119,7 @@
   <string name="mail_reply_to">Одговори кориснику %1$s</string>
   <string name="mail_notification_author">%1$s од %2$s</string>
   <string name="mail_theirs">Погледај њихову поруку</string>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Грешка</string>
   <string name="misc_none">Ништа</string>
   <string name="misc_retry">Да ли желите да покушате поново?</string>
@@ -130,6 +129,7 @@
   <string name="misc_continue">Настави</string>
   <string name="misc_unsubscribed">Отказивање пријаве</string>
   <string name="misc_no_more_posts">Нема више постова!</string>
+  <string name="misc_copy_text">Копирај текст</string>
   <!-- Goto User -->
   <string name="user_enter">Унеси корисничко име</string>
   <string name="user_btn_goto">Иди на корисника</string>
@@ -163,6 +163,9 @@
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
+  <string name="search_top">Топ</string>
+  <string name="search_new">Ново</string>
+  <string name="search_comments">коментари</string>
   <!-- Captcha -->
   <!-- Settings -->
   <string name="settings_layout_default">Изглед поста</string>
@@ -171,6 +174,7 @@
   <string name="settings_title_pro">Купи про</string>
   <string name="settings_title_multi_column">Више колона</string>
   <string name="settings_title_comments">коментари</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <!-- Text in Donation-Activity -->
   <!-- Offline mode -->
@@ -178,8 +182,14 @@
   <string name="website_back">Врати се</string>
   <!-- Reorder subreddit activity -->
   <!-- Time -->
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
   <string name="submission_share_permalink">Подели пост</string>
   <string name="mode_card">Картица</string>
   <string name="btn_report">Извештај</string>
   <string name="content_deleted">[избрисано]</string>
+  <string name="open_externally">Отвори у вањском прегледачу</string>
 </resources>

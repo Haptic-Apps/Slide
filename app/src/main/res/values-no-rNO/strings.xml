@@ -46,7 +46,6 @@
   <string name="multi_column_title">Flerkolonneinnstillinger</string>
   <string name="multi_column_landscape">Landskap</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profil</string>
   <string name="drawer_goto_profile">Gå til profil</string>
   <string name="drawer_add_account">Legg til en konto</string>
   <string name="drawer_hello">Hei,</string>
@@ -131,7 +130,7 @@
   <string name="type_img">Bilde</string>
   <string name="type_vid">Video</string>
   <string name="type_emb">Innebygget</string>
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s skrev&#8230;</string>
   <string name="mail_hint_recipient">Til</string>
   <string name="mail_hint_subject">Emne</string>
@@ -146,7 +145,7 @@
     <item quantity="one">%d ny melding</item>
     <item quantity="other">%d nye meldinger</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Feil</string>
   <string name="misc_none">Ingen</string>
   <string name="misc_retry">Vil du prøve igjen?</string>
@@ -211,6 +210,9 @@
   <!-- Search -->
   <string name="search_comments_hint">Søk i kommentarene</string>
   <string name="search_goto">Gå til</string>
+  <string name="search_top">Topp</string>
+  <string name="search_new">Nye</string>
+  <string name="search_comments">kommentarer</string>
   <!-- Captcha -->
   <string name="captcha">Skriv inn koden ovenfor</string>
   <string name="captcha_title">Vis at du ikke er en robot</string>
@@ -248,6 +250,7 @@
   <string name="settings_title_multi_column">Flerkolonneinnstillinger</string>
   <string name="settings_title_comments">kommentarer</string>
   <string name="settings_section_general">Generelt</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subredditinnstillinger</string>
   <string name="title_edit_theme">Rediger tema</string>
@@ -278,10 +281,6 @@
   <string name="website_back">Tilbake</string>
   <!-- Reorder subreddit activity -->
   <!-- Time -->
-  <string name="time_just_now">akkurat nå</string>
-  <string name="submission_share_permalink">Dele post</string>
-  <string name="mode_card">Kort</string>
-  <string name="btn_report">Rapport</string>
   <plurals name="time_hours">
     <item quantity="one">%d time</item>
     <item quantity="other">%d timer</item>
@@ -290,4 +289,13 @@
     <item quantity="one">%d minutt</item>
     <item quantity="other">%d minutter</item>
   </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
+  <string name="submission_share_permalink">Dele post</string>
+  <string name="mode_card">Kort</string>
+  <string name="btn_report">Rapport</string>
+  <string name="open_externally">Åpne eksternt</string>
 </resources>

@@ -24,6 +24,7 @@
   <string name="theme_light">Lig</string>
   <string name="theme_dark">Donker</string>
   <string name="theme_black">AMOLED swart</string>
+  <string name="theme_dark_blue">Donker blou</string>
   <string name="theme_default_color">Primêre kleur</string>
   <string name="theme_subreddit_color">Verander kleur</string>
   <string name="theme_accent_color">Aksent kleur</string>
@@ -37,7 +38,6 @@
   <string name="multi_column_landscape">Landskap</string>
   <string name="multi_column_portrait">Dubbel kolomme in portret mode</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profiel</string>
   <string name="drawer_goto_profile">Gaan na profiel</string>
   <string name="drawer_add_account">Voeg rekening by</string>
   <string name="drawer_hello">Hallo,</string>
@@ -45,8 +45,12 @@
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
   <string name="profile_message">Privaat boodskap</string>
+  <string name="profile_err_title">Gebruiker nie gevind nie</string>
   <string name="profile_overview">Oorsig</string>
   <string name="profile_comments">Kommentaar</string>
+  <string name="profile_hidden">Versteek</string>
+  <string name="profile_friend">Vriend</string>
+  <string name="profile_remove_friend">Verwyder Vriend</string>
   <!-- Comment text options -->
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
@@ -73,9 +77,10 @@
   <!-- Gif -->
   <!-- Multireddit errors -->
   <!-- Content types -->
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_hint_body">Teks</string>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
+  <string name="misc_copy_text">Kopie teks</string>
   <!-- Goto User -->
   <!-- Buttons -->
   <!-- Backup -->
@@ -84,17 +89,25 @@
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
+  <string name="search_new">Nuwe</string>
+  <string name="search_comments">Kommentaar</string>
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_multi_column">Multi-kolom</string>
   <string name="settings_title_comments">Kommentaar</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <!-- Text in Donation-Activity -->
   <!-- Offline mode -->
   <!-- Website -->
   <!-- Reorder subreddit activity -->
   <!-- Time -->
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
   <string name="submission_share_permalink">Deel artikel</string>
   <string name="mode_card">Kaart</string>
 </resources>

@@ -86,7 +86,7 @@
   <string name="type_album">Album</string>
   <string name="type_img">Gambar</string>
   <string name="type_vid">Video</string>
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s menulis&#8230;</string>
   <string name="mail_hint_recipient">Penerima</string>
   <string name="mail_hint_subject">Subjek</string>
@@ -99,7 +99,7 @@
   <plurals name="mail_notification_title">
     <item quantity="other">Anda mempunyai %d pesan baru!</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Kesalahan</string>
   <string name="misc_none">Tidak ada</string>
   <string name="misc_retry">Apakah Anda ingin mencoba lagi?</string>
@@ -109,6 +109,7 @@
   <string name="misc_continue">Lanjutkan</string>
   <string name="misc_unsubscribed">Berhenti berlangganan</string>
   <string name="misc_no_more_posts">Tidak ada lagi post!</string>
+  <string name="misc_copy_text">Salin teks</string>
   <!-- Goto User -->
   <string name="user_enter">Masukkan nama pengguna</string>
   <!-- Buttons -->
@@ -138,6 +139,8 @@
   <string name="search_msg">Apa yang Anda cari?</string>
   <string name="search_all">Cari Semua</string>
   <string name="search_subreddit">Cari %1$s</string>
+  <string name="search_top">Teratas</string>
+  <string name="search_new">Baru</string>
   <!-- Captcha -->
   <string name="captcha">Masukan kode diatas</string>
   <string name="captcha_title">Buktikan bahwa Anda bukan robot</string>
@@ -154,6 +157,7 @@
   <string name="settings_google">Menyambungkan ke Google</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_support">Donasi</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_settings">Setelan</string>
   <string name="title_inbox">Pesan Masuk</string>
@@ -168,14 +172,18 @@
   <string name="website_back">Kembali</string>
   <!-- Reorder subreddit activity -->
   <!-- Time -->
-  <string name="time_just_now">baru saja</string>
-  <string name="submission_share_permalink">Bagikan post</string>
-  <string name="mode_card">Kartu</string>
   <plurals name="time_hours">
     <item quantity="other">%d jam</item>
   </plurals>
   <plurals name="time_minutes">
     <item quantity="other">%d menit</item>
   </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
+  <string name="submission_share_permalink">Bagikan post</string>
+  <string name="mode_card">Kartu</string>
   <string name="content_deleted">[deleted]</string>
 </resources>

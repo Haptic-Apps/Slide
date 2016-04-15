@@ -64,7 +64,6 @@
   <string name="multi_column_landscape">Horyzontalnie</string>
   <string name="multi_column_portrait">Dwie kolumny w trybie pionowym</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Kup Pro</string>
   <string name="drawer_goto_profile">Przejdź do profilu</string>
   <string name="drawer_add_account">Dodaj konto</string>
@@ -74,6 +73,7 @@
   <string name="drawer_offline">Slide jest w trybie offline</string>
   <string name="drawer_offline_retry">Spróbuj przejść w tryb online</string>
   <!-- Sidebar items (That's the one on the right) -->
+  <string name="sidebar_wiki">Wiki subreddita</string>
   <string name="sidebar_mods">Moderatorzy subreddita</string>
   <!-- User profile -->
   <string name="profile_karma_link">karmy linków</string>
@@ -92,6 +92,11 @@
   <string name="profile_friend">Znajomy</string>
   <string name="profile_add_friend">Dodaj znajomego</string>
   <string name="profile_remove_friend">Usuń znajomego</string>
+  <string name="profile_manage_accounts">Zarządzanie kontami</string>
+  <string name="profile_remove_account">Czy chcesz usunąć to konto?</string>
+  <string name="profile_remove">Usuń konto</string>
+  <string name="profile_history">Historia</string>
+  <string name="profile_tag_user">Otaguj użytkownika</string>
   <!-- Comment text options -->
   <string name="comment_gild">Podaruj złoto</string>
   <string name="comment_share">Udostępnij komentarz</string>
@@ -103,10 +108,11 @@
   <string name="comment_unsave">Wypisz</string>
   <string name="comment_load_more">Załaduj %1$d więcej</string>
   <string name="comment_loading_more">Ładowanie więcej komentarzy&#8230;</string>
+  <string name="comment_permalink">Załaduj permalink komentarza</string>
+  <string name="comment_parent">Pokaż komentarz nadrzędny</string>
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Zaczynajmy</string>
   <string name="welcome_personalize">Personalizuj</string>
-  <string name="welcome_finish">Rozpocznij tutorial</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Wybierz typ sortowania</string>
   <string name="sorting_time_choose">Wybierz okres czasu</string>
@@ -136,7 +142,7 @@
   <string name="editor_self">Post tekst.</string>
   <string name="editor_select_img">Wybierz obraz</string>
   <string name="editor_hint_optional_body">Tekst (opcjonalnie)</string>
-  <string name="editor_submit">Dodaj komentarz</string>
+  <string name="editor_submit">Dodaj post</string>
   <string name="editor_hint_subreddit">Subreddit</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Zdjęcie zapisane</string>
@@ -178,7 +184,7 @@
   <string name="type_vid">Wideo</string>
   <string name="type_emb">W aplikacji</string>
   <string name="type_imgur">Imgur</string>
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s napisał&#8230;</string>
   <string name="mail_hint_recipient">Odbiorca</string>
   <string name="mail_hint_subject">Temat</string>
@@ -189,12 +195,13 @@
   <string name="mail_reply_to">Odpowiedz do %1$s</string>
   <string name="mail_notification_author">%1$s od %2$s</string>
   <string name="mail_theirs">Zobacz wiadomość</string>
+  <string name="mail_re">re: %1$s</string>
   <plurals name="mail_notification_title">
     <item quantity="one">Masz %d nową wiadomość!</item>
     <item quantity="few">Masz %d nowych wiadomości!</item>
     <item quantity="other">Masz %d nowych wiadomości!</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Błąd</string>
   <string name="misc_none">Brak</string>
   <string name="misc_retry">Czy chcesz spróbować ponownie?</string>
@@ -207,7 +214,7 @@
   <string name="misc_please_wait">Proszę czekać&#8230;</string>
   <string name="misc_img_share">Udostępnij zdjęcie przez</string>
   <string name="misc_link_chooser">Otwórz link przez</string>
-  <string name="misc_mark_read">Oznacz jako przeczytane</string>
+  <string name="misc_copy_text">Skopiuj tekst</string>
   <!-- Goto User -->
   <string name="user_enter">Wpisz nazwę użytkownika</string>
   <string name="user_btn_goto">Przejdź do profilu</string>
@@ -226,7 +233,7 @@
   <string name="btn_reply">Odpowiedz</string>
   <string name="btn_reset">Domyślne</string>
   <string name="btn_save">Zapisz</string>
-  <string name="btn_submit">Dodaj post</string>
+  <string name="btn_submit">Dodaj</string>
   <string name="btn_sure">Oczywiście!</string>
   <string name="btn_undo">Cofnij</string>
   <string name="btn_yes">Tak</string>
@@ -250,6 +257,7 @@
   <string name="vote_err_login">Musisz być zalogowany by głosować!</string>
   <!-- Moderation tools -->
   <string name="mod_mail">Mail moderatora</string>
+  <string name="mod_mail_unread">Nieprzeczytany modmail</string>
   <string name="mod_reports">Zgłoszenia</string>
   <string name="mod_approve">Czy naprawdę chcesz zatwierdzić ten post?</string>
   <string name="mod_approved">Post zatwierdzony.</string>
@@ -259,7 +267,20 @@
   <string name="mod_flair_hint">Tekst flagi</string>
   <string name="mod_no_reports">Brak zgłoszeń</string>
   <string name="mod_btn_approve">Zatwierdź</string>
+  <string name="mod_btn_approved">Zatwierdzone przez /u/%1$s</string>
+  <string name="mod_btn_submission_flair">Ustaw flagę</string>
+  <string name="mod_btn_mark_nsfw">Oznacz NSFW</string>
+  <string name="mod_btn_unmark_nsfw">Odznacz NSFW</string>
+  <string name="mod_btn_sticky">Odepnij</string>
+  <string name="mod_btn_unsticky">Przypnij</string>
   <string name="mod_btn_remove">Usuń</string>
+  <string name="mod_btn_remove_reason">Usuń z powodem</string>
+  <string name="mod_btn_author">Profil autora</string>
+  <plurals name="mod_btn_reports">
+    <item quantity="one">Przejrzyj %d zgłoszenie</item>
+    <item quantity="few">Przejrzyj %d zgłoszenia</item>
+    <item quantity="other">Przejrzyj %d zgłoszeń</item>
+  </plurals>
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Nie znaleziono wiki</string>
   <string name="wiki_err_msg">Ten subreddit nie ma wiki!</string>
@@ -276,6 +297,10 @@
   <string name="search_msg">Co chcesz wyszukać?</string>
   <string name="search_all">Przeszukaj wszystko</string>
   <string name="search_subreddit">Przeszukaj %1$s</string>
+  <string name="search_relevance">Związłość</string>
+  <string name="search_top">Najwięcej punktów</string>
+  <string name="search_new">Nowe</string>
+  <string name="search_comments">Komentarze</string>
   <!-- Captcha -->
   <string name="captcha">Wpisz powyższy kod</string>
   <string name="captcha_title">Udowodnij, że nie jesteś robotem</string>
@@ -337,6 +362,9 @@
   <string name="settings_title_filter">Filtry</string>
   <string name="settings_title_font">Czcionka</string>
   <string name="settings_section_general">Ogólne</string>
+  <string name="settings_section_appearance">Wygląd</string>
+  <string name="settings_section_other">Inne</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Ustawienia Subreddita</string>
   <string name="title_edit_theme">Edytuj motyw</string>
@@ -378,10 +406,36 @@
   <string name="reorder_subreddit_name">Nazwa subreddita</string>
   <string name="reorder_remove_title">Usunąć ten subreddit?</string>
   <string name="reorder_remove_msg">Nie odsubskrybujesz subreddita, ale nie będziesz go widzieć w pasku bocznym!</string>
+  <string name="reorder_sync_complete">Synchronizacja zakończona</string>
   <!-- Time -->
-  <string name="time_just_now">teraz</string>
+  <plurals name="time_hours">
+    <item quantity="one">%d godzinę</item>
+    <item quantity="few">%d godziny</item>
+    <item quantity="other">%d godzin</item>
+  </plurals>
+  <plurals name="time_minutes">
+    <item quantity="one">%d minutę</item>
+    <item quantity="few">%d minuty</item>
+    <item quantity="other">%d minut</item>
+  </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <string name="login_subscribe_rslideforreddit">Zasubskrybować /r/slideforreddit?</string>
+  <string name="login_subscribe_rslideforreddit_desc">Czy chciałbyś zasubskrybować /r/slideforreddit dla najnowszych wiadomości i zgłaszania błędów?</string>
+  <string name="login_sync_colors">Zsynchronizować kolory?</string>
+  <string name="login_sync_colors_desc">Czy chcesz zsynchronizować teraz kolory? Możesz to zrobić potem w Ustawienia → Motywy subredditów</string>
+  <string name="login_authenticating">Trwa uwierzytelnianie</string>
+  <string name="login_starting">Konfigurowanie ustawień!</string>
+  <string name="login_starting_desc">Zajmie to sekundkę&#8230;</string>
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <string name="over18_title">/r/%1$s zawiera materiały dla dorosłych</string>
+  <string name="over18_desc">Czy masz więcej niż 18 lat i chcesz zobaczyć zawartość dla dorosłych?</string>
+  <string name="over18_desc_loggedout">Zaloguj się, by permamentnie wyłączyć to ostrzeżenie</string>
+  <string name="over18_desc_loggedin">Możesz to wyłączyć permamentnie w Ustawienia → Preferencje Reddita → Pokazuj obrazy NSFW</string>
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Synchronizacja zakończona</string>
-  <string name="color_sync_colored">" subredditów zmienionych"</string>
+  <!-- Discover section: find -->
+  <string name="discover_title">Odkrywaj</string>
   <string name="comment_load_more_number_unknown">Załaduj więcej komentarzy</string>
   <string name="settings_comment_color">Kolorowa indykacja drzew komentarzy</string>
   <string name="settings_volume_nav_comments">Przeglądaj komentarze przyciskami głośności</string>
@@ -395,11 +449,6 @@
   <string name="settings_synccit_failed">Nie można uwierzytelnić</string>
   <string name="settings_synccit_failed_msg">Upewnij się, że nazwa użytkownika i klucz są poprawne!</string>
   <string name="settings_synccit">Integracja Synccit</string>
-  <string name="reorder_sync_complete">Synchronizacja zakończona</string>
-  <string name="reorder_subs_added">" subreddity dodane"</string>
-  <string name="profile_manage_accounts">Zarządzanie kontami</string>
-  <string name="profile_remove_account">Czy chcesz usunąć to konto?</string>
-  <string name="profile_remove">Usuń konto</string>
   <string name="card_right_thumb">Podgląd dopasowany do prawej</string>
   <string name="submission_share_permalink">Udostępnij post</string>
   <string name="setting_filter_subreddits">Filtr subredditów</string>
@@ -413,7 +462,6 @@
   <string name="fab_disabled">Wyłączony</string>
   <string name="handling_internal_browser">Używaj wbudowanej przeglądarki</string>
   <string name="handling_external_browser">Używaj zewnętrznej przeglądarki</string>
-  <string name="settings_fastscroll_description">Włącza pasek dolny z przyciskami nawigacji</string>
   <string name="settings_comment_collapse">Zwiń komentarze w pełni</string>
   <string name="settings_comment_collapse_description">Wyłącza również animacje komentarzy</string>
   <string name="settings_comment_collapse_default">Domyślnie zwijaj komentarze</string>
@@ -421,8 +469,6 @@
   <string name="mode_centered">Karty z wycentrowanym obrazem</string>
   <string name="mode_card">Karta</string>
   <string name="mode_thumbnail">Tylko miniaturka</string>
-  <string name="mode_cropped">Duże zdjecie ucięte</string>
-  <string name="mode_bigpic">Duże zdjecie</string>
   <string name="settings_general_swipeanywhere_description">Przesuń z dowolnego miejsca, by wyjść</string>
   <string name="press_actionbar">Tapnij strzałkę, by pokazać pasek akcji</string>
   <string name="tap_actionbar">Długie przyciśnięcie pokazuje action bar</string>
@@ -441,16 +487,6 @@
   <string name="btn_report">Zgłoś</string>
   <string name="input_reason_for_report">Powód zgłoszenia</string>
   <string name="msg_report_sent">Zgłoszenie wysłane</string>
-  <plurals name="time_hours">
-    <item quantity="one">%d godzinę</item>
-    <item quantity="few">%d godziny</item>
-    <item quantity="other">%d godzin</item>
-  </plurals>
-  <plurals name="time_minutes">
-    <item quantity="one">%d minutę</item>
-    <item quantity="few">%d minuty</item>
-    <item quantity="other">%d minut</item>
-  </plurals>
   <plurals name="landscape_columns">
     <item quantity="one">%d kolumna horyzontalnie</item>
     <item quantity="few">%d kolumny horyzontalnie</item>
@@ -490,25 +526,19 @@
   <string name="settings_links_force_external">Wymuszanie zewnętrznej przeglądarki</string>
   <string name="settings_links_force_external_desc">Wybierz domeny, które będą otwierane zewnętrznie</string>
   <string name="settings_layout_show_domain">Pokazuj domenę</string>
-  <string name="profile_tag_user">Otaguj użytkownika</string>
   <string name="submit_replies_to_inbox">Informuj o odpowiedziach</string>
-  <string name="discover_title">Odkrywaj</string>
   <string name="settings_data">Oszczędzanie danych</string>
   <string name="settings_card_show_selftext">Pokaż pierwszy akapit postu tekstowego</string>
   <string name="btn_view">Otwórz</string>
   <string name="btn_open_comments">Otwórz komentarze</string>
-  <string name="btn_preview">Pogdląd</string>
+  <string name="btn_preview">Podgląd</string>
   <string name="sorting_default_comment">Domyślnie sortowanie komentarzy</string>
   <string name="theme_amoled_contrast">AMOLED z kontrastem</string>
-  <string name="settings_general_image_location">Wybierz lokalizację zapisu obrazów</string>
   <string name="content_deleted">[usunięte]</string>
+  <string name="thread_continue">Kontynuuj wątek</string>
   <string name="type_selftext">Post tekstowy</string>
-  <string name="mail_re">re: %1$s</string>
-  <string name="login_subscribe_rslideforreddit">Zasubskrybować /r/slideforreddit?</string>
-  <string name="login_subscribe_rslideforreddit_desc">Czy chciałbyś zasubskrybować /r/slideforreddit dla najnowszych wiadomości i zgłaszania błędów?</string>
-  <string name="login_sync_colors">Zsynchronizować kolory?</string>
-  <string name="login_sync_colors_desc">Czy chcesz zsynchronizować teraz kolory? Możesz to zrobić potem w Ustawienia → Motywy subredditów</string>
-  <string name="login_authenticating">Trwa uwierzytelnianie</string>
-  <string name="login_starting">Konfigurowanie ustawień!</string>
-  <string name="login_starting_desc">Zajmie to sekundkę…</string>
+  <string name="submission_unhide">Odkryj post</string>
+  <string name="submission_info_unhidden">Post usunięty z ukrytych</string>
+  <string name="open_externally">Otwórz poza aplikacją
+</string>
 </resources>

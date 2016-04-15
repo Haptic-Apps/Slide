@@ -32,7 +32,6 @@
   <!-- Settings for Multi-column view -->
   <string name="multi_column_landscape">Horizontala orientiĝo</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profilo</string>
   <string name="drawer_add_account">Aldoni konton</string>
   <string name="drawer_hello">Saluton,</string>
   <!-- Sidebar items (That's the one on the right) -->
@@ -87,7 +86,7 @@
   <string name="type_album">Albumo</string>
   <string name="type_img">Bildo</string>
   <string name="type_vid">Video</string>
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s skribis&#8230;</string>
   <string name="mail_hint_recipient">Ricevonto</string>
   <string name="mail_hint_subject">Temo</string>
@@ -101,10 +100,11 @@
     <item quantity="one">Vi havas %d novan mesaĝon!</item>
     <item quantity="other">Vi havas %d novajn mesaĝojn!</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Eraro</string>
   <string name="misc_nsfw">MPL/NSFW</string>
   <string name="misc_continue">Daŭrigi</string>
+  <string name="misc_copy_text">Kopii tekston</string>
   <!-- Goto User -->
   <string name="user_enter">Tajpu uzantnomon</string>
   <!-- Buttons -->
@@ -136,6 +136,9 @@
   <string name="subreddit_subscribers">%1$d abonantoj</string>
   <!-- Search -->
   <string name="search_title">Serĉi</string>
+  <string name="search_top">Supraj</string>
+  <string name="search_new">Novaj</string>
+  <string name="search_comments">komentoj</string>
   <!-- Captcha -->
   <!-- Settings -->
   <string name="share_link">Konigi ligilon</string>
@@ -149,6 +152,7 @@
   <string name="settings_title_about">Pri</string>
   <string name="settings_title_comments">Komentoj</string>
   <string name="settings_section_general">Ĝenerala</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_edit_theme">Redakti etoson</string>
   <string name="title_submit_post">Afiŝi</string>
@@ -162,10 +166,6 @@
   <string name="website_back">Reen</string>
   <!-- Reorder subreddit activity -->
   <!-- Time -->
-  <string name="time_just_now">ĵus</string>
-  <string name="submission_share_permalink">Konigi afiŝon</string>
-  <string name="mode_card">Karto</string>
-  <string name="btn_report">Raporti</string>
   <plurals name="time_hours">
     <item quantity="one">%d horo</item>
     <item quantity="other">%d horoj</item>
@@ -174,5 +174,14 @@
     <item quantity="one">%d minuto</item>
     <item quantity="other">%d minutoj</item>
   </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
+  <string name="submission_share_permalink">Konigi afiŝon</string>
+  <string name="mode_card">Karto</string>
+  <string name="btn_report">Raporti</string>
   <string name="content_deleted">[forigita]</string>
+  <string name="open_externally">Malfermi ekstere</string>
 </resources>

@@ -44,7 +44,6 @@
   <string name="multi_column_title">Çoklu-sütun Ayarları</string>
   <string name="multi_column_landscape">Yatay</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Pro sürüme geç</string>
   <string name="drawer_goto_profile">Profile git</string>
   <string name="drawer_add_account">Bir hesap ekleyin</string>
@@ -128,7 +127,7 @@
   <string name="type_img">Resim</string>
   <string name="type_vid">Video</string>
   <string name="type_emb">Yerleştirilmiş</string>
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s yazdı&#8230;</string>
   <string name="mail_hint_recipient">Alıcı</string>
   <string name="mail_hint_subject">Konu</string>
@@ -143,7 +142,7 @@
     <item quantity="one">%d yeni mesajın var!</item>
     <item quantity="other">%d yeni mesajın var!</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Hata</string>
   <string name="misc_none">Hiçbiri</string>
   <string name="misc_retry">Tekrar denemek ister misiniz?</string>
@@ -206,6 +205,9 @@
   <!-- Search -->
   <string name="search_comments_hint">Yorumları ara</string>
   <string name="search_goto">Şuraya git</string>
+  <string name="search_top">En üst</string>
+  <string name="search_new">Yeni</string>
+  <string name="search_comments">yorumlar</string>
   <!-- Captcha -->
   <string name="captcha">Yukarıdaki kodu girin</string>
   <string name="captcha_title">Robot olmadığınızı kanıtlayın</string>
@@ -235,6 +237,7 @@
   <string name="settings_title_multi_column">Çoklu-sütun Ayarları</string>
   <string name="settings_title_comments">yorumlar</string>
   <string name="settings_section_general">Genel</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit Ayarları</string>
   <string name="title_edit_theme">Temayı Düzenle</string>
@@ -265,10 +268,6 @@
   <string name="website_back">Geri git</string>
   <!-- Reorder subreddit activity -->
   <!-- Time -->
-  <string name="time_just_now">şimdi</string>
-  <string name="submission_share_permalink">Mesajı paylaş</string>
-  <string name="mode_card">Kart</string>
-  <string name="btn_report">Rapor Et</string>
   <plurals name="time_hours">
     <item quantity="one">%d saat</item>
     <item quantity="other">%d saat</item>
@@ -277,4 +276,13 @@
     <item quantity="one">%d dakika</item>
     <item quantity="other">%d dakika</item>
   </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
+  <string name="submission_share_permalink">Mesajı paylaş</string>
+  <string name="mode_card">Kart</string>
+  <string name="btn_report">Rapor Et</string>
+  <string name="open_externally">Harici olarak aç</string>
 </resources>

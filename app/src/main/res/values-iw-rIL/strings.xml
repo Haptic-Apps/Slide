@@ -43,7 +43,6 @@
   <string name="multi_column_title">הגדרות עמודות מרובות</string>
   <string name="multi_column_landscape">רוחב</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">פרופיל</string>
   <string name="drawer_goto_profile">צפה בפרופיל</string>
   <string name="drawer_add_account">הוסף משתמש</string>
   <string name="drawer_hello">היי</string>
@@ -99,9 +98,9 @@
   <!-- Gif -->
   <!-- Multireddit errors -->
   <!-- Content types -->
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_hint_body">טקסט</string>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <!-- Goto User -->
   <!-- Buttons -->
   <!-- Backup -->
@@ -110,18 +109,28 @@
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
+  <string name="search_top">המצליחים ביותר</string>
+  <string name="search_new">חדש</string>
+  <string name="search_comments">תגובות</string>
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_multi_column">הגדרות עמודות מרובות</string>
   <string name="settings_title_comments">תגובות</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <!-- Text in Donation-Activity -->
   <!-- Offline mode -->
   <!-- Website -->
   <!-- Reorder subreddit activity -->
   <!-- Time -->
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
   <string name="submission_share_permalink">שתף פוסט</string>
   <string name="mode_card">קלף</string>
   <string name="btn_report">דיווח</string>
+  <string name="open_externally">פתח חיצונית</string>
 </resources>

@@ -24,8 +24,8 @@
   <!-- Gif -->
   <!-- Multireddit errors -->
   <!-- Content types -->
-  <!-- Reply to message -->
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Inbox/mail -->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <!-- Goto User -->
   <!-- Buttons -->
   <!-- Backup -->
@@ -37,10 +37,16 @@
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <!-- Text in Donation-Activity -->
   <!-- Offline mode -->
   <!-- Website -->
   <!-- Reorder subreddit activity -->
   <!-- Time -->
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
 </resources>

@@ -46,7 +46,6 @@
   <string name="multi_column_title">Configuració de la multi-columna</string>
   <string name="multi_column_landscape">Apaïsat</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Perfil</string>
   <string name="drawer_support">Passar-se a Pro</string>
   <string name="drawer_goto_profile">Anar al perfil</string>
   <string name="drawer_add_account">Afegir un compte</string>
@@ -122,7 +121,7 @@
   <string name="type_album">Àlbum</string>
   <string name="type_img">Imatge</string>
   <string name="type_vid">Vídeo</string>
-  <!-- Reply to message -->
+  <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s ha escrit&#8230;</string>
   <string name="mail_hint_recipient">Destinatari</string>
   <string name="mail_hint_subject">Tema</string>
@@ -137,7 +136,7 @@
     <item quantity="one">Tens %d missatge nou!</item>
     <item quantity="other">Tens %d missatges nous!</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Error</string>
   <string name="misc_none">Res</string>
   <string name="misc_retry">Ho vols tornar a intentar?</string>
@@ -185,6 +184,9 @@
   <!-- Subreddits -->
   <!-- Search -->
   <string name="search_goto">Vés a</string>
+  <string name="search_top">Millor</string>
+  <string name="search_new">Nou</string>
+  <string name="search_comments">comentaris</string>
   <!-- Captcha -->
   <!-- Settings -->
   <string name="share_image">Comparteix l\'imatge</string>
@@ -193,6 +195,7 @@
   <string name="settings_title_support">Dóna</string>
   <string name="settings_title_multi_column">Configuració de la multi-columna</string>
   <string name="settings_title_comments">comentaris</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_inbox">Bústia d\'entrada</string>
   <string name="title_theme_settings">Tema</string>
@@ -203,9 +206,6 @@
   <string name="website_back">Tornar</string>
   <!-- Reorder subreddit activity -->
   <!-- Time -->
-  <string name="submission_share_permalink">Compartir post</string>
-  <string name="mode_card">Targeta</string>
-  <string name="btn_report">Informar</string>
   <plurals name="time_hours">
     <item quantity="one">%d hora</item>
     <item quantity="other">%d hores</item>
@@ -214,4 +214,13 @@
     <item quantity="one">%d minut</item>
     <item quantity="other">%d minuts</item>
   </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
+  <string name="submission_share_permalink">Compartir post</string>
+  <string name="mode_card">Targeta</string>
+  <string name="btn_report">Informar</string>
+  <string name="open_externally">Obrir externament</string>
 </resources>
