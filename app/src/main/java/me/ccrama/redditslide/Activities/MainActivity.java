@@ -1352,7 +1352,6 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivityForResult(inte, INBOX_RESULT);
                 }
             });
-                header.findViewById(R.id.mod).setVisibility(View.GONE);
 
             headerMain = header;
 

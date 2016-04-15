@@ -95,14 +95,11 @@ public class HistoryPosts extends GeneralPosts {
                     adapter.notifyDataSetChanged();
                 }
 
-            } else if (submissions != null) {
+            } else {
                 // end of submissions
                 nomore = true;
                 adapter.notifyDataSetChanged();
 
-            } else if (!nomore) {
-                // error
-                adapter.setError(true);
             }
             refreshLayout.setRefreshing(false);
         }

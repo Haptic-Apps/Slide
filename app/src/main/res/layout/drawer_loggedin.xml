@@ -249,6 +249,7 @@
         android:id="@+id/mod"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:visibility="gone"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
         android:paddingStart="0dp">
