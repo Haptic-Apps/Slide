@@ -489,7 +489,20 @@ public class CommentPage extends Fragment {
                                         PopulateSubmissionViewHolder.openGif(getActivity(), adapter.submission);
                                         break;
                                     case VIDEO:
-                                        Reddit.defaultShare(adapter.submission.getUrl(), getActivity());
+                                        if(Reddit.videoPlugin){
+                                            try {
+                                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                                sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
+                                                        "ccrama.me.slideyoutubeplugin.YouTubeView");
+                                                sharingIntent.putExtra("url", adapter.submission.getUrl());
+                                                getActivity().startActivity(sharingIntent);
+
+                                            } catch (Exception e) {
+                                                Reddit.defaultShare(adapter.submission.getUrl(), getActivity());
+                                            }
+                                        } else {
+                                            Reddit.defaultShare(adapter.submission.getUrl(), getActivity());
+                                        }
 
                                 }
                             } else {

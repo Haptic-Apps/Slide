@@ -446,6 +446,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 return f;
             }
         }
+        
 
         @Override
         public int getCount() {
@@ -512,7 +513,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 public void run() {
 
                 }
-            }, false, true).execute(dat);
+            }, false, true, false).execute(dat);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

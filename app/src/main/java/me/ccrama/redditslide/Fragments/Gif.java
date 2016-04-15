@@ -69,9 +69,9 @@ public class Gif extends Fragment {
 
         String dat = s.getUrl();
         if (dat.contains("streamable.com")) {
-            new StreamableUtil.AsyncLoadStreamable(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), null, false, true).execute(dat);
+            new StreamableUtil.AsyncLoadStreamable(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), null, false, false).execute(dat);
         } else {
-            new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), false, true).execute(dat);
+            new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) v.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), false, true, false).execute(dat);
         }
 
         rootView.findViewById(R.id.desc).setOnClickListener(new View.OnClickListener() {

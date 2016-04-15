@@ -20,8 +20,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
+import me.ccrama.redditslide.Activities.Shadowbox;
 import me.ccrama.redditslide.Adapters.AlbumView;
-import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 import me.ccrama.redditslide.util.AlbumUtils;
@@ -118,7 +118,7 @@ public class AlbumFull extends Fragment {
 
                 Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                 i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, s.getSubredditName());
+                i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, ((Shadowbox)getActivity()).submissions.subreddit);
                 (getActivity()).startActivity(i2);
 
             }
@@ -158,9 +158,7 @@ public class AlbumFull extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-
-        s = OfflineSubreddit.getSubreddit(bundle.getString("sub")).submissions.get(bundle.getInt("page", 0));
-
+        s = ((Shadowbox)getActivity()).submissions.submissions.get(i);
     }
 
 

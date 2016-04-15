@@ -359,8 +359,13 @@ public class MainActivity extends BaseActivity {
                                     Reddit.appRestart.edit().putString("title", s.getTitle()).apply();
                                     Reddit.appRestart.edit().putString("url", s.getUrl()).apply();
 
-                                    Intent i = new Intent(MainActivity.this, Announcement.class);
-                                    startActivity(i);
+                                    Snackbar.make(pager, s.getTitle(), Snackbar.LENGTH_INDEFINITE).setAction(R.string.btn_view, new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent i = new Intent(MainActivity.this, Announcement.class);
+                                            startActivity(i);
+                                        }
+                                    }).show();
                                 }
                             }
                         }.execute();

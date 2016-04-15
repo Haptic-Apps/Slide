@@ -170,7 +170,7 @@ public class MediaFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         firstUrl = bundle.getString("firstUrl");
-        sub = bundle.getString("sub");
+        sub = ((Shadowbox)getActivity()).submissions.subreddit;
         i = bundle.getInt("page");
         s = ((Shadowbox)getActivity()).submissions.submissions.get(i);
         contentUrl = bundle.getString("contentUrl");
@@ -225,7 +225,7 @@ public class MediaFragment extends Fragment {
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
         rootView.findViewById(R.id.progress).setVisibility(View.GONE);
-        gif = new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) rootView.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), true, false);
+        gif = new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) rootView.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), true, false, false);
         gif.execute(dat);
     }
 
@@ -448,7 +448,20 @@ public class MediaFragment extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Reddit.defaultShare(submission.getUrl(), contextActivity);
+                        if(Reddit.videoPlugin){
+                            try {
+                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
+                                        "ccrama.me.slideyoutubeplugin.YouTubeView");
+                                sharingIntent.putExtra("url", submission.getUrl());
+                                contextActivity.startActivity(sharingIntent);
+
+                            } catch (Exception e) {
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            }
+                        } else {
+                            Reddit.defaultShare(submission.getUrl(), contextActivity);
+                        }
                     }
                 });
         }
@@ -628,5 +641,4 @@ public class MediaFragment extends Fragment {
 
         }
     }
-
 }

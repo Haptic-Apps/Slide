@@ -64,9 +64,10 @@ public class GifUtils {
         public View gifSave;
         public boolean closeIfNull;
         public boolean hideControls;
+        public boolean autostart;
         public Runnable doOnClick;
 
-        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable View gifSave, @NotNull boolean closeIfNull, @NotNull boolean hideControls) {
+        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable View gifSave, @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart) {
             this.c = c;
             this.video = video;
             this.progressBar = p;
@@ -74,9 +75,10 @@ public class GifUtils {
             this.placeholder = placeholder;
             this.gifSave = gifSave;
             this.hideControls = hideControls;
+            this.autostart = autostart;
         }
 
-        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave, @NotNull boolean closeIfNull, @NotNull boolean hideControls) {
+        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave, @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart) {
             this.c = c;
             this.video = video;
             this.progressBar = p;
@@ -84,15 +86,17 @@ public class GifUtils {
             this.placeholder = placeholder;
             this.doOnClick = gifSave;
             this.hideControls = hideControls;
+            this.autostart = autostart;
         }
 
-        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder,@NotNull boolean closeIfNull, @NotNull boolean hideControls) {
+        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart) {
             this.c = c;
             this.video = video;
             this.progressBar = p;
             this.closeIfNull = closeIfNull;
             this.placeholder = placeholder;
             this.hideControls = hideControls;
+            this.autostart = autostart;
         }
 
         @Override
@@ -190,7 +194,7 @@ public class GifUtils {
                                                 while ((len = inStream.read(buff)) != -1) {
                                                     outStream.write(buff, 0, len);
                                                     final int percent = Math.round(100.0f * f.length() / length);
-                                                    if(percent == 100)
+                                                    if (percent == 100)
                                                         MediaView.didLoadGif = true;
 
                                                     if (progressBar != null) {
@@ -280,7 +284,8 @@ public class GifUtils {
                                                                                 }
 
                                                     );
-                                                    video.start();
+                                                    if (autostart)
+                                                        video.start();
 
 
                                                 }
@@ -338,7 +343,7 @@ public class GifUtils {
                         while ((len = inStream.read(buff)) != -1) {
                             outStream.write(buff, 0, len);
                             final int percent = Math.round(100.0f * f.length() / length);
-                            if(percent == 100)
+                            if (percent == 100)
                                 MediaView.didLoadGif = true;
                             if (progressBar != null) {
 
@@ -378,7 +383,7 @@ public class GifUtils {
                             video.setVideoPath(f.getAbsolutePath());
                             //videoView.set
 
-                            if (placeholder != null && !hideControls&& !(c instanceof Shadowbox)) {
+                            if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
                                 MediaController mediaController = new
                                         MediaController(c);
                                 mediaController.setAnchorView(placeholder);
@@ -396,7 +401,7 @@ public class GifUtils {
                                         saveGif(f, c);
                                     }
                                 });
-                            } else if(doOnClick != null){
+                            } else if (doOnClick != null) {
                                 MediaView.doOnClick = new Runnable() {
                                     @Override
                                     public void run() {
@@ -419,7 +424,9 @@ public class GifUtils {
                                 }
 
                             });
-                            video.start();
+                            if (autostart)
+
+                                video.start();
 
 
                         }
@@ -473,7 +480,7 @@ public class GifUtils {
                                                                                                                                   while ((len = inStream.read(buff)) != -1) {
                                                                                                                                       outStream.write(buff, 0, len);
                                                                                                                                       final int percent = Math.round(100.0f * f.length() / length);
-                                                                                                                                      if(percent == 100)
+                                                                                                                                      if (percent == 100)
                                                                                                                                           MediaView.didLoadGif = true;
                                                                                                                                       if (progressBar != null) {
 
@@ -513,7 +520,7 @@ public class GifUtils {
                                                                                                                                       video.setVideoPath(f.getAbsolutePath());
                                                                                                                                       //videoView.set
 
-                                                                                                                                      if (placeholder != null && !hideControls&& !(c instanceof Shadowbox)) {
+                                                                                                                                      if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
                                                                                                                                           MediaController mediaController = new
                                                                                                                                                   MediaController(c);
                                                                                                                                           mediaController.setAnchorView(placeholder);
@@ -531,7 +538,7 @@ public class GifUtils {
                                                                                                                                                   saveGif(f, c);
                                                                                                                                               }
                                                                                                                                           });
-                                                                                                                                      } else if(doOnClick != null){
+                                                                                                                                      } else if (doOnClick != null) {
                                                                                                                                           MediaView.doOnClick = new Runnable() {
                                                                                                                                               @Override
                                                                                                                                               public void run() {
@@ -552,7 +559,9 @@ public class GifUtils {
                                                                                                                                           }
 
                                                                                                                                       });
-                                                                                                                                      video.start();
+                                                                                                                                      if (autostart)
+
+                                                                                                                                          video.start();
                                                                                                                                   }
                                                                                                                               });
                                                                                                                           } catch (Exception ex) {
@@ -624,7 +633,7 @@ public class GifUtils {
                                                                                                                                                                while ((len = inStream.read(buff)) != -1) {
                                                                                                                                                                    outStream.write(buff, 0, len);
                                                                                                                                                                    final int percent = Math.round(100.0f * f.length() / length);
-                                                                                                                                                                   if(percent == 100)
+                                                                                                                                                                   if (percent == 100)
                                                                                                                                                                        MediaView.didLoadGif = true;
                                                                                                                                                                    if (progressBar != null) {
                                                                                                                                                                        c.runOnUiThread(new Runnable() {
@@ -651,7 +660,7 @@ public class GifUtils {
                                                                                                                                                                        video.setVideoPath(f.getAbsolutePath());
                                                                                                                                                                        //videoView.set
 
-                                                                                                                                                                       if (placeholder != null && !hideControls&& !(c instanceof Shadowbox)) {
+                                                                                                                                                                       if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
                                                                                                                                                                            MediaController mediaController = new
                                                                                                                                                                                    MediaController(c);
                                                                                                                                                                            mediaController.setAnchorView(placeholder);
@@ -666,7 +675,7 @@ public class GifUtils {
                                                                                                                                                                                    saveGif(f, c);
                                                                                                                                                                                }
                                                                                                                                                                            });
-                                                                                                                                                                       }else if(doOnClick != null){
+                                                                                                                                                                       } else if (doOnClick != null) {
                                                                                                                                                                            MediaView.doOnClick = new Runnable() {
                                                                                                                                                                                @Override
                                                                                                                                                                                public void run() {
@@ -688,7 +697,9 @@ public class GifUtils {
                                                                                                                                                                            }
 
                                                                                                                                                                        });
-                                                                                                                                                                       video.start();
+                                                                                                                                                                       if (autostart)
+
+                                                                                                                                                                           video.start();
 
                                                                                                                                                                    }
                                                                                                                                                                });

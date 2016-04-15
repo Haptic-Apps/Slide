@@ -315,7 +315,20 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 case NONE:
                     break;
                 case VIDEO:
-                    Reddit.defaultShare(url, activity);
+                    if(Reddit.videoPlugin){
+                        try {
+                            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                            sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
+                                    "ccrama.me.slideyoutubeplugin.YouTubeView");
+                            sharingIntent.putExtra("url", url);
+                            activity.startActivity(sharingIntent);
+
+                        } catch (Exception e) {
+                            Reddit.defaultShare(url, activity);
+                        }
+                    } else {
+                        Reddit.defaultShare(url, activity);
+                    }
                 case SPOILER:
                     spoilerClicked = true;
                     setOrRemoveSpoilerSpans(xOffset);

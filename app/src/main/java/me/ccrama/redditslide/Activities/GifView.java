@@ -75,7 +75,7 @@ public class GifView extends FullScreenActivity implements FolderChooserDialog.F
             }
         } else {
             dat = getIntent().getExtras().getString(EXTRA_URL);
-            new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false).execute(dat);
+            new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), findViewById(R.id.gifsave), true, false, true).execute(dat);
         }
         findViewById(R.id.external).setOnClickListener(new View.OnClickListener() {
             @Override
