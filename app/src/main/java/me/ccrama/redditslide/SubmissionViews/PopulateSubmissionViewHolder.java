@@ -115,7 +115,7 @@ public class PopulateSubmissionViewHolder {
                     }
                 }
 
-                if (!PostMatch.openExternal(submission.getUrl())) {
+                if (!PostMatch.openExternal(submission.getUrl()) || type == ContentType.Type.VIDEO) {
 
                     switch (type) {
                         case VID_ME:

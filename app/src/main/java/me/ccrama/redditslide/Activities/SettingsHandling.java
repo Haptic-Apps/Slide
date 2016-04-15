@@ -52,7 +52,7 @@ public class SettingsHandling extends BaseActivityAnim implements
         gif.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
 
-        if (Reddit.videoPlugin)
+        if (!Reddit.videoPlugin)
             findViewById(R.id.video).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

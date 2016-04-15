@@ -661,4 +661,5 @@
     <string name="open_externally">Open externally</string>
     <string name="vertical_album_view">Vertical album view</string>
     <string name="download_album">Download album</string>
+    <string name="type_youtube">YouTube</string>
 </resources>
