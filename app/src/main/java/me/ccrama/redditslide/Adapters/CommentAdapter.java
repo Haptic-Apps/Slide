@@ -593,7 +593,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission) {
+    public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, boolean reset) {
 
         this.mContext = mContext;
         this.listView = listView;
@@ -614,10 +614,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         replie = new ArrayList<>();
 
 
-        if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
+        if (currentSelectedItem != null && !currentSelectedItem.isEmpty() &&!reset) {
             notifyDataSetChanged();
         } else {
-            if (users != null) {
+            if (users != null && !reset) {
                 notifyItemRangeChanged(2, users.size() + 1);
             } else {
                 users = new ArrayList<>();

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.InboxPage;
@@ -31,13 +32,32 @@ public class ModQueue extends BaseActivityAnim {
 
         applyColorTheme("");
         setContentView(R.layout.activity_inbox);
-        setupAppBar(R.id.toolbar, R.string.title_mod, true, true);
+        setupAppBar(R.id.toolbar, R.string.drawer_moderation, true, true);
 
         TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabs.setSelectedTabIndicatorColor(new ColorPreferences(ModQueue.this).getColor("no sub"));
-
+        final View header = findViewById(R.id.header);
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                header.animate()
+                        .translationY(0)
+                        .setInterpolator(new LinearInterpolator())
+                        .setDuration(180);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
@@ -86,7 +106,7 @@ public class ModQueue extends BaseActivityAnim {
                 f.setArguments(args);
 
                 return f;
-            } else if (i == 2) {
+            } else if (i == 3) {
                 Fragment f = new ModPage();
                 Bundle args = new Bundle();
 
@@ -96,7 +116,7 @@ public class ModQueue extends BaseActivityAnim {
                 f.setArguments(args);
 
                 return f;
-            } else if (i == 3) {
+            } else if (i == 2) {
                 Fragment f = new ModPage();
                 Bundle args = new Bundle();
 
@@ -135,7 +155,7 @@ public class ModQueue extends BaseActivityAnim {
             } else if (position == 1) {
                 return getString(R.string.mod_mail);
             } else if (position == 2) {
-                return "/r/mod unmoderated";
+                return "Unmoderated";
             } else if (position == 3) {
                 return "modqueue";
             } else {

@@ -42,7 +42,7 @@
             android:text="ccrama"
             android:textColor="#fff"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold|italic" />
 
         <ImageView
             android:id="@+id/headerflip"
@@ -70,7 +70,7 @@
             android:layout_height="42dp"
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
-
+            android:textColor="#fff"
             android:orientation="horizontal"
             android:paddingStart="18dp"
             android:text="@string/drawer_add_account"
@@ -93,7 +93,6 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
-
         android:orientation="horizontal"
         android:paddingStart="0dp">
 
@@ -101,8 +100,8 @@
             android:id="@+id/proficon"
             android:layout_width="26dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
+            android:layout_marginStart="16dp"
             android:tint="?attr/tint"
             app:srcCompat="@drawable/profile" />
 
@@ -111,7 +110,7 @@
             android:layout_height="match_parent"
             android:layout_toRightOf="@+id/proficon"
             android:gravity="center_vertical"
-            android:text="@string/drawer_profile"
+            android:text="You"
 
             android:textColor="?attr/font"
             android:textSize="14sp"
@@ -198,6 +197,7 @@
             android:paddingStart="24dp"
             android:text="@string/profile_comments"
             android:textSize="14sp" />
+
         <TextView
             android:id="@+id/history"
             android:layout_width="match_parent"
@@ -223,8 +223,8 @@
             android:id="@+id/inb"
             android:layout_width="26dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
+            android:layout_marginStart="16dp"
             android:tint="?attr/tint"
             app:srcCompat="@drawable/sidebar_inbox" />
 
@@ -269,8 +269,8 @@
             android:id="@+id/mo"
             android:layout_width="26dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
+            android:layout_marginStart="16dp"
             android:tint="?attr/tint"
             app:srcCompat="@drawable/mod" />
 
@@ -293,11 +293,11 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="16dp"
             android:background="@drawable/roundedbackmod"
-            android:visibility="gone"
             android:gravity="center"
             android:textColor="#fff"
             android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:visibility="gone" />
     </RelativeLayout>
 
 
@@ -313,8 +313,8 @@
         <ImageView
             android:layout_width="26dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
+            android:layout_marginStart="16dp"
             android:tint="?attr/tint"
             app:srcCompat="@drawable/collection" />
 
@@ -329,6 +329,107 @@
             android:textStyle="bold" />
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingStart="0dp">
+
+        <ImageView
+            android:id="@+id/settingsicon"
+            android:layout_width="26dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="26dp"
+            android:layout_marginStart="16dp"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/settings" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/settingsicon"
+            android:gravity="center_vertical"
+            android:text="@string/title_settings"
+
+            android:textColor="?attr/font"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/godownsettings"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="2dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:padding="14dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:theme="@style/Ripple.List"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/down" />
+    </RelativeLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/expand_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/activity_background"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:weightSum="5">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/base"
+            android:orientation="horizontal"
+            android:paddingStart="24dp"
+            android:background="?android:selectableItemBackground"
+            android:layout_height="56dp">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:tint="?attr/card_background"
+                android:src="@drawable/circle"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="36dp"
+                android:text="@string/theme_base"
+                android:layout_centerVertical="true"
+                android:textSize="14sp"
+                android:paddingStart="8dp"
+                android:layout_height="wrap_content" />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="match_parent"
+            android:text="Data saving mode"
+            android:layout_height="56dp"
+            android:textSize="14sp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+
+            />
+        <android.support.v7.widget.SwitchCompat
+            android:layout_width="match_parent"
+            android:text="Right hand thumbnail mode"
+            android:layout_height="56dp"
+            android:textSize="14sp"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/support"
         android:layout_width="match_parent"
@@ -341,8 +442,8 @@
         <ImageView
             android:layout_width="26dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
+            android:layout_marginStart="16dp"
             android:tint="?attr/tint"
             app:srcCompat="@drawable/crown" />
 
@@ -369,8 +470,8 @@
         <ImageView
             android:layout_width="26dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
+            android:layout_marginStart="16dp"
             android:tint="?attr/tint"
             app:srcCompat="@drawable/profile" />
 
@@ -397,8 +498,8 @@
         <ImageView
             android:layout_width="26dp"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
+            android:layout_marginStart="16dp"
             android:tint="?attr/tint"
             app:srcCompat="@drawable/world" />
 
@@ -413,33 +514,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="?android:selectableItemBackground"
-        android:orientation="horizontal"
-
-        android:paddingStart="0dp">
-
-        <ImageView
-            android:layout_width="26dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="26dp"
-            android:tint="?attr/tint"
-            app:srcCompat="@drawable/settings" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-
-            android:text="@string/title_settings"
-            android:textColor="?attr/font"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -449,8 +523,8 @@
             android:id="@+id/sort"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="?attr/tint"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
@@ -466,11 +540,11 @@
             android:layout_height="36dp"
             android:layout_alignBottom="@+id/sort"
             android:layout_alignParentRight="true"
-            android:tint="?attr/tint"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:padding="8dp"
             android:theme="@style/Ripple.List"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/close" />
     </RelativeLayout>
 </LinearLayout>

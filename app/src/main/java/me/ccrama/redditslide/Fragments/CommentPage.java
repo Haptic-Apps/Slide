@@ -105,7 +105,7 @@ public class CommentPage extends Fragment {
             String fullname = data.getExtras().getString("fullname");
 
             adapter.currentSelectedItem = fullname;
-            adapter.reset(getContext(), comments, rv, comments.submission);
+            adapter.reset(getContext(), comments, rv, comments.submission, true);
             adapter.notifyDataSetChanged();
             int i = 2;
             for (CommentObject n : comments.comments) {
@@ -599,10 +599,10 @@ public class CommentPage extends Fragment {
             rv.setAdapter(adapter);
             adapter.currentSelectedItem = context;
 
-            adapter.reset(getContext(), comments, rv, comments.submission);
+            adapter.reset(getContext(), comments, rv, comments.submission, b);
         } else if (!b) {
             try {
-                adapter.reset(getContext(), comments, rv, (getActivity() instanceof MainActivity) ? ((MainActivity) getActivity()).openingComments : comments.submission);
+                adapter.reset(getContext(), comments, rv, (getActivity() instanceof MainActivity) ? ((MainActivity) getActivity()).openingComments : comments.submission, b);
                 if (SettingValues.collapseCommentsDefault) {
                     adapter.collapseAll();
                 }
@@ -610,7 +610,7 @@ public class CommentPage extends Fragment {
             }
 
         } else {
-            adapter.reset(getContext(), comments, rv, comments.submission);
+            adapter.reset(getContext(), comments, rv, comments.submission, b);
             if (SettingValues.collapseCommentsDefault) {
                 adapter.collapseAll();
             }

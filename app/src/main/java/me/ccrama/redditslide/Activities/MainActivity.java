@@ -731,6 +731,7 @@ public class MainActivity extends BaseActivity {
     public void updateColor(int color, String subreddit) {
         hea.setBackgroundColor(color);
         header.setBackgroundColor(color);
+        findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(color));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Palette.getDarkerColor(color));
@@ -760,8 +761,11 @@ public class MainActivity extends BaseActivity {
             themeSystemBars(usedArray.get(toGoto));
 
             header.setBackgroundColor(Palette.getColor(usedArray.get(0)));
-            if (hea != null)
+
+            if (hea != null) {
                 hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
+                findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(usedArray.get(0)));
+            }
             if (!SettingValues.single) {
                 mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
                 shouldLoad = usedArray.get(toGoto);
@@ -1201,7 +1205,7 @@ public class MainActivity extends BaseActivity {
             final LinearLayout accountList = (LinearLayout) header.findViewById(R.id.accountsarea);
             for (final String accName : keys) {
                 LogUtil.v(accName);
-                final View t = getLayoutInflater().inflate(R.layout.account_textview, accountList, false);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview_white, accountList, false);
                 ((TextView) t.findViewById(R.id.name)).setText(accName);
                 if (!accName.equals(guest)) {
                     t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
@@ -1308,6 +1312,19 @@ public class MainActivity extends BaseActivity {
                     }
                 }
             });
+            header.findViewById(R.id.godownsettings).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    LinearLayout body = (LinearLayout) header.findViewById(R.id.expand_settings);
+                    if (body.getVisibility() == View.GONE) {
+                        expand(body);
+                        flipAnimator(false, view).start();
+                    } else {
+                        collapse(body);
+                        flipAnimator(true, view).start();
+                    }
+                }
+            });
             header.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1376,7 +1393,7 @@ public class MainActivity extends BaseActivity {
             final LinearLayout accountList = (LinearLayout) header.findViewById(R.id.accountsarea);
             for (final String accName : keys) {
                 LogUtil.v(accName);
-                final View t = getLayoutInflater().inflate(R.layout.account_textview, accountList, false);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview_white, accountList, false);
                 ((TextView) t.findViewById(R.id.name)).setText(accName);
                 if (!accName.equals(guest)) {
                     t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
@@ -1592,6 +1609,7 @@ public class MainActivity extends BaseActivity {
 
         actionBarDrawerToggle.syncState();
         header.findViewById(R.id.back).setBackgroundColor(Palette.getColor("alsdkfjasld"));
+        header.findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor("alsdkfjasld"));
 
         setDrawerSubList();
     }
@@ -1754,6 +1772,7 @@ public class MainActivity extends BaseActivity {
                     int color = Palette.getColor(subToDo);
                     hea.setBackgroundColor(color);
                     header.setBackgroundColor(color);
+                    findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(color));
                     themeSystemBars(subToDo);
                     setRecentBar(subToDo);
 
@@ -2300,9 +2319,12 @@ public class MainActivity extends BaseActivity {
                         }
                     }
 
-                    if (hea != null)
+                    if (hea != null) {
                         hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                        findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
+                    }
                     header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+
                     themeSystemBars(usedArray.get(position));
                     setRecentBar(usedArray.get(position));
 
@@ -2417,9 +2439,12 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        if (hea != null)
+        if (hea != null) {
             hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+            findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
+        }
         header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+
         themeSystemBars(usedArray.get(position));
         setRecentBar(usedArray.get(position));
 

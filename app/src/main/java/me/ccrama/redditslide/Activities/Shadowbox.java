@@ -143,7 +143,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 {
                     f = new MediaFragment();
                     Bundle args = new Bundle();
-                    Submission submission = submissions.submissions.get(i);
+                    Submission submission = subredditPosts.getPosts().get(i);
                     String previewUrl = "";
                     if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                         previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
@@ -231,9 +231,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
         @Override
         public int getCount() {
-            int offset = 0;
-
-            return subredditPosts.getPosts().size() + offset;
+            return subredditPosts.getPosts().size() ;
         }
 
 
