@@ -37,14 +37,14 @@ public class SettingsReddit extends BaseActivityAnim {
     public void onPause() {
         super.onPause();
         if(editor != null)
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                new AccountManager(Authentication.reddit).updatePreferences(editor);
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    new AccountManager(Authentication.reddit).updatePreferences(editor);
 
-                return null;
-            }
-        }.execute();
+                    return null;
+                }
+            }.execute();
 
     }
 
@@ -78,30 +78,40 @@ public class SettingsReddit extends BaseActivityAnim {
             protected void onPostExecute(Void aVoid) {
                 {
                     final SwitchCompat thumbnails = (SwitchCompat) findViewById(R.id.nsfwcontent);
-
                     thumbnails.setChecked(Boolean.parseBoolean(prefs.data("over_18")));
+
                     thumbnails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             editor.setArgs("over_18", String.valueOf(isChecked));
                             Reddit.over18 = isChecked;
+
+                            if (isChecked) {
+                                (findViewById(R.id.nsfwrpev)).setEnabled(true);
+                                ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(Boolean.parseBoolean(prefs.data("no_profanity")));
+                            } else {
+                                ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(true);
+                                (findViewById(R.id.nsfwrpev)).setEnabled(false);
+                            }
                         }
                     });
-
                 }
                 {
                     final SwitchCompat thumbnails = (SwitchCompat) findViewById(R.id.nsfwrpev);
-                    if (((SwitchCompat) findViewById(R.id.nsfwcontent)).isChecked()) {
+
+                    if (!((SwitchCompat) findViewById(R.id.nsfwcontent)).isChecked()) {
+                        thumbnails.setChecked(true);
                         thumbnails.setEnabled(false);
                     } else {
                         thumbnails.setChecked(Boolean.parseBoolean(prefs.data("no_profanity")));
-                        thumbnails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                editor.setArgs("no_profanity", String.valueOf(isChecked));
-                            }
-                        });
                     }
+
+                    thumbnails.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            editor.setArgs("no_profanity", String.valueOf(isChecked));
+                        }
+                    });
                 }
 
                 //Thumbnail type

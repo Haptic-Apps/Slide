@@ -324,6 +324,7 @@ public class Settings extends BaseActivity {
             });
         } else {
             findViewById(R.id.reddit_settings).setEnabled(false);
+            findViewById(R.id.reddit_settings).setAlpha((float) 0.25);
         }
 
     }

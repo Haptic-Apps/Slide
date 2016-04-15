@@ -293,6 +293,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             });
         } else {
             findViewById(R.id.notifications).setEnabled(false);
+            findViewById(R.id.notifications).setAlpha((float) 0.25);
         }
 
         ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId("")]);
