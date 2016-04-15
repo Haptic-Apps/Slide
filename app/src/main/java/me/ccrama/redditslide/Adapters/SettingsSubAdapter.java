@@ -12,6 +12,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -117,18 +118,20 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
      * @param dialoglayout The subchooser layout (R.layout.colorsub)
      */
     public static void showSubThemeEditor(final ArrayList<String> subreddits, final Activity context, View dialoglayout) {
-        if (subreddits.size() == 0) return;
+        if (subreddits.size() == 0) {
+            return;
+        }
 
-        boolean multipleSubs = subreddits.size() > 1;
+        final boolean multipleSubs = (subreddits.size() > 1);
         boolean isAlternateLayout;
         int currentColor;
         int currentAccentColor;
+
         final ColorPreferences colorPrefs = new ColorPreferences(context);
-
         final String subreddit = multipleSubs ? null : subreddits.get(0);
-
         final SwitchCompat bigPics = (SwitchCompat) dialoglayout.findViewById(R.id.bigpics);
 
+        //Selected multiple subreddits
         if (multipleSubs) {
             //Check if all selected subs have the same settings
             int previousSubColor = 0;
@@ -136,6 +139,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             bigPics.setChecked(SettingValues.bigPicEnabled);
             boolean sameMainColor = true;
             boolean sameAccentColor = true;
+
             for (String sub : subreddits) {
                 int currentSubColor = Palette.getColor(sub);
                 int currentSubAccent = colorPrefs.getColor("");
@@ -147,7 +151,9 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                         sameAccentColor = false;
                     }
                 }
-                if (!sameMainColor && !sameAccentColor) break;
+                if (!sameMainColor && !sameAccentColor) {
+                    break;
+                }
 
                 previousSubAccent = currentSubAccent;
                 previousSubColor = currentSubColor;
@@ -158,13 +164,13 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             isAlternateLayout = false;
 
             //If all selected subs have the same settings, display them
-            if (sameMainColor)
+            if (sameMainColor) {
                 currentColor = previousSubColor;
-            if (sameAccentColor)
+            }
+            if (sameAccentColor) {
                 currentAccentColor = previousSubAccent;
-        }
-        //Is only one selected sub
-        else {
+            }
+        } else {  //Is only one selected sub
             currentColor = Palette.getColor(subreddit);
             isAlternateLayout = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit);
             currentAccentColor = colorPrefs.getColor(subreddit);
@@ -172,11 +178,13 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         }
 
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
+
         final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
         title.setBackgroundColor(currentColor);
 
         if (multipleSubs) {
             String titleString = "";
+
             for (String sub : subreddits) {
                 titleString = titleString + "/r/" + sub + ", ";
             }
@@ -187,47 +195,42 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             title.setText("/r/" + subreddit);
         }
 
-
         {
+            //Primary color pickers
+            final LineColorPicker colorPickerPrimary = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
+            //shades of primary colors
+            final LineColorPicker colorPickerPrimaryShades = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-            LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
-            final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
-
-            colorPicker.setColors(ColorPreferences.getBaseColors(context));
+            colorPickerPrimary.setColors(ColorPreferences.getBaseColors(context));
 
             //Iterate through all colors and check if it matches the current color of the sub, then select it
-            for (int i : colorPicker.getColors()) {
+            for (int i : colorPickerPrimary.getColors()) {
                 for (int i2 : ColorPreferences.getColors(context, i)) {
                     if (i2 == currentColor) {
-                        colorPicker.setSelectedColor(i);
-                        colorPicker2.setColors(ColorPreferences.getColors(context, i));
-                        colorPicker2.setSelectedColor(i2);
+                        colorPickerPrimary.setSelectedColor(i);
+                        colorPickerPrimaryShades.setColors(ColorPreferences.getColors(context, i));
+                        colorPickerPrimaryShades.setSelectedColor(i2);
                         break;
                     }
                 }
             }
 
             //Base color changed
-            colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
+            colorPickerPrimary.setOnColorChangedListener(new OnColorChangedListener() {
                 @Override
                 public void onColorChanged(int c) {
                     //Show variations of the base color
-                    colorPicker2.setColors(ColorPreferences.getColors(context, c));
-                    colorPicker2.setSelectedColor(c);
-
-
+                    colorPickerPrimaryShades.setColors(ColorPreferences.getColors(context, c));
+                    colorPickerPrimaryShades.setSelectedColor(c);
                 }
             });
-            colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
+            colorPickerPrimaryShades.setOnColorChangedListener(new OnColorChangedListener() {
                 @Override
                 public void onColorChanged(int i) {
-
-
-                    if (context instanceof MainActivity)
-                        ((MainActivity) context).updateColor(colorPicker2.getColor(), subreddit);
-
-
-                    title.setBackgroundColor(colorPicker2.getColor());
+                    if (context instanceof MainActivity) {
+                        ((MainActivity) context).updateColor(colorPickerPrimaryShades.getColor(), subreddit);
+                    }
+                    title.setBackgroundColor(colorPickerPrimaryShades.getColor());
                 }
             });
 
@@ -275,11 +278,10 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
                                 }
                             });*/
-
-
             }
 
-            final LineColorPicker colorPickeracc = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
+            //Accent color picker
+            final LineColorPicker colorPickerAcc = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
             {
                 //Get all possible accent colors (for day theme)
@@ -288,31 +290,30 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                 for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                     if (type.getThemeType() == 0) {
                         arrs[i] = ContextCompat.getColor(context, type.getColor());
-
                         i++;
                     }
-
-                    colorPickeracc.setColors(arrs);
-                    colorPickeracc.setSelectedColor(currentAccentColor);
-
+                    colorPickerAcc.setColors(arrs);
+                    colorPickerAcc.setSelectedColor(currentAccentColor);
                 }
             }
-
 
             builder.setView(dialoglayout);
             final Dialog d = builder.show();
             {
-                TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.cancel);
+                Button dialogButton = (Button) dialoglayout.findViewById(R.id.cancel);
 
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (context instanceof MainActivity) {
+                            ((MainActivity) context).updateColor(Palette.getColor(subreddit), subreddit);
+                        }
                         d.dismiss();
                     }
                 });
             }
             {
-                TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.reset);
+                Button dialogButton = (Button) dialoglayout.findViewById(R.id.reset);
 
                 String subTitles = "";
                 if (multipleSubs) {
@@ -335,7 +336,6 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-
                                         for (String sub : subreddits) {
                                             Palette.removeColor(sub);
                                             // Remove layout settings
@@ -345,73 +345,81 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
                                             SettingValues.resetPicsEnabled(sub);
                                         }
-                                        if (context instanceof MainActivity)
+
+                                        if (context instanceof MainActivity) {
                                             ((MainActivity) context).reloadSubs();
-                                        else if (context instanceof SettingsSubreddit) {
+                                        } else if (context instanceof SettingsSubreddit) {
                                             ((SettingsSubreddit) context).reloadSubList();
                                         } else if (context instanceof SubredditView) {
                                             ((SubredditView) context).restartTheme();
                                         }
                                         d.dismiss();
                                     }
-                                })
-                                .setNegativeButton(R.string.btn_no, null).show();
+                                }).setNegativeButton(R.string.btn_no, null).show();
                     }
                 });
             }
+
             {
-                TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
+                Button dialogButton = (Button) dialoglayout.findViewById(R.id.ok);
                 // if button is clicked, close the custom dialog
                 dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int accentColor = colorPickeracc.getColor();
-                        int mainColor = colorPicker2.getColor();
-
+                        final int newPrimaryColor = colorPickerPrimaryShades.getColor();
+                        final int newAccentColor = colorPickerAcc.getColor();
 
                         for (String sub : subreddits) {
                             // Set main color
                             if (bigPics.isChecked() != SettingValues.isPicsEnabled(sub)) {
                                 SettingValues.setPicsEnabled(sub, bigPics.isChecked());
                             }
-                            if (mainColor != Palette.getDefaultColor())
-                                Palette.setColor(sub, mainColor);
-                            // Set accent color
-                            ColorPreferences.Theme t = null;
 
-                            //Do not save accent color if it matches the default accent color
-                            if (accentColor != ContextCompat.getColor(context, colorPrefs.getFontStyle().getColor()) || accentColor != ContextCompat.getColor(context, colorPrefs.getFontStyleSubreddit(sub).getColor())) {
-                                LogUtil.v("Not equal");
+                            //Only do set colors if either subreddit theme color has changed
+                            if (Palette.getColor(sub) != newPrimaryColor || Palette.getDarkerColor(sub) != newAccentColor) {
 
-                                for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                                    if (ContextCompat.getColor(context, type.getColor()) == accentColor && Reddit.themeBack == type.getThemeType()) {
-                                        t = type;
-                                        LogUtil.v("Setting to " + t.getTitle());
-                                        break;
+                                if (newPrimaryColor != Palette.getDefaultColor()) {
+                                    Palette.setColor(sub, newPrimaryColor);
+                                }
+
+                                // Set accent color
+                                ColorPreferences.Theme t = null;
+
+                                //Do not save accent color if it matches the default accent color
+                                if (newAccentColor != ContextCompat.getColor(context, colorPrefs.getFontStyle().getColor()) || newAccentColor != ContextCompat.getColor(context, colorPrefs.getFontStyleSubreddit(sub).getColor())) {
+                                    LogUtil.v("Accent colors not equal");
+
+                                    for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
+                                        if (ContextCompat.getColor(context, type.getColor()) == newAccentColor && Reddit.themeBack == type.getThemeType()) {
+                                            t = type;
+                                            LogUtil.v("Setting accent color to " + t.getTitle());
+                                            break;
+                                        }
                                     }
+                                }
+
+                                if (t != null) {
+                                    colorPrefs.setFontStyle(t, sub);
                                 }
                             }
 
-                            if (t != null) colorPrefs.setFontStyle(t, sub);
-
                             // Set layout
-
                             SettingValues.prefs.edit().putBoolean(Reddit.PREF_LAYOUT + sub, true).apply();
-
                         }
-                        if (context instanceof MainActivity)
-                            ((MainActivity) context).reloadSubs();
-                        else if (context instanceof SettingsSubreddit) {
-                            ((SettingsSubreddit) context).reloadSubList();
-                        } else if (context instanceof SubredditView) {
-                            ((SubredditView) context).restartTheme();
+
+                        //Only refresh stuff if the user changed something
+                        if (Palette.getColor(subreddit) != newPrimaryColor || Palette.getDarkerColor(subreddit) != newAccentColor) {
+                            if (context instanceof MainActivity) {
+                                ((MainActivity) context).reloadSubs();
+                            } else if (context instanceof SettingsSubreddit) {
+                                ((SettingsSubreddit) context).reloadSubList();
+                            } else if (context instanceof SubredditView) {
+                                ((SubredditView) context).restartTheme();
+                            }
                         }
                         d.dismiss();
-
                     }
                 });
-
-
             }
         }
     }
@@ -419,21 +427,21 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
     public void prepareAndShowSubEditor(ArrayList<String> subreddits) {
         if (subreddits.size() == 1) prepareAndShowSubEditor(subreddits.get(0));
         else if (subreddits.size() > 1) {
-            LayoutInflater localInflater = ((Activity) context).getLayoutInflater();
+            LayoutInflater localInflater = context.getLayoutInflater();
             final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-            showSubThemeEditor(subreddits, ((Activity) context), dialoglayout);
+            showSubThemeEditor(subreddits, context, dialoglayout);
         }
     }
 
     private void prepareAndShowSubEditor(String subreddit) {
         int style = new ColorPreferences(context).getThemeSubreddit(subreddit);
         final Context contextThemeWrapper = new ContextThemeWrapper(context, style);
-        LayoutInflater localInflater = ((Activity) context).getLayoutInflater().cloneInContext(contextThemeWrapper);
+        LayoutInflater localInflater = context.getLayoutInflater().cloneInContext(contextThemeWrapper);
         final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
 
         ArrayList<String> arrayList = new ArrayList<>();
         arrayList.add(subreddit);
-        showSubThemeEditor(arrayList, ((Activity) context), dialoglayout);
+        showSubThemeEditor(arrayList, context, dialoglayout);
     }
 
 }

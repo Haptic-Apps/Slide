@@ -14,139 +14,124 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/md_light_green_500"
-                android:padding="24dp"
-                android:text="@string/example_sub"
-                android:textColor="#fff"
-
-                android:textSize="18sp"
-                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:padding="16dp"
-                    android:text="@string/theme_default_color"
-                    android:textSize="18sp"
-                    android:layout_height="wrap_content" />
-
-                <RelativeLayout
-                    android:id="@+id/body2"
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:background="?attr/card_background"
-                    android:orientation="vertical"
-                    android:padding="24dp">
-
-                    <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/picker"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        app:orientation="horizontal"
-
-                        app:selectedColorIndex="0" />
-
-                    <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/picker2"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_below="@+id/picker"
-
-                        android:layout_marginTop="8dp"
-                        app:orientation="horizontal"
-                        app:selectedColorIndex="5" />
-
-
-                </RelativeLayout>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:padding="16dp"
-                    android:text="@string/theme_accent_color"
-                    android:textSize="18sp"
-                    android:layout_height="wrap_content" />
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:background="?attr/card_background"
-                    android:orientation="vertical"
-
+                    android:background="@color/md_light_green_500"
                     android:padding="24dp"
->
+                    android:text="@string/example_sub"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                    <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/picker3"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        app:orientation="horizontal"
+                        android:padding="16dp"
+                        android:text="@string/theme_default_color"
+                        android:textSize="18sp"
+                        android:layout_height="wrap_content" />
 
-                        app:selectedColorIndex="0" />
+                    <RelativeLayout
+                        android:id="@+id/body2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/card_background"
+                        android:orientation="vertical"
+                        android:padding="24dp">
 
+                        <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/picker"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            app:orientation="horizontal"
+                            app:selectedColorIndex="0" />
 
+                        <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/picker2"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_below="@+id/picker"
+                            android:layout_marginTop="8dp"
+                            app:orientation="horizontal"
+                            app:selectedColorIndex="5" />
+                    </RelativeLayout>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:padding="16dp"
+                        android:text="@string/theme_accent_color"
+                        android:textSize="18sp"
+                        android:layout_height="wrap_content" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/card_background"
+                        android:orientation="vertical"
+                        android:padding="24dp">
+
+                        <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/picker3"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            app:orientation="horizontal"
+                            app:selectedColorIndex="0" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:layout_width="match_parent"
+                    android:text="@string/settings_subredditspecific_bigpic"
+                    android:id="@+id/bigpics"
+                    android:padding="18dp"
+                    android:layout_height="wrap_content" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:text="@string/btn_cancel"
+                        android:padding="8dp"
+                        android:id="@+id/cancel"
+                        android:layout_margin="8dp"
+                        android:layout_height="wrap_content"
+                        style="?attr/borderlessButtonStyle" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:id="@+id/reset"
+                        android:text="@string/btn_reset"
+                        android:padding="8dp"
+                        android:layout_toRightOf="@+id/cancel"
+                        android:layout_margin="8dp"
+                        android:layout_height="wrap_content"
+                        style="?attr/borderlessButtonStyle" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:id="@+id/ok"
+                        android:text="@string/btn_save"
+                        android:padding="8dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_margin="8dp"
+                        android:layout_height="wrap_content"
+                        style="?attr/borderlessButtonStyle" />
                 </RelativeLayout>
-
             </LinearLayout>
-            <android.support.v7.widget.SwitchCompat
-                android:layout_width="match_parent"
-                android:text="@string/settings_subredditspecific_bigpic"
-                android:id="@+id/bigpics"
-                android:padding="18dp"
-                android:layout_height="wrap_content" />
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:padding="8dp"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:text="@string/btn_cancel"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    android:padding="8dp"
-                    android:id="@+id/cancel"
-                    android:textAllCaps="true"
-
-                    android:layout_margin="8dp"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/reset"
-                    android:text="@string/btn_reset"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:padding="8dp"
-                    android:layout_toRightOf="@+id/cancel"
-                    android:layout_margin="8dp"
-                    android:layout_height="wrap_content" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:id="@+id/ok"
-                    android:text="@string/btn_save"
-                    android:textStyle="bold"
-                    android:textAllCaps="true"
-                    android:padding="8dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_margin="8dp"
-                    android:layout_height="wrap_content" />
-            </RelativeLayout>
-        </LinearLayout>
-
         </ScrollView>
     </android.support.v7.widget.CardView>
 </LinearLayout>
