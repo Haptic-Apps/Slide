@@ -32,9 +32,9 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
-    public OfflineSubreddit submissions;
-    private PostLoader subredditPosts;
-    private String subreddit;
+    private OfflineSubreddit submissions;
+    public PostLoader subredditPosts;
+    public String subreddit;
     int firstPage;
 
     @Override
@@ -56,6 +56,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
 
         submissions = OfflineSubreddit.getSubreddit(subreddit);
+
         subredditPosts.getPosts().addAll(submissions.submissions);
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());

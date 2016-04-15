@@ -118,7 +118,7 @@ public class AlbumFull extends Fragment {
 
                 Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                 i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, ((Shadowbox)getActivity()).submissions.subreddit);
+                i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, ((Shadowbox)getActivity()).subreddit);
                 (getActivity()).startActivity(i2);
 
             }
@@ -158,7 +158,7 @@ public class AlbumFull extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = ((Shadowbox)getActivity()).submissions.submissions.get(i);
+        s = ((Shadowbox)getActivity()).subredditPosts.getPosts().get(i);
     }
 
 

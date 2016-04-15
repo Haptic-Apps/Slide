@@ -170,9 +170,9 @@ public class MediaFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         firstUrl = bundle.getString("firstUrl");
-        sub = ((Shadowbox)getActivity()).submissions.subreddit;
+        sub = ((Shadowbox)getActivity()).subreddit;
         i = bundle.getInt("page");
-        s = ((Shadowbox)getActivity()).submissions.submissions.get(i);
+        s = ((Shadowbox)getActivity()).subredditPosts.getPosts().get(i);
         contentUrl = bundle.getString("contentUrl");
     }
 
