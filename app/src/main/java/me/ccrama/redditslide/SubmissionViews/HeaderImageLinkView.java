@@ -136,7 +136,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     } else {
                         backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, dpToPx(200)));
                     }
-                } else if (fullImage && height >= dpToPx(50)) {
+                } else if (fullImage ||  height >= dpToPx(50)) {
                     double h = getHeightFromAspectRatio(height, width);
                     if (h != 0) {
                         if (h > 3500) {
