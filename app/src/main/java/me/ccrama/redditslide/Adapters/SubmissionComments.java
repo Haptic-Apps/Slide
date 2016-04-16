@@ -96,7 +96,7 @@ public class SubmissionComments {
 
     public void setSorting(CommentSort sort) {
         defaultSorting = sort;
-        mLoadData = new LoadData(false);
+        mLoadData = new LoadData(true);
         mLoadData.execute(fullName);
     }
 

@@ -539,8 +539,7 @@ public class CommentPage extends Fragment {
     public CommentSort commentSorting;
 
     public void doAdapter() {
-        commentSorting = SettingValues.defaultCommentSorting;
-
+        commentSorting = SettingValues.getCommentSorting(subreddit);
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -555,6 +554,8 @@ public class CommentPage extends Fragment {
             Submission s = ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page);
             if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
+            } else if(s != null) {
+                commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
             }
             comments.setSorting(commentSorting);
             adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
@@ -564,6 +565,8 @@ public class CommentPage extends Fragment {
             Submission s = ((MainActivity) getActivity()).openingComments;
             if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
+            } else if(s != null) {
+                commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
             }
             comments.setSorting(commentSorting);
             adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
@@ -589,8 +592,6 @@ public class CommentPage extends Fragment {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
                     comments.setSorting(commentSorting);
                 }
-
-
             }
         }
     }
@@ -704,27 +705,21 @@ public class CommentPage extends Fragment {
                     switch (i) {
                         case 0:
                             commentSorting = CommentSort.CONFIDENCE;
-                            reloadSubs();
                             break;
                         case 1:
                             commentSorting = CommentSort.TOP;
-                            reloadSubs();
                             break;
                         case 2:
                             commentSorting = CommentSort.NEW;
-                            reloadSubs();
                             break;
                         case 3:
                             commentSorting = CommentSort.CONTROVERSIAL;
-                            reloadSubs();
                             break;
                         case 4:
                             commentSorting = CommentSort.OLD;
-                            reloadSubs();
                             break;
                         case 5:
                             commentSorting = CommentSort.QA;
-                            reloadSubs();
                             break;
                     }
                 }
@@ -750,6 +745,19 @@ public class CommentPage extends Fragment {
                             res.getString(R.string.sorting_old),
                             res.getString(R.string.sorting_ama)},
                     i, l2);
+            builder.alwaysCallSingleChoiceCallback();
+            builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    reloadSubs();
+                }
+            }).setNeutralButton("Default for /r/" + subreddit, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SettingValues.setDefaultCommentSorting(commentSorting, subreddit);
+                    reloadSubs();
+                }
+            });
             builder.show();
         }
 
