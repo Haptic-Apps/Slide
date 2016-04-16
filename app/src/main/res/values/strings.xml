@@ -727,4 +727,7 @@
     <string name="compose_message">Compose message</string>
     <string name="mark_all_as_read">Mark all as read</string>
     <string name="btn_changelog">Changelog</string>
+    <string name="clear_subreddit_history">Clear subreddit history</string>
+    <string name="clear_submission_history">Clear submission history</string>
+    <string name="alert_history_cleared">History cleared!</string>
 </resources>

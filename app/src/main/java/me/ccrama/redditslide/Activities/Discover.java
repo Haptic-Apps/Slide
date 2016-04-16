@@ -109,7 +109,7 @@ public class Discover extends BaseActivityAnim {
         public Fragment getItem(int i) {
             Fragment f = new SubredditListView();
             Bundle args = new Bundle();
-            args.putString("id", getPageTitle(i).toString());
+            args.putString("id", i == 1?"trending":"popular");
             f.setArguments(args);
 
             return f;

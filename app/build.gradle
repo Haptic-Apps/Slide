@@ -82,21 +82,22 @@ android {
 }
 
 repositories {
-    maven { url "http://dl.bintray.com/dasar/maven" }
     maven { url "https://jitpack.io" }
     maven { url 'https://github.com/suckgamony/RapidDecoder/raw/master/repository' }
     mavenCentral()
+    flatDir{
+        dirs 'src/main/assets'
+    }
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:f1ddd74a5f'
+    compile 'com.github.ccrama:JRAW:9897475840'
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.8@aar') {
         transitive = true
     }
     compile 'com.jakewharton:process-phoenix:1.0.2'
     compile 'com.android.support:design:23.3.0'
     compile 'com.koushikdutta.ion:ion:2.1.6'
-    compile 'uz.shift:colorpicker:0.5@aar'
     compile 'com.android.support:customtabs:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.android.support:appcompat-v7:23.3.0'
@@ -120,6 +121,7 @@ dependencies {
     testCompile 'commons-io:commons-io:2.4'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     compile files('src/main/assets/synccit.jar')
+    compile(name:'shiftcolorpicker-release', ext:'aar')
     compile('com.github.ozodrukh:CircularReveal:1.3.1@aar') {
         transitive = true;
     }

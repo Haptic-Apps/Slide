@@ -1,11 +1,19 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.view.View;
 import android.widget.CompoundButton;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+
+import java.util.Map;
+
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.UserSubscriptions;
 
 public class SettingsHistory extends BaseActivityAnim {
 
@@ -42,7 +50,31 @@ public class SettingsHistory extends BaseActivityAnim {
                 }
             });
         }
-
+        findViewById(R.id.clearposts).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor e = Reddit.seen.edit();
+                Map<String, ?> values = Reddit.seen.getAll();
+                for (String value : values.keySet()) {
+                    if (value.length() == 6 && values.get(value) instanceof Boolean) {
+                        e.remove(value);
+                    } else if (values.get(value) instanceof Long) {
+                        e.remove(value);
+                    }
+                }
+                e.apply();
+                new AlertDialogWrapper.Builder(SettingsHistory.this).setTitle(R.string.alert_history_cleared)
+                        .setPositiveButton(R.string.btn_ok, null).show();
+            }
+        });
+        findViewById(R.id.clearsubs).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserSubscriptions.subscriptions.edit().remove("subhistory").apply();
+                new AlertDialogWrapper.Builder(SettingsHistory.this).setTitle(R.string.alert_history_cleared)
+                        .setPositiveButton(R.string.btn_ok, null).show();
+            }
+        });
         {
             SwitchCompat nsfw = ((SwitchCompat) findViewById(R.id.storensfw));
             nsfw.setChecked(SettingValues.storeNSFWHistory);
