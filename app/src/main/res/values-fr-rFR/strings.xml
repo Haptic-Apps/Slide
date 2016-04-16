@@ -182,6 +182,7 @@
   <string name="type_emb">Intégré</string>
   <string name="type_imgur">Contenu d\'Imgur</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Boîte de réception</string>
   <string name="mail_author_wrote">%1$s a écrit&#8230;</string>
   <string name="mail_hint_recipient">Destinataire</string>
   <string name="mail_hint_subject">Objet </string>

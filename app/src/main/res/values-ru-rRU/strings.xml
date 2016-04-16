@@ -157,6 +157,7 @@
   <string name="type_vid">Видео</string>
   <string name="type_emb">Встроенное</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Входящие</string>
   <string name="mail_author_wrote">%1$s написал&#8230;</string>
   <string name="mail_hint_recipient">Получатель</string>
   <string name="mail_hint_subject">Тема</string>

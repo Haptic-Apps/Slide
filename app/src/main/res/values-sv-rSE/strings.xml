@@ -167,6 +167,7 @@
   <string name="type_emb">Inbäddad</string>
   <string name="type_imgur">Innehåll från Imgur</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Inkorgen</string>
   <string name="mail_author_wrote">%1$s skrev&#8230;</string>
   <string name="mail_hint_recipient">Mottagare</string>
   <string name="mail_hint_subject">Ämne</string>

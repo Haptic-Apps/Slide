@@ -180,6 +180,7 @@
   <string name="type_emb">内嵌</string>
   <string name="type_imgur">Imgur 内容</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">收件匣</string>
   <string name="mail_author_wrote">%1$s 寫道⋯</string>
   <string name="mail_hint_recipient">收件者</string>
   <string name="mail_hint_subject">主題</string>

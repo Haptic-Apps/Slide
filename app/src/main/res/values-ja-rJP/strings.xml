@@ -38,6 +38,9 @@
   <plurals name="new_messages">
     <item quantity="other">%d件の新規メッセージ</item>
   </plurals>
+  <plurals name="points">
+    <item quantity="other">ポイント</item>
+  </plurals>
   <!-- Theme settings -->
   <string name="theme_light">明るめ</string>
   <string name="theme_dark">暗め</string>
@@ -59,6 +62,7 @@
   <string name="multi_column_landscape">横向き</string>
   <string name="multi_column_portrait">ポートレート モードで二列表示</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">あなた</string>
   <string name="drawer_support">Pro 版</string>
   <string name="drawer_goto_profile">プロファイルへ</string>
   <string name="drawer_add_account">アカウントを追加</string>
@@ -91,7 +95,14 @@
   <string name="profile_remove_account">このアカウントを削除してもよろしいですか?</string>
   <string name="profile_remove">アカウントを削除</string>
   <string name="profile_history">履歴</string>
+  <string name="profile_share">%sのプロフィール</string>
+  <string name="profile_age">アカウントが出来てから%s</string>
+  <string name="profile_tag">タグ</string>
+  <string name="profile_tag_set">%sに対してタグを付ける</string>
   <string name="profile_tag_user">タグ ユーザー</string>
+  <string name="profile_tag_user_existing">‘%s’としてユーザーがタグ付けされました</string>
+  <string name="profile_btn_tag">タグを付ける</string>
+  <string name="profile_btn_untag">タグを外す</string>
   <!-- Comment text options -->
   <string name="comment_gild">コメントをゴールド</string>
   <string name="comment_share">コメントを共有</string>
@@ -175,11 +186,17 @@
   <string name="type_gif">GIF</string>
   <string name="type_title_only">タイトルの投稿</string>
   <string name="type_album">アルバム</string>
+  <string name="type_nsfw_album">NSFWアルバム</string>
   <string name="type_img">画像</string>
   <string name="type_vid">動画</string>
+  <string name="type_nsfw_video">NSFWビデオ</string>
   <string name="type_emb">埋め込み</string>
+  <string name="type_nsfw_emb">NSFWコンテンツが埋め込まれました。</string>
   <string name="type_imgur">Imgur コンテンツ</string>
+  <string name="type_nsfw_imgur">ImgurのNSFWコンテンツ</string>
+  <string name="type_external">外部</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">受信箱</string>
   <string name="mail_author_wrote">%1$s が書きました</string>
   <string name="mail_hint_recipient">宛先</string>
   <string name="mail_hint_subject">タイトル</string>
@@ -187,12 +204,20 @@
   <string name="mail_send_to">%1$s にメッセージを送信</string>
   <string name="mail_send">メッセージを送信</string>
   <string name="mail_notification_msg">%1$s から新しいメッセージ</string>
+  <string name="mod_mail_notification_msg">モデレーター%1$sからメッセージが届いています</string>
   <string name="mail_reply_to">%1$s へ返信</string>
   <string name="mail_notification_author">%2$s から %1$s</string>
   <string name="mail_theirs">彼らのメッセージを表示</string>
   <string name="mail_re">返信: %1$s</string>
+  <string name="mail_mark_read">既読にする</string>
+  <string name="mail_mark_unread">既読を解除</string>
+  <string name="mail_view_full_thread">スレッドを全て見る</string>
+  <string name="mail_message_copied">メッセージがコピーされました</string>
   <plurals name="mail_notification_title">
     <item quantity="other">%d の新しいメッセージがあります!</item>
+  </plurals>
+  <plurals name="mod_mail_notification_title">
+    <item quantity="other">%d件のモデレーターからの新規メッセージがあります!</item>
   </plurals>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">エラー！</string>
@@ -336,6 +361,9 @@
   <string name="settings_comment_crop">コメント表示で先頭画像のトリミング</string>
   <string name="settings_general_scroll_read">スクロールで過ぎたときに既読として投稿をマーク</string>
   <string name="settings_link_chrome">Chrome カスタムタブを使用する</string>
+  <string name="settings_image_location">画像/GIFの保存先を選択する</string>
+  <string name="settings_image_location_unset">未設定です</string>
+  <string name="settings_set_image_location">画像が %s に保存されるようになりました</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">バックアップ &amp; 復元</string>
   <string name="settings_title_default_theme">メイン テーマ</string>
@@ -356,6 +384,15 @@
   <string name="settings_section_appearance">表示設定</string>
   <string name="settings_section_other">その他の設定</string>
   <!-- Setting subheaders -->
+  <string name="sorting">ソート設定</string>
+  <string name="display">画面表示</string>
+  <string name="image_downloads">画像</string>
+  <string name="app_theme">アプリテーマ</string>
+  <string name="tinting">色合い</string>
+  <string name="post_info">投稿情報</string>
+  <string name="post_buttons">投稿ボタン</string>
+  <string name="navigation">ナビ</string>
+  <string name="collapse_comments">折り畳み</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit テーマ &amp; レイアウト</string>
   <string name="title_edit_theme">テーマを編集</string>
@@ -398,14 +435,35 @@
   <string name="reorder_remove_title">この Subreddit を削除しますか?</string>
   <string name="reorder_remove_msg">あなたは購読しませんが、サイドバーにこの subreddit は表示されません!</string>
   <string name="reorder_sync_complete">同期が完了しました</string>
+  <plurals name="reorder_subs_added">
+    <item quantity="other">%d個のサブレディットが追加されました</item>
+  </plurals>
   <!-- Time -->
+  <string name="time_just_now">たった今</string>
+  <plurals name="time_years">
+    <item quantity="other">%d年前</item>
+  </plurals>
+  <plurals name="time_months">
+    <item quantity="other">%dヶ月前</item>
+  </plurals>
+  <plurals name="time_days">
+    <item quantity="other">%d日前</item>
+  </plurals>
   <plurals name="time_hours">
     <item quantity="other">%d 時</item>
   </plurals>
   <plurals name="time_minutes">
     <item quantity="other">%d 分</item>
   </plurals>
+  <plurals name="time_seconds">
+    <item quantity="other">%d秒前</item>
+  </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <string name="time_years_short">%d年</string>
+  <string name="time_days_short">%d日</string>
+  <string name="time_hours_short">%d時間</string>
+  <string name="time_minutes_short">%d分</string>
+  <string name="time_seconds_short">%d秒</string>
   <!-- Strings present during the login process -->
   <string name="login_subscribe_rslideforreddit">/r/slideforredditを購読しますか?</string>
   <string name="login_subscribe_rslideforreddit_desc">最新のお知らせや問題の報告の為に/r/slideforredditを購読しますか?</string>
@@ -421,8 +479,14 @@
   <string name="over18_desc_loggedin">この機能は 設定 → Reddit 設定 → NSFWコンテンツを表示する で無効化できます</string>
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">同期が完了しました</string>
+  <plurals name="color_sync_colored">
+    <item quantity="other">%d個のサブレディットに色が付けられました</item>
+  </plurals>
   <!-- Discover section: find -->
   <string name="discover_title">発見</string>
+  <string name="discover_search">ワードや話題の検索</string>
+  <string name="discover_popular">人気</string>
+  <string name="discover_trending">上昇中</string>
   <string name="comment_load_more_number_unknown">残りのコメントを読み込む</string>
   <string name="settings_comment_color">カラフルなコメントの深さインジケーター</string>
   <string name="settings_volume_nav_comments">音量ボタンを使用してコメントを移動</string>
@@ -449,6 +513,7 @@
   <string name="fab_disabled">無効</string>
   <string name="handling_internal_browser">内部ブラウザーを使用する</string>
   <string name="handling_external_browser">外部ブラウザーを使用する</string>
+  <string name="settings_fastscroll_description">最下段のナビ矢印付きバーを有効にする</string>
   <string name="settings_comment_collapse">コメントを完全に折りたたむ</string>
   <string name="settings_comment_collapse_description">コメントのアニメーションも無効にします</string>
   <string name="settings_comment_collapse_default">デフォルトで子コメントを畳む</string>
@@ -456,6 +521,8 @@
   <string name="mode_centered">中央に画像のあるカード</string>
   <string name="mode_card">カード</string>
   <string name="mode_thumbnail">サムネイルのみ</string>
+  <string name="mode_cropped">大型の画像を切り取りました</string>
+  <string name="mode_bigpic">大型の画像</string>
   <string name="settings_general_swipeanywhere_description">画面のどこかをスワイプすると終了します</string>
   <string name="press_actionbar">矢印を押してアクションバーを表示します</string>
   <string name="tap_actionbar">アクションバーの長押し</string>
@@ -522,7 +589,26 @@
   <string name="content_deleted">[削除済]</string>
   <string name="thread_continue">このスレッドの続きを読む</string>
   <string name="type_selftext">自己投稿文</string>
+  <string name="settings_fab_create">「コメントを付ける」機能付きフロートボタンを表示する</string>
+  <string name="settings_right_handed_comment_menu">右利き用コメント返信メニュー</string>
   <string name="submission_unhide">投稿の非表示の取り消し</string>
   <string name="submission_info_unhidden">サブミの非表示が取り消されました</string>
+  <string name="settings_handling_external_desc">下部に入力されたドメインは常に外部ブラウザ等で開かれます</string>
+  <string name="settings_handling_enterdomain">ドメインもしくはその一部を入力</string>
+  <string name="err_comment_post">あーらら、このコメント投稿に失敗しました!</string>
+  <string name="err_comment_post_reason">"理由: "</string>
+  <string name="err_comment_post_message">\n\nあなたのコメントは下書きに保存されました。後でもう一度試してみてください。</string>
+  <string name="err_comment_post_copy">コメントをコピーする</string>
+  <string name="choose_draft">下書きを選択する</string>
+  <string name="dialog_no_drafts">下書きはありません</string>
+  <string name="dialog_no_drafts_msg">編集バーの\"保存\"アイコンから下書きに追加できます!</string>
+  <string name="msg_save_draft">下書きとしてメッセージが保存されました</string>
+  <string name="content_removed">[removed]</string>
+  <string name="guest">ゲスト</string>
+  <string name="err_comment_post_nosave_message">\n1分ほど時間を置いてからもう一度試してみてください</string>
+  <string name="album_slide_view">アルバム閲覧時にスライドする</string>
+  <string name="album_grid">アルバムの仕切り</string>
   <string name="open_externally">外部で開く</string>
+  <string name="vertical_album_view">アルバムを垂直方向に表示、閲覧する</string>
+  <string name="download_album">アルバムをダウンロード</string>
 </resources>

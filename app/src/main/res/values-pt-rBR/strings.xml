@@ -40,6 +40,10 @@
     <item quantity="one">%d nova mensagem</item>
     <item quantity="other">%d novas mensagens</item>
   </plurals>
+  <plurals name="points">
+    <item quantity="one">pt</item>
+    <item quantity="other">pts</item>
+  </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Claro</string>
   <string name="theme_dark">Escuro</string>
@@ -61,6 +65,7 @@
   <string name="multi_column_landscape">Paisagem</string>
   <string name="multi_column_portrait">Duas colunas em modo retrato</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">Você</string>
   <string name="drawer_support">Adquira a versão Pro</string>
   <string name="drawer_goto_profile">Ir para o perfil</string>
   <string name="drawer_add_account">Adicionar conta</string>
@@ -90,8 +95,11 @@
   <string name="profile_add_friend">Adicionar amigo</string>
   <string name="profile_remove_friend">Remover amigo</string>
   <string name="profile_manage_accounts">Gerenciar contas</string>
+  <string name="profile_remove_account">Você realmente deseja remover esta conta?</string>
   <string name="profile_remove">Excluir conta</string>
   <string name="profile_history">Histórico</string>
+  <string name="profile_share">perfil do %s</string>
+  <string name="profile_tag">Tag</string>
   <string name="profile_tag_user">Aba do usuário</string>
   <!-- Comment text options -->
   <string name="comment_gild">Dê gold</string>
@@ -178,9 +186,13 @@
   <string name="type_album">Álbum</string>
   <string name="type_img">Imagem</string>
   <string name="type_vid">Vídeo</string>
+  <string name="type_nsfw_video">Vídeo NSFW</string>
   <string name="type_emb">Incorporado</string>
+  <string name="type_nsfw_emb">NSFW incorporado</string>
   <string name="type_imgur">Conteúdo do Imgur</string>
+  <string name="type_external">Externo</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Caixa de Entrada</string>
   <string name="mail_author_wrote">%1$s escreveu&#8230;</string>
   <string name="mail_hint_recipient">Destinatário</string>
   <string name="mail_hint_subject">Assunto</string>
@@ -188,13 +200,22 @@
   <string name="mail_send_to">Enviar mensagem para %1$s</string>
   <string name="mail_send">Enviar uma mensagem</string>
   <string name="mail_notification_msg">Nova mensagem de %1$s</string>
+  <string name="mod_mail_notification_msg">Novo modmail de %1$s</string>
   <string name="mail_reply_to">Resposta para %1$s</string>
   <string name="mail_notification_author">%1$s de %2$s</string>
   <string name="mail_theirs">Visualizar a mensagem</string>
   <string name="mail_re">re: %1$s</string>
+  <string name="mail_mark_read">Marcar como lida</string>
+  <string name="mail_mark_unread">Marcar como não lida</string>
+  <string name="mail_view_full_thread">Ver todo o conteúdo</string>
+  <string name="mail_message_copied">Mensagem copiada</string>
   <plurals name="mail_notification_title">
     <item quantity="one">Você tem %d nova mensagem!</item>
     <item quantity="other">Você tem %d novas mensagens!</item>
+  </plurals>
+  <plurals name="mod_mail_notification_title">
+    <item quantity="one">Você tem %d novo modmail!</item>
+    <item quantity="other">Você tem %d novos modmail!</item>
   </plurals>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Erro</string>
@@ -338,6 +359,8 @@
   <string name="settings_comment_crop">Cortar imagem na visualização do comentário</string>
   <string name="settings_general_scroll_read">Marque os posts como lidos quando passar por cima</string>
   <string name="settings_link_chrome">Usar abas customizadas do Chrome</string>
+  <string name="settings_image_location_unset">Ainda não definido</string>
+  <string name="settings_set_image_location">Imagens serão salvas em %s</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Backup &amp; Restaurar</string>
   <string name="settings_title_default_theme">Tema principal</string>
@@ -358,6 +381,11 @@
   <string name="settings_section_appearance">Aparência</string>
   <string name="settings_section_other">Outros</string>
   <!-- Setting subheaders -->
+  <string name="sorting">Classificação</string>
+  <string name="image_downloads">Imagens</string>
+  <string name="app_theme">Tema do aplicativo</string>
+  <string name="post_info">Informação do post</string>
+  <string name="navigation">Navegação</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Temas de subreddit &amp; Layouts</string>
   <string name="title_edit_theme">Editar o tema</string>
@@ -401,6 +429,19 @@
   <string name="reorder_remove_msg">Você não irá se desinscrever, porém não verá mais este subreddit na sua barra lateral!</string>
   <string name="reorder_sync_complete">Sincronização completa</string>
   <!-- Time -->
+  <string name="time_just_now">Agora mesmo</string>
+  <plurals name="time_years">
+    <item quantity="one">%d ano</item>
+    <item quantity="other">%d anos</item>
+  </plurals>
+  <plurals name="time_months">
+    <item quantity="one">%d mês</item>
+    <item quantity="other">%d meses</item>
+  </plurals>
+  <plurals name="time_days">
+    <item quantity="one">%d dia</item>
+    <item quantity="other">%d dias</item>
+  </plurals>
   <plurals name="time_hours">
     <item quantity="one">%d hora</item>
     <item quantity="other">%d horas</item>
@@ -408,6 +449,10 @@
   <plurals name="time_minutes">
     <item quantity="one">%d minuto</item>
     <item quantity="other">%d minutos</item>
+  </plurals>
+  <plurals name="time_seconds">
+    <item quantity="one">%d segundo</item>
+    <item quantity="other">%d segundos</item>
   </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
   <!-- Strings present during the login process -->
@@ -425,6 +470,8 @@
   <string name="color_sync_complete">Sincronização completa</string>
   <!-- Discover section: find -->
   <string name="discover_title">Descobrir</string>
+  <string name="discover_popular">Popular</string>
+  <string name="discover_trending">Tendências</string>
   <string name="comment_load_more_number_unknown">Carregar mais comentários</string>
   <string name="settings_synccit_auth">Código de autenticação</string>
   <string name="settings_synccit_username">Nome de usuário</string>
@@ -491,5 +538,8 @@
   <string name="content_deleted">[deletado]</string>
   <string name="thread_continue">Continuar esta discussão</string>
   <string name="submission_unhide">Reexibir postagem</string>
+  <string name="err_comment_post_copy">Copiar comentário</string>
+  <string name="guest">Visitante</string>
   <string name="open_externally">Abrir externamente</string>
+  <string name="download_album">Baixar álbum</string>
 </resources>

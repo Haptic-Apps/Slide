@@ -57,6 +57,7 @@
   <string name="type_album">Álbum</string>
   <string name="type_img">Imaxe</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Bandexa de entrada</string>
   <string name="mail_hint_body">Texto</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Erro</string>

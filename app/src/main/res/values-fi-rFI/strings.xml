@@ -131,6 +131,7 @@
   <!-- Multireddit errors -->
   <!-- Content types -->
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Postilaatikko</string>
   <string name="mail_hint_recipient">Vastaanottaja</string>
   <string name="mail_hint_subject">Aihe</string>
   <string name="mail_hint_body">Teksti</string>

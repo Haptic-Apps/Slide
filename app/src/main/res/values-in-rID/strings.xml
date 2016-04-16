@@ -87,6 +87,7 @@
   <string name="type_img">Gambar</string>
   <string name="type_vid">Video</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Pesan Masuk</string>
   <string name="mail_author_wrote">%1$s menulis&#8230;</string>
   <string name="mail_hint_recipient">Penerima</string>
   <string name="mail_hint_subject">Subjek</string>

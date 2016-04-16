@@ -131,6 +131,7 @@
   <string name="type_vid">Video</string>
   <string name="type_emb">Innebygget</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Innboks</string>
   <string name="mail_author_wrote">%1$s skrev&#8230;</string>
   <string name="mail_hint_recipient">Til</string>
   <string name="mail_hint_subject">Emne</string>

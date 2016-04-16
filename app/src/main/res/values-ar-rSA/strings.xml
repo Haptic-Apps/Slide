@@ -122,6 +122,7 @@
   <string name="type_img">صورة</string>
   <string name="type_vid">فيديو</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">صندوق الوارد</string>
   <string name="mail_hint_recipient">المُستلم</string>
   <string name="mail_hint_subject">موضوع</string>
   <string name="mail_hint_body">جسم</string>

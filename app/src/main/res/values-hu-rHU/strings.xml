@@ -165,6 +165,7 @@
   <string name="type_emb">Beágyazott</string>
   <string name="type_imgur">Imgur tartalom</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Beérkező</string>
   <string name="mail_author_wrote">%1$s ezt írta&#8230;</string>
   <string name="mail_hint_recipient">Címzett</string>
   <string name="mail_hint_subject">Tárgy</string>

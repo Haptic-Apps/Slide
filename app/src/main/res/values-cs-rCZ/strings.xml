@@ -138,6 +138,7 @@
   <string name="type_img">Obrázek</string>
   <string name="type_vid">Video</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Příchozí zprávy</string>
   <string name="mail_hint_recipient">Příjemce</string>
   <string name="mail_hint_subject">Předmět</string>
   <string name="mail_hint_body">Text zprávy</string>

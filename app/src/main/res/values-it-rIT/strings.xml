@@ -181,6 +181,7 @@
   <string name="type_emb">Incorporato</string>
   <string name="type_imgur">Contenuto Imgur</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Posta in arrivo</string>
   <string name="mail_author_wrote">%1$s ha scritto&#8230;</string>
   <string name="mail_hint_recipient">Destinatario</string>
   <string name="mail_hint_subject">Oggetto</string>

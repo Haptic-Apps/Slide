@@ -122,6 +122,7 @@
   <string name="type_img">Imatge</string>
   <string name="type_vid">Vídeo</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Bústia d\'entrada</string>
   <string name="mail_author_wrote">%1$s ha escrit&#8230;</string>
   <string name="mail_hint_recipient">Destinatari</string>
   <string name="mail_hint_subject">Tema</string>

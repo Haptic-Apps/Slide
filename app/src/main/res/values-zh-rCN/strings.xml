@@ -152,6 +152,7 @@
   <string name="type_emb">内嵌</string>
   <string name="type_imgur">Imgur 内容</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">站内信</string>
   <string name="mail_author_wrote">%1$s 写道&#8230;</string>
   <string name="mail_hint_recipient">接收者</string>
   <string name="mail_hint_subject">主题</string>

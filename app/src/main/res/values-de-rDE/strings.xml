@@ -60,6 +60,7 @@
   <string name="multi_column_landscape">Querformat</string>
   <string name="multi_column_portrait">Zwei Spalten im Hochformat</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">Ich</string>
   <string name="drawer_support">Hol dir PRO</string>
   <string name="drawer_goto_profile">Zu Benutzer wechseln</string>
   <string name="drawer_add_account">Konto hinzufügen</string>
@@ -92,7 +93,11 @@
   <string name="profile_remove_account">Möchtest du dieses Konto wirklich löschen?</string>
   <string name="profile_remove">Konto löschen</string>
   <string name="profile_history">Verlauf</string>
+  <string name="profile_share">%s\'s Profil</string>
+  <string name="profile_age">Redditor für %s</string>
   <string name="profile_tag_user">Nutzer makieren</string>
+  <string name="profile_tag_user_existing">Benutzer markiert als \'%s\'</string>
+  <string name="profile_btn_untag">Markierung entfernen</string>
   <!-- Comment text options -->
   <string name="comment_gild">Gold geben</string>
   <string name="comment_share">Kommentar teilen</string>
@@ -180,7 +185,9 @@
   <string name="type_vid">Video</string>
   <string name="type_emb">Eingebettet</string>
   <string name="type_imgur">Imgur-Inhalt</string>
+  <string name="type_external">External</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Nachrichten</string>
   <string name="mail_author_wrote">%1$s schrieb&#8230;</string>
   <string name="mail_hint_recipient">Empfänger</string>
   <string name="mail_hint_subject">Betreff</string>
@@ -188,13 +195,22 @@
   <string name="mail_send_to">Schreibe eine Nachricht an %1$s</string>
   <string name="mail_send">Sende eine Nachricht</string>
   <string name="mail_notification_msg">Neue Nachricht von %1$s</string>
+  <string name="mod_mail_notification_msg">Neue Mod-Nachricht von %1$s</string>
   <string name="mail_reply_to">Antworte an %1$s</string>
   <string name="mail_notification_author">%1$s von %2$s</string>
   <string name="mail_theirs">Deren Nachricht anzeigen</string>
   <string name="mail_re">Re: %1$s</string>
+  <string name="mail_mark_read">Als gelesen markieren</string>
+  <string name="mail_mark_unread">Als ungelesen markieren</string>
+  <string name="mail_view_full_thread">Den ganzen Beitrag laden</string>
+  <string name="mail_message_copied">Nachricht kopiert</string>
   <plurals name="mail_notification_title">
     <item quantity="one">Du hast eine neue Mail!</item>
     <item quantity="other">Du hast %d neue Mails!</item>
+  </plurals>
+  <plurals name="mod_mail_notification_title">
+    <item quantity="one">Du hast %d neue Mod-Nachricht!</item>
+    <item quantity="other">Du hast %d neue Mod-Nachrichten!</item>
   </plurals>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Fehler</string>
@@ -337,6 +353,8 @@
   <string name="settings_font_comment">Kommentar-Schriftart</string>
   <string name="settings_general_scroll_read">Posts nach Vorbeiscrollen als gelesen markieren</string>
   <string name="settings_link_chrome">Internetseiten mit Chrome in der App anzeigen</string>
+  <string name="settings_image_location">Bild/GIF-Speicherort auswählen</string>
+  <string name="settings_image_location_unset">Noch nicht festgelegt</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Sichern &amp; Wiederherstellen</string>
   <string name="settings_title_default_theme">Hauptthema</string>
@@ -357,6 +375,10 @@
   <string name="settings_section_appearance">Darstellung</string>
   <string name="settings_section_other">Sonstige</string>
   <!-- Setting subheaders -->
+  <string name="sorting">Sortierung</string>
+  <string name="app_theme">App-Design</string>
+  <string name="post_info">Post Informationen</string>
+  <string name="navigation">Navigation</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit-Einstellungen</string>
   <string name="title_edit_theme">Design bearbeiten</string>

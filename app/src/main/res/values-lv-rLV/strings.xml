@@ -47,6 +47,7 @@
   <string name="multireddit_selector">Izvēlaties subredditu ko vēlaties pievienot</string>
   <!-- Content types -->
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Iesūtne</string>
   <string name="mail_hint_subject">Tēma</string>
   <string name="mail_hint_body">Galvenā sadaļa</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->

@@ -171,6 +171,7 @@
   <string name="type_emb">Ugrađeno</string>
   <string name="type_imgur">Imgur sadržaj</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Ulazna pošta</string>
   <string name="mail_author_wrote">%1$s je napisao&#8230;</string>
   <string name="mail_hint_recipient">Primatelj</string>
   <string name="mail_hint_subject">Tema</string>

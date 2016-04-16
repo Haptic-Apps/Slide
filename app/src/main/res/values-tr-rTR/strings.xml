@@ -128,6 +128,7 @@
   <string name="type_vid">Video</string>
   <string name="type_emb">Yerleştirilmiş</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Gelen Kutusu</string>
   <string name="mail_author_wrote">%1$s yazdı&#8230;</string>
   <string name="mail_hint_recipient">Alıcı</string>
   <string name="mail_hint_subject">Konu</string>

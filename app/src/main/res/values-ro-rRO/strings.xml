@@ -172,6 +172,7 @@
   <string name="type_emb">Încorporat</string>
   <string name="type_imgur">Conținut de pe Imgur</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Inbox</string>
   <string name="mail_author_wrote">%1$s a scris&#8230;</string>
   <string name="mail_hint_recipient">Destinatar</string>
   <string name="mail_hint_subject">Subiect</string>

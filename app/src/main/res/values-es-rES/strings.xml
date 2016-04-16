@@ -182,6 +182,7 @@
   <string name="type_emb">Incrustado</string>
   <string name="type_imgur">Contenido Imgur</string>
   <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Recibidos</string>
   <string name="mail_author_wrote">%1$s escribió...</string>
   <string name="mail_hint_recipient">Destinatario</string>
   <string name="mail_hint_subject">Sujeto</string>
