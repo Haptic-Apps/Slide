@@ -97,7 +97,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (i == SPACER) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
             return new SpacerViewHolder(v);
-
         } else if (i == TOP_LEVEL) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.top_level_message, viewGroup, false);
             return new MessageViewHolder(v);
@@ -266,7 +265,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             });
 
             setViews(comment.getDataNode().get("body_html").asText(), "FORCE_LINK_CLICK", messageViewHolder);
-
 
         }
         if (viewHolder instanceof SpacerViewHolder) {

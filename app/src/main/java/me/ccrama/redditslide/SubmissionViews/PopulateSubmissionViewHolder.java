@@ -1692,6 +1692,13 @@ public class PopulateSubmissionViewHolder {
                     holder.itemView.callOnClick();
                 }
             });
+            holder.body.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    holder.menu.callOnClick();
+                    return true;
+                }
+            });
             if (holder.body.getText().toString().trim().isEmpty()) {
                 holder.body.setVisibility(View.GONE);
             }
