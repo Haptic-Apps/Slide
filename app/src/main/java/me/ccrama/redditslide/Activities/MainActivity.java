@@ -2804,7 +2804,12 @@ public class MainActivity extends BaseActivity {
         @Override
         public void doSetPrimary(Object object, int position) {
             if (position != toOpenComments) {
-                shouldLoad = usedArray.get(position);
+                if (multiNameToSubsMap.containsKey(usedArray.get(position))) {
+                     shouldLoad = multiNameToSubsMap.get(usedArray.get(position));
+                } else {
+                    shouldLoad = usedArray.get(position);
+                }
+
                 if (getCurrentFragment() != object) {
                     mCurrentFragment = ((SubmissionsView) object);
                     if (mCurrentFragment != null) {
