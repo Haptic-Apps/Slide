@@ -249,6 +249,19 @@ public class SettingValues {
         return prefs.getBoolean("picsenabled" + subreddit.toLowerCase(), bigPicEnabled);
     }
 
+    public static boolean isSelftextEnabled(String subreddit) {
+        if(subreddit == null) return cardText;
+        return prefs.getBoolean("cardtextenabled" + subreddit.toLowerCase(), cardText);
+    }
+
+    public static void setSelftextEnabled(String sub, boolean checked) {
+        prefs.edit().putBoolean("cardtextenabled" +sub.toLowerCase(), checked).apply();
+    }
+
+    public static void resetSelftextEnabled(String subreddit) {
+        prefs.edit().remove("cardtextenabled" + subreddit.toLowerCase()).apply();
+    }
+
     public enum ColorIndicator {
         CARD_BACKGROUND, TEXT_COLOR, NONE
 

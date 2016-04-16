@@ -192,10 +192,10 @@ public class ContentType {
             case IMGUR:
             case STREAMABLE:
             case VIDEO:
+            case SELF:
             case VID_ME:
                 return true;
 
-            case SELF:
             case EMBEDDED:
             case EXTERNAL:
             case LINK:

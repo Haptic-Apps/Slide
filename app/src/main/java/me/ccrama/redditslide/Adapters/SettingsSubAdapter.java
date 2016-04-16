@@ -76,6 +76,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                                 new ColorPreferences(context).removeFontStyle(subreddit);
 
                                 SettingValues.resetPicsEnabled(subreddit);
+                                SettingValues.resetSelftextEnabled(subreddit);
 
                                 dialog.dismiss();
                                 objects.remove(subreddit);
@@ -130,6 +131,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         final ColorPreferences colorPrefs = new ColorPreferences(context);
         final String subreddit = multipleSubs ? null : subreddits.get(0);
         final SwitchCompat bigPics = (SwitchCompat) dialoglayout.findViewById(R.id.bigpics);
+        final SwitchCompat selftext = (SwitchCompat) dialoglayout.findViewById(R.id.selftext);
 
         //Selected multiple subreddits
         if (multipleSubs) {
@@ -137,6 +139,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             int previousSubColor = 0;
             int previousSubAccent = 0;
             bigPics.setChecked(SettingValues.bigPicEnabled);
+            selftext.setChecked(SettingValues.cardText);
             boolean sameMainColor = true;
             boolean sameAccentColor = true;
 
@@ -175,6 +178,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             isAlternateLayout = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit);
             currentAccentColor = colorPrefs.getColor(subreddit);
             bigPics.setChecked(SettingValues.isPicsEnabled(subreddit));
+            selftext.setChecked(SettingValues.isSelftextEnabled(subreddit));
+
         }
 
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
@@ -344,6 +349,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                                             new ColorPreferences(context).removeFontStyle(sub);
 
                                             SettingValues.resetPicsEnabled(sub);
+                                            SettingValues.resetSelftextEnabled(sub);
+
                                         }
 
                                         if (context instanceof MainActivity) {
@@ -374,7 +381,9 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                             if (bigPics.isChecked() != SettingValues.isPicsEnabled(sub)) {
                                 SettingValues.setPicsEnabled(sub, bigPics.isChecked());
                             }
-
+                            if (selftext.isChecked() != SettingValues.isSelftextEnabled(sub)) {
+                                SettingValues.setSelftextEnabled(sub, selftext.isChecked());
+                            }
                             //Only do set colors if either subreddit theme color has changed
                             if (Palette.getColor(sub) != newPrimaryColor || Palette.getDarkerColor(sub) != newAccentColor) {
 

@@ -730,4 +730,5 @@
     <string name="clear_subreddit_history">Clear subreddit history</string>
     <string name="clear_submission_history">Clear submission history</string>
     <string name="alert_history_cleared">History cleared!</string>
+    <string name="settings_subredditspecific_selftext">Always show selftext previews in this subreddit</string>
 </resources>
