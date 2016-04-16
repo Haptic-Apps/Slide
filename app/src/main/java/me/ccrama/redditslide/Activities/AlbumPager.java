@@ -47,6 +47,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -584,7 +585,9 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     }
                     if (title.isEmpty() && description.isEmpty()) {
                         rootView.findViewById(R.id.panel).setVisibility(View.GONE);
-                        rootView.findViewById(R.id.margin).setVisibility(View.GONE);
+                        SlidingUpPanelLayout.LayoutParams params = (SlidingUpPanelLayout.LayoutParams) (rootView.findViewById(R.id.margin)).getLayoutParams();
+                        params.setMargins(0,0,0,0);
+                        rootView.findViewById(R.id.margin).setLayoutParams(params);
                     } else if (title.isEmpty()) {
                         ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(description);
                     } else {
@@ -607,7 +610,9 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     }
                     if (title.isEmpty() && description.isEmpty()) {
                         rootView.findViewById(R.id.panel).setVisibility(View.GONE);
-                        rootView.findViewById(R.id.margin).setVisibility(View.GONE);
+                        SlidingUpPanelLayout.LayoutParams params = (SlidingUpPanelLayout.LayoutParams) (rootView.findViewById(R.id.margin)).getLayoutParams();
+                        params.setMargins(0,0,0,0);
+                        rootView.findViewById(R.id.margin).setLayoutParams(params);
                     } else if (title.isEmpty()) {
                         ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(description);
                     } else {

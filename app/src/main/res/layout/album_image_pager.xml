@@ -13,6 +13,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/margin"
+        android:layout_marginBottom="48dp"
         android:orientation="vertical">
 
         <me.ccrama.redditslide.Views.SubsamplingScaleImageView
@@ -20,13 +22,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_above="@+id/margin" />
+             />
 
         <LinearLayout
             android:id="@+id/gifheader"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_above="@+id/margin"
+            android:layout_alignParentBottom="true"
             android:gravity="right">
 
 
@@ -63,11 +65,7 @@
             android:indeterminate="false"
             android:max="100"
             android:progress="0" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/margin"/>
+
 
     </RelativeLayout>
 
