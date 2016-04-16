@@ -115,7 +115,14 @@
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_condensed"
                     app:typeface="roboto_condensed_regular" />
-
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/clight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/font"
+                    android:background="?android:selectableItemBackground"
+                    android:text="@string/settings_font_light"
+                    app:typeface="roboto_condensed_light" />
             </RadioGroup>
         </LinearLayout>
         <View

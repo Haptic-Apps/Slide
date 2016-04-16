@@ -118,6 +118,7 @@ public class FontPreferences {
     public enum FontTypeComment {
         Slab(RobotoTypefaceManager.Typeface.ROBOTO_SLAB_REGULAR, "Slab"),
         Condensed(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_REGULAR, "Condensed"),
+        Light(RobotoTypefaceManager.Typeface.ROBOTO_LIGHT, "Light"),
         Regular(RobotoTypefaceManager.Typeface.ROBOTO_REGULAR, "Regular");
 
         private final int typeface;

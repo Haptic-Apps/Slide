@@ -92,6 +92,10 @@ public class SettingsFont extends BaseActivityAnim {
                 ((RobotoRadioButton) findViewById(R.id.ccond)).setChecked(true);
 
                 break;
+            case Light:
+                ((RobotoRadioButton) findViewById(R.id.clight)).setChecked(true);
+
+                break;
 
 
         }
@@ -122,7 +126,15 @@ public class SettingsFont extends BaseActivityAnim {
                 }
             }
         });
-
+        ((RobotoRadioButton) findViewById(R.id.clight)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SettingsTheme.changed = true;
+                    new FontPreferences(SettingsFont.this).setCommentFont(FontPreferences.FontTypeComment.Light);
+                }
+            }
+        });
 
         switch (new FontPreferences(this).getFontTypeTitle()) {
             case Regular:

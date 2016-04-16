@@ -1685,7 +1685,13 @@ public class PopulateSubmissionViewHolder {
                     mContext,
                     new FontPreferences(mContext).getFontTypeComment().getTypeface());
             holder.body.setTypeface(typeface);
-            holder.body.setTextHtml(Html.fromHtml(text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length())));
+            holder.body.setTextHtml(Html.fromHtml(text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length())), "none ");
+            holder.body.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.itemView.callOnClick();
+                }
+            });
             if (holder.body.getText().toString().trim().isEmpty()) {
                 holder.body.setVisibility(View.GONE);
             }
