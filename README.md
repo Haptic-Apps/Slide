@@ -16,7 +16,7 @@ Slide is currently available on the Play store.
 </a>
 
 There is an active community for Slide on the
-[the Google+ page](https://plus.google.com/communities/100681783215868345226),
+[/r/slideforreddit](https://www.reddit.com/r/slideforreddit/) subreddit,
 which anybody is welcome to join.
 
 ## Contributing
