@@ -17,6 +17,24 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  * Created by l3d00m on 11/13/2015.
  */
 public class SettingsFont extends BaseActivityAnim {
+    private static String getFontName(int resource) {
+        switch (resource) {
+            case R.string.font_size_larger:
+                return "Larger";
+            case R.string.font_size_large:
+                return "Large";
+            case R.string.font_size_medium:
+                return "Medium";
+            case R.string.font_size_small:
+                return "Small";
+            case R.string.font_size_smaller:
+                return "Smaller";
+            case R.string.font_size_tiny:
+                return "Tiny";
+            default:
+                return "Medium";
+        }
+    }
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -31,17 +49,18 @@ public class SettingsFont extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsFont.this, v);
-                popup.getMenu().add("Larger");
-                popup.getMenu().add("Large");
-                popup.getMenu().add("Medium");
-                popup.getMenu().add("Small");
-                popup.getMenu().add("Smaller");
+                popup.getMenu().add(0, R.string.font_size_larger, 0, R.string.font_size_larger);
+                popup.getMenu().add(0, R.string.font_size_large, 0, R.string.font_size_large);
+                popup.getMenu().add(0, R.string.font_size_medium, 0, R.string.font_size_medium);
+                popup.getMenu().add(0, R.string.font_size_small, 0, R.string.font_size_small);
+                popup.getMenu().add(0, R.string.font_size_smaller, 0, R.string.font_size_smaller);
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        new FontPreferences(SettingsFont.this).setCommentFontStyle(FontPreferences.FontStyleComment.valueOf(item.getTitle().toString()));
+                        new FontPreferences(SettingsFont.this).setCommentFontStyle(
+                                FontPreferences.FontStyleComment.valueOf(getFontName(item.getItemId())));
                         colorComment.setText(new FontPreferences(SettingsFont.this).getCommentFontStyle().getTitle());
                         SettingsTheme.changed = true;
                         return true;
@@ -57,18 +76,19 @@ public class SettingsFont extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsFont.this, v);
-                popup.getMenu().add("Larger");
-                popup.getMenu().add("Large");
-                popup.getMenu().add("Medium");
-                popup.getMenu().add("Small");
-                popup.getMenu().add("Smaller");
-                popup.getMenu().add("Tiny");
+                popup.getMenu().add(0, R.string.font_size_larger, 0, R.string.font_size_larger);
+                popup.getMenu().add(0, R.string.font_size_large, 0, R.string.font_size_large);
+                popup.getMenu().add(0, R.string.font_size_medium, 0, R.string.font_size_medium);
+                popup.getMenu().add(0, R.string.font_size_small, 0, R.string.font_size_small);
+                popup.getMenu().add(0, R.string.font_size_smaller, 0, R.string.font_size_smaller);
+                popup.getMenu().add(0, R.string.font_size_tiny, 0, R.string.font_size_tiny);
 
                 //registering popup with OnMenuItemClickListener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
 
-                        new FontPreferences(SettingsFont.this).setPostFontStyle(FontPreferences.FontStyle.valueOf(item.getTitle().toString()));
+                        new FontPreferences(SettingsFont.this).setPostFontStyle(
+                                FontPreferences.FontStyle.valueOf(getFontName(item.getItemId())));
                         colorPost.setText(new FontPreferences(SettingsFont.this).getPostFontStyle().getTitle());
                         SettingsTheme.changed = true;
                         return true;

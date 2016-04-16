@@ -59,6 +59,12 @@
 
     <!-- Font settings -->
     <string name="font_size">Font size</string>
+    <string name="font_size_larger">Larger</string>
+    <string name="font_size_large">Large</string>
+    <string name="font_size_medium">Medium</string>
+    <string name="font_size_small">Small</string>
+    <string name="font_size_smaller">Smaller</string>
+    <string name="font_size_tiny">Tiny</string>
 
 
     <!-- For editing the submission card layout -->
@@ -232,6 +238,11 @@
 
 
     <!-- Inbox/mail -->
+    <string name="mail_tab_inbox">Inbox</string>
+    <string name="mail_tab_unread">Unread</string>
+    <string name="mail_tab_messages">Messages</string>
+    <string name="mail_tab_sent">Sent</string>
+    <string name="mail_tab_mentions">Mentions</string>
     <string name="mail_author_wrote">%1$s wrote…</string>
     <string name="mail_hint_recipient">Recipient</string>
     <string name="mail_hint_subject">Subject</string>
@@ -325,6 +336,8 @@
     <!-- Moderation tools -->
     <string name="mod_mail">Mod mail</string>
     <string name="mod_mail_unread">Mod mail unread</string>
+    <string name="mod_modqueue">Modqueue</string>
+    <string name="mod_unmoderated">Unmoderated</string>
     <string name="mod_reports">Reports</string>
     <string name="mod_approve">Do you really want to approve this post?</string>
     <string name="mod_approved">Post approved</string>

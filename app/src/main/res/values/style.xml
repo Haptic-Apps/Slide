@@ -346,21 +346,10 @@
         <item name="font_cardinfo">16sp</item>
     </style>
 
-    <style name="FontStyle.LargestPost">
-        <item name="font_cardtitle">26sp</item>
-        <item name="font_cardinfo">18sp</item>
-    </style>
-
     <style name="FontStyle.LargerComment">
         <item name="font_commenttitle">16sp</item>
         <item name="font_commentinfo">16sp</item>
         <item name="font_commentbody">18sp</item>
-    </style>
-
-    <style name="FontStyle.LargestComment">
-        <item name="font_commenttitle">18sp</item>
-        <item name="font_commentinfo">18sp</item>
-        <item name="font_commentbody">20sp</item>
     </style>
 
     <style name="Theme.LIGHT" parent="swipestylelight">

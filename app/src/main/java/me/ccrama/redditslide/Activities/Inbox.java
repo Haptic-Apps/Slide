@@ -158,7 +158,7 @@ public class Inbox extends BaseActivityAnim {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return ContentGrabber.InboxValue.values()[position].getDisplayName();
+            return getString(ContentGrabber.InboxValue.values()[position].getDisplayName());
         }
     }
 

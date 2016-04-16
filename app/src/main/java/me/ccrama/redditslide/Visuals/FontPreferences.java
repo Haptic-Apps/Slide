@@ -63,51 +63,49 @@ public class FontPreferences {
         edit().putString(FONT_TITLE, style.name()).commit();
     }
     public enum FontStyle {
-        Tiny(R.style.FontStyle_TinyPost, "Tiny"),
-        Smaller(R.style.FontStyle_SmallerPost, "Smaller"),
-        Small(R.style.FontStyle_SmallPost, "Small"),
-        Medium(R.style.FontStyle_MediumPost, "Medium"),
-        Large(R.style.FontStyle_LargePost, "Large"),
-        Larger(R.style.FontStyle_LargerPost, "Larger"),
-        Largest(R.style.FontStyle_LargestPost, "Largest");
+        Tiny(R.style.FontStyle_TinyPost, R.string.font_size_tiny),
+        Smaller(R.style.FontStyle_SmallerPost, R.string.font_size_smaller),
+        Small(R.style.FontStyle_SmallPost, R.string.font_size_small),
+        Medium(R.style.FontStyle_MediumPost, R.string.font_size_medium),
+        Large(R.style.FontStyle_LargePost, R.string.font_size_large),
+        Larger(R.style.FontStyle_LargerPost, R.string.font_size_larger);
 
         private final int resId;
-        private final String title;
+        private final int title;
 
         public int getResId() {
             return resId;
         }
 
-        public String getTitle() {
+        public int getTitle() {
             return title;
         }
 
-        FontStyle(int resId, String title) {
+        FontStyle(int resId, int title) {
             this.resId = resId;
             this.title = title;
         }
     }
 
     public enum FontStyleComment {
-        Smaller(R.style.FontStyle_SmallerComment, "Smaller"),
-        Small(R.style.FontStyle_SmallComment, "Small"),
-        Medium(R.style.FontStyle_MediumComment, "Medium"),
-        Large(R.style.FontStyle_LargeComment, "Large"),
-        Larger(R.style.FontStyle_LargerComment, "Larger"),
-        Largest(R.style.FontStyle_LargestComment, "Largest");
+        Smaller(R.style.FontStyle_SmallerComment, R.string.font_size_smaller),
+        Small(R.style.FontStyle_SmallComment, R.string.font_size_small),
+        Medium(R.style.FontStyle_MediumComment, R.string.font_size_medium),
+        Large(R.style.FontStyle_LargeComment, R.string.font_size_large),
+        Larger(R.style.FontStyle_LargerComment, R.string.font_size_larger);
 
         private final int resId;
-        private final String title;
+        private final int title;
 
         public int getResId() {
             return resId;
         }
 
-        public String getTitle() {
+        public int getTitle() {
             return title;
         }
 
-        FontStyleComment(int resId, String title) {
+        FontStyleComment(int resId, int title) {
             this.resId = resId;
             this.title = title;
         }
