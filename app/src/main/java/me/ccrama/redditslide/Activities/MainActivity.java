@@ -272,13 +272,14 @@ public class MainActivity extends BaseActivity {
             // permissions this app might request
         }
     }
+
     public static String abbreviate(final String str, final int maxWidth) {
         if (str.length() <= maxWidth) {
             return str;
         }
 
         final String abrevMarker = "...";
-            return str.substring(0, maxWidth - 3) + abrevMarker;
+        return str.substring(0, maxWidth - 3) + abrevMarker;
     }
 
     public boolean commentPager = false;
@@ -742,7 +743,8 @@ public class MainActivity extends BaseActivity {
     public void updateColor(int color, String subreddit) {
         hea.setBackgroundColor(color);
         header.setBackgroundColor(color);
-        findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(color));
+        if (accountsArea != null)
+            accountsArea.setBackgroundColor(Palette.getDarkerColor(color));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Palette.getDarkerColor(color));
@@ -775,7 +777,8 @@ public class MainActivity extends BaseActivity {
 
             if (hea != null) {
                 hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
-                findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(usedArray.get(0)));
+                if (accountsArea != null)
+                    accountsArea.setBackgroundColor(Palette.getDarkerColor(usedArray.get(0)));
             }
             if (!SettingValues.single) {
                 mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
@@ -1108,7 +1111,7 @@ public class MainActivity extends BaseActivity {
             header.findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(runAfterLoad == null) {
+                    if (runAfterLoad == null) {
                         Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
                         MainActivity.this.startActivity(inte);
                     }
@@ -1613,10 +1616,15 @@ public class MainActivity extends BaseActivity {
 
         actionBarDrawerToggle.syncState();
         header.findViewById(R.id.back).setBackgroundColor(Palette.getColor("alsdkfjasld"));
-        header.findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor("alsdkfjasld"));
+        accountsArea = header.findViewById(R.id.accountsarea);
+        if (accountsArea != null)
+            accountsArea.setBackgroundColor(Palette.getDarkerColor("alsdkfjasld"));
 
         setDrawerSubList();
     }
+
+
+    View accountsArea;
 
     SideArrayAdapter sideArrayAdapter;
 
@@ -1776,7 +1784,8 @@ public class MainActivity extends BaseActivity {
                     int color = Palette.getColor(subToDo);
                     hea.setBackgroundColor(color);
                     header.setBackgroundColor(color);
-                    findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(color));
+                    if (accountsArea != null)
+                        accountsArea.setBackgroundColor(Palette.getDarkerColor(color));
                     themeSystemBars(subToDo);
                     setRecentBar(subToDo);
 
@@ -2325,7 +2334,8 @@ public class MainActivity extends BaseActivity {
 
                     if (hea != null) {
                         hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
+                        if (accountsArea != null)
+                            accountsArea.setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
                     }
                     header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
 
@@ -2445,7 +2455,8 @@ public class MainActivity extends BaseActivity {
 
         if (hea != null) {
             hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-            findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
+            if (accountsArea != null)
+                accountsArea.setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
         }
         header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
 
@@ -2680,7 +2691,7 @@ public class MainActivity extends BaseActivity {
                 headerMain.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(UserSubscriptions.modOf != null && !UserSubscriptions.modOf.isEmpty()) {
+                        if (UserSubscriptions.modOf != null && !UserSubscriptions.modOf.isEmpty()) {
                             Intent inte = new Intent(MainActivity.this, ModQueue.class);
                             MainActivity.this.startActivity(inte);
                         }

@@ -8,15 +8,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import me.ccrama.redditslide.util.LogUtil;
+import com.jakewharton.processphoenix.ProcessPhoenix;
 
 public class CheckInstall extends BroadcastReceiver {
 
-    private Context c;
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        c = context;
-        LogUtil.v("Package installed!");
+        String packageName = intent.getDataString();
+        if(packageName.contains("me.ccrama") || packageName.contains("ccrama.me")){
+            ProcessPhoenix.triggerRebirth(context.getApplicationContext());
+        }
     }
 }
