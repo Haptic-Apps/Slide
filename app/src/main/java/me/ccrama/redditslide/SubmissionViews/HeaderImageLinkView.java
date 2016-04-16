@@ -180,7 +180,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
             } else if (type == ContentType.Type.IMAGE) {
-                if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
+                if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null && submission.getThumbnails().getVariations().length > 0) {
 
                     int length = submission.getThumbnails().getVariations().length;
                     url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters

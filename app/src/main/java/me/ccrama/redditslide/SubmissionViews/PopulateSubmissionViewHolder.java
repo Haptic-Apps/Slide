@@ -222,7 +222,7 @@ public class PopulateSubmissionViewHolder {
             String previewUrl;
             url = submission.getUrl();
 
-            if (SettingValues.loadImageLq && ((!NetworkUtil.isConnectedWifi(contextActivity) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null) {
+            if (SettingValues.loadImageLq && ((!NetworkUtil.isConnectedWifi(contextActivity) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null && submission.getThumbnails().getVariations().length > 0) {
                 int length = submission.getThumbnails().getVariations().length;
                 previewUrl = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
                 myIntent.putExtra(MediaView.EXTRA_LQ, true);
