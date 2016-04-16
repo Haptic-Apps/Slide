@@ -106,8 +106,10 @@ public class TransparentTagTextView extends TextView {
         mBackground.draw(mBackgroundCanvas);
 
         // Draw mask
-        mMaskCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
-        super.onDraw(mMaskCanvas);
+        if(mMaskCanvas != null) {
+            mMaskCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
+            super.onDraw(mMaskCanvas);
+        }
 
         mBackgroundCanvas.drawBitmap(mMaskBitmap, 0.f, 0.f, mPaint);
         canvas.drawBitmap(mBackgroundBitmap, 0.f, 0.f, null);
