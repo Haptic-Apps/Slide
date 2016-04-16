@@ -741,7 +741,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         score.setSpan(new ForegroundColorSpan(scoreColor), 0, score.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         titleString.append(score);
-        titleString.append((comment.isControversial() ? "†" : ""));
+        titleString.append((comment.isControversial() ? " †" : ""));
 
         titleString.append(spacer);
         String timeAgo = TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext);
