@@ -38,8 +38,6 @@ import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.util.LogUtil;
 
-;
-
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
@@ -171,6 +169,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                                                        if (Authentication.didOnline || submission.getComments() != null) {
                                                            holder.title.setAlpha(0.54f);
+                                                           holder.body.setAlpha(0.54f);
 
                                                            if (context instanceof MainActivity) {
                                                                final MainActivity a = (MainActivity) context;
