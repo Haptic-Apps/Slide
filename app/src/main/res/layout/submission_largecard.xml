@@ -41,6 +41,7 @@
                 android:layout_height="65dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginStart="8dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
@@ -62,6 +63,7 @@
             <RelativeLayout
                 android:id="@+id/inside"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="6dp"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/thumbimage2">
 

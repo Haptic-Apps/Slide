@@ -59,6 +59,7 @@
             <RelativeLayout
                 android:id="@+id/inside"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="6dp"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/secondMenu"
                 android:layout_toRightOf="@+id/thumbimage2">

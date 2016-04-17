@@ -783,9 +783,6 @@ public class CommentPage extends Fragment {
 
     private void goUp() {
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (mLayoutManager.findFirstVisibleItemPosition() != mLayoutManager.findFirstCompletelyVisibleItemPosition()) {
-            toGoto = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-        }
         if (adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;
@@ -856,9 +853,6 @@ public class CommentPage extends Fragment {
 
     private void goDown() {
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (mLayoutManager.findFirstVisibleItemPosition() != mLayoutManager.findFirstCompletelyVisibleItemPosition()) {
-            toGoto = mLayoutManager.findFirstCompletelyVisibleItemPosition();
-        }
         if (adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;

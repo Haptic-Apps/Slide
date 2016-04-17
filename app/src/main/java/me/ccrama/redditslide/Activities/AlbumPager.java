@@ -610,9 +610,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     }
                     if (title.isEmpty() && description.isEmpty()) {
                         rootView.findViewById(R.id.panel).setVisibility(View.GONE);
-                        SlidingUpPanelLayout.LayoutParams params = (SlidingUpPanelLayout.LayoutParams) (rootView.findViewById(R.id.margin)).getLayoutParams();
-                        params.setMargins(0,0,0,0);
-                        rootView.findViewById(R.id.margin).setLayoutParams(params);
+                        rootView.findViewById(R.id.margin).setPadding(0,0,0,0);
                     } else if (title.isEmpty()) {
                         ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(description);
                     } else {

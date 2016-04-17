@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/margin"
-        android:layout_marginBottom="48dp"
+        android:paddingBottom="48dp"
         android:orientation="vertical">
 
         <me.ccrama.redditslide.Views.SubsamplingScaleImageView
@@ -67,6 +67,9 @@
             android:progress="0" />
 
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
     </RelativeLayout>
 
     <LinearLayout

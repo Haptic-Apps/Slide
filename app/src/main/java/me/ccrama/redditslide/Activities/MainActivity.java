@@ -2699,23 +2699,25 @@ public class MainActivity extends BaseActivity {
                 });
             }
 
-            int oldCount = Reddit.appRestart.getInt("inbox", 0);
-            if (count > oldCount) {
-                final Snackbar s = Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this, Inbox.class);
-                        startActivity(i);
-                    }
-                });
+            if (count != -1) {
 
-                View view = s.getView();
-                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                s.show();
+                int oldCount = Reddit.appRestart.getInt("inbox", 0);
+                if (count > oldCount) {
+                    final Snackbar s = Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(MainActivity.this, Inbox.class);
+                            startActivity(i);
+                        }
+                    });
+
+                    View view = s.getView();
+                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+                }
+                Reddit.appRestart.edit().putInt("inbox", count).apply();
             }
-            Reddit.appRestart.edit().putInt("inbox", count).apply();
-
             View badge = headerMain.findViewById(R.id.count);
             if (count == 0) {
                 if (badge != null) badge.setVisibility(View.GONE);
