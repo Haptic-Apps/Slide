@@ -53,7 +53,7 @@ import me.ccrama.redditslide.util.LogUtil;
 
 
 public class ReorderSubreddits extends BaseActivityAnim {
-    public static final String MULTI_REDDIT = " multi reddit";
+    public static final String MULTI_REDDIT = "/m/";
     String input;
 
     ArrayList<String> subs;
@@ -230,8 +230,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                                 }
                                                                 String finalS = b.toString().substring(0, b.length() - 1);
                                                                 Log.v(LogUtil.getTag(), finalS);
-                                                                subs.add(r.getDisplayName()+ MULTI_REDDIT);
-                                                                UserSubscriptions.setSubNameToProperties(r.getDisplayName()+ MULTI_REDDIT, b.toString());
+                                                                subs.add(MULTI_REDDIT + r.getDisplayName());
+                                                                UserSubscriptions.setSubNameToProperties(MULTI_REDDIT + r.getDisplayName(), b.toString());
                                                                 adapter.notifyDataSetChanged();
                                                                 recyclerView.smoothScrollToPosition(subs.size());
                                                                 return false;
