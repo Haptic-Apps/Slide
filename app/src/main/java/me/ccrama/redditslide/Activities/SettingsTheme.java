@@ -372,6 +372,7 @@ public class SettingsTheme extends BaseActivity {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingsTheme.changed = true;
                 SettingValues.colorNavBar = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_NAV_BAR, isChecked).apply();
                 themeSystemBars("");
