@@ -275,7 +275,7 @@
             android:layout_height="match_parent"
             android:padding="16dp"
             android:textColor="?attr/font"
-            android:textSize="16sp" />
+            android:textSize="?attr/font_commentbody" />
 
         <me.ccrama.redditslide.Views.CommentOverflow
             android:id="@+id/commentOverflow"
