@@ -112,6 +112,7 @@ public class PopulateSubmissionViewHolder {
                         HasSeen.addSeen(submission.getFullName());
                         if (contextActivity instanceof MainActivity || contextActivity instanceof MultiredditOverview || contextActivity instanceof SubredditView) {
                             holder.title.setAlpha(0.54f);
+                            holder.body.setAlpha(0.54f);
                         }
                     }
                 }
@@ -1742,6 +1743,7 @@ public class PopulateSubmissionViewHolder {
                                     HasSeen.addSeen(submission.getFullName());
                                     if (mContext instanceof MainActivity) {
                                         holder.title.setAlpha(0.54f);
+                                        holder.body.setAlpha(0.54f);
                                     }
                                 }
                             }
@@ -1778,6 +1780,7 @@ public class PopulateSubmissionViewHolder {
                                     HasSeen.addSeen(submission.getFullName());
                                     if (mContext instanceof MainActivity) {
                                         holder.title.setAlpha(0.54f);
+                                        holder.body.setAlpha(0.54f);
                                     }
                                 }
                             }
@@ -1816,6 +1819,7 @@ public class PopulateSubmissionViewHolder {
 
         if (HasSeen.getSeen(submission) && !full) {
             holder.title.setAlpha(0.54f);
+            holder.body.setAlpha(0.54f);
         } else {
             holder.title.setAlpha(1f);
         }
