@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -153,6 +154,18 @@ public class PopulateShadowboxInfo {
 
                                 return null;
                             }
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+                                if (ActionStates.isSaved(s)) {
+                                    ((ImageView)  rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
+                                    AnimateHelper.setFlashAnimation(rootView,  rootView.findViewById(R.id.save), ContextCompat.getColor(c, R.color.md_amber_500));
+                                } else {
+                                    ((ImageView)  rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                }
+
+                            }
                         }.execute();
 
 
@@ -172,6 +185,8 @@ public class PopulateShadowboxInfo {
                         downvotebutton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
                                 if (SettingValues.storeHistory && !true) {
                                     if (!s.isNsfw() || SettingValues.storeNSFWHistory) {
                                         HasSeen.addSeen(s.getFullName());
@@ -205,6 +220,8 @@ public class PopulateShadowboxInfo {
                         upvotebutton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
                                 if (SettingValues.storeHistory && !true) {
                                     if (!s.isNsfw() || SettingValues.storeNSFWHistory) {
                                         HasSeen.addSeen(s.getFullName());
