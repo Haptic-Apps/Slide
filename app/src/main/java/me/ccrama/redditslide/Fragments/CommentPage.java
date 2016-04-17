@@ -554,7 +554,7 @@ public class CommentPage extends Fragment {
             Submission s = ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page);
             if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
-            } else if(s != null) {
+            } else if (s != null) {
                 commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
             }
             comments.setSorting(commentSorting);
@@ -565,7 +565,7 @@ public class CommentPage extends Fragment {
             Submission s = ((MainActivity) getActivity()).openingComments;
             if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
-            } else if(s != null) {
+            } else if (s != null) {
                 commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
             }
             comments.setSorting(commentSorting);
@@ -834,14 +834,16 @@ public class CommentPage extends Fragment {
     }
 
     public void doGoDown(int old) {
-        int pos = (old < 2) ? 0 : old - 1;
+        int pos = old - 2;
+        if (pos < 0) pos = 0;
+        String original = adapter.users.get(adapter.getRealPosition(pos)).getName();
 
-        for (int i = pos; i < adapter.users.size(); i++) {
+        for (int i = pos + 1; i < adapter.users.size(); i++) {
             CommentObject o = adapter.users.get(adapter.getRealPosition(i));
             if (o instanceof CommentItem) {
                 if (o.comment.isTopLevel()) {
-                    if (i + 2 == old) {
-                        doGoDown(old + 1);
+                    if (o.getName().equals(original)) {
+                        doGoDown(i + 2);
                     } else {
                         (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header).getHeight()));
                     }
@@ -852,6 +854,7 @@ public class CommentPage extends Fragment {
     }
 
     private void goDown() {
+        ((View) toolbar.getParent()).setTranslationY(- ((View) toolbar.getParent()).getHeight());
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
         if (adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
@@ -869,7 +872,6 @@ public class CommentPage extends Fragment {
                         .show();
 
             } else {
-
                 doGoDown(toGoto);
             }
         }

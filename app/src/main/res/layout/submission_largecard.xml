@@ -234,7 +234,6 @@
                 android:tint="?attr/tint"
                 app:srcCompat="@drawable/downvote" />
 
-
             <ImageView
                 android:id="@+id/menu"
                 style="@style/Ripple.List"

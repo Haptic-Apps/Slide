@@ -103,21 +103,15 @@ public class SettingsFont extends BaseActivityAnim {
             case Regular:
                 ((RobotoRadioButton) findViewById(R.id.creg)).setChecked(true);
                 break;
-
             case Slab:
                 ((RobotoRadioButton) findViewById(R.id.cslab)).setChecked(true);
-
                 break;
             case Condensed:
                 ((RobotoRadioButton) findViewById(R.id.ccond)).setChecked(true);
-
                 break;
             case Light:
                 ((RobotoRadioButton) findViewById(R.id.clight)).setChecked(true);
-
                 break;
-
-
         }
         ((RobotoRadioButton) findViewById(R.id.ccond)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -160,29 +154,21 @@ public class SettingsFont extends BaseActivityAnim {
             case Regular:
                 ((RobotoRadioButton) findViewById(R.id.sreg)).setChecked(true);
                 break;
-
             case Light:
                 ((RobotoRadioButton) findViewById(R.id.sregl)).setChecked(true);
                 break;
-
             case Slab:
                 ((RobotoRadioButton) findViewById(R.id.sslabl)).setChecked(true);
-
                 break;
             case SlabReg:
                 ((RobotoRadioButton) findViewById(R.id.sslab)).setChecked(true);
-
                 break;
             case CondensedReg:
                 ((RobotoRadioButton) findViewById(R.id.scond)).setChecked(true);
-
                 break;
-
             case Condensed:
                 ((RobotoRadioButton) findViewById(R.id.scondl)).setChecked(true);
-
                 break;
-
         }
         ((RobotoRadioButton) findViewById(R.id.scond)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
