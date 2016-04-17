@@ -98,8 +98,8 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
-                    android:tag="tint"
-                    android:textColor="?attr/font"
+                    android:tag="tintsecond"
+                    android:textColor="?attr/tint"
                     android:textSize="?attr/font_commentbody"
                     android:visibility="gone" />
             </RelativeLayout>
@@ -168,14 +168,12 @@
                 android:text="420"
                 android:textSize="?attr/font_cardinfo" />
 
-
             <ImageView
                 android:id="@+id/save"
                 style="@style/Ripple.List"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
-
                 android:layout_toLeftOf="@+id/hide"
                 android:padding="8dp"
                 android:tag="tintactionbar"
@@ -188,7 +186,6 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
-
                 android:layout_toLeftOf="@+id/upvote"
                 android:padding="8dp"
                 android:tag="tintactionbar"
@@ -200,7 +197,6 @@
                 style="@style/Ripple.List"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-
                 android:layout_below="@+id/innerrelative"
                 android:layout_toLeftOf="@+id/mod"
                 android:padding="8dp"
@@ -216,7 +212,6 @@
                 android:layout_below="@+id/innerrelative"
                 android:layout_toLeftOf="@+id/downvote"
                 android:padding="8dp"
-
                 android:tag="tintactionbar"
                 android:tint="?attr/tint"
                 app:srcCompat="@drawable/upvoted" />
@@ -227,7 +222,6 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
-
                 android:layout_toLeftOf="@+id/menu"
                 android:padding="8dp"
                 android:tag="tintactionbar"

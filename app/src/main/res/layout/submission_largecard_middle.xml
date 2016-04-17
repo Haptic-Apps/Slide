@@ -90,12 +90,11 @@
                     android:layout_below="@+id/information"
                     android:layout_gravity="start"
                     android:layout_marginStart="16dp"
-                    android:textColor="?attr/tint"
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
-                    android:tag="tint"
-                    android:textColor="?attr/font"
+                    android:tag="tintsecond"
+                    android:textColor="?attr/tint"
                     android:textSize="?attr/font_commentbody"
                     android:visibility="gone" />
             </RelativeLayout>
