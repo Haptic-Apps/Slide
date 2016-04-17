@@ -116,20 +116,22 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      * <p/>
      * The text must be valid html.
      *
-     * @param text      html text
+     * @param baseText      html text
      * @param subreddit the subreddit to theme
      */
-    public void setTextHtml(CharSequence text, String subreddit) {
-        SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(wrapAlternateSpoilers(saveEmotesFromDestruction(text.toString().trim())));
+    public void setTextHtml(CharSequence baseText, String subreddit) {
+        String text = wrapAlternateSpoilers(saveEmotesFromDestruction(baseText.toString().trim()));
+        SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(text);
 
-        if (text.toString().contains("<a")) {
+        if (text.contains("<a")) {
             setEmoteSpans(builder); //for emote enabled subreddits
         }
-        if (text.toString().contains("[")) {
+        if (text.contains("[")) {
             setCodeFont(builder);
             setSpoilerStyle(builder, subreddit);
         }
-        if (text.toString().contains("[[d[")) {
+
+        if (text.contains("[[d[")) {
             setStrikethrough(builder);
         }
 

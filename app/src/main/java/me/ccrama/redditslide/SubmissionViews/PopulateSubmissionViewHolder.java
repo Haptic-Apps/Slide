@@ -112,6 +112,7 @@ public class PopulateSubmissionViewHolder {
                         HasSeen.addSeen(submission.getFullName());
                         if (contextActivity instanceof MainActivity || contextActivity instanceof MultiredditOverview || contextActivity instanceof SubredditView) {
                             holder.title.setAlpha(0.54f);
+                            holder.body.setAlpha(0.54f);
                         }
                     }
                 }
@@ -1678,7 +1679,7 @@ public class PopulateSubmissionViewHolder {
         doInfoLine(holder, submission, mContext, baseSub, full);
 
 
-        if (!full && SettingValues.cardText && submission.isSelfPost() && !submission.getSelftext().isEmpty() && !submission.isNsfw()) {
+        if (!full && SettingValues.cardText && submission.isSelfPost() && !submission.getSelftext().isEmpty() && !submission.isNsfw() && !submission.getDataNode().get("selftext_html").asText().toString().trim().isEmpty()) {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
             Typeface typeface = RobotoTypefaceManager.obtainTypeface(
@@ -1699,9 +1700,6 @@ public class PopulateSubmissionViewHolder {
                     return true;
                 }
             });
-            if (holder.body.getText().toString().trim().isEmpty()) {
-                holder.body.setVisibility(View.GONE);
-            }
         } else if (!full) {
             holder.body.setVisibility(View.GONE);
         }
@@ -1745,6 +1743,7 @@ public class PopulateSubmissionViewHolder {
                                     HasSeen.addSeen(submission.getFullName());
                                     if (mContext instanceof MainActivity) {
                                         holder.title.setAlpha(0.54f);
+                                        holder.body.setAlpha(0.54f);
                                     }
                                 }
                             }
@@ -1781,6 +1780,7 @@ public class PopulateSubmissionViewHolder {
                                     HasSeen.addSeen(submission.getFullName());
                                     if (mContext instanceof MainActivity) {
                                         holder.title.setAlpha(0.54f);
+                                        holder.body.setAlpha(0.54f);
                                     }
                                 }
                             }
@@ -1819,6 +1819,7 @@ public class PopulateSubmissionViewHolder {
 
         if (HasSeen.getSeen(submission) && !full) {
             holder.title.setAlpha(0.54f);
+            holder.body.setAlpha(0.54f);
         } else {
             holder.title.setAlpha(1f);
         }

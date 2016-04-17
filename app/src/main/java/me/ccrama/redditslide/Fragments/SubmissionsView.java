@@ -405,7 +405,28 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     }
                 }
             }
+
+            /*
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
+                        break;
+                    case RecyclerView.SCROLL_STATE_DRAGGING:
+                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
+
+                        break;
+                    case RecyclerView.SCROLL_STATE_SETTLING:
+                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().pause();
+
+                        break;
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }*/
         });
+
 
         Reddit.isLoading = false;
         if (MainActivity.shouldLoad == null || id == null || (MainActivity.shouldLoad != null && id != null && MainActivity.shouldLoad.equals(id)) || !(getActivity() instanceof MainActivity)) {
