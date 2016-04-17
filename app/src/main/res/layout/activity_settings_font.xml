@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
@@ -42,13 +41,13 @@
                     android:textColor="?attr/font"
                     android:textSize="16sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/commentfontsize"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
@@ -88,7 +87,6 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-
                 <com.devspark.robototextview.widget.RobotoRadioButton
                     android:id="@+id/creg"
                     android:layout_width="match_parent"
@@ -115,6 +113,7 @@
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_condensed"
                     app:typeface="roboto_condensed_regular" />
+
                 <com.devspark.robototextview.widget.RobotoRadioButton
                     android:id="@+id/clight"
                     android:layout_width="match_parent"
@@ -122,14 +121,16 @@
                     android:textColor="?attr/font"
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_light"
-                    app:typeface="roboto_condensed_light" />
+                    app:typeface="roboto_light" />
             </RadioGroup>
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:background="?attr/tint"
             android:alpha=".25"
             android:layout_height="0.25dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -164,7 +165,6 @@
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-
                 android:orientation="horizontal"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
@@ -204,7 +204,6 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-
                 <com.devspark.robototextview.widget.RobotoRadioButton
                     android:id="@+id/sreg"
                     android:layout_width="match_parent"
@@ -221,7 +220,7 @@
                     android:background="?android:selectableItemBackground"
                     android:textColor="?attr/font"
                     android:text="@string/settings_font_light"
-                    app:typeface="roboto_regular" />
+                    app:typeface="roboto_light" />
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
                     android:id="@+id/sslab"
@@ -258,10 +257,7 @@
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_condensed_light"
                     app:typeface="roboto_condensed_light" />
-
             </RadioGroup>
-
-
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
