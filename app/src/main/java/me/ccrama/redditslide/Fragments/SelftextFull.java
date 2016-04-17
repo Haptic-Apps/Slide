@@ -35,7 +35,7 @@ public class SelftextFull extends Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.submission_textcard, container, false);
 
-        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), false);
 
         if (!s.getSelftext().isEmpty()) {
 

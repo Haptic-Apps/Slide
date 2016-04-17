@@ -116,14 +116,12 @@ public class MediaFragment extends Fragment {
         if (savedInstanceState != null && savedInstanceState.containsKey("position"))
             stopPosition = savedInstanceState.getInt("position");
         if (!firstUrl.isEmpty()) {
-            imageShown = true;
-            LogUtil.v("Displaying first image");
             displayImage(firstUrl);
         }
 
 
         doLoad(contentUrl);
-        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
 
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
 
@@ -131,8 +129,8 @@ public class MediaFragment extends Fragment {
         ContentType.Type type = ContentType.getContentType(s);
 
 
-        if (!type.toString().toLowerCase().contains("image") && type != ContentType.Type.DEVIANTART && !type.toString().toLowerCase().contains("gfy") && !type.toString().toLowerCase().contains("gif") && !type.toString().toLowerCase().contains("imgur") || type.toString().toLowerCase().contains("link")) {
-            if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height") || s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() <= 200) {
+        if (!ContentType.fullImage(type)) {
+            if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height") ) {
                 (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
                 addClickFunctions((rootView.findViewById(R.id.thumbimage2)), rootView, type, getActivity(), s);

@@ -46,7 +46,7 @@ public class AlbumFull extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.submission_albumcard, container, false);
-        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), false);
 
         if (s.getUrl().contains("gallery")) {
             gallery = true;

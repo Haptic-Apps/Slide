@@ -57,7 +57,7 @@ public class Gif extends Fragment {
                 R.layout.submission_gifcard, container, false);
         loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
 
-        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), false);
 
         gif = rootView.findViewById(R.id.gif);
 
