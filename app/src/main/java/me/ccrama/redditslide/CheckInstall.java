@@ -15,7 +15,7 @@ public class CheckInstall extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String packageName = intent.getDataString();
-        if(packageName.contains("me.ccrama") || packageName.contains("ccrama.me") && !packageName.equals("me.ccrama.redditslide")){
+        if ((packageName.contains("me.ccrama") || packageName.contains("ccrama.me")) && !packageName.equals("me.ccrama.redditslide")){
             ProcessPhoenix.triggerRebirth(context.getApplicationContext());
         }
     }
