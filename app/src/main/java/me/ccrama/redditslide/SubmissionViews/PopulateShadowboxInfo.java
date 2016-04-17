@@ -16,6 +16,10 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,6 +47,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 
 /**
@@ -60,9 +65,24 @@ public class PopulateShadowboxInfo {
 
         title.setText(Html.fromHtml(s.getTitle()));
 
-        String separator = c.getResources().getString(R.string.submission_properties_seperator);
-        desc.setText(s.getSubredditName() + distingush + separator + TimeUtils.getTimeAgo(s.getCreated().getTime(), c));
+        String spacer = c.getString(R.string.submission_properties_seperator);
+        SpannableStringBuilder titleString = new SpannableStringBuilder();
 
+        SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + s.getSubredditName() + " ");
+
+        String subname = s.getSubredditName().toLowerCase();
+        if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
+            subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        titleString.append(subreddit);
+        titleString.append(distingush);
+        titleString.append(spacer);
+
+        titleString.append(TimeUtils.getTimeAgo(s.getCreated().getTime(), c));
+
+        desc.setText(titleString);
         ((TextView) rootView.findViewById(R.id.comments)).setText("" + s.getCommentCount());
         ((TextView) rootView.findViewById(R.id.score)).setText("" + s.getScore());
 

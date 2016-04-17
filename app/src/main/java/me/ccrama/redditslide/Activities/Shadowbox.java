@@ -15,7 +15,6 @@ import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.AlbumFull;
-import me.ccrama.redditslide.Fragments.Gif;
 import me.ccrama.redditslide.Fragments.MediaFragment;
 import me.ccrama.redditslide.Fragments.SelftextFull;
 import me.ccrama.redditslide.Fragments.TitleFull;
@@ -143,6 +142,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 case DEVIANTART:
                 case EMBEDDED:
                 case LINK:
+                case VID_ME:
+                case STREAMABLE:
                 case VIDEO:
                 {
                     f = new MediaFragment();
@@ -179,16 +180,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 break;
                 case ALBUM: {
                     f = new AlbumFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-
-                    f.setArguments(args);
-                }
-                break;
-                case VID_ME:
-                case STREAMABLE:{
-                    f = new Gif();
                     Bundle args = new Bundle();
                     args.putInt("page", i);
                     args.putString("sub", subreddit);
