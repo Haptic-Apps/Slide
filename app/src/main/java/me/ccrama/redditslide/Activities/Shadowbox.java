@@ -40,7 +40,9 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         overrideSwipeFromAnywhere();
 
         super.onCreate(savedInstance);
-        applyColorTheme();
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
+
+        applyDarkColorTheme(subreddit);
         setContentView(R.layout.activity_slide);
 
         firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, 0);

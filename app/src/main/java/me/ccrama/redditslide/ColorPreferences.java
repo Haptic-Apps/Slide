@@ -363,7 +363,28 @@ public class ColorPreferences {
         return getFontStyle();
 
     }
+    public int getDarkThemeSubreddit(String s) {
 
+        String str = open().getString(s.toLowerCase(), getFontStyle().getTitle());
+
+        try {
+            if (Theme.valueOf(str).getThemeType() != Reddit.themeBack) {
+                String[] names = str.split("_");
+                String name = names[names.length - 1];
+                for (Theme theme : Theme.values()) {
+                    if (theme.toString().contains(name) && theme.getThemeType() == Reddit.themeBack) {
+                        return theme.baseId;
+                    }
+                }
+            } else {
+                return Theme.valueOf(str).baseId;
+            }
+        } catch (Exception e) {
+
+        }
+        return getFontStyle().baseId;
+
+    }
     public void setFontStyle(Theme style, String s) {
         edit().putString(s.toLowerCase(), style.name()).commit();
     }
