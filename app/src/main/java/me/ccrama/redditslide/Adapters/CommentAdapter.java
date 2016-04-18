@@ -614,12 +614,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         replie = new ArrayList<>();
 
 
-        if (currentSelectedItem != null && !currentSelectedItem.isEmpty() &&!reset) {
+        if (currentSelectedItem != null && !currentSelectedItem.isEmpty() && !reset) {
             notifyDataSetChanged();
         } else {
             if (users != null && !reset) {
                 notifyItemRangeChanged(2, users.size() + 1);
-            } else if(users == null) {
+            } else if (users == null) {
                 users = new ArrayList<>();
                 notifyDataSetChanged();
             } else {
@@ -843,10 +843,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
 
-            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                    mContext,
-                    new FontPreferences(mContext).getFontTypeComment().getTypeface());
-            holder.firstTextView.setTypeface(typeface);
+            int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+            if (type >= 0) {
+                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                        mContext, type
+                );
+                holder.firstTextView.setTypeface(typeface);
+            }
             setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
 
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

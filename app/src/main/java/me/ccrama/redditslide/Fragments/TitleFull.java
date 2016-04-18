@@ -31,7 +31,7 @@ public class TitleFull extends Fragment {
                 R.layout.submission_titlecard, container, false);
 
 
-        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
 
         rootView.findViewById(R.id.desc).setOnClickListener(new View.OnClickListener() {
             @Override

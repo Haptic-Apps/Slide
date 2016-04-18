@@ -329,7 +329,6 @@ public class PopulateSubmissionViewHolder {
                 b.sheet(5, hide, mContext.getString(R.string.submission_hide));
             else
                 b.sheet(5, hide, mContext.getString(R.string.submission_unhide));
-
         }
         b.sheet(7, open, mContext.getString(R.string.submission_link_extern))
                 .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
@@ -1601,6 +1600,7 @@ public class PopulateSubmissionViewHolder {
                                 if (ActionStates.isSaved(submission)) {
                                     new AccountManager(Authentication.reddit).unsave(submission);
                                     ActionStates.setSaved(submission, false);
+
                                 } else {
                                     new AccountManager(Authentication.reddit).save(submission);
                                     ActionStates.setSaved(submission, true);
@@ -1625,6 +1625,8 @@ public class PopulateSubmissionViewHolder {
                             } else {
                                 s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
                                 ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                                posts.remove(posts.indexOf(submission));
+                                recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
                             }
                             View view = s.getView();
                             TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -1679,13 +1681,16 @@ public class PopulateSubmissionViewHolder {
         doInfoLine(holder, submission, mContext, baseSub, full);
 
 
-        if (!full && SettingValues.cardText && submission.isSelfPost() && !submission.getSelftext().isEmpty() && !submission.isNsfw() && !submission.getDataNode().get("selftext_html").asText().toString().trim().isEmpty()) {
+        if (!full && SettingValues.isSelftextEnabled(baseSub) && submission.isSelfPost() && !submission.getSelftext().isEmpty() && !submission.isNsfw() && !submission.getDataNode().get("selftext_html").asText().toString().trim().isEmpty()) {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
-            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                    mContext,
-                    new FontPreferences(mContext).getFontTypeComment().getTypeface());
-            holder.body.setTypeface(typeface);
+            int typef = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+            if (typef >= 0) {
+                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                        mContext,
+                        typef);
+                holder.body.setTypeface(typeface);
+            }
             holder.body.setTextHtml(Html.fromHtml(text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length())), "none ");
             holder.body.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1706,10 +1711,14 @@ public class PopulateSubmissionViewHolder {
 
         if (fullscreen) {
             if (!submission.getSelftext().isEmpty()) {
-                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                        mContext,
-                        new FontPreferences(mContext).getFontTypeComment().getTypeface());
-                holder.firstTextView.setTypeface(typeface);
+                int typef = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+                if (typef >= 0) {
+                    Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                            mContext,
+                            typef);
+                    holder.firstTextView.setTypeface(typeface);
+                }
+
                 setViews(submission.getDataNode().get("selftext_html").asText(), submission.getSubredditName(), holder);
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {
@@ -1822,6 +1831,7 @@ public class PopulateSubmissionViewHolder {
             holder.body.setAlpha(0.54f);
         } else {
             holder.title.setAlpha(1f);
+            holder.body.setAlpha(1f);
         }
 
     }

@@ -25,6 +25,7 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Submission;
 
@@ -55,6 +56,7 @@ import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.StreamableUtil;
 
 
 /**
@@ -70,8 +72,8 @@ public class MediaFragment extends Fragment {
     Submission s;
 
     @Override
-    public void onPause() {
-        super.onStop();
+    public void onDetach() {
+        super.onDetach();
         ((SubsamplingScaleImageView) rootView.findViewById(R.id.submission_image)).recycle();
     }
 
@@ -116,14 +118,11 @@ public class MediaFragment extends Fragment {
         if (savedInstanceState != null && savedInstanceState.containsKey("position"))
             stopPosition = savedInstanceState.getInt("position");
         if (!firstUrl.isEmpty()) {
-            imageShown = true;
-            LogUtil.v("Displaying first image");
             displayImage(firstUrl);
         }
 
 
-        doLoad(contentUrl);
-        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
 
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
 
@@ -131,8 +130,8 @@ public class MediaFragment extends Fragment {
         ContentType.Type type = ContentType.getContentType(s);
 
 
-        if (!type.toString().toLowerCase().contains("image") && type != ContentType.Type.DEVIANTART && !type.toString().toLowerCase().contains("gfy") && !type.toString().toLowerCase().contains("gif") && !type.toString().toLowerCase().contains("imgur") || type.toString().toLowerCase().contains("link")) {
-            if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height") || s.getDataNode().get("preview").get("images").get(0).get("source").get("height").asInt() <= 200) {
+        if (!ContentType.fullImage(type)) {
+            if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
                 (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
                 addClickFunctions((rootView.findViewById(R.id.thumbimage2)), rootView, type, getActivity(), s);
@@ -144,6 +143,7 @@ public class MediaFragment extends Fragment {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
             addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type, getActivity(), s);
         }
+        doLoad(contentUrl);
 
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
@@ -155,6 +155,37 @@ public class MediaFragment extends Fragment {
                 i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                 (getActivity()).startActivity(i2);
 
+            }
+        });
+        final View.OnClickListener openClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            }
+        };
+        rootView.findViewById(R.id.base).setOnClickListener(openClick);
+
+        ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i2 = new Intent(getActivity(), CommentsScreen.class);
+                            i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
+                            (getActivity()).startActivity(i2);
+                        }
+                    });
+                } else {
+                    rootView.findViewById(R.id.base).setOnClickListener(openClick);
+                }
             }
         });
         return rootView;
@@ -170,9 +201,9 @@ public class MediaFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         firstUrl = bundle.getString("firstUrl");
-        sub = ((Shadowbox)getActivity()).subreddit;
+        sub = ((Shadowbox) getActivity()).subreddit;
         i = bundle.getInt("page");
-        s = ((Shadowbox)getActivity()).subredditPosts.getPosts().get(i);
+        s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(i);
         contentUrl = bundle.getString("contentUrl");
     }
 
@@ -200,6 +231,12 @@ public class MediaFragment extends Fragment {
                     });
                 }
                 break;
+            case VIDEO:
+            case EXTERNAL:
+            case SELF:
+            case SPOILER:
+            case LINK:
+            case REDDIT:
             case IMAGE:
                 doLoadImage(contentUrl);
                 break;
@@ -207,6 +244,8 @@ public class MediaFragment extends Fragment {
                 doLoadImgur(contentUrl);
                 break;
             case GIF:
+            case VID_ME:
+            case STREAMABLE:
                 doLoadGif(contentUrl);
                 break;
         }
@@ -225,8 +264,13 @@ public class MediaFragment extends Fragment {
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
         rootView.findViewById(R.id.progress).setVisibility(View.GONE);
-        gif = new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) rootView.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), true, false, false);
-        gif.execute(dat);
+        if (dat.contains("streamable.com")) {
+            new StreamableUtil.AsyncLoadStreamable(getActivity(), (MediaVideoView) rootView.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), null, false, false).execute(dat);
+        } else {
+            gif = new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) rootView.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), true, false, false);
+            gif.execute(dat);
+        }
+
     }
 
     public void doLoadImgur(String url) {
@@ -237,6 +281,7 @@ public class MediaFragment extends Fragment {
         }
         String hash = url.substring(url.lastIndexOf("/"), url.length());
 
+        if (hash.startsWith("/")) hash = hash.substring(1, hash.length());
         if (NetworkUtil.isConnected(getActivity())) {
 
             LogUtil.v("Loading" + "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json");
@@ -282,6 +327,7 @@ public class MediaFragment extends Fragment {
         if (contentUrl != null && ContentType.isImgurLink(contentUrl)) {
             contentUrl = contentUrl + ".png";
         }
+        imageShown = true;
         rootView.findViewById(R.id.gifprogress).setVisibility(View.GONE);
         LogUtil.v(contentUrl);
         if (contentUrl.contains("m.imgur.com"))
@@ -448,7 +494,7 @@ public class MediaFragment extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(Reddit.videoPlugin){
+                        if (Reddit.videoPlugin) {
                             try {
                                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                 sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",

@@ -29,7 +29,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
  */
 public class CommentOverflow extends LinearLayout {
     private ColorPreferences colorPreferences;
-    private Typeface typeface;
+    private Typeface typeface = null;
     private int textColor;
     private int fontSize;
     private static final MarginLayoutParams COLUMN_PARAMS;
@@ -70,9 +70,12 @@ public class CommentOverflow extends LinearLayout {
      */
     public void setViews(List<String> blocks, String subreddit) {
         Context context = getContext();
-        typeface = RobotoTypefaceManager.obtainTypeface(
-                context,
-                new FontPreferences(context).getFontTypeComment().getTypeface());
+        int type = new FontPreferences(context).getFontTypeComment().getTypeface();
+        if (type >= 0) {
+            typeface = RobotoTypefaceManager.obtainTypeface(
+                    context,
+                    type);
+        }
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
         theme.resolveAttribute(R.attr.font, typedValue, true);
@@ -189,6 +192,7 @@ public class CommentOverflow extends LinearLayout {
     private void setStyle(SpoilerRobotoTextView textView, String subreddit) {
         textView.setTextColor(textColor);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
+        if(typeface != null)
         textView.setTypeface(typeface);
         textView.setLinkTextColor(colorPreferences.getColor(subreddit));
     }

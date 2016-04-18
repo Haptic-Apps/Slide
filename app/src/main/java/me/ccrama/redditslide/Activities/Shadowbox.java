@@ -15,8 +15,6 @@ import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.AlbumFull;
-import me.ccrama.redditslide.Fragments.Gif;
-import me.ccrama.redditslide.Fragments.ImageFull;
 import me.ccrama.redditslide.Fragments.MediaFragment;
 import me.ccrama.redditslide.Fragments.SelftextFull;
 import me.ccrama.redditslide.Fragments.TitleFull;
@@ -42,7 +40,9 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         overrideSwipeFromAnywhere();
 
         super.onCreate(savedInstance);
-        applyColorTheme();
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
+
+        applyDarkColorTheme(subreddit);
         setContentView(R.layout.activity_slide);
 
         firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, 0);
@@ -128,7 +128,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         @Override
         public Fragment getItem(int i) {
 
-            Fragment f;
+            Fragment f = null;
             ContentType.Type t = ContentType.getContentType(subredditPosts.getPosts().get(i));
 
             if (subredditPosts.getPosts().size() - 2 <= i && subredditPosts.hasMore()) {
@@ -137,9 +137,15 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
             switch (t) {
                 case GIF:
                 case IMAGE:
+                case IMGUR:
                 case REDDIT:
+                case EXTERNAL:
+                case SPOILER:
+                case DEVIANTART:
                 case EMBEDDED:
                 case LINK:
+                case VID_ME:
+                case STREAMABLE:
                 case VIDEO:
                 {
                     f = new MediaFragment();
@@ -183,16 +189,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     f.setArguments(args);
                 }
                 break;
-                case VID_ME:
-                case STREAMABLE:{
-                    f = new Gif();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-
-                    f.setArguments(args);
-                }
-                break;
                 case NONE: {
                     if (subredditPosts.getPosts().get(i).getSelftext().isEmpty()) {
                         f = new TitleFull();
@@ -209,16 +205,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
                         f.setArguments(args);
                     }
-                }
-                break;
-
-                default: {
-                    f = new ImageFull();
-                    Bundle args = new Bundle();
-                    args.putInt("page", i);
-                    args.putString("sub", subreddit);
-
-                    f.setArguments(args);
                 }
                 break;
             }

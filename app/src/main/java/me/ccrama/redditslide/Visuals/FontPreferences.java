@@ -117,7 +117,8 @@ public class FontPreferences {
         Slab(RobotoTypefaceManager.Typeface.ROBOTO_SLAB_REGULAR, "Slab"),
         Condensed(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_REGULAR, "Condensed"),
         Light(RobotoTypefaceManager.Typeface.ROBOTO_LIGHT, "Light"),
-        Regular(RobotoTypefaceManager.Typeface.ROBOTO_REGULAR, "Regular");
+        Regular(RobotoTypefaceManager.Typeface.ROBOTO_REGULAR, "Regular"),
+        System(-1, "System");
 
         private final int typeface;
         private final String title;
@@ -141,7 +142,8 @@ public class FontPreferences {
         Condensed(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_LIGHT, "Condensed Light"),
         CondensedReg(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_REGULAR, "Condensed Regular"),
         Light(RobotoTypefaceManager.Typeface.ROBOTO_LIGHT, "Light"),
-        Regular(RobotoTypefaceManager.Typeface.ROBOTO_REGULAR, "Regular");
+        Regular(RobotoTypefaceManager.Typeface.ROBOTO_REGULAR, "Regular"),
+        System(-1, "System");
 
         private final int typeface;
         private final String title;

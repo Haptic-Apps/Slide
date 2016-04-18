@@ -203,7 +203,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         overrideRedditSwipeAnywhere();
         super.onCreate(savedInstanceState);
 
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
+        getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(""), true);
 
         if (savedInstanceState != null && savedInstanceState.containsKey("position"))
             stopPosition = savedInstanceState.getInt("position");
