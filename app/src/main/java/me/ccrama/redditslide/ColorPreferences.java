@@ -368,7 +368,7 @@ public class ColorPreferences {
         String str = open().getString(s.toLowerCase(), getFontStyle().getTitle());
 
         try {
-            if (Theme.valueOf(str).getThemeType() != Reddit.themeBack) {
+            if (Theme.valueOf(str).getThemeType() != 4) {
                 String[] names = str.split("_");
                 String name = names[names.length - 1];
                 for (Theme theme : Theme.values()) {
