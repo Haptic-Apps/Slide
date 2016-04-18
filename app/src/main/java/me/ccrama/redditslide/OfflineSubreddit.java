@@ -22,11 +22,16 @@ public class OfflineSubreddit {
     public String subreddit;
     public boolean base;
 
+    public static void writeSubmission(JsonNode node) {
+
+    }
+
 
     public OfflineSubreddit overwriteSubmissionsString(List<JsonNode> data) {
         baseNodes = new ArrayList<>(data);
         return this;
     }
+
     public OfflineSubreddit overwriteSubmissions(List<Submission> data) {
         submissions = new ArrayList<>(data);
         return this;
@@ -36,18 +41,29 @@ public class OfflineSubreddit {
         if (subreddit != null) {
             String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
             String fullNames = "";
-            if(baseNodes ==null) {
+            if (baseNodes == null) {
                 for (Submission sub : submissions) {
                     fullNames += sub.getFullName() + ",";
                     Reddit.cachedData.edit().putString(sub.getFullName(), sub.getDataNode().toString()).apply();
                 }
             } else {
                 for (JsonNode sub : baseNodes) {
-                    if(sub.has("name")) {
+                    if (sub.has("name")) {
                         fullNames += sub.get("name").asText() + ",";
                         Reddit.cachedData.edit().putString(sub.get("name").asText(), sub.toString()).apply();
                     }
                 }
+            }
+            Reddit.cachedData.edit().putString(title, fullNames.substring(0, fullNames.length() - 1)).apply();
+        }
+    }
+
+    public void writeToMemory(ArrayList<String> names) {
+        if (subreddit != null) {
+            String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
+            String fullNames = "";
+            for (String sub : names) {
+                fullNames += sub + ",";
             }
             Reddit.cachedData.edit().putString(title, fullNames.substring(0, fullNames.length() - 1)).apply();
         }
