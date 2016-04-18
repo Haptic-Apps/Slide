@@ -12,7 +12,7 @@ import net.dean.jraw.models.Submission;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
-import me.ccrama.redditslide.OfflineSubreddit;
+import me.ccrama.redditslide.Activities.Shadowbox;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
@@ -64,7 +64,7 @@ public class SelftextFull extends Fragment {
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
         sub = bundle.getString("sub");
-        s = OfflineSubreddit.getSubreddit(sub).submissions.get(bundle.getInt("page", 0));
+        s = ((Shadowbox)getActivity()).subredditPosts.getPosts().get(bundle.getInt("page", 0));
     }
 
     private void setViews(String rawHTML, String subredditName, View base) {

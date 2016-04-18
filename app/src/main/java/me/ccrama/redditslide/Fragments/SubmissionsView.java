@@ -487,7 +487,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
             List<Submission> originalDataSetPosts = adapter.dataSet.posts;
 
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit(id.toLowerCase());
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit(id.toLowerCase(), false);
             for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
                 try {
                     if (HasSeen.getSeen(adapter.dataSet.posts.get(i))) {

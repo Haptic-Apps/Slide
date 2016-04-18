@@ -30,7 +30,7 @@ public class SubredditCache {
 
     public List<Submission> getSubmissions(String s){
         if (Reddit.appRestart.contains(s.toLowerCase())) {
-            return OfflineSubreddit.getSubreddit((Reddit.appRestart.getString(s.toLowerCase(), ""))).submissions;
+            return OfflineSubreddit.getSubreddit((Reddit.appRestart.getString(s.toLowerCase(), "")), false).submissions;
         } else {
             return null;
         }

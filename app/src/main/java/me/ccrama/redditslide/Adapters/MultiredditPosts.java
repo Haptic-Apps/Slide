@@ -244,7 +244,7 @@ public class MultiredditPosts implements PostLoader {
                 final int finalStart = start;
 
                 if (!usedOffline)
-                    OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase()).overwriteSubmissions(posts).writeToMemory();
+                    OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(), false).overwriteSubmissions(posts).writeToMemory();
 
                 // update online
                 displayer.updateSuccess(posts, finalStart);
@@ -252,9 +252,9 @@ public class MultiredditPosts implements PostLoader {
             } else if (submissions != null) {
                 // end of submissions
                 nomore = true;
-            } else if (!OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase()).submissions.isEmpty() && !nomore && SettingValues.cache) {
+            } else if (!OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(), false).submissions.isEmpty() && !nomore && SettingValues.cache) {
                 offline = true;
-                final OfflineSubreddit cached = OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase());
+                final OfflineSubreddit cached = OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(), true);
 
                 List<Submission> finalSubs = new ArrayList<>();
                 for (Submission s : cached.submissions) {

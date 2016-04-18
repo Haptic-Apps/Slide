@@ -23,6 +23,7 @@ import java.util.List;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
@@ -160,7 +161,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
 
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid);
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid, !Authentication.didOnline);
             subredditPosts.getPosts().addAll(o.submissions);
 
         }
