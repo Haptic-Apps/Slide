@@ -2142,14 +2142,14 @@ public class MainActivity extends BaseActivity {
                     @Override
                     protected Void doInBackground(Void... params) {
 
-                        String newSubmissions = System.currentTimeMillis() + "<SEPARATOR>";
 
+                        ArrayList<JsonNode> newSubmissions = new ArrayList<>();
                         int count = 0;
                         for (final Submission s : submissions) {
 
                             JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
                             if (s2 != null) {
-                                newSubmissions = newSubmissions + (s2.toString() + "<SEPARATOR>");
+                                newSubmissions.add(s2);
                                 switch (ContentType.getContentType(s)) {
                                     case GIF:
                                         if (chosen[0])
@@ -2168,9 +2168,7 @@ public class MainActivity extends BaseActivity {
                             d.setProgress(count);
                             if (d.getCurrentProgress() == d.getMaxProgress()) {
                                 d.cancel();
-
-                                OfflineSubreddit.getSubreddit(subreddit).overwriteSubmissions(newSubmissions);
-
+                                OfflineSubreddit.newSubreddit(subreddit).overwriteSubmissionsString(newSubmissions).writeToMemory();
                             }
                         }
                         return null;

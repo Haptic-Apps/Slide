@@ -18,104 +18,94 @@ public class OfflineSubreddit {
 
     public long time;
     public ArrayList<Submission> submissions;
-    public ArrayList<String> dataNodes;
-
+    public ArrayList<JsonNode> baseNodes;
     public String subreddit;
+    public boolean base;
 
+
+    public OfflineSubreddit overwriteSubmissionsString(List<JsonNode> data) {
+        baseNodes = new ArrayList<>(data);
+        return this;
+    }
     public OfflineSubreddit overwriteSubmissions(List<Submission> data) {
         submissions = new ArrayList<>(data);
         return this;
     }
 
-    public void addSubmissions(List<Submission> data) {
-        submissions.addAll(data);
-    }
-
     public void writeToMemory() {
         if (subreddit != null) {
-            System.gc();
-            if (dataNodes == null) {
-                String s = System.currentTimeMillis() + "<SEPARATOR>";
+            String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
+            String fullNames = "";
+            if(baseNodes ==null) {
                 for (Submission sub : submissions) {
-                    s = s + (sub.getDataNode().toString()) + "<SEPARATOR>";
+                    fullNames += sub.getFullName() + ",";
+                    Reddit.cachedData.edit().putString(sub.getFullName(), sub.getDataNode().toString()).apply();
                 }
-                s = s.substring(0, s.length() - 11);
-                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), s).apply();
-
             } else {
-                String s = System.currentTimeMillis() + "<SEPARATOR>";
-                for (String sub : dataNodes) {
-                    s = s + (sub + "<SEPARATOR>");
+                for (JsonNode sub : baseNodes) {
+                    if(sub.has("name")) {
+                        fullNames += sub.get("name").asText() + ",";
+                        Reddit.cachedData.edit().putString(sub.get("name").asText(), sub.toString()).apply();
+                    }
                 }
-                s = s.substring(0, s.length() - 11);
-                Reddit.cachedData.edit().putString(subreddit.toLowerCase(), s).apply();
-
-
-                dataNodes = null;
-
             }
+            Reddit.cachedData.edit().putString(title, fullNames.substring(0, fullNames.length() - 1)).apply();
         }
-    }
-
-    public OfflineSubreddit setCommentAndWrite(String fullname, JsonNode submission, Submission finalSub) {
-        if (dataNodes == null) {
-            dataNodes = new ArrayList<>();
-            int index = 0;
-            for (Submission s : submissions) {
-                if (s.getFullName().equals(fullname)) {
-                    dataNodes.add(submission.toString());
-                    index = submissions.indexOf(s);
-
-                } else {
-                    dataNodes.add(s.getDataNode().toString());
-                }
-            }
-            submissions.remove(index);
-            submissions.add(index, finalSub);
-        } else {
-            int index = 0;
-            for (Submission s : submissions) {
-                if (s.getFullName().equals(fullname)) {
-                    index = submissions.indexOf(s);
-
-                    dataNodes.remove(index);
-                    dataNodes.add(index, submission.toString());
-
-                }
-            }
-
-            submissions.remove(index);
-            submissions.add(index, finalSub);
-        }
-        return this;
     }
 
     public static OfflineSubreddit getSubreddit(String subreddit) {
-        subreddit = subreddit.toLowerCase();
+        return getSubreddit(subreddit, 0);
+    }
 
+    public static OfflineSubreddit getSubreddit(String subreddit, int time) {
+        subreddit = subreddit.toLowerCase();
 
         OfflineSubreddit o = new OfflineSubreddit();
         o.subreddit = subreddit.toLowerCase();
 
-        String[] split = Reddit.cachedData.getString(subreddit.toLowerCase(), "").split("<SEPARATOR>");
+        if (time == 0) {
+            o.base = true;
+        }
+
+        o.time = time;
+
+        String[] split = Reddit.cachedData.getString(subreddit.toLowerCase() + time, "").split(",");
         if (split.length > 1) {
-            o.time = Long.valueOf(split[0]);
+            o.time = time;
             o.submissions = new ArrayList<>();
-            for (int i = 1; i < split.length; i++) {
-                try {
-                    if (split[i].startsWith("[")) {
-                        o.submissions.add(SubmissionSerializer.withComments(new ObjectMapper().readTree(split[i]), CommentSort.CONFIDENCE));
-                    } else {
-                        o.submissions.add(new Submission(new ObjectMapper().readTree(split[i])));
+            for (String s : split) {
+                String gotten = Reddit.cachedData.getString(s, "");
+                if (!gotten.isEmpty()) {
+                    try {
+                        if (gotten.startsWith("[")) {
+                            o.submissions.add(SubmissionSerializer.withComments(new ObjectMapper().readTree(gotten), CommentSort.CONFIDENCE));
+                        } else {
+                            o.submissions.add(new Submission(new ObjectMapper().readTree(gotten)));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
 
         } else {
             o.submissions = new ArrayList<>();
         }
+        return o;
+
+    }
+
+    public static OfflineSubreddit newSubreddit(String subreddit) {
+        subreddit = subreddit.toLowerCase();
+
+        OfflineSubreddit o = new OfflineSubreddit();
+        o.subreddit = subreddit.toLowerCase();
+        o.base = false;
+
+        o.time = System.currentTimeMillis();
+
+        o.submissions = new ArrayList<>();
+
         return o;
 
     }
@@ -128,10 +118,9 @@ public class OfflineSubreddit {
                     toRemove = s2;
                 }
             }
-            if(toRemove != null){
+            if (toRemove != null) {
                 submissions.remove(toRemove);
             }
-
         }
     }
 
@@ -141,39 +130,22 @@ public class OfflineSubreddit {
     public void hide(int index) {
         hide(index, true);
     }
+
     public void hide(int index, boolean save) {
         if (submissions != null) {
             savedSubmission = submissions.get(index);
             submissions.remove(index);
-            if(save) {
+            if (save) {
                 savedIndex = index;
                 writeToMemory();
             }
         }
     }
+
     public void unhideLast() {
         if (submissions != null && savedSubmission != null) {
             submissions.add(savedIndex, savedSubmission);
             writeToMemory();
         }
-    }
-
-    public OfflineSubreddit overwriteSubmissions(ArrayList<JsonNode> newSubmissions) {
-        StringBuilder s = new StringBuilder();
-        s.append(System.currentTimeMillis()).append("<SEPARATOR>");
-        for (JsonNode sub : newSubmissions) {
-            s.append(sub.toString());
-            s.append("<SEPARATOR>");
-        }
-        String finals = s.toString();
-        finals = finals.substring(0, finals.length() - 11);
-        Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
-
-        return this;
-    }
-
-    public void overwriteSubmissions(String newSubmissions) {
-        String finals = newSubmissions.substring(0, newSubmissions.length() - 11);
-        Reddit.cachedData.edit().putString(subreddit.toLowerCase(), finals).apply();
     }
 }

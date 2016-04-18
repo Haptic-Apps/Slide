@@ -1831,6 +1831,7 @@ public class PopulateSubmissionViewHolder {
             holder.body.setAlpha(0.54f);
         } else {
             holder.title.setAlpha(1f);
+            if(!full)
             holder.body.setAlpha(1f);
         }
 
