@@ -242,7 +242,7 @@ public class Album extends FullScreenActivity  implements FolderChooserDialog.Fo
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE), true);
 
         setContentView(R.layout.album);
 

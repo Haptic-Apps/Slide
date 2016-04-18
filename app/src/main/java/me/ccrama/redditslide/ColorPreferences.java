@@ -9,7 +9,7 @@ import android.support.v4.content.ContextCompat;
  * Created by ccrama on 7/9/2015.
  */
 public class ColorPreferences {
-    private final static String FONT_STYLE = "THEME";
+    public final static String FONT_STYLE = "THEME";
 
     private final Context context;
 
@@ -321,7 +321,8 @@ public class ColorPreferences {
 
         if (Theme.valueOf(str).getThemeType() != Reddit.themeBack) {
             String[] names = str.split("_");
-            String name = names[names.length - 1];            for (Theme theme : Theme.values()) {
+            String name = names[names.length - 1];
+            for (Theme theme : Theme.values()) {
                 if (theme.toString().contains(name) && theme.getThemeType() == Reddit.themeBack) {
                     setFontStyle(theme, s);
                     return theme.baseId;
@@ -372,7 +373,7 @@ public class ColorPreferences {
                 String[] names = str.split("_");
                 String name = names[names.length - 1];
                 for (Theme theme : Theme.values()) {
-                    if (theme.toString().contains(name) && theme.getThemeType() == Reddit.themeBack) {
+                    if (theme.toString().contains(name) && theme.getThemeType() == 4) {
                         return theme.baseId;
                     }
                 }
