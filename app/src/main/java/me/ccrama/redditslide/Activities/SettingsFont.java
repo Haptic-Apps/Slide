@@ -112,6 +112,10 @@ public class SettingsFont extends BaseActivityAnim {
             case Light:
                 ((RobotoRadioButton) findViewById(R.id.clight)).setChecked(true);
                 break;
+            case System:
+                ((RobotoRadioButton) findViewById(R.id.cnone)).setChecked(true);
+                break;
+
         }
         ((RobotoRadioButton) findViewById(R.id.ccond)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -149,7 +153,15 @@ public class SettingsFont extends BaseActivityAnim {
                 }
             }
         });
-
+        ((RobotoRadioButton) findViewById(R.id.cnone)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SettingsTheme.changed = true;
+                    new FontPreferences(SettingsFont.this).setCommentFont(FontPreferences.FontTypeComment.System);
+                }
+            }
+        });
         switch (new FontPreferences(this).getFontTypeTitle()) {
             case Regular:
                 ((RobotoRadioButton) findViewById(R.id.sreg)).setChecked(true);
@@ -168,6 +180,9 @@ public class SettingsFont extends BaseActivityAnim {
                 break;
             case Condensed:
                 ((RobotoRadioButton) findViewById(R.id.scondl)).setChecked(true);
+                break;
+            case System:
+                ((RobotoRadioButton) findViewById(R.id.snone)).setChecked(true);
                 break;
         }
         ((RobotoRadioButton) findViewById(R.id.scond)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -221,6 +236,15 @@ public class SettingsFont extends BaseActivityAnim {
                 if (isChecked) {
                     SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Light);
+                }
+            }
+        });
+        ((RobotoRadioButton) findViewById(R.id.snone)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SettingsTheme.changed = true;
+                    new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.System);
                 }
             }
         });

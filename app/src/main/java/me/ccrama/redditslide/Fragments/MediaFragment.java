@@ -327,6 +327,7 @@ public class MediaFragment extends Fragment {
         if (contentUrl != null && ContentType.isImgurLink(contentUrl)) {
             contentUrl = contentUrl + ".png";
         }
+        imageShown = true;
         rootView.findViewById(R.id.gifprogress).setVisibility(View.GONE);
         LogUtil.v(contentUrl);
         if (contentUrl.contains("m.imgur.com"))

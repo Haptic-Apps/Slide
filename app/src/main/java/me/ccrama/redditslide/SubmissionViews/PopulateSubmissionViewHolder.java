@@ -1682,10 +1682,13 @@ public class PopulateSubmissionViewHolder {
         if (!full && SettingValues.cardText && submission.isSelfPost() && !submission.getSelftext().isEmpty() && !submission.isNsfw() && !submission.getDataNode().get("selftext_html").asText().toString().trim().isEmpty()) {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
-            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                    mContext,
-                    new FontPreferences(mContext).getFontTypeComment().getTypeface());
-            holder.body.setTypeface(typeface);
+            int typef = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+            if (typef >= 0) {
+                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                        mContext,
+                        typef);
+                holder.body.setTypeface(typeface);
+            }
             holder.body.setTextHtml(Html.fromHtml(text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length())), "none ");
             holder.body.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1706,10 +1709,14 @@ public class PopulateSubmissionViewHolder {
 
         if (fullscreen) {
             if (!submission.getSelftext().isEmpty()) {
-                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                        mContext,
-                        new FontPreferences(mContext).getFontTypeComment().getTypeface());
-                holder.firstTextView.setTypeface(typeface);
+                int typef = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+                if (typef >= 0) {
+                    Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                            mContext,
+                            typef);
+                    holder.firstTextView.setTypeface(typeface);
+                }
+
                 setViews(submission.getDataNode().get("selftext_html").asText(), submission.getSubredditName(), holder);
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.VISIBLE);
             } else {

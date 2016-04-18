@@ -122,6 +122,13 @@
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_light"
                     app:typeface="roboto_light" />
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/cnone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/font"
+                    android:background="?android:selectableItemBackground"
+                    android:text="@string/settings_font_system" />
             </RadioGroup>
         </LinearLayout>
 
@@ -257,6 +264,13 @@
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_condensed_light"
                     app:typeface="roboto_condensed_light" />
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/snone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/font"
+                    android:background="?android:selectableItemBackground"
+                    android:text="@string/settings_font_system" />
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>
