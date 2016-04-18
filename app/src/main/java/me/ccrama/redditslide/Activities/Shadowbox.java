@@ -13,6 +13,7 @@ import java.util.List;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.AlbumFull;
 import me.ccrama.redditslide.Fragments.MediaFragment;
@@ -55,7 +56,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         }
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
 
-        submissions = OfflineSubreddit.getSubreddit(subreddit);
+        submissions = OfflineSubreddit.getSubreddit(subreddit, !Authentication.didOnline);
 
         subredditPosts.getPosts().addAll(submissions.submissions);
         ViewPager pager = (ViewPager) findViewById(R.id.content_view);

@@ -259,7 +259,7 @@ public class SubredditPosts implements PostLoader {
                             .setItems(titles, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    final OfflineSubreddit cached = OfflineSubreddit.getSubreddit(subreddit, Long.valueOf(base[which].split(",")[1]));
+                                    final OfflineSubreddit cached = OfflineSubreddit.getSubreddit(subreddit, Long.valueOf(base[which].split(",")[1]), true);
                                     List<Submission> finalSubs = new ArrayList<>();
                                     for (Submission s : cached.submissions) {
                                         if (!PostMatch.doesMatch(s, subreddit, force18)) {
@@ -283,7 +283,7 @@ public class SubredditPosts implements PostLoader {
                             }).setCancelable(false).show();
                 } else {
                     String[] s2 = titles[0].split(",");
-                    final OfflineSubreddit cached = OfflineSubreddit.getSubreddit(subreddit, Long.valueOf(s2[1]));
+                    final OfflineSubreddit cached = OfflineSubreddit.getSubreddit(subreddit, Long.valueOf(s2[1]), true);
 
                     List<Submission> finalSubs = new ArrayList<>();
                     for (Submission s : cached.submissions) {

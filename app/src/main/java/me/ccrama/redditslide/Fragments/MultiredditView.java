@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,9 +40,12 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+
+;
 
 public class MultiredditView extends Fragment implements SubmissionDisplay {
 
@@ -258,7 +260,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
             List<Submission> originalDataSetPosts = posts.posts;
 
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + posts.multiReddit.getDisplayName().toLowerCase());
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + posts.multiReddit.getDisplayName().toLowerCase(), false);
             for (int i = posts.posts.size(); i > -1; i--) {
                 try {
                     if (HasSeen.getSeen(posts.posts.get(i))) {

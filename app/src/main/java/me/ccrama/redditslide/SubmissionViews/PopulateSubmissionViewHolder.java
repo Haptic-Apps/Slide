@@ -410,7 +410,7 @@ public class PopulateSubmissionViewHolder {
                                                             LogUtil.v("Matching with " + ((Submission) s).getDomain());
                                                         }
                                                     }
-                                                    OfflineSubreddit s = OfflineSubreddit.getSubreddit(baseSub);
+                                                    OfflineSubreddit s = OfflineSubreddit.getSubreddit(baseSub, false);
 
                                                     for(Contribution remove : toRemove){
                                                         final int pos = posts.indexOf(remove);
@@ -560,7 +560,7 @@ public class PopulateSubmissionViewHolder {
                 Hidden.setHidden(t);
                 final OfflineSubreddit s;
                 if (baseSub != null) {
-                    s = OfflineSubreddit.getSubreddit(baseSub);
+                    s = OfflineSubreddit.getSubreddit(baseSub, false);
                     s.hide(pos);
                 } else {
                     s = null;

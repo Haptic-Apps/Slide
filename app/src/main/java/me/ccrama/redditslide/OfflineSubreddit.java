@@ -59,8 +59,8 @@ public class OfflineSubreddit {
         }
     }
 
-    public static OfflineSubreddit getSubreddit(String subreddit) {
-        return getSubreddit(subreddit, 0l);
+    public static OfflineSubreddit getSubreddit(String subreddit, boolean offline) {
+        return getSubreddit(subreddit, 0l, offline);
     }
 
     public static OfflineSubreddit getSubNoLoad(String s) {
@@ -74,7 +74,7 @@ public class OfflineSubreddit {
         return o;
     }
 
-    public static OfflineSubreddit getSubreddit(String subreddit, Long time) {
+    public static OfflineSubreddit getSubreddit(String subreddit, Long time, boolean offline) {
         subreddit = subreddit.toLowerCase();
 
         OfflineSubreddit o = new OfflineSubreddit();
@@ -97,7 +97,7 @@ public class OfflineSubreddit {
 
                 if (!gotten.isEmpty()) {
                     try {
-                        if (gotten.startsWith("[")) {
+                        if (gotten.startsWith("[") && offline) {
                             o.submissions.add(SubmissionSerializer.withComments(new ObjectMapper().readTree(gotten), CommentSort.CONFIDENCE));
                         } else {
                             o.submissions.add(new Submission(new ObjectMapper().readTree(gotten)));
