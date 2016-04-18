@@ -11,26 +11,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.util.LogUtil;
+
 /**
  * Created by carlo_000 on 11/19/2015.
  */
 public class OfflineSubreddit {
 
+    public static Long currentid;
     public long time;
     public ArrayList<Submission> submissions;
-    public ArrayList<JsonNode> baseNodes;
     public String subreddit;
     public boolean base;
 
-    public static void writeSubmission(JsonNode node) {
-
+    public static void writeSubmission(JsonNode node, Submission s) {
+        Reddit.cachedData.edit().putString(s.getFullName(), node.toString()).apply();
     }
 
-
-    public OfflineSubreddit overwriteSubmissionsString(List<JsonNode> data) {
-        baseNodes = new ArrayList<>(data);
-        return this;
-    }
 
     public OfflineSubreddit overwriteSubmissions(List<Submission> data) {
         submissions = new ArrayList<>(data);
@@ -41,25 +38,18 @@ public class OfflineSubreddit {
         if (subreddit != null) {
             String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
             String fullNames = "";
-            if (baseNodes == null) {
-                for (Submission sub : submissions) {
-                    fullNames += sub.getFullName() + ",";
+            for (Submission sub : submissions) {
+                fullNames += sub.getFullName() + ",";
+                if (!Reddit.cachedData.contains(sub.getFullName()))
                     Reddit.cachedData.edit().putString(sub.getFullName(), sub.getDataNode().toString()).apply();
-                }
-            } else {
-                for (JsonNode sub : baseNodes) {
-                    if (sub.has("name")) {
-                        fullNames += sub.get("name").asText() + ",";
-                        Reddit.cachedData.edit().putString(sub.get("name").asText(), sub.toString()).apply();
-                    }
-                }
             }
-            Reddit.cachedData.edit().putString(title, fullNames.substring(0, fullNames.length() - 1)).apply();
+            if (fullNames.length() > 0)
+                Reddit.cachedData.edit().putString(title, fullNames.substring(0, fullNames.length() - 1)).apply();
         }
     }
 
     public void writeToMemory(ArrayList<String> names) {
-        if (subreddit != null) {
+        if (subreddit != null && !names.isEmpty()) {
             String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
             String fullNames = "";
             for (String sub : names) {
@@ -70,10 +60,21 @@ public class OfflineSubreddit {
     }
 
     public static OfflineSubreddit getSubreddit(String subreddit) {
-        return getSubreddit(subreddit, 0);
+        return getSubreddit(subreddit, 0l);
     }
 
-    public static OfflineSubreddit getSubreddit(String subreddit, int time) {
+    public static OfflineSubreddit getSubNoLoad(String s) {
+        s = s.toLowerCase();
+
+        OfflineSubreddit o = new OfflineSubreddit();
+        o.subreddit = s.toLowerCase();
+        o.base = true;
+        o.time = 0;
+        o.submissions = new ArrayList<>();
+        return o;
+    }
+
+    public static OfflineSubreddit getSubreddit(String subreddit, Long time) {
         subreddit = subreddit.toLowerCase();
 
         OfflineSubreddit o = new OfflineSubreddit();
@@ -85,12 +86,15 @@ public class OfflineSubreddit {
 
         o.time = time;
 
-        String[] split = Reddit.cachedData.getString(subreddit.toLowerCase() + time, "").split(",");
+        String[] split = Reddit.cachedData.getString(subreddit.toLowerCase() + "," + time, "").split(",");
         if (split.length > 1) {
             o.time = time;
             o.submissions = new ArrayList<>();
             for (String s : split) {
+                LogUtil.v("Time is " + System.currentTimeMillis());
                 String gotten = Reddit.cachedData.getString(s, "");
+                LogUtil.v("Time gotten is " + System.currentTimeMillis());
+
                 if (!gotten.isEmpty()) {
                     try {
                         if (gotten.startsWith("[")) {
@@ -164,4 +168,17 @@ public class OfflineSubreddit {
             writeToMemory();
         }
     }
+
+    public static ArrayList<String> getAll(String subreddit) {
+        subreddit = subreddit.toLowerCase();
+        ArrayList<String> keys = new ArrayList<>();
+        for (String s : Reddit.cachedData.getAll().keySet()) {
+            if (s.startsWith(subreddit) && s.contains(",")) {
+                keys.add(s);
+            }
+        }
+        return keys;
+    }
+
+
 }

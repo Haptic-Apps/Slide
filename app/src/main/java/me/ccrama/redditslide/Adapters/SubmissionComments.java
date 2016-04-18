@@ -25,6 +25,7 @@ import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.OfflineSubreddit;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -197,6 +198,7 @@ public class SubmissionComments {
 
                 JsonNode node = getSubmissionNode(builder.build());
                 submission = SubmissionSerializer.withComments(node, defaultSorting);
+                OfflineSubreddit.writeSubmission(node, submission);
                 CommentNode baseComment = submission.getComments();
 
               /* if (page.o != null)
