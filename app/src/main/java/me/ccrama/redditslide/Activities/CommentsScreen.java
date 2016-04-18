@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -155,13 +156,16 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             baseSubreddit = subreddit.toLowerCase();
             subredditPosts = new SubredditPosts(baseSubreddit, CommentsScreen.this);
         }
+
+        final OfflineSubreddit o;
         if (firstPage == RecyclerView.NO_POSITION) {
             firstPage = 0;
+            o = null;
             //IS SINGLE POST
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
 
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid, !Authentication.didOnline);
+            o = OfflineSubreddit.getSubredditBuffered(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid, !Authentication.didOnline, 4);
             subredditPosts.getPosts().addAll(o.submissions);
 
         }
@@ -221,6 +225,21 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                                           }
 
             );
+
+            if(o != null && o.buffered){
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        o.finishBuffer();
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        comments.notifyDataSetChanged();
+                    }
+                }.execute();
+            }
         }
         if (!Reddit.appRestart.contains("tutorialSwipeComments")) {
             Intent i = new Intent(this, SwipeTutorial.class);
