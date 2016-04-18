@@ -11,14 +11,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ccrama.redditslide.util.LogUtil;
-
 /**
  * Created by carlo_000 on 11/19/2015.
  */
 public class OfflineSubreddit {
 
-    public static Long currentid;
+    public static Long currentid = 0l;
     public long time;
     public ArrayList<Submission> submissions;
     public String subreddit;
@@ -73,7 +71,6 @@ public class OfflineSubreddit {
         o.submissions = new ArrayList<>();
         return o;
     }
-
     public static OfflineSubreddit getSubreddit(String subreddit, Long time, boolean offline) {
         subreddit = subreddit.toLowerCase();
 
@@ -91,14 +88,14 @@ public class OfflineSubreddit {
             o.time = time;
             o.submissions = new ArrayList<>();
             for (String s : split) {
-                LogUtil.v("Time is " + System.currentTimeMillis());
                 String gotten = Reddit.cachedData.getString(s, "");
-                LogUtil.v("Time gotten is " + System.currentTimeMillis());
-
                 if (!gotten.isEmpty()) {
                     try {
                         if (gotten.startsWith("[") && offline) {
                             o.submissions.add(SubmissionSerializer.withComments(new ObjectMapper().readTree(gotten), CommentSort.CONFIDENCE));
+                        } else if(gotten.startsWith("[")){
+                            JsonNode elem = new ObjectMapper().readTree(gotten);
+                            o.submissions.add(new Submission(elem.get(0).get("data").get("children").get(0).get("data")));
                         } else {
                             o.submissions.add(new Submission(new ObjectMapper().readTree(gotten)));
                         }
@@ -106,6 +103,60 @@ public class OfflineSubreddit {
                         e.printStackTrace();
                     }
                 }
+            }
+
+        } else {
+            o.submissions = new ArrayList<>();
+        }
+        return o;
+
+    }
+    public boolean buffered;
+    public void finishBuffer(){
+        if(buffered){
+
+        }
+    }
+    public static OfflineSubreddit getSubredditBuffered(String subreddit, Long time, boolean offline, int buffer) {
+        subreddit = subreddit.toLowerCase();
+
+        OfflineSubreddit o = new OfflineSubreddit();
+        o.subreddit = subreddit.toLowerCase();
+
+        if (time == 0) {
+            o.base = true;
+        }
+
+        o.buffered = true;
+        o.time = time;
+
+        String[] split = Reddit.cachedData.getString(subreddit.toLowerCase() + "," + time, "").split(",");
+        if (split.length > 1) {
+            o.time = time;
+            o.submissions = new ArrayList<>();
+            int count = 0;
+            for (String s : split) {
+                if(count == buffer){
+                    break;
+                }
+                String gotten = Reddit.cachedData.getString(s, "");
+                if (!gotten.isEmpty()) {
+                    count++;
+
+                    try {
+                        if (gotten.startsWith("[") && offline) {
+                            o.submissions.add(SubmissionSerializer.withComments(new ObjectMapper().readTree(gotten), CommentSort.CONFIDENCE));
+                        } else if(gotten.startsWith("[")){
+                            JsonNode elem = new ObjectMapper().readTree(gotten);
+                            o.submissions.add(new Submission(elem.get(0).get("data").get("children").get(0).get("data")));
+                        } else {
+                            o.submissions.add(new Submission(new ObjectMapper().readTree(gotten)));
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
 
         } else {
