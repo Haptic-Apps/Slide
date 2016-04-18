@@ -84,13 +84,12 @@ public class DonateView extends BaseActivity {
             window.setStatusBarColor(Palette.getDarkerColor(ContextCompat.getColor(DonateView.this, R.color.md_light_green_500)));
         }
         final Slider sl_discrete = (Slider) findViewById(R.id.slider_sl_discrete);
+        sl_discrete.setValue(4, false);
         final TextView ads = (TextView) findViewById(R.id.ads);
         final TextView hours = (TextView) findViewById(R.id.hours);
         final TextView money = (TextView) findViewById(R.id.money);
 
-        ads.setText(" " + sl_discrete.getValue() * 330 + " ");
-        hours.setText(" " + String.valueOf((double) 10 / sl_discrete.getValue()) + " ");
-        money.setText("$" + sl_discrete.getValue());
+
 
 
         sl_discrete.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
@@ -101,9 +100,12 @@ public class DonateView extends BaseActivity {
                 money.setText("$" + newValue);
             }
         });
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        ads.setText(" " + 4 * 330 + " ");
+        hours.setText(" " + String.valueOf((double) 4/10) + " ");
+        money.setText("$" + 4);
         findViewById(R.id.donate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
