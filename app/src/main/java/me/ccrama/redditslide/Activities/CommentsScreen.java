@@ -56,7 +56,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     OverviewPagerAdapter comments;
     private String subreddit;
-    public OfflineSubreddit o;
     private String baseSubreddit;
 
     String multireddit;
@@ -122,7 +121,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     public void onCreate(Bundle savedInstance) {
 
 
-
         popup = SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !SettingValues.fullCommentOverride;
         seen = new ArrayList<>();
         if (popup) {
@@ -161,10 +159,10 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             //IS SINGLE POST
             Log.w(LogUtil.getTag(), "Is single post?");
         } else {
-            o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit);
+
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid);
             subredditPosts.getPosts().addAll(o.submissions);
-            Log.v(LogUtil.getTag(), "Subreddit is " + baseSubreddit + " and size is " + o.submissions.size() + " and getting " + firstPage + " and is " + o.submissions.get(firstPage).getTitle());
-            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
+
         }
 
         if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {

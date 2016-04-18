@@ -76,7 +76,17 @@ public class Authentication {
 
 
     public void updateToken(Context c) {
-        new UpdateToken(c).execute();
+        if(reddit == null){
+            hasDone = true;
+            isLoggedIn = false;
+            reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
+            reddit.setLoggingMode(LoggingMode.ALWAYS);
+            didOnline = true;
+
+            new VerifyCredentials(c).execute();
+        } else {
+            new UpdateToken(c).execute();
+        }
     }
 
     public static boolean authedOnce;

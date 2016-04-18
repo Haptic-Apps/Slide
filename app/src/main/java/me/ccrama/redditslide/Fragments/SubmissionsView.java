@@ -241,7 +241,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         } else {
             mLayoutManager = new PreCachingLayoutManager(getActivity());
-
         }
 
         if (!(getActivity() instanceof SubredditView)) {

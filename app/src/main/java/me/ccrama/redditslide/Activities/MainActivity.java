@@ -79,6 +79,7 @@ import net.dean.jraw.models.LoggedInAccount;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.models.UserRecord;
+import net.dean.jraw.models.meta.SubmissionSerializer;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
@@ -2147,24 +2148,23 @@ public class MainActivity extends BaseActivity {
                         int count = 0;
                         for (final Submission s : submissions) {
 
-                            JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
-                            if (s2 != null) {
-                                if(s2.has("name")) {
-                                    OfflineSubreddit.writeSubmission(s2);
-                                    newFullnames.add(s2.get("name").asText());
-                                    switch (ContentType.getContentType(s)) {
-                                        case GIF:
-                                            if (chosen[0])
-                                                GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
-                                            break;
-                                        case ALBUM:
-                                            if (chosen[1])
+                            try {
+                                JsonNode n = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
+                                Submission s2 = SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
+                                OfflineSubreddit.writeSubmission(n, s2);
+                                newFullnames.add(s2.getFullName());
+                                switch (ContentType.getContentType(s)) {
+                                    case GIF:
+                                        if (chosen[0])
+                                            GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
+                                        break;
+                                    case ALBUM:
+                                        if (chosen[1])
 
-                                                AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
-                                            break;
-                                    }
+                                            AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
+                                        break;
                                 }
-                            } else {
+                            } catch (Exception e) {
                                 d.setMaxProgress((d.getMaxProgress() - 1));
                             }
                             count++;
@@ -2328,6 +2328,7 @@ public class MainActivity extends BaseActivity {
                     SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                     if (page != null && page.adapter != null) {
                         SubredditPosts p = page.adapter.dataSet;
+                        OfflineSubreddit.currentid = p.currentid;
                         if (p.offline && p.cached != null) {
                             Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
                         }
@@ -2687,7 +2688,7 @@ public class MainActivity extends BaseActivity {
         protected void onPostExecute(Void aVoid) {
 
 
-            if (Authentication.mod && headerMain.findViewById(R.id.mod).getVisibility() == View.GONE) {
+            if (Authentication.mod ) {
                 headerMain.findViewById(R.id.mod).setVisibility(View.VISIBLE);
                 headerMain.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
                     @Override
