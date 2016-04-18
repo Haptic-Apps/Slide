@@ -2143,23 +2143,26 @@ public class MainActivity extends BaseActivity {
                     protected Void doInBackground(Void... params) {
 
 
-                        ArrayList<JsonNode> newSubmissions = new ArrayList<>();
+                        ArrayList<String> newFullnames = new ArrayList<>();
                         int count = 0;
                         for (final Submission s : submissions) {
 
                             JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
                             if (s2 != null) {
-                                newSubmissions.add(s2);
-                                switch (ContentType.getContentType(s)) {
-                                    case GIF:
-                                        if (chosen[0])
-                                            GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
-                                        break;
-                                    case ALBUM:
-                                        if (chosen[1])
+                                if(s2.has("name")) {
+                                    OfflineSubreddit.writeSubmission(s2);
+                                    newFullnames.add(s2.get("name").asText());
+                                    switch (ContentType.getContentType(s)) {
+                                        case GIF:
+                                            if (chosen[0])
+                                                GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
+                                            break;
+                                        case ALBUM:
+                                            if (chosen[1])
 
-                                            AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
-                                        break;
+                                                AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
+                                            break;
+                                    }
                                 }
                             } else {
                                 d.setMaxProgress((d.getMaxProgress() - 1));
@@ -2168,7 +2171,7 @@ public class MainActivity extends BaseActivity {
                             d.setProgress(count);
                             if (d.getCurrentProgress() == d.getMaxProgress()) {
                                 d.cancel();
-                                OfflineSubreddit.newSubreddit(subreddit).overwriteSubmissionsString(newSubmissions).writeToMemory();
+                                OfflineSubreddit.newSubreddit(subreddit).writeToMemory(newFullnames);
                             }
                         }
                         return null;
