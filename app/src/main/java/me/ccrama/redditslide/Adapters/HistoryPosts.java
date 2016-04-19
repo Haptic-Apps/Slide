@@ -112,15 +112,21 @@ public class HistoryPosts extends GeneralPosts {
                 if (reset || paginator == null) {
                     ArrayList<String> ids = new ArrayList<>();
                     HashMap<Long, String> idsSorted = new HashMap<>();
-                    Map<String, ?> values = KVStore.getInstance().getByContains("");
+                    Map<String,String> values = KVStore.getInstance().getByContains("");
                     for (String value : values.keySet()) {
-                        if (value.length() == 6 && values.get(value) instanceof Boolean){
+                        Object done;
+                        if(value.equals("true") || value.equals("false")){
+                            done = Boolean.valueOf(values.get(value));
+                        } else {
+                            done = Long.valueOf(values.get(value));
+                        }
+                        if (value.length() == 6 && done instanceof Boolean){
                             ids.add("t3_" + value);
-                        } else if(values.get(value) instanceof Long){
+                        } else if(done instanceof Long){
                             if(value.contains("_")){
-                                idsSorted.put((Long) values.get(value), value);
+                                idsSorted.put((Long)done, value);
                             } else {
-                                idsSorted.put((Long) values.get(value), "t3_" + value);
+                                idsSorted.put((Long) done, "t3_" + value);
                             }
                         }
                     }
