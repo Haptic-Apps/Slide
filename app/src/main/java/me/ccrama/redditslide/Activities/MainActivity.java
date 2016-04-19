@@ -2089,14 +2089,21 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    boolean[] chosen;
-
     public void filterContent(final String subreddit) {
-        chosen = new boolean[]{PostMatch.isGif(subreddit), PostMatch.isAlbums(subreddit), PostMatch.isImage(subreddit), PostMatch.isNsfw(subreddit), PostMatch.isSelftext(subreddit), PostMatch.isUrls(subreddit)};
+        final boolean[] chosen = new boolean[] {
+                PostMatch.isGif(subreddit),
+                PostMatch.isAlbums(subreddit),
+                PostMatch.isImage(subreddit),
+                PostMatch.isNsfw(subreddit),
+                PostMatch.isSelftext(subreddit),
+                PostMatch.isUrls(subreddit)
+        };
 
-        final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.on) + " frontpage") : (getString(R.string.in) + " /r/" + subreddit);
+        final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, R.string.on, "frontpage"))
+                : (getString(R.string.content_to_hide, R.string.in, "/r/" + subreddit));
+
         new AlertDialogWrapper.Builder(this)
-                .setTitle(getString(R.string.content_to_hide) + " " + FILTER_TITLE)
+                .setTitle(FILTER_TITLE)
                 .alwaysCallMultiChoiceCallback()
                 .setMultiChoiceItems(new String[] {
                         getString(R.string.type_gifs),
@@ -2111,6 +2118,7 @@ public class MainActivity extends BaseActivity {
                         chosen[which] = isChecked;
                     }
                 }).setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
+
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 LogUtil.v(chosen[0] + " " + chosen[1] + " " + chosen[2] + " " + chosen[3] + " " + chosen[4] + " " + chosen[5]);
