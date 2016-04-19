@@ -56,7 +56,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         }
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
 
-        submissions = OfflineSubreddit.getSubreddit(subreddit, 0l, !Authentication.didOnline);
+        submissions = OfflineSubreddit.getSubreddit(subreddit, 0l, !Authentication.didOnline, this);
 
         subredditPosts.getPosts().addAll(submissions.submissions);
 

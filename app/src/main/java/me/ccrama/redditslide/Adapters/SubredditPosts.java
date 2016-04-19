@@ -326,7 +326,7 @@ public class SubredditPosts implements PostLoader {
             }
 
             if (!usedOffline)
-                OfflineSubreddit.getSubNoLoad(subreddit.toLowerCase()).overwriteSubmissions(posts).writeToMemory();
+                OfflineSubreddit.getSubNoLoad(subreddit.toLowerCase()).overwriteSubmissions(posts).writeToMemoryAsync(context);
             start = 0;
             if (posts != null) {
                 start = posts.size() + 1;
@@ -364,7 +364,7 @@ public class SubredditPosts implements PostLoader {
 
                     @Override
                     protected Void doInBackground(Void... params) {
-                        cached = OfflineSubreddit.getSubreddit(subreddit, Long.valueOf(s2[1]), true);
+                        cached = OfflineSubreddit.getSubreddit(subreddit, Long.valueOf(s2[1]), true, c);
                         List<Submission> finalSubs = new ArrayList<>();
                         for (Submission s : cached.submissions) {
                             if (!PostMatch.doesMatch(s, subreddit, force18)) {
