@@ -498,8 +498,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         cachedData = getSharedPreferences("cache", 0);
 
-        if(!cachedData.contains("reset")){
-            cachedData.edit().clear().putBoolean("reset", true).apply();
+        if(!cachedData.contains("hasReset")){
+            cachedData.edit().clear().putBoolean("hasReset", true).apply();
         }
 
         registerActivityLifecycleCallbacks(this);
