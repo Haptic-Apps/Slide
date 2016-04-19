@@ -34,8 +34,8 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
         alreadyReceived = submissions;
         this.context = c;
         this.sub = subreddit;
+        this.modal = true;
     }
-
     String sub;
 
     Context context;
@@ -54,6 +54,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
         if(modal){
             dialog = new MaterialDialog.Builder(context).title("Caching /r/" + sub)
                     .progress(false, 50)
+                    .cancelable(false)
                     .show();
         } else {
             mNotifyManager =
@@ -79,8 +80,12 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
             submissions.addAll(p.next());
         }
 
-        mBuilder.setProgress(submissions.size(), 0, false);
-        mNotifyManager.notify(1, mBuilder.build());
+       if(!modal) {
+           mBuilder.setProgress(submissions.size(), 0, false);
+           mNotifyManager.notify(1, mBuilder.build());
+       } else {
+           dialog.setMaxProgress(submissions.size());
+       }
         for (final Submission s : submissions) {
             try {
                 JsonNode n = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());

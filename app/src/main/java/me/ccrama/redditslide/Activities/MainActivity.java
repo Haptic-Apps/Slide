@@ -1874,10 +1874,14 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        if (SettingValues.expandedToolbar) {
-            inflater.inflate(R.menu.menu_subreddit_overview_expanded, menu);
+        if(NetworkUtil.isConnected(this)) {
+            if (SettingValues.expandedToolbar) {
+                inflater.inflate(R.menu.menu_subreddit_overview_expanded, menu);
+            } else {
+                inflater.inflate(R.menu.menu_subreddit_overview, menu);
+            }
         } else {
-            inflater.inflate(R.menu.menu_subreddit_overview, menu);
+            inflater.inflate(R.menu.menu_subreddit_overview_offline, menu);
         }
         return true;
     }
