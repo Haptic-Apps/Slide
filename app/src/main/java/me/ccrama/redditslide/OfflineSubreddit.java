@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import me.ccrama.redditslide.util.LogUtil;
-
 /**
  * Created by carlo_000 on 11/19/2015.
  */
@@ -94,7 +92,6 @@ public class OfflineSubreddit {
             OfflineSubreddit o = new OfflineSubreddit();
             o.subreddit = subreddit.toLowerCase();
 
-            LogUtil.v("Getting " + title);
             if (time == 0) {
                 o.base = true;
             }
