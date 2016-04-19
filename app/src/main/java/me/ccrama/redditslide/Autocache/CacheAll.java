@@ -22,7 +22,7 @@ public class CacheAll extends BroadcastReceiver {
         if (NetworkUtil.isConnectedNoOverride(c)) {
             for (String s : Reddit.cachedData.getString("toCache", "").split(",")) {
                 if (!s.isEmpty()) {
-                    new CommentCacheAsync(c, s).execute();
+                    new CommentCacheAsync(c, s, false).execute();
                 }
             }
         }

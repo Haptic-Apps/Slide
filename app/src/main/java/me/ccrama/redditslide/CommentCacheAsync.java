@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.NotificationCompat;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import net.dean.jraw.http.NetworkException;
@@ -39,20 +40,28 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
 
     Context context;
     NotificationCompat.Builder mBuilder;
+    MaterialDialog dialog;
+    boolean modal;
 
-    public CommentCacheAsync(Context c, String subreddit) {
+    public CommentCacheAsync(Context c, String subreddit, boolean modal) {
         this.context = c;
         this.sub = subreddit;
+        this.modal = modal;
     }
 
     @Override
     protected void onPreExecute() {
-        mNotifyManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setContentTitle("Caching /r/" + sub)
-                .setSmallIcon(R.drawable.save);
-
+        if(modal){
+            dialog = new MaterialDialog.Builder(context).title("Caching /r/" + sub)
+                    .progress(false, 50)
+                    .show();
+        } else {
+            mNotifyManager =
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            mBuilder = new NotificationCompat.Builder(context);
+            mBuilder.setContentTitle("Caching /r/" + sub)
+                    .setSmallIcon(R.drawable.save);
+        }
     }
 
     @Override
@@ -76,7 +85,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
             try {
                 JsonNode n = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
                 Submission s2 = SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
-                OfflineSubreddit.writeSubmission(n, s2);
+                OfflineSubreddit.writeSubmission(n, s2, context);
                 newFullnames.add(s2.getFullName());
                 /* todo maybe
                 switch (ContentType.getContentType(s)) {
@@ -93,14 +102,22 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
             } catch (Exception e) {
             }
             count++;
-            mBuilder.setProgress(submissions.size(), count, false);
-            mNotifyManager.notify(1, mBuilder.build());
+            if(modal){
+                dialog.setProgress(count);
+            } else {
+                mBuilder.setProgress(submissions.size(), count, false);
+                mNotifyManager.notify(1, mBuilder.build());
+            }
 
         }
-        mBuilder.setContentText("Caching complete")
-                // Removes the progress bar
-                .setProgress(0, 0, false);
-        mNotifyManager.notify(1, mBuilder.build());
+        if(modal){
+            dialog.dismiss();
+        } else {
+            mBuilder.setContentText("Caching complete")
+                    // Removes the progress bar
+                    .setProgress(0, 0, false);
+            mNotifyManager.notify(1, mBuilder.build());
+        }
         OfflineSubreddit.newSubreddit(sub).writeToMemory(newFullnames);
         return null;
     }

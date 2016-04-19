@@ -39,7 +39,6 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
-import net.dean.jraw.models.meta.SubmissionSerializer;
 
 import java.io.IOException;
 
@@ -60,6 +59,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Drafts;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -584,19 +584,10 @@ public class CommentPage extends Fragment {
             }
         } else {
             Submission s = null;
-            String gotten = Reddit.cachedData.getString(fullname.contains("_")?fullname:"t3_" + fullname, "");
-            if (!gotten.isEmpty()) {
-                try {
-                    if (gotten.startsWith("[") && !Authentication.didOnline) {
-                        s = (SubmissionSerializer.withComments(new ObjectMapper().readTree(gotten), CommentSort.CONFIDENCE));
-                    } else if(Authentication.didOnline){
-                        s = (new Submission(new ObjectMapper().readTree(gotten).get(0).get("data").get("children").get(0).get("data")));
-                    } else {
-                        s = (SubmissionSerializer.withComments(new ObjectMapper().readTree(gotten), CommentSort.CONFIDENCE));
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            try {
+                s = OfflineSubreddit.getSubmissionFromStorage(fullname.contains("_")?fullname:"t3_" + fullname, getContext(), true, new ObjectMapper().reader() );
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             if (s != null && s.getComments() != null) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);

@@ -32,15 +32,21 @@ public class OfflineSubreddit {
     public String subreddit;
     public boolean base;
 
-    public static void writeSubmission(JsonNode node, Submission s) {
-        Reddit.cachedData.edit().putString(s.getFullName(), node.toString()).apply();
+    public static void writeSubmission(JsonNode node, Submission s, Context c) {
+        writeSubmissionToStorage(s, node, c);
     }
 
+    static File cacheDirectory;
+
     public static File getCacheDirectory(Context context) {
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && context.getExternalCacheDir() != null) {
-            return context.getExternalCacheDir();
+        if (cacheDirectory == null) {
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && context.getExternalCacheDir() != null) {
+                cacheDirectory = context.getExternalCacheDir();
+            }
+
+            cacheDirectory = context.getCacheDir();
         }
-        return context.getCacheDir();
+        return cacheDirectory;
     }
 
     public OfflineSubreddit overwriteSubmissions(List<Submission> data) {
@@ -81,6 +87,7 @@ public class OfflineSubreddit {
             cache.put(title, this);
         }
     }
+
     public void writeToMemoryNoStorage() {
         if (cache == null)
             cache = new HashMap<>();
@@ -95,6 +102,7 @@ public class OfflineSubreddit {
             cache.put(title, this);
         }
     }
+
     public void writeToMemoryAsync(final Context c) {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -159,11 +167,13 @@ public class OfflineSubreddit {
                 ObjectReader reader = mapperBase.reader();
 
                 for (String s : split) {
+                    if (!s.contains("_")) s = "t3_" + s;
                     if (!s.isEmpty()) {
                         try {
                             Submission sub = getSubmissionFromStorage(s, c, offline, reader);
-                            if (sub != null)
+                            if (sub != null) {
                                 o.submissions.add(sub);
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
