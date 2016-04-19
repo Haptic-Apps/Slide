@@ -47,6 +47,9 @@ public class NetworkUtil {
     public static boolean isConnected(Context context) {
         return !Reddit.appRestart.contains("forceoffline") && getConnectivityStatus(context) != Status.NONE;
     }
+    public static boolean isConnectedNoOverride(Context context) {
+        return getConnectivityStatus(context) != Status.NONE;
+    }
     /**
      * Checks if the network is connected to WiFi.
      *

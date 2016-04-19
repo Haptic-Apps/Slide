@@ -19,7 +19,7 @@ public class CacheAll extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         c = context;
-        if (NetworkUtil.isConnected(c)) {
+        if (NetworkUtil.isConnectedNoOverride(c)) {
             for (String s : Reddit.cachedData.getString("toCache", "").split(",")) {
                 if (!s.isEmpty()) {
                     new CommentCacheAsync(c, s).execute();
