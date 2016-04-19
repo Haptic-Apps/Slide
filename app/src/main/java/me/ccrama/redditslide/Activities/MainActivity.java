@@ -69,6 +69,8 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.lusfold.androidkeyvaluestore.KVStore;
+import com.lusfold.androidkeyvaluestore.core.KVManger;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.RestResponse;
@@ -466,9 +468,42 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
+        final SharedPreferences seen = getSharedPreferences("SEEN", 0);
+        if(!seen.contains("isCleared")){
 
-        System.gc();
+            new AsyncTask<Void, Void, Void>() {
+                MaterialDialog d;
+                @Override
+                protected Void doInBackground(Void... params) {
+                    KVManger m =  KVStore.getInstance();
+                    Map<String, ?> values = seen.getAll();
+                    for (String value : values.keySet()) {
+                        if (value.length() == 6 && values.get(value) instanceof Boolean) {
+                            m.insert(value, "true");
+                        } else if (values.get(value) instanceof Long) {
+                            m.insert(value, String.valueOf(seen.getLong(value, 0)));
+                        }
+                    }
+                    seen.edit().clear().putBoolean("isCleared", true).apply();
+                    return null;
+                }
 
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    d.dismiss();
+                }
+
+                @Override
+                protected void onPreExecute() {
+                     d = new MaterialDialog.Builder(MainActivity.this).title("Swapping databases...")
+                            .progress(true, 100)
+                            .cancelable(false)
+                            .show();
+                }
+            }.execute();
+
+        }
 
     }
 

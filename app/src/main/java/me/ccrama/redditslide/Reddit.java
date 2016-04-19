@@ -20,7 +20,6 @@ import android.util.Log;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.lusfold.androidkeyvaluestore.KVStore;
-import com.lusfold.androidkeyvaluestore.core.KVManger;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.dean.jraw.paginators.Sorting;
@@ -40,7 +39,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -508,51 +506,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         colors = getSharedPreferences("COLOR", 0);
         tags = getSharedPreferences("TAGS", 0);
         KVStore.init(this, "SEEN");
-        SharedPreferences seen = getSharedPreferences("SEEN", 0);
-        if(!seen.contains("isCleared")){
-            KVManger m =  KVStore.getInstance();
-            Map<String, ?> values = seen.getAll();
-            for (String value : values.keySet()) {
-                if (value.length() == 6 && values.get(value) instanceof Boolean) {
-                    m.insert(value, "true");
-                } else if (values.get(value) instanceof Long) {
-                    m.insert(value, String.valueOf(seen.getLong(value, 0)));
-                }
-            }
-            seen.edit().clear().putBoolean("isCleared", true).apply();
-        }
+
         hidden = getSharedPreferences("HIDDEN", 0);
         lastposition = new ArrayList<>();
         Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
 
 
         new SetupIAB().execute();
-
-
-        if (!seen.contains("RESET")) {
-            colors.edit().clear().apply();
-            tags.edit().clear().apply();
-            seen.edit().clear().apply();
-            hidden.edit().clear().apply();
-            Hidden.hidden.edit().clear().apply();
-
-            Authentication.authentication.edit().clear().apply();
-            UserSubscriptions.subscriptions.edit().clear().apply();
-            getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().clear().apply();
-            Authentication.authentication = getSharedPreferences("AUTH", 0);
-            UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);
-
-
-            SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
-            colors = getSharedPreferences("COLOR", 0);
-            tags = getSharedPreferences("TAGS", 0);
-            seen = getSharedPreferences("SEEN", 0);
-            hidden = getSharedPreferences("HIDDEN", 0);
-            seen.edit().putBoolean("RESET", true).apply();
-            Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
-
-
-        }
 
         if (!appRestart.contains("startScreen")) {
             Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
@@ -569,7 +529,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
 
-        fabClear = seen.getBoolean(SettingValues.PREF_FAB_CLEAR, false);
+        fabClear = colors.getBoolean(SettingValues.PREF_FAB_CLEAR, false);
 
         int widthDp = this.getResources().getConfiguration().screenWidthDp;
         int heightDp = this.getResources().getConfiguration().screenHeightDp;
@@ -584,13 +544,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
 
-        if (seen.contains("tabletOVERRIDE")) {
-            dpWidth = seen.getInt("tabletOVERRIDE", fina / 300);
+        if (colors.contains("tabletOVERRIDE")) {
+            dpWidth = colors.getInt("tabletOVERRIDE", fina / 300);
         } else {
             dpWidth = fina / 300;
         }
-        if (seen.contains("notificationOverride")) {
-            notificationTime = seen.getInt("notificationOverride", 360);
+        if (colors.contains("notificationOverride")) {
+            notificationTime = colors.getInt("notificationOverride", 360);
         } else {
             notificationTime = 360;
         }
