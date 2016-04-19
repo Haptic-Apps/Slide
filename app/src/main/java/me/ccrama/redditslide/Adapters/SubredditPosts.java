@@ -350,7 +350,7 @@ public class SubredditPosts implements PostLoader {
             base[i] = s;
             i++;
         }
-        
+
         ((MainActivity) c).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ((MainActivity) c).getSupportActionBar().setListNavigationCallbacks(new OfflineSubAdapter(c, android.R.layout.simple_list_item_1, titles), new ActionBar.OnNavigationListener() {
 
