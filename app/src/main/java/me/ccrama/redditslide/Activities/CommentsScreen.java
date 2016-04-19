@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -33,7 +32,6 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * This activity is responsible for the view when clicking on a post, showing
@@ -156,15 +154,12 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             subredditPosts = new SubredditPosts(baseSubreddit, CommentsScreen.this);
         }
 
-        final OfflineSubreddit o;
         if (firstPage == RecyclerView.NO_POSITION) {
             firstPage = 0;
-            o = null;
             //IS SINGLE POST
-            Log.w(LogUtil.getTag(), "Is single post?");
         } else {
 
-            o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid, !Authentication.didOnline);
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid, !Authentication.didOnline);
             subredditPosts.getPosts().addAll(o.submissions);
 
         }
@@ -224,6 +219,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                                           }
 
             );
+
         }
         if (!Reddit.appRestart.contains("tutorialSwipeComments")) {
             Intent i = new Intent(this, SwipeTutorial.class);

@@ -10,9 +10,8 @@ import net.dean.jraw.models.meta.SubmissionSerializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 11/19/2015.
@@ -46,6 +45,8 @@ public class OfflineSubreddit {
             }
             if (fullNames.length() > 0)
                 Reddit.cachedData.edit().putString(title, fullNames.substring(0, fullNames.length() - 1)).apply();
+
+            cache.put(title, this);
         }
     }
 
@@ -75,51 +76,57 @@ public class OfflineSubreddit {
         return o;
     }
 
+    private static HashMap<String, OfflineSubreddit> cache = new HashMap<>();
+
     public static OfflineSubreddit getSubreddit(String subreddit, Long time, boolean offline) {
-        subreddit = subreddit.toLowerCase();
+        String title = subreddit.toLowerCase() + "," + time;
+        if (cache.containsKey(title)) {
+            return cache.get(title);
+        } else {
+            subreddit = subreddit.toLowerCase();
 
-        OfflineSubreddit o = new OfflineSubreddit();
-        o.subreddit = subreddit.toLowerCase();
+            OfflineSubreddit o = new OfflineSubreddit();
+            o.subreddit = subreddit.toLowerCase();
 
-        if (time == 0) {
-            o.base = true;
-        }
-
-        o.time = time;
-
-        String[] split = Reddit.cachedData.getString(subreddit.toLowerCase() + "," + time, "").split(",");
-        if (split.length > 1) {
-            o.time = time;
-            o.submissions = new ArrayList<>();
-            ObjectMapper mapperBase = new ObjectMapper();
-            ObjectReader reader = mapperBase.reader();
-
-            for (String s : split) {
-                LogUtil.v("Time is " + System.currentTimeMillis());
-                String gotten = Reddit.cachedData.getString(s, "");
-                if (!gotten.isEmpty()) {
-
-                    try {
-                        if (gotten.startsWith("[") && offline) {
-                            o.submissions.add(SubmissionSerializer.withComments(reader.readTree(gotten), CommentSort.CONFIDENCE));
-                        } else if (gotten.startsWith("[")) {
-                            JsonNode elem = reader.readTree(gotten);
-                            o.submissions.add(new Submission(elem.get(0).get("data").get("children").get(0).get("data")));
-                        } else {
-                            o.submissions.add(new Submission(reader.readTree(gotten)));
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
+            if (time == 0) {
+                o.base = true;
             }
 
-        } else {
-            o.submissions = new ArrayList<>();
-        }
-        return o;
+            o.time = time;
 
+            String[] split = Reddit.cachedData.getString(subreddit.toLowerCase() + "," + time, "").split(",");
+            if (split.length > 1) {
+                o.time = time;
+                o.submissions = new ArrayList<>();
+                ObjectMapper mapperBase = new ObjectMapper();
+                ObjectReader reader = mapperBase.reader();
+
+                for (String s : split) {
+                    String gotten = Reddit.cachedData.getString(s, "");
+                    if (!gotten.isEmpty()) {
+                        try {
+                            if (gotten.startsWith("[") && offline) {
+                                o.submissions.add(SubmissionSerializer.withComments(reader.readTree(gotten), CommentSort.CONFIDENCE));
+                            } else if (gotten.startsWith("[")) {
+                                JsonNode elem = reader.readTree(gotten);
+                                o.submissions.add(new Submission(elem.get(0).get("data").get("children").get(0).get("data")));
+                            } else {
+                                o.submissions.add(new Submission(reader.readTree(gotten)));
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+
+            } else {
+                o.submissions = new ArrayList<>();
+            }
+            cache.put(title, o);
+            return o;
+
+        }
     }
 
     public static OfflineSubreddit newSubreddit(String subreddit) {
