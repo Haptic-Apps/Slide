@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -49,7 +48,6 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -625,7 +623,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         if (this.isAdded()) {
             if (mSwipeRefreshLayout != null) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(mSwipeRefreshLayout.getContext(), getString(R.string.offline_last_update, TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext())), Toast.LENGTH_SHORT).show();
             }
             adapter.notifyDataSetChanged();
         }

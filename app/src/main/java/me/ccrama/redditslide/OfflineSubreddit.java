@@ -197,6 +197,14 @@ public class OfflineSubreddit {
         }
         return keys;
     }
-
+    public static ArrayList<String> getAll() {
+        ArrayList<String> keys = new ArrayList<>();
+        for (String s : Reddit.cachedData.getAll().keySet()) {
+            if (s.contains(",")) {
+                keys.add(s);
+            }
+        }
+        return keys;
+    }
 
 }
