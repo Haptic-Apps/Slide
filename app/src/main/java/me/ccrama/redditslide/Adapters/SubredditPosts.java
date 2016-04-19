@@ -21,6 +21,7 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
@@ -180,6 +181,7 @@ public class SubredditPosts implements PostLoader {
             }
         }
     }
+    public ArrayList<String> all;
 
     @Override
     public List<Submission> getPosts() {
@@ -194,6 +196,7 @@ public class SubredditPosts implements PostLoader {
     public boolean skipOne;
     boolean usedOffline;
     public long currentid;
+    public SubmissionDisplay displayer;
 
     /**
      * Asynchronous task for loading data
@@ -201,16 +204,14 @@ public class SubredditPosts implements PostLoader {
     private class LoadData extends AsyncTask<String, Void, List<Submission>> {
         final boolean reset;
         Context context;
-        final SubmissionDisplay displayer;
 
-        public LoadData(Context context, SubmissionDisplay displayer, boolean reset) {
+        public LoadData(Context context, SubmissionDisplay display, boolean reset) {
             this.context = context;
-            this.displayer = displayer;
+            displayer = display;
             this.reset = reset;
         }
 
         public int start;
-        ArrayList<String> all;
 
         @Override
         public void onPostExecute(final List<Submission> submissions) {
@@ -242,60 +243,10 @@ public class SubredditPosts implements PostLoader {
             } else {
 
                 if (!all.isEmpty() && !nomore && SettingValues.cache) {
-                    offline = true;
 
-                    final String[] titles = new String[all.size()];
-                    final String[] base = new String[all.size()];
-                    int i = 0;
-                    for (String s : all) {
-                        String[] split = s.split(",");
-                        titles[i] = (Long.valueOf(split[1]) == 0 ? "auto" : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c));
-                        base[i] = s;
-                        i++;
-                    }
 
                     if (c instanceof MainActivity) {
-                        ((MainActivity) c).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-                        ((MainActivity) c).getSupportActionBar().setListNavigationCallbacks(new OfflineSubAdapter(c, android.R.layout.simple_list_item_1, titles), new ActionBar.OnNavigationListener() {
-
-                            @Override
-                            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-                                final String[] s2 = base[itemPosition].split(",");
-
-                                new AsyncTask<Void, Void, Void>() {
-                                    OfflineSubreddit cached;
-
-                                    @Override
-                                    protected Void doInBackground(Void... params) {
-                                        cached = OfflineSubreddit.getSubreddit(subreddit, Long.valueOf(s2[1]), true);
-                                        List<Submission> finalSubs = new ArrayList<>();
-                                        for (Submission s : cached.submissions) {
-                                            if (!PostMatch.doesMatch(s, subreddit, force18)) {
-                                                finalSubs.add(s);
-                                            }
-                                        }
-
-                                        posts = finalSubs;
-
-                                        return null;
-                                    }
-
-                                    @Override
-                                    protected void onPostExecute(Void aVoid) {
-
-                                        if (cached.submissions.size() > 0) {
-                                            stillShow = true;
-                                        } else {
-                                            displayer.updateOfflineError();
-                                        }
-                                        // update offline
-                                        displayer.updateOffline(submissions, Long.valueOf(s2[1]));
-                                    }
-                                }.execute();
-                                return true;
-                            }
-                        });
-
+                        doMainActivityOffline(displayer);
                     }
 
                 } else if (!nomore) {
@@ -384,5 +335,60 @@ public class SubredditPosts implements PostLoader {
         }
     }
 
+    public void doMainActivityOffline(final SubmissionDisplay displayer){
+        offline = true;
 
+        final String[] titles = new String[all.size()];
+        final String[] base = new String[all.size()];
+        int i = 0;
+        for (String s : all) {
+            String[] split = s.split(",");
+            titles[i] = (Long.valueOf(split[1]) == 0 ? "auto" : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c));
+            base[i] = s;
+            i++;
+        }
+        ((MainActivity) c).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        ((MainActivity) c).getSupportActionBar().setListNavigationCallbacks(new OfflineSubAdapter(c, android.R.layout.simple_list_item_1, titles), new ActionBar.OnNavigationListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+                final String[] s2 = base[itemPosition].split(",");
+                OfflineSubreddit.currentid = Long.valueOf(s2[1]);
+                currentid = OfflineSubreddit.currentid;
+
+                new AsyncTask<Void, Void, Void>() {
+                    OfflineSubreddit cached;
+
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        cached = OfflineSubreddit.getSubreddit(subreddit, Long.valueOf(s2[1]), true);
+                        List<Submission> finalSubs = new ArrayList<>();
+                        for (Submission s : cached.submissions) {
+                            if (!PostMatch.doesMatch(s, subreddit, force18)) {
+                                finalSubs.add(s);
+                            }
+                        }
+
+                        posts = finalSubs;
+
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+
+                        if (cached.submissions.size() > 0) {
+                            stillShow = true;
+                        } else {
+                            displayer.updateOfflineError();
+                        }
+                        // update offline
+                        displayer.updateOffline(posts, Long.valueOf(s2[1]));
+                    }
+                }.execute();
+                return true;
+            }
+        });
+
+    }
 }

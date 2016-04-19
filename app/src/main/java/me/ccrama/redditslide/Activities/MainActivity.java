@@ -100,7 +100,6 @@ import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -2323,9 +2322,8 @@ public class MainActivity extends BaseActivity {
                     SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                     if (page != null && page.adapter != null) {
                         SubredditPosts p = page.adapter.dataSet;
-                        OfflineSubreddit.currentid = p.currentid;
-                        if (p.offline && p.cached != null) {
-                            Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
+                        if (p.offline) {
+                            p.doMainActivityOffline(p.displayer);
                         }
                     }
 
