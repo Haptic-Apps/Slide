@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -278,6 +279,8 @@ public class Album extends FullScreenActivity  implements FolderChooserDialog.Fo
 
         @Override
         public void doWithData(final ArrayList<JsonElement> jsonElements) {
+            findViewById(R.id.progress).setVisibility(View.GONE);
+
             if (LoadIntoRecycler.this.overrideAlbum) {
                 cancel(true);
                 new LoadIntoRecycler(url.replace("/gallery", "/a"), Album.this).execute();
