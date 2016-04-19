@@ -1,5 +1,7 @@
 package me.ccrama.redditslide;
 
+import android.content.SharedPreferences;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -10,10 +12,9 @@ import net.dean.jraw.models.meta.SubmissionSerializer;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 11/19/2015.
@@ -191,7 +192,6 @@ public class OfflineSubreddit {
         subreddit = subreddit.toLowerCase();
         ArrayList<String> keys = new ArrayList<>();
         for (String s : Reddit.cachedData.getAll().keySet()) {
-            LogUtil.v("Found "  + s);
             if (s.startsWith(subreddit) && s.contains(",")) {
                 keys.add(s);
             }
@@ -203,11 +203,32 @@ public class OfflineSubreddit {
         ArrayList<String> keys = new ArrayList<>();
         for (String s : Reddit.cachedData.getAll().keySet()) {
             if (s.contains(",")) {
-                LogUtil.v("Found "  + s);
                 keys.add(s);
             }
         }
         return keys;
     }
 
+    public static void deleteAll(String name) {
+        String[] all = Reddit.cachedData.getString(name, "").split(",");
+        Reddit.cachedData.edit().remove(name).apply();
+        ArrayList<String> toRemove = new ArrayList<>();
+        Collections.addAll(toRemove, all);
+        for (String s : Reddit.cachedData.getAll().keySet()) {
+           if(s.contains(",")){
+               String gotten = Reddit.cachedData.getString(s, "");
+               for(String a : all){
+                   if(gotten.contains(a)){
+                       toRemove.remove(a);
+                   }
+               }
+           }
+        }
+
+        SharedPreferences.Editor e = Reddit.cachedData.edit();
+        for(String s : toRemove){
+            e.remove(s);
+        }
+        e.apply();
+    }
 }
