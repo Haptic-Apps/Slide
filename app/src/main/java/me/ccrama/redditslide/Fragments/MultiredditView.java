@@ -260,7 +260,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
             List<Submission> originalDataSetPosts = posts.posts;
 
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + posts.multiReddit.getDisplayName().toLowerCase(), false);
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + posts.multiReddit.getDisplayName().toLowerCase(), false, getActivity());
             for (int i = posts.posts.size(); i > -1; i--) {
                 try {
                     if (HasSeen.getSeen(posts.posts.get(i))) {
@@ -281,7 +281,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
-            o.writeToMemory();
+            o.writeToMemory(getActivity());
             rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
             return originalDataSetPosts;
         }

@@ -160,7 +160,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             //IS SINGLE POST
         } else {
 
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid, !Authentication.didOnline);
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid, !Authentication.didOnline, CommentsScreen.this);
             subredditPosts.getPosts().addAll(o.submissions);
 
         }

@@ -1,5 +1,9 @@
 package me.ccrama.redditslide;
 
+import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Environment;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -8,6 +12,10 @@ import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.meta.SubmissionSerializer;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,28 +36,73 @@ public class OfflineSubreddit {
         Reddit.cachedData.edit().putString(s.getFullName(), node.toString()).apply();
     }
 
+    public static File getCacheDirectory(Context context) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && context.getExternalCacheDir() != null) {
+            return context.getExternalCacheDir();
+        }
+        return context.getCacheDir();
+    }
 
     public OfflineSubreddit overwriteSubmissions(List<Submission> data) {
         submissions = new ArrayList<>(data);
         return this;
     }
 
-    public void writeToMemory() {
-        if(cache == null)
+    public static void writeSubmissionToStorage(Submission s, JsonNode node, Context c) {
+        File toStore = new File(getCacheDirectory(c) + File.separator + s.getFullName());
+        try {
+            FileWriter writer = new FileWriter(toStore);
+            writer.append(node.toString());
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isStored(String name, Context c) {
+        return new File(getCacheDirectory(c) + File.separator + name).exists();
+    }
+
+    public void writeToMemory(Context c) {
+        if (cache == null)
             cache = new HashMap<>();
         if (subreddit != null) {
             String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
             String fullNames = "";
             for (Submission sub : submissions) {
                 fullNames += sub.getFullName() + ",";
-                if (!Reddit.cachedData.contains(sub.getFullName()))
-                    Reddit.cachedData.edit().putString(sub.getFullName(), sub.getDataNode().toString()).apply();
+                if (!isStored(sub.getFullName(), c))
+                    writeSubmissionToStorage(sub, sub.getDataNode(), c);
             }
             if (fullNames.length() > 0)
                 Reddit.cachedData.edit().putString(title, fullNames.substring(0, fullNames.length() - 1)).apply();
 
             cache.put(title, this);
         }
+    }
+    public void writeToMemoryNoStorage() {
+        if (cache == null)
+            cache = new HashMap<>();
+        if (subreddit != null) {
+            String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
+            String fullNames = "";
+            for (Submission sub : submissions) {
+                fullNames += sub.getFullName() + ",";
+            }
+            if (fullNames.length() > 0)
+                Reddit.cachedData.edit().putString(title, fullNames.substring(0, fullNames.length() - 1)).apply();
+            cache.put(title, this);
+        }
+    }
+    public void writeToMemoryAsync(final Context c) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                writeToMemory(c);
+                return null;
+            }
+        }.execute();
     }
 
     public void writeToMemory(ArrayList<String> names) {
@@ -63,8 +116,8 @@ public class OfflineSubreddit {
         }
     }
 
-    public static OfflineSubreddit getSubreddit(String subreddit, boolean offline) {
-        return getSubreddit(subreddit, 0l, offline);
+    public static OfflineSubreddit getSubreddit(String subreddit, boolean offline, Context c) {
+        return getSubreddit(subreddit, 0l, offline, c);
     }
 
     public static OfflineSubreddit getSubNoLoad(String s) {
@@ -80,8 +133,8 @@ public class OfflineSubreddit {
 
     private static HashMap<String, OfflineSubreddit> cache;
 
-    public static OfflineSubreddit getSubreddit(String subreddit, Long time, boolean offline) {
-        if(cache == null)
+    public static OfflineSubreddit getSubreddit(String subreddit, Long time, boolean offline, Context c) {
+        if (cache == null)
             cache = new HashMap<>();
         String title = subreddit.toLowerCase() + "," + time;
         if (cache.containsKey(title)) {
@@ -106,17 +159,11 @@ public class OfflineSubreddit {
                 ObjectReader reader = mapperBase.reader();
 
                 for (String s : split) {
-                    String gotten = Reddit.cachedData.getString(s, "");
-                    if (!gotten.isEmpty()) {
+                    if (!s.isEmpty()) {
                         try {
-                            if (gotten.startsWith("[") && offline) {
-                                o.submissions.add(SubmissionSerializer.withComments(reader.readTree(gotten), CommentSort.CONFIDENCE));
-                            } else if (gotten.startsWith("[")) {
-                                JsonNode elem = reader.readTree(gotten);
-                                o.submissions.add(new Submission(elem.get(0).get("data").get("children").get(0).get("data")));
-                            } else {
-                                o.submissions.add(new Submission(reader.readTree(gotten)));
-                            }
+                            Submission sub = getSubmissionFromStorage(s, c, offline, reader);
+                            if (sub != null)
+                                o.submissions.add(sub);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -131,6 +178,39 @@ public class OfflineSubreddit {
             return o;
 
         }
+    }
+
+    public static Submission getSubmissionFromStorage(String fullName, Context c, boolean offline, ObjectReader reader) throws IOException {
+        String gotten = getStringFromFile(fullName, c);
+        if (!gotten.isEmpty()) {
+            if (gotten.startsWith("[") && offline) {
+                return (SubmissionSerializer.withComments(reader.readTree(gotten), CommentSort.CONFIDENCE));
+            } else if (gotten.startsWith("[")) {
+                JsonNode elem = reader.readTree(gotten);
+                return (new Submission(elem.get(0).get("data").get("children").get(0).get("data")));
+            } else {
+                return (new Submission(reader.readTree(gotten)));
+            }
+        }
+        return null;
+    }
+
+    public static String getStringFromFile(String name, Context c) {
+        File f = new File(getCacheDirectory(c) + File.separator + name);
+        if (f.exists()) {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(f));
+                char[] chars = new char[(int) f.length()];
+                reader.read(chars);
+                reader.close();
+                return new String(chars);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            return "";
+        }
+        return "";
     }
 
     public static OfflineSubreddit newSubreddit(String subreddit) {
@@ -173,7 +253,7 @@ public class OfflineSubreddit {
             submissions.remove(index);
             if (save) {
                 savedIndex = index;
-                writeToMemory();
+                writeToMemoryNoStorage();
             }
         }
     }
@@ -181,7 +261,7 @@ public class OfflineSubreddit {
     public void unhideLast() {
         if (submissions != null && savedSubmission != null) {
             submissions.add(savedIndex, savedSubmission);
-            writeToMemory();
+            writeToMemoryNoStorage();
         }
     }
 
@@ -196,6 +276,7 @@ public class OfflineSubreddit {
 
         return keys;
     }
+
     public static ArrayList<String> getAll() {
         ArrayList<String> keys = new ArrayList<>();
         for (String s : Reddit.cachedData.getAll().keySet()) {

@@ -498,6 +498,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         cachedData = getSharedPreferences("cache", 0);
 
+        if(!cachedData.contains("reset")){
+            cachedData.edit().clear().putBoolean("reset", true).apply();
+        }
+
         registerActivityLifecycleCallbacks(this);
         Authentication.authentication = getSharedPreferences("AUTH", 0);
         UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);

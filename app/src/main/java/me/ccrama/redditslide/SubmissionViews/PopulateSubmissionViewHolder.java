@@ -410,7 +410,7 @@ public class PopulateSubmissionViewHolder {
                                                             LogUtil.v("Matching with " + ((Submission) s).getDomain());
                                                         }
                                                     }
-                                                    OfflineSubreddit s = OfflineSubreddit.getSubreddit(baseSub, false);
+                                                    OfflineSubreddit s = OfflineSubreddit.getSubreddit(baseSub, false, mContext);
 
                                                     for(Contribution remove : toRemove){
                                                         final int pos = posts.indexOf(remove);
@@ -418,7 +418,7 @@ public class PopulateSubmissionViewHolder {
                                                         if (baseSub != null) {
                                                             s.hide(pos, false);
                                                         }
-                                                        s.writeToMemory();
+                                                        s.writeToMemoryNoStorage();
                                                         recyclerview.getAdapter().notifyDataSetChanged();
 
                                                     }
@@ -469,7 +469,8 @@ public class PopulateSubmissionViewHolder {
                                 }.execute();
                                 break;
                             case 5: {
-                                hideSubmission(submission, posts, baseSub, recyclerview);
+                                hideSubmission(submission, posts, baseSub, recyclerview, mContext);
+
                             }
                             break;
                             case 7:
@@ -542,7 +543,7 @@ public class PopulateSubmissionViewHolder {
         b.show();
     }
 
-    public <T extends Contribution> void hideSubmission(final Submission submission, final List<T> posts, final String baseSub, final RecyclerView recyclerview) {
+    public <T extends Contribution> void hideSubmission(final Submission submission, final List<T> posts, final String baseSub, final RecyclerView recyclerview, Context c) {
         final int pos = posts.indexOf(submission);
         if (pos != -1) {
             if (submission.isHidden()) {
@@ -560,7 +561,7 @@ public class PopulateSubmissionViewHolder {
                 Hidden.setHidden(t);
                 final OfflineSubreddit s;
                 if (baseSub != null) {
-                    s = OfflineSubreddit.getSubreddit(baseSub, false);
+                    s = OfflineSubreddit.getSubreddit(baseSub, false, c);
                     s.hide(pos);
                 } else {
                     s = null;
@@ -1576,7 +1577,7 @@ public class PopulateSubmissionViewHolder {
                 hideButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        hideSubmission(submission, posts, baseSub, recyclerview);
+                        hideSubmission(submission, posts, baseSub, recyclerview, mContext);
                     }
                 });
             } else {
