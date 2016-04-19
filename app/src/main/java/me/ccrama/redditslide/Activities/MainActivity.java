@@ -286,7 +286,7 @@ public class MainActivity extends BaseActivity {
 
     public boolean commentPager = false;
 
-    Dialog d;
+    MaterialDialog d;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -472,7 +472,6 @@ public class MainActivity extends BaseActivity {
         if(!seen.contains("isCleared")){
 
             new AsyncTask<Void, Void, Void>() {
-                MaterialDialog d;
                 @Override
                 protected Void doInBackground(Void... params) {
                     KVManger m =  KVStore.getInstance();
@@ -491,7 +490,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
-                    d.dismiss();
+                    dismissProgressDialog();
                 }
 
                 @Override
@@ -499,7 +498,8 @@ public class MainActivity extends BaseActivity {
                      d = new MaterialDialog.Builder(MainActivity.this).title("Swapping databases...")
                             .progress(true, 100)
                             .cancelable(false)
-                            .show();
+                            .build();
+                    d.show();
                 }
             }.execute();
 
@@ -1657,8 +1657,16 @@ public class MainActivity extends BaseActivity {
 
         setDrawerSubList();
     }
-
-
+    @Override
+    public void onDestroy() {
+        dismissProgressDialog();
+        super.onDestroy();
+    }
+    private void dismissProgressDialog() {
+        if (d != null && d.isShowing()) {
+            d.dismiss();
+        }
+    }
     View accountsArea;
 
     SideArrayAdapter sideArrayAdapter;
