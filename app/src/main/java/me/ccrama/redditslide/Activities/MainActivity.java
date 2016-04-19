@@ -1878,7 +1878,6 @@ public class MainActivity extends BaseActivity {
 
             case R.id.filter:
                 filterContent(shouldLoad);
-
                 return true;
             case R.id.sidebar:
                 if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
@@ -2090,27 +2089,43 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    boolean[] chosen;
-
     public void filterContent(final String subreddit) {
-        chosen = new boolean[]{PostMatch.isGif(subreddit), PostMatch.isAlbums(subreddit), PostMatch.isImage(subreddit), PostMatch.isNsfw(subreddit), PostMatch.isSelftext(subreddit), PostMatch.isUrls(subreddit)};
+        final boolean[] chosen = new boolean[] {
+                PostMatch.isGif(subreddit),
+                PostMatch.isAlbums(subreddit),
+                PostMatch.isImage(subreddit),
+                PostMatch.isNsfw(subreddit),
+                PostMatch.isSelftext(subreddit),
+                PostMatch.isUrls(subreddit)
+        };
+
+        final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
+                : (getString(R.string.content_to_hide, "/r/" + subreddit));
 
         new AlertDialogWrapper.Builder(this)
-                .setTitle("Content to hide in /r/" + subreddit)
+                .setTitle(FILTER_TITLE)
                 .alwaysCallMultiChoiceCallback()
-                .setMultiChoiceItems(new String[]{"Gifs", "Albums", "Images", "NSFW Content", "Selftext", "Websites"}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(new String[] {
+                        getString(R.string.type_gifs),
+                        getString(R.string.type_albums),
+                        getString(R.string.image_downloads),
+                        getString(R.string.type_nsfw_content),
+                        getString(R.string.type_selftext),
+                        getString(R.string.type_links)
+                }, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         chosen[which] = isChecked;
                     }
-                }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
+
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 LogUtil.v(chosen[0] + " " + chosen[1] + " " + chosen[2] + " " + chosen[3] + " " + chosen[4] + " " + chosen[5]);
                 PostMatch.setChosen(chosen, subreddit);
                 reloadSubs();
             }
-        }).setNegativeButton("Cancel", null).show();
+        }).setNegativeButton(R.string.btn_cancel, null).show();
     }
 
     AsyncTask caching;

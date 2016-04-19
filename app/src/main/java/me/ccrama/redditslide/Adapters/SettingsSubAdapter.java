@@ -191,13 +191,19 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             String titleString = "";
 
             for (String sub : subreddits) {
-                titleString = titleString + "/r/" + sub + ", ";
+                //if the subreddit is the frontpage, don't put "/r/" in front of it
+                if (sub.equals("frontpage")) {
+                    titleString += sub + ", ";
+                } else {
+                    titleString += "/r/" + sub + ", ";
+                }
             }
             titleString = titleString.substring(0, titleString.length() - 2);
             title.setMaxLines(3);
             title.setText(titleString);
         } else {
-            title.setText("/r/" + subreddit);
+            //if the subreddit is the frontpage, don't put "/r/" in front of it
+            title.setText(((subreddit.equals("frontpage")) ? "frontpage" : "/r/" + subreddit));
         }
 
         {
@@ -319,17 +325,22 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             }
             {
                 Button dialogButton = (Button) dialoglayout.findViewById(R.id.reset);
-
                 String subTitles = "";
+
                 if (multipleSubs) {
                     for (String sub : subreddits) {
-                        subTitles = subTitles + "/r/" + sub + ", ";
+                        //if the subreddit is the frontpage, don't put "/r/" in front of it
+                        if (sub.equals("frontpage")) {
+                            subTitles += sub + ", ";
+                        } else {
+                            subTitles += "/r/" + sub + ", ";
+                        }
                     }
                     subTitles = subTitles.substring(0, subTitles.length() - 2);
                 } else {
-                    subTitles = ("/r/" + subreddit);
+                    //if the subreddit is the frontpage, don't put "/r/" in front of it
+                    subTitles = (subreddit.equals("frontpage") ? "frontpage" : "/r/" + subreddit);
                 }
-                subTitles.replace("/r/frontpage", "frontpage");
 
                 final String finalSubTitles = subTitles;
                 dialogButton.setOnClickListener(new View.OnClickListener() {
@@ -337,6 +348,9 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                     public void onClick(View v) {
                         String titleStart = context.getString(R.string.settings_delete_sub_settings, finalSubTitles);
                         titleStart = titleStart.replace("/r//r/", "/r/");
+                        if (titleStart.contains("/r/frontpage")) {
+                            titleStart = titleStart.replace("/r/frontpage", "frontpage");
+                        }
                         new AlertDialogWrapper.Builder(context).setTitle(titleStart)
                                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                     @Override
@@ -350,7 +364,6 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
                                             SettingValues.resetPicsEnabled(sub);
                                             SettingValues.resetSelftextEnabled(sub);
-
                                         }
 
                                         if (context instanceof MainActivity) {

@@ -181,7 +181,7 @@
     <string name="editor_title">Title</string>
     <string name="editor_err_msg">Please try again in a few seconds</string>
     <string name="editor_uploading_image">Uploading image to Imgur</string>
-    <string name="editor_self">Self text</string>
+    <string name="editor_self">Selftext</string>
     <string name="editor_select_img">Select picture</string>
     <string name="editor_hint_optional_body">Text (optional)</string>
     <string name="editor_submit">Submit a post</string>
@@ -241,6 +241,12 @@
     <string name="type_imgur">Imgur content</string>
     <string name="type_nsfw_imgur">NSFW Imgur content</string>
     <string name="type_external">External</string>
+
+    <!-- Content types plural (Content filters) -->
+    <string name="type_gifs">GIFs</string>
+    <string name="type_albums">Albums</string>
+    <string name="type_nsfw_content">NSFW content</string>
+    <string name="type_links">Links</string>
 
 
     <!-- Inbox/mail -->
@@ -646,6 +652,7 @@
     <string name="sub_content_filter">Subreddit content filter</string>
     <string name="submission_share_reddit_url">Share comments</string>
     <string name="filter_content">Filter this content</string>
+    <string name="content_to_hide">Content to hide on %1$s</string>
     <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
     <string name="error_video_not_found">Video not found</string>
     <string name="error_video_message">An error occurred while loading this video</string>
