@@ -1384,6 +1384,13 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
+            header.findViewById(R.id.offline).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
+                    Reddit.forceRestart(MainActivity.this);
+                }
+            });
             header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1532,7 +1539,13 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
-
+            header.findViewById(R.id.offline).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
+                    Reddit.forceRestart(MainActivity.this);
+                }
+            });
             headerMain = header;
 
         } else {
@@ -1544,6 +1557,7 @@ public class MainActivity extends BaseActivity {
             header.findViewById(R.id.online).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Reddit.appRestart.edit().remove("forceoffline").apply();
                     ((Reddit) getApplication()).forceRestart(MainActivity.this);
                 }
             });

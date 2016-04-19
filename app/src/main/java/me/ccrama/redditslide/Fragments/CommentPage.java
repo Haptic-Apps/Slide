@@ -584,9 +584,8 @@ public class CommentPage extends Fragment {
             }
         } else {
             Submission s = null;
-            String gotten = Reddit.cachedData.getString(fullname.contains("_")?fullname:"t1_" + fullname, "");
+            String gotten = Reddit.cachedData.getString(fullname.contains("_")?fullname:"t3_" + fullname, "");
             if (!gotten.isEmpty()) {
-                LogUtil.v("Gotten!");
                 try {
                     if (gotten.startsWith("[")) {
                         s = (SubmissionSerializer.withComments(new ObjectMapper().readTree(gotten), CommentSort.CONFIDENCE));
