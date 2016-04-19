@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import me.ccrama.redditslide.util.LogUtil;
+
 /**
  * Created by carlo_000 on 11/19/2015.
  */
@@ -35,6 +37,8 @@ public class OfflineSubreddit {
     }
 
     public void writeToMemory() {
+        if(cache == null)
+            cache = new HashMap<>();
         if (subreddit != null) {
             String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
             String fullNames = "";
@@ -76,9 +80,11 @@ public class OfflineSubreddit {
         return o;
     }
 
-    private static HashMap<String, OfflineSubreddit> cache = new HashMap<>();
+    private static HashMap<String, OfflineSubreddit> cache;
 
     public static OfflineSubreddit getSubreddit(String subreddit, Long time, boolean offline) {
+        if(cache == null)
+            cache = new HashMap<>();
         String title = subreddit.toLowerCase() + "," + time;
         if (cache.containsKey(title)) {
             return cache.get(title);
@@ -88,6 +94,7 @@ public class OfflineSubreddit {
             OfflineSubreddit o = new OfflineSubreddit();
             o.subreddit = subreddit.toLowerCase();
 
+            LogUtil.v("Getting " + title);
             if (time == 0) {
                 o.base = true;
             }
