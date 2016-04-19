@@ -48,7 +48,38 @@
             </LinearLayout>
 
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/autocache_time_touch"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Autocache time"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".86"
+                    android:id="@+id/autocache_time"
+                    android:textColor="?attr/font"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/clear_all"
             android:layout_width="match_parent"

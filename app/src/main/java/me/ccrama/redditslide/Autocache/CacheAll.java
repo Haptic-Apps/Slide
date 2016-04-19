@@ -23,12 +23,14 @@ public class CacheAll extends BroadcastReceiver {
         c = context;
         if (NetworkUtil.isConnected(c)) {
            for(String s : Reddit.cachedData.getString("toCache", "").split(",")){
-               try {
-                   new CommentCacheAsync(c, s).execute().get();
-               } catch (InterruptedException e) {
-                   e.printStackTrace();
-               } catch (ExecutionException e) {
-                   e.printStackTrace();
+               if(!s.isEmpty()) {
+                   try {
+                       new CommentCacheAsync(c, s).execute().get();
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   } catch (ExecutionException e) {
+                       e.printStackTrace();
+                   }
                }
            }
         }
