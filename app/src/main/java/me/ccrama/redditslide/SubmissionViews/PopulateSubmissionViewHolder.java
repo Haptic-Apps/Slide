@@ -1626,8 +1626,10 @@ public class PopulateSubmissionViewHolder {
                             } else {
                                 s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
                                 ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                                posts.remove(posts.indexOf(submission));
-                                recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
+                             if(mContext instanceof Profile) {
+                                 posts.remove(posts.indexOf(submission));
+                                 recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
+                             }
                             }
                             View view = s.getView();
                             TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
