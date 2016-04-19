@@ -83,7 +83,6 @@ android {
 
 repositories {
     maven { url "https://jitpack.io" }
-    maven { url 'https://github.com/suckgamony/RapidDecoder/raw/master/repository' }
     mavenCentral()
     flatDir{
         dirs 'src/main/assets'
@@ -113,7 +112,8 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.sothree.slidinguppanel:library:3.3.0'
-    compile 'rapid.decoder:library:0.3.0'
+    compile 'com.github.suckgamony.RapidDecoder:library:7cdfca47fa'
+    compile 'com.github.dasar:shiftcolorpicker:v0.5'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'org.robolectric:robolectric:3.0'
@@ -121,7 +121,6 @@ dependencies {
     testCompile 'commons-io:commons-io:2.4'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     compile files('src/main/assets/synccit.jar')
-    compile(name:'shiftcolorpicker-release', ext:'aar')
     compile('com.github.ozodrukh:CircularReveal:1.3.1@aar') {
         transitive = true;
     }
