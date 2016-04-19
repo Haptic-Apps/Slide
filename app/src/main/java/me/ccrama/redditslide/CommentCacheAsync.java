@@ -101,6 +101,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                 // Removes the progress bar
                 .setProgress(0, 0, false);
         mNotifyManager.notify(1, mBuilder.build());
+        OfflineSubreddit.newSubreddit(sub).writeToMemory(newFullnames);
         return null;
     }
 

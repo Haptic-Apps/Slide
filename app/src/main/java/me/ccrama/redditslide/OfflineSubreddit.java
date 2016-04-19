@@ -139,9 +139,7 @@ public class OfflineSubreddit {
         OfflineSubreddit o = new OfflineSubreddit();
         o.subreddit = subreddit.toLowerCase();
         o.base = false;
-
         o.time = System.currentTimeMillis();
-
         o.submissions = new ArrayList<>();
 
         return o;
