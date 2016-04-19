@@ -101,7 +101,7 @@ public class ManageHistory extends BaseActivityAnim {
                 d.positiveActionClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Reddit.cachedData.edit().putInt("hour", d.getHour()).putInt("minute", d.getMinute()).apply();
+                        Reddit.cachedData.edit().putInt("hour", d.getHour()).putInt("minute", d.getMinute()).commit();
                         Reddit.autoCache = new AutoCacheScheduler(ManageHistory.this);
                         Reddit.autoCache.start(getApplicationContext());
                         updateTime();

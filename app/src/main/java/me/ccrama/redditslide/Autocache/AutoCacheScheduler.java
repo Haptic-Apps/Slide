@@ -5,11 +5,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 10/13/2015.
@@ -27,13 +25,14 @@ public class AutoCacheScheduler {
 
     public void start(Context c) {
 
-        LogUtil.v("Running!");
         AlarmManager manager = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, Reddit.cachedData.getInt("hour", 0));
         cal.set(Calendar.MINUTE, Reddit.cachedData.getInt("minute", 0));
-        LogUtil.v("Starting at " + new SimpleDateFormat("hh:mm MMM dd").format(cal.getTime()));
 
+        if(cal.getTimeInMillis() <System.currentTimeMillis()){
+            cal.set(Calendar.DAY_OF_YEAR , cal.get(Calendar.DAY_OF_YEAR) + 1);
+        }
         manager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
     }
