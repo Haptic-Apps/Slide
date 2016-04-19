@@ -32,6 +32,7 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * This activity is responsible for the view when clicking on a post, showing
@@ -165,6 +166,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         }
 
         if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
+            LogUtil.v("Closing");
             finish();
         } else {
             updateSubredditAndSubmission(subredditPosts.getPosts().get(firstPage));
@@ -330,7 +332,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public int getCount() {
 
-            return subredditPosts.getPosts().size();
+            return subredditPosts.getPosts().size() + 1;
         }
 
     }
