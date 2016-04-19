@@ -1,5 +1,7 @@
 package me.ccrama.redditslide;
 
+import com.lusfold.androidkeyvaluestore.KVStore;
+
 import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Synccit.SynccitRead;
@@ -18,14 +20,14 @@ public class HasSeen {
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3, fullname.length());
         }
-        return Reddit.seen.contains(fullname) || SynccitRead.visitedIds.contains(fullname);
+        return !KVStore.getInstance().getByContains(fullname).isEmpty() || SynccitRead.visitedIds.contains(fullname);
     }
 
     public static void addSeen(String fullname) {
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3, fullname.length());
         }
-        Reddit.seen.edit().putLong(fullname, System.currentTimeMillis()).apply();
+        KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
 
         if(!fullname.contains("t1_")) {
             SynccitRead.newVisited.add(fullname);

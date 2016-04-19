@@ -19,6 +19,8 @@ import android.util.Log;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.jakewharton.processphoenix.ProcessPhoenix;
+import com.lusfold.androidkeyvaluestore.KVStore;
+import com.lusfold.androidkeyvaluestore.core.KVManger;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.dean.jraw.paginators.Sorting;
@@ -38,6 +40,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -78,7 +81,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int notificationTime;
     public static boolean videoPlugin;
     public static NotificationJobScheduler notifications;
-    public static SharedPreferences seen;
     public static SharedPreferences hidden;
     public static boolean isLoading = false;
     public static long time = System.currentTimeMillis();
@@ -505,7 +507,20 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         timePeriod = SettingValues.timePeriod;
         colors = getSharedPreferences("COLOR", 0);
         tags = getSharedPreferences("TAGS", 0);
-        seen = getSharedPreferences("SEEN", 0);
+        KVStore.init(this, "SEEN");
+        SharedPreferences seen = getSharedPreferences("SEEN", 0);
+        if(!seen.contains("isCleared")){
+            KVManger m =  KVStore.getInstance();
+            Map<String, ?> values = seen.getAll();
+            for (String value : values.keySet()) {
+                if (value.length() == 6 && values.get(value) instanceof Boolean) {
+                    m.insert(value, "true");
+                } else if (values.get(value) instanceof Long) {
+                    m.insert(value, String.valueOf(seen.getLong(value, 0)));
+                }
+            }
+            seen.edit().clear().putBoolean("isCleared", true).apply();
+        }
         hidden = getSharedPreferences("HIDDEN", 0);
         lastposition = new ArrayList<>();
         Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);

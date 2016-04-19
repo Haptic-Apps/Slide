@@ -67,7 +67,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {
                     Reddit.notificationTime = -1;
-                    Reddit.seen.edit().putInt("notificationOverride", -1).apply();
+                    Reddit.colors.edit().putInt("notificationOverride", -1).apply();
                     checkBox.setText(context.getString(R.string.settings_mail_check));
                     landscape.setValue(0, true);
                     if (Reddit.notifications != null)
@@ -93,7 +93,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             public void onDismiss(DialogInterface dialog) {
                 if (checkBox.isChecked()) {
                     Reddit.notificationTime = landscape.getValue() * 15;
-                    Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
+                    Reddit.colors.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
                     if (Reddit.notifications == null) {
                         Reddit.notifications = new NotificationJobScheduler(context.getApplication());
                     }
@@ -107,7 +107,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             public void onClick(View d) {
                 if (checkBox.isChecked()) {
                     Reddit.notificationTime = landscape.getValue() * 15;
-                    Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
+                    Reddit.colors.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
                     if (Reddit.notifications == null) {
                         Reddit.notifications = new NotificationJobScheduler(context.getApplication());
                     }
@@ -120,7 +120,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                                         TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, context.getBaseContext())));
                 } else {
                     Reddit.notificationTime = -1;
-                    Reddit.seen.edit().putInt("notificationOverride", -1).apply();
+                    Reddit.colors.edit().putInt("notificationOverride", -1).apply();
                     if (Reddit.notifications == null) {
                         Reddit.notifications = new NotificationJobScheduler(context.getApplication());
                     }

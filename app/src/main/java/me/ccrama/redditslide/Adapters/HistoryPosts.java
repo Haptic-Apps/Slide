@@ -4,6 +4,8 @@ import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 
+import com.lusfold.androidkeyvaluestore.KVStore;
+
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thing;
@@ -18,7 +20,6 @@ import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -111,7 +112,7 @@ public class HistoryPosts extends GeneralPosts {
                 if (reset || paginator == null) {
                     ArrayList<String> ids = new ArrayList<>();
                     HashMap<Long, String> idsSorted = new HashMap<>();
-                    Map<String, ?> values = Reddit.seen.getAll();
+                    Map<String, ?> values = KVStore.getInstance().getByContains("");
                     for (String value : values.keySet()) {
                         if (value.length() == 6 && values.get(value) instanceof Boolean){
                             ids.add("t3_" + value);

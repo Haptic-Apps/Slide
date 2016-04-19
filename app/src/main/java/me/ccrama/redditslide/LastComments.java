@@ -1,5 +1,7 @@
 package me.ccrama.redditslide;
 
+import com.lusfold.androidkeyvaluestore.KVStore;
+
 import net.dean.jraw.models.Submission;
 
 /**
@@ -8,13 +10,14 @@ import net.dean.jraw.models.Submission;
 public class LastComments {
 
     public static int commentsSince(Submission s) {
-        if (Reddit.seen.contains("comments" + s.getFullName())) {
-            return s.getCommentCount() - Reddit.seen.getInt("comments" + s.getFullName(), s.getCommentCount());
+
+        if (!KVStore.getInstance().getByContains("comments" + s.getFullName()).isEmpty()) {
+            return s.getCommentCount() - Integer.valueOf(KVStore.getInstance().get("comments" + s.getFullName()));
         }
         return 0;
     }
 
     public static void setComments(Submission s) {
-        Reddit.seen.edit().putInt("comments" + s.getFullName(), s.getCommentCount()).apply();
+        KVStore.getInstance().insert("comments" + s.getFullName(), String.valueOf(s.getCommentCount()));
     }
 }

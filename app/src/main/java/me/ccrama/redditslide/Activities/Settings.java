@@ -256,7 +256,7 @@ public class Settings extends BaseActivity {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                             Reddit.dpWidth = landscape.getProgress() + 1;
-                            Reddit.seen.edit().putInt("tabletOVERRIDE", landscape.getProgress() + 1).apply();
+                            Reddit.colors.edit().putInt("tabletOVERRIDE", landscape.getProgress() + 1).apply();
                         }
                     });
                     SwitchCompat s = (SwitchCompat) dialog.findViewById(R.id.dualcolumns);

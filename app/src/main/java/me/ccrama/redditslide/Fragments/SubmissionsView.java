@@ -291,7 +291,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.seen.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
+                                            Reddit.colors.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
                                             Reddit.fabClear = true;
                                             clearSeenPosts(false);
 
@@ -311,7 +311,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.seen.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
+                                            Reddit.colors.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
                                             Reddit.fabClear = true;
                                             clearSeenPosts(true);
 
