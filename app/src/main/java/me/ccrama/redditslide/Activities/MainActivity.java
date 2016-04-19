@@ -68,39 +68,32 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.fasterxml.jackson.databind.JsonNode;
 
-import net.dean.jraw.http.NetworkException;
-import net.dean.jraw.http.RestResponse;
-import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.managers.AccountManager;
-import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.LoggedInAccount;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.models.UserRecord;
-import net.dean.jraw.models.meta.SubmissionSerializer;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
-import net.dean.jraw.util.JrawUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
@@ -120,8 +113,6 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.AlbumUtils;
-import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -2149,55 +2140,7 @@ public class MainActivity extends BaseActivity {
                 }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                final MaterialDialog d = new MaterialDialog.Builder(MainActivity.this).title(R.string.offline_caching)
-                        .progress(false, submissions.size())
-                        .cancelable(true)
-                        .negativeText(R.string.btn_cancel)
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                caching.cancel(true);
-                            }
-                        })
-                        .show();
-                caching = new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... params) {
-
-
-                        ArrayList<String> newFullnames = new ArrayList<>();
-                        int count = 0;
-                        for (final Submission s : submissions) {
-
-                            try {
-                                JsonNode n = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
-                                Submission s2 = SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
-                                OfflineSubreddit.writeSubmission(n, s2);
-                                newFullnames.add(s2.getFullName());
-                                switch (ContentType.getContentType(s)) {
-                                    case GIF:
-                                        if (chosen[0])
-                                            GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
-                                        break;
-                                    case ALBUM:
-                                        if (chosen[1])
-
-                                            AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
-                                        break;
-                                }
-                            } catch (Exception e) {
-                                d.setMaxProgress((d.getMaxProgress() - 1));
-                            }
-                            count++;
-                            d.setProgress(count);
-                            if (d.getCurrentProgress() == d.getMaxProgress()) {
-                                d.cancel();
-                                OfflineSubreddit.newSubreddit(subreddit).writeToMemory(newFullnames);
-                            }
-                        }
-                        return null;
-                    }
-                }.execute();
+                caching = new CommentCacheAsync(submissions, MainActivity.this, subreddit).execute();
             }
 
         }).show();
@@ -2205,34 +2148,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public JsonNode getSubmission(SubmissionRequest request) throws NetworkException {
-        Map<String, String> args = new HashMap<>();
-        if (request.getDepth() != null)
-            args.put("depth", Integer.toString(request.getDepth()));
-        if (request.getContext() != null)
-            args.put("context", Integer.toString(request.getContext()));
-        if (request.getLimit() != null)
-            args.put("limit", Integer.toString(request.getLimit()));
-        if (request.getFocus() != null && !JrawUtils.isFullname(request.getFocus()))
-            args.put("comment", request.getFocus());
-
-        CommentSort sort = request.getSort();
-        if (sort == null)
-            // Reddit sorts by confidence by default
-            sort = CommentSort.CONFIDENCE;
-        args.put("sort", sort.name().toLowerCase());
-
-        try {
-
-            RestResponse response = Authentication.reddit.execute(Authentication.reddit.request()
-                    .path(String.format("/comments/%s", request.getId()))
-                    .query(args)
-                    .build());
-            return response.getJson();
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
     public static boolean checkedPopups;
 
@@ -2679,6 +2594,10 @@ public class MainActivity extends BaseActivity {
                     if (Reddit.notificationTime != -1) {
                         Reddit.notifications = new NotificationJobScheduler(MainActivity.this);
                         Reddit.notifications.start(getApplicationContext());
+                    }
+                    if(Reddit.cachedData.contains("toCache")){
+                        Reddit.autoCache = new AutoCacheScheduler(MainActivity.this);
+                        Reddit.autoCache.start(getApplicationContext());
                     }
                     final String name = me.getFullName();
                     Authentication.name = name;

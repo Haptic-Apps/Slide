@@ -313,6 +313,7 @@
             android:resource="@dimen/app_minimumsize_w" />
 
         <receiver android:name=".Notifications.CheckForMail"></receiver>
+        <receiver android:name=".Autocache.CacheAll"></receiver>
 
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
