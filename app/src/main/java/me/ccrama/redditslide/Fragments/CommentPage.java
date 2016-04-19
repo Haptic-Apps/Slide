@@ -587,10 +587,12 @@ public class CommentPage extends Fragment {
             String gotten = Reddit.cachedData.getString(fullname.contains("_")?fullname:"t3_" + fullname, "");
             if (!gotten.isEmpty()) {
                 try {
-                    if (gotten.startsWith("[")) {
+                    if (gotten.startsWith("[") && !Authentication.didOnline) {
                         s = (SubmissionSerializer.withComments(new ObjectMapper().readTree(gotten), CommentSort.CONFIDENCE));
+                    } else if(Authentication.didOnline){
+                        s = (new Submission(new ObjectMapper().readTree(gotten).get(0).get("data").get("children").get(0).get("data")));
                     } else {
-                        s = (new Submission(new ObjectMapper().readTree(gotten)));
+                        s = (SubmissionSerializer.withComments(new ObjectMapper().readTree(gotten), CommentSort.CONFIDENCE));
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

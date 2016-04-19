@@ -17,12 +17,19 @@ import android.view.animation.LinearInterpolator;
 
 import net.dean.jraw.managers.InboxManager;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentGrabber;
 import me.ccrama.redditslide.Fragments.InboxPage;
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -124,6 +131,44 @@ public class Inbox extends BaseActivityAnim {
 
             }
         });
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (Authentication.me == null) {
+                    Authentication.me = Authentication.reddit.me();
+                    Authentication.mod = Authentication.me.isMod();
+                    Reddit.over18 = Authentication.me.isOver18();
+
+                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod).apply();
+                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18).apply();
+
+                    if (Reddit.notificationTime != -1) {
+                        Reddit.notifications = new NotificationJobScheduler(Inbox.this);
+                        Reddit.notifications.start(getApplicationContext());
+                    }
+                    if (Reddit.cachedData.contains("toCache")) {
+                        Reddit.autoCache = new AutoCacheScheduler(Inbox.this);
+                        Reddit.autoCache.start(getApplicationContext());
+                    }
+
+                    final String name = Authentication.me.getFullName();
+                    Authentication.name = name;
+                    LogUtil.v("AUTHENTICATED");
+                    if (Authentication.reddit.isAuthenticated()) {
+                        final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                        if (accounts.contains(name)) { //convert to new system
+                            accounts.remove(name);
+                            accounts.add(name + ":" + Authentication.refresh);
+                            Authentication.authentication.edit().putStringSet("accounts", accounts).commit(); //force commit
+                        }
+                        Authentication.isLoggedIn = true;
+                        Reddit.notFirst = true;
+                    }
+                }
+                return null;
+            }
+        }.execute();
+
 
     }
 

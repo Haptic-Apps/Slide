@@ -1,6 +1,7 @@
 package me.ccrama.redditslide;
 
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -210,25 +211,33 @@ public class OfflineSubreddit {
     }
 
     public static void deleteAll(String name) {
-        String[] all = Reddit.cachedData.getString(name, "").split(",");
+       final String[] all = Reddit.cachedData.getString(name, "").split(",");
         Reddit.cachedData.edit().remove(name).apply();
-        ArrayList<String> toRemove = new ArrayList<>();
-        Collections.addAll(toRemove, all);
-        for (String s : Reddit.cachedData.getAll().keySet()) {
-           if(s.contains(",")){
-               String gotten = Reddit.cachedData.getString(s, "");
-               for(String a : all){
-                   if(gotten.contains(a)){
-                       toRemove.remove(a);
-                   }
-               }
-           }
-        }
 
-        SharedPreferences.Editor e = Reddit.cachedData.edit();
-        for(String s : toRemove){
-            e.remove(s);
-        }
-        e.apply();
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                ArrayList<String> toRemove = new ArrayList<>();
+                Collections.addAll(toRemove, all);
+                for (String s : Reddit.cachedData.getAll().keySet()) {
+                    if(s.contains(",")){
+                        String gotten = Reddit.cachedData.getString(s, "");
+                        for(String a : all){
+                            if(gotten.contains(a)){
+                                toRemove.remove(a);
+                            }
+                        }
+                    }
+                }
+
+                SharedPreferences.Editor e = Reddit.cachedData.edit();
+                for(String s : toRemove){
+                    e.remove(s);
+                }
+                e.apply();
+                return null;
+            }
+        }.execute();
+
     }
 }

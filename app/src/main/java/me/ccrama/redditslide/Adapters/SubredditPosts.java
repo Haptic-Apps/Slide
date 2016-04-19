@@ -336,6 +336,9 @@ public class SubredditPosts implements PostLoader {
     }
 
     public void doMainActivityOffline(final SubmissionDisplay displayer){
+        if(all == null){
+            all = OfflineSubreddit.getAll(subreddit);
+        }
         offline = true;
 
         final String[] titles = new String[all.size()];
