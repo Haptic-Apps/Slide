@@ -45,6 +45,11 @@
             android:theme="@style/swipeable"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".Activities.ManageHistory"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@style/swipeable"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".Activities.ForceTouchLink"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustResize" />

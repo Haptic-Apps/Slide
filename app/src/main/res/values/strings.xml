@@ -738,4 +738,5 @@
     <string name="alert_history_cleared">History cleared!</string>
     <string name="settings_subredditspecific_selftext">Always show selftext previews in this subreddit</string>
     <string name="settings_font_system">System</string>
+    <string name="manage_offline_content">Manage offline content</string>
 </resources>
