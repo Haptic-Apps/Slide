@@ -652,9 +652,7 @@
     <string name="sub_content_filter">Subreddit content filter</string>
     <string name="submission_share_reddit_url">Share comments</string>
     <string name="filter_content">Filter this content</string>
-    <string name="content_to_hide">Content to hide %1$s %2$s</string>
-    <string name="in">in</string>
-    <string name="on">on</string>
+    <string name="content_to_hide">Content to hide on %1$s</string>
     <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
     <string name="error_video_not_found">Video not found</string>
     <string name="error_video_message">An error occurred while loading this video</string>

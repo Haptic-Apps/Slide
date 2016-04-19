@@ -2099,8 +2099,8 @@ public class MainActivity extends BaseActivity {
                 PostMatch.isUrls(subreddit)
         };
 
-        final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, R.string.on, "frontpage"))
-                : (getString(R.string.content_to_hide, R.string.in, "/r/" + subreddit));
+        final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
+                : (getString(R.string.content_to_hide, "/r/" + subreddit));
 
         new AlertDialogWrapper.Builder(this)
                 .setTitle(FILTER_TITLE)
