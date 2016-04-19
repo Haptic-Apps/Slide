@@ -2,10 +2,8 @@
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="#aa000000"
     android:orientation="vertical">
 
@@ -24,6 +22,15 @@
             android:layout_height="0dp" />
 
     </android.support.v7.widget.Toolbar>
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:layout_below="@+id/toolbar"
+        android:max="100"
+        android:progress="0" />
     <android.support.v4.view.ViewPager
         android:id="@+id/images_horizontal"
         android:layout_width="match_parent"

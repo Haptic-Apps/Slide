@@ -1656,7 +1656,7 @@ public class MainActivity extends BaseActivity {
         if (accountsArea != null)
             accountsArea.setBackgroundColor(Palette.getDarkerColor("alsdkfjasld"));
 
-        setDrawerSubList();
+            setDrawerSubList();
     }
     @Override
     public void onDestroy() {

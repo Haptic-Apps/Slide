@@ -585,6 +585,7 @@ public class CommentPage extends Fragment {
         } else {
             Submission s = null;
             String gotten = Reddit.cachedData.getString(fullname.contains("_")?fullname:"t1_" + fullname, "");
+            LogUtil.v("Fullname is " +( fullname.contains("_")?fullname:"t1_" + fullname));
             if (!gotten.isEmpty()) {
                 try {
                     if (gotten.startsWith("[")) {
@@ -597,6 +598,7 @@ public class CommentPage extends Fragment {
                 }
             }
             if (s != null && s.getComments() != null) {
+                LogUtil.v("Full thing");
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
                 adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
                 rv.setAdapter(adapter);
