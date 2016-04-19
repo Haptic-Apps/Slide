@@ -142,6 +142,7 @@ public class MainActivity extends BaseActivity {
     public boolean singleMode;
     public ToggleSwipeViewPager pager;
     public List<String> usedArray;
+    Map<String, String> multiNameToSubsMap;
     public DrawerLayout drawerLayout;
     public View hea;
     public EditText e;
@@ -495,6 +496,10 @@ public class MainActivity extends BaseActivity {
             setDataSet(subs);
             doDrawer();
         }
+    }
+
+    public void updateMultiNameToSubs(Map<String, String> subs) {
+        multiNameToSubsMap = subs;
     }
 
 
@@ -2254,6 +2259,8 @@ public class MainActivity extends BaseActivity {
 
     public static boolean dontAnimate;
 
+
+
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
@@ -2539,7 +2546,12 @@ public class MainActivity extends BaseActivity {
         @Override
         public void doSetPrimary(Object object, int position) {
             if (position != toOpenComments) {
-                shouldLoad = usedArray.get(position);
+                if (multiNameToSubsMap.containsKey(usedArray.get(position))) {
+                     shouldLoad = multiNameToSubsMap.get(usedArray.get(position));
+                } else {
+                    shouldLoad = usedArray.get(position);
+                }
+
                 if (getCurrentFragment() != object) {
                     mCurrentFragment = ((SubmissionsView) object);
                     if (mCurrentFragment != null) {
@@ -2571,7 +2583,14 @@ public class MainActivity extends BaseActivity {
             if (openingComments == null || i != toOpenComments) {
                 SubmissionsView f = new SubmissionsView();
                 Bundle args = new Bundle();
-                if (usedArray.size() > i) args.putString("id", usedArray.get(i));
+                if (usedArray.size() > i) {
+                    if (multiNameToSubsMap.containsKey(usedArray.get(i))) {
+                        //if (usedArray.get(i).co
+                        args.putString("id", multiNameToSubsMap.get(usedArray.get(i)));
+                    } else {
+                        args.putString("id", usedArray.get(i));
+                    }
+                }
                 f.setArguments(args);
                 return f;
 
