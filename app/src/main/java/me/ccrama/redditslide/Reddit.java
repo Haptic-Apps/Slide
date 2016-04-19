@@ -302,12 +302,12 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static String[] getSortingStringsSearch(Context c) {
         return new String[] {
-                WordUtils.capitalize(c.getString(R.string.sorting_hour)),
-                WordUtils.capitalize(c.getString(R.string.sorting_day)),
-                WordUtils.capitalize(c.getString(R.string.sorting_week)),
-                WordUtils.capitalize(c.getString(R.string.sorting_month)),
-                WordUtils.capitalize(c.getString(R.string.sorting_year)),
-                WordUtils.capitalize(c.getString(R.string.sorting_all)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_hour)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_day)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_week)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_month)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_year)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_all)),
         };
     }
 

@@ -165,6 +165,12 @@
     <string name="sorting_month">&#8250; month</string>
     <string name="sorting_year">&#8250; year</string>
     <string name="sorting_all">&#8250; all time</string>
+    <string name="sorting_search_hour">Past hour</string>
+    <string name="sorting_search_day">Past 24 hours</string>
+    <string name="sorting_search_week">Past week</string>
+    <string name="sorting_search_month">Past month</string>
+    <string name="sorting_search_year">Past year</string>
+    <string name="sorting_search_all">All time</string>
 
 
     <!-- Editor (save/submit a post) actions -->
