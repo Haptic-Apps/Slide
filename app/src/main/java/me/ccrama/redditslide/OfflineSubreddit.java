@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import me.ccrama.redditslide.util.LogUtil;
+
 /**
  * Created by carlo_000 on 11/19/2015.
  */
@@ -54,7 +56,7 @@ public class OfflineSubreddit {
 
     public void writeToMemory(ArrayList<String> names) {
         if (subreddit != null && !names.isEmpty()) {
-            String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
+            String title = subreddit.toLowerCase() + "," + (time);
             String fullNames = "";
             for (String sub : names) {
                 fullNames += sub + ",";
@@ -189,16 +191,19 @@ public class OfflineSubreddit {
         subreddit = subreddit.toLowerCase();
         ArrayList<String> keys = new ArrayList<>();
         for (String s : Reddit.cachedData.getAll().keySet()) {
+            LogUtil.v("Found "  + s);
             if (s.startsWith(subreddit) && s.contains(",")) {
                 keys.add(s);
             }
         }
+
         return keys;
     }
     public static ArrayList<String> getAll() {
         ArrayList<String> keys = new ArrayList<>();
         for (String s : Reddit.cachedData.getAll().keySet()) {
             if (s.contains(",")) {
+                LogUtil.v("Found "  + s);
                 keys.add(s);
             }
         }

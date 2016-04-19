@@ -210,6 +210,7 @@ public class SubredditPosts implements PostLoader {
         }
 
         public int start;
+        ArrayList<String> all;
 
         @Override
         public void onPostExecute(final List<Submission> submissions) {
@@ -239,7 +240,6 @@ public class SubredditPosts implements PostLoader {
                 // end of submissions
                 nomore = true;
             } else {
-                ArrayList<String> all = OfflineSubreddit.getAll(subreddit);
 
                 if (!all.isEmpty() && !nomore && SettingValues.cache) {
                     offline = true;
@@ -298,42 +298,6 @@ public class SubredditPosts implements PostLoader {
 
                     }
 
-                    final String[] s2 = base[0].split(",");
-                    new AsyncTask<Void, Void, Void>() {
-                        OfflineSubreddit cached;
-
-                        @Override
-                        protected Void doInBackground(Void... params) {
-                            cached = OfflineSubreddit.getSubreddit(subreddit, Long.valueOf(s2[1]), true);
-                            List<Submission> finalSubs = new ArrayList<>();
-                            for (Submission s : cached.submissions) {
-                                if (!PostMatch.doesMatch(s, subreddit, force18)) {
-                                    finalSubs.add(s);
-                                }
-                            }
-
-                            posts = finalSubs;
-                            return null;
-                        }
-
-                        @Override
-                        protected void onPostExecute(Void aVoid) {
-
-
-                            if (cached.submissions.size() > 0) {
-                                stillShow = true;
-                            } else {
-                                displayer.updateOfflineError();
-                            }
-                            // update offline
-                            displayer.updateOffline(submissions, Long.valueOf(s2[1]));
-                        }
-                    }.execute();
-
-
-                    OfflineSubreddit.currentid = Long.valueOf(s2[1]);
-                    currentid = OfflineSubreddit.currentid;
-
                 } else if (!nomore) {
                     // error
                     displayer.updateError();
@@ -347,6 +311,8 @@ public class SubredditPosts implements PostLoader {
             if (!NetworkUtil.isConnected(context)) {
                 Log.v(LogUtil.getTag(), "Using offline data");
                 offline = true;
+                usedOffline = true;
+                all = OfflineSubreddit.getAll(subreddit);
                 return null;
             } else {
                 offline = false;
