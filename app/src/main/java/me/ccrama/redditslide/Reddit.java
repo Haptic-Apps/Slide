@@ -43,6 +43,7 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Search;
+import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -91,6 +92,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean over18;
     public static boolean overrideLanguage;
     public static boolean isRestarting;
+    public static AutoCacheScheduler autoCache;
     private final List<Listener> listeners = new ArrayList<>();
     public boolean active;
     private ImageLoader defaultImageLoader;
