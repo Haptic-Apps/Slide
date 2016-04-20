@@ -296,7 +296,15 @@ public class OfflineSubreddit {
         }
         return keys;
     }
-
+    public static ArrayList<String> getAllFormatted() {
+        ArrayList<String> keys = new ArrayList<>();
+        for (String s : Reddit.cachedData.getAll().keySet()) {
+            if (s.contains(",")) {
+                keys.add(s.substring(0, s.indexOf(",")));
+            }
+        }
+        return keys;
+    }
     public static void deleteAll(String name) {
         Reddit.cachedData.edit().remove(name).apply();
     }

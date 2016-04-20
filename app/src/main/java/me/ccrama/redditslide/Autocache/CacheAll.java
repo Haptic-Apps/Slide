@@ -20,6 +20,8 @@ public class CacheAll extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         c = context;
         if (NetworkUtil.isConnectedNoOverride(c)) {
+            if (Reddit.cachedData.getBoolean("wifiOnly", false))
+                if (!NetworkUtil.isConnectedWifi(context)) return;
             for (String s : Reddit.cachedData.getString("toCache", "").split(",")) {
                 if (!s.isEmpty()) {
                     new CommentCacheAsync(c, s, false).execute();

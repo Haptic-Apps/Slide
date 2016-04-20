@@ -2,7 +2,9 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,7 +42,17 @@ public class ManageHistory extends BaseActivityAnim {
                 finish();
             }
         });
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.wifi);
 
+            single.setChecked(Reddit.cachedData.getBoolean("wifiOnly", false));
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    Reddit.cachedData.edit().putBoolean("wifiOnly", isChecked).apply();
+                }
+            });
+        }
         updateBackup();
         updateFilters();
 

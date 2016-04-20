@@ -31,16 +31,20 @@ public class UserSubscriptions {
     public static SharedPreferences subscriptions;
 
     public static void doMainActivitySubs(MainActivity c) {
-        String s = subscriptions.getString(Authentication.name, "");
-        if (s.isEmpty()) {
-            //get online subs
-            c.updateSubs(syncSubscriptionsOverwrite(c));
-        } else {
-            ArrayList<String> subredditsForHome = new ArrayList<>();
-            for (String s2 : s.split(",")) {
-                subredditsForHome.add(s2.toLowerCase());
+        if(NetworkUtil.isConnected(c)) {
+            String s = subscriptions.getString(Authentication.name, "");
+            if (s.isEmpty()) {
+                //get online subs
+                c.updateSubs(syncSubscriptionsOverwrite(c));
+            } else {
+                ArrayList<String> subredditsForHome = new ArrayList<>();
+                for (String s2 : s.split(",")) {
+                    subredditsForHome.add(s2.toLowerCase());
+                }
+                c.updateSubs(subredditsForHome);
             }
-            c.updateSubs(subredditsForHome);
+        } else {
+            c.updateSubs(OfflineSubreddit.getAllFormatted());
         }
     }
 
