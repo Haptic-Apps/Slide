@@ -461,7 +461,7 @@ public class MainActivity extends BaseActivity {
             });
         }
         final SharedPreferences seen = getSharedPreferences("SEEN", 0);
-        if(!seen.contains("isCleared")){
+        if(!seen.contains("isCleared") && !seen.getAll().isEmpty()){
 
             new AsyncTask<Void, Void, Void>() {
                 @Override
