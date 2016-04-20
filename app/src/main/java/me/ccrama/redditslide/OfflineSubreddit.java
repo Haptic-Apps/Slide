@@ -305,7 +305,4 @@ public class OfflineSubreddit {
         }
         return keys;
     }
-    public static void deleteAll(String name) {
-        Reddit.cachedData.edit().remove(name).apply();
-    }
 }

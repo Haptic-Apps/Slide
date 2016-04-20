@@ -44,7 +44,26 @@ public class UserSubscriptions {
                 c.updateSubs(subredditsForHome);
             }
         } else {
-            c.updateSubs(OfflineSubreddit.getAllFormatted());
+            String s = subscriptions.getString(Authentication.name, "");
+            ArrayList<String> subredditsForHome = new ArrayList<>();
+            if (!s.isEmpty()) {
+                for (String s2 : s.split(",")) {
+                    subredditsForHome.add(s2.toLowerCase());
+                }
+            }
+            ArrayList<String> finals = new ArrayList<>();
+            ArrayList<String> offline = OfflineSubreddit.getAllFormatted();
+            for(String subs : subredditsForHome){
+                if(offline.contains(subs)){
+                    finals.add(subs);
+                }
+            }
+            for(String subs : offline){
+                if(!finals.contains(subs)){
+                    finals.add(subs);
+                }
+            }
+            c.updateSubs(finals);
         }
     }
 
