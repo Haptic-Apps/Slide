@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.rey.material.app.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +26,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
-import me.ccrama.redditslide.Views.TimePickerDialog;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 
@@ -121,8 +121,10 @@ public class ManageHistory extends BaseActivityAnim {
         findViewById(R.id.autocache_time_touch).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final TimePickerDialog d = new TimePickerDialog(ManageHistory.this);
                 d.hour(Reddit.cachedData.getInt("hour", 0));
+                d.applyStyle(new ColorPreferences(ManageHistory.this).getFontStyle().getBaseId());
                 d.minute(Reddit.cachedData.getInt("minute", 0));
                 d.positiveAction("SET");
                 TypedValue typedValue = new TypedValue();
@@ -133,6 +135,7 @@ public class ManageHistory extends BaseActivityAnim {
                 int font = typedValue.data;
 
                 d.backgroundColor(color);
+
                 d.actionTextColor(getResources().getColor(new ColorPreferences(ManageHistory.this).getFontStyle().getColor()));
                 d.titleColor(font);
                 d.positiveActionClickListener(new View.OnClickListener() {

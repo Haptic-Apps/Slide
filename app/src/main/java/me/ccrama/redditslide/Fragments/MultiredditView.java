@@ -35,6 +35,7 @@ import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -349,6 +350,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(List<Submission> submissions, final int startIndex) {
+        LastComments.setCommentsSince(submissions);
         adapter.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {

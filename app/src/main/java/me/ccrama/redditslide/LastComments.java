@@ -1,23 +1,41 @@
 package me.ccrama.redditslide;
 
 import com.lusfold.androidkeyvaluestore.KVStore;
+import com.lusfold.androidkeyvaluestore.core.KVManger;
 
 import net.dean.jraw.models.Submission;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by ccrama on 7/19/2015.
  */
 public class LastComments {
 
-    public static int commentsSince(Submission s) {
+    public static HashMap<String, Integer> commentsSince;
 
-        if (!KVStore.getInstance().getByContains("comments" + s.getFullName()).isEmpty()) {
-            return s.getCommentCount() - Integer.valueOf(KVStore.getInstance().get("comments" + s.getFullName()));
+    public static void setCommentsSince(List<Submission> submissions) {
+        if (commentsSince == null) {
+            commentsSince = new HashMap<>();
         }
+        KVManger m = KVStore.getInstance();
+        for (Submission s : submissions) {
+            String fullname = s.getFullName();
+            if (!m.getByContains("comments" + s.getFullName()).isEmpty()) {
+                commentsSince.put(fullname, s.getCommentCount() - Integer.valueOf(m.get("comments" + fullname)));
+            }
+        }
+    }
+
+    public static int commentsSince(Submission s) {
+        if (commentsSince != null && commentsSince.containsKey(s.getFullName()))
+            return commentsSince.get(s.getFullName());
         return 0;
     }
 
     public static void setComments(Submission s) {
         KVStore.getInstance().insertOrUpdate("comments" + s.getFullName(), String.valueOf(s.getCommentCount()));
+        commentsSince.put(s.getFullName(), s.getCommentCount());
     }
 }

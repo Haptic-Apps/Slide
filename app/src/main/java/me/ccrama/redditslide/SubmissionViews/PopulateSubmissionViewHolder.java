@@ -1452,6 +1452,7 @@ public class PopulateSubmissionViewHolder {
         holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
         SpannableStringBuilder titleString = new SpannableStringBuilder();
         titleString.append(Html.fromHtml(submission.getTitle()));
+
         if (submission.isStickied()) {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.submission_stickied).toUpperCase() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -1837,7 +1838,6 @@ public class PopulateSubmissionViewHolder {
             if(!full)
             holder.body.setAlpha(1f);
         }
-
     }
 
     private void setViews(String rawHTML, String subredditName, SubmissionViewHolder holder) {

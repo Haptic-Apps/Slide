@@ -2507,7 +2507,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public int hideNumber(CommentNode n, int i) {
-        for (CommentNode ignored : n.walkTree()) {
+        for (CommentNode ignored : n.getChildren()) {
             if (!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
 
                 String fullname = ignored.getComment().getFullName();
