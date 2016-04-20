@@ -23,6 +23,7 @@ import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -72,7 +73,10 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
             @Override
             public void onPageSelected(int position) {
-                HasSeen.addSeen(subredditPosts.getPosts().get(position).getFullName());
+                if (SettingValues.storeHistory) {
+                    if (subredditPosts.getPosts().get(position).isNsfw() && !SettingValues.storeNSFWHistory) {
+                    } else HasSeen.addSeen(subredditPosts.getPosts().get(position).getFullName());
+                }
             }
 
             @Override

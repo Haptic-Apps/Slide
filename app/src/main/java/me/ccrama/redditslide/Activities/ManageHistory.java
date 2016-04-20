@@ -1,8 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -17,6 +19,7 @@ import java.util.Calendar;
 import java.util.Collections;
 
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -110,6 +113,16 @@ public class ManageHistory extends BaseActivityAnim {
                 d.hour(Reddit.cachedData.getInt("hour", 0));
                 d.minute(Reddit.cachedData.getInt("minute", 0));
                 d.positiveAction("SET");
+                TypedValue typedValue = new TypedValue();
+                Resources.Theme theme = getTheme();
+                theme.resolveAttribute(R.attr.activity_background, typedValue, true);
+                int color = typedValue.data;
+                theme.resolveAttribute(R.attr.font, typedValue, true);
+                int font = typedValue.data;
+
+                d.backgroundColor(color);
+                d.actionTextColor(getResources().getColor(new ColorPreferences(ManageHistory.this).getFontStyle().getColor()));
+                d.titleColor(font);
                 d.positiveActionClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -126,7 +139,6 @@ public class ManageHistory extends BaseActivityAnim {
         });
 
     }
-
 
 
     public void updateTime() {

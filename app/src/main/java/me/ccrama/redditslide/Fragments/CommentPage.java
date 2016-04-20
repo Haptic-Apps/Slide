@@ -73,6 +73,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * Fragment which displays comment trees.
@@ -585,7 +586,7 @@ public class CommentPage extends Fragment {
         } else {
             Submission s = null;
             try {
-                s = OfflineSubreddit.getSubmissionFromStorage(fullname.contains("_")?fullname:"t3_" + fullname, getContext(), true, new ObjectMapper().reader() );
+                s = OfflineSubreddit.getSubmissionFromStorage(fullname.contains("_")?fullname:"t3_" + fullname, getContext(), !NetworkUtil.isConnected(getActivity()), new ObjectMapper().reader() );
             } catch (IOException e) {
                 e.printStackTrace();
             }

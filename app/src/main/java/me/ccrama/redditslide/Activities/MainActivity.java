@@ -502,24 +502,37 @@ public class MainActivity extends BaseActivity {
 
 
     public void updateSubs(ArrayList<String> subs) {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        if (loader != null) {
-            header.setVisibility(View.VISIBLE);
-
-            setDataSet(subs);
-
-            doDrawer();
-            try {
-                setDataSet(subs);
-            } catch (Exception e) {
-
-            }
-            loader.finish();
-            loader = null;
+        if(subs.isEmpty() && !NetworkUtil.isConnected(this)) {
+            d = new MaterialDialog.Builder(MainActivity.this)
+                    .title("No offline content found")
+                    .positiveText("Enter online mode")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            Reddit.appRestart.edit().remove("forceoffline").apply();
+                            ((Reddit) getApplication()).forceRestart(MainActivity.this);
+                        }
+                    }).show();
         } else {
-            setDataSet(subs);
-            doDrawer();
+            drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+            if (loader != null) {
+                header.setVisibility(View.VISIBLE);
+
+                setDataSet(subs);
+
+                doDrawer();
+                try {
+                    setDataSet(subs);
+                } catch (Exception e) {
+
+                }
+                loader.finish();
+                loader = null;
+            } else {
+                setDataSet(subs);
+                doDrawer();
+            }
         }
     }
 
@@ -781,7 +794,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void setDataSet(List<String> data) {
-        if (data != null) {
+        if (data != null && !data.isEmpty()) {
             usedArray = data;
             if (adapter == null) {
                 if (commentPager && singleMode) {
@@ -825,7 +838,7 @@ public class MainActivity extends BaseActivity {
             doSubSidebar(usedArray.get(toGoto));
 
 
-        } else {
+        } else if(NetworkUtil.isConnected(this))  {
             UserSubscriptions.doMainActivitySubs(this);
         }
 
