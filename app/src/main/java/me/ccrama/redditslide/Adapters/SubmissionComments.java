@@ -25,6 +25,7 @@ import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -204,7 +205,7 @@ public class SubmissionComments {
 
                 comments = new ArrayList<>();
                 HashMap<Integer, MoreChildItem> waiting = new HashMap<>();
-
+                boolean online = NetworkUtil.isConnected(page.getActivity());
 
                 for (CommentNode n : baseComment.walkTree()) {
 
@@ -224,7 +225,7 @@ public class SubmissionComments {
 
                     comments.add(obj);
 
-                    if (n.hasMoreComments()) {
+                    if (n.hasMoreComments() && online) {
                         waiting.put(n.getDepth(), new MoreChildItem(n, n.getMoreChildren()));
                     }
                 }

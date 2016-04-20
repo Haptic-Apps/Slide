@@ -287,8 +287,6 @@ public class Album extends FullScreenActivity  implements FolderChooserDialog.Fo
             } else {
                 Album.this.gallery = LoadIntoRecycler.this.gallery;
                 images = new ArrayList<>(jsonElements);
-                if (getSupportActionBar() != null)
-                    getSupportActionBar().setSubtitle(1 + "/" + images.size());
                 AlbumView adapter = new AlbumView(baseActivity, images, false, findViewById(R.id.toolbar).getHeight());
                 recyclerView.setAdapter(adapter);
 

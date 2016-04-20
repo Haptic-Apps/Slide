@@ -1,10 +1,13 @@
 package me.ccrama.redditslide;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v7.app.NotificationCompat;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -33,65 +36,77 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
     public CommentCacheAsync(List<Submission> submissions, Context c, String subreddit) {
         alreadyReceived = submissions;
         this.context = c;
-        this.sub = subreddit;
+        this.subs = new String[]{subreddit};
         this.modal = true;
     }
-    String sub;
+    String[] subs;
 
     Context context;
     NotificationCompat.Builder mBuilder;
     MaterialDialog dialog;
     boolean modal;
 
-    public CommentCacheAsync(Context c, String subreddit, boolean modal) {
+    public CommentCacheAsync(Context c, String[] subreddits, boolean modal) {
         this.context = c;
-        this.sub = subreddit;
+        this.subs = subreddits;
         this.modal = modal;
     }
 
-    @Override
-    protected void onPreExecute() {
-        if(modal){
-            dialog = new MaterialDialog.Builder(context).title("Caching /r/" + sub)
-                    .progress(false, 50)
-                    .cancelable(false)
-                    .show();
-        } else {
-            mNotifyManager =
-                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            mBuilder = new NotificationCompat.Builder(context);
-            mBuilder.setContentTitle("Caching /r/" + sub)
-                    .setSmallIcon(R.drawable.save);
-        }
-    }
 
     @Override
     protected Void doInBackground(String... params) {
 
+        for(final String sub : subs) {
+            if (!sub.isEmpty()) {
 
-        ArrayList<Submission> submissions = new ArrayList<>();
-        ArrayList<String> newFullnames = new ArrayList<>();
-        int count = 0;
-        if (alreadyReceived != null) {
-            submissions.addAll(alreadyReceived);
-        } else {
-            SubredditPaginator p = new SubredditPaginator(Authentication.reddit, sub);
-            p.setLimit(50);
-            submissions.addAll(p.next());
-        }
+                ((Activity) context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (modal) {
+                            dialog = new MaterialDialog.Builder(context).title("Caching /r/" + sub)
+                                    .progress(false, 50)
+                                    .cancelable(false)
+                                    .positiveText(R.string.btn_cancel)
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            CommentCacheAsync.this.cancel(true);
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            mNotifyManager =
+                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                            mBuilder = new NotificationCompat.Builder(context);
+                            mBuilder.setContentTitle("Caching /r/" + sub)
+                                    .setSmallIcon(R.drawable.save);
+                        }
+                    }
+                });
+                ArrayList<Submission> submissions = new ArrayList<>();
+                ArrayList<String> newFullnames = new ArrayList<>();
+                int count = 0;
+                if (alreadyReceived != null) {
+                    submissions.addAll(alreadyReceived);
+                } else {
+                    SubredditPaginator p = new SubredditPaginator(Authentication.reddit, sub);
+                    p.setLimit(50);
+                    submissions.addAll(p.next());
+                }
 
-       if(!modal) {
-           mBuilder.setProgress(submissions.size(), 0, false);
-           mNotifyManager.notify(1, mBuilder.build());
-       } else {
-           dialog.setMaxProgress(submissions.size());
-       }
-        for (final Submission s : submissions) {
-            try {
-                JsonNode n = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
-                Submission s2 = SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
-                OfflineSubreddit.writeSubmission(n, s2, context);
-                newFullnames.add(s2.getFullName());
+                if (!modal) {
+                    mBuilder.setProgress(submissions.size(), 0, false);
+                    mNotifyManager.notify(1, mBuilder.build());
+                } else {
+                    dialog.setMaxProgress(submissions.size());
+                }
+                for (final Submission s : submissions) {
+                    try {
+                        JsonNode n = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
+                        Submission s2 = SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
+                        OfflineSubreddit.writeSubmission(n, s2, context);
+                        newFullnames.add(s2.getFullName());
                 /* todo maybe
                 switch (ContentType.getContentType(s)) {
                     case GIF:
@@ -104,26 +119,28 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                             AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
                         break;
                 }*/
-            } catch (Exception e) {
-            }
-            count++;
-            if(modal){
-                dialog.setProgress(count);
-            } else {
-                mBuilder.setProgress(submissions.size(), count, false);
-                mNotifyManager.notify(1, mBuilder.build());
-            }
+                    } catch (Exception e) {
+                    }
+                    count++;
+                    if (modal) {
+                        dialog.setProgress(count);
+                    } else {
+                        mBuilder.setProgress(submissions.size(), count, false);
+                        mNotifyManager.notify(1, mBuilder.build());
+                    }
 
+                }
+                if (modal) {
+                    dialog.dismiss();
+                } else {
+                    mBuilder.setContentText("Caching complete")
+                            // Removes the progress bar
+                            .setProgress(0, 0, false);
+                    mNotifyManager.notify(1, mBuilder.build());
+                }
+                OfflineSubreddit.newSubreddit(sub).writeToMemory(newFullnames);
+            }
         }
-        if(modal){
-            dialog.dismiss();
-        } else {
-            mBuilder.setContentText("Caching complete")
-                    // Removes the progress bar
-                    .setProgress(0, 0, false);
-            mNotifyManager.notify(1, mBuilder.build());
-        }
-        OfflineSubreddit.newSubreddit(sub).writeToMemory(newFullnames);
         return null;
     }
 

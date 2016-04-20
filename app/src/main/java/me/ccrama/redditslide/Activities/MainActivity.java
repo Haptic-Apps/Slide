@@ -1564,15 +1564,15 @@ public class MainActivity extends BaseActivity {
                     ((Reddit) getApplication()).forceRestart(MainActivity.this);
                 }
             });
-            header.findViewById(R.id.manage).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(MainActivity.this, ManageHistory.class);
-                    startActivity(i);
-                }
-            });
-        }
 
+        }
+        header.findViewById(R.id.manage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, ManageHistory.class);
+                startActivity(i);
+            }
+        });
         if (Authentication.didOnline) {
 
             View support = header.findViewById(R.id.support);

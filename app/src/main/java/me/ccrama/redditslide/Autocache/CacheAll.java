@@ -22,11 +22,8 @@ public class CacheAll extends BroadcastReceiver {
         if (NetworkUtil.isConnectedNoOverride(c)) {
             if (Reddit.cachedData.getBoolean("wifiOnly", false))
                 if (!NetworkUtil.isConnectedWifi(context)) return;
-            for (String s : Reddit.cachedData.getString("toCache", "").split(",")) {
-                if (!s.isEmpty()) {
-                    new CommentCacheAsync(c, s, false).execute();
-                }
-            }
+            new CommentCacheAsync(c, Reddit.cachedData.getString("toCache", "").split(","), false).execute();
+
         }
     }
 }

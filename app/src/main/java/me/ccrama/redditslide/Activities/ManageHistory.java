@@ -20,11 +20,13 @@ import java.util.Collections;
 
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 
 /**
@@ -45,6 +47,16 @@ public class ManageHistory extends BaseActivityAnim {
                 finish();
             }
         });
+        if(NetworkUtil.isConnectedNoOverride(this)) {
+            findViewById(R.id.sync_now).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new CommentCacheAsync(ManageHistory.this, Reddit.cachedData.getString("toCache", "").split(","), true).execute();
+                }
+            });
+        } else {
+            findViewById(R.id.sync_now).setVisibility(View.GONE);
+        }
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.wifi);
 
