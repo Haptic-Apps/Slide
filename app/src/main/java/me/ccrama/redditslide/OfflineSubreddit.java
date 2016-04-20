@@ -299,7 +299,7 @@ public class OfflineSubreddit {
     public static ArrayList<String> getAllFormatted() {
         ArrayList<String> keys = new ArrayList<>();
         for (String s : Reddit.cachedData.getAll().keySet()) {
-            if (s.contains(",")) {
+            if (s.contains(",") && !keys.contains(s.substring(0, s.indexOf(",")))) {
                 keys.add(s.substring(0, s.indexOf(",")));
             }
         }
