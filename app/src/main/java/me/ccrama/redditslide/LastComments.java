@@ -22,7 +22,7 @@ public class LastComments {
         KVManger m = KVStore.getInstance();
         for (Submission s : submissions) {
             String fullname = s.getFullName();
-            if (!m.getByContains("comments" + s.getFullName()).isEmpty()) {
+            if (!m.getByContains("comments" + fullname).isEmpty()) {
                 commentsSince.put(fullname, s.getCommentCount() - Integer.valueOf(m.get("comments" + fullname)));
             }
         }
@@ -30,7 +30,7 @@ public class LastComments {
 
     public static int commentsSince(Submission s) {
         if (commentsSince != null && commentsSince.containsKey(s.getFullName()))
-            return commentsSince.get(s.getFullName());
+            return s.getCommentCount() - commentsSince.get(s.getFullName());
         return 0;
     }
 
