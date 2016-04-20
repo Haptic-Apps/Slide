@@ -185,7 +185,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="New Submission"
             android:theme="@style/swipeable"
-            android:windowSoftInputMode="adjustNothing">
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 

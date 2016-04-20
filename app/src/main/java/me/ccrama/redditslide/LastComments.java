@@ -18,6 +18,6 @@ public class LastComments {
     }
 
     public static void setComments(Submission s) {
-        KVStore.getInstance().insert("comments" + s.getFullName(), String.valueOf(s.getCommentCount()));
+        KVStore.getInstance().insertOrUpdate("comments" + s.getFullName(), String.valueOf(s.getCommentCount()));
     }
 }

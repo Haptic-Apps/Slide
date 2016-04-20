@@ -259,7 +259,7 @@ public class SubredditPosts implements PostLoader {
         @Override
         protected List<Submission> doInBackground(String... subredditPaginators) {
 
-            if (!NetworkUtil.isConnected(context)) {
+            if (!NetworkUtil.isConnected(context) && !Authentication.didOnline) {
                 Log.v(LogUtil.getTag(), "Using offline data");
                 offline = true;
                 usedOffline = true;

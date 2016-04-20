@@ -14,6 +14,7 @@ public class Slide extends Activity {
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         if(!hasStarted){
+            hasStarted = true;
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
         }

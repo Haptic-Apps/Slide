@@ -66,6 +66,7 @@ import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.FlairTemplate;
+import net.dean.jraw.models.MoreChildren;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
@@ -1625,8 +1626,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         // If a comment is hidden and (Swap long press == true), then a single click will un-hide the comment
         // and expand to show all children comments
         if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE && !isReplying) {
-            unhideAll(baseNode, holder.getAdapterPosition() + 1);
             hiddenPersons.remove(n.getFullName());
+            unhideAll(baseNode, holder.getAdapterPosition() + 1);
             toCollapse.remove(n.getFullName());
             hideChildrenObject(holder.children);
             holder.firstTextView.setVisibility(View.VISIBLE);
@@ -2352,8 +2353,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 isHolder.itemView.findViewById(R.id.menu).setVisibility(View.GONE);
             } else {
                 if (hiddenPersons.contains(comment.getFullName())) {
-                    unhideAll(baseNode, holder.getAdapterPosition() + 1);
                     hiddenPersons.remove(comment.getFullName());
+                    unhideAll(baseNode, holder.getAdapterPosition() + 1);
                     toCollapse.remove(comment.getFullName());
                     hideChildrenObject(holder.children);
                     holder.firstTextView.setVisibility(View.VISIBLE);
@@ -2452,31 +2453,47 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
+    public boolean parentHidden(CommentNode n) {
+        n = n.getParent();
+        while (n != null && n.getDepth() > 0) {
+            String name = n.getComment().getFullName();
+            if (hiddenPersons.contains(name) || hidden.contains(name)) {
+                return true;
+            }
+            n = n.getParent();
+        }
+        return false;
+    }
+
     public int unhideNumber(CommentNode n, int i) {
-        for (CommentNode ignored : n.walkTree()) {
+        for (CommentNode ignored : n.getChildren()) {
+
             if (!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
+                boolean parentHidden = parentHidden(ignored);
+
+                if (parentHidden) continue;
+
                 String name = ignored.getComment().getFullName();
-                if (hiddenPersons.contains(name)) {
-                    hiddenPersons.remove(name);
-                }
-                if (hidden.contains(name)) {
+
+                if (hidden.contains(name) || hiddenPersons.contains(name)) {
                     hidden.remove(name);
                     i++;
-                }
-                if (ignored.getMoreChildren() != null) {
-                    name = name + "more";
-                    if (hiddenPersons.contains(name)) {
-                        hiddenPersons.remove(name);
+                    if (!hiddenPersons.contains(name))
+                        toCollapse.remove(name);
+                    if (ignored.hasMoreComments()&& !hiddenPersons.contains(name)) {
+                        name = name + "more";
+                        if (hidden.contains(name)) {
+                            hidden.remove(name);
+                            toCollapse.remove(name);
+                            i++;
+                        }
                     }
-                    if (hidden.contains(name)) {
-                        hidden.remove(name);
-                        i++;
-                    }
                 }
+
                 i += unhideNumber(ignored, 0);
             }
         }
-        if (n.hasMoreComments()) {
+        if (n.hasMoreComments() && !parentHidden(n) && !hiddenPersons.contains(n.getComment().getFullName())) {
             String fullname = n.getComment().getFullName() + "more";
 
             if (hidden.contains(fullname)) {
@@ -2484,6 +2501,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 hidden.remove(fullname);
 
             }
+
         }
         return i;
     }
@@ -2493,9 +2511,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
 
                 String fullname = ignored.getComment().getFullName();
-                if (hiddenPersons.contains(fullname)) {
-                    hiddenPersons.remove(fullname);
-                }
+
                 if (!hidden.contains(fullname)) {
                     i++;
                     hidden.add(fullname);
@@ -2512,14 +2528,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 i += hideNumber(ignored, 0);
             }
-            if (n.hasMoreComments()) {
-                String fullname = n.getComment().getFullName() + "more";
 
-                if (!hidden.contains(fullname)) {
-                    i++;
-                    hidden.add(fullname);
+        }
+        if (n.hasMoreComments()) {
+            String fullname = n.getComment().getFullName() + "more";
+            if (!hidden.contains(fullname)) {
+                i++;
+                hidden.add(fullname);
 
-                }
             }
         }
         return i;

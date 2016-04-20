@@ -359,13 +359,23 @@ public class MainActivity extends BaseActivity {
                                     Reddit.appRestart.edit().putString("title", s.getTitle()).apply();
                                     Reddit.appRestart.edit().putString("url", s.getUrl()).apply();
 
-                                    Snackbar.make(pager, s.getTitle(), Snackbar.LENGTH_INDEFINITE).setAction(R.string.btn_changelog, new View.OnClickListener() {
+                                    String title;
+                                    if(s.getTitle().toLowerCase().contains("release")){
+                                        title = getString(R.string.btn_changelog);
+                                    } else {
+                                        title = getString(R.string.btn_view);
+                                    }
+                                    Snackbar snack = Snackbar.make(pager, s.getTitle(), Snackbar.LENGTH_INDEFINITE).setAction(title, new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             Intent i = new Intent(MainActivity.this, Announcement.class);
                                             startActivity(i);
                                         }
-                                    }).show();
+                                    });
+                                    View view = snack.getView();
+                                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                    tv.setTextColor(Color.WHITE);
+                                    snack.show();
                                 }
                             }
                         }.execute();

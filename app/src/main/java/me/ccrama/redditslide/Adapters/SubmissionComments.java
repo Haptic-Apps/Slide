@@ -50,23 +50,42 @@ public class SubmissionComments {
         if (s.getComments() != null) {
             submission = s;
             CommentNode baseComment = s.getComments();
+            boolean online = NetworkUtil.isConnected(page.getActivity());
             comments = new ArrayList<>();
+            HashMap<Integer, MoreChildItem> waiting = new HashMap<>();
 
             for (CommentNode n : baseComment.walkTree()) {
 
                 CommentObject obj = new CommentItem(n);
+                ArrayList<Integer> removed = new ArrayList<>();
+                Map<Integer, MoreChildItem> map = new TreeMap<>(Collections.reverseOrder());
+                map.putAll(waiting);
+
+                for (Integer i : map.keySet()) {
+                    if (i >= n.getDepth()) {
+                        comments.add(waiting.get(i));
+                        removed.add(i);
+                        waiting.remove(i);
+
+                    }
+                }
 
                 comments.add(obj);
 
-
-                if (n.hasMoreComments()) {
-
-                    comments.add(new MoreChildItem(n, n.getMoreChildren()));
+                if (n.hasMoreComments() && online) {
+                    waiting.put(n.getDepth(), new MoreChildItem(n, n.getMoreChildren()));
                 }
             }
-            if (baseComment.hasMoreComments()) {
+            Map<Integer, MoreChildItem> map = new TreeMap<>(Collections.reverseOrder());
+            map.putAll(waiting);
+            for (Integer i : map.keySet()) {
+                comments.add(waiting.get(i));
+                waiting.remove(i);
+            }
+            if (baseComment.hasMoreComments() && online) {
                 comments.add(new MoreChildItem(baseComment, baseComment.getMoreChildren()));
             }
+
             if (adapter != null) {
                 adapter.notifyDataSetChanged();
             }
@@ -106,18 +125,20 @@ public class SubmissionComments {
         mLoadData = new LoadData(true);
         mLoadData.execute(fullName);
     }
+
     public void loadMoreReply(CommentAdapter adapter) {
         this.adapter = adapter;
         adapter.currentSelectedItem = context;
         mLoadData = new LoadData(false);
         mLoadData.execute(fullName);
     }
+
     public void loadMoreReplyTop(CommentAdapter adapter, String context) {
         this.adapter = adapter;
         adapter.currentSelectedItem = context;
         mLoadData = new LoadData(true);
         mLoadData.execute(fullName);
-        if(context == null || context.isEmpty()) {
+        if (context == null || context.isEmpty()) {
             Snackbar s = Snackbar.make(page.rv, "Comment submitted", Snackbar.LENGTH_SHORT);
             View view = s.getView();
             TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -125,6 +146,7 @@ public class SubmissionComments {
             s.show();
         }
     }
+
     public void loadMore(CommentAdapter adapter, String subreddit, boolean forgetPlace) {
         adapter.currentSelectedItem = "";
         this.adapter = adapter;
@@ -205,7 +227,6 @@ public class SubmissionComments {
 
                 comments = new ArrayList<>();
                 HashMap<Integer, MoreChildItem> waiting = new HashMap<>();
-                boolean online = NetworkUtil.isConnected(page.getActivity());
 
                 for (CommentNode n : baseComment.walkTree()) {
 
@@ -225,15 +246,15 @@ public class SubmissionComments {
 
                     comments.add(obj);
 
-                    if (n.hasMoreComments() && online) {
+                    if (n.hasMoreComments()) {
                         waiting.put(n.getDepth(), new MoreChildItem(n, n.getMoreChildren()));
                     }
                 }
                 Map<Integer, MoreChildItem> map = new TreeMap<>(Collections.reverseOrder());
                 map.putAll(waiting);
                 for (Integer i : map.keySet()) {
-                        comments.add(waiting.get(i));
-                        waiting.remove(i);
+                    comments.add(waiting.get(i));
+                    waiting.remove(i);
                 }
                 if (baseComment.hasMoreComments()) {
                     comments.add(new MoreChildItem(baseComment, baseComment.getMoreChildren()));
