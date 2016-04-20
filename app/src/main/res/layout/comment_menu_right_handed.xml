@@ -91,7 +91,8 @@
             android:textColorHint="#fff"
             android:imeOptions="actionDone|flagNoEnterAction"
             android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
-            android:minHeight="30dp" />
+            android:minHeight="30dp"
+            android:theme="@style/ReplyEditTextTheme"/>
 
         <include
             layout="@layout/editor_items"/>

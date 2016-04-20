@@ -36,6 +36,13 @@
         <item name="android:background">@color/transparent</item>
     </style>
 
+    <!-- When replying or editing a comment, tint the EditText bar -->
+    <style name="ReplyEditTextTheme">
+        <item name="android:colorControlNormal">?attr/tint</item>
+        <item name="android:colorControlActivated">?attr/tint</item>
+        <item name="android:colorControlHighlight">?attr/tint</item>
+    </style>
+
     <style name="spinnerItemStyle">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
