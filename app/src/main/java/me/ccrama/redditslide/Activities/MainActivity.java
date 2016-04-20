@@ -54,7 +54,6 @@ import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -1509,7 +1508,7 @@ public class MainActivity extends BaseActivity {
                                     Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).remove("backedCreds").commit();
                                 } else {
                                     ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                                    Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).remove("backedCreds").commit();
+                                    Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).remove("backedCreds").apply();
                                 }
                                 Authentication.isLoggedIn = true;
                                 Authentication.name = accName;
@@ -1763,62 +1762,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-
-    public void chooseAccounts(boolean cancelable) {
-
-        final HashMap<String, String> accounts = new HashMap<>();
-
-        for (String s : Authentication.authentication.getStringSet("accounts", new HashSet<String>())) {
-            if (s.contains(":")) {
-                accounts.put(s.split(":")[0], s.split(":")[1]);
-            } else {
-
-                accounts.put(s, "");
-            }
-        }
-        final ArrayList<String> keys = new ArrayList<>(accounts.keySet());
-        if (keys.size() == 0) {
-            Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").commit();
-
-            Reddit.forceRestart(this, true);
-        } else {
-            new AlertDialogWrapper.Builder(MainActivity.this)
-                    .setTitle(R.string.profile_manage_accounts)
-                    .setCancelable(cancelable)
-                    .setAdapter(new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_expandable_list_item_1, keys), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(final DialogInterface dialog, final int which) {
-                            new AlertDialogWrapper.Builder(MainActivity.this)
-                                    .setTitle(R.string.profile_remove)
-                                    .setMessage(R.string.profile_remove_account)
-                                    .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog2, int which2) {
-                                            Set<String> accounts2 = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
-                                            Set<String> done = new HashSet<>();
-                                            for (String s : accounts2) {
-                                                if (!s.contains(keys.get(which))) {
-                                                    done.add(s);
-                                                }
-                                            }
-                                            Authentication.authentication.edit().putStringSet("accounts", done).commit();
-                                            dialog.dismiss();
-                                            dialog2.dismiss();
-
-
-                                            chooseAccounts(false);
-
-                                        }
-                                    })
-                                    .setPositiveButton(R.string.btn_cancel, null).show();
-
-
-                        }
-                    }).show();
-        }
-
-
-    }
 
     public void resetAdapter() {
         if (UserSubscriptions.hasSubs())
