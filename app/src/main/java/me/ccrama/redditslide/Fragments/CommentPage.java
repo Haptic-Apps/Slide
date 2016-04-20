@@ -32,12 +32,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
+
+import java.io.IOException;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
@@ -560,29 +563,41 @@ public class CommentPage extends Fragment {
             comments.setSorting(commentSorting);
             adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
             rv.setAdapter(adapter);
-        } else if (getActivity() instanceof MainActivity && Authentication.didOnline) {
-            comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-            Submission s = ((MainActivity) getActivity()).openingComments;
-            if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
-                commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
-            } else if (s != null) {
-                commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
+        } else if (getActivity() instanceof MainActivity) {
+            if (Authentication.didOnline) {
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
+                Submission s = ((MainActivity) getActivity()).openingComments;
+                if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
+                    commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
+                } else if (s != null) {
+                    commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
+                }
+                comments.setSorting(commentSorting);
+                adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                rv.setAdapter(adapter);
+            } else {
+                Submission s = ((MainActivity) getActivity()).openingComments;
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
+                adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                rv.setAdapter(adapter);
+
             }
-            comments.setSorting(commentSorting);
-            adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-            rv.setAdapter(adapter);
         } else {
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit(baseSubreddit);
-            if (o != null && o.submissions.size() > 0 && o.submissions.size() > page && o.submissions.get(page).getComments() != null) {
-                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, o.submissions.get(page));
-                if (o.submissions.size() > 0)
-                    adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
+            Submission s = null;
+            try {
+                s = OfflineSubreddit.getSubmissionFromStorage(fullname.contains("_")?fullname:"t3_" + fullname, getContext(), true, new ObjectMapper().reader() );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (s != null && s.getComments() != null) {
+                comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
+                adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
                 rv.setAdapter(adapter);
             } else if (context.isEmpty()) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
                 comments.setSorting(commentSorting);
-                if (o != null && o.submissions.size() > 0)
-                    adapter = new CommentAdapter(this, comments, rv, o.submissions.get(page), getFragmentManager());
+                if (s != null)
+                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
                 rv.setAdapter(adapter);
             } else {
                 if (context.equals(Reddit.EMPTY_STRING)) {
@@ -854,7 +869,7 @@ public class CommentPage extends Fragment {
     }
 
     private void goDown() {
-        ((View) toolbar.getParent()).setTranslationY(- ((View) toolbar.getParent()).getHeight());
+        ((View) toolbar.getParent()).setTranslationY(-((View) toolbar.getParent()).getHeight());
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
         if (adapter.users != null && adapter.users.size() > 0) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {

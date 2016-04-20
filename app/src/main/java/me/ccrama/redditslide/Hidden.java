@@ -22,7 +22,7 @@ public class Hidden {
             protected Void doInBackground(Void[] params) {
                 try {
                     new AccountManager(Authentication.reddit).hide(true, (Submission)s);
-                } catch (ApiException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;
@@ -37,7 +37,7 @@ public class Hidden {
             protected Void doInBackground(Void[] params) {
                 try {
                     new AccountManager(Authentication.reddit).hide(false, (Submission)s);
-                } catch (ApiException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 return null;

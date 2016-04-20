@@ -22,11 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.dean.jraw.models.Submission;
 
@@ -42,14 +39,12 @@ import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -241,7 +236,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         } else {
             mLayoutManager = new PreCachingLayoutManager(getActivity());
-
         }
 
         if (!(getActivity() instanceof SubredditView)) {
@@ -441,8 +435,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if (posts == null || (posts != null && !posts.offline))
-                    mSwipeRefreshLayout.setRefreshing(true);
+                mSwipeRefreshLayout.setRefreshing(true);
             }
         });
 
@@ -464,7 +457,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if (posts == null || (posts != null && !posts.offline))
                     mSwipeRefreshLayout.setRefreshing(true);
             }
         });
@@ -488,7 +480,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
             List<Submission> originalDataSetPosts = adapter.dataSet.posts;
 
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit(id.toLowerCase());
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit(id.toLowerCase(), false, getActivity());
             for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
                 try {
                     if (HasSeen.getSeen(adapter.dataSet.posts.get(i))) {
@@ -509,7 +501,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
-            o.writeToMemory();
+            o.writeToMemory(getActivity());
             rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
             return originalDataSetPosts;
         }
@@ -575,44 +567,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             });
 
-            //  loadImages(submissions);
-        }
-    }
-
-    private void loadImages(List<Submission> submissions) {
-        for (Submission s : submissions) {
-            ContentType.Type type = ContentType.getContentType(s);
-
-            String url = "";
-
-            ImageLoadingListener l = new SimpleImageLoadingListener();
-
-            if (type == ContentType.Type.IMAGE) {
-                url = s.getUrl();
-                if (SettingValues.bigPicEnabled) {
-                    ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-                } else {
-                    if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
-                        ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
-                    }
-                }
-            } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
-                url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                if (SettingValues.bigPicEnabled) {
-                    ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-                } else if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
-                    ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
-                }
-            } else if (s.getThumbnail() != null && (s.getThumbnailType() == Submission.ThumbnailType.URL || s.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
-                if ((s.getThumbnailType() == Submission.ThumbnailType.NSFW) || s.getThumbnailType() == Submission.ThumbnailType.URL) {
-                    if (SettingValues.bigPicEnabled) {
-                        ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-                    } else if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
-                        ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
-                    }
-                }
-            }
-
         }
     }
 
@@ -626,7 +580,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         if (this.isAdded()) {
             if (mSwipeRefreshLayout != null) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(mSwipeRefreshLayout.getContext(), getString(R.string.offline_last_update, TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext())), Toast.LENGTH_SHORT).show();
             }
             adapter.notifyDataSetChanged();
         }

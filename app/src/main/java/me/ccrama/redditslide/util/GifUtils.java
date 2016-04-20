@@ -581,8 +581,6 @@ public class GifUtils {
                                                                                                                           .setCallback(new FutureCallback<JsonObject>() {
                                                                                                                                            @Override
                                                                                                                                            public void onCompleted(Exception e, final JsonObject result) {
-                                                                                                                                               if (result.has("error")) {
-                                                                                                                                               }
                                                                                                                                                if (progressBar != null)
                                                                                                                                                    progressBar.setIndeterminate(false);
                                                                                                                                                new AsyncTask<Void, Void, Void>() {

@@ -115,7 +115,7 @@ public class HistoryPosts extends GeneralPosts {
                     Map<String,String> values = KVStore.getInstance().getByContains("");
                     for (String value : values.keySet()) {
                         Object done;
-                        if(value.equals("true") || value.equals("false")){
+                        if(values.get(value).equals("true") || values.get(value).equals("false")){
                             done = Boolean.valueOf(values.get(value));
                         } else {
                             done = Long.valueOf(values.get(value));

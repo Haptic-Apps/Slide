@@ -68,15 +68,10 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.lusfold.androidkeyvaluestore.core.KVManger;
 
-import net.dean.jraw.http.NetworkException;
-import net.dean.jraw.http.RestResponse;
-import net.dean.jraw.http.SubmissionRequest;
 import net.dean.jraw.managers.AccountManager;
-import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.LoggedInAccount;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
@@ -85,7 +80,6 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
-import net.dean.jraw.util.JrawUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,13 +93,13 @@ import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -121,8 +115,6 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.AlbumUtils;
-import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -469,7 +461,7 @@ public class MainActivity extends BaseActivity {
             });
         }
         final SharedPreferences seen = getSharedPreferences("SEEN", 0);
-        if(!seen.contains("isCleared")){
+        if(!seen.contains("isCleared") && !seen.getAll().isEmpty()){
 
             new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -1383,6 +1375,13 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
+            header.findViewById(R.id.offline).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
+                    Reddit.forceRestart(MainActivity.this);
+                }
+            });
             header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1531,7 +1530,13 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
-
+            header.findViewById(R.id.offline).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
+                    Reddit.forceRestart(MainActivity.this);
+                }
+            });
             headerMain = header;
 
         } else {
@@ -1543,7 +1548,15 @@ public class MainActivity extends BaseActivity {
             header.findViewById(R.id.online).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Reddit.appRestart.edit().remove("forceoffline").apply();
                     ((Reddit) getApplication()).forceRestart(MainActivity.this);
+                }
+            });
+            header.findViewById(R.id.manage).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(MainActivity.this, ManageHistory.class);
+                    startActivity(i);
                 }
             });
         }
@@ -1655,7 +1668,7 @@ public class MainActivity extends BaseActivity {
         if (accountsArea != null)
             accountsArea.setBackgroundColor(Palette.getDarkerColor("alsdkfjasld"));
 
-        setDrawerSubList();
+            setDrawerSubList();
     }
     @Override
     public void onDestroy() {
@@ -1905,10 +1918,14 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        if (SettingValues.expandedToolbar) {
-            inflater.inflate(R.menu.menu_subreddit_overview_expanded, menu);
+        if(NetworkUtil.isConnected(this)) {
+            if (SettingValues.expandedToolbar) {
+                inflater.inflate(R.menu.menu_subreddit_overview_expanded, menu);
+            } else {
+                inflater.inflate(R.menu.menu_subreddit_overview, menu);
+            }
         } else {
-            inflater.inflate(R.menu.menu_subreddit_overview, menu);
+            inflater.inflate(R.menu.menu_subreddit_overview_offline, menu);
         }
         return true;
     }
@@ -2185,55 +2202,7 @@ public class MainActivity extends BaseActivity {
                 }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                final MaterialDialog d = new MaterialDialog.Builder(MainActivity.this).title(R.string.offline_caching)
-                        .progress(false, submissions.size())
-                        .cancelable(true)
-                        .negativeText(R.string.btn_cancel)
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                caching.cancel(true);
-                            }
-                        })
-                        .show();
-                caching = new AsyncTask<Void, Void, Void>() {
-                    @Override
-                    protected Void doInBackground(Void... params) {
-
-                        String newSubmissions = System.currentTimeMillis() + "<SEPARATOR>";
-
-                        int count = 0;
-                        for (final Submission s : submissions) {
-
-                            JsonNode s2 = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
-                            if (s2 != null) {
-                                newSubmissions = newSubmissions + (s2.toString() + "<SEPARATOR>");
-                                switch (ContentType.getContentType(s)) {
-                                    case GIF:
-                                        if (chosen[0])
-                                            GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
-                                        break;
-                                    case ALBUM:
-                                        if (chosen[1])
-
-                                            AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
-                                        break;
-                                }
-                            } else {
-                                d.setMaxProgress((d.getMaxProgress() - 1));
-                            }
-                            count++;
-                            d.setProgress(count);
-                            if (d.getCurrentProgress() == d.getMaxProgress()) {
-                                d.cancel();
-
-                                OfflineSubreddit.getSubreddit(subreddit).overwriteSubmissions(newSubmissions);
-
-                            }
-                        }
-                        return null;
-                    }
-                }.execute();
+                caching = new CommentCacheAsync(submissions, MainActivity.this, subreddit).execute();
             }
 
         }).show();
@@ -2241,34 +2210,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public JsonNode getSubmission(SubmissionRequest request) throws NetworkException {
-        Map<String, String> args = new HashMap<>();
-        if (request.getDepth() != null)
-            args.put("depth", Integer.toString(request.getDepth()));
-        if (request.getContext() != null)
-            args.put("context", Integer.toString(request.getContext()));
-        if (request.getLimit() != null)
-            args.put("limit", Integer.toString(request.getLimit()));
-        if (request.getFocus() != null && !JrawUtils.isFullname(request.getFocus()))
-            args.put("comment", request.getFocus());
-
-        CommentSort sort = request.getSort();
-        if (sort == null)
-            // Reddit sorts by confidence by default
-            sort = CommentSort.CONFIDENCE;
-        args.put("sort", sort.name().toLowerCase());
-
-        try {
-
-            RestResponse response = Authentication.reddit.execute(Authentication.reddit.request()
-                    .path(String.format("/comments/%s", request.getId()))
-                    .query(args)
-                    .build());
-            return response.getJson();
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
     public static boolean checkedPopups;
 
@@ -2385,8 +2326,8 @@ public class MainActivity extends BaseActivity {
                     SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                     if (page != null && page.adapter != null) {
                         SubredditPosts p = page.adapter.dataSet;
-                        if (p.offline && p.cached != null) {
-                            Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
+                        if (p.offline) {
+                            p.doMainActivityOffline(p.displayer);
                         }
                     }
 
@@ -2715,6 +2656,10 @@ public class MainActivity extends BaseActivity {
                         Reddit.notifications = new NotificationJobScheduler(MainActivity.this);
                         Reddit.notifications.start(getApplicationContext());
                     }
+                    if(Reddit.cachedData.contains("toCache")){
+                        Reddit.autoCache = new AutoCacheScheduler(MainActivity.this);
+                        Reddit.autoCache.start(getApplicationContext());
+                    }
                     final String name = me.getFullName();
                     Authentication.name = name;
                     LogUtil.v("AUTHENTICATED");
@@ -2744,7 +2689,7 @@ public class MainActivity extends BaseActivity {
         protected void onPostExecute(Void aVoid) {
 
 
-            if (Authentication.mod && headerMain.findViewById(R.id.mod).getVisibility() == View.GONE) {
+            if (Authentication.mod ) {
                 headerMain.findViewById(R.id.mod).setVisibility(View.VISIBLE);
                 headerMain.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
                     @Override
