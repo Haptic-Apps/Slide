@@ -41,13 +41,6 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <!-- When replying or editing a comment, tint the EditText bar -->
-    <style name="ReplyEditTextTheme">
-        <item name="android:colorControlNormal">?attr/tint</item>
-        <item name="android:colorControlActivated">?attr/tint</item>
-        <item name="android:colorControlHighlight">?attr/tint</item>
-    </style>
-
 
     <style name="white_amoled" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_blue_grey_200</item>
@@ -99,7 +92,6 @@
 
     <style name="amber_dark" parent="Theme.DARK">
         <item name="colorAccent">@color/md_amber_A700</item>
-        <item name="android:editTextStyle">@style/ReplyEditTextTheme</item>
     </style>
 
     <style name="blue_dark" parent="Theme.DARK">

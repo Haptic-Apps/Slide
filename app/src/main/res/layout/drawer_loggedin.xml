@@ -61,36 +61,67 @@
         android:background="?attr/activity_background"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/add"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:textColor="#fff"
-            android:orientation="horizontal"
-            android:paddingStart="18dp"
-            android:text="@string/drawer_add_account"
-            android:textSize="14sp" />
-        <TextView
+        <LinearLayout
             android:id="@+id/offline"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="48dp"
             android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:textColor="#fff"
             android:orientation="horizontal"
-            android:paddingStart="18dp"
-            android:text="Go offline"
-            android:textSize="14sp" />
+            android:paddingStart="0dp">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="26dp"
+                android:layout_marginStart="16dp"
+                android:tint="#fff"
+                app:srcCompat="@drawable/offline" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/go_offline"
+
+                android:textColor="?attr/font"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/add"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+            android:paddingStart="0dp">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="26dp"
+                android:layout_marginStart="16dp"
+                android:tint="#fff"
+                app:srcCompat="@drawable/add" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/drawer_add_account"
+
+                android:textColor="?attr/font"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="0dp">
-    </LinearLayout>
+        android:paddingStart="0dp"></LinearLayout>
 
     <RelativeLayout
         android:id="@+id/prof_click"
@@ -260,10 +291,10 @@
         android:id="@+id/mod"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:visibility="gone"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
-        android:paddingStart="0dp">
+        android:paddingStart="0dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/mo"
@@ -337,47 +368,47 @@
         android:weightSum="5">
 
         <RelativeLayout
-            android:layout_width="match_parent"
             android:id="@+id/base"
-            android:orientation="horizontal"
-            android:paddingStart="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
             android:background="?android:selectableItemBackground"
-            android:layout_height="56dp">
+            android:orientation="horizontal"
+            android:paddingStart="24dp">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:tint="?attr/card_background"
-                android:src="@drawable/circle" />
+                android:src="@drawable/circle"
+                android:tint="?attr/card_background" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:layout_marginStart="36dp"
-                android:text="@string/theme_base"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:textSize="14sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="36dp"
+                android:gravity="center_vertical"
                 android:paddingStart="8dp"
-                android:layout_height="wrap_content" />
+                android:text="@string/theme_base"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="match_parent"
-            android:text="Data saving mode"
             android:layout_height="56dp"
-            android:textSize="14sp"
+            android:paddingEnd="24dp"
             android:paddingStart="24dp"
-            android:paddingEnd="24dp" />
+            android:text="Data saving mode"
+            android:textSize="14sp" />
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="match_parent"
-            android:text="Right hand thumbnail mode"
             android:layout_height="56dp"
-            android:textSize="14sp"
+            android:paddingEnd="24dp"
             android:paddingStart="24dp"
-            android:paddingEnd="24dp" />
+            android:text="Right hand thumbnail mode"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -495,12 +526,12 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="2dp"
             android:gravity="center"
-            android:visibility="gone"
             android:padding="14dp"
             android:textSize="14sp"
             android:textStyle="bold"
             android:theme="@style/Ripple.List"
             android:tint="?attr/tint"
+            android:visibility="gone"
             app:srcCompat="@drawable/down" />
     </RelativeLayout>
 

@@ -262,11 +262,13 @@ public class DoEditorActions {
 
                 final EditText titleBox = new EditText(editText.getContext());
                 titleBox.setHint(R.string.editor_url);
+                titleBox.setEnabled(true);
                 titleBox.setTextColor(ta.getColor(0, Color.WHITE));
                 layout.addView(titleBox);
 
                 final EditText descriptionBox = new EditText(editText.getContext());
                 descriptionBox.setHint(R.string.editor_text);
+                descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
                 layout.addView(descriptionBox);
                 layout.setPadding(16, 16, 16, 16);
@@ -345,11 +347,14 @@ public class DoEditorActions {
                 final TextView titleBox = new TextView(editText.getContext());
                 titleBox.setText(url);
                 layout.addView(titleBox);
+                titleBox.setEnabled(false);
                 titleBox.setTextColor(ta.getColor(0, Color.WHITE));
 
                 final EditText descriptionBox = new EditText(editText.getContext());
                 descriptionBox.setHint(R.string.editor_title);
+                descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
+
 
                 ta.recycle();
                 layout.setPadding(16, 16, 16, 16);

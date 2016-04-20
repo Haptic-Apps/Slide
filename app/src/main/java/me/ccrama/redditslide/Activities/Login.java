@@ -23,6 +23,7 @@ import net.dean.jraw.http.oauth.Credentials;
 import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
+import net.dean.jraw.models.LoggedInAccount;
 import net.dean.jraw.models.Subreddit;
 
 import java.util.ArrayList;
@@ -184,8 +185,9 @@ public class Login extends BaseActivityAnim {
                     String refreshToken = Authentication.reddit.getOAuthData().getRefreshToken();
                     SharedPreferences.Editor editor = Authentication.authentication.edit();
                     Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
-                    accounts.add(Authentication.reddit.me().getFullName());
-                    Authentication.name = Authentication.reddit.me().getFullName();
+                    LoggedInAccount me = Authentication.reddit.me();
+                    accounts.add(me.getFullName() + ":" + refreshToken);
+                    Authentication.name = me.getFullName();
                     editor.putStringSet("accounts", accounts);
                     Set<String> tokens = Authentication.authentication.getStringSet("tokens", new HashSet<String>());
                     tokens.add(refreshToken);

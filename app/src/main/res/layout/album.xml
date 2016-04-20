@@ -14,6 +14,7 @@
 
         android:id="@+id/images"
         android:layout_width="match_parent"
+        android:scrollbars="vertical"
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp" />
