@@ -41,10 +41,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
 
-        super.onCreate(savedInstance);
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
 
-        applyDarkColorTheme(subreddit);
         setContentView(R.layout.activity_slide);
 
         firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, 0);
@@ -56,6 +54,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
             subredditPosts = new SubredditPosts(subreddit, Shadowbox.this);
         }
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
+        applyDarkColorTheme(subreddit);
+        super.onCreate(savedInstance);
 
         submissions = OfflineSubreddit.getSubreddit(subreddit, 0l, !Authentication.didOnline, this);
 
