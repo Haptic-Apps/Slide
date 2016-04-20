@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.animation.LinearInterpolator;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -96,6 +97,25 @@ public class Discover extends BaseActivityAnim {
         pager = (ViewPager) findViewById(R.id.content_view);
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                findViewById(R.id.header).animate()
+                        .translationY(0)
+                        .setInterpolator(new LinearInterpolator())
+                        .setDuration(180);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 

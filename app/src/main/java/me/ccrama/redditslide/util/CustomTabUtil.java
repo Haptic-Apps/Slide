@@ -79,6 +79,9 @@ public class CustomTabUtil {
      * @return corrected as a Uri
      */
     public static Uri formatURL(String url) {
+        if(url.startsWith("/") && !url.startsWith("//")){
+            url = "https://reddit.com" + url;
+        }
         if (url.startsWith("//")) {
             url = url + "https:";
         }

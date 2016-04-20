@@ -177,7 +177,7 @@ public class ManageHistory extends BaseActivityAnim {
                     @Override
                     public void onClick(View v) {
                         domains.remove(name);
-                        OfflineSubreddit.deleteAll(name);
+                        OfflineSubreddit.deleteAll(s);
                         updateFilters();
                     }
                 });
