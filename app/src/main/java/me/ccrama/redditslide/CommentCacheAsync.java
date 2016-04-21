@@ -3,13 +3,18 @@ package me.ccrama.redditslide;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.NotificationCompat;
+import android.text.Html;
+import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.http.RestResponse;
@@ -25,6 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.ccrama.redditslide.util.NetworkUtil;
+
 /**
  * Created by carlo_000 on 4/18/2016.
  */
@@ -39,6 +46,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
         this.subs = new String[]{subreddit};
         this.modal = true;
     }
+
     String[] subs;
 
     Context context;
@@ -52,11 +60,114 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
         this.modal = modal;
     }
 
+    public void loadPhotos(Submission submission, Context c) {
+        String url;
+        ContentType.Type type = ContentType.getContentType(submission);
+        if (submission.getThumbnails() != null) {
+
+            if (type == ContentType.Type.IMAGE || type == ContentType.Type.SELF || (submission.getThumbnailType() == Submission.ThumbnailType.URL)) {
+                if (type == ContentType.Type.IMAGE) {
+                    if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null && submission.getThumbnails().getVariations().length > 0) {
+
+                        int length = submission.getThumbnails().getVariations().length;
+                        url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
+
+                    } else {
+                        if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                            url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                        } else {
+                            url = submission.getUrl();
+                        }
+                    }
+
+
+                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(url, new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+
+                        }
+                    });
+
+                } else if (submission.getThumbnails() != null) {
+
+                    if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails().getVariations().length != 0) {
+
+                        int length = submission.getThumbnails().getVariations().length;
+                        url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
+
+                    } else {
+                        url = Html.fromHtml(submission.getThumbnails().getSource().getUrl()).toString(); //unescape url characters
+                    }
+
+                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(url, new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+
+                        }
+                    });
+
+                } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+
+                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(submission.getUrl(), new ImageLoadingListener() {
+                        @Override
+                        public void onLoadingStarted(String imageUri, View view) {
+
+                        }
+
+                        @Override
+                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+
+                        }
+
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                        }
+
+                        @Override
+                        public void onLoadingCancelled(String imageUri, View view) {
+
+                        }
+                    });
+                }
+            }
+        }
+    }
 
     @Override
     protected Void doInBackground(String... params) {
 
-        for(final String sub : subs) {
+        for (final String sub : subs) {
             if (!sub.isEmpty()) {
 
                 ((Activity) context).runOnUiThread(new Runnable() {
@@ -79,7 +190,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                             mNotifyManager =
                                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                             mBuilder = new NotificationCompat.Builder(context);
-                            mBuilder.setContentTitle("Caching " + (sub.equalsIgnoreCase("frontpage")?"":"/r/") + sub)
+                            mBuilder.setContentTitle("Caching " + (sub.equalsIgnoreCase("frontpage") ? "" : "/r/") + sub)
                                     .setSmallIcon(R.drawable.save);
                         }
                     }
@@ -92,10 +203,10 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                 } else {
 
                     SubredditPaginator p;
-                    if(sub.equalsIgnoreCase("frontpage")){
-                        p =new SubredditPaginator(Authentication.reddit);
+                    if (sub.equalsIgnoreCase("frontpage")) {
+                        p = new SubredditPaginator(Authentication.reddit);
                     } else {
-                        p =new SubredditPaginator(Authentication.reddit, sub);
+                        p = new SubredditPaginator(Authentication.reddit, sub);
                     }
                     p.setLimit(25);
                     submissions.addAll(p.next());
@@ -105,8 +216,8 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                     mBuilder.setProgress(submissions.size(), 0, false);
                     mNotifyManager.notify(1, mBuilder.build());
                 } else {
-                    if(dialog != null)
-                    dialog.setMaxProgress(submissions.size());
+                    if (dialog != null)
+                        dialog.setMaxProgress(submissions.size());
                 }
                 for (final Submission s : submissions) {
                     try {
@@ -114,6 +225,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                         Submission s2 = SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
                         OfflineSubreddit.writeSubmission(n, s2, context);
                         newFullnames.add(s2.getFullName());
+                        loadPhotos(s, context);
                 /* todo maybe
                 switch (ContentType.getContentType(s)) {
                     case GIF:
@@ -145,6 +257,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                             .setProgress(0, 0, false);
                     mNotifyManager.notify(1, mBuilder.build());
                 }
+
                 OfflineSubreddit.newSubreddit(sub).writeToMemory(newFullnames);
             }
         }
