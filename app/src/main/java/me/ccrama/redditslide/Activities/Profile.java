@@ -154,6 +154,7 @@ public class Profile extends BaseActivityAnim {
 
             }
         });
+
         if (getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name))
             pager.setCurrentItem(6);
         if (getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name))
@@ -191,6 +192,7 @@ public class Profile extends BaseActivityAnim {
             }
             return;
         }
+
         findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

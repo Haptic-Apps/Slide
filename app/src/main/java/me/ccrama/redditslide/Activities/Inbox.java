@@ -49,44 +49,46 @@ public class Inbox extends BaseActivityAnim {
         return true;
     }
 
-    boolean changed;
+    private boolean changed;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == android.R.id.home) {
-            onBackPressed();
-        }
-        if (id == R.id.notifs) {
-            LayoutInflater inflater = getLayoutInflater();
-            final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
-            SettingsGeneral.setupNotificationSettings(dialoglayout, Inbox.this);
-        }
-        if (id == R.id.compose) {
-            Intent i = new Intent(Inbox.this, Sendmessage.class);
-            startActivity(i);
-        }
-        if (id == R.id.read) {
-            changed = false;
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    try {
-                        new InboxManager(Authentication.reddit).setAllRead();
-                        changed = true;
-                    } catch (Exception ignored) {
-                        ignored.printStackTrace();
+        switch (item.getItemId()) {
+            case (R.id.home):
+                onBackPressed();
+                break;
+            case (R.id.notifs):
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialoglayout = inflater.inflate(R.layout.inboxfrequency, null);
+                SettingsGeneral.setupNotificationSettings(dialoglayout, Inbox.this);
+                break;
+            case (R.id.compose):
+                Intent i = new Intent(Inbox.this, Sendmessage.class);
+                startActivity(i);
+                break;
+            case (R.id.read):
+                changed = false;
+                new AsyncTask<Void, Void, Void>() {
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        try {
+                            new InboxManager(Authentication.reddit).setAllRead();
+                            changed = true;
+                        } catch (Exception ignored) {
+                            ignored.printStackTrace();
+                        }
+                        return null;
                     }
-                    return null;
-                }
 
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    if (changed)
-                        adapter.notifyDataSetChanged();
-                }
-            }.execute();
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        if (changed) {
+                            //TODO, refresh InboxPage fragment
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }.execute();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -124,6 +126,12 @@ public class Inbox extends BaseActivityAnim {
                         .translationY(0)
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
+                if (position == 3) {
+                    findViewById(R.id.read).setVisibility(View.GONE);
+                } else {
+                    findViewById(R.id.read).setVisibility(View.VISIBLE);
+                }
+
             }
 
             @Override
@@ -131,6 +139,7 @@ public class Inbox extends BaseActivityAnim {
 
             }
         });
+
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -146,6 +155,7 @@ public class Inbox extends BaseActivityAnim {
                         Reddit.notifications = new NotificationJobScheduler(Inbox.this);
                         Reddit.notifications.start(getApplicationContext());
                     }
+
                     if (Reddit.cachedData.contains("toCache")) {
                         Reddit.autoCache = new AutoCacheScheduler(Inbox.this);
                         Reddit.autoCache.start(getApplicationContext());
@@ -154,12 +164,13 @@ public class Inbox extends BaseActivityAnim {
                     final String name = Authentication.me.getFullName();
                     Authentication.name = name;
                     LogUtil.v("AUTHENTICATED");
+
                     if (Authentication.reddit.isAuthenticated()) {
                         final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
                         if (accounts.contains(name)) { //convert to new system
                             accounts.remove(name);
                             accounts.add(name + ":" + Authentication.refresh);
-                            Authentication.authentication.edit().putStringSet("accounts", accounts).commit(); //force commit
+                            Authentication.authentication.edit().putStringSet("accounts", accounts).apply(); //force commit
                         }
                         Authentication.isLoggedIn = true;
                         Reddit.notFirst = true;
@@ -168,43 +179,32 @@ public class Inbox extends BaseActivityAnim {
                 return null;
             }
         }.execute();
-
-
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
-
         }
 
         @Override
         public Fragment getItem(int i) {
-
             Fragment f = new InboxPage();
+
             Bundle args = new Bundle();
-
             args.putString("id", ContentGrabber.InboxValue.values()[i].getWhereName());
-
             f.setArguments(args);
 
             return f;
-
-
         }
-
 
         @Override
         public int getCount() {
             return ContentGrabber.InboxValue.values().length;
         }
 
-
         @Override
         public CharSequence getPageTitle(int position) {
             return getString(ContentGrabber.InboxValue.values()[position].getDisplayName());
         }
     }
-
 }
