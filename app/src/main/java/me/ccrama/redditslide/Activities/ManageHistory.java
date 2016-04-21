@@ -124,7 +124,7 @@ public class ManageHistory extends BaseActivityAnim {
 
                 final TimePickerDialog d = new TimePickerDialog(ManageHistory.this);
                 d.hour(Reddit.cachedData.getInt("hour", 0));
-                d.applyStyle(new ColorPreferences(ManageHistory.this).getFontStyle().getBaseId());
+                d.applyStyle(new ColorPreferences(ManageHistory.this).getDarkThemeSubreddit(""));
                 d.minute(Reddit.cachedData.getInt("minute", 0));
                 d.positiveAction("SET");
                 TypedValue typedValue = new TypedValue();
@@ -132,12 +132,8 @@ public class ManageHistory extends BaseActivityAnim {
                 theme.resolveAttribute(R.attr.activity_background, typedValue, true);
                 int color = typedValue.data;
                 theme.resolveAttribute(R.attr.font, typedValue, true);
-                int font = typedValue.data;
-
                 d.backgroundColor(color);
-
                 d.actionTextColor(getResources().getColor(new ColorPreferences(ManageHistory.this).getFontStyle().getColor()));
-                d.titleColor(font);
                 d.positiveActionClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

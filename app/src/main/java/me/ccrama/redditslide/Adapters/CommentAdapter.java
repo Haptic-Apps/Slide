@@ -2478,8 +2478,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (hidden.contains(name) || hiddenPersons.contains(name)) {
                     hidden.remove(name);
                     i++;
-                    if (!hiddenPersons.contains(name))
-                        toCollapse.remove(name);
+
                     if (ignored.hasMoreComments()&& !hiddenPersons.contains(name)) {
                         name = name + "more";
                         if (hidden.contains(name)) {
