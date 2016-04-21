@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/activity_background">
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/content_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        />
+        android:layout_height="match_parent" />
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/header"
@@ -31,16 +25,13 @@
             android:layout_height="wrap_content"
             android:background="#00000000"
             android:clipToPadding="false">
-
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/sliding_tabs"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
             android:background="#00000000" />
-
     </android.support.design.widget.AppBarLayout>
 </FrameLayout>
 

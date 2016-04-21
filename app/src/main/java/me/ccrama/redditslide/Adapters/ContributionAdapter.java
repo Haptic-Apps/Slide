@@ -191,7 +191,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                    LayoutInflater inflater = mContext.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
@@ -363,7 +363,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             if (comment.getSubredditName() != null) {
                 String subname = comment.getSubredditName();
-                SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + subname + " ");
+                SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname);
                 if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
                     subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
