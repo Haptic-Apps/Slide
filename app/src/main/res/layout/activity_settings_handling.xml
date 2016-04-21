@@ -16,7 +16,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <RelativeLayout
                 android:id="@+id/select_browser"
                 android:layout_width="match_parent"
@@ -49,7 +48,6 @@
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
-
             </RelativeLayout>
 
             <View
@@ -93,7 +91,6 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
 
             <View
@@ -137,7 +134,6 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
 
             <View
@@ -145,7 +141,6 @@
                 android:layout_height="0.25dp"
                 android:alpha=".25"
                 android:background="?attr/tint" />
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -182,7 +177,6 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
 
             <RelativeLayout
@@ -195,7 +189,6 @@
                     android:layout_height="0.25dp"
                     android:alpha=".25"
                     android:background="?attr/tint" />
-
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -220,7 +213,6 @@
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
                     </LinearLayout>
-
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -229,7 +221,6 @@
                 android:layout_height="0.25dp"
                 android:alpha=".25"
                 android:background="?attr/tint" />
-
 
             <RelativeLayout
                 android:id="@+id/custom_handling"
@@ -262,13 +253,14 @@
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
-
             </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:descendantFocusability="beforeDescendants"
             android:orientation="vertical">
 
             <LinearLayout
@@ -276,7 +268,6 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingBottom="8dp">
-
 
                 <LinearLayout
                     android:id="@+id/domainlist"
@@ -292,13 +283,11 @@
                     android:layout_marginStart="12dp"
                     android:hint="@string/settings_handling_enterdomain"
                     android:imeOptions="actionDone"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font"
                     android:inputType="textUri"
-                    android:singleLine="true"
-                    android:textSize="14sp" />
-
-
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
 </ScrollView>
