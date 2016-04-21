@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.animation.LinearInterpolator;
 
 import net.dean.jraw.managers.InboxManager;
@@ -37,6 +38,8 @@ import me.ccrama.redditslide.util.LogUtil;
 public class Inbox extends BaseActivityAnim {
 
     public Inbox.OverviewPagerAdapter adapter;
+    private TabLayout tabs;
+    private ViewPager pager;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,15 +85,43 @@ public class Inbox extends BaseActivityAnim {
 
                     @Override
                     protected void onPostExecute(Void aVoid) {
-                        if (changed) {
-                            //TODO, refresh InboxPage fragment
+                        if (changed) { //restart the fragment
                             adapter.notifyDataSetChanged();
+
+                            final int CURRENT_TAB = tabs.getSelectedTabPosition();
+                            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                            pager.setAdapter(adapter);
+                            tabs.setupWithViewPager(pager);
+
+                            scrollToTabAfterLayout(CURRENT_TAB);
+                            pager.setCurrentItem(CURRENT_TAB);
                         }
                     }
                 }.execute();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Method to scroll the TabLayout to a specific index
+     * @param tabPosition index to scroll to
+     */
+    private void scrollToTabAfterLayout(final int tabPosition) {
+        if (tabs != null) {
+            final ViewTreeObserver observer = tabs.getViewTreeObserver();
+
+            if (observer.isAlive()) {
+                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
+                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        tabs.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        tabs.getTabAt(tabPosition).select();
+                    }
+                });
+            }
+        }
     }
 
     @Override
@@ -103,11 +134,11 @@ public class Inbox extends BaseActivityAnim {
         setupAppBar(R.id.toolbar, R.string.title_inbox, true, true);
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
-        TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabs.setSelectedTabIndicatorColor(new ColorPreferences(Inbox.this).getColor("no sub"));
 
-        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
+        pager = (ViewPager) findViewById(R.id.content_view);
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
@@ -131,7 +162,6 @@ public class Inbox extends BaseActivityAnim {
                 } else {
                     findViewById(R.id.read).setVisibility(View.VISIBLE);
                 }
-
             }
 
             @Override
