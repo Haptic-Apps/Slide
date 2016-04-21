@@ -120,10 +120,11 @@ public class ContentType {
             if (!scheme.equals("http") && !scheme.equals("https")) {
                 return Type.EXTERNAL;
             }
-            if (!PostMatch.openExternal(url) && Reddit.videoPlugin && ((host.contains("youtu.be") || host.contains("youtube.co")))) {
-                return Type.VIDEO;
-            } else if (PostMatch.openExternal(url)) {
+            if (PostMatch.openExternal(url)) {
                 return Type.EXTERNAL;
+            }
+            if (Reddit.videoPlugin && ((host.contains("youtu.be") || host.contains("youtube.co")))) {
+                return Type.VIDEO;
             }
             if (isGif(uri)) {
                 return Type.GIF;
@@ -140,7 +141,6 @@ public class ContentType {
             if (isRedditLink(uri)) {
                 return Type.REDDIT;
             }
-
             if (host.endsWith("vid.me")) {
                 return Type.VID_ME;
             }
