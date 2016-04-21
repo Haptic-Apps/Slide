@@ -80,7 +80,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int notificationTime;
     public static boolean videoPlugin;
     public static NotificationJobScheduler notifications;
-    public static SharedPreferences hidden;
     public static boolean isLoading = false;
     public static long time = System.currentTimeMillis();
     public static boolean fabClear;
@@ -511,10 +510,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         tags = getSharedPreferences("TAGS", 0);
         KVStore.init(this, "SEEN");
 
-        hidden = getSharedPreferences("HIDDEN", 0);
         lastposition = new ArrayList<>();
-        Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
-
 
         new SetupIAB().execute();
 

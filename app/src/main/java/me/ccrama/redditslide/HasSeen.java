@@ -34,17 +34,4 @@ public class HasSeen {
             SynccitRead.visitedIds.add(fullname);
         }
     }
-
-    public static boolean getHidden(String fullname) {
-        return Reddit.hidden.contains(fullname);
-
-    }
-
-    public static void setHidden(String fullname) {
-        Reddit.hidden.edit().putBoolean(fullname, false).apply();
-    }
-
-    public static void undoHidden(String fullname) {
-        Reddit.hidden.edit().remove(fullname).apply();
-    }
 }

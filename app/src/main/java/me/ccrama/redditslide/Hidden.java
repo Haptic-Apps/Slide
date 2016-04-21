@@ -1,9 +1,7 @@
 package me.ccrama.redditslide;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
@@ -12,7 +10,6 @@ import net.dean.jraw.models.Submission;
  * Created by carlo_000 on 10/16/2015.
  */
 public class Hidden {
-    public static SharedPreferences hidden;
 
 
     public static void setHidden(final Contribution s) {
@@ -28,7 +25,6 @@ public class Hidden {
                 return null;
             }
         }.execute();
-        hidden.edit().putBoolean(s.getFullName(), true).apply();
     }
 
     public static void undoHidden(final Contribution s) {

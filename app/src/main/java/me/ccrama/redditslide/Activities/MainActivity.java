@@ -360,7 +360,7 @@ public class MainActivity extends BaseActivity {
                                     Reddit.appRestart.edit().putString("url", s.getUrl()).apply();
 
                                     String title;
-                                    if(s.getTitle().toLowerCase().contains("release")){
+                                    if (s.getTitle().toLowerCase().contains("release")) {
                                         title = getString(R.string.btn_changelog);
                                     } else {
                                         title = getString(R.string.btn_view);
@@ -462,12 +462,12 @@ public class MainActivity extends BaseActivity {
             });
         }
         final SharedPreferences seen = getSharedPreferences("SEEN", 0);
-        if(!seen.contains("isCleared") && !seen.getAll().isEmpty()){
+        if (!seen.contains("isCleared") && !seen.getAll().isEmpty()) {
 
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
-                    KVManger m =  KVStore.getInstance();
+                    KVManger m = KVStore.getInstance();
                     Map<String, ?> values = seen.getAll();
                     for (String value : values.keySet()) {
                         if (value.length() == 6 && values.get(value) instanceof Boolean) {
@@ -488,7 +488,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 protected void onPreExecute() {
-                     d = new MaterialDialog.Builder(MainActivity.this).title("Swapping databases...")
+                    d = new MaterialDialog.Builder(MainActivity.this).title("Swapping databases...")
                             .progress(true, 100)
                             .cancelable(false)
                             .build();
@@ -497,14 +497,17 @@ public class MainActivity extends BaseActivity {
             }.execute();
 
         }
-
+        if(getSharedPreferences("HIDDEN_POSTS", 0).getAll().size() != 0) {
+            getSharedPreferences("HIDDEN", 0).edit().clear().apply();
+            getSharedPreferences("HIDDEN_POSTS", 0).edit().clear().apply();
+        }
     }
 
     public Runnable runAfterLoad;
 
 
     public void updateSubs(ArrayList<String> subs) {
-        if(subs.isEmpty() && !NetworkUtil.isConnected(this)) {
+        if (subs.isEmpty() && !NetworkUtil.isConnected(this)) {
             d = new MaterialDialog.Builder(MainActivity.this)
                     .title("No offline content found")
                     .positiveText("Enter online mode")
@@ -840,7 +843,7 @@ public class MainActivity extends BaseActivity {
             doSubSidebar(usedArray.get(toGoto));
 
 
-        } else if(NetworkUtil.isConnected(this))  {
+        } else if (NetworkUtil.isConnected(this)) {
             UserSubscriptions.doMainActivitySubs(this);
         }
 
@@ -1682,19 +1685,22 @@ public class MainActivity extends BaseActivity {
         if (accountsArea != null)
             accountsArea.setBackgroundColor(Palette.getDarkerColor("alsdkfjasld"));
 
-            setDrawerSubList();
+        setDrawerSubList();
     }
+
     @Override
     public void onDestroy() {
         dismissProgressDialog();
         Slide.hasStarted = false;
         super.onDestroy();
     }
+
     private void dismissProgressDialog() {
         if (d != null && d.isShowing()) {
             d.dismiss();
         }
     }
+
     View accountsArea;
 
     SideArrayAdapter sideArrayAdapter;
@@ -1877,7 +1883,7 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
-        if(NetworkUtil.isConnected(this)) {
+        if (NetworkUtil.isConnected(this)) {
             if (SettingValues.expandedToolbar) {
                 inflater.inflate(R.menu.menu_subreddit_overview_expanded, menu);
             } else {
@@ -2109,7 +2115,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void filterContent(final String subreddit) {
-        final boolean[] chosen = new boolean[] {
+        final boolean[] chosen = new boolean[]{
                 PostMatch.isGif(subreddit),
                 PostMatch.isAlbums(subreddit),
                 PostMatch.isImage(subreddit),
@@ -2124,7 +2130,7 @@ public class MainActivity extends BaseActivity {
         new AlertDialogWrapper.Builder(this)
                 .setTitle(FILTER_TITLE)
                 .alwaysCallMultiChoiceCallback()
-                .setMultiChoiceItems(new String[] {
+                .setMultiChoiceItems(new String[]{
                         getString(R.string.type_gifs),
                         getString(R.string.type_albums),
                         getString(R.string.image_downloads),
@@ -2616,7 +2622,7 @@ public class MainActivity extends BaseActivity {
                         Reddit.notifications = new NotificationJobScheduler(MainActivity.this);
                         Reddit.notifications.start(getApplicationContext());
                     }
-                    if(Reddit.cachedData.contains("toCache")){
+                    if (Reddit.cachedData.contains("toCache")) {
                         Reddit.autoCache = new AutoCacheScheduler(MainActivity.this);
                         Reddit.autoCache.start(getApplicationContext());
                     }
@@ -2649,7 +2655,7 @@ public class MainActivity extends BaseActivity {
         protected void onPostExecute(Void aVoid) {
 
 
-            if (Authentication.mod ) {
+            if (Authentication.mod) {
                 headerMain.findViewById(R.id.mod).setVisibility(View.VISIBLE);
                 headerMain.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
                     @Override
