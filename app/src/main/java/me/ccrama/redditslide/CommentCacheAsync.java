@@ -79,7 +79,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                             mNotifyManager =
                                     (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                             mBuilder = new NotificationCompat.Builder(context);
-                            mBuilder.setContentTitle("Caching /r/" + sub)
+                            mBuilder.setContentTitle("Caching " + (sub.equalsIgnoreCase("frontpage")?"":"/r/") + sub)
                                     .setSmallIcon(R.drawable.save);
                         }
                     }
@@ -90,7 +90,13 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                 if (alreadyReceived != null) {
                     submissions.addAll(alreadyReceived);
                 } else {
-                    SubredditPaginator p = new SubredditPaginator(Authentication.reddit, sub);
+
+                    SubredditPaginator p;
+                    if(sub.equalsIgnoreCase("frontpage")){
+                        p =new SubredditPaginator(Authentication.reddit);
+                    } else {
+                        p =new SubredditPaginator(Authentication.reddit, sub);
+                    }
                     p.setLimit(50);
                     submissions.addAll(p.next());
                 }

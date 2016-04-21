@@ -462,7 +462,7 @@ public class MainActivity extends BaseActivity {
             });
         }
         final SharedPreferences seen = getSharedPreferences("SEEN", 0);
-        if (!seen.contains("isCleared") && !seen.getAll().isEmpty()) {
+        if (!seen.contains("isCleared") && !seen.getAll().isEmpty() || !Reddit.appRestart.contains("hasCleared")) {
 
             new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -477,6 +477,21 @@ public class MainActivity extends BaseActivity {
                         }
                     }
                     seen.edit().clear().putBoolean("isCleared", true).apply();
+                    if(getSharedPreferences("HIDDEN_POSTS", 0).getAll().size() != 0) {
+                        getSharedPreferences("HIDDEN", 0).edit().clear().apply();
+                        getSharedPreferences("HIDDEN_POSTS", 0).edit().clear().apply();
+                    }
+                    if(!Reddit.appRestart.contains("hasCleared")) {
+                        SharedPreferences.Editor e = Reddit.appRestart.edit();
+                        Map<String , ?> toClear = Reddit.appRestart.getAll();
+                        for (String s : toClear.keySet()) {
+                            if (toClear.get(s) instanceof  String && ((String)toClear.get(s)).length() > 300) {
+                                e.remove(s);
+                            }
+                        }
+                        e.putBoolean("hasCleared", true);
+                        e.apply();
+                    }
                     return null;
                 }
 
@@ -488,7 +503,8 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 protected void onPreExecute() {
-                    d = new MaterialDialog.Builder(MainActivity.this).title("Swapping databases...")
+                    d = new MaterialDialog.Builder(MainActivity.this).title("Setting some things up...")
+                            .content("Please don't leave this screen. Shouldn't take long!")
                             .progress(true, 100)
                             .cancelable(false)
                             .build();
@@ -497,20 +513,7 @@ public class MainActivity extends BaseActivity {
             }.execute();
 
         }
-        if(getSharedPreferences("HIDDEN_POSTS", 0).getAll().size() != 0) {
-            getSharedPreferences("HIDDEN", 0).edit().clear().apply();
-            getSharedPreferences("HIDDEN_POSTS", 0).edit().clear().apply();
-        }
-        if(!Reddit.appRestart.contains("hasCleared")) {
-            SharedPreferences.Editor e = Reddit.appRestart.edit();
-            for (String s : Reddit.appRestart.getAll().keySet()) {
-                if (Reddit.appRestart.getString(s, "").length() > 300) {
-                    e.remove(s);
-                }
-            }
-            e.putBoolean("hasCleared", true);
-            e.apply();
-        }
+
     }
 
     public Runnable runAfterLoad;
