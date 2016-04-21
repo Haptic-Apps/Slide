@@ -78,6 +78,8 @@ public class Login extends BaseActivityAnim {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 if (url.contains("code=")) {
                     Log.v(LogUtil.getTag(), "WebView URL: " + url);
+                    // Authentication code received, prevent HTTP call from being made.
+                    webView.stopLoading();
                     new UserChallengeTask(oAuthHelper, credentials).execute(url);
                     webView.setVisibility(View.GONE);
                 }
