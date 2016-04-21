@@ -358,6 +358,10 @@
         <item name="actionMenuTextColor">#DE000000</item>
         <item name="android:actionMenuTextColor">#DE000000</item>
         <item name="android:colorBackground">#dedede</item>
+
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
     </style>
 
     <style name="Theme.DARK" parent="swipestyle">
@@ -371,6 +375,10 @@
 
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
     </style>
 
     <style name="Theme.DARK_BLUE" parent="swipestyle">
@@ -386,6 +394,10 @@
 
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
     </style>
 
     <style name="Theme.AMOLED" parent="swipestyle">
@@ -401,6 +413,10 @@
 
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
     </style>
 
     <style name="Theme.AMOLED_lighter" parent="swipestyle">
@@ -416,6 +432,10 @@
 
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
     </style>
 
     <style name="ActionBarCompat">

@@ -170,6 +170,7 @@ public class Profile extends BaseActivityAnim {
             try {
                 new AlertDialogWrapper.Builder(Profile.this)
                         .setTitle(R.string.profile_err_title)
+                        .setCancelable(false)
                         .setMessage(R.string.profile_err_msg)
                         .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -178,6 +179,27 @@ public class Profile extends BaseActivityAnim {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         onBackPressed();
+                    }
+                }).show();
+            } catch (MaterialDialog.DialogException e) {
+                Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
+            }
+            return;
+        }
+
+        if (account.getDataNode().get("is_suspended").asBoolean()) {
+            try {
+                new AlertDialogWrapper.Builder(Profile.this)
+                        .setTitle("This account is suspended.")
+                        .setCancelable(false)
+                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                finish();
+                            }
+                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
                     }
                 }).show();
             } catch (MaterialDialog.DialogException e) {
@@ -482,6 +504,7 @@ public class Profile extends BaseActivityAnim {
                         }).show();
                     }
                 });
+
                 if (trophyCase.isEmpty()) {
                     dialoglayout.findViewById(R.id.trophies).setVisibility(View.GONE);
                 } else {
@@ -559,6 +582,7 @@ public class Profile extends BaseActivityAnim {
 
                 final View body = dialoglayout.findViewById(R.id.body2);
                 body.setVisibility(View.INVISIBLE);
+
                 final View center = dialoglayout.findViewById(R.id.colorExpandFrom);
                 dialoglayout.findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -603,6 +627,7 @@ public class Profile extends BaseActivityAnim {
                         }
                     }
                 }
+
                 colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int i) {

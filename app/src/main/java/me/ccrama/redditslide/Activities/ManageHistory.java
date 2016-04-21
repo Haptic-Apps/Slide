@@ -39,7 +39,7 @@ public class ManageHistory extends BaseActivityAnim {
         applyColorTheme();
         setContentView(R.layout.activity_manage_history);
         setupAppBar(R.id.toolbar, R.string.manage_offline_content, true, true);
-        SettingsTheme.changed = true;
+        if (!NetworkUtil.isConnected(this)) SettingsTheme.changed = true;
         findViewById(R.id.clear_all).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -47,7 +47,7 @@ public class ManageHistory extends BaseActivityAnim {
                 finish();
             }
         });
-        if(NetworkUtil.isConnectedNoOverride(this)) {
+        if (NetworkUtil.isConnectedNoOverride(this)) {
             findViewById(R.id.sync_now).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -124,14 +124,13 @@ public class ManageHistory extends BaseActivityAnim {
 
                 final TimePickerDialog d = new TimePickerDialog(ManageHistory.this);
                 d.hour(Reddit.cachedData.getInt("hour", 0));
-                d.applyStyle(new ColorPreferences(ManageHistory.this).getDarkThemeSubreddit(""));
                 d.minute(Reddit.cachedData.getInt("minute", 0));
+                d.applyStyle(new ColorPreferences(ManageHistory.this).getFontStyle().getBaseId());
                 d.positiveAction("SET");
                 TypedValue typedValue = new TypedValue();
                 Resources.Theme theme = getTheme();
                 theme.resolveAttribute(R.attr.activity_background, typedValue, true);
                 int color = typedValue.data;
-                theme.resolveAttribute(R.attr.font, typedValue, true);
                 d.backgroundColor(color);
                 d.actionTextColor(getResources().getColor(new ColorPreferences(ManageHistory.this).getFontStyle().getColor()));
                 d.positiveActionClickListener(new View.OnClickListener() {
@@ -144,7 +143,11 @@ public class ManageHistory extends BaseActivityAnim {
                         d.dismiss();
                     }
                 });
+                theme.resolveAttribute(R.attr.font, typedValue, true);
+                int color2 = typedValue.data;
+
                 d.setTitle("Choose a sync time");
+                d.titleColor(color2);
                 d.show();
             }
         });
@@ -157,7 +160,7 @@ public class ManageHistory extends BaseActivityAnim {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, Reddit.cachedData.getInt("hour", 0));
         cal.set(Calendar.MINUTE, Reddit.cachedData.getInt("minute", 0));
-        text.setText("Backup will occur at " + new SimpleDateFormat("hh:mm").format(cal.getTime()));
+        text.setText("Backup will occur at " + new SimpleDateFormat("hh:mm a").format(cal.getTime()));
     }
 
     public void updateBackup() {
