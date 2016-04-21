@@ -125,6 +125,7 @@
     <string name="profile_tag_user_existing">User tagged as ‘%s’</string>
     <string name="profile_btn_tag">Set tag</string>
     <string name="profile_btn_untag">Remove tag</string>
+    <string name="profile_info">Profile info</string>
 
 
     <!-- Comment text options -->

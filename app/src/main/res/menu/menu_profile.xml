@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Activities.Profile">
+
+    <item
+        android:id="@+id/sort"
+        android:icon="@drawable/sort"
+        android:title="@string/sorting_change_sorting"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/info"
+        android:icon="@drawable/infonew"
+        android:title="@string/profile_info"
+        app:showAsAction="ifRoom" />
+</menu>

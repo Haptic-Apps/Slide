@@ -16,6 +16,8 @@ import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -76,8 +78,8 @@ public class Profile extends BaseActivityAnim {
         return user.matches("^[a-zA-Z0-9_-]{3,20}$");
     }
 
-    boolean friend;
-
+    private boolean friend;
+    private MenuItem sortItem;
     public static Sorting profSort;
     public static TimePeriod profTime;
 
@@ -101,7 +103,6 @@ public class Profile extends BaseActivityAnim {
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabs.setSelectedTabIndicatorColor(new ColorPreferences(Profile.this).getColor("no sub"));
 
-
         pager = (ViewPager) findViewById(R.id.content_view);
         if (name.equals(Authentication.name))
             setDataSet(new String[]{getString(R.string.profile_overview),
@@ -120,15 +121,7 @@ public class Profile extends BaseActivityAnim {
                 getString(R.string.profile_submitted),
                 getString(R.string.profile_gilded)});
 
-
         new getProfile().execute(name);
-
-        findViewById(R.id.sort).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openPopup();
-            }
-        });
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -143,9 +136,9 @@ public class Profile extends BaseActivityAnim {
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
                 if (position < 3) {
-                    findViewById(R.id.sort).setVisibility(View.VISIBLE);
+                    sortItem.setVisible(true);
                 } else {
-                    findViewById(R.id.sort).setVisibility(View.GONE);
+                    sortItem.setVisible(false);
                 }
             }
 
@@ -155,20 +148,20 @@ public class Profile extends BaseActivityAnim {
             }
         });
 
-        if (getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name))
+        if (getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name)) {
             pager.setCurrentItem(6);
-        if (getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name))
+        }
+        if (getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name)) {
             pager.setCurrentItem(1);
-        if (getIntent().hasExtra(EXTRA_SUBMIT) && name.equals(Authentication.name))
+        }
+        if (getIntent().hasExtra(EXTRA_SUBMIT) && name.equals(Authentication.name)) {
             pager.setCurrentItem(2);
-        if (getIntent().hasExtra(EXTRA_HISTORY) && name.equals(Authentication.name))
+        }
+        if (getIntent().hasExtra(EXTRA_HISTORY) && name.equals(Authentication.name)) {
             pager.setCurrentItem(8);
-        if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name))
+        }
+        if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name)) {
             pager.setCurrentItem(4);
-        if (pager.getCurrentItem() < 3) {
-            findViewById(R.id.sort).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.sort).setVisibility(View.GONE);
         }
     }
 
@@ -190,284 +183,7 @@ public class Profile extends BaseActivityAnim {
             } catch (MaterialDialog.DialogException e) {
                 Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
             }
-            return;
         }
-
-        findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = getLayoutInflater();
-                final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
-                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setText(name);
-
-                dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Reddit.defaultShareText(getString(R.string.profile_share, name)
-                                + "\n" + "https://www.reddit.com/u/" + name, Profile.this);
-                    }
-                });
-                final int currentColor = Palette.getColorUser(name);
-                title.setBackgroundColor(currentColor);
-
-                String info = getString(R.string.profile_age,
-                        TimeUtils.getTimeSince(account.getCreated().getTime(), Profile.this));
-               /*todo better if (account.hasGold() &&account.getDataNode().has("gold_expiration") ) {
-                    Calendar c = Calendar.getInstance();
-                    c.setTimeInMillis(account.getDataNode().get("gold_expiration").asLong());
-                    info.append("Gold expires on " + new SimpleDateFormat("dd/MM/yy").format(c.getTime()));
-                }*/
-                ((TextView) dialoglayout.findViewById(R.id.moreinfo)).setText(info);
-
-                String tag = UserTags.getUserTag(name);
-                if (tag.isEmpty()) {
-                    tag = getString(R.string.profile_tag_user);
-                } else {
-                    tag = getString(R.string.profile_tag_user_existing, tag);
-                }
-                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
-                LinearLayout l = (LinearLayout) dialoglayout.findViewById(R.id.trophies_inner);
-
-                dialoglayout.findViewById(R.id.tag).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MaterialDialog.Builder b = new MaterialDialog.Builder(Profile.this)
-                                .title(getString(R.string.profile_tag_set, name))
-                                .input(getString(R.string.profile_tag), UserTags.getUserTag(name), false, new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-
-                                    }
-                                }).positiveText(R.string.profile_btn_tag)
-                                .neutralText(R.string.btn_cancel);
-
-                        if (UserTags.isUserTagged(name)) {
-                            b.negativeText(R.string.profile_btn_untag);
-                        }
-                        b.onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(MaterialDialog dialog, DialogAction which) {
-                                UserTags.setUserTag(name, dialog.getInputEditText().getText().toString());
-                                String tag = UserTags.getUserTag(name);
-                                if (tag.isEmpty()) {
-                                    tag = getString(R.string.profile_tag_user);
-                                } else {
-                                    tag = getString(R.string.profile_tag_user_existing, tag);
-                                }
-                                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
-                            }
-                        }).onNeutral(null).onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(MaterialDialog dialog, DialogAction which) {
-                                UserTags.removeUserTag(name);
-                                String tag = UserTags.getUserTag(name);
-                                if (tag.isEmpty()) {
-                                    tag = getString(R.string.profile_tag_user);
-                                } else {
-                                    tag = getString(R.string.profile_tag_user_existing, tag);
-                                }
-                                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
-                            }
-                        }).show();
-                    }
-                });
-                if (trophyCase.isEmpty()) {
-                    dialoglayout.findViewById(R.id.trophies).setVisibility(View.GONE);
-                } else {
-                    for (final Trophy t : trophyCase) {
-                        View view = getLayoutInflater().inflate(R.layout.trophy, null);
-                        // Edit
-                        ((Reddit) getApplicationContext()).getImageLoader().displayImage(t.getIcon(), ((ImageView) view.findViewById(R.id.image)));
-                        ((TextView) view.findViewById(R.id.trophyTitle)).setText(t.getFullName());
-                        if (t.getAboutUrl() != null)
-                            view.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    CustomTabUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
-                                }
-                            });
-                        l.addView(view);
-                    }
-                }
-                if (Authentication.isLoggedIn) {
-                    dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(Profile.this, Sendmessage.class);
-                            i.putExtra(Sendmessage.EXTRA_NAME, name);
-                            startActivity(i);
-                        }
-                    });
-
-                    friend = account.isFriend();
-                    if (friend) {
-                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
-                    } else {
-                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
-
-                    }
-                    dialoglayout.findViewById(R.id.friend_body).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            new AsyncTask<Void, Void, Void>() {
-                                @Override
-                                protected Void doInBackground(Void... params) {
-                                    if (friend) {
-                                        try {
-                                            new AccountManager(Authentication.reddit).deleteFriend(name);
-                                        } catch (Exception ignored) {
-                                            //Will throw java.lang.IllegalStateException: No Content-Type header was found, but it still works.
-                                        }
-                                        friend = false;
-
-                                    } else {
-                                        new AccountManager(Authentication.reddit).updateFriend(name);
-                                        friend = true;
-
-
-                                    }
-                                    return null;
-                                }
-
-                                @Override
-                                public void onPostExecute(Void voids) {
-                                    if (friend) {
-                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
-                                    } else {
-                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
-                                    }
-                                }
-                            }.execute();
-
-                        }
-                    });
-                } else {
-                    dialoglayout.findViewById(R.id.pm).setVisibility(View.GONE);
-                }
-
-
-                final View body = dialoglayout.findViewById(R.id.body2);
-                body.setVisibility(View.INVISIBLE);
-                final View center = dialoglayout.findViewById(R.id.colorExpandFrom);
-                dialoglayout.findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int cx = center.getWidth() / 2;
-                        int cy = center.getHeight() / 2;
-
-                        int finalRadius = Math.max(body.getWidth(), body.getHeight());
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            Animator anim =
-                                    ViewAnimationUtils.createCircularReveal(body, cx, cy, 0, finalRadius);
-                            body.setVisibility(View.VISIBLE);
-                            anim.start();
-                        } else {
-                            body.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-
-                LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
-                final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
-
-                colorPicker.setColors(ColorPreferences.getBaseColors(Profile.this));
-
-                colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
-                    @Override
-                    public void onColorChanged(int c) {
-
-                        colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), c));
-                        colorPicker2.setSelectedColor(c);
-
-
-                    }
-                });
-
-                for (int i : colorPicker.getColors()) {
-                    for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
-                        if (i2 == currentColor) {
-                            colorPicker.setSelectedColor(i);
-                            colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), i));
-                            colorPicker2.setSelectedColor(i2);
-                            break;
-                        }
-                    }
-                }
-                colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
-                    @Override
-                    public void onColorChanged(int i) {
-                        findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
-                        if (mToolbar != null)
-                            mToolbar.setBackgroundColor(colorPicker2.getColor());
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            Window window = getWindow();
-                            window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
-                        }
-                        title.setBackgroundColor(colorPicker2.getColor());
-                    }
-                });
-
-
-                {
-                    TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
-
-                    // if button is clicked, close the custom dialog
-                    dialogButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Palette.setColorUser(name, colorPicker2.getColor());
-
-                            int cx = center.getWidth() / 2;
-                            int cy = center.getHeight() / 2;
-
-                            int initialRadius = body.getWidth();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-                                Animator anim =
-                                        ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
-
-                                anim.addListener(new AnimatorListenerAdapter() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        super.onAnimationEnd(animation);
-                                        body.setVisibility(View.GONE);
-                                    }
-                                });
-                                anim.start();
-
-                            } else {
-                                body.setVisibility(View.GONE);
-
-                            }
-
-                        }
-                    });
-
-
-                }
-                ((TextView) dialoglayout.findViewById(R.id.commentkarma)).setText(account.getCommentKarma() + "");
-                ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(account.getLinkKarma() + "");
-
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        findViewById(R.id.header).setBackgroundColor(currentColor);
-                        if (mToolbar != null)
-                            mToolbar.setBackgroundColor(currentColor);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            Window window = getWindow();
-                            window.setStatusBarColor(Palette.getDarkerColor(currentColor));
-                        }
-                    }
-                });
-
-                builder.setView(dialoglayout);
-                builder.show();
-            }
-        });
     }
 
     private void setDataSet(String[] data) {
@@ -602,85 +318,366 @@ public class Profile extends BaseActivityAnim {
                         break;
                     case 1:
                         profSort = (Sorting.NEW);
-
                         break;
                     case 2:
                         profSort = (Sorting.RISING);
-
                         break;
                     case 3:
                         profSort = (Sorting.TOP);
                         profTime = (TimePeriod.HOUR);
-
                         break;
                     case 4:
                         profSort = (Sorting.TOP);
                         profTime = (TimePeriod.DAY);
-
                         break;
                     case 5:
                         profSort = (Sorting.TOP);
                         profTime = (TimePeriod.WEEK);
-
                         break;
                     case 6:
                         profSort = (Sorting.TOP);
                         profTime = (TimePeriod.MONTH);
-
                         break;
                     case 7:
                         profSort = (Sorting.TOP);
                         profTime = (TimePeriod.YEAR);
-
                         break;
                     case 8:
                         profSort = (Sorting.TOP);
                         profTime = (TimePeriod.ALL);
-
                         break;
                     case 9:
                         profSort = (Sorting.CONTROVERSIAL);
                         profTime = (TimePeriod.HOUR);
-
                         break;
                     case 10:
                         profSort = (Sorting.CONTROVERSIAL);
                         profTime = (TimePeriod.DAY);
-
                         break;
                     case 11:
                         profSort = (Sorting.CONTROVERSIAL);
                         profTime = (TimePeriod.WEEK);
-
+                        break;
                     case 12:
                         profSort = (Sorting.CONTROVERSIAL);
                         profTime = (TimePeriod.MONTH);
-
+                        break;
                     case 13:
                         profSort = (Sorting.CONTROVERSIAL);
                         profTime = (TimePeriod.YEAR);
-
+                        break;
                     case 14:
                         profSort = (Sorting.CONTROVERSIAL);
                         profTime = (TimePeriod.ALL);
-
+                        break;
                 }
 
                 Reddit.sorting.put(name, profSort);
                 Reddit.times.put(name, profTime);
+
                 int current = pager.getCurrentItem();
                 ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
                 pager.setAdapter(adapter);
                 pager.setOffscreenPageLimit(1);
+
                 tabs.setupWithViewPager(pager);
                 pager.setCurrentItem(current);
-
                 return true;
             }
         });
         popup.show();
-
-
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_profile, menu);
+
+        //used to hide the sort item on certain Profile tabs
+        sortItem = menu.findItem(R.id.sort);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case (R.id.info):
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
+                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                title.setText(name);
+
+                dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Reddit.defaultShareText(getString(R.string.profile_share, name)
+                                + "\n" + "https://www.reddit.com/u/" + name, Profile.this);
+                    }
+                });
+
+                final int currentColor = Palette.getColorUser(name);
+                title.setBackgroundColor(currentColor);
+
+                String info = getString(R.string.profile_age,
+                        TimeUtils.getTimeSince(account.getCreated().getTime(), Profile.this));
+               /*todo better if (account.hasGold() &&account.getDataNode().has("gold_expiration") ) {
+                    Calendar c = Calendar.getInstance();
+                    c.setTimeInMillis(account.getDataNode().get("gold_expiration").asLong());
+                    info.append("Gold expires on " + new SimpleDateFormat("dd/MM/yy").format(c.getTime()));
+                }*/
+
+                ((TextView) dialoglayout.findViewById(R.id.moreinfo)).setText(info);
+
+                String tag = UserTags.getUserTag(name);
+                if (tag.isEmpty()) {
+                    tag = getString(R.string.profile_tag_user);
+                } else {
+                    tag = getString(R.string.profile_tag_user_existing, tag);
+                }
+
+                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
+                LinearLayout l = (LinearLayout) dialoglayout.findViewById(R.id.trophies_inner);
+
+                dialoglayout.findViewById(R.id.tag).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        MaterialDialog.Builder b = new MaterialDialog.Builder(Profile.this)
+                                .title(getString(R.string.profile_tag_set, name))
+                                .input(getString(R.string.profile_tag), UserTags.getUserTag(name), false, new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                    }
+                                }).positiveText(R.string.profile_btn_tag)
+                                .neutralText(R.string.btn_cancel);
+
+                        if (UserTags.isUserTagged(name)) {
+                            b.negativeText(R.string.profile_btn_untag);
+                        }
+                        b.onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                UserTags.setUserTag(name, dialog.getInputEditText().getText().toString());
+                                String tag = UserTags.getUserTag(name);
+                                if (tag.isEmpty()) {
+                                    tag = getString(R.string.profile_tag_user);
+                                } else {
+                                    tag = getString(R.string.profile_tag_user_existing, tag);
+                                }
+                                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
+                            }
+                        }).onNeutral(null).onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                UserTags.removeUserTag(name);
+                                String tag = UserTags.getUserTag(name);
+                                if (tag.isEmpty()) {
+                                    tag = getString(R.string.profile_tag_user);
+                                } else {
+                                    tag = getString(R.string.profile_tag_user_existing, tag);
+                                }
+                                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
+                            }
+                        }).show();
+                    }
+                });
+                if (trophyCase.isEmpty()) {
+                    dialoglayout.findViewById(R.id.trophies).setVisibility(View.GONE);
+                } else {
+                    for (final Trophy t : trophyCase) {
+                        View view = getLayoutInflater().inflate(R.layout.trophy, null);
+                        // Edit
+                        ((Reddit) getApplicationContext()).getImageLoader().displayImage(t.getIcon(), ((ImageView) view.findViewById(R.id.image)));
+                        ((TextView) view.findViewById(R.id.trophyTitle)).setText(t.getFullName());
+                        if (t.getAboutUrl() != null) {
+                            view.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    CustomTabUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
+                                }
+                            });
+                        }
+                        l.addView(view);
+                    }
+                }
+                if (Authentication.isLoggedIn) {
+                    dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i = new Intent(Profile.this, Sendmessage.class);
+                            i.putExtra(Sendmessage.EXTRA_NAME, name);
+                            startActivity(i);
+                        }
+                    });
+
+                    friend = account.isFriend();
+                    if (friend) {
+                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
+                    } else {
+                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
+
+                    }
+                    dialoglayout.findViewById(R.id.friend_body).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    if (friend) {
+                                        try {
+                                            new AccountManager(Authentication.reddit).deleteFriend(name);
+                                        } catch (Exception ignored) {
+                                            //Will throw java.lang.IllegalStateException: No Content-Type header was found, but it still works.
+                                        }
+                                        friend = false;
+
+                                    } else {
+                                        new AccountManager(Authentication.reddit).updateFriend(name);
+                                        friend = true;
+
+
+                                    }
+                                    return null;
+                                }
+
+                                @Override
+                                public void onPostExecute(Void voids) {
+                                    if (friend) {
+                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
+                                    } else {
+                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
+                                    }
+                                }
+                            }.execute();
+
+                        }
+                    });
+                } else {
+                    dialoglayout.findViewById(R.id.pm).setVisibility(View.GONE);
+                }
+
+                final View body = dialoglayout.findViewById(R.id.body2);
+                body.setVisibility(View.INVISIBLE);
+                final View center = dialoglayout.findViewById(R.id.colorExpandFrom);
+                dialoglayout.findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int cx = center.getWidth() / 2;
+                        int cy = center.getHeight() / 2;
+
+                        int finalRadius = Math.max(body.getWidth(), body.getHeight());
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            Animator anim =
+                                    ViewAnimationUtils.createCircularReveal(body, cx, cy, 0, finalRadius);
+                            body.setVisibility(View.VISIBLE);
+                            anim.start();
+                        } else {
+                            body.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+                LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
+                final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
+
+                colorPicker.setColors(ColorPreferences.getBaseColors(Profile.this));
+
+                colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
+                    @Override
+                    public void onColorChanged(int c) {
+
+                        colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), c));
+                        colorPicker2.setSelectedColor(c);
+                    }
+                });
+
+                for (int i : colorPicker.getColors()) {
+                    for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
+                        if (i2 == currentColor) {
+                            colorPicker.setSelectedColor(i);
+                            colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), i));
+                            colorPicker2.setSelectedColor(i2);
+                            break;
+                        }
+                    }
+                }
+                colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
+                    @Override
+                    public void onColorChanged(int i) {
+                        findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
+                        if (mToolbar != null)
+                            mToolbar.setBackgroundColor(colorPicker2.getColor());
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            Window window = getWindow();
+                            window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
+                        }
+                        title.setBackgroundColor(colorPicker2.getColor());
+                    }
+                });
+
+            {
+                TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
+
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Palette.setColorUser(name, colorPicker2.getColor());
+
+                        int cx = center.getWidth() / 2;
+                        int cy = center.getHeight() / 2;
+
+                        int initialRadius = body.getWidth();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                            Animator anim =
+                                    ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
+
+                            anim.addListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    body.setVisibility(View.GONE);
+                                }
+                            });
+                            anim.start();
+
+                        } else {
+                            body.setVisibility(View.GONE);
+
+                        }
+
+                    }
+                });
+
+
+            }
+            ((TextView) dialoglayout.findViewById(R.id.commentkarma)).setText(account.getCommentKarma() + "");
+            ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(account.getLinkKarma() + "");
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    findViewById(R.id.header).setBackgroundColor(currentColor);
+                    if (mToolbar != null)
+                        mToolbar.setBackgroundColor(currentColor);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Window window = getWindow();
+                        window.setStatusBarColor(Palette.getDarkerColor(currentColor));
+                    }
+                }
+            });
+
+            builder.setView(dialoglayout);
+            builder.show();
+            return true;
+
+            case (R.id.sort):
+                openPopup();
+                return true;
+        }
+        return false;
+    }
 }
