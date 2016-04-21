@@ -478,7 +478,7 @@ public class PopulateSubmissionViewHolder {
                                 mContext.startActivity(browserIntent);
                                 break;
                             case 4:
-                                Reddit.defaultShareText(submission.getTitle() + "\n" + submission.getUrl(), mContext);
+                                Reddit.defaultShareText(Html.fromHtml(submission.getTitle()) + "\n" + submission.getUrl(), mContext);
                                 break;
                             case 12:
                                 reportReason = "";
@@ -520,7 +520,7 @@ public class PopulateSubmissionViewHolder {
 
                                 break;
                             case 8:
-                                Reddit.defaultShareText(submission.getTitle() + " \n" + "https://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText(Html.fromHtml(submission.getTitle()) + " \n" + "https://reddit.com" + submission.getPermalink(), mContext);
                                 break;
                             case 6: {
                                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -1484,7 +1484,7 @@ public class PopulateSubmissionViewHolder {
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, false);
             int color = typedValue.data;
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + submission.getSubmissionFlair().getText() + "\u00A0");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + Html.fromHtml(submission.getSubmissionFlair().getText()) + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, true, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);

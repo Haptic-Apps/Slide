@@ -38,8 +38,7 @@
                 android:layout_height="56dp"
                 android:padding="15dp"
                 android:theme="@style/Ripple.List"
-                android:tint="@color/white"
-
+                android:tint="#e1e1e1"
                 app:srcCompat="@drawable/save" />
 
             <ImageView
@@ -52,6 +51,7 @@
                 android:paddingEnd="11dp"
                 android:paddingStart="11dp"
                 android:paddingTop="15dp"
+                android:tint="#e1e1e1"
                 android:theme="@style/Ripple.List"
                 app:srcCompat="@drawable/more" />
         </LinearLayout>

@@ -66,7 +66,6 @@ import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.FlairTemplate;
-import net.dean.jraw.models.MoreChildren;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
@@ -782,7 +781,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + comment.getAuthorFlair().getText() + "\u00A0");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + Html.fromHtml(comment.getAuthorFlair().getText()) + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -851,7 +850,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 );
                 holder.firstTextView.setTypeface(typeface);
             }
-            setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
+            if (!toCollapse.contains(comment.getFullName()))
+                setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
 
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -1628,7 +1628,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE && !isReplying) {
             hiddenPersons.remove(n.getFullName());
             unhideAll(baseNode, holder.getAdapterPosition() + 1);
+            if (toCollapse.contains(n.getFullName()))
+                setViews(n.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
             toCollapse.remove(n.getFullName());
+
             hideChildrenObject(holder.children);
             holder.firstTextView.setVisibility(View.VISIBLE);
             holder.commentOverflow.setVisibility(View.VISIBLE);
@@ -2355,6 +2358,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (hiddenPersons.contains(comment.getFullName())) {
                     hiddenPersons.remove(comment.getFullName());
                     unhideAll(baseNode, holder.getAdapterPosition() + 1);
+                    if (toCollapse.contains(comment.getFullName()))
+                        setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
+
                     toCollapse.remove(comment.getFullName());
                     hideChildrenObject(holder.children);
                     holder.firstTextView.setVisibility(View.VISIBLE);
@@ -2479,7 +2485,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     hidden.remove(name);
                     i++;
 
-                    if (ignored.hasMoreComments()&& !hiddenPersons.contains(name)) {
+                    if (ignored.hasMoreComments() && !hiddenPersons.contains(name)) {
                         name = name + "more";
                         if (hidden.contains(name)) {
                             hidden.remove(name);

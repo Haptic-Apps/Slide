@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -154,7 +155,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + comment.getAuthorFlair().getText() + "\u00A0");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + Html.fromHtml(comment.getAuthorFlair().getText()) + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
