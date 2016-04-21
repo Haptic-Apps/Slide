@@ -187,7 +187,7 @@ public class PopulateSubmissionViewHolder {
                             }
                             break;
                         case VIDEO:
-                            if(Reddit.videoPlugin){
+                            if (Reddit.videoPlugin) {
                                 try {
                                     Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                                     sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
@@ -404,15 +404,15 @@ public class PopulateSubmissionViewHolder {
                                                     PostMatch.domains = null;
                                                     PostMatch.subreddits = null;
                                                     ArrayList<Contribution> toRemove = new ArrayList<>();
-                                                    for(Contribution s : posts){
-                                                        if(s instanceof Submission && PostMatch.doesMatch((Submission)s)){
+                                                    for (Contribution s : posts) {
+                                                        if (s instanceof Submission && PostMatch.doesMatch((Submission) s)) {
                                                             toRemove.add(s);
                                                             LogUtil.v("Matching with " + ((Submission) s).getDomain());
                                                         }
                                                     }
                                                     OfflineSubreddit s = OfflineSubreddit.getSubreddit(baseSub, false, mContext);
 
-                                                    for(Contribution remove : toRemove){
+                                                    for (Contribution remove : toRemove) {
                                                         final int pos = posts.indexOf(remove);
                                                         posts.remove(pos);
                                                         if (baseSub != null) {
@@ -1543,33 +1543,34 @@ public class PopulateSubmissionViewHolder {
                 downvotebutton.setVisibility(View.VISIBLE);
                 upvotebutton.setVisibility(View.VISIBLE);
             }
-            switch (ActionStates.getVoteDirection(submission)) {
-                case UPVOTE: {
-                    holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
-                    upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
-                    holder.score.setTypeface(null, Typeface.BOLD);
-                    holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name) ? 0 : 1)));
-                    downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                    break;
-                }
-                case DOWNVOTE: {
-                    holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
-                    downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
-                    holder.score.setTypeface(null, Typeface.BOLD);
-                    holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name) || submission.getScore() == 0 ? 0 : -1)));
-                    upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                    break;
-                }
-                case NO_VOTE: {
-                    holder.score.setTextColor(holder.comments.getCurrentTextColor());
-                    holder.score.setText("" + (submission.getScore()));
-                    holder.score.setTypeface(null, Typeface.NORMAL);
-                    downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                    upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                    break;
-                }
+        }
+        switch (ActionStates.getVoteDirection(submission)) {
+            case UPVOTE: {
+                holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
+                upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                holder.score.setTypeface(null, Typeface.BOLD);
+                holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name) ? 0 : 1)));
+                downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                break;
+            }
+            case DOWNVOTE: {
+                holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
+                downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
+                holder.score.setTypeface(null, Typeface.BOLD);
+                holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name) || submission.getScore() == 0 ? 0 : -1)));
+                upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                break;
+            }
+            case NO_VOTE: {
+                holder.score.setTextColor(holder.comments.getCurrentTextColor());
+                holder.score.setText("" + (submission.getScore()));
+                holder.score.setTypeface(null, Typeface.NORMAL);
+                downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                break;
             }
         }
+
 
         final ImageView hideButton = (ImageView) holder.hide;
 
@@ -1627,10 +1628,10 @@ public class PopulateSubmissionViewHolder {
                             } else {
                                 s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
                                 ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                             if(mContext instanceof Profile) {
-                                 posts.remove(posts.indexOf(submission));
-                                 recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
-                             }
+                                if (mContext instanceof Profile) {
+                                    posts.remove(posts.indexOf(submission));
+                                    recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
+                                }
                             }
                             View view = s.getView();
                             TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -1835,8 +1836,8 @@ public class PopulateSubmissionViewHolder {
             holder.body.setAlpha(0.54f);
         } else {
             holder.title.setAlpha(1f);
-            if(!full)
-            holder.body.setAlpha(1f);
+            if (!full)
+                holder.body.setAlpha(1f);
         }
     }
 

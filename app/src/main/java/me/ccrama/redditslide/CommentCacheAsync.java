@@ -99,6 +99,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                     mBuilder.setProgress(submissions.size(), 0, false);
                     mNotifyManager.notify(1, mBuilder.build());
                 } else {
+                    if(dialog != null)
                     dialog.setMaxProgress(submissions.size());
                 }
                 for (final Submission s : submissions) {

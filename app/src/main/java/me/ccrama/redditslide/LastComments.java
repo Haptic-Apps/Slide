@@ -23,7 +23,7 @@ public class LastComments {
         for (Submission s : submissions) {
             String fullname = s.getFullName();
             if (!m.getByContains("comments" + fullname).isEmpty()) {
-                commentsSince.put(fullname, s.getCommentCount() - Integer.valueOf(m.get("comments" + fullname)));
+                commentsSince.put(fullname, Integer.valueOf(m.get("comments" + fullname)));
             }
         }
     }
@@ -35,6 +35,9 @@ public class LastComments {
     }
 
     public static void setComments(Submission s) {
+        if (commentsSince == null) {
+            commentsSince = new HashMap<>();
+        }
         KVStore.getInstance().insertOrUpdate("comments" + s.getFullName(), String.valueOf(s.getCommentCount()));
         commentsSince.put(s.getFullName(), s.getCommentCount());
     }
