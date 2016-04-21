@@ -42,6 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="+49"
+                android:paddingBottom="6dp"
+                android:paddingTop="2dp"
                 android:textStyle="bold"
                 android:textColor="?attr/font"
                 android:textSize="?attr/font_cardinfo"/>
@@ -49,7 +51,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
+                android:paddingBottom="6dp"
                 android:paddingTop="2dp"
                 android:text="@string/submission_properties_seperator"
                 android:textColor="?attr/font"
@@ -59,6 +61,8 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:paddingTop="2dp"
                 android:text="4 hours ago"
                 android:textColor="?attr/font"
                 android:textSize="?attr/font_cardinfo"/>
