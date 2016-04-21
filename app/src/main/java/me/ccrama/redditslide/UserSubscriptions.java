@@ -467,7 +467,7 @@ public class UserSubscriptions {
 
     }
 
-    public static boolean isSubscriber(String s) {
-        return subscriptions.getString(Authentication.name, "").toLowerCase().contains(s.toLowerCase());
+    public static boolean isSubscriber(String s, Context c) {
+        return getSubscriptions(c).contains(s.toLowerCase());
     }
 }

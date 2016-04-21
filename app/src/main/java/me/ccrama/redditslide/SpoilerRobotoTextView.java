@@ -460,7 +460,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         } else {
             for (int i = 1; i < storedSpoilerStarts.size(); i++) {
                 if (storedSpoilerStarts.get(i) < endOfLink + 2 && storedSpoilerEnds.get(i) > endOfLink + 2) {
-                    text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i), storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i), storedSpoilerEnds.get(i) >text.toString().length()?storedSpoilerEnds.get(i)-1:storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 }
             }
             setText(text);
