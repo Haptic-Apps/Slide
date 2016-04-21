@@ -501,6 +501,16 @@ public class MainActivity extends BaseActivity {
             getSharedPreferences("HIDDEN", 0).edit().clear().apply();
             getSharedPreferences("HIDDEN_POSTS", 0).edit().clear().apply();
         }
+        if(!Reddit.appRestart.contains("hasCleared")) {
+            SharedPreferences.Editor e = Reddit.appRestart.edit();
+            for (String s : Reddit.appRestart.getAll().keySet()) {
+                if (Reddit.appRestart.getString(s, "").length() > 300) {
+                    e.remove(s);
+                }
+            }
+            e.putBoolean("hasCleared", true);
+            e.apply();
+        }
     }
 
     public Runnable runAfterLoad;
