@@ -237,7 +237,7 @@ public class Settings extends BaseActivity {
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                             ((TextView) dialoglayout.findViewById(R.id.progressnumber))
                                     .setText(res.getQuantityString(R.plurals.landscape_columns, landscape.getProgress() + 1, landscape.getProgress() + 1));
-
+                            Settings.changed = true;
                         }
 
                         @Override
