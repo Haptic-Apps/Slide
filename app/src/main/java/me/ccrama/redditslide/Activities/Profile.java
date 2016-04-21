@@ -193,7 +193,7 @@ public class Profile extends BaseActivityAnim {
             }
             return;
         }
-        if(account.getDataNode().get("is_suspended").asBoolean()){
+        if(account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()){
             try {
 
                 new AlertDialogWrapper.Builder(Profile.this)
