@@ -64,7 +64,7 @@ public class FullscreenVideo extends FullScreenActivity {
         v.setWebChromeClient(new WebChromeClient());
         LogUtil.v(dat);
 
-        if(dat.contains("src=\"")){
+        if (dat.contains("src=\"")) {
             int start = dat.indexOf("src=\"") + 5;
             dat = dat.substring(start, dat.indexOf("\"", start));
             if(dat.startsWith("//")){
@@ -72,10 +72,10 @@ public class FullscreenVideo extends FullScreenActivity {
             }
             LogUtil.v(dat);
             v.loadUrl(dat);
-            if((dat.contains("youtube.co" ) || dat.contains("youtu.be")) && !Reddit.appRestart.contains("showYouTubePopup")){
-                new AlertDialogWrapper.Builder(FullscreenVideo.this).setTitle("Load videos interenally")
-                        .setMessage("Would you like to try out the Slide Video plugin? This will allow you to view videos (like YouTube) internally!")
-                        .setPositiveButton("Sure!", new DialogInterface.OnClickListener() {
+            if ((dat.contains("youtube.co" ) || dat.contains("youtu.be")) && !Reddit.appRestart.contains("showYouTubePopup")) {
+                new AlertDialogWrapper.Builder(FullscreenVideo.this).setTitle(getString(R.string.load_videos_internally))
+                        .setMessage(getString(R.string.load_videos_internally_content))
+                        .setPositiveButton(getString(R.string.btn_sure), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 try {
@@ -84,8 +84,8 @@ public class FullscreenVideo extends FullScreenActivity {
                                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=ccrama.me.slideyoutubeplugin")));
                                 }
                             }
-                        }).setNegativeButton("No", null)
-                        .setNeutralButton("Don't show again", new DialogInterface.OnClickListener() {
+                        }).setNegativeButton(getString(R.string.btn_no), null)
+                        .setNeutralButton(getString(R.string.do_not_show_again), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Reddit.appRestart.edit().putBoolean("showYouTubePopup", false).apply();

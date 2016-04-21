@@ -664,6 +664,9 @@
     <string name="btn_report">Report</string>
     <string name="input_reason_for_report">Reason for reporting</string>
     <string name="msg_report_sent">Report sent</string>
+    <string name="load_videos_internally">Load videos internally</string>
+    <string name="load_videos_internally_content">Would you like to try out the Slide Video plugin? This will allow you to view videos (like YouTube) internally!</string>
+    <string name="do_not_show_again">Don\'t show again</string>
 
     <plurals name="landscape_columns">
         <item quantity="one">%d column in landscape</item>
