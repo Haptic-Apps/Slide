@@ -97,7 +97,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                     } else {
                         p =new SubredditPaginator(Authentication.reddit, sub);
                     }
-                    p.setLimit(50);
+                    p.setLimit(25);
                     submissions.addAll(p.next());
                 }
 

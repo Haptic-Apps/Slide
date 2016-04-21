@@ -296,7 +296,7 @@ public class MultiredditPosts implements PostLoader {
                 paginator.setTimePeriod(Reddit.getTime("multi" + subredditPaginators[0].getDisplayName().toLowerCase()));
 
                 LogUtil.v("Sorting is " + paginator.getSorting().name());
-                paginator.setLimit(50);
+                paginator.setLimit(25);
 
             }
 

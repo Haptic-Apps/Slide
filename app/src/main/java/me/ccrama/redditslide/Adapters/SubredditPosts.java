@@ -240,6 +240,7 @@ public class SubredditPosts implements PostLoader {
             } else if (submissions != null) {
                 // end of submissions
                 nomore = true;
+                displayer.updateSuccess(posts, posts.size() + 1);
             } else {
 
                 if (!all.isEmpty() && !nomore && SettingValues.cache) {
@@ -274,6 +275,7 @@ public class SubredditPosts implements PostLoader {
 
             if (reset || paginator == null) {
                 offline = false;
+                nomore = false;
                 if (subredditPaginators[0].toLowerCase().equals("frontpage")) {
                     paginator = new SubredditPaginator(Authentication.reddit);
                 } else {
@@ -282,7 +284,7 @@ public class SubredditPosts implements PostLoader {
                 }
                 paginator.setSorting(Reddit.getSorting(subreddit));
                 paginator.setTimePeriod(Reddit.getTime(subreddit));
-                paginator.setLimit(50);
+                paginator.setLimit(25);
 
             }
 
