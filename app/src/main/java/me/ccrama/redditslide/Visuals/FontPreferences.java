@@ -143,6 +143,7 @@ public class FontPreferences {
         CondensedReg(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_REGULAR, "Condensed Regular"),
         Light(RobotoTypefaceManager.Typeface.ROBOTO_LIGHT, "Light"),
         Regular(RobotoTypefaceManager.Typeface.ROBOTO_REGULAR, "Regular"),
+        Bold(RobotoTypefaceManager.Typeface.ROBOTO_BOLD, "Bold"),
         System(-1, "System");
 
         private final int typeface;

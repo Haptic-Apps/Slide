@@ -219,7 +219,14 @@
                     android:textColor="?attr/font"
                     android:text="@string/settings_font_regular"
                     app:typeface="roboto_regular" />
-
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/sbold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:textColor="?attr/font"
+                    android:text="@string/settings_font_bold"
+                    app:typeface="roboto_bold" />
                 <com.devspark.robototextview.widget.RobotoRadioButton
                     android:id="@+id/sregl"
                     android:layout_width="match_parent"
