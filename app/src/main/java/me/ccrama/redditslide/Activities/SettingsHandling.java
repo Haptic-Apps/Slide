@@ -98,13 +98,11 @@ public class SettingsHandling extends BaseActivityAnim implements
                         return true;
                     }
                 });
-
                 popup.show();
             }
         });
+
         domain = (EditText) findViewById(R.id.domain);
-        domain.clearFocus();
-        domain.setCursorVisible(false);
         domain.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
