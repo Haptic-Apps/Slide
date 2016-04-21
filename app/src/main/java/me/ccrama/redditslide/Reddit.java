@@ -101,19 +101,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if (appRestart.contains("back")) {
             appRestart.edit().remove("back").commit();
         }
+
         appRestart.edit().putBoolean("isRestarting", true).commit();
-
         isRestarting = true;
-
-        ProcessPhoenix.triggerRebirth(context);
+        ProcessPhoenix.triggerRebirth(context.getApplicationContext());
     }
 
     public static void forceRestart(Context c, boolean forceLoadScreen) {
         appRestart.edit().putString("startScreen", "").commit();
         appRestart.edit().putBoolean("isRestarting", true).commit();
-
         forceRestart(c);
-
     }
 
     public static int pxToDp(int dp, Context c) {
@@ -374,6 +371,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                           }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
                                                       @Override
                                                       public void onClick(DialogInterface dialog, int which) {
+                                                          Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
                                                           forceRestart(c);
                                                       }
                                                   }).show();

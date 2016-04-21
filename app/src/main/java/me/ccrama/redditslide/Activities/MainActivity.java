@@ -429,16 +429,12 @@ public class MainActivity extends BaseActivity {
         sidebarOverflow = (CommentOverflow) findViewById(R.id.commentOverflow);
 
 
-        if (!Reddit.appRestart.getBoolean("isRestarting", false) && Reddit.colors.contains("Tutorial"))
-
-        {
+        if (!Reddit.appRestart.getBoolean("isRestarting", false) && Reddit.colors.contains("Tutorial")) {
             LogUtil.v("Starting main " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
             UserSubscriptions.doMainActivitySubs(this);
-        } else if (!first)
-
-        {
+        } else if (!first) {
             LogUtil.v("Starting main 2 " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
@@ -447,9 +443,7 @@ public class MainActivity extends BaseActivity {
             UserSubscriptions.doMainActivitySubs(this);
         }
 
-        if (mTabLayout != null)
-
-        {
+        if (mTabLayout != null) {
             mTabLayout.setOnTabSelectedListener(
                     new TabLayout.ViewPagerOnTabSelectedListener(pager) {
                         @Override
@@ -459,9 +453,7 @@ public class MainActivity extends BaseActivity {
 
                         }
                     });
-        } else
-
-        {
+        } else {
             mToolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1695,6 +1687,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onDestroy() {
         dismissProgressDialog();
+        Slide.hasStarted = false;
         super.onDestroy();
     }
     private void dismissProgressDialog() {

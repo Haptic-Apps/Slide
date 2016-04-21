@@ -284,14 +284,14 @@ public class CommentPage extends Fragment {
                 }
             });
         }
-        if(fab != null)
+        if (fab != null)
             fab.show();
         toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if( SettingValues.fabComments) {
-                    if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING && !overrideFab ) {
+                if (SettingValues.fabComments) {
+                    if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING && !overrideFab) {
                         diff += dy;
                     } else if (!overrideFab) {
                         diff = 0;
@@ -544,6 +544,25 @@ public class CommentPage extends Fragment {
 
         doTopBar();
 
+        if (Authentication.didOnline && !NetworkUtil.isConnectedNoOverride(getActivity())) {
+            new AlertDialogWrapper.Builder(getActivity()).setTitle("Uh oh, an error occured")
+                    .setMessage("The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.")
+                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!(getActivity() instanceof MainActivity)) {
+                                (getActivity()).finish();
+                            }
+                        }
+                    }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Reddit.appRestart.edit().putBoolean("forceoffline", true).apply();
+                    Reddit.forceRestart(getActivity());
+                }
+            }).show();
+        }
+
         if (!(getActivity() instanceof CommentsScreen) || ((CommentsScreen) getActivity()).currentPage == page) {
             doAdapter();
         }
@@ -596,7 +615,7 @@ public class CommentPage extends Fragment {
         } else {
             Submission s = null;
             try {
-                s = OfflineSubreddit.getSubmissionFromStorage(fullname.contains("_")?fullname:"t3_" + fullname, getContext(), !NetworkUtil.isConnected(getActivity()), new ObjectMapper().reader() );
+                s = OfflineSubreddit.getSubmissionFromStorage(fullname.contains("_") ? fullname : "t3_" + fullname, getContext(), !NetworkUtil.isConnected(getActivity()), new ObjectMapper().reader());
             } catch (IOException e) {
                 e.printStackTrace();
             }
