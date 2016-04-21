@@ -230,6 +230,7 @@ public class CommentPage extends Fragment {
     View v;
     public View fastScroll;
     public FloatingActionButton fab;
+    public int diff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -283,16 +284,25 @@ public class CommentPage extends Fragment {
                 }
             });
         }
+        if(fab != null)
+            fab.show();
         toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (fab != null && !overrideFab) {
-                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fabComments) {
-                        fab.show();
-                    } else {
-                        fab.hide();
-
+                if( SettingValues.fabComments) {
+                    if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING && !overrideFab ) {
+                        diff += dy;
+                    } else if (!overrideFab) {
+                        diff = 0;
+                    }
+                    if (fab != null && !overrideFab) {
+                        if (dy <= 0 && fab.getId() != 0) {
+                            if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
+                                fab.show();
+                        } else {
+                            fab.hide();
+                        }
                     }
                 }
             }

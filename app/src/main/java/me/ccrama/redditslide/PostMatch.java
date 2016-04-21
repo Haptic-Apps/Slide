@@ -24,7 +24,7 @@ public class PostMatch {
         String domain = new URL(target).getHost();
         for (String s : strings) {
             s = s.toLowerCase().trim();
-            if (!s.isEmpty() && !s.equals("\n") &&  domain.startsWith(s)) {
+            if (!s.isEmpty() && !s.equals("\n") &&  domain.toLowerCase().contains(s)) {
                 return true;
             }
         }

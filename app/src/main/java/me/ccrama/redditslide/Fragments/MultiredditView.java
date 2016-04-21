@@ -59,6 +59,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
     private int pastVisiblesItems;
     public RecyclerView rv;
     public FloatingActionButton fab;
+    public int diff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -204,6 +205,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     }
             );
 
+            if(fab != null)
+                fab.show();
+
             rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -239,15 +243,17 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                             posts.loadMore(getActivity(), MultiredditView.this, false, adapter);
                         }
                     }
+                    if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
+                        diff += dy;
+                    } else {
+                        diff = 0;
+                    }
                     if (fab != null) {
                         if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
-
-                            fab.show();
-
-
+                            if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
+                                fab.show();
                         } else {
                             fab.hide();
-
                         }
                     }
                 }

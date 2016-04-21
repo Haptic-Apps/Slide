@@ -206,13 +206,9 @@ public class SettingsSubreddit extends BaseActivityAnim {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy <= 0 && fab.getId() != 0) {
-
                     fab.show();
-
-
                 } else {
                     fab.hide();
-
                 }
             }
 

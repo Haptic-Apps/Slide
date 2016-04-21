@@ -221,6 +221,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
 
     boolean down = false;
+    int diff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -341,6 +342,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         } else {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
+        if (fab != null)
+            fab.show();
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, getActivity().findViewById(R.id.header)) {
             @Override
@@ -388,13 +391,20 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     down = false;
                 }*///todo For future implementation instead of scrollFlags
 
+                if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    diff += dy;
+                } else {
+                    diff = 0;
+                }
                 if (fab != null) {
                     if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
-                        fab.show();
+                        if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
+                            fab.show();
                     } else {
                         fab.hide();
                     }
                 }
+
             }
 
             /*
@@ -454,7 +464,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                    mSwipeRefreshLayout.setRefreshing(true);
+                mSwipeRefreshLayout.setRefreshing(true);
             }
         });
 
