@@ -169,11 +169,10 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
 
         for (final String sub : subs) {
             if (!sub.isEmpty()) {
-
-                ((Activity) context).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (modal) {
+                if (modal && context instanceof Activity) {
+                    ((Activity) context).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
                             dialog = new MaterialDialog.Builder(context).title("Caching /r/" + sub)
                                     .progress(false, 50)
                                     .cancelable(false)
@@ -186,15 +185,15 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                                         }
                                     })
                                     .show();
-                        } else {
-                            mNotifyManager =
-                                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                            mBuilder = new NotificationCompat.Builder(context);
-                            mBuilder.setContentTitle("Caching " + (sub.equalsIgnoreCase("frontpage") ? "" : "/r/") + sub)
-                                    .setSmallIcon(R.drawable.save);
                         }
-                    }
-                });
+                    });
+                } else {
+                    mNotifyManager =
+                            (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+                    mBuilder = new NotificationCompat.Builder(context);
+                    mBuilder.setContentTitle("Caching " + (sub.equalsIgnoreCase("frontpage") ? "" : "/r/") + sub)
+                            .setSmallIcon(R.drawable.save);
+                }
                 ArrayList<Submission> submissions = new ArrayList<>();
                 ArrayList<String> newFullnames = new ArrayList<>();
                 int count = 0;

@@ -165,7 +165,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
         }
 
-        if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
+        if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null || firstPage < 0) {
             LogUtil.v("Closing");
             finish();
         } else {

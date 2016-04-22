@@ -36,7 +36,6 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.util.LogUtil;
 
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -141,7 +140,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();
 
         for (int i : seen) {
-            LogUtil.v("Changed " + (i + 1));
             notifyItemChanged(i + 1);
         }
         listView.postDelayed(new Runnable() {
