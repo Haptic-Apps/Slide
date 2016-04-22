@@ -21,7 +21,7 @@
         android:id="@+id/dot"
         android:layout_width="3dp"
         android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/menuarea"
+        android:layout_alignBottom="@+id/commentOverflow"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
