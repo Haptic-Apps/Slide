@@ -1645,7 +1645,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             currentSelectedItem = n.getFullName();
 
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-            holder.menuArea.setVisibility(View.VISIBLE);
+            resetMenu(holder.menuArea, false);
             final View baseView = (SettingValues.rightHandedCommentMenu)
                     ? inflater.inflate(R.layout.comment_menu_right_handed, holder.menuArea)
                     : inflater.inflate(R.layout.comment_menu, holder.menuArea);
@@ -2125,12 +2125,24 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public EditText currentlyEditing;
 
+    public void resetMenu(LinearLayout v, boolean collapsed) {
+        if (collapsed) {
+            v.removeAllViews();
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
+            params.height = 0;
+            v.setLayoutParams(params);
+        } else {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
+            params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+            v.setLayoutParams(params);
+        }
+    }
+
     public void doUnHighlighted(final CommentViewHolder holder, final CommentNode baseNode, boolean animate) {
         if (animate) {
             collapse(holder.menuArea);
         } else {
-            (holder.menuArea).removeAllViews();
-            holder.menuArea.setVisibility(View.GONE);
+            resetMenu(holder.menuArea, true);
         }
 
         TypedValue typedValue = new TypedValue();
@@ -2186,8 +2198,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (animate) {
                 collapse(holder.menuArea);
             } else {
-                holder.menuArea.removeAllViews();
-                holder.menuArea.setVisibility(View.GONE);
+                resetMenu(holder.menuArea, true);
             }
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
             int width = 0;
@@ -2358,8 +2369,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             if (isClicking) {
                 isClicking = false;
-                holder.menuArea.removeAllViews();
-                holder.menuArea.setVisibility(View.GONE);
+                resetMenu(holder.menuArea, true);
                 isHolder.itemView.findViewById(R.id.menu).setVisibility(View.GONE);
             } else {
                 if (hiddenPersons.contains(comment.getFullName())) {

@@ -272,6 +272,14 @@
                     android:text="@string/settings_font_condensed_light"
                     app:typeface="roboto_condensed_light" />
                 <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/scondb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="?attr/font"
+                    android:background="?android:selectableItemBackground"
+                    android:text="@string/settings_font_condensed_bold"
+                    app:typeface="roboto_condensed_bold" />
+                <com.devspark.robototextview.widget.RobotoRadioButton
                     android:id="@+id/snone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

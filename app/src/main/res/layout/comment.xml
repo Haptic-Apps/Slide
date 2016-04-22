@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_marginTop="0.25dp"
     android:layout_height="wrap_content">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="?attr/activity_background"
         android:orientation="horizontal" />
+
     <View
         android:id="@+id/next"
         android:layout_width="match_parent"
@@ -21,8 +23,7 @@
         android:id="@+id/dot"
         android:layout_width="3dp"
         android:layout_height="match_parent"
-        android:layout_alignWithParentIfMissing="true"
-        android:layout_alignBottom="@+id/commentOverflow"
+        android:layout_alignBottom="@+id/menuarea"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
