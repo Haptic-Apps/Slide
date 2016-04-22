@@ -850,7 +850,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 );
                 holder.firstTextView.setTypeface(typeface);
             }
-            if (!toCollapse.contains(comment.getFullName()))
+            if (!toCollapse.contains(comment.getFullName()) && SettingValues.collapseComments || !SettingValues.collapseComments)
                 setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
 
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -1631,7 +1631,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE && !isReplying) {
             hiddenPersons.remove(n.getFullName());
             unhideAll(baseNode, holder.getAdapterPosition() + 1);
-            if (toCollapse.contains(n.getFullName()))
+            if (toCollapse.contains(n.getFullName()) && SettingValues.collapseComments)
                 setViews(n.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
             toCollapse.remove(n.getFullName());
 
@@ -2375,7 +2375,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (hiddenPersons.contains(comment.getFullName())) {
                     hiddenPersons.remove(comment.getFullName());
                     unhideAll(baseNode, holder.getAdapterPosition() + 1);
-                    if (toCollapse.contains(comment.getFullName()))
+                    if (toCollapse.contains(comment.getFullName()) && SettingValues.collapseComments)
                         setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
 
                     toCollapse.remove(comment.getFullName());
