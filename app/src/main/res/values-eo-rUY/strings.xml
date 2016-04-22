@@ -86,6 +86,7 @@
   <string name="type_album">Albumo</string>
   <string name="type_img">Bildo</string>
   <string name="type_vid">Video</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_author_wrote">%1$s skribis&#8230;</string>
   <string name="mail_hint_recipient">Ricevonto</string>

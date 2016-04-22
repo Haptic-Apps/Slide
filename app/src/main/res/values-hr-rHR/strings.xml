@@ -111,12 +111,6 @@
   <string name="sorting_old">Staro</string>
   <string name="sorting_controversial">Kontroverzno</string>
   <string name="sorting_rising">U rastu</string>
-  <string name="sorting_hour">protekli sat</string>
-  <string name="sorting_day">zadnja 24 sata</string>
-  <string name="sorting_week">prošli tjedan</string>
-  <string name="sorting_month">prošli mjesec dana</string>
-  <string name="sorting_year">prošla godina</string>
-  <string name="sorting_all">sve</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Tekst</string>
@@ -125,7 +119,6 @@
   <string name="editor_title">Naslov</string>
   <string name="editor_err_msg">Molimo pokušajte ponovno za nekoliko sekundi.</string>
   <string name="editor_uploading_image">Uploadam slike na imgur</string>
-  <string name="editor_self">Samo tekst</string>
   <string name="editor_select_img">Odaberite sliku</string>
   <string name="editor_hint_optional_body">Tijelo poruke (nije obavezno)</string>
   <string name="editor_submit">Pošalji novi post</string>
@@ -170,6 +163,7 @@
   <string name="type_vid">Video</string>
   <string name="type_emb">Ugrađeno</string>
   <string name="type_imgur">Imgur sadržaj</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Ulazna pošta</string>
   <string name="mail_author_wrote">%1$s je napisao&#8230;</string>

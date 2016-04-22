@@ -82,12 +82,6 @@
   <string name="sorting_hot">ذات شعبية</string>
   <string name="sorting_new">جديد</string>
   <string name="sorting_old">قديم</string>
-  <string name="sorting_hour">هذه الساعة</string>
-  <string name="sorting_day">اليوم</string>
-  <string name="sorting_week">هذا الأسبوع</string>
-  <string name="sorting_month">هذا الشهر</string>
-  <string name="sorting_year">هذه السنة</string>
-  <string name="sorting_all">كل الوقت</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">الرابط</string>
   <string name="editor_text">النص</string>
@@ -121,6 +115,7 @@
   <string name="type_album">ألبوم</string>
   <string name="type_img">صورة</string>
   <string name="type_vid">فيديو</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">صندوق الوارد</string>
   <string name="mail_hint_recipient">المُستلم</string>

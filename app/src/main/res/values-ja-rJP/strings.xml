@@ -53,6 +53,12 @@
   <string name="theme_card">カード</string>
   <!-- Font settings -->
   <string name="font_size">文字サイズ</string>
+  <string name="font_size_larger">さらに大きい</string>
+  <string name="font_size_large">大きい</string>
+  <string name="font_size_medium">中</string>
+  <string name="font_size_small">小さい</string>
+  <string name="font_size_smaller">さらに小さい</string>
+  <string name="font_size_tiny">極小</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">アクションバーの \"投稿を隠す\" ボタン</string>
   <string name="card_tint_outside">Subreddit 外の色のみ</string>
@@ -131,12 +137,6 @@
   <string name="sorting_old">古い</string>
   <string name="sorting_controversial">論争中</string>
   <string name="sorting_rising">上昇中</string>
-  <string name="sorting_hour">この時間</string>
-  <string name="sorting_day">今日</string>
-  <string name="sorting_week">今週</string>
-  <string name="sorting_month">今月</string>
-  <string name="sorting_year">今年</string>
-  <string name="sorting_all">すべての期間</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">文字</string>
@@ -145,7 +145,7 @@
   <string name="editor_title">タイトル</string>
   <string name="editor_err_msg">数秒してからやり直してください。</string>
   <string name="editor_uploading_image">Imgur に画像をアップロード中</string>
-  <string name="editor_self">自分のテキスト</string>
+  <string name="editor_self">自己投稿文</string>
   <string name="editor_select_img">画像選択</string>
   <string name="editor_hint_optional_body">本文 (省略可能)</string>
   <string name="editor_submit">投稿を送信</string>
@@ -195,8 +195,14 @@
   <string name="type_imgur">Imgur コンテンツ</string>
   <string name="type_nsfw_imgur">ImgurのNSFWコンテンツ</string>
   <string name="type_external">外部</string>
+  <!-- Content types plural (Content filters) -->
+  <string name="type_nsfw_content">NSFW コンテンツ</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">受信箱</string>
+  <string name="mail_tab_unread">未読</string>
+  <string name="mail_tab_messages">メッセージ</string>
+  <string name="mail_tab_sent">送信済み</string>
+  <string name="mail_tab_mentions">言及</string>
   <string name="mail_author_wrote">%1$s が書きました</string>
   <string name="mail_hint_recipient">宛先</string>
   <string name="mail_hint_subject">タイトル</string>
@@ -276,6 +282,8 @@
   <!-- Moderation tools -->
   <string name="mod_mail">Mod メール</string>
   <string name="mod_mail_unread">モデレーターからのメッセージが未読です</string>
+  <string name="mod_modqueue">モデレーターキュー</string>
+  <string name="mod_unmoderated">モデレーション解除</string>
   <string name="mod_reports">報告</string>
   <string name="mod_approve">この投稿を承認してもよろしいですか?</string>
   <string name="mod_approved">投稿を承認しました。</string>
@@ -393,6 +401,9 @@
   <string name="post_buttons">投稿ボタン</string>
   <string name="navigation">ナビ</string>
   <string name="collapse_comments">折り畳み</string>
+  <string name="nsfw">NSFW コンテンツ</string>
+  <string name="content_thumbnails">コンテンツのサムネイル</string>
+  <string name="view_reddit_settings">Redditをブラウザ上で設定する</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit テーマ &amp; レイアウト</string>
   <string name="title_edit_theme">テーマを編集</string>
@@ -611,4 +622,7 @@
   <string name="open_externally">外部で開く</string>
   <string name="vertical_album_view">アルバムを垂直方向に表示、閲覧する</string>
   <string name="download_album">アルバムをダウンロード</string>
+  <string name="compose_message">コメントを作成</string>
+  <string name="mark_all_as_read">すべて既読にする</string>
+  <string name="btn_changelog">更新履歴</string>
 </resources>

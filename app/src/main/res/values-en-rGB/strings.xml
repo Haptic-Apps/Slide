@@ -140,12 +140,18 @@
   <string name="sorting_old">Old</string>
   <string name="sorting_controversial">Controversial</string>
   <string name="sorting_rising">Rising</string>
-  <string name="sorting_hour">Past hour</string>
-  <string name="sorting_day">Past 24 hours</string>
-  <string name="sorting_week">Past week</string>
-  <string name="sorting_month">Past month</string>
-  <string name="sorting_year">Past year</string>
-  <string name="sorting_all">All time</string>
+  <string name="sorting_hour">› hour</string>
+  <string name="sorting_day">› 24 hours</string>
+  <string name="sorting_week">› week</string>
+  <string name="sorting_month">› month</string>
+  <string name="sorting_year">› year</string>
+  <string name="sorting_all">› all time</string>
+  <string name="sorting_search_hour">Past hour</string>
+  <string name="sorting_search_day">Past 24 hours</string>
+  <string name="sorting_search_week">Past week</string>
+  <string name="sorting_search_month">Past month</string>
+  <string name="sorting_search_year">Past year</string>
+  <string name="sorting_search_all">All time</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -154,7 +160,7 @@
   <string name="editor_title">Title</string>
   <string name="editor_err_msg">Please try again in a few seconds</string>
   <string name="editor_uploading_image">Uploading image to Imgur</string>
-  <string name="editor_self">Self text</string>
+  <string name="editor_self">Selftext</string>
   <string name="editor_select_img">Select picture</string>
   <string name="editor_hint_optional_body">Text (optional)</string>
   <string name="editor_submit">Submit a post</string>
@@ -204,6 +210,11 @@
   <string name="type_imgur">Imgur content</string>
   <string name="type_nsfw_imgur">NSFW Imgur content</string>
   <string name="type_external">External</string>
+  <!-- Content types plural (Content filters) -->
+  <string name="type_gifs">GIFs</string>
+  <string name="type_albums">Albums</string>
+  <string name="type_nsfw_content">NSFW content</string>
+  <string name="type_links">Links</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Inbox</string>
   <string name="mail_tab_unread">Unread</string>
@@ -559,6 +570,7 @@
   <string name="sub_content_filter">Subreddit content filter</string>
   <string name="submission_share_reddit_url">Share comments</string>
   <string name="filter_content">Filter this content</string>
+  <string name="content_to_hide">Content to hide on %1$s</string>
   <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
   <string name="error_video_not_found">Video not found</string>
   <string name="error_video_message">An error occurred whilst loading this video</string>
@@ -570,6 +582,9 @@
   <string name="btn_report">Report</string>
   <string name="input_reason_for_report">Reason for reporting</string>
   <string name="msg_report_sent">Report sent</string>
+  <string name="load_videos_internally">Load videos internally</string>
+  <string name="load_videos_internally_content">Would you like to try out the Slide Video plugin? This will allow you to view videos (like YouTube) internally!</string>
+  <string name="do_not_show_again">Don\'t show again</string>
   <plurals name="landscape_columns">
     <item quantity="one">%d column in landscape</item>
     <item quantity="other">%d columns in landscape</item>
@@ -644,4 +659,14 @@
   <string name="compose_message">Compose message</string>
   <string name="mark_all_as_read">Mark all as read</string>
   <string name="btn_changelog">Changelog</string>
+  <string name="clear_subreddit_history">Clear subreddit history</string>
+  <string name="clear_submission_history">Clear submission history</string>
+  <string name="alert_history_cleared">History cleared!</string>
+  <string name="settings_subredditspecific_selftext">Always show selftext previews in this subreddit</string>
+  <string name="settings_font_system">System</string>
+  <string name="manage_offline_content">Manage offline content</string>
+  <string name="go_offline">Go offline</string>
+  <string name="cache_wifi_only">Only cache on WiFi</string>
+  <string name="settings_font_bold">Bold</string>
+  <string name="settings_font_condensed_bold">Condensed Bold</string>
 </resources>

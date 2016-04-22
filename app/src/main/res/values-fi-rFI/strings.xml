@@ -100,12 +100,6 @@
   <string name="sorting_old">Vanha</string>
   <string name="sorting_controversial">Kiistanalaiset</string>
   <string name="sorting_rising">Nousevat</string>
-  <string name="sorting_hour">Viimeisin tunti</string>
-  <string name="sorting_day">Viimeiset 24 tuntia</string>
-  <string name="sorting_week">Viimeisin viikko</string>
-  <string name="sorting_month">Viimeisin kuukausi</string>
-  <string name="sorting_year">Viimeisin vuosi</string>
-  <string name="sorting_all">Kaikelta ajalta</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Teksti</string>
@@ -114,7 +108,6 @@
   <string name="editor_title">Otsikko</string>
   <string name="editor_err_msg">Yritä uudelleen muutaman sekunnin kuluttua.</string>
   <string name="editor_uploading_image">Kuva ladataan Imguriin</string>
-  <string name="editor_self">Teksti</string>
   <string name="editor_select_img">Valitse kuva</string>
   <string name="editor_hint_optional_body">Teksti (valinnainen)</string>
   <string name="editor_submit">Tee postaus</string>
@@ -130,6 +123,7 @@
   <string name="gif_err_title">GIF:iä ei löytynyt</string>
   <!-- Multireddit errors -->
   <!-- Content types -->
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Postilaatikko</string>
   <string name="mail_hint_recipient">Vastaanottaja</string>

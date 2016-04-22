@@ -72,12 +72,6 @@
   <string name="sorting_ama">שאלות ותשובות (AMA)</string>
   <string name="sorting_new">חדש</string>
   <string name="sorting_old">ישן</string>
-  <string name="sorting_hour">בשעה האחרונה</string>
-  <string name="sorting_day">היום</string>
-  <string name="sorting_week">השבוע</string>
-  <string name="sorting_month">החודש</string>
-  <string name="sorting_year">השנה</string>
-  <string name="sorting_all">כל הזמנים</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">לינק</string>
   <string name="editor_text">טקסט</string>
@@ -98,6 +92,7 @@
   <!-- Gif -->
   <!-- Multireddit errors -->
   <!-- Content types -->
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_hint_body">טקסט</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->

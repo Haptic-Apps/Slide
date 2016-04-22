@@ -103,12 +103,6 @@
   <string name="sorting_old">Старое</string>
   <string name="sorting_controversial">Спорное</string>
   <string name="sorting_rising">Набирающее популярность</string>
-  <string name="sorting_hour">Прошедший час</string>
-  <string name="sorting_day">за последние 24 часа</string>
-  <string name="sorting_week">за последнюю неделю</string>
-  <string name="sorting_month">за последний месяц</string>
-  <string name="sorting_year">за последний год</string>
-  <string name="sorting_all">всё Время</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">Ссылка</string>
   <string name="editor_text">Текст</string>
@@ -117,7 +111,6 @@
   <string name="editor_title">Заголовок</string>
   <string name="editor_err_msg">Пожалуйста, повторите попытку через несколько секунд.</string>
   <string name="editor_uploading_image">Загрузка изображения на imgur</string>
-  <string name="editor_self">Свой текст</string>
   <string name="editor_select_img">Выберите изображение</string>
   <string name="editor_hint_optional_body">Текст (по выбору)</string>
   <string name="editor_submit">Сделать запись</string>
@@ -156,6 +149,7 @@
   <string name="type_img">Изображение</string>
   <string name="type_vid">Видео</string>
   <string name="type_emb">Встроенное</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Входящие</string>
   <string name="mail_author_wrote">%1$s написал&#8230;</string>

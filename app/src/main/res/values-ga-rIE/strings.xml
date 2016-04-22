@@ -37,7 +37,6 @@
   <string name="editor_title">Teideal</string>
   <string name="editor_err_msg">Iarracht eile tar éis cúpla nóiméad le do thoil.</string>
   <string name="editor_uploading_image">Tá an íomhá ag uaslódáil chun Imgur</string>
-  <string name="editor_self">Téacs féin</string>
   <string name="editor_select_img">Pioc an phictiúir</string>
   <string name="editor_hint_optional_body">Téacs (roghnach)</string>
   <string name="editor_submit">Cuir postáil insteach</string>
@@ -48,6 +47,7 @@
   <!-- Multireddit errors -->
   <!-- Content types -->
   <string name="type_vid">Físeán</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_author_wrote">Scríobh %1$s&#8230;</string>
   <string name="mail_hint_body">Téacs</string>

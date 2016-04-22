@@ -112,12 +112,6 @@
   <string name="sorting_old">Vechi</string>
   <string name="sorting_controversial">Controversate</string>
   <string name="sorting_rising">În creştere</string>
-  <string name="sorting_hour">Ultima oră</string>
-  <string name="sorting_day">Ultimele 24 de ore</string>
-  <string name="sorting_week">Săptămâna trecută</string>
-  <string name="sorting_month">Luna trecută</string>
-  <string name="sorting_year">Anul trecut</string>
-  <string name="sorting_all">Dintotdeauna</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -126,7 +120,6 @@
   <string name="editor_title">Titlu</string>
   <string name="editor_err_msg">Vă rugăm să încercaţi din nou în câteva secunde.</string>
   <string name="editor_uploading_image">Se încarcă imaginea pe Imgur</string>
-  <string name="editor_self">Self text</string>
   <string name="editor_select_img">Alege o imagine</string>
   <string name="editor_hint_optional_body">Conținut (opțional)</string>
   <string name="editor_submit">Postează</string>
@@ -171,6 +164,7 @@
   <string name="type_vid">Video</string>
   <string name="type_emb">Încorporat</string>
   <string name="type_imgur">Conținut de pe Imgur</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Inbox</string>
   <string name="mail_author_wrote">%1$s a scris&#8230;</string>

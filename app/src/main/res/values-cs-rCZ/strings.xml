@@ -87,12 +87,6 @@
   <string name="sorting_old">Staré</string>
   <string name="sorting_controversial">Kontroverzní</string>
   <string name="sorting_rising">Rostoucí</string>
-  <string name="sorting_hour">poslední hodina</string>
-  <string name="sorting_day">posledních 24 hodin</string>
-  <string name="sorting_week">minulý týden</string>
-  <string name="sorting_month">minulý měsíc</string>
-  <string name="sorting_year">minulý rok</string>
-  <string name="sorting_all">všech dob</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -101,7 +95,6 @@
   <string name="editor_title">Titulek</string>
   <string name="editor_err_msg">Opakujte akci za pár vteřin.</string>
   <string name="editor_uploading_image">Nahrávání obrázku na Imgur</string>
-  <string name="editor_self">Vlastní text</string>
   <string name="editor_select_img">Vybrat obrázek</string>
   <string name="editor_hint_optional_body">Tělo (volitelné)</string>
   <string name="editor_submit">Odeslat příspěvek</string>
@@ -137,6 +130,7 @@
   <string name="type_album">Album</string>
   <string name="type_img">Obrázek</string>
   <string name="type_vid">Video</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Příchozí zprávy</string>
   <string name="mail_hint_recipient">Příjemce</string>

@@ -52,6 +52,12 @@
   <string name="theme_card">Card</string>
   <!-- Font settings -->
   <string name="font_size">Dimensione caratteri</string>
+  <string name="font_size_larger">Più grande</string>
+  <string name="font_size_large">Grande</string>
+  <string name="font_size_medium">Medio</string>
+  <string name="font_size_small">Piccolo</string>
+  <string name="font_size_smaller">Più piccolo</string>
+  <string name="font_size_tiny">Minuscolo</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">Bottone nascondi post nella barra azioni</string>
   <string name="card_tint_outside">Colora solo fuori dal subreddit</string>
@@ -61,6 +67,7 @@
   <string name="multi_column_landscape">Orizzontale</string>
   <string name="multi_column_portrait">Due colonne in modalità ritratto</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">Tu</string>
   <string name="drawer_support">Passa alla versione Pro</string>
   <string name="drawer_goto_profile">Vai al profilo</string>
   <string name="drawer_add_account">Aggiungi un account</string>
@@ -93,7 +100,14 @@
   <string name="profile_remove_account">Vuoi davvero eliminare questo account?</string>
   <string name="profile_remove">Cancella account</string>
   <string name="profile_history">Cronologia</string>
+  <string name="profile_share">Profilo di %s</string>
+  <string name="profile_age">Redditor da %s</string>
+  <string name="profile_tag">Tag</string>
+  <string name="profile_tag_set">Imposta tag per %s</string>
   <string name="profile_tag_user">Tagga utente</string>
+  <string name="profile_tag_user_existing">Utente taggato come \'%s\'</string>
+  <string name="profile_btn_tag">Imposta tag</string>
+  <string name="profile_btn_untag">Rimuovi tag</string>
   <!-- Comment text options -->
   <string name="comment_gild">Dona gold</string>
   <string name="comment_share">Condividi commento</string>
@@ -105,6 +119,7 @@
   <string name="comment_unsave">Annulla salvataggio</string>
   <string name="comment_load_more">Carica altri %1$d</string>
   <string name="comment_loading_more">Caricando ulteriori commenti&#8230;</string>
+  <string name="comment_permalink">Carica il permalink del commento</string>
   <string name="comment_parent">Mostra commento genitore</string>
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Inizia</string>
@@ -121,12 +136,12 @@
   <string name="sorting_old">Vecchi</string>
   <string name="sorting_controversial">Discussi</string>
   <string name="sorting_rising">In ascesa</string>
-  <string name="sorting_hour">quest\'ora</string>
-  <string name="sorting_day">oggi</string>
-  <string name="sorting_week">questa settimana</string>
-  <string name="sorting_month">questo mese</string>
-  <string name="sorting_year">quest\'anno</string>
-  <string name="sorting_all">di sempre</string>
+  <string name="sorting_hour">> ora</string>
+  <string name="sorting_day">> 24 ore</string>
+  <string name="sorting_week">> settimana</string>
+  <string name="sorting_month">> mese</string>
+  <string name="sorting_year">> anno</string>
+  <string name="sorting_all">> di sempre</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Testo</string>
@@ -176,12 +191,24 @@
   <string name="type_gif">GIF</string>
   <string name="type_title_only">Titolo del post</string>
   <string name="type_album">Album</string>
+  <string name="type_nsfw_album">Album NSFW</string>
   <string name="type_img">Immagine</string>
   <string name="type_vid">Video</string>
+  <string name="type_nsfw_video">Video NSFW</string>
   <string name="type_emb">Incorporato</string>
   <string name="type_imgur">Contenuto Imgur</string>
+  <string name="type_external">Esterno</string>
+  <!-- Content types plural (Content filters) -->
+  <string name="type_gifs">GIF</string>
+  <string name="type_albums">Album</string>
+  <string name="type_nsfw_content">Contenuto NSFW</string>
+  <string name="type_links">Link</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Posta in arrivo</string>
+  <string name="mail_tab_unread">Non letto</string>
+  <string name="mail_tab_messages">Messaggi</string>
+  <string name="mail_tab_sent">Inviati</string>
+  <string name="mail_tab_mentions">Menzioni</string>
   <string name="mail_author_wrote">%1$s ha scritto&#8230;</string>
   <string name="mail_hint_recipient">Destinatario</string>
   <string name="mail_hint_subject">Oggetto</string>
@@ -193,6 +220,10 @@
   <string name="mail_notification_author">%1$s da %2$s</string>
   <string name="mail_theirs">Vedi il suo messaggio</string>
   <string name="mail_re">re: %1$s</string>
+  <string name="mail_mark_read">Segna come letto</string>
+  <string name="mail_mark_unread">Segna come non letto</string>
+  <string name="mail_view_full_thread">Visualizza discussione completa</string>
+  <string name="mail_message_copied">Messaggio copiato</string>
   <plurals name="mail_notification_title">
     <item quantity="one">Hai un nuovo messaggio!</item>
     <item quantity="other">Hai %1$d nuovi messaggi!</item>
@@ -253,6 +284,7 @@
   <!-- Moderation tools -->
   <string name="mod_mail">Posta moderatore</string>
   <string name="mod_mail_unread">Mod mail non letta</string>
+  <string name="mod_unmoderated">Non moderato</string>
   <string name="mod_reports">Segnalazioni</string>
   <string name="mod_approve">Vuoi davvero approvare questo post?</string>
   <string name="mod_approved">Post approvato.</string>
@@ -359,6 +391,12 @@
   <string name="settings_section_appearance">Aspetto</string>
   <string name="settings_section_other">Altro</string>
   <!-- Setting subheaders -->
+  <string name="display">Mostra</string>
+  <string name="image_downloads">Immagini</string>
+  <string name="app_theme">Tema dell\'applicazione</string>
+  <string name="post_info">Informazioni post</string>
+  <string name="navigation">Navigazione</string>
+  <string name="nsfw">Contenuto NSFW</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Temi subreddit &amp; layout</string>
   <string name="title_edit_theme">Modifica tema</string>
@@ -402,6 +440,19 @@
   <string name="reorder_remove_msg">Non sarai disiscritto da questo subreddit, ma non lo vedrai nella tua sidebar!</string>
   <string name="reorder_sync_complete">Sincronizzazione completata</string>
   <!-- Time -->
+  <string name="time_just_now">Proprio ora</string>
+  <plurals name="time_years">
+    <item quantity="one">%d anno</item>
+    <item quantity="other">%d anni</item>
+  </plurals>
+  <plurals name="time_months">
+    <item quantity="one">%d mese</item>
+    <item quantity="other">%d mesi</item>
+  </plurals>
+  <plurals name="time_days">
+    <item quantity="one">%d giorno</item>
+    <item quantity="other">%d giorni</item>
+  </plurals>
   <plurals name="time_hours">
     <item quantity="one">%d ora</item>
     <item quantity="other">%d ore</item>
@@ -409,6 +460,10 @@
   <plurals name="time_minutes">
     <item quantity="one">%d minuto</item>
     <item quantity="other">%d minuti</item>
+  </plurals>
+  <plurals name="time_seconds">
+    <item quantity="one">%d secondo</item>
+    <item quantity="other">%d secondi</item>
   </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
   <!-- Strings present during the login process -->
@@ -428,6 +483,7 @@
   <string name="color_sync_complete">Sincronizzazione completata</string>
   <!-- Discover section: find -->
   <string name="discover_title">Scopri</string>
+  <string name="discover_popular">Popolare</string>
   <string name="comment_load_more_number_unknown">Carica altri commenti</string>
   <string name="settings_comment_color">Indicatori colorati di profondità dei commenti</string>
   <string name="settings_volume_nav_comments">Naviga attraverso i commenti con i pulsanti volume</string>
@@ -453,6 +509,7 @@
   <string name="fab_disabled">Disabilitato</string>
   <string name="handling_internal_browser">Usa browser integrato</string>
   <string name="handling_external_browser">Usa browser esterno</string>
+  <string name="settings_fastscroll_description">Abilita una barra inferiore con frecce di navigazione</string>
   <string name="settings_comment_collapse">Nascondi interamente i commenti</string>
   <string name="settings_comment_collapse_description">Disattiva anche le animazioni dei commenti</string>
   <string name="settings_comment_collapse_default">Collassa commenti figli di default</string>
@@ -477,6 +534,9 @@
   <string name="btn_report">Segnala</string>
   <string name="input_reason_for_report">Motivazione della segnalazione</string>
   <string name="msg_report_sent">Segnalazione inviata</string>
+  <string name="load_videos_internally">Carica video internamente</string>
+  <string name="load_videos_internally_content">Vorresti provare il plugin Slide Video? Ti permetterà di visualizzare i video (come quelli di YouTube) internamente!</string>
+  <string name="do_not_show_again">Non mostrare ancora</string>
   <plurals name="landscape_columns">
     <item quantity="one">%d colonna in modalità landscape</item>
     <item quantity="other">%d colonne in modalità landscape</item>
@@ -523,7 +583,29 @@
   <string name="content_deleted">[eliminato]</string>
   <string name="thread_continue">Continua questa discussione</string>
   <string name="type_selftext">Testo</string>
+  <string name="settings_fab_create">Mostra il pulsante fluttuante \"crea commento\"</string>
   <string name="submission_unhide">Mostra post</string>
   <string name="submission_info_unhidden">Post non nascosto</string>
+  <string name="settings_handling_external_desc">I domini inseriti sotto verranno aperti sempre esternamente</string>
+  <string name="settings_handling_enterdomain">Inserisci un dominio o parte di esso</string>
+  <string name="err_comment_post">Uh oh, inserimento del post fallito!</string>
+  <string name="err_comment_post_reason">"Motivo: "</string>
+  <string name="err_comment_post_message">\n\nIl tuo messaggio è stato salvato come bozza. Per favore riprova più tardi.</string>
+  <string name="err_comment_post_copy">Copia commento</string>
+  <string name="choose_draft">Seleziona una bozza</string>
+  <string name="dialog_no_drafts">Ancora nessuna bozza</string>
+  <string name="dialog_no_drafts_msg">Puoi aggiungere una bozza cliccando l\'icona \'salva\' nella barra dell\'editor!</string>
+  <string name="msg_save_draft">Messaggio salvato come bozza</string>
+  <string name="guest">Ospite</string>
+  <string name="err_comment_post_nosave_message">\nPer favore riprova tra un minuto.</string>
   <string name="open_externally">Apri con</string>
+  <string name="download_album">Scarica album</string>
+  <string name="compose_message">Componi messaggio</string>
+  <string name="mark_all_as_read">Segna tutto come letto</string>
+  <string name="clear_subreddit_history">Pulisci la cronologia dei subreddit</string>
+  <string name="alert_history_cleared">Cronologia pulita!</string>
+  <string name="settings_font_system">Sistema</string>
+  <string name="manage_offline_content">Gestisci contenuto offline</string>
+  <string name="go_offline">Vai offline</string>
+  <string name="settings_font_bold">Grassetto</string>
 </resources>

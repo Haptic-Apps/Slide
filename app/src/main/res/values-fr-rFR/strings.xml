@@ -122,12 +122,6 @@
   <string name="sorting_old">Ancien</string>
   <string name="sorting_controversial">Controversé</string>
   <string name="sorting_rising">En progression</string>
-  <string name="sorting_hour">la dernière heure</string>
-  <string name="sorting_day">aujourd\'hui</string>
-  <string name="sorting_week">cette semaine</string>
-  <string name="sorting_month">ce mois-ci</string>
-  <string name="sorting_year">cette année</string>
-  <string name="sorting_all">depuis le début</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Texte</string>
@@ -136,7 +130,7 @@
   <string name="editor_title">Titre </string>
   <string name="editor_err_msg">Veuillez réessayer dans quelques secondes.</string>
   <string name="editor_uploading_image">Envoi de l\'image sur imgur</string>
-  <string name="editor_self">Texte libre</string>
+  <string name="editor_self">Texte brut</string>
   <string name="editor_select_img">Sélectionner une image</string>
   <string name="editor_hint_optional_body">Corps de texte (facultatif)</string>
   <string name="editor_submit">Soumettre une publication</string>
@@ -181,6 +175,7 @@
   <string name="type_vid">Video</string>
   <string name="type_emb">Intégré</string>
   <string name="type_imgur">Contenu d\'Imgur</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Boîte de réception</string>
   <string name="mail_author_wrote">%1$s a écrit&#8230;</string>

@@ -60,12 +60,6 @@
   <string name="sorting_old">Oud</string>
   <string name="sorting_controversial">Kontroversieel</string>
   <string name="sorting_rising">Reisend</string>
-  <string name="sorting_hour">Afgelope uur</string>
-  <string name="sorting_day">Afgelope 24 uur</string>
-  <string name="sorting_week">Afgelope week</string>
-  <string name="sorting_month">Afgelope maand</string>
-  <string name="sorting_year">Afgelope jaar</string>
-  <string name="sorting_all">Alle tyd</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_text">Teks</string>
   <string name="editor_title">Titel</string>
@@ -77,6 +71,7 @@
   <!-- Gif -->
   <!-- Multireddit errors -->
   <!-- Content types -->
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_hint_body">Teks</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->

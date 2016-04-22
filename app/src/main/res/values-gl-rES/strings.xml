@@ -40,9 +40,6 @@
   <!-- Sorting options -->
   <string name="sorting_hot">Popular</string>
   <string name="sorting_new">Novo</string>
-  <string name="sorting_month">Este mes</string>
-  <string name="sorting_year">Este ano</string>
-  <string name="sorting_all">Todo o tempo</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Texto</string>
@@ -56,6 +53,7 @@
   <string name="type_link">Ligazón</string>
   <string name="type_album">Álbum</string>
   <string name="type_img">Imaxe</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Bandexa de entrada</string>
   <string name="mail_hint_body">Texto</string>

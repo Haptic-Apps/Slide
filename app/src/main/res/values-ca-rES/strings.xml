@@ -82,12 +82,6 @@
   <string name="sorting_old">Vell</string>
   <string name="sorting_controversial">Polèmic</string>
   <string name="sorting_rising">Creixent</string>
-  <string name="sorting_hour">última Hora</string>
-  <string name="sorting_day">últimes 24 hores</string>
-  <string name="sorting_week">última Setmana</string>
-  <string name="sorting_month">últim Mes</string>
-  <string name="sorting_year">últim Any</string>
-  <string name="sorting_all">tots els temps</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -96,7 +90,6 @@
   <string name="editor_title">Títol</string>
   <string name="editor_err_msg">Torna-ho a intentar en uns instants.</string>
   <string name="editor_uploading_image">Carregant imatge a imgur</string>
-  <string name="editor_self">Self text</string>
   <string name="editor_select_img">Seleccionar imatge</string>
   <string name="editor_hint_optional_body">Cos (opcional)</string>
   <string name="editor_submit">Enviar un post</string>
@@ -121,6 +114,7 @@
   <string name="type_album">Àlbum</string>
   <string name="type_img">Imatge</string>
   <string name="type_vid">Vídeo</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Bústia d\'entrada</string>
   <string name="mail_author_wrote">%1$s ha escrit&#8230;</string>

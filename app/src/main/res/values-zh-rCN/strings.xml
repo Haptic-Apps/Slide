@@ -97,12 +97,6 @@
   <string name="sorting_old">旧的</string>
   <string name="sorting_controversial">有争议的</string>
   <string name="sorting_rising">上升</string>
-  <string name="sorting_hour">这个钟头</string>
-  <string name="sorting_day">今天</string>
-  <string name="sorting_week">本周</string>
-  <string name="sorting_month">本月</string>
-  <string name="sorting_year">今年</string>
-  <string name="sorting_all">所有时间</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">网址</string>
   <string name="editor_text">文本</string>
@@ -111,7 +105,6 @@
   <string name="editor_title">标题</string>
   <string name="editor_err_msg">请几秒钟后再试。</string>
   <string name="editor_uploading_image">将图片上传至 imgur</string>
-  <string name="editor_self">原创文本</string>
   <string name="editor_select_img">选择图片</string>
   <string name="editor_hint_optional_body">内容（可选）</string>
   <string name="editor_submit">提交一个帖子</string>
@@ -151,6 +144,7 @@
   <string name="type_vid">视频</string>
   <string name="type_emb">内嵌</string>
   <string name="type_imgur">Imgur 内容</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">站内信</string>
   <string name="mail_author_wrote">%1$s 写道&#8230;</string>

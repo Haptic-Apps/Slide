@@ -107,12 +107,6 @@
   <string name="sorting_old">Gamla</string>
   <string name="sorting_controversial">Kontroversiella</string>
   <string name="sorting_rising">Stigande</string>
-  <string name="sorting_hour">Denna timme</string>
-  <string name="sorting_day">Idag</string>
-  <string name="sorting_week">Denna vecka</string>
-  <string name="sorting_month">Denna månad</string>
-  <string name="sorting_year">I år</string>
-  <string name="sorting_all">Från början</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -121,7 +115,6 @@
   <string name="editor_title">Titel</string>
   <string name="editor_err_msg">Vänligen försök igen om några sekunder.</string>
   <string name="editor_uploading_image">Ladda upp bilden till imgur</string>
-  <string name="editor_self">Egen text</string>
   <string name="editor_select_img">Välj bild</string>
   <string name="editor_hint_optional_body">Innehåll (valfritt)</string>
   <string name="editor_submit">Skicka ett inlägg</string>
@@ -166,6 +159,7 @@
   <string name="type_vid">Video</string>
   <string name="type_emb">Inbäddad</string>
   <string name="type_imgur">Innehåll från Imgur</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Inkorgen</string>
   <string name="mail_author_wrote">%1$s skrev&#8230;</string>

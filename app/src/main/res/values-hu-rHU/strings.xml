@@ -106,12 +106,6 @@
   <string name="sorting_old">Legrégebbi</string>
   <string name="sorting_controversial">Ellentmondásos</string>
   <string name="sorting_rising">Erősödő</string>
-  <string name="sorting_hour">elmúlt óra</string>
-  <string name="sorting_day">elmúlt 24 óra</string>
-  <string name="sorting_week">múlt hét</string>
-  <string name="sorting_month">elmúlt hónap</string>
-  <string name="sorting_year">múlt év</string>
-  <string name="sorting_all">mindenkor</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Szöveg</string>
@@ -120,7 +114,6 @@
   <string name="editor_title">Cím</string>
   <string name="editor_err_msg">Kérlek, próbáld újra egy kicsit később.</string>
   <string name="editor_uploading_image">Kép feltöltése az Imgurra</string>
-  <string name="editor_self">Önálló szöveg</string>
   <string name="editor_select_img">Kép kiválasztása</string>
   <string name="editor_hint_optional_body">Szöveg (nem kötelező)</string>
   <string name="editor_submit">Bejegyzés küldése</string>
@@ -164,6 +157,7 @@
   <string name="type_vid">Videó</string>
   <string name="type_emb">Beágyazott</string>
   <string name="type_imgur">Imgur tartalom</string>
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Beérkező</string>
   <string name="mail_author_wrote">%1$s ezt írta&#8230;</string>

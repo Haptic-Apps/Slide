@@ -27,8 +27,6 @@
   <string name="comment_delete_err_msg">Vai jūs vēlaties mēģināt vēlreiz?</string>
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
-  <string name="sorting_hour">pēdējā stundā</string>
-  <string name="sorting_day">pēdējās 24 stundās</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Teksts</string>
@@ -46,6 +44,7 @@
   <string name="multireddit_title_empty">Virsraksts nevar būt tukšs</string>
   <string name="multireddit_selector">Izvēlaties subredditu ko vēlaties pievienot</string>
   <!-- Content types -->
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Iesūtne</string>
   <string name="mail_hint_subject">Tēma</string>

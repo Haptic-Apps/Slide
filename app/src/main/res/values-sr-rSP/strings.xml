@@ -85,12 +85,6 @@
   <string name="sorting_old">Старо</string>
   <string name="sorting_controversial">Контроверзно</string>
   <string name="sorting_rising">У порасту</string>
-  <string name="sorting_hour">предходни сат</string>
-  <string name="sorting_day">предходних 24 сата</string>
-  <string name="sorting_week">предходна седмица</string>
-  <string name="sorting_month">предходни месец</string>
-  <string name="sorting_year">предходне године</string>
-  <string name="sorting_all">све</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Текст</string>
@@ -99,7 +93,6 @@
   <string name="editor_title">Наслов</string>
   <string name="editor_err_msg">Молимо покушајте поново за неколико секунди.</string>
   <string name="editor_uploading_image">Уплоадујем слику на imgur</string>
-  <string name="editor_self">Пост слике</string>
   <string name="editor_select_img">Изабери слику</string>
   <string name="editor_hint_optional_body">Тијело поста (необавезно)</string>
   <string name="editor_submit">Пошаљи пост</string>
@@ -110,6 +103,7 @@
   <!-- Gif -->
   <!-- Multireddit errors -->
   <!-- Content types -->
+  <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_hint_subject">Тема</string>
   <string name="mail_hint_body">Тело</string>

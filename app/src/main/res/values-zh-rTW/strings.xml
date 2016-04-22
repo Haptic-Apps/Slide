@@ -38,6 +38,9 @@
   <plurals name="new_messages">
     <item quantity="other">%d 則新訊息</item>
   </plurals>
+  <plurals name="points">
+    <item quantity="other">點</item>
+  </plurals>
   <!-- Theme settings -->
   <string name="theme_light">淺色</string>
   <string name="theme_dark">深色</string>
@@ -50,6 +53,12 @@
   <string name="theme_card">卡片</string>
   <!-- Font settings -->
   <string name="font_size">字型大小</string>
+  <string name="font_size_larger">加大</string>
+  <string name="font_size_large">大</string>
+  <string name="font_size_medium">中</string>
+  <string name="font_size_small">小</string>
+  <string name="font_size_smaller">加小</string>
+  <string name="font_size_tiny">極小</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">在動作列中顯示「隱藏貼文」按鈕</string>
   <string name="card_tint_outside">只在 Subreddit 外顯示色</string>
@@ -59,6 +68,7 @@
   <string name="multi_column_landscape">橫向</string>
   <string name="multi_column_portrait">在縱向時顯示多列</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">你</string>
   <string name="drawer_support">升級為專業版</string>
   <string name="drawer_goto_profile">去其他用戶的頁面</string>
   <string name="drawer_add_account">增加帳戶</string>
@@ -91,7 +101,14 @@
   <string name="profile_remove_account">你肯定要移除此帳戶嗎？</string>
   <string name="profile_remove">刪除帳戶</string>
   <string name="profile_history">歷史</string>
+  <string name="profile_share">%s 的用戶頁</string>
+  <string name="profile_age">成為 Redditor 已經 %s</string>
+  <string name="profile_tag">標籤</string>
+  <string name="profile_tag_set">為 %s 設定標籤</string>
   <string name="profile_tag_user">標籤用戶</string>
+  <string name="profile_tag_user_existing">已標籤為 %s 的用戶</string>
+  <string name="profile_btn_tag">設定標籤</string>
+  <string name="profile_btn_untag">移除標籤</string>
   <!-- Comment text options -->
   <string name="comment_gild">給留言送金</string>
   <string name="comment_share">分享留言</string>
@@ -120,12 +137,6 @@
   <string name="sorting_old">最舊</string>
   <string name="sorting_controversial">最具爭議</string>
   <string name="sorting_rising">正在上升</string>
-  <string name="sorting_hour">過去一小時</string>
-  <string name="sorting_day">過去 24 小時</string>
-  <string name="sorting_week">過去一周</string>
-  <string name="sorting_month">過去一個月</string>
-  <string name="sorting_year">過去一年</string>
-  <string name="sorting_all">所有時間</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">連結</string>
   <string name="editor_text">文字</string>
@@ -175,12 +186,23 @@
   <string name="type_gif">GIF</string>
   <string name="type_title_only">標題貼文</string>
   <string name="type_album">圖片集</string>
+  <string name="type_nsfw_album">NSFW 圖片集</string>
   <string name="type_img">圖片</string>
   <string name="type_vid">影片</string>
+  <string name="type_nsfw_video">NSFW 影片</string>
   <string name="type_emb">内嵌</string>
+  <string name="type_nsfw_emb">NSFW 嵌入內容</string>
   <string name="type_imgur">Imgur 内容</string>
+  <string name="type_nsfw_imgur">NSFW Imgur 內容</string>
+  <string name="type_external">外部</string>
+  <!-- Content types plural (Content filters) -->
+  <string name="type_nsfw_content">NSFW 內容</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">收件匣</string>
+  <string name="mail_tab_unread">未讀</string>
+  <string name="mail_tab_messages">訊息</string>
+  <string name="mail_tab_sent">已傳送</string>
+  <string name="mail_tab_mentions">被提及</string>
   <string name="mail_author_wrote">%1$s 寫道⋯</string>
   <string name="mail_hint_recipient">收件者</string>
   <string name="mail_hint_subject">主題</string>
@@ -188,12 +210,20 @@
   <string name="mail_send_to">發訊息予 %1$s</string>
   <string name="mail_send">發送訊息</string>
   <string name="mail_notification_msg">%1$s 發了訊息給你</string>
+  <string name="mod_mail_notification_msg">%1$s 發了版主訊息給你</string>
   <string name="mail_reply_to">回覆 %1$s</string>
   <string name="mail_notification_author">來自 %2$s 的 %1$s</string>
   <string name="mail_theirs">檢視他們的訊息</string>
   <string name="mail_re">回覆： %1$s</string>
+  <string name="mail_mark_read">標記為已讀</string>
+  <string name="mail_mark_unread">標記為未讀</string>
+  <string name="mail_view_full_thread">載入所有訊息</string>
+  <string name="mail_message_copied">已複製訊息</string>
   <plurals name="mail_notification_title">
     <item quantity="other">你有 %d 條新訊息！</item>
+  </plurals>
+  <plurals name="mod_mail_notification_title">
+    <item quantity="other">你有 %d 條新版主訊息！</item>
   </plurals>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">錯誤</string>
@@ -252,6 +282,8 @@
   <!-- Moderation tools -->
   <string name="mod_mail">版主訊息</string>
   <string name="mod_mail_unread">未讀版主訊息</string>
+  <string name="mod_modqueue">待版主審閱</string>
+  <string name="mod_unmoderated">未巡閱</string>
   <string name="mod_reports">檢舉報告</string>
   <string name="mod_approve">你確定要批准此貼文嗎？</string>
   <string name="mod_approved">已批准貼文</string>
@@ -337,6 +369,9 @@
   <string name="settings_comment_crop">在留言頁中裁剪主圖片</string>
   <string name="settings_general_scroll_read">在畫面捲動至貼文後標記貼文為已讀</string>
   <string name="settings_link_chrome">使用 Chrome Custom Tabs</string>
+  <string name="settings_image_location">選擇圖片／GIF 的儲存位置</string>
+  <string name="settings_image_location_unset">未設定</string>
+  <string name="settings_set_image_location">圖片會被儲存至 %s</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">備份及還原</string>
   <string name="settings_title_default_theme">主要主題</string>
@@ -357,6 +392,18 @@
   <string name="settings_section_appearance">外觀</string>
   <string name="settings_section_other">其他</string>
   <!-- Setting subheaders -->
+  <string name="sorting">排序</string>
+  <string name="display">顯示</string>
+  <string name="image_downloads">圖片</string>
+  <string name="app_theme">App 主題</string>
+  <string name="tinting">顏色</string>
+  <string name="post_info">貼文資訊</string>
+  <string name="post_buttons">貼文按鈕</string>
+  <string name="navigation">瀏覽</string>
+  <string name="collapse_comments">摺疊動作</string>
+  <string name="nsfw">NSFW 內容</string>
+  <string name="content_thumbnails">內容縮圖</string>
+  <string name="view_reddit_settings">在瀏覽器開啟 Reddit 設定</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit 主題及排版</string>
   <string name="title_edit_theme">更改主題</string>
@@ -399,14 +446,35 @@
   <string name="reorder_remove_title">要移除此 subreddit 嗎？</string>
   <string name="reorder_remove_msg">你對此 Subreddit 的訂閱不會取消，但在側面選單中便見不到這個 Subreddit！</string>
   <string name="reorder_sync_complete">同步完成</string>
+  <plurals name="reorder_subs_added">
+    <item quantity="other">已增加 %d 個 Subreddit</item>
+  </plurals>
   <!-- Time -->
+  <string name="time_just_now">剛剛</string>
+  <plurals name="time_years">
+    <item quantity="other">%d 年</item>
+  </plurals>
+  <plurals name="time_months">
+    <item quantity="other">%d 月</item>
+  </plurals>
+  <plurals name="time_days">
+    <item quantity="other">%d 日</item>
+  </plurals>
   <plurals name="time_hours">
     <item quantity="other">%d 小時</item>
   </plurals>
   <plurals name="time_minutes">
     <item quantity="other">%d 分鐘</item>
   </plurals>
+  <plurals name="time_seconds">
+    <item quantity="other">%d 秒</item>
+  </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <string name="time_years_short">%d年</string>
+  <string name="time_days_short">%d日</string>
+  <string name="time_hours_short">%d小時</string>
+  <string name="time_minutes_short">%d分</string>
+  <string name="time_seconds_short">%d秒</string>
   <!-- Strings present during the login process -->
   <string name="login_subscribe_rslideforreddit">要訂閱 /r/slideforreddit 嗎？</string>
   <string name="login_subscribe_rslideforreddit_desc">你想不想訂閱 /r/slideforreddit，以接收最新消息及報告問題？</string>
@@ -422,8 +490,14 @@
   <string name="over18_desc_loggedin">你可以於 設定 → Reddit 設定 → 顯示 NSFW 內容 中關閉此設定</string>
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">同步完成</string>
+  <plurals name="color_sync_colored">
+    <item quantity="other">%d 個 Subreddit 已增加顏色</item>
+  </plurals>
   <!-- Discover section: find -->
   <string name="discover_title">獵奇</string>
+  <string name="discover_search">搜尋關鍵字或主題</string>
+  <string name="discover_popular">受歡迎</string>
+  <string name="discover_trending">上升中</string>
   <string name="comment_load_more_number_unknown">載入更多留言</string>
   <string name="settings_comment_color">以多種顏色標示不同層次留言</string>
   <string name="settings_volume_nav_comments">使用音量按鈕在留言間移動</string>
@@ -450,6 +524,7 @@
   <string name="fab_disabled">已停用</string>
   <string name="handling_internal_browser">使用內建瀏覽器</string>
   <string name="handling_external_browser">使用外部瀏覽器</string>
+  <string name="settings_fastscroll_description">啟用在畫面下方的瀏覽按鈕工具列</string>
   <string name="settings_comment_collapse">完全摺疊留言</string>
   <string name="settings_comment_collapse_description">同時會關閉留言動畫</string>
   <string name="settings_comment_collapse_default">預設摺疊下層留言</string>
@@ -457,6 +532,8 @@
   <string name="mode_centered">圖片顯示於卡片中間</string>
   <string name="mode_card">卡片</string>
   <string name="mode_thumbnail">只顯示縮圖</string>
+  <string name="mode_cropped">顯示局部大圖片</string>
+  <string name="mode_bigpic">大圖片</string>
   <string name="settings_general_swipeanywhere_description">在畫面上任何位置滑動退出</string>
   <string name="press_actionbar">按箭嘴以顯示動作列</string>
   <string name="tap_actionbar">長按以顯示動作列</string>
@@ -500,7 +577,7 @@
   <string name="settings_layout_view">顯示模式</string>
   <string name="settings_data_lowqaul_desc">否則，載入高品質圖片</string>
   <string name="settings_data_lowqaul">在可能時載入較低品質的圖片</string>
-  <string name="settings_subredditspecific_bigpic">在此 Subreddit 中總示顯示大圖片</string>
+  <string name="settings_subredditspecific_bigpic">在此 Subreddit 中總是顯示大圖片</string>
   <string name="settings_layout_picture_mode">圖片模式</string>
   <string name="settings_general_expanded_toolbar">展開工具列選單</string>
   <string name="settings_general_expanded_toolbar_desc">在 Subreddit 工具列上顯示更多選項</string>
@@ -523,7 +600,29 @@
   <string name="content_deleted">[已刪除]</string>
   <string name="thread_continue">檢視更多留言</string>
   <string name="type_selftext">文字貼文</string>
+  <string name="settings_fab_create">顯示「增加留言」浮動動作按鈕</string>
+  <string name="settings_right_handed_comment_menu">右撇留言回覆選單</string>
   <string name="submission_unhide">取消隱藏貼文</string>
   <string name="submission_info_unhidden">已取消隱藏貼文</string>
+  <string name="settings_handling_external_desc">以下所輸入的域名會使用其他 App 中開啟</string>
+  <string name="settings_handling_enterdomain">輸入域名或域名的一部分</string>
+  <string name="err_comment_post">提交留言失敗</string>
+  <string name="err_comment_post_reason">"理由："</string>
+  <string name="err_comment_post_message">\n\n你的訊息已存為草稿，請稍後再試</string>
+  <string name="err_comment_post_copy">複製留言</string>
+  <string name="choose_draft">選擇草稿</string>
+  <string name="dialog_no_drafts">還未有草稿</string>
+  <string name="dialog_no_drafts_msg">你可以在編輯列中按「儲存」，把文字存為草稿。</string>
+  <string name="msg_save_draft">訊息已存為草稿</string>
+  <string name="content_removed">[已刪除]</string>
+  <string name="guest">訪客</string>
+  <string name="err_comment_post_nosave_message">\n\n請稍後再試</string>
+  <string name="album_slide_view">左右滑動顯示圖片集</string>
+  <string name="album_grid">格狀顯示圖片集</string>
   <string name="open_externally">使用其他 App 開啟</string>
+  <string name="vertical_album_view">垂直顯示圖片集</string>
+  <string name="download_album">下載圖片集</string>
+  <string name="compose_message">撰寫訊息</string>
+  <string name="mark_all_as_read">標記全部項目為已讀</string>
+  <string name="btn_changelog">更新列表</string>
 </resources>

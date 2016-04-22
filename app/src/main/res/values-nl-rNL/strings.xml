@@ -56,6 +56,12 @@
   <string name="theme_card">Kaart</string>
   <!-- Font settings -->
   <string name="font_size">Lettergrootte</string>
+  <string name="font_size_larger">Groter</string>
+  <string name="font_size_large">Groot</string>
+  <string name="font_size_medium">Middelgroot</string>
+  <string name="font_size_small">Klein</string>
+  <string name="font_size_smaller">Kleiner</string>
+  <string name="font_size_tiny">Zeer klein</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">\"Post verbergen\"-knop in actiebalk</string>
   <string name="card_tint_outside">Kleur alleen buiten de subreddit</string>
@@ -82,7 +88,7 @@
   <string name="profile_karma_comment">Reactiekarma</string>
   <string name="profile_message">Privébericht</string>
   <string name="profile_saved">Opgeslagen</string>
-  <string name="profile_upvoted">Omhoog gestemd</string>
+  <string name="profile_upvoted">Omhooggewillemd</string>
   <string name="profile_err_title">Gebruiker niet gevonden</string>
   <string name="profile_err_msg">Reddit-gebruiker kan niet worden geladen.</string>
   <string name="profile_overview">Overzicht</string>
@@ -134,12 +140,6 @@
   <string name="sorting_old">Oud</string>
   <string name="sorting_controversial">Controversieel</string>
   <string name="sorting_rising">Stijgende</string>
-  <string name="sorting_hour">Afgelopen uur</string>
-  <string name="sorting_day">Afgelopen 24 uur</string>
-  <string name="sorting_week">Afgelopen week</string>
-  <string name="sorting_month">Afgelopen maand</string>
-  <string name="sorting_year">Afgelopen Jaar</string>
-  <string name="sorting_all">Altijd</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Tekst</string>
@@ -196,10 +196,16 @@
   <string name="type_emb">Ingesloten</string>
   <string name="type_nsfw_emb">NSFW-ingesloten</string>
   <string name="type_imgur">Imgur-inhoud</string>
-  <string name="type_nsfw_imgur">NSFW-Imgur inhoud</string>
+  <string name="type_nsfw_imgur">NSFW-Imgur-inhoud</string>
   <string name="type_external">Extern</string>
+  <!-- Content types plural (Content filters) -->
+  <string name="type_nsfw_content">NSFW-inhoud</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Inbox</string>
+  <string name="mail_tab_unread">Ongelezen</string>
+  <string name="mail_tab_messages">Berichten</string>
+  <string name="mail_tab_sent">Verzonden</string>
+  <string name="mail_tab_mentions">Genoemd</string>
   <string name="mail_author_wrote">%1$s schreef&#8230;</string>
   <string name="mail_hint_recipient">Ontvanger</string>
   <string name="mail_hint_subject">Onderwerp</string>
@@ -268,25 +274,27 @@
   <string name="backup_success">Back-up gelukt!</string>
   <string name="backup_restoring">Je instellingen herstellen</string>
   <string name="backup_backing_up">Back-up maken van je instellingen</string>
-  <string name="backup_restore_settings">Je instellingen succesvol hersteld!</string>
+  <string name="backup_restore_settings">Instellingen succesvol hersteld!</string>
   <string name="backup_restarting">App wordt nu opnieuw gestart.</string>
-  <string name="backup_info">Slide slaat al uw data op in een privé Google Drive map. Je kunt deze data synchroniseren tussen apparaten (of naar hetzelfde apparaat) en jouw data zal nooit via een derde partij gaan.</string>
-  <string name="backup_btn">Backup</string>
+  <string name="backup_info">Slide slaat al jouw gegevens privé op in een Google Drive-map. Je kan de gegevens synchroniseren tussen verschillende apparaten of weer naar hetzelfde apparaat. De gegevens worden nooit verzonden naar een derde partij.</string>
+  <string name="backup_btn">Back-up</string>
   <string name="backup_btn_restore">Herstellen</string>
   <string name="backup_btn_file">Back-up maken naar bestand</string>
   <string name="backup_btn_restore_file">Herstel vanuit bestand</string>
   <!-- Vote -->
-  <string name="vote_err">Fout bij het uitbrengen van je stem!</string>
+  <string name="vote_err">Fout bij het uitbrengen van jouw stem!</string>
   <string name="vote_err_login">Je moet ingelogd zijn om te stemmen!</string>
   <!-- Moderation tools -->
-  <string name="mod_mail">Mod Berichten</string>
+  <string name="mod_mail">Modmail</string>
   <string name="mod_mail_unread">Ongelezen modmail</string>
+  <string name="mod_modqueue">Moderatiewachtrij</string>
+  <string name="mod_unmoderated">Ongemodereerd</string>
   <string name="mod_reports">Meldingen</string>
-  <string name="mod_approve">Weet je zeker dat je deze post wil goedkeuren?</string>
-  <string name="mod_approved">Post goedgekeurd.</string>
+  <string name="mod_approve">Weet je zeker dat je dit bericht wilt goedkeuren?</string>
+  <string name="mod_approved">Bericht goedgekeurd.</string>
   <string name="mod_mark_nsfw">Weet je zeker dat je dit als NSFW wilt markeren?</string>
   <string name="mod_remove_nsfw">Weet je zeker dat je de NSFW-markering wilt verwijderen?</string>
-  <string name="mod_flair_post">Post markeren</string>
+  <string name="mod_flair_post">Bericht markeren</string>
   <string name="mod_flair_hint">Markeringstekst</string>
   <string name="mod_no_reports">Geen meldingen</string>
   <string name="mod_btn_approve">Goedkeuren</string>
@@ -298,7 +306,7 @@
   <string name="mod_btn_unsticky">Losmaken</string>
   <string name="mod_btn_remove">Verwijderen</string>
   <string name="mod_btn_remove_reason">Verwijder met reden</string>
-  <string name="mod_btn_author">Auteurs profiel</string>
+  <string name="mod_btn_author">Profiel auteur</string>
   <plurals name="mod_btn_reports">
     <item quantity="one">Bekijk %d melding</item>
     <item quantity="other">Bekijk %d meldingen</item>
@@ -375,7 +383,7 @@
   <string name="settings_title_default_theme">Hoofdthema</string>
   <string name="settings_title_general">Algemeen</string>
   <string name="settings_title_history">Geschiedenis</string>
-  <string name="settings_title_notifications">Berichtinstellingen</string>
+  <string name="settings_title_notifications">Notificaties</string>
   <string name="settings_title_pro">Neem Pro</string>
   <string name="settings_title_sub_theme">Subredditthema \'s</string>
   <string name="settings_title_sorting">Standaardsortering</string>
@@ -391,7 +399,7 @@
   <string name="settings_section_other">Overig</string>
   <!-- Setting subheaders -->
   <string name="sorting">Sortering</string>
-  <string name="display">Display</string>
+  <string name="display">Weergave</string>
   <string name="image_downloads">Afbeeldingen</string>
   <string name="app_theme">Appthema</string>
   <string name="tinting">Kleur</string>
@@ -399,10 +407,13 @@
   <string name="post_buttons">Berichtknoppen</string>
   <string name="navigation">Navigatie</string>
   <string name="collapse_comments">Knoppen verbergen</string>
+  <string name="nsfw">NSFW-inhoud</string>
+  <string name="content_thumbnails">Inhoudthumbnails</string>
+  <string name="view_reddit_settings">Open Reddit-voorkeuren in de browser</string>
   <!-- Titles displayed in action bar / head / recents overview-->
-  <string name="title_subreddit_settings">Subreddit Thema´s &amp; Layouts</string>
+  <string name="title_subreddit_settings">Subreddit Thema\'s &amp; Layouts</string>
   <string name="title_edit_theme">Thema aanpassen</string>
-  <string name="title_submit_post">Post insturen</string>
+  <string name="title_submit_post">Bericht insturen</string>
   <string name="title_settings">Instellingen</string>
   <string name="title_share">Delen met</string>
   <string name="title_login">Inloggen op Reddit</string>
@@ -414,7 +425,7 @@
   <string name="title_mod">Moderator</string>
   <!-- Text in Donation-Activity -->
   <string name="donate_amount_title">Dit bedrag&#8230;</string>
-  <string name="donate_info_student">Ik ben een student-ontwikkelaar, en ben zeer dankbaar voor je gulle donaties! Ze hebben geholpen Slide (gratis) waar te maken :)</string>
+  <string name="donate_info_student">Ik ben een student-ontwikkelaar, en ben zeer dankbaar voor de gulle donaties! De donaties hebben geholpen om een gratis Slide mogelijk te maken!</string>
   <string name="donate_btn">Doneren</string>
   <string name="donate_amount_ads1">Voorkomt</string>
   <string name="donate_amount_ads2">weergegeven advertenties</string>
@@ -422,7 +433,7 @@
   <string name="donate_amount_hours2">uur programmeren</string>
   <string name="donate_title">Slide for Reddit steunen</string>
   <string name="donate_err_title">Donatie mislukt :(</string>
-  <string name="donate_err_msg">De donatie kon helaas niet worden voltooid. Zorg ervoor dat je bent verbonden met het internet en probeer het opnieuw! bedankt voor je steun!</string>
+  <string name="donate_err_msg">De donatie kon helaas niet worden voltooid. Zorg ervoor dat je bent verbonden met het internet en probeer het opnieuw! Bedankt voor je steun!</string>
   <string name="donate_success_title">Donatie gelukt!</string>
   <string name="donate_success_msg">Bedankt voor het steunen van Slide voor Reddit! Het betekent echt veel voor mij. Als je een probleem ondervindt, stuur me een e-mail of plaats een bericht in /r/slideforreddit!</string>
   <string name="donate_success_btn">Graag gedaan!</string>
@@ -503,7 +514,7 @@
   <string name="discover_trending">Trending</string>
   <string name="comment_load_more_number_unknown">Laad meer reacties</string>
   <string name="settings_comment_color">Diepte-indicatie tonen bij onderliggende reacties</string>
-  <string name="settings_volume_nav_comments">Navigeren in reacties met volumeknoppen</string>
+  <string name="settings_volume_nav_comments">Navigeren door reacties met volumeknoppen</string>
   <string name="settings_synccit_remove">VERBINDING VERBREKEN MET SYNCIT</string>
   <string name="settings_synccit_auth">Autorisatiecode</string>
   <string name="settings_synccit_username">Gebruikersnaam</string>
@@ -511,7 +522,7 @@
   <string name="settings_synccit_authenticate">Bezig het aanmelden bij Synccit</string>
   <string name="settings_synccit_connected">Succesvol verbonden!</string>
   <string name="settings_synccit_active">Synccit is nu actief voor dit apparaat</string>
-  <string name="settings_synccit_failed">Er kon niet worden aangemeld</string>
+  <string name="settings_synccit_failed">Aanmelden mislukt</string>
   <string name="settings_synccit_failed_msg">Controleer of jouw gebruikersnaam en autorisatiecode kloppen!</string>
   <string name="settings_synccit">Synccit-integratie</string>
   <string name="card_right_thumb">Rechtsuitgelijnde thumbnail</string>
@@ -576,7 +587,7 @@
   <string name="settings_data_low_quality">Laad afbeeldingen van lage kwaliteit</string>
   <string name="settings_view_type">Weergave</string>
   <string name="handling_browser">Webbrowser</string>
-  <string name="settings_comments_swap_long">Wissel lange druk- and klikacties</string>
+  <string name="settings_comments_swap_long">Wissel lange druk- and klikactie</string>
   <string name="settings_redditprefs_over18">Ik ben ouder dan 18 jaar en ik wil NSFW-inhoud zien</string>
   <string name="settings_layout_view">Weergavemodus</string>
   <string name="settings_data_lowqaul_desc">Anders altijd hoge kwaliteit afbeeldingen tonen</string>
@@ -599,23 +610,23 @@
   <string name="btn_view">BEKIJK</string>
   <string name="btn_open_comments">Toon reacties</string>
   <string name="btn_preview">Voorbeeld</string>
-  <string name="sorting_default_comment">Standaard reactie sortering</string>
+  <string name="sorting_default_comment">Standaard reactiesortering</string>
   <string name="theme_amoled_contrast">AMOLED met contrast</string>
   <string name="content_deleted">[verwijderd]</string>
   <string name="thread_continue">Verdergaan met deze thread</string>
   <string name="type_selftext">Zelftekst</string>
-  <string name="settings_fab_create">Toon zwevende \"voeg reactie toe\"-knop</string>
+  <string name="settings_fab_create">Toon zwevende \"Voeg reactie toe\"-knop</string>
   <string name="settings_right_handed_comment_menu">Rechtshandige reactiereageermenu</string>
   <string name="submission_unhide">Bericht weer tonen</string>
   <string name="submission_info_unhidden">Bericht wordt weer getoond</string>
   <string name="settings_handling_external_desc">Onderstaande domeinen worden altijd extern geopend</string>
-  <string name="settings_handling_enterdomain">Voer een domein of een gedeelte van een domein in</string>
+  <string name="settings_handling_enterdomain">Voer (gedeelte van) een domein in</string>
   <string name="err_comment_post">Ai, het plaatsen van deze reactie is mislukt!</string>
   <string name="err_comment_post_reason">"Reden: "</string>
-  <string name="err_comment_post_message">\n\nJe bericht is opgeslagen als concept. Probeer het later nogmaals.</string>
+  <string name="err_comment_post_message">\n\nJouw bericht is opgeslagen als concept. Probeer het later nogmaals.</string>
   <string name="err_comment_post_copy">Kopieer reactie</string>
   <string name="choose_draft">Kies een concept</string>
-  <string name="dialog_no_drafts">Nog geen concepten</string>
+  <string name="dialog_no_drafts">Er zijn geen concepten</string>
   <string name="dialog_no_drafts_msg">Je kan een concept toevoegen door op de \'opslaan\'-knop te drukken in de reactiebalk!</string>
   <string name="msg_save_draft">Bericht opgeslagen als concept</string>
   <string name="content_removed">[verwijderd]</string>
@@ -626,4 +637,7 @@
   <string name="open_externally">Extern openen</string>
   <string name="vertical_album_view">Verticaal album</string>
   <string name="download_album">Download album</string>
+  <string name="compose_message">Bericht opstellen</string>
+  <string name="mark_all_as_read">Markeer alles als gelezen</string>
+  <string name="btn_changelog">Wijzigingen</string>
 </resources>
