@@ -199,7 +199,7 @@ public class Profile extends BaseActivityAnim {
                 new AlertDialogWrapper.Builder(Profile.this)
                     .setTitle("This account is suspended.")
                         .setCancelable(false)
-                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             finish();
                         }
