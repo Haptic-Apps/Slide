@@ -190,10 +190,7 @@ public class CreateCardView {
                 resetColor(getViewsByTag((ViewGroup) v, "tint"));
                 resetColor(getViewsByTag((ViewGroup) v, "tintsecond"));
                 resetColor(getViewsByTag((ViewGroup) v, "tintactionbar"));
-
             }
-
-
         }
     }
 

@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.google.gson.JsonElement;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -120,7 +121,14 @@ public class AlbumFull extends Fragment {
             }
         };
         rootView.findViewById(R.id.base).setOnClickListener(openClick);
-
+        final View title = rootView.findViewById(R.id.title);
+        title.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
+                title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
         ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {

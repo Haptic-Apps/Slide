@@ -27,6 +27,7 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SubmissionCache;
 import me.ccrama.redditslide.Synccit.MySynccitReadTask;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.util.LogUtil;
@@ -318,6 +319,8 @@ public class SubredditPosts implements PostLoader {
             }
 
             loadPhotos(filteredSubmissions);
+            SubmissionCache.cacheSubmissions(filteredSubmissions, context, subreddit);
+
             if (reset || offline || posts == null) {
                 posts = new ArrayList<>(new LinkedHashSet(filteredSubmissions));
                 start = -1;

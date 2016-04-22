@@ -114,7 +114,7 @@ public class UserSubscriptions {
     }
 
     public static ArrayList<String> modOf;
-    private static ArrayList<MultiReddit> multireddits;
+    public static ArrayList<MultiReddit> multireddits;
 
 
     public static void doOnlineSyncing() {

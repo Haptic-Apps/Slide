@@ -229,6 +229,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
         View v = ((LayoutInflater) contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
 
+        if(getActivity() instanceof MainActivity){
+            v.findViewById(R.id.back).setBackgroundResource(0);
+        }
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {

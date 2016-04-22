@@ -123,6 +123,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         }, 500);
     }
+
     public void refreshView(boolean ignore18) {
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();
         listView.setItemAnimator(null);
@@ -134,6 +135,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         }, 500);
     }
+
     public void refreshView(ArrayList<Integer> seen) {
         listView.setItemAnimator(null);
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();
@@ -162,6 +164,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final Submission submission = dataSet.posts.get(i);
 
             CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage") || subreddit.equals("mod") || subreddit.equals("friends") || (subreddit.equals("all")) || subreddit.contains(".") || subreddit.contains("+")));
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                                                    @Override
@@ -252,10 +255,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                }
 
             );
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow, dataSet.subreddit.toLowerCase()
-
-            );
-
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow, dataSet.subreddit.toLowerCase());
 
         }
         if (holder2 instanceof SubmissionFooterViewHolder) {

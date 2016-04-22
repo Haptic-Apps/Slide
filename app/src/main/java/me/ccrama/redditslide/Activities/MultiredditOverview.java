@@ -113,9 +113,11 @@ public class MultiredditOverview extends BaseActivityAnim {
                 onBackPressed();
                 return true;
             case R.id.action_edit: {
-                Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                i.putExtra(CreateMulti.EXTRA_MULTI, UserSubscriptions.getMultireddits().get(pager.getCurrentItem()).getDisplayName());
-                startActivity(i);
+                if(UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
+                    Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                    i.putExtra(CreateMulti.EXTRA_MULTI, UserSubscriptions.getMultireddits().get(pager.getCurrentItem()).getDisplayName());
+                    startActivity(i);
+                }
             }
             return true;
             case R.id.search: {
