@@ -208,6 +208,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
                                                       Bundle conData = new Bundle();
                                                       conData.putIntegerArrayList("seen", seen);
+                                                      conData.putInt("lastPage", position);
                                                       Intent intent = new Intent();
                                                       intent.putExtras(conData);
                                                       setResult(RESULT_OK, intent);
@@ -300,7 +301,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 mCurrentFragment = ((CommentPage) object);
                 if (!mCurrentFragment.loaded) {
                     if (mCurrentFragment.isAdded()) {
-                        mCurrentFragment.doAdapter();
+                        mCurrentFragment.doAdapter(true);
                     }
 
                 }

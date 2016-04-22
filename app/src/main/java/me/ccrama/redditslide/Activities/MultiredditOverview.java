@@ -121,17 +121,19 @@ public class MultiredditOverview extends BaseActivityAnim {
             }
             return true;
             case R.id.search: {
-                searchMulti = UserSubscriptions.getMultireddits().get(pager.getCurrentItem());
-                MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
-                        .alwaysCallInputCallback()
-                        .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
-                                term = charSequence.toString();
-                            }
-                        });
+                if(UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
 
-                //Add "search current sub" if it is not frontpage/all/random
+                    searchMulti = UserSubscriptions.getMultireddits().get(pager.getCurrentItem());
+                    MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
+                            .alwaysCallInputCallback()
+                            .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
+                                    term = charSequence.toString();
+                                }
+                            });
+
+                    //Add "search current sub" if it is not frontpage/all/random
                     builder.positiveText(getString(R.string.search_subreddit, "/m/" + searchMulti.getDisplayName()))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
@@ -143,7 +145,8 @@ public class MultiredditOverview extends BaseActivityAnim {
                                 }
                             });
 
-                builder.show();
+                    builder.show();
+                }
             }
             return true;
             case R.id.create:
@@ -155,31 +158,34 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return true;
 
             case R.id.action_shadowbox:
-                if (SettingValues.tabletUI && adapter != null) {
-                    List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
-                    if (posts != null && !posts.isEmpty()) {
-                        Intent i = new Intent(this, Shadowbox.class);
-                        i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                        i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
-                        startActivity(i);
-                    }
-                } else if (adapter != null) {
-                    new AlertDialogWrapper.Builder(this)
-                            .setTitle(R.string.general_pro)
-                            .setMessage(R.string.general_pro_msg)
-                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    } catch (ActivityNotFoundException e) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    }
-                                }
-                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.dismiss();
+                if(UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
+
+                    if (SettingValues.tabletUI && adapter != null) {
+                        List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                        if (posts != null && !posts.isEmpty()) {
+                            Intent i = new Intent(this, Shadowbox.class);
+                            i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
+                            i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
+                            startActivity(i);
                         }
-                    }).show();
+                    } else if (adapter != null) {
+                        new AlertDialogWrapper.Builder(this)
+                                .setTitle(R.string.general_pro)
+                                .setMessage(R.string.general_pro_msg)
+                                .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int whichButton) {
+                                        try {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                        } catch (ActivityNotFoundException e) {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                        }
+                                    }
+                                }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+                    }
                 }
                 return true;
             default:

@@ -176,7 +176,10 @@ public class MainActivity extends BaseActivity {
             if (adapter != null && adapter.getCurrentFragment() != null) {
                 if (resultCode == RESULT_OK) {
                     LogUtil.v("Doing hide posts");
-                    ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView(data.getIntegerArrayListExtra("seen"));
+                    ArrayList<Integer> posts = data.getIntegerArrayListExtra("seen");
+                    ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView(posts);
+                    if(data.hasExtra("lastPage") && data.getIntExtra("lastPage", 0) != 0 && ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager)
+                        ((LinearLayoutManager)((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).scrollToPositionWithOffset(data.getIntExtra("lastPage", 0) + 1, mToolbar.getHeight());
                 } else {
                     ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
                 }

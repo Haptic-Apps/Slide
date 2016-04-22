@@ -602,7 +602,6 @@ public class SubredditView extends BaseActivityAnim {
                                 UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(), SubredditView.this);
                             } else {
                                 UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(), SubredditView.this);
-
                             }
                             Snackbar s = Snackbar.make(c, isChecked ? getString(R.string.misc_subscribed) :
                                     getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);

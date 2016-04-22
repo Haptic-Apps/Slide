@@ -564,15 +564,18 @@ public class CommentPage extends Fragment {
         }
 
         if (!(getActivity() instanceof CommentsScreen) || ((CommentsScreen) getActivity()).currentPage == page) {
-            doAdapter();
+            doAdapter(true);
+        } else {
+            doAdapter(false);
         }
         return v;
     }
 
     public CommentSort commentSorting;
 
-    public void doAdapter() {
+    public void doAdapter(boolean load) {
         commentSorting = SettingValues.getCommentSorting(subreddit);
+        if(load)
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -581,6 +584,7 @@ public class CommentPage extends Fragment {
                 }
             }
         });
+        if(load)
         loaded = true;
         if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
@@ -590,7 +594,8 @@ public class CommentPage extends Fragment {
             } else if (s != null) {
                 commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
             }
-            comments.setSorting(commentSorting);
+            if (load)
+                comments.setSorting(commentSorting);
             adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
             rv.setAdapter(adapter);
         } else if (getActivity() instanceof MainActivity) {
@@ -602,7 +607,8 @@ public class CommentPage extends Fragment {
                 } else if (s != null) {
                     commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
                 }
-                comments.setSorting(commentSorting);
+                if (load)
+                    comments.setSorting(commentSorting);
                 adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
                 rv.setAdapter(adapter);
             } else {
@@ -610,7 +616,6 @@ public class CommentPage extends Fragment {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
                 adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
                 rv.setAdapter(adapter);
-
             }
         } else {
             Submission s = null;
@@ -632,10 +637,12 @@ public class CommentPage extends Fragment {
             } else {
                 if (context.equals(Reddit.EMPTY_STRING)) {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-                    comments.setSorting(commentSorting);
+                    if (load)
+                        comments.setSorting(commentSorting);
                 } else {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, context);
-                    comments.setSorting(commentSorting);
+                    if (load)
+                        comments.setSorting(commentSorting);
                 }
             }
         }
