@@ -1,7 +1,5 @@
 package me.ccrama.redditslide.Synccit;
 
-import com.synccit.android.SynccitUpdateTask;
-
 import me.ccrama.redditslide.SettingValues;
 
 /**

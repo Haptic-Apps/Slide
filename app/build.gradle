@@ -20,11 +20,11 @@ android {
         // Translations are crowd-sourced
         disable 'MissingTranslation'
     }
-
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         targetSdkVersion 23
-        versionCode 176
+        versionCode 177
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
@@ -121,7 +121,6 @@ dependencies {
     testCompile 'org.robolectric:shadows-multidex:3.0'
     testCompile 'commons-io:commons-io:2.4'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
-    compile files('src/main/assets/synccit.jar')
     compile('com.github.ozodrukh:CircularReveal:1.3.1@aar') {
         transitive = true;
     }
