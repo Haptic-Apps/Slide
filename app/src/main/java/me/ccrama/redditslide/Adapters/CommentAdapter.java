@@ -672,7 +672,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void collapseAll() {
         for (CommentObject o : users) {
             if (o.comment.isTopLevel()) {
-                hiddenPersons.add(o.comment.getComment().getFullName());
+                if (!hiddenPersons.contains(o.comment.getComment().getFullName()))
+                    hiddenPersons.add(o.comment.getComment().getFullName());
                 hideAll(o.comment);
             }
         }
@@ -2386,7 +2387,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     int childNumber = getChildNumber(baseNode);
                     if (childNumber > 0) {
                         hideAll(baseNode, holder.getAdapterPosition() + 1);
-                        hiddenPersons.add(comment.getFullName());
+                        if (!hiddenPersons.contains(comment.getFullName()))
+                            hiddenPersons.add(comment.getFullName());
                         showChildrenObject(holder.children);
                         ((TextView) holder.children).setText("+" + childNumber);
                     }
