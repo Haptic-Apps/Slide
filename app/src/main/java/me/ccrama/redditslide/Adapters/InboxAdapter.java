@@ -143,6 +143,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     titleString.append(" ");
                 }
             }
+            String spacer = mContext.getString(R.string.submission_properties_seperator);
+            titleString.append(spacer);
             if (comment.getDataNode().has("subreddit")) {
                 String subname = comment.getDataNode().get("subreddit").asText();
                 SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname);
@@ -153,7 +155,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                 titleString.append(subreddit);
             }
-            messageViewHolder.user.setText(titleString.toString());
+
+            messageViewHolder.user.setText(titleString);
             messageViewHolder.title.setText(comment.getSubject());
 
 
