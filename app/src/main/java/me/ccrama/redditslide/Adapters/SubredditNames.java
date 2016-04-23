@@ -116,7 +116,7 @@ public class SubredditNames {
                     paginator = new SubredditStream(Authentication.reddit, subredditPaginators[0]);
                     paginator.setSorting(Reddit.getSorting(where));
                     paginator.setTimePeriod(Reddit.getTime(where));
-                    paginator.setLimit(50);
+                    paginator.setLimit(25);
 
                 }
 
@@ -141,7 +141,7 @@ public class SubredditNames {
                     paginator = new SubredditSearchPaginator(Authentication.reddit, subredditPaginators[0]);
                     paginator.setSorting(Reddit.getSorting(where));
                     paginator.setTimePeriod(Reddit.getTime(where));
-                    paginator.setLimit(50);
+                    paginator.setLimit(25);
                 }
 
                 try {

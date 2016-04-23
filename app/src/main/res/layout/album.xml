@@ -14,10 +14,14 @@
 
         android:id="@+id/images"
         android:layout_width="match_parent"
+        android:scrollbars="vertical"
         android:layout_height="match_parent"
         android:divider="@null"
         android:dividerHeight="0dp" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -35,4 +39,14 @@
           />
 
     </android.support.v7.widget.Toolbar>
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_below="@+id/toolbar"
+            android:max="100"
+            android:progress="0" />
+    </RelativeLayout>
 </FrameLayout>

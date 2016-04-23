@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +15,12 @@ import me.ccrama.redditslide.Adapters.InboxAdapter;
 import me.ccrama.redditslide.Adapters.InboxMessages;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class InboxPage extends Fragment {
-
 
     private int totalItemCount;
     private int visibleItemCount;
@@ -32,14 +31,12 @@ public class InboxPage extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.fragment_verticalcontent, container, false);
 
         final RecyclerView rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         final PreCachingLayoutManager mLayoutManager;
         mLayoutManager = new PreCachingLayoutManager(getActivity());
         rv.setLayoutManager(mLayoutManager);
-
 
         final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
@@ -87,11 +84,13 @@ public class InboxPage extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
                 visibleItemCount = rv.getLayoutManager().getChildCount();
                 totalItemCount = rv.getLayoutManager().getItemCount();
+
                 if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
                     pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
                 } else {
                     int[] firstVisibleItems = null;
                     firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         pastVisiblesItems = firstVisibleItems[0];
                     }
@@ -101,7 +100,6 @@ public class InboxPage extends Fragment {
                     if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
                         posts.loading = true;
                         posts.loadMore(adapter, id, false);
-
                     }
                 }
             }
@@ -115,6 +113,4 @@ public class InboxPage extends Fragment {
         Bundle bundle = this.getArguments();
         id = bundle.getString("id", "");
     }
-
-
 }

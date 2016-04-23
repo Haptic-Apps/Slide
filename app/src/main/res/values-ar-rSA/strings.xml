@@ -46,7 +46,6 @@
   <string name="multi_column_landscape">أفقي</string>
   <string name="multi_column_portrait">أعمدة مزدوجة في الوضع العامودي</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">الصفحة الشخصية</string>
   <string name="drawer_support">اشتر نسخة Pro</string>
   <string name="drawer_goto_profile">انتقل إلى الصفحة الشخصية</string>
   <string name="drawer_add_account">إضافة حساب</string>
@@ -83,12 +82,6 @@
   <string name="sorting_hot">ذات شعبية</string>
   <string name="sorting_new">جديد</string>
   <string name="sorting_old">قديم</string>
-  <string name="sorting_hour">هذه الساعة</string>
-  <string name="sorting_day">اليوم</string>
-  <string name="sorting_week">هذا الأسبوع</string>
-  <string name="sorting_month">هذا الشهر</string>
-  <string name="sorting_year">هذه السنة</string>
-  <string name="sorting_all">كل الوقت</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">الرابط</string>
   <string name="editor_text">النص</string>
@@ -122,7 +115,9 @@
   <string name="type_album">ألبوم</string>
   <string name="type_img">صورة</string>
   <string name="type_vid">فيديو</string>
-  <!-- Reply to message -->
+  <!-- Content types plural (Content filters) -->
+  <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">صندوق الوارد</string>
   <string name="mail_hint_recipient">المُستلم</string>
   <string name="mail_hint_subject">موضوع</string>
   <string name="mail_hint_body">جسم</string>
@@ -131,11 +126,12 @@
   <string name="mail_reply_to">الرد على %1$s</string>
   <string name="mail_notification_author">%1$s من %2$s</string>
   <string name="mail_theirs">عرض الرسالة الخاصة بهم</string>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">خطأ</string>
   <string name="misc_none">لاشيء</string>
   <string name="misc_score_hidden">النقاط مخفية</string>
   <string name="misc_nsfw">NSFW</string>
+  <string name="misc_copy_text">نسخ الكتابه</string>
   <!-- Goto User -->
   <string name="user_enter">أدخل اسم المستخدم</string>
   <string name="user_btn_goto">الانتقال إلى استخدام</string>
@@ -176,6 +172,9 @@
   <!-- Subreddits -->
   <!-- Search -->
   <string name="search_goto">اذهب الى</string>
+  <string name="search_top">أعلى</string>
+  <string name="search_new">جديد</string>
+  <string name="search_comments">تعليقات</string>
   <!-- Captcha -->
   <string name="captcha_title">أثبت أنك لست روبوت</string>
   <!-- Settings -->
@@ -205,6 +204,7 @@
   <string name="settings_title_filter">فلترة</string>
   <string name="settings_title_font">الخط</string>
   <string name="settings_section_general">عامّ</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_submit_post">إرسال المنشورة</string>
   <string name="title_settings">إعدادات</string>
@@ -233,17 +233,21 @@
   <string name="reorder_subreddit_name">اسم السوبريديت</string>
   <string name="reorder_remove_title">إزالة هذا سوبريديت؟</string>
   <string name="reorder_remove_msg">لن يتم الغاء الاشتراك, لاكن لن ترى هذا السوبريديت بالقائمة الجانبيه الخاصه بك!</string>
+  <string name="reorder_sync_complete">تم أكمال المزامنة</string>
   <!-- Time -->
-  <string name="time_just_now">الآن</string>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">تم أكمال المزامنة</string>
-  <string name="color_sync_colored">" تم تلوين السوبريديت"</string>
+  <!-- Discover section: find -->
   <string name="comment_load_more_number_unknown">إظهار المزيد من التعليقات</string>
   <string name="settings_synccit_username">إسم المستخدم</string>
   <string name="settings_synccit_delete">حذف حساب synccit حقا ؟</string>
   <string name="settings_synccit_connected">تم الاتصال بنجاح!</string>
-  <string name="reorder_sync_complete">تم أكمال المزامنة</string>
   <string name="submission_share_permalink">مشاركة المنشور</string>
   <string name="mode_card">بطاقة</string>
   <string name="btn_report">ابلاغ</string>
   <string name="subreddit_name_tint">اسم السوبريديت</string>
+  <string name="open_externally">فتح بالخارج</string>
 </resources>

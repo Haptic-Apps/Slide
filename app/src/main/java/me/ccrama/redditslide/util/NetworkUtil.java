@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import me.ccrama.redditslide.Reddit;
+
 /**
  * Collection of various network utility methods.
  *
@@ -43,6 +45,9 @@ public class NetworkUtil {
      * @return True if the application is connected, false if else.
      */
     public static boolean isConnected(Context context) {
+        return !Reddit.appRestart.contains("forceoffline") && getConnectivityStatus(context) != Status.NONE;
+    }
+    public static boolean isConnectedNoOverride(Context context) {
         return getConnectivityStatus(context) != Status.NONE;
     }
     /**

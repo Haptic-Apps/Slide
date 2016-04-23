@@ -1,6 +1,9 @@
 package me.ccrama.redditslide.Activities;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
@@ -9,7 +12,10 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
+
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -58,11 +64,34 @@ public class FullscreenVideo extends FullScreenActivity {
         v.setWebChromeClient(new WebChromeClient());
         LogUtil.v(dat);
 
-        if(dat.contains("src=\"")){
+        if (dat.contains("src=\"")) {
             int start = dat.indexOf("src=\"") + 5;
             dat = dat.substring(start, dat.indexOf("\"", start));
+            if(dat.startsWith("//")){
+                dat = "https:" + dat;
+            }
             LogUtil.v(dat);
-            v.loadUrl("https:" + dat);
+            v.loadUrl(dat);
+            if ((dat.contains("youtube.co" ) || dat.contains("youtu.be")) && !Reddit.appRestart.contains("showYouTubePopup")) {
+                new AlertDialogWrapper.Builder(FullscreenVideo.this).setTitle(getString(R.string.load_videos_internally))
+                        .setMessage(getString(R.string.load_videos_internally_content))
+                        .setPositiveButton(getString(R.string.btn_sure), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=ccrama.me.slideyoutubeplugin")));
+                                } catch (android.content.ActivityNotFoundException anfe) {
+                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=ccrama.me.slideyoutubeplugin")));
+                                }
+                            }
+                        }).setNegativeButton(getString(R.string.btn_no), null)
+                        .setNeutralButton(getString(R.string.do_not_show_again), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Reddit.appRestart.edit().putBoolean("showYouTubePopup", false).apply();
+                            }
+                        }).show();
+            }
         } else {
             LogUtil.v(dat);
             v.loadDataWithBaseURL("", dat, "text/html", "utf-8", "");

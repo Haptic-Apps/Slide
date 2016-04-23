@@ -19,6 +19,7 @@ import android.util.Log;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.jakewharton.processphoenix.ProcessPhoenix;
+import com.lusfold.androidkeyvaluestore.KVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import net.dean.jraw.paginators.Sorting;
@@ -42,6 +43,7 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Search;
+import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -78,8 +80,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int notificationTime;
     public static boolean videoPlugin;
     public static NotificationJobScheduler notifications;
-    public static SharedPreferences seen;
-    public static SharedPreferences hidden;
     public static boolean isLoading = false;
     public static long time = System.currentTimeMillis();
     public static boolean fabClear;
@@ -91,6 +91,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean over18;
     public static boolean overrideLanguage;
     public static boolean isRestarting;
+    public static AutoCacheScheduler autoCache;
     private final List<Listener> listeners = new ArrayList<>();
     public boolean active;
     private ImageLoader defaultImageLoader;
@@ -99,19 +100,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if (appRestart.contains("back")) {
             appRestart.edit().remove("back").commit();
         }
+
         appRestart.edit().putBoolean("isRestarting", true).commit();
-
         isRestarting = true;
-
-        ProcessPhoenix.triggerRebirth(context);
+        ProcessPhoenix.triggerRebirth(context.getApplicationContext());
     }
 
     public static void forceRestart(Context c, boolean forceLoadScreen) {
         appRestart.edit().putString("startScreen", "").commit();
         appRestart.edit().putBoolean("isRestarting", true).commit();
-
         forceRestart(c);
-
     }
 
     public static int pxToDp(int dp, Context c) {
@@ -302,12 +300,12 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static String[] getSortingStringsSearch(Context c) {
         return new String[] {
-                WordUtils.capitalize(c.getString(R.string.sorting_hour)),
-                WordUtils.capitalize(c.getString(R.string.sorting_day)),
-                WordUtils.capitalize(c.getString(R.string.sorting_week)),
-                WordUtils.capitalize(c.getString(R.string.sorting_month)),
-                WordUtils.capitalize(c.getString(R.string.sorting_year)),
-                WordUtils.capitalize(c.getString(R.string.sorting_all)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_hour)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_day)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_week)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_month)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_year)),
+                WordUtils.capitalize(c.getString(R.string.sorting_search_all)),
         };
     }
 
@@ -372,6 +370,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                                           }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
                                                       @Override
                                                       public void onClick(DialogInterface dialog, int which) {
+                                                          Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
                                                           forceRestart(c);
                                                       }
                                                   }).show();
@@ -496,6 +495,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         cachedData = getSharedPreferences("cache", 0);
 
+        if(!cachedData.contains("hasReset")){
+            cachedData.edit().clear().putBoolean("hasReset", true).apply();
+        }
+
         registerActivityLifecycleCallbacks(this);
         Authentication.authentication = getSharedPreferences("AUTH", 0);
         UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);
@@ -505,39 +508,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         timePeriod = SettingValues.timePeriod;
         colors = getSharedPreferences("COLOR", 0);
         tags = getSharedPreferences("TAGS", 0);
-        seen = getSharedPreferences("SEEN", 0);
-        hidden = getSharedPreferences("HIDDEN", 0);
-        lastposition = new ArrayList<>();
-        Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
+        KVStore.init(this, "SEEN");
 
+        lastposition = new ArrayList<>();
 
         new SetupIAB().execute();
-
-
-        if (!seen.contains("RESET")) {
-            colors.edit().clear().apply();
-            tags.edit().clear().apply();
-            seen.edit().clear().apply();
-            hidden.edit().clear().apply();
-            Hidden.hidden.edit().clear().apply();
-
-            Authentication.authentication.edit().clear().apply();
-            UserSubscriptions.subscriptions.edit().clear().apply();
-            getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().clear().apply();
-            Authentication.authentication = getSharedPreferences("AUTH", 0);
-            UserSubscriptions.subscriptions = getSharedPreferences("SUBSNEW", 0);
-
-
-            SettingValues.setAllValues(getSharedPreferences("SETTINGS", 0));
-            colors = getSharedPreferences("COLOR", 0);
-            tags = getSharedPreferences("TAGS", 0);
-            seen = getSharedPreferences("SEEN", 0);
-            hidden = getSharedPreferences("HIDDEN", 0);
-            seen.edit().putBoolean("RESET", true).apply();
-            Hidden.hidden = getSharedPreferences("HIDDEN_POSTS", 0);
-
-
-        }
 
         if (!appRestart.contains("startScreen")) {
             Authentication.isLoggedIn = appRestart.getBoolean("loggedin", false);
@@ -554,7 +529,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
 
-        fabClear = seen.getBoolean(SettingValues.PREF_FAB_CLEAR, false);
+        fabClear = colors.getBoolean(SettingValues.PREF_FAB_CLEAR, false);
 
         int widthDp = this.getResources().getConfiguration().screenWidthDp;
         int heightDp = this.getResources().getConfiguration().screenHeightDp;
@@ -569,13 +544,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
 
-        if (seen.contains("tabletOVERRIDE")) {
-            dpWidth = seen.getInt("tabletOVERRIDE", fina / 300);
+        if (colors.contains("tabletOVERRIDE")) {
+            dpWidth = colors.getInt("tabletOVERRIDE", fina / 300);
         } else {
             dpWidth = fina / 300;
         }
-        if (seen.contains("notificationOverride")) {
-            notificationTime = seen.getInt("notificationOverride", 360);
+        if (colors.contains("notificationOverride")) {
+            notificationTime = colors.getInt("notificationOverride", 360);
         } else {
             notificationTime = 360;
         }

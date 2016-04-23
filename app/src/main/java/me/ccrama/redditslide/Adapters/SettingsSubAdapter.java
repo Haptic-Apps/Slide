@@ -76,6 +76,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                                 new ColorPreferences(context).removeFontStyle(subreddit);
 
                                 SettingValues.resetPicsEnabled(subreddit);
+                                SettingValues.resetSelftextEnabled(subreddit);
 
                                 dialog.dismiss();
                                 objects.remove(subreddit);
@@ -130,6 +131,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         final ColorPreferences colorPrefs = new ColorPreferences(context);
         final String subreddit = multipleSubs ? null : subreddits.get(0);
         final SwitchCompat bigPics = (SwitchCompat) dialoglayout.findViewById(R.id.bigpics);
+        final SwitchCompat selftext = (SwitchCompat) dialoglayout.findViewById(R.id.selftext);
 
         //Selected multiple subreddits
         if (multipleSubs) {
@@ -137,6 +139,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             int previousSubColor = 0;
             int previousSubAccent = 0;
             bigPics.setChecked(SettingValues.bigPicEnabled);
+            selftext.setChecked(SettingValues.cardText);
             boolean sameMainColor = true;
             boolean sameAccentColor = true;
 
@@ -175,6 +178,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             isAlternateLayout = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit);
             currentAccentColor = colorPrefs.getColor(subreddit);
             bigPics.setChecked(SettingValues.isPicsEnabled(subreddit));
+            selftext.setChecked(SettingValues.isSelftextEnabled(subreddit));
+
         }
 
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
@@ -186,13 +191,19 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             String titleString = "";
 
             for (String sub : subreddits) {
-                titleString = titleString + "/r/" + sub + ", ";
+                //if the subreddit is the frontpage, don't put "/r/" in front of it
+                if (sub.equals("frontpage")) {
+                    titleString += sub + ", ";
+                } else {
+                    titleString += "/r/" + sub + ", ";
+                }
             }
             titleString = titleString.substring(0, titleString.length() - 2);
             title.setMaxLines(3);
             title.setText(titleString);
         } else {
-            title.setText("/r/" + subreddit);
+            //if the subreddit is the frontpage, don't put "/r/" in front of it
+            title.setText(((subreddit.equals("frontpage")) ? "frontpage" : "/r/" + subreddit));
         }
 
         {
@@ -314,17 +325,22 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             }
             {
                 Button dialogButton = (Button) dialoglayout.findViewById(R.id.reset);
-
                 String subTitles = "";
+
                 if (multipleSubs) {
                     for (String sub : subreddits) {
-                        subTitles = subTitles + "/r/" + sub + ", ";
+                        //if the subreddit is the frontpage, don't put "/r/" in front of it
+                        if (sub.equals("frontpage")) {
+                            subTitles += sub + ", ";
+                        } else {
+                            subTitles += "/r/" + sub + ", ";
+                        }
                     }
                     subTitles = subTitles.substring(0, subTitles.length() - 2);
                 } else {
-                    subTitles = ("/r/" + subreddit);
+                    //if the subreddit is the frontpage, don't put "/r/" in front of it
+                    subTitles = (subreddit.equals("frontpage") ? "frontpage" : "/r/" + subreddit);
                 }
-                subTitles.replace("/r/frontpage", "frontpage");
 
                 final String finalSubTitles = subTitles;
                 dialogButton.setOnClickListener(new View.OnClickListener() {
@@ -332,6 +348,9 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                     public void onClick(View v) {
                         String titleStart = context.getString(R.string.settings_delete_sub_settings, finalSubTitles);
                         titleStart = titleStart.replace("/r//r/", "/r/");
+                        if (titleStart.contains("/r/frontpage")) {
+                            titleStart = titleStart.replace("/r/frontpage", "frontpage");
+                        }
                         new AlertDialogWrapper.Builder(context).setTitle(titleStart)
                                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                     @Override
@@ -344,6 +363,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                                             new ColorPreferences(context).removeFontStyle(sub);
 
                                             SettingValues.resetPicsEnabled(sub);
+                                            SettingValues.resetSelftextEnabled(sub);
                                         }
 
                                         if (context instanceof MainActivity) {
@@ -374,7 +394,9 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                             if (bigPics.isChecked() != SettingValues.isPicsEnabled(sub)) {
                                 SettingValues.setPicsEnabled(sub, bigPics.isChecked());
                             }
-
+                            if (selftext.isChecked() != SettingValues.isSelftextEnabled(sub)) {
+                                SettingValues.setSelftextEnabled(sub, selftext.isChecked());
+                            }
                             //Only do set colors if either subreddit theme color has changed
                             if (Palette.getColor(sub) != newPrimaryColor || Palette.getDarkerColor(sub) != newAccentColor) {
 

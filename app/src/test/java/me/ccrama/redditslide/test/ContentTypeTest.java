@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ContentType.Type;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -79,8 +80,39 @@ public class ContentTypeTest {
     }
 
     @Test
+    public void detectsWithoutScheme() {
+        // Capitalised
+        assertThat(ContentType.getContentType("Https://google.com"), is(not(Type.NONE)));
+        // Missing
+        assertThat(ContentType.getContentType("google.com"), is(not(Type.NONE)));
+        // Protocol relative
+        assertThat(ContentType.getContentType("//google.com"), is(not(Type.NONE)));
+    }
+
+    @Test
+    public void detectsVideo() {
+        Reddit.videoPlugin = true;
+        assertThat(ContentType.getContentType("https://www.youtube.com/watch?v=lX_pF03vCSU"), is(Type.VIDEO));
+        assertThat(ContentType.getContentType("https://youtu.be/lX_pF03vCSU"), is(Type.VIDEO));
+
+        Reddit.videoPlugin = false;
+        assertThat(ContentType.getContentType("https://www.youtube.com/watch?v=lX_pF03vCSU"), is(not(Type.VIDEO)));
+        assertThat(ContentType.getContentType("https://youtu.be/lX_pF03vCSU"), is(not(Type.VIDEO)));
+    }
+
+    @Test
+    public void detectsVidme() {
+        assertThat(ContentType.getContentType("https://vid.me/6tPY"), is(Type.VID_ME));
+    }
+
+    @Test
     public void detectsStreamable() {
         assertThat(ContentType.getContentType("https://streamable.com/l41f"), is(Type.STREAMABLE));
+    }
+
+    @Test
+    public void detectsDeviantart() {
+        assertThat(ContentType.getContentType("http://manweri.deviantart.com/art/A-centaur-in-disguise-179507382"), is(Type.DEVIANTART));
     }
 
     @Test

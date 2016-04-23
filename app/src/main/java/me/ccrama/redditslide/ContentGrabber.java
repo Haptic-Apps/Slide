@@ -8,19 +8,24 @@ public class ContentGrabber {
 
     /*Inbox Data*/
     public enum InboxValue {
-        INBOX("Inbox"), UNREAD("Unread"), MESSAGES("Messages"), SENT("Sent"), MENTIONS("Mentions");
-        final String displayName;
+        INBOX(R.string.mail_tab_inbox),
+        UNREAD(R.string.mail_tab_unread),
+        MESSAGES(R.string.mail_tab_messages),
+        SENT(R.string.mail_tab_sent),
+        MENTIONS(R.string.mail_tab_mentions);
 
-        InboxValue(String s) {
-            this.displayName = s;
+        private final int displayName;
+
+        InboxValue(int resource) {
+            this.displayName = resource;
         }
 
-        public String getDisplayName() {
+        public int getDisplayName() {
             return displayName;
         }
 
         public String getWhereName() {
-            return displayName.toLowerCase();
+            return this.name().toLowerCase();
         }
 
     }

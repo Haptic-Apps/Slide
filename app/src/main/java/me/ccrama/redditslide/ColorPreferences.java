@@ -9,7 +9,7 @@ import android.support.v4.content.ContextCompat;
  * Created by ccrama on 7/9/2015.
  */
 public class ColorPreferences {
-    private final static String FONT_STYLE = "THEME";
+    public final static String FONT_STYLE = "THEME";
 
     private final Context context;
 
@@ -141,7 +141,7 @@ public class ColorPreferences {
         } else if (c == ContextCompat.getColor(context, R.color.md_light_green_500)) {
             return new int[]{
                     //   ContextCompat.getColor(context, R.color.md_light_green_100),
-                    ContextCompat.getColor(context, R.color.md_light_green_200),
+                    //  ContextCompat.getColor(context, R.color.md_light_green_200),
                     ContextCompat.getColor(context, R.color.md_light_green_300),
                     ContextCompat.getColor(context, R.color.md_light_green_400),
                     ContextCompat.getColor(context, R.color.md_light_green_500),
@@ -153,7 +153,7 @@ public class ColorPreferences {
         } else if (c == ContextCompat.getColor(context, R.color.md_lime_500)) {
             return new int[]{
                     //  ContextCompat.getColor(context, R.color.md_lime_100),
-                    ContextCompat.getColor(context, R.color.md_lime_200),
+                    // ContextCompat.getColor(context, R.color.md_lime_200),
                     ContextCompat.getColor(context, R.color.md_lime_300),
                     ContextCompat.getColor(context, R.color.md_lime_400),
                     ContextCompat.getColor(context, R.color.md_lime_500),
@@ -177,7 +177,7 @@ public class ColorPreferences {
         } else if (c == ContextCompat.getColor(context, R.color.md_amber_500)) {
             return new int[]{
                     //  ContextCompat.getColor(context, R.color.md_amber_100),
-                    ContextCompat.getColor(context, R.color.md_amber_200),
+                    // ContextCompat.getColor(context, R.color.md_amber_200),
                     ContextCompat.getColor(context, R.color.md_amber_300),
                     ContextCompat.getColor(context, R.color.md_amber_400),
                     ContextCompat.getColor(context, R.color.md_amber_500),
@@ -189,7 +189,7 @@ public class ColorPreferences {
         } else if (c == ContextCompat.getColor(context, R.color.md_orange_500)) {
             return new int[]{
                     //  ContextCompat.getColor(context, R.color.md_orange_100),
-                    ContextCompat.getColor(context, R.color.md_orange_200),
+                    //   ContextCompat.getColor(context, R.color.md_orange_200),
                     ContextCompat.getColor(context, R.color.md_orange_300),
                     ContextCompat.getColor(context, R.color.md_orange_400),
                     ContextCompat.getColor(context, R.color.md_orange_500),
@@ -250,6 +250,7 @@ public class ColorPreferences {
 
         }
     }
+
     public static int[] getBaseColors(Context context) {
         return new int[]{
                 ContextCompat.getColor(context, R.color.md_red_500),
@@ -284,11 +285,12 @@ public class ColorPreferences {
 
     public Theme getFontStyle() {
         try {
-            return Theme.valueOf(open().getString(FONT_STYLE,  Theme.dark_amber.name()));
+            return Theme.valueOf(open().getString(FONT_STYLE, Theme.dark_amber.name()));
         } catch (Exception e) {
             return Theme.dark_amber;
         }
     }
+
     public Theme getFontStyleSubreddit(String s) {
         try {
             return Theme.valueOf(open().getString(s, getFontStyle().name()));
@@ -296,6 +298,7 @@ public class ColorPreferences {
             return Theme.dark_amber;
         }
     }
+
     public void setFontStyle(Theme style) {
         edit().putString(FONT_STYLE, style.name()).commit();
     }
@@ -321,7 +324,8 @@ public class ColorPreferences {
 
         if (Theme.valueOf(str).getThemeType() != Reddit.themeBack) {
             String[] names = str.split("_");
-            String name = names[names.length - 1];            for (Theme theme : Theme.values()) {
+            String name = names[names.length - 1];
+            for (Theme theme : Theme.values()) {
                 if (theme.toString().contains(name) && theme.getThemeType() == Reddit.themeBack) {
                     setFontStyle(theme, s);
                     return theme.baseId;
@@ -364,11 +368,34 @@ public class ColorPreferences {
 
     }
 
+    public int getDarkThemeSubreddit(String s) {
+
+        String str = open().getString(s.toLowerCase(), getFontStyle().getTitle());
+
+        try {
+            if (Theme.valueOf(str).getThemeType() != 4) {
+                String[] names = str.split("_");
+                String name = names[names.length - 1];
+                for (Theme theme : Theme.values()) {
+                    if (theme.toString().contains(name) && theme.getThemeType() == 4) {
+                        return theme.baseId;
+                    }
+                }
+            } else {
+                return Theme.valueOf(str).baseId;
+            }
+        } catch (Exception e) {
+
+        }
+        return getFontStyle().baseId;
+
+    }
+
     public void setFontStyle(Theme style, String s) {
         edit().putString(s.toLowerCase(), style.name()).commit();
     }
 
-    public void removeFontStyle(String subreddit){
+    public void removeFontStyle(String subreddit) {
         edit().remove(subreddit).commit();
     }
 

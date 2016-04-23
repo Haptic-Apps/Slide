@@ -123,6 +123,9 @@ public class ContentType {
             if (PostMatch.openExternal(url)) {
                 return Type.EXTERNAL;
             }
+            if (Reddit.videoPlugin && ((host.contains("youtu.be") || host.contains("youtube.co")))) {
+                return Type.VIDEO;
+            }
             if (isGif(uri)) {
                 return Type.GIF;
             }
@@ -140,9 +143,6 @@ public class ContentType {
             }
             if (host.endsWith("vid.me")) {
                 return Type.VID_ME;
-            }
-            if (Reddit.videoPlugin && (host.endsWith("youtu.be") || host.endsWith("youtube.co"))) {
-                return Type.VIDEO;
             }
             if (host.endsWith("deviantart.com")) {
                 return Type.DEVIANTART;
@@ -192,10 +192,10 @@ public class ContentType {
             case IMGUR:
             case STREAMABLE:
             case VIDEO:
+            case SELF:
             case VID_ME:
                 return true;
 
-            case SELF:
             case EMBEDDED:
             case EXTERNAL:
             case LINK:
@@ -264,8 +264,9 @@ public class ContentType {
                 case STREAMABLE:
                     return R.string.type_streamable;
                 case VIDEO:
+                    return R.string.type_youtube;
                 case VID_ME:
-                    return R.string.type_vid;
+                    return R.string.type_vidme;
             }
         }
         return R.string.type_link;

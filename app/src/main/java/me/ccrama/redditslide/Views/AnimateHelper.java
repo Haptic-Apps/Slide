@@ -35,44 +35,48 @@ public class AnimateHelper {
         final float finalRadius = (float) Math.hypot(dx, dy);
 
 
-                SupportAnimator animator =
-                        ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
-                animator.setInterpolator(new FastOutSlowInInterpolator());
-                animator.setDuration(250);
-                animator.start();
+                try {
+                    SupportAnimator animator =
+                            ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, finalRadius);
+                    animator.setInterpolator(new FastOutSlowInInterpolator());
+                    animator.setDuration(250);
+                    animator.start();
 
-                v.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ObjectAnimator animator2 = ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0f);
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            ObjectAnimator animator2 = ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0f);
 
-                        animator2.setInterpolator(new AccelerateDecelerateInterpolator());
-                        animator2.setDuration(450);
-                        animator2.addListener(new Animator.AnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
+                            animator2.setInterpolator(new AccelerateDecelerateInterpolator());
+                            animator2.setDuration(450);
+                            animator2.addListener(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(Animator animation) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                v.setVisibility(View.GONE);
-                            }
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    v.setVisibility(View.GONE);
+                                }
 
-                            @Override
-                            public void onAnimationCancel(Animator animation) {
+                                @Override
+                                public void onAnimationCancel(Animator animation) {
 
-                            }
+                                }
 
-                            @Override
-                            public void onAnimationRepeat(Animator animation) {
+                                @Override
+                                public void onAnimationRepeat(Animator animation) {
 
-                            }
-                        });
-                        animator2.start();
+                                }
+                            });
+                            animator2.start();
 
-                    }
-                }, 450);
+                        }
+                    }, 450);
+                } catch(Exception e){
+                    v.setVisibility(View.GONE);
+                }
 
             }
         });

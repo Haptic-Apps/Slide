@@ -12,6 +12,7 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.animation.LinearInterpolator;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -49,14 +50,13 @@ public class Discover extends BaseActivityAnim {
                         .alwaysCallInputCallback()
                         .inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
                         .inputRange(3, 100)
-                        .input("Search term or topic", null, new MaterialDialog.InputCallback() {
+                        .input(getString(R.string.discover_search), null, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
                                 if (input.length() >= 3) {
                                     dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
                                 } else {
                                     dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-
                                 }
                             }
                         })
@@ -87,6 +87,7 @@ public class Discover extends BaseActivityAnim {
         applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
         setupAppBar(R.id.toolbar, "Discover", true, false);
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         tabs = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -96,6 +97,25 @@ public class Discover extends BaseActivityAnim {
         pager = (ViewPager) findViewById(R.id.content_view);
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                findViewById(R.id.header).animate()
+                        .translationY(0)
+                        .setInterpolator(new LinearInterpolator())
+                        .setDuration(180);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 
@@ -109,7 +129,7 @@ public class Discover extends BaseActivityAnim {
         public Fragment getItem(int i) {
             Fragment f = new SubredditListView();
             Bundle args = new Bundle();
-            args.putString("id", getPageTitle(i).toString());
+            args.putString("id", i == 1?"trending":"popular");
             f.setArguments(args);
 
             return f;
@@ -123,9 +143,9 @@ public class Discover extends BaseActivityAnim {
         @Override
         public CharSequence getPageTitle(int position) {
             if (position == 0) {
-                return "popular";
+                return getString(R.string.discover_popular);
             } else {
-                return "trending";
+                return getString(R.string.discover_trending);
             }
         }
     }

@@ -227,7 +227,7 @@ public class SettingValues {
 
         commentLastVisit = prefs.getBoolean(PREF_COMMENT_LAST_VISIT, false);
         gif = prefs.getBoolean(PREF_GIF, true);
-        video =true;
+        video = true;
         exit = prefs.getBoolean(PREF_EXIT, true);
         fastscroll = prefs.getBoolean(PREF_FASTSCROLL, false);
 
@@ -238,15 +238,37 @@ public class SettingValues {
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
-        prefs.edit().putBoolean("picsenabled" +sub.toLowerCase(), checked).apply();
+        prefs.edit().putBoolean("picsenabled" + sub.toLowerCase(), checked).apply();
     }
 
-    public static void resetPicsEnabled(String sub){
+    public static void resetPicsEnabled(String sub) {
         prefs.edit().remove("picsenabled" + sub.toLowerCase()).apply();
     }
-    public static boolean isPicsEnabled(String subreddit){
-        if(subreddit == null) return bigPicEnabled;
+
+    public static boolean isPicsEnabled(String subreddit) {
+        if (subreddit == null) return bigPicEnabled;
         return prefs.getBoolean("picsenabled" + subreddit.toLowerCase(), bigPicEnabled);
+    }
+
+    public static boolean isSelftextEnabled(String subreddit) {
+        if (subreddit == null) return cardText;
+        return prefs.getBoolean("cardtextenabled" + subreddit.toLowerCase(), cardText);
+    }
+
+    public static void setSelftextEnabled(String sub, boolean checked) {
+        prefs.edit().putBoolean("cardtextenabled" + sub.toLowerCase(), checked).apply();
+    }
+
+    public static void resetSelftextEnabled(String subreddit) {
+        prefs.edit().remove("cardtextenabled" + subreddit.toLowerCase()).apply();
+    }
+
+    public static void setDefaultCommentSorting(CommentSort commentSorting, String subreddit) {
+        prefs.edit().putString("defaultComment" + subreddit.toLowerCase(), commentSorting.name()).apply();
+    }
+
+    public static CommentSort getCommentSorting(String sub) {
+        return CommentSort.valueOf(prefs.getString("defaultComment" + sub.toLowerCase(), defaultCommentSorting.name()));
     }
 
     public enum ColorIndicator {

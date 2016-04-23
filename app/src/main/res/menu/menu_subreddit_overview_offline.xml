@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SubredditOverview">
+
+    <item
+        android:id="@+id/action_shadowbox"
+        android:icon="@drawable/shadowbox"
+        android:title="@string/general_enable_shadowbox"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/theme"
+        android:title="@string/subreddit_theme"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/night"
+        android:title="@string/theme_base"
+        app:showAsAction="never" />
+
+</menu>

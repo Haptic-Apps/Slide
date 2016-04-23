@@ -80,13 +80,17 @@ public class CustomTabUtil {
      */
     public static Uri formatURL(String url) {
         if (url.startsWith("//")) {
-            url = url + "https:";
+            url = "https:" + url;
+        }
+        if (url.startsWith("/")) {
+            url = "https://reddit.com" + url;
+        }
+        if (!url.contains("://")) {
+            url = "http://" + url;
         }
 
         Uri uri = Uri.parse(url);
-        return uri.buildUpon()
-                .scheme(uri.getScheme().toLowerCase())
-                .build();
+        return uri.normalizeScheme();
     }
 
 

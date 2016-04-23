@@ -127,15 +127,16 @@ public class SubredditSearchPosts extends GeneralPosts {
                         paginator = new SubmissionSearchPaginatorMultireddit(Authentication.reddit, term);
                         ((SubmissionSearchPaginatorMultireddit) paginator).setMultiReddit(MultiredditOverview.searchMulti);
                         ((SubmissionSearchPaginatorMultireddit) paginator).setSearchSorting(SubmissionSearchPaginatorMultireddit.SearchSort.valueOf(Reddit.search.toString()));
+                        ((SubmissionSearchPaginatorMultireddit) paginator).setSyntax(SubmissionSearchPaginatorMultireddit.SearchSyntax.LUCENE);
+
                     } else {
                         paginator = new SubmissionSearchPaginator(Authentication.reddit, term);
                         if (!subreddit.isEmpty())
                             ((SubmissionSearchPaginator) paginator).setSubreddit(subreddit);
                         ((SubmissionSearchPaginator) paginator).setSearchSorting(Reddit.search);
+                        ((SubmissionSearchPaginator) paginator).setSyntax(SubmissionSearchPaginator.SearchSyntax.LUCENE);
 
                     }
-
-
                     paginator.setTimePeriod((parent.time));
                 }
 

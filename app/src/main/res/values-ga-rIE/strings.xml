@@ -21,6 +21,7 @@
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
   <string name="profile_downvoted">Síos vótail</string>
+  <string name="profile_tag_user">Cuir clib ar úsáideoir</string>
   <!-- Comment text options -->
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
@@ -36,7 +37,6 @@
   <string name="editor_title">Teideal</string>
   <string name="editor_err_msg">Iarracht eile tar éis cúpla nóiméad le do thoil.</string>
   <string name="editor_uploading_image">Tá an íomhá ag uaslódáil chun Imgur</string>
-  <string name="editor_self">Téacs féin</string>
   <string name="editor_select_img">Pioc an phictiúir</string>
   <string name="editor_hint_optional_body">Téacs (roghnach)</string>
   <string name="editor_submit">Cuir postáil insteach</string>
@@ -47,11 +47,13 @@
   <!-- Multireddit errors -->
   <!-- Content types -->
   <string name="type_vid">Físeán</string>
-  <!-- Reply to message -->
+  <!-- Content types plural (Content filters) -->
+  <!-- Inbox/mail -->
   <string name="mail_author_wrote">Scríobh %1$s&#8230;</string>
   <string name="mail_hint_body">Téacs</string>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Earráid</string>
+  <string name="misc_copy_text">Cóipeáil na téacs</string>
   <!-- Goto User -->
   <!-- Buttons -->
   <string name="btn_done">Caite</string>
@@ -68,19 +70,24 @@
   <!-- Subreddits -->
   <!-- Search -->
   <string name="search_goto">Téigh go dtí</string>
+  <string name="search_new">Nua</string>
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <!-- Text in Donation-Activity -->
   <!-- Offline mode -->
   <!-- Website -->
   <!-- Reorder subreddit activity -->
   <!-- Time -->
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
+  <string name="discover_title">Faigh amach</string>
   <string name="settings_synccit_username">Ainm Úsáideora</string>
   <string name="mode_list">Liosta</string>
   <string name="mode_card">Cárta</string>
-  <string name="mode_bigpic">Pictúir mór</string>
-  <string name="profile_tag_user">Cuir clib ar úsáideoir</string>
-  <string name="discover_title">Faigh amach</string>
 </resources>

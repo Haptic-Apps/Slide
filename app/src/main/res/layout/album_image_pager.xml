@@ -1,59 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:gravity="bottom"
+    sothree:umanoOverlay="true"
+    sothree:umanoPanelHeight="48dp"
+    sothree:umanoShadowHeight="4dp">
 
-    <me.ccrama.redditslide.Views.SubsamplingScaleImageView
-        android:id="@+id/image"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:transitionName="profile" />
+        android:id="@+id/margin"
+        android:paddingBottom="48dp"
+        android:orientation="vertical">
+
+        <me.ccrama.redditslide.Views.SubsamplingScaleImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+             />
+
+        <LinearLayout
+            android:id="@+id/gifheader"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="right">
+
+
+            <ImageView
+                android:id="@+id/save"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="15dp"
+                android:theme="@style/Ripple.List"
+                android:tint="#e1e1e1"
+                app:srcCompat="@drawable/save" />
+
+            <ImageView
+                android:id="@+id/more"
+                style="@style/Ripple.List"
+                android:layout_width="48dp"
+                android:layout_height="56dp"
+                android:layout_gravity="right"
+                android:paddingBottom="15dp"
+                android:paddingEnd="11dp"
+                android:paddingStart="11dp"
+                android:paddingTop="15dp"
+                android:tint="#e1e1e1"
+                android:theme="@style/Ripple.List"
+                app:srcCompat="@drawable/more" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="0" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="48dp"/>
+    </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/gifheader"
+        android:id="@+id/panel"
+        android:background="#aa000000"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_below="@+id/image"
-        android:layout_marginTop="-56dp"
-        android:gravity="right">
-
-
-        <ImageView
-            android:id="@+id/save"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:theme="@style/Ripple.List"
-            android:padding="15dp"
-            app:srcCompat="@drawable/save"
-
-            android:tint="@color/white" />
-
-        <ImageView
-            android:id="@+id/more"
-            style="@style/Ripple.List"
-            android:layout_width="48dp"
-            android:layout_height="56dp"
-            android:theme="@style/Ripple.List"
-            android:layout_gravity="right"
-            android:paddingStart="11dp"
-            android:paddingEnd="11dp"
-            android:paddingTop="15dp"
-            android:paddingBottom="15dp"
-            app:srcCompat="@drawable/more" />
+        android:layout_height="wrap_content">
+        <me.ccrama.redditslide.SpoilerRobotoTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:id="@+id/title"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+        <me.ccrama.redditslide.SpoilerRobotoTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:padding="8dp"
+            android:id="@+id/body"
+            android:textSize="14sp" />
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="0" />
-
-</RelativeLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="-27dp"
-            android:layout_toRightOf="@+id/welcome"
+            android:layout_toEndOf="@+id/welcome"
             android:padding="16dp"
             android:text="ccrama"
             android:textColor="#fff"
@@ -49,11 +49,9 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_margin="12dp"
             app:srcCompat="@drawable/down" />
-
-
     </RelativeLayout>
 
     <LinearLayout
@@ -63,30 +61,91 @@
         android:background="?attr/activity_background"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:id="@+id/offline"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+            android:paddingStart="0dp">
 
-        <TextView
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="26dp"
+                android:layout_marginStart="16dp"
+                android:tint="#fff"
+                app:srcCompat="@drawable/offline" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/go_offline"
+
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/manage"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:orientation="horizontal"
+
+            android:paddingStart="0dp">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="26dp"
+                app:srcCompat="@drawable/save"
+                android:tint="#ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/manage_offline_content"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/add"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="48dp"
             android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:textColor="#fff"
             android:orientation="horizontal"
-            android:paddingStart="18dp"
-            android:text="@string/drawer_add_account"
-            android:textSize="14sp" />
+            android:paddingStart="0dp">
 
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="26dp"
+                android:layout_marginStart="16dp"
+                android:tint="#fff"
+                app:srcCompat="@drawable/add" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="@string/drawer_add_account"
+
+                android:textColor="#fff"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="0dp">
-
-
-    </LinearLayout>
+        android:paddingStart="0dp"></LinearLayout>
 
     <RelativeLayout
         android:id="@+id/prof_click"
@@ -108,10 +167,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/proficon"
+            android:layout_toEndOf="@+id/proficon"
             android:gravity="center_vertical"
-            android:text="You"
-
+            android:text="@string/drawer_profile"
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -120,7 +178,7 @@
             android:id="@+id/godown"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="2dp"
@@ -215,7 +273,6 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
-
         android:orientation="horizontal"
         android:paddingStart="0dp">
 
@@ -231,10 +288,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/inb"
+            android:layout_toEndOf="@+id/inb"
             android:gravity="center_vertical"
             android:text="@string/title_inbox"
-
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -243,13 +299,12 @@
             android:id="@+id/count"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="16dp"
             android:background="@drawable/roundedback"
             android:gravity="center"
-
             android:textColor="#fff"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -261,9 +316,9 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
-
         android:orientation="horizontal"
-        android:paddingStart="0dp">
+        android:paddingStart="0dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/mo"
@@ -277,7 +332,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/mo"
+            android:layout_toEndOf="@+id/mo"
             android:gravity="center_vertical"
             android:text="@string/drawer_moderation"
             android:textColor="?attr/font"
@@ -288,7 +343,7 @@
             android:id="@+id/count_mod"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="16dp"
@@ -300,13 +355,11 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-
     <LinearLayout
         android:id="@+id/multi"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
-
         android:orientation="horizontal"
         android:paddingStart="0dp">
 
@@ -329,52 +382,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/settings"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="?android:selectableItemBackground"
-        android:orientation="horizontal"
-        android:paddingStart="0dp">
-
-        <ImageView
-            android:id="@+id/settingsicon"
-            android:layout_width="26dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="26dp"
-            android:layout_marginStart="16dp"
-            android:tint="?attr/tint"
-            app:srcCompat="@drawable/settings" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/settingsicon"
-            android:gravity="center_vertical"
-            android:text="@string/title_settings"
-
-            android:textColor="?attr/font"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/godownsettings"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="2dp"
-            android:gravity="center"
-            android:visibility="gone"
-            android:padding="14dp"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:theme="@style/Ripple.List"
-            android:tint="?attr/tint"
-            app:srcCompat="@drawable/down" />
-    </RelativeLayout>
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/expand_settings"
         android:layout_width="match_parent"
@@ -385,49 +392,47 @@
         android:weightSum="5">
 
         <RelativeLayout
-            android:layout_width="match_parent"
             android:id="@+id/base"
-            android:orientation="horizontal"
-            android:paddingStart="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
             android:background="?android:selectableItemBackground"
-            android:layout_height="56dp">
+            android:orientation="horizontal"
+            android:paddingStart="24dp">
+
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:tint="?attr/card_background"
                 android:src="@drawable/circle"
-                />
+                android:tint="?attr/card_background" />
+
             <TextView
                 android:layout_width="match_parent"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="36dp"
-                android:text="@string/theme_base"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:textSize="14sp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="36dp"
+                android:gravity="center_vertical"
                 android:paddingStart="8dp"
-                android:layout_height="wrap_content" />
-
+                android:text="@string/theme_base"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <android.support.v7.widget.SwitchCompat
             android:layout_width="match_parent"
-            android:text="Data saving mode"
             android:layout_height="56dp"
-            android:textSize="14sp"
-            android:paddingStart="24dp"
             android:paddingEnd="24dp"
+            android:paddingStart="24dp"
+            android:text="Data saving mode"
+            android:textSize="14sp" />
 
-            />
         <android.support.v7.widget.SwitchCompat
             android:layout_width="match_parent"
-            android:text="Right hand thumbnail mode"
             android:layout_height="56dp"
-            android:textSize="14sp"
-            android:paddingStart="24dp"
             android:paddingEnd="24dp"
-            />
+            android:paddingStart="24dp"
+            android:text="Right hand thumbnail mode"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -436,7 +441,6 @@
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
-
         android:paddingStart="0dp">
 
         <ImageView
@@ -451,7 +455,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-
             android:text="@string/drawer_support"
             android:textColor="?attr/font"
             android:textSize="14sp"
@@ -464,7 +467,6 @@
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
-
         android:paddingStart="0dp">
 
         <ImageView
@@ -492,7 +494,6 @@
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
-
         android:paddingStart="0dp">
 
         <ImageView
@@ -507,13 +508,56 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-
             android:text="@string/discover_title"
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingStart="0dp">
+
+        <ImageView
+            android:id="@+id/settingsicon"
+            android:layout_width="26dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="26dp"
+            android:layout_marginStart="16dp"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/settings" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/settingsicon"
+            android:gravity="center_vertical"
+            android:text="@string/title_settings"
+            android:textColor="?attr/font"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/godownsettings"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="2dp"
+            android:gravity="center"
+            android:padding="14dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:theme="@style/Ripple.List"
+            android:tint="?attr/tint"
+            android:visibility="gone"
+            app:srcCompat="@drawable/down" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -539,7 +583,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignBottom="@+id/sort"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="16dp"
             android:padding="8dp"

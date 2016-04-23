@@ -1,4 +1,96 @@
 
+5.2.2 / 2016-04-17
+==================
+
+  * Fixed inbox popup with no messages
+  * Fixed some albums not loading and fixed album buttons being behind the drag view
+  * Fixed some embeds not working
+  * Fixed submission layout paddings
+
+5.2.1 / 2016-04-16
+==================
+
+  * Added option for per-subreddit selftext previews
+  * Added remove post history and remove sub history buttons to History Settings
+  * Added support for setting default comment sorting per subreddit
+  * Made image previews work for non-image types
+  * Made scrolling smoother with a change to the UIL config
+
+5.2.0 / 2016-04-16
+==================
+
+  * Added a light font option to comments
+  * Added translations for font sizes, inbox tabs, moderation tabs
+  * Changed 'View' on the update snackbar to 'Changelog'
+  * Enabled clicking links in selftext previews
+  * Fixed crash with a 0 length thumbnail set value
+  * Fixed some bugs with data saving mode
+  * Fixed some issues with album buttons being stuck to the top
+  * Restart Slide if pro or the Video plugin was installed
+
+5.1.7 / 2016-04-15
+==================
+
+  * 'Go to subreddit' now sorts by subscribed items first, then history, then suggestions
+  * Added download and open externally button to albums
+  * Added history for direct comment links
+  * Added mark all as read option to the inbox
+  * Added support for right to left languages
+  * Always show big previews if it's a media type link
+  * Better handling of image previews
+  * Changed TextViews to Buttons in edit comment view
+  * Deeper integration with the Slide video plugin (always open with that if possible, despite external settings)
+  * Fixed bug opening moderation before it's loaded
+  * Fixed crash scrolling in Shadowbox
+  * Fixed embedded links not loading
+  * Fixed filtering content in the main view not filtering all posts out
+  * Fixed Go to subreddit not working correctly with mixed/upper case input
+  * Fixed graphical issues with text selection in reply area and edit comment
+  * Fixed images getting out of order in comma separated Imgur album
+  * Fixed opening links with capitalised schemes (Https rather than https)
+  * Fixed some shadowbox crashes
+  * Fixed tab highlight color on non-submission pages, Bug fixes
+  * Follow Reddit's comment sorting selection order
+  * If a item has only been gilded once, '1' is no longer shown next to the star
+  * Moved Settings back to bottom in drawer
+  * New bottom sheet on album images for better readability and UX
+  * Reddit live links now open in an internal browser
+  * Settings that aren't applicable are now shown as disabled rather than disappear
+  * Sidebar buttons now use subreddit's accent
+  * Some shadowbox gif loading fixes
+  * Tag external links with the application name that opens them
+  * Updated translations
+
+5.1.6 / 2016-04-12
+==================
+
+  * Added a history section of the profile which has a list of all previously visited links
+  * Added an option for a right-handed comment menu
+  * Added support for a 'guest' account and reordering subreddits as a non logged-in user
+  * Added support for comma separated Imgur albums
+  * Added support for single link spoilers (without spoiler text)
+  * Fixed a crash getting multireddits
+  * Fixed any reddit links containing "t3" not opening
+  * Fixed negative scores when downvoting
+  * Fixed not loading Imgur links
+  * Fixed synccit posts showing as unread upon a cold boot until a refresh was performed
+  * Improved layout of FAB's for tablets
+  * Improved settings organization
+  * Improved the layout for replying to comments/submissions
+  * Made HasSeen.addSeen store the current time for an ordered History screen
+  * Made the subreddit list stick between a logged out state and when the user logs in for the first time
+  * Made the theme colors extend to popups and dialogs
+  * Tweaked the layout for listing accounts
+
+  5.1.5 / 2016-04-11
+  ==================
+
+    * Added support for modmail checks
+    * Fixed collapsing comments becoming uncollapsed
+    * Fixed crashing KitKat loading in drawables by downgrading Gradle and the appcompat versions
+    * Hide NSFW selftext previews
+    * Some memory usage improvements to the MediaView
+
 5.1.4 / 2016-04-10
 ==================
 

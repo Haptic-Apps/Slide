@@ -16,30 +16,39 @@ public class TitleTextView extends SpoilerRobotoTextView {
     public TitleTextView(Context c) {
         super(c);
         if(!isInEditMode()) {
-            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                    c,
-                    new FontPreferences(c).getFontTypeTitle().getTypeface());
-            setTypeface(typeface);
+            int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
+            if (type >= 0) {
+                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                        c,
+                        type);
+                setTypeface(typeface);
+            }
         }
     }
 
     public TitleTextView(Context c, AttributeSet attrs) {
         super(c, attrs);
         if(!isInEditMode()) {
-            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                    c,
-                    new FontPreferences(c).getFontTypeTitle().getTypeface());
-            setTypeface(typeface);
+            int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
+            if (type >= 0) {
+                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                        c,
+                        type);
+                setTypeface(typeface);
+            }
         }
     }
 
     public TitleTextView(Context c, AttributeSet attrs, int defStyle) {
         super(c, attrs, defStyle);
         if(!isInEditMode()) {
-            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                    c,
-                    new FontPreferences(c).getFontTypeTitle().getTypeface());
-            setTypeface(typeface);
+            int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
+            if (type >= 0) {
+                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                        c,
+                        type);
+                setTypeface(typeface);
+            }
         }
     }
 }

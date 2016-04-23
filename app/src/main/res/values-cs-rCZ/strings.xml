@@ -47,7 +47,6 @@
   <string name="multi_column_title">Více sloupců</string>
   <string name="multi_column_landscape">Na šířku</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Povýšit na verzi Pro</string>
   <string name="drawer_goto_profile">Přejít na profil</string>
   <string name="drawer_add_account">Přidat účet</string>
@@ -88,12 +87,6 @@
   <string name="sorting_old">Staré</string>
   <string name="sorting_controversial">Kontroverzní</string>
   <string name="sorting_rising">Rostoucí</string>
-  <string name="sorting_hour">poslední hodina</string>
-  <string name="sorting_day">posledních 24 hodin</string>
-  <string name="sorting_week">minulý týden</string>
-  <string name="sorting_month">minulý měsíc</string>
-  <string name="sorting_year">minulý rok</string>
-  <string name="sorting_all">všech dob</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -102,7 +95,6 @@
   <string name="editor_title">Titulek</string>
   <string name="editor_err_msg">Opakujte akci za pár vteřin.</string>
   <string name="editor_uploading_image">Nahrávání obrázku na Imgur</string>
-  <string name="editor_self">Vlastní text</string>
   <string name="editor_select_img">Vybrat obrázek</string>
   <string name="editor_hint_optional_body">Tělo (volitelné)</string>
   <string name="editor_submit">Odeslat příspěvek</string>
@@ -138,7 +130,9 @@
   <string name="type_album">Album</string>
   <string name="type_img">Obrázek</string>
   <string name="type_vid">Video</string>
-  <!-- Reply to message -->
+  <!-- Content types plural (Content filters) -->
+  <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Příchozí zprávy</string>
   <string name="mail_hint_recipient">Příjemce</string>
   <string name="mail_hint_subject">Předmět</string>
   <string name="mail_hint_body">Text zprávy</string>
@@ -152,7 +146,7 @@
     <item quantity="few">Máte %d nových zpráv!</item>
     <item quantity="other">Máte %d nových zpráv!</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Chyba</string>
   <string name="misc_none">Žádný</string>
   <string name="misc_retry">Chcete to zkusit znovu?</string>
@@ -161,6 +155,7 @@
   <string name="misc_continue">Pokračovat</string>
   <string name="misc_unsubscribed">Odhlášeno</string>
   <string name="misc_no_more_posts">Žádné další příspěvky!</string>
+  <string name="misc_copy_text">Zkopírovat text</string>
   <!-- Goto User -->
   <string name="user_enter">Zadejte uživatelské jméno</string>
   <string name="user_btn_goto">Přejít na uživatele</string>
@@ -218,6 +213,9 @@
   <string name="search_msg">Co hledáte?</string>
   <string name="search_all">Hledat vše</string>
   <string name="search_subreddit">Hledat %1$s</string>
+  <string name="search_top">Nejlepší</string>
+  <string name="search_new">Nové</string>
+  <string name="search_comments">komentáře</string>
   <!-- Captcha -->
   <string name="captcha">Zadejte kód nahoře</string>
   <string name="captcha_title">Dokažte, že nejste robot</string>
@@ -258,6 +256,7 @@
   <string name="settings_title_fab">Plovoucí tlačítko akce</string>
   <string name="settings_title_comments">Komentáře</string>
   <string name="settings_section_general">Obecný</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit témata &amp; rozložení</string>
   <string name="title_edit_theme">Upravit motiv</string>
@@ -287,10 +286,6 @@
   <string name="website_back">Zpět</string>
   <!-- Reorder subreddit activity -->
   <!-- Time -->
-  <string name="time_just_now">právě teď</string>
-  <string name="submission_share_permalink">Sdílet příspěvek</string>
-  <string name="mode_card">Karta</string>
-  <string name="btn_report">Nahlásit</string>
   <plurals name="time_hours">
     <item quantity="one">%d hodinu</item>
     <item quantity="few">%d hodiny</item>
@@ -301,5 +296,14 @@
     <item quantity="few">%d minut</item>
     <item quantity="other">%d minut</item>
   </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
+  <string name="submission_share_permalink">Sdílet příspěvek</string>
+  <string name="mode_card">Karta</string>
+  <string name="btn_report">Nahlásit</string>
   <string name="content_deleted">[deleted]</string>
+  <string name="open_externally">Otevřít externě</string>
 </resources>

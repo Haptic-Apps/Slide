@@ -5,17 +5,111 @@
   <string name="general_confirm_exit">Bekræft lukning</string>
   <string name="general_confirm_exit_msg">Er du sikker på at du vil lukke Slide?</string>
   <string name="general_enable_shadowbox">Aktiver Shadowbox tilstand</string>
+  <string name="general_pro_msg">Jeg har valgt at gøre et par funktioner i Slide (inklusiv multikolonne-tilstand) mulig at låse op ved at købe en Pro-nøgle fra Play-butikken.\n\nDette er for at holde udviklingen kørende og i stedet for at vise reklamer i den gratis version af Slide!\n\nI dette er inkluderet multikolonne-tilstand, Shadowbox-tilstand (i billede-subreddits) og meget mere, der snart kommer!\n\nKunne du tænke dig at åbne op for Slide for Reddit Pro?</string>
   <string name="general_open_settings">Åben Subreddit indstillinger</string>
   <string name="general_sub_sync">Synkroniser abonnementer</string>
   <!-- Used when viewing a thread -->
+  <string name="submission_info_unsaved">Indlæg er ikke gemt</string>
+  <string name="submission_info_saved">Indlæg er gemt</string>
+  <string name="submission_info_archived">Dette er et gemt indlæg. Du vil ikke kunne stemme eller kommentere</string>
+  <string name="submission_post_saved">Indlæg gemt</string>
+  <string name="submission_info_hidden">Indlæg gemt for altid</string>
+  <string name="submission_stickied">Fastgjort</string>
+  <string name="submission_link_extern">Åbn eksternt</string>
+  <string name="submission_link_copy">Kopiér URL</string>
+  <string name="submission_link_share">Del URL</string>
+  <string name="submission_share_title">Hvilket link vil du gerne dele?</string>
+  <string name="submission_share_reddit">Reddit-URL</string>
+  <string name="submission_share_content">Indholds-URL</string>
+  <string name="submission_hide">Skjul indlæg</string>
+  <string name="submission_report">Rapporter indlæg</string>
+  <string name="submission_gild">Åbn i browser</string>
+  <string name="submission_save">Gem indlæg</string>
+  <string name="submission_share">Del indlæg</string>
+  <string name="submission_load_full">Indlæs hele tråden</string>
+  <string name="submission_np_link">Der er ikke noget deltagelseslink. Stem eller kommenter venligst ikke</string>
+  <string name="submission_tap_gif">Tryk for at indlæse GIF</string>
+  <string name="submission_not_found">Ups! Indlæg ikke fundet!</string>
+  <string name="submission_not_found_msg">Beklager. Dette indlæg kunne ikke findes</string>
+  <string name="submission_copy">Kopier tekst</string>
   <!-- Theme settings -->
+  <string name="theme_light">Lys</string>
+  <string name="theme_dark">Mørk</string>
+  <string name="theme_black">AMOLED-sort</string>
+  <string name="theme_dark_blue">Mørkeblå</string>
+  <string name="theme_default_color">Primær farve</string>
+  <string name="theme_subreddit_color">Skift farve</string>
+  <string name="theme_accent_color">Sekundær farve</string>
+  <string name="theme_base">Basistema</string>
+  <string name="theme_card">Kort</string>
   <!-- Font settings -->
+  <string name="font_size">Skriftstørrelse</string>
+  <string name="font_size_larger">Større</string>
+  <string name="font_size_large">Stor</string>
+  <string name="font_size_medium">Medium</string>
+  <string name="font_size_small">Lille</string>
+  <string name="font_size_smaller">Mindre</string>
+  <string name="font_size_tiny">Meget lille</string>
   <!-- For editing the submission card layout -->
+  <string name="card_hide_post_button">\"Skjul indlæg\"-knap i handlingsmenuen</string>
+  <string name="card_tint_outside">Farv kun uden for subreddits</string>
+  <string name="card_save_button">\"Gem indlæg\"-knap i handlingsmenuen</string>
   <!-- Settings for Multi-column view -->
+  <string name="multi_column_title">Multi-kolonne</string>
+  <string name="multi_column_landscape">Landskab</string>
+  <string name="multi_column_portrait">Flere kolonner i portrættilstand</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">Dig</string>
+  <string name="drawer_support">Skift til Pro</string>
+  <string name="drawer_goto_profile">Gå til profil</string>
+  <string name="drawer_add_account">Tilføj en konto</string>
+  <string name="drawer_hello">Hej,</string>
+  <string name="drawer_search">Gå til subreddit</string>
+  <string name="drawer_moderation">Moderation</string>
+  <string name="drawer_offline">Slide er i offlinetilstand</string>
+  <string name="drawer_offline_retry">Prøv at skifte til onlinetilstand</string>
   <!-- Sidebar items (That's the one on the right) -->
+  <string name="sidebar_wiki">Subreddit-wiki</string>
+  <string name="sidebar_mods">Subreddit-moderatorer</string>
   <!-- User profile -->
+  <string name="profile_karma_link">Linkkarma</string>
+  <string name="profile_karma_comment">Kommentarkarma</string>
+  <string name="profile_message">Privat besked</string>
+  <string name="profile_saved">Gemt</string>
+  <string name="profile_upvoted">Stemt op</string>
+  <string name="profile_err_title">Bruger ikke fundet</string>
+  <string name="profile_err_msg">Reddit-brugeren kunne ikke hentes</string>
+  <string name="profile_overview">Oversigt</string>
+  <string name="profile_comments">Kommentarer</string>
+  <string name="profile_submitted">Indsendt</string>
+  <string name="profile_gilded">Fået guld</string>
+  <string name="profile_downvoted">Nedstemt</string>
+  <string name="profile_hidden">Skjult</string>
+  <string name="profile_friend">Ven</string>
+  <string name="profile_add_friend">Tilføj ven</string>
+  <string name="profile_remove_friend">Fjern ven</string>
+  <string name="profile_manage_accounts">Administrer konti</string>
+  <string name="profile_remove_account">Vil du virkelig fjerne din konto?</string>
+  <string name="profile_remove">Slet konto</string>
+  <string name="profile_history">Historik</string>
+  <string name="profile_share">%ss profil</string>
+  <string name="profile_age">Redditor for %s</string>
+  <string name="profile_tag">Tag</string>
+  <string name="profile_tag_set">Angiv tag for %s</string>
+  <string name="profile_tag_user">Tag bruger</string>
+  <string name="profile_tag_user_existing">Bruger tagget som \'%s\'</string>
+  <string name="profile_btn_tag">Angiv tag</string>
+  <string name="profile_btn_untag">Fjern tag</string>
   <!-- Comment text options -->
+  <string name="comment_gild">Giv kommentar guld</string>
+  <string name="comment_share">Del kommentar</string>
+  <string name="comment_delete">Slet kommentar</string>
+  <string name="comment_delete_msg">Vil du virkelig slette denne kommentar? Det kan ikke fortrydes</string>
+  <string name="comment_delete_err">Ups! Noget gik galt</string>
+  <string name="comment_delete_err_msg">Vil du prøve igen?</string>
+  <string name="comment_deleted">[slettet]</string>
+  <string name="comment_unsave">Gem ikke</string>
+  <string name="comment_load_more">Indlæs %1$d mere</string>
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
   <!-- Editor (save/submit a post) actions -->
@@ -23,24 +117,92 @@
   <!-- General errors / errors without a category -->
   <!-- Gif -->
   <!-- Multireddit errors -->
+  <string name="multireddit_title_empty_msg">Angiv venligst en titel til din multireddit</string>
+  <string name="multireddit_no_subs">Ingen subreddits er tilføjet</string>
+  <string name="multireddit_no_subs_msg">Tilføj venligst nogle subreddits ved at klikke på +-knappen!</string>
+  <string name="multireddit_selector">Vælg hvilke subreddits du vil tilføje</string>
+  <string name="multireddit_create_hint">Navn til multireddit</string>
+  <string name="multireddit_invalid_name">Ugyldigt navn til multireddit</string>
+  <string name="multireddit_invalid_name_msg">Navne til multireddits kan kun indeholde bogstaver, tal og understreger</string>
   <!-- Content types -->
-  <!-- Reply to message -->
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <string name="type_nsfw_img">NSFW-billede</string>
+  <string name="type_nsfw_gif">NSFW-GIF</string>
+  <string name="type_reddit">Reddit-link</string>
+  <string name="type_link">Link</string>
+  <string name="type_nsfw_link">NSFW-link</string>
+  <string name="type_gif">GIF</string>
+  <string name="type_title_only">Tekst</string>
+  <string name="type_album">Album</string>
+  <string name="type_nsfw_album">NSWF-album</string>
+  <string name="type_img">Billede</string>
+  <string name="type_vid">Video</string>
+  <string name="type_nsfw_video">NSWF-video</string>
+  <string name="type_emb">Indlejret</string>
+  <string name="type_nsfw_emb">NSWF-indlejring</string>
+  <string name="type_imgur">Imgur-indhold</string>
+  <string name="type_nsfw_imgur">NSWF-indhold fra Imgur</string>
+  <string name="type_external">Ekstern</string>
+  <!-- Content types plural (Content filters) -->
+  <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Indbakke</string>
+  <string name="mail_tab_unread">Ulæst</string>
+  <string name="mail_tab_messages">Beskeder</string>
+  <string name="mail_tab_sent">Sendt</string>
+  <string name="mail_tab_mentions">Omtaler</string>
+  <string name="mail_author_wrote">%1$s skrev&#8230;</string>
+  <string name="mail_hint_recipient">Modtager</string>
+  <string name="mail_hint_subject">Emne</string>
+  <string name="mail_hint_body">Tekst</string>
+  <string name="mail_send_to">Send en besked til %1$s</string>
+  <string name="mail_send">Send en besked</string>
+  <string name="mail_notification_msg">Ny besked fra %1$s</string>
+  <string name="mod_mail_notification_msg">Ny moderatorbesked fra %1$s</string>
+  <string name="mail_reply_to">Svar på %1$s</string>
+  <string name="mail_notification_author">%1$s fra %2$s</string>
+  <string name="mail_theirs">Vis deres besked</string>
+  <string name="mail_re">re: %1$s</string>
+  <string name="mail_mark_read">Markér som læst</string>
+  <string name="mail_mark_unread">Markér som ulæst</string>
+  <string name="mail_view_full_thread">Vis hele tråden</string>
+  <string name="mail_message_copied">Besked kopieret</string>
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
+  <string name="misc_err">Fejl</string>
+  <string name="misc_none">Ingen</string>
+  <string name="misc_retry">Vil du prøve igen?</string>
+  <string name="misc_copy_text">Kopier tekst</string>
   <!-- Goto User -->
   <!-- Buttons -->
   <!-- Backup -->
   <!-- Vote -->
   <!-- Moderation tools -->
+  <string name="mod_approve">Vil du virkelig godkende dette indlæg?</string>
+  <string name="mod_approved">Indlæg godkendt</string>
+  <string name="mod_mark_nsfw">Vil du virkelig markere dette som NSFW?</string>
+  <string name="mod_remove_nsfw">Vil du virkelig fjerne dette NSWF-tag?</string>
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
+  <string name="search_comments">Kommentarer</string>
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
+  <string name="settings_title_pro">Skift til Pro</string>
+  <string name="settings_title_multi_column">Multi-kolonne</string>
+  <string name="settings_title_comments">Kommentarer</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <!-- Text in Donation-Activity -->
   <!-- Offline mode -->
   <!-- Website -->
   <!-- Reorder subreddit activity -->
   <!-- Time -->
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
+  <string name="submission_share_permalink">Del indlæg</string>
+  <string name="mode_card">Kort</string>
+  <string name="content_deleted">[slettet]</string>
+  <string name="open_externally">Åbn eksternt</string>
 </resources>

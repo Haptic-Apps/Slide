@@ -188,11 +188,9 @@ public class CreateCardView {
                 ((CardView) v.findViewById(R.id.card)).setCardBackgroundColor(Palette.getColor(sec));
                 v.setTag(v.getId(), "color");
                 resetColor(getViewsByTag((ViewGroup) v, "tint"));
+                resetColor(getViewsByTag((ViewGroup) v, "tintsecond"));
                 resetColor(getViewsByTag((ViewGroup) v, "tintactionbar"));
-
             }
-
-
         }
     }
 

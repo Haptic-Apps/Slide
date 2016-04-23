@@ -10,8 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.google.gson.JsonElement;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Submission;
 
@@ -46,7 +48,7 @@ public class AlbumFull extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.submission_albumcard, container, false);
-        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity());
+        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
 
         if (s.getUrl().contains("gallery")) {
             gallery = true;
@@ -112,15 +114,42 @@ public class AlbumFull extends Fragment {
             }
         });
 
-        rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
+        final View.OnClickListener openClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+            }
+        };
+        rootView.findViewById(R.id.base).setOnClickListener(openClick);
+        final View title = rootView.findViewById(R.id.title);
+        title.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
+                title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
+        ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
 
-                Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, ((Shadowbox)getActivity()).subreddit);
-                (getActivity()).startActivity(i2);
+            }
 
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent i2 = new Intent(getActivity(), CommentsScreen.class);
+                            i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, ((Shadowbox)getActivity()).subreddit);
+                            (getActivity()).startActivity(i2);
+                        }
+                    });
+                } else {
+                    rootView.findViewById(R.id.base).setOnClickListener(openClick);
+                }
             }
         });
 

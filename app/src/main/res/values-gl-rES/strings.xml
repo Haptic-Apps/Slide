@@ -29,7 +29,6 @@
   <string name="multi_column_title">Axustes da Multi-Columna</string>
   <string name="multi_column_landscape">Apaisado</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Perfil</string>
   <string name="drawer_goto_profile">Ir ao perfil</string>
   <string name="drawer_add_account">Engadir unha conta</string>
   <string name="drawer_hello">Ola,</string>
@@ -41,9 +40,6 @@
   <!-- Sorting options -->
   <string name="sorting_hot">Popular</string>
   <string name="sorting_new">Novo</string>
-  <string name="sorting_month">Este mes</string>
-  <string name="sorting_year">Este ano</string>
-  <string name="sorting_all">Todo o tempo</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Texto</string>
@@ -57,9 +53,11 @@
   <string name="type_link">Ligazón</string>
   <string name="type_album">Álbum</string>
   <string name="type_img">Imaxe</string>
-  <!-- Reply to message -->
+  <!-- Content types plural (Content filters) -->
+  <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Bandexa de entrada</string>
   <string name="mail_hint_body">Texto</string>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Erro</string>
   <string name="misc_none">Ningún</string>
   <!-- Goto User -->
@@ -80,6 +78,7 @@
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
+  <string name="search_new">Novo</string>
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
@@ -87,6 +86,7 @@
   <string name="settings_title_support">Doar</string>
   <string name="settings_title_multi_column">Axustes da Multi-Columna</string>
   <string name="settings_section_general">Xeral</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_settings">Axustes</string>
   <string name="title_multireddits">Multireddits</string>
@@ -97,7 +97,12 @@
   <!-- Website -->
   <!-- Reorder subreddit activity -->
   <!-- Time -->
-  <string name="time_just_now">xusto agora</string>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
   <string name="submission_share_permalink">Compartir post</string>
   <string name="mode_card">Tarxeta</string>
+  <string name="open_externally">Abrir externamente</string>
 </resources>

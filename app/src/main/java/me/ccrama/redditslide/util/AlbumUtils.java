@@ -245,11 +245,8 @@ public class AlbumUtils {
                                                     }
                                                 });
                                             } else if (!dontClose) {
-                                                Intent i = new Intent(baseActivity, Website.class);
-                                                i.putExtra(Website.EXTRA_URL, "http://imgur.com/gallery/" + hash);
-                                                baseActivity.startActivity(i);
-                                                baseActivity.finish();
-
+                                                gallery = false;
+                                                doInBackground(hash);
                                             }
                                         }
 

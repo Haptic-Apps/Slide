@@ -440,283 +440,297 @@ public class GifUtils {
             } else {
 
                 final String finalS = s;
-                Log.v("Slide", "https://gfycat.com/cajax/checkUrl/" + s);
+                Log.v("Slide", "https://gfycat.com/cajax/checkUrl/" + Uri.encode(s));
 
-                Ion.with(c).load("https://gfycat.com/cajax/checkUrl/" + s).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-                                                                                                          @Override
-                                                                                                          public void onCompleted(Exception e, final JsonObject result) {
-                                                                                                              if (result != null && result.has("urlKnown") && result.get("urlKnown").getAsBoolean()) {
+                Ion.with(c).load("https://gfycat.com/cajax/checkUrl/" + Uri.encode(s))
+                        .asJsonObject()
+                        .setCallback(
+                                new FutureCallback<JsonObject>() {
+                                    @Override
+                                    public void onCompleted(Exception e, final JsonObject result) {
+                                        if (result != null && result.has("urlKnown") && result.get("urlKnown").getAsBoolean()) {
 
-                                                                                                                  new AsyncTask<Void, Void, Void>() {
+                                            new AsyncTask<Void, Void, Void>() {
 
-                                                                                                                      @Override
-                                                                                                                      protected Void doInBackground(Void... params) {
-                                                                                                                          try {
+                                                @Override
+                                                protected Void doInBackground(Void... params) {
+                                                    try {
 
-                                                                                                                              final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
-                                                                                                                              final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
-
-
-                                                                                                                              if (!f.exists()) {
-                                                                                                                                  URLConnection ucon = url.openConnection();
-                                                                                                                                  ucon.setReadTimeout(5000);
-                                                                                                                                  ucon.setConnectTimeout(10000);
-                                                                                                                                  InputStream is = ucon.getInputStream();
-                                                                                                                                  BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
-
-                                                                                                                                  int length = ucon.getContentLength();
-
-                                                                                                                                  CacheUtil.makeRoom(c, length);
-
-                                                                                                                                  f.createNewFile();
-                                                                                                                                  MediaView.fileLoc = f.getAbsolutePath();
-
-                                                                                                                                  FileOutputStream outStream = new FileOutputStream(f);
-                                                                                                                                  byte[] buff = new byte[5 * 1024];
-
-                                                                                                                                  int len;
-                                                                                                                                  int readBytes = 0;
-
-                                                                                                                                  while ((len = inStream.read(buff)) != -1) {
-                                                                                                                                      outStream.write(buff, 0, len);
-                                                                                                                                      final int percent = Math.round(100.0f * f.length() / length);
-                                                                                                                                      if (percent == 100)
-                                                                                                                                          MediaView.didLoadGif = true;
-                                                                                                                                      if (progressBar != null) {
-
-                                                                                                                                          c.runOnUiThread(new Runnable() {
-                                                                                                                                              @Override
-                                                                                                                                              public void run() {
-                                                                                                                                                  progressBar.setProgress(percent);
-                                                                                                                                                  if (percent == 100) {
-                                                                                                                                                      progressBar.setVisibility(View.GONE);
-
-                                                                                                                                                  }
-                                                                                                                                              }
-                                                                                                                                          });
-                                                                                                                                      }
-
-                                                                                                                                  }
+                                                        final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
+                                                        final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
 
-                                                                                                                                  outStream.flush();
-                                                                                                                                  outStream.close();
-                                                                                                                                  inStream.close();
-                                                                                                                              } else {
-                                                                                                                                  if (progressBar != null) {
-                                                                                                                                      c.runOnUiThread(new Runnable() {
-                                                                                                                                          @Override
-                                                                                                                                          public void run() {
+                                                        if (!f.exists()) {
+                                                            URLConnection ucon = url.openConnection();
+                                                            ucon.setReadTimeout(5000);
+                                                            ucon.setConnectTimeout(10000);
+                                                            InputStream is = ucon.getInputStream();
+                                                            BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
 
-                                                                                                                                              progressBar.setVisibility(View.GONE);
+                                                            int length = ucon.getContentLength();
 
-                                                                                                                                          }
-                                                                                                                                      });
-                                                                                                                                  }
-                                                                                                                              }
-                                                                                                                              c.runOnUiThread(new Runnable() {
-                                                                                                                                  @Override
-                                                                                                                                  public void run() {
-                                                                                                                                      video.setVideoPath(f.getAbsolutePath());
-                                                                                                                                      //videoView.set
+                                                            CacheUtil.makeRoom(c, length);
 
-                                                                                                                                      if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
-                                                                                                                                          MediaController mediaController = new
-                                                                                                                                                  MediaController(c);
-                                                                                                                                          mediaController.setAnchorView(placeholder);
-                                                                                                                                          video.setMediaController(mediaController);
+                                                            f.createNewFile();
+                                                            MediaView.fileLoc = f.getAbsolutePath();
 
-                                                                                                                                      }
+                                                            FileOutputStream outStream = new FileOutputStream(f);
+                                                            byte[] buff = new byte[5 * 1024];
 
-                                                                                                                                      if (progressBar != null) {
-                                                                                                                                          progressBar.setIndeterminate(false);
-                                                                                                                                      }
-                                                                                                                                      if (gifSave != null) {
-                                                                                                                                          gifSave.setOnClickListener(new View.OnClickListener() {
-                                                                                                                                              @Override
-                                                                                                                                              public void onClick(View v) {
-                                                                                                                                                  saveGif(f, c);
-                                                                                                                                              }
-                                                                                                                                          });
-                                                                                                                                      } else if (doOnClick != null) {
-                                                                                                                                          MediaView.doOnClick = new Runnable() {
-                                                                                                                                              @Override
-                                                                                                                                              public void run() {
-                                                                                                                                                  saveGif(f, c);
+                                                            int len;
+                                                            int readBytes = 0;
 
-                                                                                                                                              }
-                                                                                                                                          };
-                                                                                                                                      }
-                                                                                                                                      video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                                                                                                                          @Override
-                                                                                                                                          public void onPrepared(MediaPlayer mp) {
+                                                            while ((len = inStream.read(buff)) != -1) {
+                                                                outStream.write(buff, 0, len);
+                                                                final int percent = Math.round(100.0f * f.length() / length);
+                                                                if (percent == 100)
+                                                                    MediaView.didLoadGif = true;
+                                                                if (progressBar != null) {
 
-                                                                                                                                              if (placeholder != null)
-                                                                                                                                                  placeholder.setVisibility(View.GONE);
-                                                                                                                                              mp.setLooping(true);
+                                                                    c.runOnUiThread(new Runnable() {
+                                                                        @Override
+                                                                        public void run() {
+                                                                            progressBar.setProgress(percent);
+                                                                            if (percent == 100) {
+                                                                                progressBar.setVisibility(View.GONE);
+
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }
+
+                                                            }
 
 
-                                                                                                                                          }
+                                                            outStream.flush();
+                                                            outStream.close();
+                                                            inStream.close();
+                                                        } else {
+                                                            if (progressBar != null) {
+                                                                c.runOnUiThread(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
 
-                                                                                                                                      });
-                                                                                                                                      if (autostart)
+                                                                        progressBar.setVisibility(View.GONE);
 
-                                                                                                                                          video.start();
-                                                                                                                                  }
-                                                                                                                              });
-                                                                                                                          } catch (Exception ex) {
-                                                                                                                              ex.printStackTrace();
-                                                                                                                          }
-                                                                                                                          return null;
-                                                                                                                      }
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                        c.runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                video.setVideoPath(f.getAbsolutePath());
+                                                                //videoView.set
 
-                                                                                                                  }.execute();
-                                                                                                              } else {
-                                                                                                                  Log.v(LogUtil.getTag(), "https://upload.gfycat.com/transcode?fetchUrl=" + finalS);
-                                                                                                                  if (progressBar != null)
-                                                                                                                      progressBar.setIndeterminate(true);
-                                                                                                                  Ion.with(c)
-                                                                                                                          .load("http://upload.gfycat.com/transcode?fetchUrl=" + finalS)
-                                                                                                                          .asJsonObject()
-                                                                                                                          .setCallback(new FutureCallback<JsonObject>() {
-                                                                                                                                           @Override
-                                                                                                                                           public void onCompleted(Exception e, final JsonObject result) {
-                                                                                                                                               if (result.has("error")) {
-                                                                                                                                               }
-                                                                                                                                               if (progressBar != null)
-                                                                                                                                                   progressBar.setIndeterminate(false);
-                                                                                                                                               new AsyncTask<Void, Void, Void>() {
+                                                                if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
+                                                                    MediaController mediaController = new
+                                                                            MediaController(c);
+                                                                    mediaController.setAnchorView(placeholder);
+                                                                    video.setMediaController(mediaController);
 
-                                                                                                                                                   @Override
-                                                                                                                                                   protected Void doInBackground(Void... params) {
-                                                                                                                                                       try {
-                                                                                                                                                           if (result == null || result.get("mp4Url") == null || result.get("mp4Url").isJsonNull()) {
+                                                                }
 
-                                                                                                                                                               if (closeIfNull)
-                                                                                                                                                                   c.runOnUiThread(new Runnable() {
-                                                                                                                                                                       @Override
-                                                                                                                                                                       public void run() {
-                                                                                                                                                                           new AlertDialogWrapper.Builder(c)
-                                                                                                                                                                                   .setTitle(R.string.gif_err_title)
-                                                                                                                                                                                   .setMessage(R.string.gif_err_msg)
-                                                                                                                                                                                   .setCancelable(false)
-                                                                                                                                                                                   .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                                                                                                                                                       @Override
-                                                                                                                                                                                       public void onClick(DialogInterface dialog, int which) {
-                                                                                                                                                                                           c.finish();
-                                                                                                                                                                                       }
-                                                                                                                                                                                   }).create().show();
-                                                                                                                                                                       }
-                                                                                                                                                                   });
+                                                                if (progressBar != null) {
+                                                                    progressBar.setIndeterminate(false);
+                                                                }
+                                                                if (gifSave != null) {
+                                                                    gifSave.setOnClickListener(new View.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(View v) {
+                                                                            saveGif(f, c);
+                                                                        }
+                                                                    });
+                                                                } else if (doOnClick != null) {
+                                                                    MediaView.doOnClick = new Runnable() {
+                                                                        @Override
+                                                                        public void run() {
+                                                                            saveGif(f, c);
 
-                                                                                                                                                           } else {
-                                                                                                                                                               final URL url = new URL(result.get("mp4Url").getAsString()); //wont exist on server yet, just load the full version
-                                                                                                                                                               URLConnection ucon = url.openConnection();
-                                                                                                                                                               ucon.setReadTimeout(5000);
-                                                                                                                                                               ucon.setConnectTimeout(10000);
-                                                                                                                                                               InputStream is = ucon.getInputStream();
-                                                                                                                                                               BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
+                                                                        }
+                                                                    };
+                                                                }
+                                                                video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                                                    @Override
+                                                                    public void onPrepared(MediaPlayer mp) {
 
-                                                                                                                                                               int length = ucon.getContentLength();
-
-                                                                                                                                                               CacheUtil.makeRoom(c, length);
-
-                                                                                                                                                               final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
-
-                                                                                                                                                               f.createNewFile();
-                                                                                                                                                               MediaView.fileLoc = f.getAbsolutePath();
-
-                                                                                                                                                               FileOutputStream outStream = new FileOutputStream(f);
-                                                                                                                                                               byte[] buff = new byte[5 * 1024];
-
-                                                                                                                                                               int len;
-                                                                                                                                                               while ((len = inStream.read(buff)) != -1) {
-                                                                                                                                                                   outStream.write(buff, 0, len);
-                                                                                                                                                                   final int percent = Math.round(100.0f * f.length() / length);
-                                                                                                                                                                   if (percent == 100)
-                                                                                                                                                                       MediaView.didLoadGif = true;
-                                                                                                                                                                   if (progressBar != null) {
-                                                                                                                                                                       c.runOnUiThread(new Runnable() {
-                                                                                                                                                                           @Override
-                                                                                                                                                                           public void run() {
-                                                                                                                                                                               progressBar.setProgress(percent);
-                                                                                                                                                                               if (percent == 100) {
-                                                                                                                                                                                   progressBar.setVisibility(View.GONE);
-
-                                                                                                                                                                               }
-                                                                                                                                                                           }
-                                                                                                                                                                       });
+                                                                        if (placeholder != null)
+                                                                            placeholder.setVisibility(View.GONE);
+                                                                        mp.setLooping(true);
 
 
-                                                                                                                                                                   }
-                                                                                                                                                               }
-                                                                                                                                                               outStream.flush();
-                                                                                                                                                               outStream.close();
-                                                                                                                                                               inStream.close();
+                                                                    }
 
-                                                                                                                                                               c.runOnUiThread(new Runnable() {
-                                                                                                                                                                   @Override
-                                                                                                                                                                   public void run() {
-                                                                                                                                                                       video.setVideoPath(f.getAbsolutePath());
-                                                                                                                                                                       //videoView.set
+                                                                });
+                                                                if (autostart)
 
-                                                                                                                                                                       if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
-                                                                                                                                                                           MediaController mediaController = new
-                                                                                                                                                                                   MediaController(c);
-                                                                                                                                                                           mediaController.setAnchorView(placeholder);
-                                                                                                                                                                           video.setMediaController(mediaController);
-                                                                                                                                                                       }
-                                                                                                                                                                       if (progressBar != null)
-                                                                                                                                                                           progressBar.setIndeterminate(false);
-                                                                                                                                                                       if (gifSave != null) {
-                                                                                                                                                                           gifSave.setOnClickListener(new View.OnClickListener() {
-                                                                                                                                                                               @Override
-                                                                                                                                                                               public void onClick(View v) {
-                                                                                                                                                                                   saveGif(f, c);
-                                                                                                                                                                               }
-                                                                                                                                                                           });
-                                                                                                                                                                       } else if (doOnClick != null) {
-                                                                                                                                                                           MediaView.doOnClick = new Runnable() {
-                                                                                                                                                                               @Override
-                                                                                                                                                                               public void run() {
-                                                                                                                                                                                   saveGif(f, c);
+                                                                    video.start();
+                                                            }
+                                                        });
+                                                    } catch (Exception ex) {
+                                                        ex.printStackTrace();
+                                                    }
+                                                    return null;
+                                                }
 
-                                                                                                                                                                               }
-                                                                                                                                                                           };
-                                                                                                                                                                       }
+                                            }.execute();
+                                        } else {
+                                            Log.v(LogUtil.getTag(), "https://upload.gfycat.com/transcode?fetchUrl=" + Uri.encode(finalS));
+                                            if (progressBar != null)
+                                                progressBar.setIndeterminate(true);
+                                            Ion.with(c)
+                                                    .load("http://upload.gfycat.com/transcode?fetchUrl=" + Uri.encode(finalS))
+                                                    .asJsonObject()
+                                                    .setCallback(new FutureCallback<JsonObject>() {
+                                                                     @Override
+                                                                     public void onCompleted(Exception e, final JsonObject result) {
+                                                                         if (progressBar != null)
+                                                                             progressBar.setIndeterminate(false);
+                                                                         new AsyncTask<Void, Void, Void>() {
 
-                                                                                                                                                                       video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                                                                                                                                                           @Override
-                                                                                                                                                                           public void onPrepared(MediaPlayer mp) {
+                                                                             @Override
+                                                                             protected Void doInBackground(Void... params) {
+                                                                                 try {
+                                                                                     if (result == null || result.get("mp4Url") == null || result.get("mp4Url").isJsonNull()) {
 
-                                                                                                                                                                               if (placeholder != null)
-                                                                                                                                                                                   placeholder.setVisibility(View.GONE);
-                                                                                                                                                                               mp.setLooping(true);
-
-
-                                                                                                                                                                           }
-
-                                                                                                                                                                       });
-                                                                                                                                                                       if (autostart)
-
-                                                                                                                                                                           video.start();
-
-                                                                                                                                                                   }
-                                                                                                                                                               });
-                                                                                                                                                           }
-                                                                                                                                                       } catch (Exception e3) {
-                                                                                                                                                           e3.printStackTrace();
-                                                                                                                                                       }
-                                                                                                                                                       return null;
-                                                                                                                                                   }
-                                                                                                                                               }.execute();
-                                                                                                                                           }
-                                                                                                                                       }
-                                                                                                                          );
-                                                                                                              }
-                                                                                                          }
+                                                                                         if(result != null && result.has("error") && result.get("error").getAsString().contains("not animated")){
+                                                                                              if(c instanceof MediaView && c.getIntent() != null && c.getIntent().hasExtra(MediaView.EXTRA_DISPLAY_URL)){
+                                                                                                  (c).runOnUiThread(new Runnable() {
+                                                                                                      @Override
+                                                                                                      public void run() {
+                                                                                                          ((MediaView)c).imageShown = false;
+                                                                                                          ((MediaView)c).displayImage((c).getIntent().getStringExtra(MediaView.EXTRA_DISPLAY_URL));
                                                                                                       }
-                );
+                                                                                                  });
+                                                                                              } else if(c instanceof Shadowbox){
+                                                                                                  //todo maybe load in shadowbox
+                                                                                              }
+                                                                                         } else {
+                                                                                             if (closeIfNull)
+                                                                                                 c.runOnUiThread(new Runnable() {
+                                                                                                     @Override
+                                                                                                     public void run() {
+                                                                                                         new AlertDialogWrapper.Builder(c)
+                                                                                                                 .setTitle(R.string.gif_err_title)
+                                                                                                                 .setMessage(R.string.gif_err_msg)
+                                                                                                                 .setCancelable(false)
+                                                                                                                 .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                                                                                     @Override
+                                                                                                                     public void onClick(DialogInterface dialog, int which) {
+                                                                                                                         c.finish();
+                                                                                                                     }
+                                                                                                                 }).create().show();
+                                                                                                     }
+                                                                                                 });
+                                                                                         }
+                                                                                     } else {
+                                                                                         final URL url = new URL(result.get("mp4Url").getAsString()); //wont exist on server yet, just load the full version
+                                                                                         URLConnection ucon = url.openConnection();
+                                                                                         ucon.setReadTimeout(5000);
+                                                                                         ucon.setConnectTimeout(10000);
+                                                                                         InputStream is = ucon.getInputStream();
+                                                                                         BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
+
+                                                                                         int length = ucon.getContentLength();
+
+                                                                                         CacheUtil.makeRoom(c, length);
+
+                                                                                         final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+
+                                                                                         f.createNewFile();
+                                                                                         MediaView.fileLoc = f.getAbsolutePath();
+
+                                                                                         FileOutputStream outStream = new FileOutputStream(f);
+                                                                                         byte[] buff = new byte[5 * 1024];
+
+                                                                                         int len;
+                                                                                         while ((len = inStream.read(buff)) != -1) {
+                                                                                             outStream.write(buff, 0, len);
+                                                                                             final int percent = Math.round(100.0f * f.length() / length);
+                                                                                             if (percent == 100)
+                                                                                                 MediaView.didLoadGif = true;
+                                                                                             if (progressBar != null) {
+                                                                                                 c.runOnUiThread(new Runnable() {
+                                                                                                     @Override
+                                                                                                     public void run() {
+                                                                                                         progressBar.setProgress(percent);
+                                                                                                         if (percent == 100) {
+                                                                                                             progressBar.setVisibility(View.GONE);
+
+                                                                                                         }
+                                                                                                     }
+                                                                                                 });
+
+
+                                                                                             }
+                                                                                         }
+                                                                                         outStream.flush();
+                                                                                         outStream.close();
+                                                                                         inStream.close();
+
+                                                                                         c.runOnUiThread(new Runnable() {
+                                                                                             @Override
+                                                                                             public void run() {
+                                                                                                 video.setVideoPath(f.getAbsolutePath());
+                                                                                                 //videoView.set
+
+                                                                                                 if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
+                                                                                                     MediaController mediaController = new
+                                                                                                             MediaController(c);
+                                                                                                     mediaController.setAnchorView(placeholder);
+                                                                                                     video.setMediaController(mediaController);
+                                                                                                 }
+                                                                                                 if (progressBar != null)
+                                                                                                     progressBar.setIndeterminate(false);
+                                                                                                 if (gifSave != null) {
+                                                                                                     gifSave.setOnClickListener(new View.OnClickListener() {
+                                                                                                         @Override
+                                                                                                         public void onClick(View v) {
+                                                                                                             saveGif(f, c);
+                                                                                                         }
+                                                                                                     });
+                                                                                                 } else if (doOnClick != null) {
+                                                                                                     MediaView.doOnClick = new Runnable() {
+                                                                                                         @Override
+                                                                                                         public void run() {
+                                                                                                             saveGif(f, c);
+
+                                                                                                         }
+                                                                                                     };
+                                                                                                 }
+
+                                                                                                 video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                                                                                     @Override
+                                                                                                     public void onPrepared(MediaPlayer mp) {
+
+                                                                                                         if (placeholder != null)
+                                                                                                             placeholder.setVisibility(View.GONE);
+                                                                                                         mp.setLooping(true);
+
+
+                                                                                                     }
+
+                                                                                                 });
+                                                                                                 if (autostart)
+
+                                                                                                     video.start();
+
+                                                                                             }
+                                                                                         });
+                                                                                     }
+                                                                                 } catch (Exception e3) {
+                                                                                     e3.printStackTrace();
+                                                                                 }
+                                                                                 return null;
+                                                                             }
+                                                                         }.execute();
+                                                                     }
+                                                                 }
+                                                    );
+                                        }
+                                    }
+                                }
+                        );
             }
             return null;
         }

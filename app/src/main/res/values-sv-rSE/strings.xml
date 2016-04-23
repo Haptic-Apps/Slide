@@ -56,7 +56,6 @@
   <string name="multi_column_landscape">Landskap</string>
   <string name="multi_column_portrait">Två kolumner i porträttläge</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Bli pro</string>
   <string name="drawer_goto_profile">Gå till profil</string>
   <string name="drawer_add_account">Lägga till ett konto</string>
@@ -97,7 +96,6 @@
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Kom igång</string>
   <string name="welcome_personalize">Anpassa</string>
-  <string name="welcome_finish">Starta guiden</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Välj en sortering</string>
   <string name="sorting_change_sorting">Ändra inläggssortering</string>
@@ -109,12 +107,6 @@
   <string name="sorting_old">Gamla</string>
   <string name="sorting_controversial">Kontroversiella</string>
   <string name="sorting_rising">Stigande</string>
-  <string name="sorting_hour">Denna timme</string>
-  <string name="sorting_day">Idag</string>
-  <string name="sorting_week">Denna vecka</string>
-  <string name="sorting_month">Denna månad</string>
-  <string name="sorting_year">I år</string>
-  <string name="sorting_all">Från början</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -123,7 +115,6 @@
   <string name="editor_title">Titel</string>
   <string name="editor_err_msg">Vänligen försök igen om några sekunder.</string>
   <string name="editor_uploading_image">Ladda upp bilden till imgur</string>
-  <string name="editor_self">Egen text</string>
   <string name="editor_select_img">Välj bild</string>
   <string name="editor_hint_optional_body">Innehåll (valfritt)</string>
   <string name="editor_submit">Skicka ett inlägg</string>
@@ -168,7 +159,9 @@
   <string name="type_vid">Video</string>
   <string name="type_emb">Inbäddad</string>
   <string name="type_imgur">Innehåll från Imgur</string>
-  <!-- Reply to message -->
+  <!-- Content types plural (Content filters) -->
+  <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Inkorgen</string>
   <string name="mail_author_wrote">%1$s skrev&#8230;</string>
   <string name="mail_hint_recipient">Mottagare</string>
   <string name="mail_hint_subject">Ämne</string>
@@ -183,7 +176,7 @@
     <item quantity="one">Du har %d nytt meddelande!</item>
     <item quantity="other">Du har %d nya meddelanden!</item>
   </plurals>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Fel</string>
   <string name="misc_none">Ingen</string>
   <string name="misc_retry">Vill du försöka igen?</string>
@@ -196,7 +189,7 @@
   <string name="misc_please_wait">Vänligen vänta&#8230;</string>
   <string name="misc_img_share">Dela bild med</string>
   <string name="misc_link_chooser">Öppna URL med</string>
-  <string name="misc_mark_read">Markera som läst</string>
+  <string name="misc_copy_text">Kopiera text</string>
   <!-- Goto User -->
   <string name="user_enter">Ange användarnamn</string>
   <string name="user_btn_goto">Gå till användaren</string>
@@ -260,6 +253,9 @@
   <string name="search_msg">Vad söker du efter?</string>
   <string name="search_all">Sök alla</string>
   <string name="search_subreddit">Sök %1$s</string>
+  <string name="search_top">Högsta poäng</string>
+  <string name="search_new">Nya</string>
+  <string name="search_comments">kommentarer</string>
   <!-- Captcha -->
   <string name="captcha">Ange koden ovan</string>
   <string name="captcha_title">Bevisa att du inte är en robot</string>
@@ -315,6 +311,7 @@
   <string name="settings_title_fab">Flytande action-knapp</string>
   <string name="settings_title_comments">Kommentarer</string>
   <string name="settings_section_general">Allmänt</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit inställningar</string>
   <string name="title_edit_theme">Redigera tema</string>
@@ -347,10 +344,6 @@
   <string name="website_back">Gå tillbaka</string>
   <!-- Reorder subreddit activity -->
   <!-- Time -->
-  <string name="time_just_now">just nu</string>
-  <string name="submission_share_permalink">Dela inlägg</string>
-  <string name="mode_card">Kort</string>
-  <string name="btn_report">Rapportera</string>
   <plurals name="time_hours">
     <item quantity="one">%d timme</item>
     <item quantity="other">%d timmar</item>
@@ -359,5 +352,14 @@
     <item quantity="one">%d minut</item>
     <item quantity="other">%d minuter</item>
   </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
+  <string name="submission_share_permalink">Dela inlägg</string>
+  <string name="mode_card">Kort</string>
+  <string name="btn_report">Rapportera</string>
   <string name="content_deleted">[borttagen]</string>
+  <string name="open_externally">Öppna externt</string>
 </resources>

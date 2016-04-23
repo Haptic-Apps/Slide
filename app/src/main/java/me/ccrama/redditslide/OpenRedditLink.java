@@ -80,7 +80,7 @@ public class OpenRedditLink {
                     String querry;
                     int index = end.indexOf("q=");
                     if (end.contains("&") && end.contains("+")) {
-                        querry = end.substring(index + 2, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                        querry = end.substring(index + 2, end.contains("+") ? Math.max(end.lastIndexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
                     } else if (end.contains("&")) {
                         querry = end.substring(index + 2, end.indexOf("&", index));
                     } else {
@@ -92,7 +92,7 @@ public class OpenRedditLink {
                     String author;
                     int index = end.indexOf("author:");
                     if (end.contains("&") && end.contains("+")) {
-                        author = end.substring(index + 7, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                        author = end.substring(index + 7, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
                     } else if (end.contains("&")) {
                         author = end.substring(index + 7, end.indexOf("&", index));
                     } else {
@@ -104,7 +104,7 @@ public class OpenRedditLink {
                     boolean nsfw;
                     int index = end.indexOf("nsfw:");
                     if (end.contains("&") && end.contains("+")) {
-                        nsfw = end.substring(index + 5, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
+                        nsfw = end.substring(index + 5, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
                     } else if (end.contains("&")) {
                         nsfw = end.substring(index + 5, end.indexOf("&", index)).equals("yes");
                     } else {
@@ -116,7 +116,7 @@ public class OpenRedditLink {
                     boolean self;
                     int index = end.indexOf("self:");
                     if (end.contains("&") && end.contains("+")) {
-                        self = end.substring(index + 5, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
+                        self = end.substring(index + 5, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
                     } else if (end.contains("&")) {
                         self = end.substring(index + 5, end.indexOf("&", index)).equals("yes");
                     } else {
@@ -128,7 +128,7 @@ public class OpenRedditLink {
                     boolean selftext;
                     int index = end.indexOf("selftext:");
                     if (end.contains("&") && end.contains("+")) {
-                        selftext = end.substring(index + 5, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
+                        selftext = end.substring(index + 5, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
                     } else if (end.contains("&")) {
                         selftext = end.substring(index + 5, end.indexOf("&", index)).equals("yes");
                     } else {
@@ -140,7 +140,7 @@ public class OpenRedditLink {
                     String s_url;
                     int index = end.indexOf("url:");
                     if (end.contains("&") && end.contains("+")) {
-                        s_url = end.substring(index + 4, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                        s_url = end.substring(index + 4, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
                     } else if (end.contains("&")) {
                         s_url = end.substring(index + 4, end.indexOf("&", index));
                     } else {
@@ -152,7 +152,7 @@ public class OpenRedditLink {
                     String site;
                     int index = end.indexOf("site:");
                     if (end.contains("&") && end.contains("+")) {
-                        site = end.substring(index + 5, end.contains("+") ? Math.min(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                        site = end.substring(index + 5, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
                     } else if (end.contains("&")) {
                         site = end.substring(index + 5, end.indexOf("&", index));
                     } else {

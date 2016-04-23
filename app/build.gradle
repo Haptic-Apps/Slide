@@ -20,14 +20,11 @@ android {
         // Translations are crowd-sourced
         disable 'MissingTranslation'
     }
-    aaptOptions {
-        additionalParameters "--no-version-vectors"
-    }
+    useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         targetSdkVersion 23
-        generatedDensities = []
-        versionCode 165
+        versionCode 179
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
@@ -85,49 +82,50 @@ android {
 }
 
 repositories {
-    maven { url "http://dl.bintray.com/dasar/maven" }
     maven { url "https://jitpack.io" }
-    maven { url 'https://github.com/suckgamony/RapidDecoder/raw/master/repository' }
     mavenCentral()
+    flatDir{
+        dirs 'src/main/assets'
+    }
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:f1ddd74a5f'
+    compile 'com.github.ccrama:JRAW:2c2afcf055'
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.8@aar') {
         transitive = true
     }
     compile 'com.jakewharton:process-phoenix:1.0.2'
-    compile 'com.android.support:design:23.2.1'
+    compile 'com.android.support:design:23.3.0'
     compile 'com.koushikdutta.ion:ion:2.1.6'
-    compile 'uz.shift:colorpicker:0.5@aar'
-    compile 'com.android.support:customtabs:23.2.0'
-    compile 'com.android.support:recyclerview-v7:23.2.0'
-    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:customtabs:23.3.0'
+    compile 'com.android.support:recyclerview-v7:23.3.0'
+    compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.github.rey5137:material:1.2.1'
     compile 'jp.wasabeef:recyclerview-animators:2.0.0'
     withGPlayCompile 'com.google.android.gms:play-services-drive:8.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.4.1'
-    compile 'com.android.support:cardview-v7:23.2.0'
-    compile 'com.wefika:flowlayout:0.4.1'
+    compile 'com.android.support:cardview-v7:23.3.0'
     compile 'com.cocosw:bottomsheet:1.3.0@aar'
+    compile 'com.lusfold.androidkeyvaluestore:library:0.1.0@aar'
     compile 'org.apache.commons:commons-lang3:3.4'
     compile 'com.github.johnkil.android-robototextview:robototextview:2.4.3'
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.android.support:multidex:1.0.1'
-    compile 'org.jsoup:jsoup:1.8.3'
+    compile 'com.sothree.slidinguppanel:library:3.3.0'
+    compile 'com.github.suckgamony.RapidDecoder:library:7cdfca47fa'
+    compile 'com.github.dasar:shiftcolorpicker:v0.5'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'org.robolectric:robolectric:3.0'
     testCompile 'org.robolectric:shadows-multidex:3.0'
     testCompile 'commons-io:commons-io:2.4'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
-    compile files('src/main/assets/synccit.jar')
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.3.1'
-    compile 'rapid.decoder:library:0.3.0'
     compile('com.github.ozodrukh:CircularReveal:1.3.1@aar') {
         transitive = true;
     }
     compile 'com.github.rjeschke:txtmark:0.13'
     compile 'com.google.code.gson:gson:2.2.4'
+    compile 'org.jetbrains:annotations-java5:15.0'
+
 }

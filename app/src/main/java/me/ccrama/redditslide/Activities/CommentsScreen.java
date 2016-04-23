@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -23,6 +22,7 @@ import java.util.List;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
@@ -56,7 +56,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     OverviewPagerAdapter comments;
     private String subreddit;
-    public OfflineSubreddit o;
     private String baseSubreddit;
 
     String multireddit;
@@ -122,7 +121,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     public void onCreate(Bundle savedInstance) {
 
 
-
         popup = SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !SettingValues.fullCommentOverride;
         seen = new ArrayList<>();
         if (popup) {
@@ -156,18 +154,19 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             baseSubreddit = subreddit.toLowerCase();
             subredditPosts = new SubredditPosts(baseSubreddit, CommentsScreen.this);
         }
+
         if (firstPage == RecyclerView.NO_POSITION) {
             firstPage = 0;
             //IS SINGLE POST
-            Log.w(LogUtil.getTag(), "Is single post?");
         } else {
-            o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit);
+
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid, !Authentication.didOnline, CommentsScreen.this);
             subredditPosts.getPosts().addAll(o.submissions);
-            Log.v(LogUtil.getTag(), "Subreddit is " + baseSubreddit + " and size is " + o.submissions.size() + " and getting " + firstPage + " and is " + o.submissions.get(firstPage).getTitle());
-            // subredditPosts.loadMore(this.getApplicationContext(), this, true);
+
         }
 
-        if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null) {
+        if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null || firstPage < 0) {
+            LogUtil.v("Closing");
             finish();
         } else {
             updateSubredditAndSubmission(subredditPosts.getPosts().get(firstPage));
@@ -209,6 +208,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
                                                       Bundle conData = new Bundle();
                                                       conData.putIntegerArrayList("seen", seen);
+                                                      conData.putInt("lastPage", position);
                                                       Intent intent = new Intent();
                                                       intent.putExtras(conData);
                                                       setResult(RESULT_OK, intent);
@@ -222,6 +222,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                                           }
 
             );
+
         }
         if (!Reddit.appRestart.contains("tutorialSwipeComments")) {
             Intent i = new Intent(this, SwipeTutorial.class);
@@ -247,6 +248,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
+        LastComments.setCommentsSince(submissions);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -299,7 +301,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 mCurrentFragment = ((CommentPage) object);
                 if (!mCurrentFragment.loaded) {
                     if (mCurrentFragment.isAdded()) {
-                        mCurrentFragment.doAdapter();
+                        mCurrentFragment.doAdapter(true);
                     }
 
                 }
@@ -332,7 +334,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public int getCount() {
 
-            return subredditPosts.getPosts().size();
+            return subredditPosts.getPosts().size() + 1;
         }
 
     }

@@ -61,9 +61,6 @@ public class ModQueue extends BaseActivityAnim {
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
-
-        findViewById(R.id.compose).setVisibility(View.GONE);
-        findViewById(R.id.notifs).setVisibility(View.GONE);
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
@@ -154,10 +151,10 @@ public class ModQueue extends BaseActivityAnim {
                 return getString(R.string.mod_mail_unread);
             } else if (position == 1) {
                 return getString(R.string.mod_mail);
-            } else if (position == 3) {
-                return "Unmoderated";
             } else if (position == 2) {
-                return "modqueue";
+                return getString(R.string.mod_modqueue);
+            } else if (position == 3) {
+                return getString(R.string.mod_unmoderated);
             } else {
                 return UserSubscriptions.modOf.get(position - 4);
             }

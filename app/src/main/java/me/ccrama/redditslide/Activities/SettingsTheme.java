@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -371,9 +372,13 @@ public class SettingsTheme extends BaseActivity {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingsTheme.changed = true;
                 SettingValues.colorNavBar = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_NAV_BAR, isChecked).apply();
                 themeSystemBars("");
+                if(!isChecked){
+                    getWindow().setNavigationBarColor(Color.TRANSPARENT);
+                }
 
             }
         });

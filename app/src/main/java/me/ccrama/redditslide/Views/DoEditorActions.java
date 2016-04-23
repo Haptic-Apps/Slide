@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,6 +24,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.rjeschke.txtmark.Processor;
 
 import org.json.JSONException;
@@ -254,38 +257,32 @@ public class DoEditorActions {
         baseView.findViewById(R.id.link).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LinearLayout layout = new LinearLayout(editText.getContext());
-                layout.setOrientation(LinearLayout.VERTICAL);
+                final LayoutInflater inflater = LayoutInflater.from(a);
+                final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.insert_link, null);
+
                 int[] attrs = {R.attr.font};
 
                 TypedArray ta = baseView.getContext().obtainStyledAttributes(new ColorPreferences(baseView.getContext()).getFontStyle().getBaseId(), attrs);
-
-                final EditText titleBox = new EditText(editText.getContext());
-                titleBox.setHint(R.string.editor_url);
-                titleBox.setTextColor(ta.getColor(0, Color.WHITE));
-                layout.addView(titleBox);
-
-                final EditText descriptionBox = new EditText(editText.getContext());
-                descriptionBox.setHint(R.string.editor_text);
-                descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
-                layout.addView(descriptionBox);
-                layout.setPadding(16, 16, 16, 16);
-
                 ta.recycle();
-                new AlertDialogWrapper.Builder(editText.getContext())
-                        .setTitle(R.string.editor_title_link)
-                        .setView(layout)
-                        .setPositiveButton(R.string.editor_action_link,
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        String s = "[" + descriptionBox.getText().toString() + "](" + titleBox.getText().toString() + ")";
-                                        int start = Math.max(editText.getSelectionStart(), 0);
-                                        int end = Math.max(editText.getSelectionEnd(), 0);
-                                        editText.getText().insert(Math.max(start, end), s);
-                                    }
-                                }).show();
+
+                final MaterialDialog dialog = new MaterialDialog.Builder(editText.getContext())
+                        .title(R.string.editor_title_link)
+                        .customView(layout, false)
+                        .positiveColorAttr(R.attr.tint)
+                        .positiveText(R.string.editor_action_link)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                final EditText titleBox = (EditText) dialog.findViewById(R.id.title_box);
+                                final EditText descriptionBox = (EditText) dialog.findViewById(R.id.description_box);
+                                dialog.dismiss();
+                                String s = "[" + descriptionBox.getText().toString() + "](" + titleBox.getText().toString() + ")";
+                                int start = Math.max(editText.getSelectionStart(), 0);
+                                int end = Math.max(editText.getSelectionEnd(), 0);
+                                editText.getText().insert(Math.max(start, end), s);
+                            }
+                        }).build();
+                dialog.show();
             }
         });
     }
@@ -345,11 +342,14 @@ public class DoEditorActions {
                 final TextView titleBox = new TextView(editText.getContext());
                 titleBox.setText(url);
                 layout.addView(titleBox);
+                titleBox.setEnabled(false);
                 titleBox.setTextColor(ta.getColor(0, Color.WHITE));
 
                 final EditText descriptionBox = new EditText(editText.getContext());
                 descriptionBox.setHint(R.string.editor_title);
+                descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
+
 
                 ta.recycle();
                 layout.setPadding(16, 16, 16, 16);

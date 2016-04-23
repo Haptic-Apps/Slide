@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="35dp"
     android:background="?attr/card_background"
-    android:layout_marginBottom="0.25dp"
+    android:layout_marginTop="0.25dp"
     android:scrollbars="none">
 
     <View

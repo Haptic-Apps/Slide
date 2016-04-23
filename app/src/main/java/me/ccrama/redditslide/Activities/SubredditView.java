@@ -591,7 +591,7 @@ public class SubredditView extends BaseActivityAnim {
                     //reset check adapter
                 }
             });
-            c.setChecked(UserSubscriptions.isSubscriber(subreddit.getDisplayName().toLowerCase()));
+            c.setChecked(UserSubscriptions.isSubscriber(subreddit.getDisplayName().toLowerCase(), this));
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
@@ -602,7 +602,6 @@ public class SubredditView extends BaseActivityAnim {
                                 UserSubscriptions.addSubreddit(subreddit, SubredditView.this);
                             } else {
                                 UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(), SubredditView.this);
-
                             }
                             Snackbar s = Snackbar.make(c, isChecked ? getString(R.string.misc_subscribed) :
                                     getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
@@ -911,7 +910,7 @@ public class SubredditView extends BaseActivityAnim {
                 // Over 18 interstitial for signed out users or those who haven't enabled NSFW content
                 if (subreddit.isNsfw() && !Reddit.over18) {
                     new AlertDialogWrapper.Builder(SubredditView.this)
-                            .setTitle(String.format(getString(R.string.over18_title), subreddit.getDisplayName()))
+                            .setTitle(getString(R.string.over18_title, subreddit.getDisplayName()))
                             .setMessage(getString(R.string.over18_desc) + "\n\n"
                                     + getString(Authentication.isLoggedIn ? R.string.over18_desc_loggedin : R.string.over18_desc_loggedout))
                             .setCancelable(false)

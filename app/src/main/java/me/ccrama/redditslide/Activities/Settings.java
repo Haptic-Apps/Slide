@@ -237,7 +237,7 @@ public class Settings extends BaseActivity {
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                             ((TextView) dialoglayout.findViewById(R.id.progressnumber))
                                     .setText(res.getQuantityString(R.plurals.landscape_columns, landscape.getProgress() + 1, landscape.getProgress() + 1));
-
+                            Settings.changed = true;
                         }
 
                         @Override
@@ -256,7 +256,7 @@ public class Settings extends BaseActivity {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                             Reddit.dpWidth = landscape.getProgress() + 1;
-                            Reddit.seen.edit().putInt("tabletOVERRIDE", landscape.getProgress() + 1).apply();
+                            Reddit.colors.edit().putInt("tabletOVERRIDE", landscape.getProgress() + 1).apply();
                         }
                     });
                     SwitchCompat s = (SwitchCompat) dialog.findViewById(R.id.dualcolumns);
@@ -323,7 +323,8 @@ public class Settings extends BaseActivity {
                 }
             });
         } else {
-            findViewById(R.id.reddit_settings).setVisibility(View.GONE);
+            findViewById(R.id.reddit_settings).setEnabled(false);
+            findViewById(R.id.reddit_settings).setAlpha((float) 0.25);
         }
 
     }

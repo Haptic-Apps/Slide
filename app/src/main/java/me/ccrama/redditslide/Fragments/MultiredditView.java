@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,14 +35,18 @@ import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+
+;
 
 public class MultiredditView extends Fragment implements SubmissionDisplay {
 
@@ -56,6 +59,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
     private int pastVisiblesItems;
     public RecyclerView rv;
     public FloatingActionButton fab;
+    public int diff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,7 +111,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.seen.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
+                                            Reddit.colors.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
                                             Reddit.fabClear = true;
                                             clearSeenPosts(false);
 
@@ -127,7 +131,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.seen.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
+                                            Reddit.colors.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
                                             Reddit.fabClear = true;
                                             clearSeenPosts(true);
 
@@ -201,6 +205,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     }
             );
 
+            if(fab != null)
+                fab.show();
+
             rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -236,15 +243,17 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                             posts.loadMore(getActivity(), MultiredditView.this, false, adapter);
                         }
                     }
+                    if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
+                        diff += dy;
+                    } else {
+                        diff = 0;
+                    }
                     if (fab != null) {
                         if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
-
-                            fab.show();
-
-
+                            if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
+                                fab.show();
                         } else {
                             fab.hide();
-
                         }
                     }
                 }
@@ -258,7 +267,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
             List<Submission> originalDataSetPosts = posts.posts;
 
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + posts.multiReddit.getDisplayName().toLowerCase());
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit("multi" + posts.multiReddit.getDisplayName().toLowerCase(), false, getActivity());
             for (int i = posts.posts.size(); i > -1; i--) {
                 try {
                     if (HasSeen.getSeen(posts.posts.get(i))) {
@@ -279,7 +288,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
-            o.writeToMemory();
+            o.writeToMemory(getActivity());
             rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
             return originalDataSetPosts;
         }
@@ -347,6 +356,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(List<Submission> submissions, final int startIndex) {
+        LastComments.setCommentsSince(submissions);
         adapter.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {

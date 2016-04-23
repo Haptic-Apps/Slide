@@ -106,7 +106,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         BottomSheet.Builder b = new BottomSheet.Builder(this)
-                .title(actuallyLoaded);
+                .title(contentUrl);
 
         b.sheet(2, external, "Open externally");
         b.sheet(5, share, "Share link");
@@ -122,7 +122,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         break;
                     }
                     case (3): {
-                        shareImage(contentUrl);
+                        shareImage(actuallyLoaded);
                         break;
                     }
                     case (5): {
@@ -203,7 +203,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         overrideRedditSwipeAnywhere();
         super.onCreate(savedInstanceState);
 
-        getTheme().applyStyle(new ColorPreferences(this).getThemeSubreddit(""), true);
+        getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(""), true);
 
         if (savedInstanceState != null && savedInstanceState.containsKey("position"))
             stopPosition = savedInstanceState.getInt("position");

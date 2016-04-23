@@ -22,11 +22,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import net.dean.jraw.models.Submission;
 
@@ -42,14 +39,13 @@ import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
-import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -225,6 +221,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
 
     boolean down = false;
+    int diff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -232,6 +229,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
         View v = ((LayoutInflater) contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
 
+        if(getActivity() instanceof MainActivity){
+            v.findViewById(R.id.back).setBackgroundResource(0);
+        }
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
@@ -241,7 +241,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         } else {
             mLayoutManager = new PreCachingLayoutManager(getActivity());
-
         }
 
         if (!(getActivity() instanceof SubredditView)) {
@@ -291,7 +290,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.seen.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
+                                            Reddit.colors.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
                                             Reddit.fabClear = true;
                                             clearSeenPosts(false);
 
@@ -311,7 +310,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            Reddit.seen.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
+                                            Reddit.colors.edit().putBoolean(SettingValues.PREF_FAB_CLEAR, true).apply();
                                             Reddit.fabClear = true;
                                             clearSeenPosts(true);
 
@@ -346,6 +345,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         } else {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
+        if (fab != null)
+            fab.show();
 
         rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, getActivity().findViewById(R.id.header)) {
             @Override
@@ -393,19 +394,43 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     down = false;
                 }*///todo For future implementation instead of scrollFlags
 
+                if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    diff += dy;
+                } else {
+                    diff = 0;
+                }
                 if (fab != null) {
                     if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
-
-                        fab.show();
-
-
+                        if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
+                            fab.show();
                     } else {
                         fab.hide();
-
                     }
                 }
+
             }
+
+            /*
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
+                        break;
+                    case RecyclerView.SCROLL_STATE_DRAGGING:
+                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
+
+                        break;
+                    case RecyclerView.SCROLL_STATE_SETTLING:
+                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().pause();
+
+                        break;
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+
+            }*/
         });
+
 
         Reddit.isLoading = false;
         if (MainActivity.shouldLoad == null || id == null || (MainActivity.shouldLoad != null && id != null && MainActivity.shouldLoad.equals(id)) || !(getActivity() instanceof MainActivity)) {
@@ -420,8 +445,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if (posts == null || (posts != null && !posts.offline))
-                    mSwipeRefreshLayout.setRefreshing(true);
+                mSwipeRefreshLayout.setRefreshing(true);
             }
         });
 
@@ -443,8 +467,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
-                if (posts == null || (posts != null && !posts.offline))
-                    mSwipeRefreshLayout.setRefreshing(true);
+                mSwipeRefreshLayout.setRefreshing(true);
             }
         });
 
@@ -467,7 +490,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
             List<Submission> originalDataSetPosts = adapter.dataSet.posts;
 
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit(id.toLowerCase());
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit(id.toLowerCase(), false, getActivity());
             for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
                 try {
                     if (HasSeen.getSeen(adapter.dataSet.posts.get(i))) {
@@ -488,7 +511,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
-            o.writeToMemory();
+            o.writeToMemory(getActivity());
             rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
             return originalDataSetPosts;
         }
@@ -531,6 +554,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
+        LastComments.setCommentsSince(submissions);
         if (getActivity() != null) {
             if (getActivity() instanceof MainActivity) {
                 if (((MainActivity) getActivity()).runAfterLoad != null) {
@@ -554,44 +578,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             });
 
-            //  loadImages(submissions);
-        }
-    }
-
-    private void loadImages(List<Submission> submissions) {
-        for (Submission s : submissions) {
-            ContentType.Type type = ContentType.getContentType(s);
-
-            String url = "";
-
-            ImageLoadingListener l = new SimpleImageLoadingListener();
-
-            if (type == ContentType.Type.IMAGE) {
-                url = s.getUrl();
-                if (SettingValues.bigPicEnabled) {
-                    ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-                } else {
-                    if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
-                        ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
-                    }
-                }
-            } else if (s.getDataNode().has("preview") && s.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
-                url = s.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                if (SettingValues.bigPicEnabled) {
-                    ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-                } else if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
-                    ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
-                }
-            } else if (s.getThumbnail() != null && (s.getThumbnailType() == Submission.ThumbnailType.URL || s.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
-                if ((s.getThumbnailType() == Submission.ThumbnailType.NSFW) || s.getThumbnailType() == Submission.ThumbnailType.URL) {
-                    if (SettingValues.bigPicEnabled) {
-                        ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(url, l);
-                    } else if (s.getThumbnailType() != Submission.ThumbnailType.NONE) {
-                        ((Reddit) mSwipeRefreshLayout.getContext().getApplicationContext()).getImageLoader().loadImage(s.getThumbnail(), l);
-                    }
-                }
-            }
-
         }
     }
 
@@ -605,7 +591,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         if (this.isAdded()) {
             if (mSwipeRefreshLayout != null) {
                 mSwipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(mSwipeRefreshLayout.getContext(), getString(R.string.offline_last_update, TimeUtils.getTimeAgo(cacheTime, mSwipeRefreshLayout.getContext())), Toast.LENGTH_SHORT).show();
             }
             adapter.notifyDataSetChanged();
         }

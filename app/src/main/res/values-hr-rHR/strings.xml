@@ -58,7 +58,6 @@
   <string name="multi_column_landscape">Vodoravno</string>
   <string name="multi_column_portrait">Dvostruki stupci u portretnom načinu</string>
   <!-- Drawer items (That's the one on the left) -->
-  <string name="drawer_profile">Profil</string>
   <string name="drawer_support">Kupi Pro</string>
   <string name="drawer_goto_profile">Idi na profil</string>
   <string name="drawer_add_account">Dodaj račun</string>
@@ -83,6 +82,9 @@
   <string name="profile_friend">Prijatelj</string>
   <string name="profile_add_friend">Dodajte prijetelja</string>
   <string name="profile_remove_friend">Uklonite prijatelja</string>
+  <string name="profile_manage_accounts">Upravljanje korisničkim računima</string>
+  <string name="profile_remove_account">Želite li zaista ukloniti ovaj korisnički račun?</string>
+  <string name="profile_remove">Izbriši korisnički račun</string>
   <!-- Comment text options -->
   <string name="comment_gild">Pozlati komentar</string>
   <string name="comment_share">Podijeli komentar</string>
@@ -97,7 +99,6 @@
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Započni</string>
   <string name="welcome_personalize">Osobne postavke</string>
-  <string name="welcome_finish">Započni vodič</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Odaberite vrstu sortiranja</string>
   <string name="sorting_time_choose">Izaberi vremenski okvir</string>
@@ -110,12 +111,6 @@
   <string name="sorting_old">Staro</string>
   <string name="sorting_controversial">Kontroverzno</string>
   <string name="sorting_rising">U rastu</string>
-  <string name="sorting_hour">protekli sat</string>
-  <string name="sorting_day">zadnja 24 sata</string>
-  <string name="sorting_week">prošli tjedan</string>
-  <string name="sorting_month">prošli mjesec dana</string>
-  <string name="sorting_year">prošla godina</string>
-  <string name="sorting_all">sve</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Tekst</string>
@@ -124,7 +119,6 @@
   <string name="editor_title">Naslov</string>
   <string name="editor_err_msg">Molimo pokušajte ponovno za nekoliko sekundi.</string>
   <string name="editor_uploading_image">Uploadam slike na imgur</string>
-  <string name="editor_self">Samo tekst</string>
   <string name="editor_select_img">Odaberite sliku</string>
   <string name="editor_hint_optional_body">Tijelo poruke (nije obavezno)</string>
   <string name="editor_submit">Pošalji novi post</string>
@@ -169,7 +163,9 @@
   <string name="type_vid">Video</string>
   <string name="type_emb">Ugrađeno</string>
   <string name="type_imgur">Imgur sadržaj</string>
-  <!-- Reply to message -->
+  <!-- Content types plural (Content filters) -->
+  <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Ulazna pošta</string>
   <string name="mail_author_wrote">%1$s je napisao&#8230;</string>
   <string name="mail_hint_recipient">Primatelj</string>
   <string name="mail_hint_subject">Tema</string>
@@ -180,7 +176,7 @@
   <string name="mail_reply_to">Odgovori %1$s</string>
   <string name="mail_notification_author">%1$s iz %2$s</string>
   <string name="mail_theirs">Pogledaj njihovu poruku</string>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Greška</string>
   <string name="misc_none">Ništa</string>
   <string name="misc_retry">Želite li pokušati ponovno?</string>
@@ -193,7 +189,7 @@
   <string name="misc_please_wait">Molimo pričekajte&#8230;</string>
   <string name="misc_img_share">Podijeli sliku sa</string>
   <string name="misc_link_chooser">Otvori URL sa</string>
-  <string name="misc_mark_read">Označi kao pročitano</string>
+  <string name="misc_copy_text">Kopiraj tekst</string>
   <!-- Goto User -->
   <string name="user_enter">Unesite korisničko ime</string>
   <string name="user_btn_goto">Otiđite na korisnika</string>
@@ -258,6 +254,9 @@
   <string name="search_msg">Što tražite?</string>
   <string name="search_all">Pretraži sve</string>
   <string name="search_subreddit">Traži %1$s</string>
+  <string name="search_top">Vrh</string>
+  <string name="search_new">Novo</string>
+  <string name="search_comments">komentari</string>
   <!-- Captcha -->
   <string name="captcha">Unesite kod prikazan iznad</string>
   <string name="captcha_title">Dokažite da niste robot</string>
@@ -314,6 +313,7 @@
   <string name="settings_title_filter">Filteri</string>
   <string name="settings_title_font">Font</string>
   <string name="settings_section_general">Općenito</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Podreddit teme &amp; Izgledi</string>
   <string name="title_edit_theme">Uredi temu</string>
@@ -354,10 +354,24 @@
   <string name="reorder_subreddit_name">Ime podreddita</string>
   <string name="reorder_remove_title">Ukloniti ovaj subreddit?</string>
   <string name="reorder_remove_msg">Vaša pretplata neće biti otkazana, ali nećete vidjeti ovaj podreddit u sidebaru!</string>
+  <string name="reorder_sync_complete">Sinkronizacija dovršena</string>
   <!-- Time -->
-  <string name="time_just_now">upravo sada</string>
+  <plurals name="time_hours">
+    <item quantity="one">%d sata</item>
+    <item quantity="few">%d sata</item>
+    <item quantity="other">%d sati</item>
+  </plurals>
+  <plurals name="time_minutes">
+    <item quantity="one">%d minute</item>
+    <item quantity="few">%d minute</item>
+    <item quantity="other">%d minuta</item>
+  </plurals>
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Sinkronizacija dovršena</string>
-  <string name="color_sync_colored">" podredditi su obojani"</string>
+  <!-- Discover section: find -->
   <string name="comment_load_more_number_unknown">Učitaj više komentara</string>
   <string name="settings_comment_color">Obojani indikatori podređenih komentara</string>
   <string name="settings_volume_nav_comments">Navigacija komentarima pomoću tipki za glasnoću</string>
@@ -371,11 +385,6 @@
   <string name="settings_synccit_failed">Nije bilo moguće provjeriti autentičnost</string>
   <string name="settings_synccit_failed_msg">Provjerite je li ispravno vaše korisničko ime i autentifikacijski ključ!</string>
   <string name="settings_synccit">Synccit integracija</string>
-  <string name="reorder_sync_complete">Sinkronizacija dovršena</string>
-  <string name="reorder_subs_added">" podredditi dodani"</string>
-  <string name="profile_manage_accounts">Upravljanje korisničkim računima</string>
-  <string name="profile_remove_account">Želite li zaista ukloniti ovaj korisnički račun?</string>
-  <string name="profile_remove">Izbriši korisnički račun</string>
   <string name="card_right_thumb">Desno poravnata minijatura</string>
   <string name="submission_share_permalink">Podijeli post</string>
   <string name="setting_filter_subreddits">Podreddit filteri</string>
@@ -389,15 +398,12 @@
   <string name="fab_disabled">Onemogućeno</string>
   <string name="handling_internal_browser">Koristi interni preglednik</string>
   <string name="handling_external_browser">Koristi eksterni preglednik</string>
-  <string name="settings_fastscroll_description">Omogućuje donju traku sa navigacijskim strelicama</string>
   <string name="settings_comment_collapse">Potpuno sažmi komentare</string>
   <string name="settings_comment_collapse_description">Također onemogućuje animacije komentara</string>
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Kartice s centriranom slikom</string>
   <string name="mode_card">Kartica</string>
   <string name="mode_thumbnail">Samo sličica minijature</string>
-  <string name="mode_cropped">Obrezana velika slika</string>
-  <string name="mode_bigpic">Velika slika</string>
   <string name="press_actionbar">Pritisnite strelicu za prikaz akcijske trake</string>
   <string name="tap_actionbar">Dugi pritisak za prikaz akcijske trake</string>
   <string name="always_actionbar">Uvijek pokaži akcijsku traku</string>
@@ -407,16 +413,7 @@
   <string name="settings_general_comment_last_visit">Prikaži broj novih komentara od zadnjeg posjeta</string>
   <string name="view_type_tabs">Podreddit tabovi</string>
   <string name="btn_report">Izvješće</string>
-  <plurals name="time_hours">
-    <item quantity="one">%d sata</item>
-    <item quantity="few">%d sata</item>
-    <item quantity="other">%d sati</item>
-  </plurals>
-  <plurals name="time_minutes">
-    <item quantity="one">%d minute</item>
-    <item quantity="few">%d minute</item>
-    <item quantity="other">%d minuta</item>
-  </plurals>
   <string name="subreddit_name_tint">Ime podreddita</string>
   <string name="content_deleted">[izbrisano]</string>
+  <string name="open_externally">Otvori u eksternom pregledniku</string>
 </resources>

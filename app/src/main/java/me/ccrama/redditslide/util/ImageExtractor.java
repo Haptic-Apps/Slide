@@ -2,8 +2,10 @@ package me.ccrama.redditslide.util;
 
 /**
  * Created by carlo_000 on 1/29/2016.
+ *
+ * Might be a thing in the future, removing all code for now to get rid of dependencies
  */
-import org.jsoup.Jsoup;
+/*import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -17,7 +19,7 @@ import java.net.URL;
  * >here</a>
  *
  * Code from https://gist.github.com/Daenyth/4742267
- */
+
 public class ImageExtractor {
 
     // TODO: Add junit test case for this. (Construct Document from string, extract, check)
@@ -124,5 +126,4 @@ public class ImageExtractor {
             return null;
         }
         return image.absUrl("src");
-    }
-}
+    }*/

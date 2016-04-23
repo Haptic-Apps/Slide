@@ -173,6 +173,21 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
     }
 
+    /**
+     * Applies the activity's base color theme based on the theme of a specific subreddit. Should
+     * be called before inflating any layouts.
+     *
+     * This will take the accent colors from the sub theme but return the AMOLED with contrast
+     * base theme.
+     *
+     * @param subreddit The subreddit to base the theme on
+     */
+    protected void applyDarkColorTheme(String subreddit) {
+        getTheme().applyStyle(new FontPreferences(this).getPostFontStyle().getResId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(subreddit), true);
+        getTheme().applyStyle(new FontPreferences(this).getCommentFontStyle().getResId(), true);
+
+    }
     @Override
     public void onResume() {
         super.onResume();

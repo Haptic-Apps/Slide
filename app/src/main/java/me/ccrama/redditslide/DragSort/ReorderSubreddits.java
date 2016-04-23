@@ -18,6 +18,7 @@ package me.ccrama.redditslide.DragSort;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -127,6 +128,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         d.dismiss();
                         // Determine if we should insert subreddits at the end of the list or sorted
                         boolean sorted = (subs.equals(UserSubscriptions.sortSubscriptionNoExtras(subs)));
+                        Resources res = getResources();
+
 
                         for (Subscription s : newSubs) {
                             if (!subs.contains(s)) {
@@ -144,7 +147,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         }
                         new AlertDialogWrapper.Builder(ReorderSubreddits.this)
                                 .setTitle(R.string.reorder_sync_complete)
-                                .setMessage(done + getString(R.string.reorder_subs_added))
+                                .setMessage(res.getQuantityString(R.plurals.reorder_subs_added, done, done))
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .show();
                     }

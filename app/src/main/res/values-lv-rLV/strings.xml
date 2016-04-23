@@ -27,8 +27,6 @@
   <string name="comment_delete_err_msg">Vai jūs vēlaties mēģināt vēlreiz?</string>
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
-  <string name="sorting_hour">pēdējā stundā</string>
-  <string name="sorting_day">pēdējās 24 stundās</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Teksts</string>
@@ -46,10 +44,12 @@
   <string name="multireddit_title_empty">Virsraksts nevar būt tukšs</string>
   <string name="multireddit_selector">Izvēlaties subredditu ko vēlaties pievienot</string>
   <!-- Content types -->
-  <!-- Reply to message -->
+  <!-- Content types plural (Content filters) -->
+  <!-- Inbox/mail -->
+  <string name="mail_tab_inbox">Iesūtne</string>
   <string name="mail_hint_subject">Tēma</string>
   <string name="mail_hint_body">Galvenā sadaļa</string>
-  <!-- Miscellaneous things that don't have a category or strings that are used for multiple categories-->
+  <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <!-- Goto User -->
   <string name="user_btn_goto">Doties uz lietotāja profilu</string>
   <string name="user_invalid_msg">Reddit lietotājvārds drīkst saturēt tikai burtus, ciparus, zemsvītras un domuzīmes.</string>
@@ -79,6 +79,7 @@
   <string name="search_msg">Ko jūs vēlaties meklēt?</string>
   <string name="search_all">Meklēt visos</string>
   <string name="search_subreddit">Meklēt %1$s</string>
+  <string name="search_comments">komentāri</string>
   <!-- Captcha -->
   <string name="captcha_title">Pierādiet ka neesat robots</string>
   <!-- Settings -->
@@ -93,6 +94,7 @@
   <string name="settings_title_support">Ziedot</string>
   <string name="settings_title_about">Par aplikāciju</string>
   <string name="settings_title_comments">komentāri</string>
+  <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_edit_theme">Rediģēt motīvu</string>
   <string name="title_settings">Iestatījumi</string>
@@ -106,5 +108,10 @@
   <!-- Website -->
   <!-- Reorder subreddit activity -->
   <!-- Time -->
+  <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <!-- Strings present during the login process -->
+  <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <!-- Subreddit color synchronization - https://redd.it/41054l -->
+  <!-- Discover section: find -->
   <string name="btn_report">Ziņo</string>
 </resources>

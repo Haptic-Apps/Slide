@@ -50,7 +50,9 @@ public class SettingsData extends BaseActivityAnim {
                         switch (item.getItemId()) {
                             case R.id.never:
                                 SettingValues.lowResMobile = false;
+                                SettingValues.lowResAlways = false;
                                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LOW_RES_MOBILE, false).apply();
+                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LOW_RES_ALWAYS, false).apply();
                                 break;
                             case R.id.mobile:
                                 SettingValues.lowResMobile = true;

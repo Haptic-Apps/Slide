@@ -116,20 +116,22 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      * <p/>
      * The text must be valid html.
      *
-     * @param text      html text
+     * @param baseText      html text
      * @param subreddit the subreddit to theme
      */
-    public void setTextHtml(CharSequence text, String subreddit) {
-        SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(wrapAlternateSpoilers(saveEmotesFromDestruction(text.toString().trim())));
+    public void setTextHtml(CharSequence baseText, String subreddit) {
+        String text = wrapAlternateSpoilers(saveEmotesFromDestruction(baseText.toString().trim()));
+        SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(text);
 
-        if (text.toString().contains("<a")) {
+        if (text.contains("<a")) {
             setEmoteSpans(builder); //for emote enabled subreddits
         }
-        if (text.toString().contains("[")) {
+        if (text.contains("[")) {
             setCodeFont(builder);
             setSpoilerStyle(builder, subreddit);
         }
-        if (text.toString().contains("[[d[")) {
+
+        if (text.contains("[[d[")) {
             setStrikethrough(builder);
         }
 
@@ -149,7 +151,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     private String wrapAlternateSpoilers(String html){
-        Pattern htmlSpoilerPattern = Pattern.compile("<a href=\"(/spoiler|/s)\">(.*?)</a>");
+        Pattern htmlSpoilerPattern = Pattern.compile("<a href=\"(/spoiler|/s|/sp)\">(.*?)</a>");
         Matcher htmlSpoilerMatcher = htmlSpoilerPattern.matcher(html);
         while (htmlSpoilerMatcher.find()) {
             String newPiece = htmlSpoilerMatcher.group();
@@ -263,7 +265,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             throw new RuntimeException("Could not find activity from context:" + context);
         }
 
-        if (!PostMatch.openExternal(url)) {
+        if (!PostMatch.openExternal(url) || type == ContentType.Type.VIDEO) {
             switch (type) {
                 case IMGUR:
                     if (SettingValues.image) {
@@ -458,7 +460,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         } else {
             for (int i = 1; i < storedSpoilerStarts.size(); i++) {
                 if (storedSpoilerStarts.get(i) < endOfLink + 2 && storedSpoilerEnds.get(i) > endOfLink + 2) {
-                    text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i), storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i), storedSpoilerEnds.get(i) >text.toString().length()?storedSpoilerEnds.get(i)-1:storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 }
             }
             setText(text);

@@ -4,6 +4,9 @@ import android.content.SharedPreferences;
 
 import net.dean.jraw.models.Submission;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * Created by carlo_000 on 1/13/2016.
  */
@@ -17,11 +20,24 @@ public class PostMatch {
         }
         return false;
     }
-
+    public static boolean isDomain(String target, String[] strings) throws MalformedURLException {
+        String domain = new URL(target).getHost();
+        for (String s : strings) {
+            s = s.toLowerCase().trim();
+            if (!s.isEmpty() && !s.equals("\n") &&  domain.toLowerCase().contains(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
     public static boolean openExternal(String url) {
         if (externalDomain == null)
             externalDomain = SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        return !SettingValues.alwaysExternal.isEmpty() && contains(url.toLowerCase(), externalDomain, false);
+        try {
+            return !SettingValues.alwaysExternal.isEmpty() && isDomain(url.toLowerCase(), externalDomain);
+        } catch (MalformedURLException e) {
+            return false;
+        }
     }
 
     public static SharedPreferences filters;
@@ -57,7 +73,11 @@ public class PostMatch {
 
         bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(), texts, false);
 
-        domainc = !SettingValues.domainFilters.isEmpty() && contains(domain.toLowerCase(), domains, false);
+        try {
+            domainc = !SettingValues.domainFilters.isEmpty() && isDomain(domain.toLowerCase(), domains);
+        } catch (MalformedURLException e) {
+            domainc = false;
+        }
 
         subredditc = !subreddit.equalsIgnoreCase(baseSubreddit) && !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(), subreddits, true);
 

@@ -9,10 +9,15 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +33,7 @@ import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.PublicContribution;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.VoteDirection;
 
 import java.util.List;
 
@@ -40,6 +46,7 @@ import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CreateCardView;
@@ -317,10 +324,40 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //IS COMMENT
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHold;
             final Comment comment = (Comment) dataSet.posts.get(i);
-            holder.score.setText(comment.getScore() + "");
 
-            holder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
+            holder.score.setText(comment.getScore() + " " + mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
 
+            if (Authentication.isLoggedIn) {
+                if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
+                    holder.score.setTextColor(mContext.getResources().getColor(R.color.md_orange_500));
+                } else if (ActionStates.getVoteDirection(comment) == VoteDirection.DOWNVOTE) {
+                    holder.score.setTextColor(mContext.getResources().getColor(R.color.md_blue_500));
+                } else {
+                    holder.score.setTextColor(holder.time.getCurrentTextColor());
+                }
+            }
+            String spacer = mContext.getString(R.string.submission_properties_seperator);
+            SpannableStringBuilder titleString = new SpannableStringBuilder();
+
+
+            String timeAgo = TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext);
+            String time = ((timeAgo == null || timeAgo.isEmpty()) ? "just now" : timeAgo); //some users were crashing here
+            time = time + (((comment.getEditDate() != null) ? " (edit " + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) + ")" : ""));
+            titleString.append(time);
+            titleString.append(spacer);
+
+            if (comment.getSubredditName() != null) {
+                String subname = comment.getSubredditName();
+                SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname);
+                if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
+                    subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+
+                titleString.append(subreddit);
+            }
+
+            holder.time.setText(titleString);
             setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
 
             if (comment.getTimesGilded() > 0) {
@@ -329,7 +366,12 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             } else if (holder.gild.getVisibility() == View.VISIBLE)
                 holder.gild.setVisibility(View.GONE);
 
-            holder.title.setText(Html.fromHtml(comment.getSubmissionTitle()));
+            if (comment.getSubmissionTitle() != null)
+                holder.title.setText(Html.fromHtml(comment.getSubmissionTitle()));
+            else
+                holder.title.setText(Html.fromHtml(comment.getAuthor()));
+
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -342,7 +384,6 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     new OpenRedditLink(mContext, comment.getSubmissionId(), comment.getSubredditName(), comment.getId());
                 }
             });
-
 
         }
         if (firstHold instanceof SpacerViewHolder) {

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
@@ -15,13 +13,13 @@
     android:layerType="hardware"
     android:orientation="vertical"
     cardview:cardBackgroundColor="?attr/card_background"
+    android:background="?android:selectableItemBackground"
     cardview:cardCornerRadius="2dp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:selectableItemBackground">
-
+        >
 
         <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
             android:id="@+id/headerimage"
@@ -33,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/headerimage"
-            android:paddingTop="8dp">
+            android:paddingTop="16dp">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/thumbimage2"
@@ -41,6 +39,7 @@
                 android:layout_height="65dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginStart="8dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
@@ -62,9 +61,8 @@
             <RelativeLayout
                 android:id="@+id/inside"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="6dp"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/thumbimage2">
 
                 <me.ccrama.redditslide.Views.TitleTextView
@@ -85,11 +83,10 @@
                     android:layout_below="@+id/title"
                     android:layout_gravity="start"
                     android:layout_marginStart="16dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="16dp"
                     android:gravity="center_vertical"
                     android:tag="tintsecond"
                     android:text="@string/example_time"
-                    android:textColor="?attr/tint"
                     android:textSize="?attr/font_cardinfo" />
 
                 <me.ccrama.redditslide.SpoilerRobotoTextView
@@ -103,18 +100,16 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center_vertical"
                     android:tag="tintsecond"
+                    android:textColor="?attr/tint"
                     android:textSize="?attr/font_commentbody"
                     android:visibility="gone" />
             </RelativeLayout>
-
-
         </RelativeLayout>
 
         <me.ccrama.redditslide.Views.RevealRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/innerrelative">
-
 
             <LinearLayout
                 android:id="@+id/vote"
@@ -174,14 +169,12 @@
                 android:text="420"
                 android:textSize="?attr/font_cardinfo" />
 
-
             <ImageView
                 android:id="@+id/save"
                 style="@style/Ripple.List"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
-
                 android:layout_toLeftOf="@+id/hide"
                 android:padding="8dp"
                 android:tag="tintactionbar"
@@ -194,7 +187,6 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
-
                 android:layout_toLeftOf="@+id/upvote"
                 android:padding="8dp"
                 android:tag="tintactionbar"
@@ -206,7 +198,6 @@
                 style="@style/Ripple.List"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-
                 android:layout_below="@+id/innerrelative"
                 android:layout_toLeftOf="@+id/mod"
                 android:padding="8dp"
@@ -222,7 +213,6 @@
                 android:layout_below="@+id/innerrelative"
                 android:layout_toLeftOf="@+id/downvote"
                 android:padding="8dp"
-
                 android:tag="tintactionbar"
                 android:tint="?attr/tint"
                 app:srcCompat="@drawable/upvoted" />
@@ -233,13 +223,11 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_below="@+id/innerrelative"
-
                 android:layout_toLeftOf="@+id/menu"
                 android:padding="8dp"
                 android:tag="tintactionbar"
                 android:tint="?attr/tint"
                 app:srcCompat="@drawable/downvote" />
-
 
             <ImageView
                 android:id="@+id/menu"
@@ -253,7 +241,5 @@
                 android:tint="?attr/tint"
                 app:srcCompat="@drawable/more" />
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
-
     </RelativeLayout>
-
 </android.support.v7.widget.CardView>

@@ -154,6 +154,7 @@ public class Profile extends BaseActivityAnim {
 
             }
         });
+
         if (getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name))
             pager.setCurrentItem(6);
         if (getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name))
@@ -176,6 +177,7 @@ public class Profile extends BaseActivityAnim {
             try {
                 new AlertDialogWrapper.Builder(Profile.this)
                         .setTitle(R.string.profile_err_title)
+                        .setCancelable(false)
                         .setMessage(R.string.profile_err_msg)
                         .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -191,6 +193,27 @@ public class Profile extends BaseActivityAnim {
             }
             return;
         }
+        if(account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()){
+            try {
+
+                new AlertDialogWrapper.Builder(Profile.this)
+                    .setTitle("This account is suspended.")
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            finish();
+                        }
+                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    finish();
+                }
+            }).show();
+            } catch (MaterialDialog.DialogException e) {
+                Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
+            }
+        }
+
         findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,27 +226,27 @@ public class Profile extends BaseActivityAnim {
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Reddit.defaultShareText(name + "'s profile" + "\n" + "https://www.reddit.com/u/" + name, Profile.this);
+                        Reddit.defaultShareText(getString(R.string.profile_share, name)
+                                + "\n" + "https://www.reddit.com/u/" + name, Profile.this);
                     }
                 });
                 final int currentColor = Palette.getColorUser(name);
                 title.setBackgroundColor(currentColor);
-                StringBuilder info = new StringBuilder();
-                info.append("Redditor for ");
-                info.append(TimeUtils.getLengthTimeSince(account.getCreated().getTime(), Profile.this));
-                info.append(". ");
+
+                String info = getString(R.string.profile_age,
+                        TimeUtils.getTimeSince(account.getCreated().getTime(), Profile.this));
                /*todo better if (account.hasGold() &&account.getDataNode().has("gold_expiration") ) {
                     Calendar c = Calendar.getInstance();
                     c.setTimeInMillis(account.getDataNode().get("gold_expiration").asLong());
                     info.append("Gold expires on " + new SimpleDateFormat("dd/MM/yy").format(c.getTime()));
                 }*/
-                ((TextView) dialoglayout.findViewById(R.id.moreinfo)).setText(info.toString());
+                ((TextView) dialoglayout.findViewById(R.id.moreinfo)).setText(info);
 
                 String tag = UserTags.getUserTag(name);
                 if (tag.isEmpty()) {
-                    tag = "Tag user";
+                    tag = getString(R.string.profile_tag_user);
                 } else {
-                    tag = "User tagged as '" + tag + "'";
+                    tag = getString(R.string.profile_tag_user_existing, tag);
                 }
                 ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
                 LinearLayout l = (LinearLayout) dialoglayout.findViewById(R.id.trophies_inner);
@@ -232,17 +255,17 @@ public class Profile extends BaseActivityAnim {
                     @Override
                     public void onClick(View v) {
                         MaterialDialog.Builder b = new MaterialDialog.Builder(Profile.this)
-                                .title("Set tag for " + name)
-                                .input("Tag", UserTags.getUserTag(name), false, new MaterialDialog.InputCallback() {
+                                .title(getString(R.string.profile_tag_set, name))
+                                .input(getString(R.string.profile_tag), UserTags.getUserTag(name), false, new MaterialDialog.InputCallback() {
                                     @Override
                                     public void onInput(MaterialDialog dialog, CharSequence input) {
 
                                     }
-                                }).positiveText("Set tag")
+                                }).positiveText(R.string.profile_btn_tag)
                                 .neutralText(R.string.btn_cancel);
 
                         if (UserTags.isUserTagged(name)) {
-                            b.negativeText("Remove tag");
+                            b.negativeText(R.string.profile_btn_untag);
                         }
                         b.onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
@@ -250,9 +273,9 @@ public class Profile extends BaseActivityAnim {
                                 UserTags.setUserTag(name, dialog.getInputEditText().getText().toString());
                                 String tag = UserTags.getUserTag(name);
                                 if (tag.isEmpty()) {
-                                    tag = "Tag user";
+                                    tag = getString(R.string.profile_tag_user);
                                 } else {
-                                    tag = "User tagged as '" + tag + "'";
+                                    tag = getString(R.string.profile_tag_user_existing, tag);
                                 }
                                 ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
                             }
@@ -262,9 +285,9 @@ public class Profile extends BaseActivityAnim {
                                 UserTags.removeUserTag(name);
                                 String tag = UserTags.getUserTag(name);
                                 if (tag.isEmpty()) {
-                                    tag = "Tag user";
+                                    tag = getString(R.string.profile_tag_user);
                                 } else {
-                                    tag = "User tagged as '" + tag + "'";
+                                    tag = getString(R.string.profile_tag_user_existing, tag);
                                 }
                                 ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
                             }

@@ -14,7 +14,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Synccit.MySynccitReadTask;
-import me.ccrama.redditslide.Synccit.MySynccitUpdateTask;
 import me.ccrama.redditslide.Synccit.SynccitRead;
 
 
@@ -81,11 +80,9 @@ public class SettingsSynccit extends BaseActivityAnim {
                 SettingValues.synccitName = name.getText().toString();
                 SettingValues.synccitAuth = auth.getText().toString();
                 try {
-                    new MySynccitUpdateTask().execute("16noez");
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-
                             new MySynccitReadTask().execute("16noez");
                             if (SynccitRead.visitedIds.contains("16noez")) {
                                 //success

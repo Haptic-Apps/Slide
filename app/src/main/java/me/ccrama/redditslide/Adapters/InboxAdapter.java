@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +21,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +43,12 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
+import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -97,7 +102,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (i == SPACER) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
             return new SpacerViewHolder(v);
-
         } else if (i == TOP_LEVEL) {
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.top_level_message, viewGroup, false);
             return new MessageViewHolder(v);
@@ -139,7 +143,20 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     titleString.append(" ");
                 }
             }
-            messageViewHolder.user.setText(titleString.toString());
+            String spacer = mContext.getString(R.string.submission_properties_seperator);
+            titleString.append(spacer);
+            if (comment.getDataNode().has("subreddit")) {
+                String subname = comment.getDataNode().get("subreddit").asText();
+                SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname);
+                if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
+                    subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+
+                titleString.append(subreddit);
+            }
+
+            messageViewHolder.user.setText(titleString);
             messageViewHolder.title.setText(comment.getSubject());
 
 
@@ -177,17 +194,17 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     if(comment.getAuthor()!=null)
                     b.sheet(1, profile, "/u/" + comment.getAuthor());
 
-                    String read = "Mark read";
+                    String read = mContext.getString(R.string.mail_mark_read);
                     Drawable rDrawable = hide;
                     if (comment.isRead()) {
-                        read = "Mark unread";
+                        read = mContext.getString(R.string.mail_mark_unread);
                         rDrawable = unhide;
                     }
                     b.sheet(2, rDrawable, read);
                     b.sheet(3, reply, mContext.getString(R.string.btn_reply));
-                    b.sheet(25, copy, "Copy text");
+                    b.sheet(25, copy, mContext.getString(R.string.misc_copy_text));
                     if (comment.isComment()) {
-                        b.sheet(30, reddit, "View full thread");
+                        b.sheet(30, reddit, mContext.getString(R.string.mail_view_full_thread));
                     }
                     b.listener(new DialogInterface.OnClickListener() {
                         @Override
@@ -227,7 +244,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                     ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                                     ClipData clip = ClipData.newPlainText("Message", comment.getBody());
                                     clipboard.setPrimaryClip(clip);
-                                    Toast.makeText(mContext, "Message copied", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, mContext.getString(R.string.mail_message_copied), Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                                 case 30: {
@@ -266,7 +283,6 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             });
 
             setViews(comment.getDataNode().get("body_html").asText(), "FORCE_LINK_CLICK", messageViewHolder);
-
 
         }
         if (viewHolder instanceof SpacerViewHolder) {

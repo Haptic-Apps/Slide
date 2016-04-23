@@ -66,6 +66,10 @@ public class SidebarLayout extends DrawerLayout {
                 return false;
             }
         }
-        return super.onInterceptTouchEvent(ev);
+        try {
+            return super.onInterceptTouchEvent(ev);
+        } catch(Exception e){
+            return false;
+        }
     }
 }

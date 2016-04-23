@@ -61,9 +61,9 @@ public class Sendmessage extends BaseActivity {
             to.setText(name);
             to.setInputType(InputType.TYPE_NULL);
             if (reply) {
-                b.setTitle(String.format(getString(R.string.mail_reply_to), name));
+                b.setTitle(getString(R.string.mail_reply_to, name));
                 previousMessage = DataShare.sharedMessage;
-                subject.setText(String.format(getString(R.string.mail_re), previousMessage.getSubject()));
+                subject.setText(getString(R.string.mail_re, previousMessage.getSubject()));
 
                 subject.setInputType(InputType.TYPE_NULL);
 
@@ -72,7 +72,7 @@ public class Sendmessage extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(Sendmessage.this);
-                        b.setTitle(String.format(getString(R.string.mail_author_wrote), name));
+                        b.setTitle(getString(R.string.mail_author_wrote, name));
                         b.setMessage(previousMessage.getBody());
                         b.create().show();
 
@@ -80,7 +80,7 @@ public class Sendmessage extends BaseActivity {
                 });
 
             } else {
-                b.setTitle(String.format(getString(R.string.mail_send_to), name));
+                b.setTitle(getString(R.string.mail_send_to, name));
                 oldMSG.setVisibility(View.GONE);
             }
 

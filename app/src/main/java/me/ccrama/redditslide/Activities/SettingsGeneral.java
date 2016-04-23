@@ -67,7 +67,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {
                     Reddit.notificationTime = -1;
-                    Reddit.seen.edit().putInt("notificationOverride", -1).apply();
+                    Reddit.colors.edit().putInt("notificationOverride", -1).apply();
                     checkBox.setText(context.getString(R.string.settings_mail_check));
                     landscape.setValue(0, true);
                     if (Reddit.notifications != null)
@@ -93,7 +93,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             public void onDismiss(DialogInterface dialog) {
                 if (checkBox.isChecked()) {
                     Reddit.notificationTime = landscape.getValue() * 15;
-                    Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
+                    Reddit.colors.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
                     if (Reddit.notifications == null) {
                         Reddit.notifications = new NotificationJobScheduler(context.getApplication());
                     }
@@ -107,7 +107,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             public void onClick(View d) {
                 if (checkBox.isChecked()) {
                     Reddit.notificationTime = landscape.getValue() * 15;
-                    Reddit.seen.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
+                    Reddit.colors.edit().putInt("notificationOverride", landscape.getValue() * 15).apply();
                     if (Reddit.notifications == null) {
                         Reddit.notifications = new NotificationJobScheduler(context.getApplication());
                     }
@@ -120,7 +120,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                                         TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, context.getBaseContext())));
                 } else {
                     Reddit.notificationTime = -1;
-                    Reddit.seen.edit().putInt("notificationOverride", -1).apply();
+                    Reddit.colors.edit().putInt("notificationOverride", -1).apply();
                     if (Reddit.notifications == null) {
                         Reddit.notifications = new NotificationJobScheduler(context.getApplication());
                     }
@@ -166,7 +166,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                 }
             });
         }
-        String loc = Reddit.appRestart.getString("imagelocation", "Not set yet");
+        String loc = Reddit.appRestart.getString("imagelocation", getString(R.string.settings_image_location_unset));
         ((TextView) findViewById(R.id.location)).setText(loc);
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.expandedmenu);
@@ -278,12 +278,11 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
         if (Reddit.notificationTime > 0) {
             ((TextView) findViewById(R.id.notifications_current)).setText(getString(R.string.settings_notification_short,
                     TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime, getBaseContext())));
-
         } else {
             ((TextView) findViewById(R.id.notifications_current)).setText(R.string.settings_notifdisabled);
         }
 
-        if (Authentication.isLoggedIn)
+        if (Authentication.isLoggedIn) {
             findViewById(R.id.notifications).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -292,11 +291,12 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                     setupNotificationSettings(dialoglayout, SettingsGeneral.this);
                 }
             });
-        else findViewById(R.id.notifications).setVisibility(View.GONE);
-
+        } else {
+            findViewById(R.id.notifications).setEnabled(false);
+            findViewById(R.id.notifications).setAlpha((float) 0.25);
+        }
 
         ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId("")]);
-
         {
             findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -434,7 +434,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
     public void onFolderSelection(FolderChooserDialog dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
-            Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.settings_set_image_location, folder.getAbsolutePath()), Toast.LENGTH_LONG).show();
             ((TextView) findViewById(R.id.location)).setText(folder.getAbsolutePath());
         }
     }

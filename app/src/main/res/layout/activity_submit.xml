@@ -51,7 +51,7 @@
                     android:layout_weight="1"
                     android:checked="true"
 
-                    android:text="@string/editor_self"
+                    android:text="@string/type_selftext"
                     android:textAllCaps="true"
                     android:textColor="?attr/font" />
 

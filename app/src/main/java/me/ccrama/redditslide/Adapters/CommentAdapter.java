@@ -614,12 +614,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         replie = new ArrayList<>();
 
 
-        if (currentSelectedItem != null && !currentSelectedItem.isEmpty() &&!reset) {
+        if (currentSelectedItem != null && !currentSelectedItem.isEmpty() && !reset) {
             notifyDataSetChanged();
         } else {
             if (users != null && !reset) {
                 notifyItemRangeChanged(2, users.size() + 1);
-            } else if(users == null) {
+            } else if (users == null) {
                 users = new ArrayList<>();
                 notifyDataSetChanged();
             } else {
@@ -672,7 +672,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void collapseAll() {
         for (CommentObject o : users) {
             if (o.comment.isTopLevel()) {
-                hiddenPersons.add(o.comment.getComment().getFullName());
+                if (!hiddenPersons.contains(o.comment.getComment().getFullName()))
+                    hiddenPersons.add(o.comment.getComment().getFullName());
                 hideAll(o.comment);
             }
         }
@@ -741,7 +742,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         score.setSpan(new ForegroundColorSpan(scoreColor), 0, score.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         titleString.append(score);
-        titleString.append((comment.isControversial() ? "†" : ""));
+        titleString.append((comment.isControversial() ? " †" : ""));
 
         titleString.append(spacer);
         String timeAgo = TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext);
@@ -758,8 +759,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
         if (comment.getTimesGilded() > 0) {
             //if the comment has only been gilded once, don't show a number
-            final String timesGilded = (comment.getTimesGilded() == 1) ? "" : Integer.toString(comment.getTimesGilded());
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0★\u200A" + timesGilded + "\u00A0");
+            final String timesGilded = (comment.getTimesGilded() == 1) ? "" : "\u200A" + Integer.toString(comment.getTimesGilded());
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -781,7 +782,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + comment.getAuthorFlair().getText() + "\u00A0");
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + Html.fromHtml(comment.getAuthorFlair().getText()) + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
@@ -843,11 +844,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
 
-            Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                    mContext,
-                    new FontPreferences(mContext).getFontTypeComment().getTypeface());
-            holder.firstTextView.setTypeface(typeface);
-            setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
+            int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+            if (type >= 0) {
+                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
+                        mContext, type
+                );
+                holder.firstTextView.setTypeface(typeface);
+            }
+            if (!toCollapse.contains(comment.getFullName()) && SettingValues.collapseComments || !SettingValues.collapseComments)
+                setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
 
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -938,11 +943,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.dot.setVisibility(View.GONE);
                 }
             }
+
+
             if (currentSelectedItem != null && comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty() && !currentlyEditingId.equals(comment.getFullName())) {
                 doHighlighted(holder, comment, baseNode, finalPos, finalPos1, false);
             } else if (!currentlyEditingId.equals(comment.getFullName())) {
                 doUnHighlighted(holder, baseNode, false);
             }
+
             if (deleted.contains(comment.getFullName())) {
                 holder.firstTextView.setText(R.string.comment_deleted);
                 holder.content.setText(R.string.comment_deleted);
@@ -1622,9 +1630,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         // If a comment is hidden and (Swap long press == true), then a single click will un-hide the comment
         // and expand to show all children comments
         if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE && !isReplying) {
-            unhideAll(baseNode, holder.getAdapterPosition() + 1);
             hiddenPersons.remove(n.getFullName());
+            unhideAll(baseNode, holder.getAdapterPosition() + 1);
+            if (toCollapse.contains(n.getFullName()) && SettingValues.collapseComments)
+                setViews(n.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
             toCollapse.remove(n.getFullName());
+
             hideChildrenObject(holder.children);
             holder.firstTextView.setVisibility(View.VISIBLE);
             holder.commentOverflow.setVisibility(View.VISIBLE);
@@ -1635,6 +1646,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             currentSelectedItem = n.getFullName();
 
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+            resetMenu(holder.menuArea, false);
             final View baseView = (SettingValues.rightHandedCommentMenu)
                     ? inflater.inflate(R.layout.comment_menu_right_handed, holder.menuArea)
                     : inflater.inflate(R.layout.comment_menu, holder.menuArea);
@@ -2114,11 +2126,24 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public EditText currentlyEditing;
 
+    public void resetMenu(LinearLayout v, boolean collapsed) {
+        if (collapsed) {
+            v.removeAllViews();
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
+            params.height = 0;
+            v.setLayoutParams(params);
+        } else {
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
+            params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
+            v.setLayoutParams(params);
+        }
+    }
+
     public void doUnHighlighted(final CommentViewHolder holder, final CommentNode baseNode, boolean animate) {
         if (animate) {
             collapse(holder.menuArea);
         } else {
-            (holder.menuArea).removeAllViews();
+            resetMenu(holder.menuArea, true);
         }
 
         TypedValue typedValue = new TypedValue();
@@ -2174,7 +2199,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (animate) {
                 collapse(holder.menuArea);
             } else {
-                holder.menuArea.removeAllViews();
+                resetMenu(holder.menuArea, true);
             }
             int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
             int width = 0;
@@ -2345,12 +2370,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             if (isClicking) {
                 isClicking = false;
-                holder.menuArea.removeAllViews();
+                resetMenu(holder.menuArea, true);
                 isHolder.itemView.findViewById(R.id.menu).setVisibility(View.GONE);
             } else {
                 if (hiddenPersons.contains(comment.getFullName())) {
-                    unhideAll(baseNode, holder.getAdapterPosition() + 1);
                     hiddenPersons.remove(comment.getFullName());
+                    unhideAll(baseNode, holder.getAdapterPosition() + 1);
+                    if (toCollapse.contains(comment.getFullName()) && SettingValues.collapseComments)
+                        setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
+
                     toCollapse.remove(comment.getFullName());
                     hideChildrenObject(holder.children);
                     holder.firstTextView.setVisibility(View.VISIBLE);
@@ -2359,7 +2387,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     int childNumber = getChildNumber(baseNode);
                     if (childNumber > 0) {
                         hideAll(baseNode, holder.getAdapterPosition() + 1);
-                        hiddenPersons.add(comment.getFullName());
+                        if (!hiddenPersons.contains(comment.getFullName()))
+                            hiddenPersons.add(comment.getFullName());
                         showChildrenObject(holder.children);
                         ((TextView) holder.children).setText("+" + childNumber);
                     }
@@ -2449,31 +2478,46 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
+    public boolean parentHidden(CommentNode n) {
+        n = n.getParent();
+        while (n != null && n.getDepth() > 0) {
+            String name = n.getComment().getFullName();
+            if (hiddenPersons.contains(name) || hidden.contains(name)) {
+                return true;
+            }
+            n = n.getParent();
+        }
+        return false;
+    }
+
     public int unhideNumber(CommentNode n, int i) {
-        for (CommentNode ignored : n.walkTree()) {
+        for (CommentNode ignored : n.getChildren()) {
+
             if (!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
+                boolean parentHidden = parentHidden(ignored);
+
+                if (parentHidden) continue;
+
                 String name = ignored.getComment().getFullName();
-                if (hiddenPersons.contains(name)) {
-                    hiddenPersons.remove(name);
-                }
-                if (hidden.contains(name)) {
+
+                if (hidden.contains(name) || hiddenPersons.contains(name)) {
                     hidden.remove(name);
                     i++;
-                }
-                if (ignored.getMoreChildren() != null) {
-                    name = name + "more";
-                    if (hiddenPersons.contains(name)) {
-                        hiddenPersons.remove(name);
+
+                    if (ignored.hasMoreComments() && !hiddenPersons.contains(name)) {
+                        name = name + "more";
+                        if (hidden.contains(name)) {
+                            hidden.remove(name);
+                            toCollapse.remove(name);
+                            i++;
+                        }
                     }
-                    if (hidden.contains(name)) {
-                        hidden.remove(name);
-                        i++;
-                    }
                 }
+
                 i += unhideNumber(ignored, 0);
             }
         }
-        if (n.hasMoreComments()) {
+        if (n.hasMoreComments() && !parentHidden(n) && !hiddenPersons.contains(n.getComment().getFullName())) {
             String fullname = n.getComment().getFullName() + "more";
 
             if (hidden.contains(fullname)) {
@@ -2481,18 +2525,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 hidden.remove(fullname);
 
             }
+
         }
         return i;
     }
 
     public int hideNumber(CommentNode n, int i) {
-        for (CommentNode ignored : n.walkTree()) {
+        for (CommentNode ignored : n.getChildren()) {
             if (!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
 
                 String fullname = ignored.getComment().getFullName();
-                if (hiddenPersons.contains(fullname)) {
-                    hiddenPersons.remove(fullname);
-                }
+
                 if (!hidden.contains(fullname)) {
                     i++;
                     hidden.add(fullname);
@@ -2509,14 +2552,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 i += hideNumber(ignored, 0);
             }
-            if (n.hasMoreComments()) {
-                String fullname = n.getComment().getFullName() + "more";
 
-                if (!hidden.contains(fullname)) {
-                    i++;
-                    hidden.add(fullname);
+        }
+        if (n.hasMoreComments()) {
+            String fullname = n.getComment().getFullName() + "more";
+            if (!hidden.contains(fullname)) {
+                i++;
+                hidden.add(fullname);
 
-                }
             }
         }
         return i;
@@ -2835,7 +2878,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         b.sheet(5, gild, mContext.getString(R.string.comment_gild))
-                .sheet(7, copy, mContext.getString(R.string.submission_copy))
+                .sheet(7, copy, mContext.getString(R.string.misc_copy_text))
                 .sheet(23, permalink, mContext.getString(R.string.comment_permalink))
                 .sheet(4, share, mContext.getString(R.string.comment_share));
         if (!currentBaseNode.isTopLevel()) {

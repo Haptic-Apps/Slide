@@ -4,8 +4,6 @@ package me.ccrama.redditslide.Synccit;
  * Created by carlo_000 on 2/16/2016.
  */
 
-import com.synccit.android.SynccitReadTask;
-
 import java.util.HashSet;
 
 import me.ccrama.redditslide.HasSeen;

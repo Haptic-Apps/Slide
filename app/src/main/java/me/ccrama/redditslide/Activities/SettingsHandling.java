@@ -52,7 +52,7 @@ public class SettingsHandling extends BaseActivityAnim implements
         gif.setOnCheckedChangeListener(this);
         album.setOnCheckedChangeListener(this);
 
-        if (Reddit.videoPlugin)
+        if (!Reddit.videoPlugin)
             findViewById(R.id.video).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,13 +98,11 @@ public class SettingsHandling extends BaseActivityAnim implements
                         return true;
                     }
                 });
-
                 popup.show();
             }
         });
+
         domain = (EditText) findViewById(R.id.domain);
-        domain.clearFocus();
-        domain.setCursorVisible(false);
         domain.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

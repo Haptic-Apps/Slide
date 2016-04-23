@@ -36,9 +36,6 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
-import me.ccrama.redditslide.util.LogUtil;
-
-;
 
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -125,6 +122,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         }, 500);
     }
+
     public void refreshView(boolean ignore18) {
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();
         listView.setItemAnimator(null);
@@ -136,12 +134,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         }, 500);
     }
+
     public void refreshView(ArrayList<Integer> seen) {
         listView.setItemAnimator(null);
         final RecyclerView.ItemAnimator a = listView.getItemAnimator();
 
         for (int i : seen) {
-            LogUtil.v("Changed " + (i + 1));
             notifyItemChanged(i + 1);
         }
         listView.postDelayed(new Runnable() {
@@ -164,6 +162,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             final Submission submission = dataSet.posts.get(i);
 
             CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage") || subreddit.equals("mod") || subreddit.equals("friends") || (subreddit.equals("all")) || subreddit.contains(".") || subreddit.contains("+")));
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
 
                                                    @Override
@@ -171,6 +170,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
                                                        if (Authentication.didOnline || submission.getComments() != null) {
                                                            holder.title.setAlpha(0.54f);
+                                                           holder.body.setAlpha(0.54f);
 
                                                            if (context instanceof MainActivity) {
                                                                final MainActivity a = (MainActivity) context;
@@ -253,12 +253,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                }
 
             );
-            final boolean saved = submission.isSaved();
-
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow, dataSet.subreddit.toLowerCase()
-
-            );
-
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow, dataSet.subreddit.toLowerCase());
 
         }
         if (holder2 instanceof SubmissionFooterViewHolder) {

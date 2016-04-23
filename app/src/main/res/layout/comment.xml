@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_marginTop="0.25dp"
     android:layout_height="wrap_content">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="?attr/activity_background"
         android:orientation="horizontal" />
+
     <View
         android:id="@+id/next"
         android:layout_width="match_parent"
@@ -53,8 +55,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/content"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
+        android:paddingStart="10dp"
+        android:layout_marginStart="-2dp"
+        android:layout_marginEnd="-2dp"
+        android:paddingEnd="10dp"
         android:layout_toRightOf="@id/dot"
         android:textColor="?attr/font"
         android:textSize="?attr/font_commentbody" />

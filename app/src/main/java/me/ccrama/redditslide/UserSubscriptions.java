@@ -25,6 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Login;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -57,11 +58,38 @@ public class UserSubscriptions {
             return loadSubscriptionsOverwrite(c);
         } else {
             Gson gson = new Gson();
-
             return gson.fromJson(s, new TypeToken<List<Subscription>>() {
             }.getType());
         }
     }
+
+    public static void doMainActivitySubs(MainActivity c) {
+        if (NetworkUtil.isConnected(c)) {
+            c.updateSubs(getSubscriptions(c));
+        } else {
+            String s = subscriptions.getString(Authentication.name, "");
+            ArrayList<String> subredditsForHome = new ArrayList<>();
+            if (!s.isEmpty()) {
+                for (String s2 : s.split(",")) {
+                    subredditsForHome.add(s2.toLowerCase());
+                }
+            }
+            ArrayList<String> finals = new ArrayList<>();
+            ArrayList<String> offline = OfflineSubreddit.getAllFormatted();
+            for (String subs : subredditsForHome) {
+                if (offline.contains(subs)) {
+                    finals.add(subs);
+                }
+            }
+            for (String subs : offline) {
+                if (!finals.contains(subs)) {
+                    finals.add(subs);
+                }
+            }
+            c.updateSubs(finals);
+        }
+    }
+
 
     public static ArrayList<String> getSubscriptionNames(Context c) {
         return getNamesFromSubscriptions(getSubscriptions(c), true);
@@ -153,6 +181,7 @@ public class UserSubscriptions {
         return toReturn;
     }
 
+
     /**
      * Stores the the list in a sharedPref
      *
@@ -160,13 +189,15 @@ public class UserSubscriptions {
      */
     public static void setSubscriptions(ArrayList<Subscription> subs) {
         String list = new Gson().toJson(subs);
-        subscriptions.edit().putString(Authentication.name, list).commit();
+        subscriptions.edit().putString(Authentication.name, list).apply();
+
     }
 
     public static void switchAccounts() {
         SharedPreferences.Editor editor = Reddit.appRestart.edit();
         editor.putBoolean("back", true);
         editor.putString("subs", "");
+        Authentication.authentication.edit().remove("backedCreds").remove("expires").apply();
         editor.putBoolean("loggedin", Authentication.isLoggedIn);
         editor.putString("name", Authentication.name);
         editor.apply();
@@ -251,11 +282,24 @@ public class UserSubscriptions {
     //Gets user subscriptions + top 500 subs + subs in history
     public static ArrayList<String> getAllSubreddits(Context c) {
         ArrayList<String> finalReturn = new ArrayList<>();
+        ArrayList<String> history = getHistory();
+        ArrayList<String> defaults = getDefaults(c);
         finalReturn.addAll(getNamesFromSubscriptions(getSubscriptions(c), true));
-        finalReturn.removeAll(getHistory());
-        finalReturn.addAll(getHistory());
-        finalReturn.removeAll(getDefaults(c));
-        finalReturn.addAll(getDefaults(c));
+        for (String s : finalReturn) {
+            if (history.contains(s)) {
+                history.remove(s);
+            }
+            if (defaults.contains(s)) {
+                defaults.remove(s);
+            }
+        }
+        for (String s : history) {
+            if (defaults.contains(s)) {
+                defaults.remove(s);
+            }
+        }
+        finalReturn.addAll(history);
+        finalReturn.addAll(defaults);
         return finalReturn;
     }
 
@@ -534,8 +578,8 @@ public class UserSubscriptions {
         return POSITION_NOT_FOUND;
     }
 
-    public static boolean isSubscriber(String s) {
-        return subscriptions.getString(Authentication.name, "").toLowerCase().contains(s.toLowerCase());
+    public static boolean isSubscriber(String s, Context c) {
+        return getSubscriptionNames(c).contains(s.toLowerCase());
     }
 
     public enum SubscriptionType {
