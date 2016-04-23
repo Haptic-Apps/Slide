@@ -16,6 +16,8 @@ import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -76,8 +78,8 @@ public class Profile extends BaseActivityAnim {
         return user.matches("^[a-zA-Z0-9_-]{3,20}$");
     }
 
-    boolean friend;
-
+    private boolean friend;
+    private MenuItem sortItem;
     public static Sorting profSort;
     public static TimePeriod profTime;
 
@@ -101,7 +103,6 @@ public class Profile extends BaseActivityAnim {
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabs.setSelectedTabIndicatorColor(new ColorPreferences(Profile.this).getColor("no sub"));
 
-
         pager = (ViewPager) findViewById(R.id.content_view);
         if (name.equals(Authentication.name))
             setDataSet(new String[]{getString(R.string.profile_overview),
@@ -120,15 +121,7 @@ public class Profile extends BaseActivityAnim {
                 getString(R.string.profile_submitted),
                 getString(R.string.profile_gilded)});
 
-
         new getProfile().execute(name);
-
-        findViewById(R.id.sort).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openPopup();
-            }
-        });
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -143,9 +136,9 @@ public class Profile extends BaseActivityAnim {
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
                 if (position < 3) {
-                    findViewById(R.id.sort).setVisibility(View.VISIBLE);
+                    sortItem.setVisible(true);
                 } else {
-                    findViewById(R.id.sort).setVisibility(View.GONE);
+                    sortItem.setVisible(false);
                 }
             }
 
@@ -155,20 +148,20 @@ public class Profile extends BaseActivityAnim {
             }
         });
 
-        if (getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name))
+        if (getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name)) {
             pager.setCurrentItem(6);
-        if (getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name))
+        }
+        if (getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name)) {
             pager.setCurrentItem(1);
-        if (getIntent().hasExtra(EXTRA_SUBMIT) && name.equals(Authentication.name))
+        }
+        if (getIntent().hasExtra(EXTRA_SUBMIT) && name.equals(Authentication.name)) {
             pager.setCurrentItem(2);
-        if (getIntent().hasExtra(EXTRA_HISTORY) && name.equals(Authentication.name))
+        }
+        if (getIntent().hasExtra(EXTRA_HISTORY) && name.equals(Authentication.name)) {
             pager.setCurrentItem(8);
-        if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name))
+        }
+        if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name)) {
             pager.setCurrentItem(4);
-        if (pager.getCurrentItem() < 3) {
-            findViewById(R.id.sort).setVisibility(View.VISIBLE);
-        } else {
-            findViewById(R.id.sort).setVisibility(View.GONE);
         }
     }
 
@@ -193,30 +186,242 @@ public class Profile extends BaseActivityAnim {
             }
             return;
         }
-        if(account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()){
+        if (account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()) {
             try {
-
                 new AlertDialogWrapper.Builder(Profile.this)
-                    .setTitle("This account is suspended.")
+                        .setTitle("This account is suspended.")
                         .setCancelable(false)
                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            finish();
-                        }
-                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    finish();
-                }
-            }).show();
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                finish();
+                            }
+                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        finish();
+                    }
+                }).show();
             } catch (MaterialDialog.DialogException e) {
                 Log.w(LogUtil.getTag(), "Activity already in background, dialog not shown " + e);
             }
         }
+    }
 
-        findViewById(R.id.info).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    private void setDataSet(String[] data) {
+        usedArray = data;
+        ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
+
+        pager.setAdapter(adapter);
+        pager.setOffscreenPageLimit(1);
+        tabs.setupWithViewPager(pager);
+
+
+    }
+
+    private class getProfile extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                if (!isValidUsername(params[0])) {
+                    account = null;
+                    return null;
+                }
+                account = Authentication.reddit.getUser(params[0]);
+                trophyCase = new FluentRedditClient(Authentication.reddit).user(params[0]).trophyCase();
+            } catch (NetworkException ignored) {
+            }
+            return null;
+
+        }
+
+        @Override
+        public void onPostExecute(Void voidd) {
+
+            doClick();
+
+        }
+    }
+
+    public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
+
+        public ProfilePagerAdapter(FragmentManager fm) {
+            super(fm);
+
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+
+            if (i < 8) {
+                Fragment f = new ContributionsView();
+                Bundle args = new Bundle();
+
+                args.putString("id", name);
+                String place;
+                switch (i) {
+                    case 0:
+                        place = "overview";
+                        break;
+                    case 1:
+                        place = "comments";
+                        break;
+                    case 2:
+                        place = "submitted";
+                        break;
+                    case 3:
+                        place = "gilded";
+                        break;
+                    case 4:
+                        place = "liked";
+                        break;
+                    case 5:
+                        place = "disliked";
+                        break;
+                    case 6:
+                        place = "saved";
+                        break;
+                    case 7:
+                        place = "hidden";
+                        break;
+                    default:
+                        place = "overview";
+                }
+                args.putString("where", place);
+
+                f.setArguments(args);
+                return f;
+            } else {
+                Fragment f = new HistoryView();
+                return f;
+            }
+
+
+        }
+
+
+        @Override
+        public int getCount() {
+            if (usedArray == null) {
+                return 1;
+            } else {
+                return usedArray.length;
+            }
+        }
+
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return usedArray[position];
+        }
+    }
+
+    public void openPopup() {
+        PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        final String[] base = Reddit.getSortingStrings(getBaseContext());
+        for (String s : base) {
+            popup.getMenu().add(s);
+        }
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                LogUtil.v("Chosen is " + item.getOrder());
+                int i = 0;
+                for (String s : base) {
+                    if (s.equals(item.getTitle())) {
+                        break;
+                    }
+                    i++;
+                }
+                switch (i) {
+                    case 0:
+                        profSort = (Sorting.HOT);
+                        break;
+                    case 1:
+                        profSort = (Sorting.NEW);
+                        break;
+                    case 2:
+                        profSort = (Sorting.RISING);
+                        break;
+                    case 3:
+                        profSort = (Sorting.TOP);
+                        profTime = (TimePeriod.HOUR);
+                        break;
+                    case 4:
+                        profSort = (Sorting.TOP);
+                        profTime = (TimePeriod.DAY);
+                        break;
+                    case 5:
+                        profSort = (Sorting.TOP);
+                        profTime = (TimePeriod.WEEK);
+                        break;
+                    case 6:
+                        profSort = (Sorting.TOP);
+                        profTime = (TimePeriod.MONTH);
+                        break;
+                    case 7:
+                        profSort = (Sorting.TOP);
+                        profTime = (TimePeriod.YEAR);
+                        break;
+                    case 8:
+                        profSort = (Sorting.TOP);
+                        profTime = (TimePeriod.ALL);
+                        break;
+                    case 9:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = (TimePeriod.HOUR);
+                        break;
+                    case 10:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = (TimePeriod.DAY);
+                        break;
+                    case 11:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = (TimePeriod.WEEK);
+                        break;
+                    case 12:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = (TimePeriod.MONTH);
+                        break;
+                    case 13:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = (TimePeriod.YEAR);
+                        break;
+                    case 14:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        profTime = (TimePeriod.ALL);
+                        break;
+                }
+
+                Reddit.sorting.put(name, profSort);
+                Reddit.times.put(name, profTime);
+
+                int current = pager.getCurrentItem();
+                ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
+                pager.setAdapter(adapter);
+                pager.setOffscreenPageLimit(1);
+
+                tabs.setupWithViewPager(pager);
+                pager.setCurrentItem(current);
+                return true;
+            }
+        });
+        popup.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_profile, menu);
+
+        //used to hide the sort item on certain Profile tabs
+        sortItem = menu.findItem(R.id.sort);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case (R.id.info):
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
@@ -227,9 +432,10 @@ public class Profile extends BaseActivityAnim {
                     @Override
                     public void onClick(View v) {
                         Reddit.defaultShareText(getString(R.string.profile_share, name),
-                                                "https://www.reddit.com/u/" + name, Profile.this);
+                                "https://www.reddit.com/u/" + name, Profile.this);
                     }
                 });
+
                 final int currentColor = Palette.getColorUser(name);
                 title.setBackgroundColor(currentColor);
 
@@ -240,6 +446,7 @@ public class Profile extends BaseActivityAnim {
                     c.setTimeInMillis(account.getDataNode().get("gold_expiration").asLong());
                     info.append("Gold expires on " + new SimpleDateFormat("dd/MM/yy").format(c.getTime()));
                 }*/
+
                 ((TextView) dialoglayout.findViewById(R.id.moreinfo)).setText(info);
 
                 String tag = UserTags.getUserTag(name);
@@ -248,6 +455,7 @@ public class Profile extends BaseActivityAnim {
                 } else {
                     tag = getString(R.string.profile_tag_user_existing, tag);
                 }
+
                 ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
                 LinearLayout l = (LinearLayout) dialoglayout.findViewById(R.id.trophies_inner);
 
@@ -294,6 +502,7 @@ public class Profile extends BaseActivityAnim {
                         }).show();
                     }
                 });
+
                 if (trophyCase.isEmpty()) {
                     dialoglayout.findViewById(R.id.trophies).setVisibility(View.GONE);
                 } else {
@@ -302,13 +511,14 @@ public class Profile extends BaseActivityAnim {
                         // Edit
                         ((Reddit) getApplicationContext()).getImageLoader().displayImage(t.getIcon(), ((ImageView) view.findViewById(R.id.image)));
                         ((TextView) view.findViewById(R.id.trophyTitle)).setText(t.getFullName());
-                        if (t.getAboutUrl() != null)
+                        if (t.getAboutUrl() != null) {
                             view.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     CustomTabUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
                                 }
                             });
+                        }
                         l.addView(view);
                     }
                 }
@@ -368,9 +578,9 @@ public class Profile extends BaseActivityAnim {
                     dialoglayout.findViewById(R.id.pm).setVisibility(View.GONE);
                 }
 
-
                 final View body = dialoglayout.findViewById(R.id.body2);
                 body.setVisibility(View.INVISIBLE);
+
                 final View center = dialoglayout.findViewById(R.id.colorExpandFrom);
                 dialoglayout.findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -402,8 +612,6 @@ public class Profile extends BaseActivityAnim {
 
                         colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), c));
                         colorPicker2.setSelectedColor(c);
-
-
                     }
                 });
 
@@ -417,6 +625,7 @@ public class Profile extends BaseActivityAnim {
                         }
                     }
                 }
+
                 colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
                     @Override
                     public void onColorChanged(int i) {
@@ -431,277 +640,67 @@ public class Profile extends BaseActivityAnim {
                     }
                 });
 
+            {
+                TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
 
-                {
-                    TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
-
-                    // if button is clicked, close the custom dialog
-                    dialogButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Palette.setColorUser(name, colorPicker2.getColor());
-
-                            int cx = center.getWidth() / 2;
-                            int cy = center.getHeight() / 2;
-
-                            int initialRadius = body.getWidth();
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-                                Animator anim =
-                                        ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
-
-                                anim.addListener(new AnimatorListenerAdapter() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        super.onAnimationEnd(animation);
-                                        body.setVisibility(View.GONE);
-                                    }
-                                });
-                                anim.start();
-
-                            } else {
-                                body.setVisibility(View.GONE);
-
-                            }
-
-                        }
-                    });
-
-
-                }
-                ((TextView) dialoglayout.findViewById(R.id.commentkarma)).setText(account.getCommentKarma() + "");
-                ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(account.getLinkKarma() + "");
-
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                // if button is clicked, close the custom dialog
+                dialogButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        findViewById(R.id.header).setBackgroundColor(currentColor);
-                        if (mToolbar != null)
-                            mToolbar.setBackgroundColor(currentColor);
+                    public void onClick(View v) {
+                        Palette.setColorUser(name, colorPicker2.getColor());
+
+                        int cx = center.getWidth() / 2;
+                        int cy = center.getHeight() / 2;
+
+                        int initialRadius = body.getWidth();
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            Window window = getWindow();
-                            window.setStatusBarColor(Palette.getDarkerColor(currentColor));
+
+                            Animator anim =
+                                    ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
+
+                            anim.addListener(new AnimatorListenerAdapter() {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    super.onAnimationEnd(animation);
+                                    body.setVisibility(View.GONE);
+                                }
+                            });
+                            anim.start();
+
+                        } else {
+                            body.setVisibility(View.GONE);
+
                         }
+
                     }
                 });
 
-                builder.setView(dialoglayout);
-                builder.show();
+
             }
-        });
-    }
+            ((TextView) dialoglayout.findViewById(R.id.commentkarma)).setText(account.getCommentKarma() + "");
+            ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(account.getLinkKarma() + "");
 
-    private void setDataSet(String[] data) {
-        usedArray = data;
-        ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
-
-        pager.setAdapter(adapter);
-        pager.setOffscreenPageLimit(1);
-        tabs.setupWithViewPager(pager);
-
-
-    }
-
-    private class getProfile extends AsyncTask<String, Void, Void> {
-
-        @Override
-        protected Void doInBackground(String... params) {
-            try {
-                if (!isValidUsername(params[0])) {
-                    account = null;
-                    return null;
-                }
-                account = Authentication.reddit.getUser(params[0]);
-                trophyCase = new FluentRedditClient(Authentication.reddit).user(params[0]).trophyCase();
-            } catch (NetworkException ignored) {
-            }
-            return null;
-
-        }
-
-        @Override
-        public void onPostExecute(Void voidd) {
-
-            doClick();
-
-        }
-    }
-
-    public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
-
-        public ProfilePagerAdapter(FragmentManager fm) {
-            super(fm);
-
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-
-            if(i < 8) {
-                Fragment f = new ContributionsView();
-                Bundle args = new Bundle();
-
-                args.putString("id", name);
-                String place;
-                switch (i) {
-                    case 0:
-                        place = "overview";
-                        break;
-                    case 1:
-                        place = "comments";
-                        break;
-                    case 2:
-                        place = "submitted";
-                        break;
-                    case 3:
-                        place = "gilded";
-                        break;
-                    case 4:
-                        place = "liked";
-                        break;
-                    case 5:
-                        place = "disliked";
-                        break;
-                    case 6:
-                        place = "saved";
-                        break;
-                    case 7:
-                        place = "hidden";
-                        break;
-                    default:
-                        place = "overview";
-                }
-                args.putString("where", place);
-
-                f.setArguments(args);
-                return f;
-            }
-            else {
-                Fragment f = new HistoryView();
-                return f;
-            }
-
-
-        }
-
-
-        @Override
-        public int getCount() {
-            if (usedArray == null) {
-                return 1;
-            } else {
-                return usedArray.length;
-            }
-        }
-
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return usedArray[position];
-        }
-    }
-
-    public void openPopup() {
-        PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext());
-        for (String s : base) {
-            popup.getMenu().add(s);
-        }
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                LogUtil.v("Chosen is " + item.getOrder());
-                int i = 0;
-                for (String s : base) {
-                    if (s.equals(item.getTitle())) {
-                        break;
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    findViewById(R.id.header).setBackgroundColor(currentColor);
+                    if (mToolbar != null)
+                        mToolbar.setBackgroundColor(currentColor);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        Window window = getWindow();
+                        window.setStatusBarColor(Palette.getDarkerColor(currentColor));
                     }
-                    i++;
                 }
-                switch (i) {
-                    case 0:
-                        profSort = (Sorting.HOT);
-                        break;
-                    case 1:
-                        profSort = (Sorting.NEW);
+            });
 
-                        break;
-                    case 2:
-                        profSort = (Sorting.RISING);
+            builder.setView(dialoglayout);
+            builder.show();
+            return true;
 
-                        break;
-                    case 3:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.HOUR);
-
-                        break;
-                    case 4:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.DAY);
-
-                        break;
-                    case 5:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.WEEK);
-
-                        break;
-                    case 6:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.MONTH);
-
-                        break;
-                    case 7:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.YEAR);
-
-                        break;
-                    case 8:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.ALL);
-
-                        break;
-                    case 9:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.HOUR);
-
-                        break;
-                    case 10:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.DAY);
-
-                        break;
-                    case 11:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.WEEK);
-
-                    case 12:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.MONTH);
-
-                    case 13:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.YEAR);
-
-                    case 14:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.ALL);
-
-                }
-
-                Reddit.sorting.put(name, profSort);
-                Reddit.times.put(name, profTime);
-                int current = pager.getCurrentItem();
-                ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
-                pager.setAdapter(adapter);
-                pager.setOffscreenPageLimit(1);
-                tabs.setupWithViewPager(pager);
-                pager.setCurrentItem(current);
-
+            case (R.id.sort):
+                openPopup();
                 return true;
-            }
-        });
-        popup.show();
-
-
+        }
+        return false;
     }
-
 }
