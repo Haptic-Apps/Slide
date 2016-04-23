@@ -126,7 +126,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         break;
                     }
                     case (5): {
-                        Reddit.defaultShareText(contentUrl, MediaView.this);
+                        Reddit.defaultShareText("", contentUrl, MediaView.this);
                         break;
                     }
                     case (4): {

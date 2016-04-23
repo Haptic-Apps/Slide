@@ -394,7 +394,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                                     getContext().startActivity(browserIntent);
                                     break;
                                 case R.id.share_link:
-                                    Reddit.defaultShareText(url, activity);
+                                    Reddit.defaultShareText("", url, activity);
                                     break;
                                 case R.id.copy_link:
                                     ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);

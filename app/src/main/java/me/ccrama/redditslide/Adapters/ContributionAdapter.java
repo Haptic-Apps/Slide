@@ -248,7 +248,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         @Override
                         public void onClick(View v) {
                             if (submission.isSelfPost())
-                                Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText("", "https://reddit.com" + submission.getPermalink(), mContext);
                             else {
                                 new BottomSheet.Builder(mContext)
                                         .title(R.string.submission_share_title)
@@ -259,10 +259,10 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                             public void onClick(DialogInterface dialog, int which) {
                                                 switch (which) {
                                                     case R.id.reddit_url:
-                                                        Reddit.defaultShareText("https://reddit.com" + submission.getPermalink(), mContext);
+                                                        Reddit.defaultShareText("", "https://reddit.com" + submission.getPermalink(), mContext);
                                                         break;
                                                     case R.id.link_url:
-                                                        Reddit.defaultShareText(submission.getUrl(), mContext);
+                                                        Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);
                                                         break;
                                                 }
                                             }

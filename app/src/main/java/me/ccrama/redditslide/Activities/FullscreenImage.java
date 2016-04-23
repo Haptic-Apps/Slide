@@ -372,7 +372,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
         dialoglayout.findViewById(R.id.share_link).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Reddit.defaultShareText(url, FullscreenImage.this);
+                Reddit.defaultShareText("", url, FullscreenImage.this);
             }
         });
 

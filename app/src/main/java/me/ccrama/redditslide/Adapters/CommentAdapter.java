@@ -3017,8 +3017,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                    Toast.makeText(mContext, "Comment text copied", Toast.LENGTH_SHORT).show();
                                    break;
                                case 4:
-                                   Reddit.defaultShareText("https://reddit.com" + submission.getPermalink() +
-                                                   n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
+                                   Reddit.defaultShareText(submission.getTitle(),"https://reddit.com" + submission.getPermalink() +
+                                                                   n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
                                            , mContext);
                                    break;
 

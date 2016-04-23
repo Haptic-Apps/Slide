@@ -401,7 +401,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             getContext().startActivity(Intent.createChooser(intent, "Open externally"));
                             break;
                         case R.id.share_link:
-                            Reddit.defaultShareText(url, finalActivity);
+                            Reddit.defaultShareText("", url, finalActivity);
                             break;
                         case R.id.copy_link:
                             ClipboardManager clipboard = (ClipboardManager) finalActivity.getSystemService(Context.CLIPBOARD_SERVICE);

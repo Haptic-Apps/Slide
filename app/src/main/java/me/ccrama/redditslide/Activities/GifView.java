@@ -87,7 +87,7 @@ public class GifView extends FullScreenActivity implements FolderChooserDialog.F
         findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Reddit.defaultShareText(dat, GifView.this);
+                Reddit.defaultShareText("", dat, GifView.this);
 
             }
         });

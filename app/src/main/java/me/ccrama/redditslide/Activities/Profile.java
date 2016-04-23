@@ -226,8 +226,8 @@ public class Profile extends BaseActivityAnim {
                 dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Reddit.defaultShareText(getString(R.string.profile_share, name)
-                                + "\n" + "https://www.reddit.com/u/" + name, Profile.this);
+                        Reddit.defaultShareText(getString(R.string.profile_share, name),
+                                                "https://www.reddit.com/u/" + name, Profile.this);
                     }
                 });
                 final int currentColor = Palette.getColorUser(name);

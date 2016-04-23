@@ -472,7 +472,7 @@ public class PopulateSubmissionViewHolder {
                                 mContext.startActivity(browserIntent);
                                 break;
                             case 4:
-                                Reddit.defaultShareText(Html.fromHtml(submission.getTitle()) + "\n" + submission.getUrl(), mContext);
+                                Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(), submission.getUrl(), mContext);
                                 break;
                             case 12:
                                 reportReason = "";
@@ -514,7 +514,7 @@ public class PopulateSubmissionViewHolder {
 
                                 break;
                             case 8:
-                                Reddit.defaultShareText(Html.fromHtml(submission.getTitle()) + " \n" + "https://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(), "https://reddit.com" + submission.getPermalink(), mContext);
                                 break;
                             case 6: {
                                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
