@@ -144,8 +144,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             }
             String spacer = mContext.getString(R.string.submission_properties_seperator);
-            titleString.append(spacer);
-            if (comment.getDataNode().has("subreddit")) {
+            if (comment.getDataNode().has("subreddit") && !comment.getDataNode().get("subreddit").isNull()) {
+                titleString.append(spacer);
                 String subname = comment.getDataNode().get("subreddit").asText();
                 SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname);
                 if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
