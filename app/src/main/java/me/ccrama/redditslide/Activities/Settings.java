@@ -18,12 +18,20 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
+import org.ligi.snackengage.SnackEngage;
+import org.ligi.snackengage.conditions.AfterNumberOfOpportunities;
+import org.ligi.snackengage.conditions.NeverAgainWhenClickedOnce;
+import org.ligi.snackengage.conditions.WithLimitedNumberOfTimes;
+import org.ligi.snackengage.snacks.BaseSnack;
+import org.ligi.snackengage.snacks.RateSnack;
+
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 
 /**
@@ -88,6 +96,22 @@ public class Settings extends BaseActivity {
                 });
             }
         });
+        if (Authentication.isLoggedIn && NetworkUtil.isConnected(Settings.this)) {
+            // Display an snackbar that asks the user to rate the app after this
+            // activity was created 6 times, never again when once clicked or with a maximum of
+            // two times.
+            SnackEngage.from(Settings.this).withSnack(
+                    new RateSnack().withConditions(new NeverAgainWhenClickedOnce(),
+                            new AfterNumberOfOpportunities(6), new WithLimitedNumberOfTimes(2))
+                            .overrideActionText(getString(R.string.misc_rate_msg))
+                            .overrideTitleText(getString(R.string.misc_rate_title))
+                            .withDuration(BaseSnack.DURATION_INDEFINITE))
+                    /*.withSnack(new CustomSnack(new Intent(MainActivity.this, SettingsReddit.class), "Thumbnails are disabled", "Change", "THUMBNAIL_INFO")
+                            .withConditions(new AfterNumberOfOpportunities(2),
+                                    new WithLimitedNumberOfTimes(2), new NeverAgainWhenClickedOnce())
+                            .withDuration(BaseSnack.DURATION_LONG))*/
+                    .build().engageWhenAppropriate();
+        }
     }
 
     private void setSettingItems() {
