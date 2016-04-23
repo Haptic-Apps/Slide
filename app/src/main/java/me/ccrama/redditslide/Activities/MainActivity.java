@@ -755,6 +755,7 @@ public class MainActivity extends BaseActivity {
                     }
                 });
                 dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
+                if(Authentication.didOnline)
                 new AsyncTask<View, Void, View>() {
                     List<FlairTemplate> flairs;
                     ArrayList<String> flairText;
