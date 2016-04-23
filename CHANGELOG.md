@@ -1,4 +1,33 @@
 
+5.2.2 / 2016-04-17
+==================
+
+  * Fixed inbox popup with no messages
+  * Fixed some albums not loading and fixed album buttons being behind the drag view
+  * Fixed some embeds not working
+  * Fixed submission layout paddings
+
+5.2.1 / 2016-04-16
+==================
+
+  * Added option for per-subreddit selftext previews
+  * Added remove post history and remove sub history buttons to History Settings
+  * Added support for setting default comment sorting per subreddit
+  * Made image previews work for non-image types
+  * Made scrolling smoother with a change to the UIL config
+
+5.2.0 / 2016-04-16
+==================
+
+  * Added a light font option to comments
+  * Added translations for font sizes, inbox tabs, moderation tabs
+  * Changed 'View' on the update snackbar to 'Changelog'
+  * Enabled clicking links in selftext previews
+  * Fixed crash with a 0 length thumbnail set value
+  * Fixed some bugs with data saving mode
+  * Fixed some issues with album buttons being stuck to the top
+  * Restart Slide if pro or the Video plugin was installed
+
 5.1.7 / 2016-04-15
 ==================
 
