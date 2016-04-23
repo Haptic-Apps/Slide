@@ -904,7 +904,7 @@ public class SubredditView extends BaseActivityAnim {
 
                 if (subreddit.isNsfw() && SettingValues.storeHistory && SettingValues.storeNSFWHistory)
                     UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
-                else if (SettingValues.storeHistory)
+                else if (SettingValues.storeHistory && !subreddit.isNsfw())
                     UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
 
                 // Over 18 interstitial for signed out users or those who haven't enabled NSFW content
