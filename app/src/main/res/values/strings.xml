@@ -751,4 +751,5 @@
     <string name="manage_offline_content">Manage offline content</string>
     <string name="go_offline">Go offline</string>
     <string name="cache_wifi_only">Only cache on WiFi</string>
+    <string name="sidebar_edit_flair">Edit your flair</string>
 </resources>

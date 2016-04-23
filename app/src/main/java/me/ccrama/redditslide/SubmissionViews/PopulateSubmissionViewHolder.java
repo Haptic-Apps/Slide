@@ -326,9 +326,10 @@ public class PopulateSubmissionViewHolder {
         }
         b.sheet(7, open, mContext.getString(R.string.submission_link_extern))
                 .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
-                .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url))
-                .sheet(10, filter, mContext.getString(R.string.filter_content))
-                .listener(new DialogInterface.OnClickListener() {
+                .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url));
+        if (!(mContext instanceof Profile))
+            b.sheet(10, filter, mContext.getString(R.string.filter_content));
+        b.listener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
@@ -1279,7 +1280,7 @@ public class PopulateSubmissionViewHolder {
     }
 
     public void doInfoLine(SubmissionViewHolder holder, Submission submission, Context mContext, String baseSub, boolean full) {
-        holder.info.setText(SubmissionCache.getInfoLine(submission,mContext,baseSub));
+        holder.info.setText(SubmissionCache.getInfoLine(submission, mContext, baseSub));
     }
 
 
