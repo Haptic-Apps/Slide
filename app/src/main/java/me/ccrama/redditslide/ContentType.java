@@ -125,9 +125,6 @@ public class ContentType {
             } else if (PostMatch.openExternal(url)) {
                 return Type.EXTERNAL;
             }
-            if (Reddit.videoPlugin && ((host.contains("youtu.be") || host.contains("youtube.co")))) {
-                return Type.VIDEO;
-            }
             if (isGif(uri)) {
                 return Type.GIF;
             }

@@ -20,23 +20,36 @@ public class PostMatch {
         }
         return false;
     }
+
+    /**
+     * Checks if a domain should be filtered or not: returns true if the target domain ends with the
+     * comparison domain and if supplied, target path begins with the comparison path
+     *
+     * @param target URL to check
+     * @param strings The URLs to check against
+     * @return If the target is covered by any strings
+     * @throws MalformedURLException
+     */
     public static boolean isDomain(String target, String[] strings) throws MalformedURLException {
         URL domain = new URL(target);
         for (String s : strings) {
-            URL toMatch = new URL(s);
-            String host2 = toMatch.getHost();
-            String path2 = toMatch.getPath();
-            String host1 = domain.getHost();
-            String path1 = domain.getPath();
-            if (host2 != null && host1 != null &&!host2.isEmpty() && !host1.isEmpty() && host2.equalsIgnoreCase(host1)) {
-                if(path1 != null && !path1.isEmpty() && path2 != null){
-                    if(path1.contains(path2)){
-                        return true;
-                    }
-                } else {
+            if (!s.contains("/")) {
+                if (domain.getHost().endsWith(s)) {
                     return true;
+                } else {
+                    continue;
                 }
             }
+
+            if (!s.contains("://")) s = "http://" + s;
+
+            try {
+                URL comparison = new URL(s.toLowerCase());
+
+                if (domain.getHost().endsWith(comparison.getHost())
+                        && domain.getPath().startsWith(comparison.getPath()))
+                    return true;
+            } catch (MalformedURLException ignored) {}
         }
         return false;
     }
