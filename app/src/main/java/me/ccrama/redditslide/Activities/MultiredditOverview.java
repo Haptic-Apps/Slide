@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,15 +23,19 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.models.MultiReddit;
+import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
@@ -105,6 +110,7 @@ public class MultiredditOverview extends BaseActivityAnim {
     }
 
     String term;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -113,7 +119,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 onBackPressed();
                 return true;
             case R.id.action_edit: {
-                if(UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
+                if (UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
                     Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
                     i.putExtra(CreateMulti.EXTRA_MULTI, UserSubscriptions.getMultireddits().get(pager.getCurrentItem()).getDisplayName());
                     startActivity(i);
@@ -121,7 +127,7 @@ public class MultiredditOverview extends BaseActivityAnim {
             }
             return true;
             case R.id.search: {
-                if(UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
+                if (UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
 
                     searchMulti = UserSubscriptions.getMultireddits().get(pager.getCurrentItem());
                     MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
@@ -158,7 +164,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return true;
 
             case R.id.action_shadowbox:
-                if(UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
+                if (UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
 
                     if (SettingValues.tabletUI && adapter != null) {
                         List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
@@ -224,21 +230,21 @@ public class MultiredditOverview extends BaseActivityAnim {
                 else
                     new AlertDialogWrapper.Builder(MultiredditOverview.this)
                             .setTitle(R.string.multireddit_err_title)
-                    .setMessage(R.string.multireddit_err_msg)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                            startActivity(i);
-                            finish();
-                        }
-                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                            .setMessage(R.string.multireddit_err_msg)
+                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();
                         }
                     }).setCancelable(false)
-                    .show();
+                            .show();
             }
         }.execute();
         tabs.setOnTabSelectedListener(
@@ -396,7 +402,8 @@ public class MultiredditOverview extends BaseActivityAnim {
                 pager.setAdapter(adapter);
                 pager.setOffscreenPageLimit(1);
                 tabs.setupWithViewPager(pager);
-
+                tabs.setSelectedTabIndicatorColor(new ColorPreferences(MultiredditOverview.this).getColor(usedArray.get(0).getDisplayName()));
+                doDrawerSubs(0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = this.getWindow();
                     window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(0).getDisplayName()));
@@ -426,6 +433,32 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     }
 
+    public void doDrawerSubs(int position) {
+        MultiReddit current = usedArray.get(position);
+        LinearLayout l = (LinearLayout) findViewById(R.id.sidebar_scroll);
+        l.removeAllViews();
+        for (MultiSubreddit sub : current.getSubreddits()) {
+            final View convertView = getLayoutInflater().inflate(R.layout.subforsublist, l, false);
+            final String subreddit = sub.getDisplayName();
+            final TextView t =
+                    ((TextView) convertView.findViewById(R.id.name));
+            t.setText(subreddit);
+            convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
+            convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent inte = new Intent(MultiredditOverview.this, SubredditView.class);
+                    inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
+                    MultiredditOverview.this.startActivityForResult(inte, 4);
+                }
+            });
+            l.addView(convertView);
+
+        }
+
+    }
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {
@@ -447,6 +480,8 @@ public class MultiredditOverview extends BaseActivityAnim {
                         Window window = getWindow();
                         window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(position).getDisplayName()));
                     }
+                    tabs.setSelectedTabIndicatorColor(new ColorPreferences(MultiredditOverview.this).getColor(usedArray.get(position).getDisplayName()));
+                    doDrawerSubs(position);
                 }
 
                 @Override

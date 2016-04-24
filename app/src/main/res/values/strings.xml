@@ -762,4 +762,5 @@
     <string name="sync_subscriptions">Sync subscriptions</string>
     <string name="help">Help</string>
     <string name="upvote_percentage">Show upvote percentage</string>
+    <string name="btn_set">SET</string>
 </resources>

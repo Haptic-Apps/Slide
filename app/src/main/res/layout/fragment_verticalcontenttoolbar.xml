@@ -96,7 +96,14 @@
             android:layout_height="36dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/up" />
-
+        <ImageView
+            android:id="@+id/nav"
+            style="@style/Ripple.List"
+            android:padding="8dp
+            "
+            android:layout_width="48dp"
+            android:layout_height="36dp"
+            app:srcCompat="@drawable/nav" />
         <ImageView
             android:id="@+id/down"
             style="@style/Ripple.List"

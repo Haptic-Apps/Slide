@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rey.material.widget.Slider;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -41,6 +42,7 @@ import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
@@ -52,6 +54,7 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
+import me.ccrama.redditslide.Adapters.CommentNavType;
 import me.ccrama.redditslide.Adapters.CommentObject;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
 import me.ccrama.redditslide.Authentication;
@@ -66,6 +69,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
@@ -323,6 +327,69 @@ public class CommentPage extends Fragment {
                 @Override
                 public void onClick(View v) {
                     goUp();
+                }
+            });
+            v.findViewById(R.id.nav).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AlertDialogWrapper.Builder(getActivity())
+                            .setTitle("Set navigation mode")
+                            .setSingleChoiceItems(new String[]{
+                                    "Parent comment",
+                                    "OP",
+                                    "Time",
+                                    "Link",
+                                    "Gilded"
+                            }, getCurrentSort(), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                        switch(which){
+                                            case 0:
+                                                currentSort = CommentNavType.PARENTS;
+                                                break;
+                                            case 1:
+                                                currentSort = CommentNavType.OP;
+                                                break;
+                                            case 2:
+                                                currentSort = CommentNavType.TIME;
+                                                LayoutInflater inflater = getActivity().getLayoutInflater();
+                                                final View dialoglayout = inflater.inflate(R.layout.commenttime, null);
+                                                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+                                                final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
+
+                                                final TextView since = (TextView) dialoglayout.findViewById(R.id.time_string);
+                                                landscape.setValueRange(10, 300, false);
+                                                landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
+                                                    @Override
+                                                    public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
+                                                        sortTime = 1000 * i1;
+                                                        Calendar c = Calendar.getInstance();
+                                                        sortTime += c.getTimeInMillis();
+                                                        int commentcount =0;
+                                                        for(CommentObject o : adapter.users){
+                                                            if(o.comment.getComment().getCreated().getTime() < sortTime){
+                                                                commentcount +=1;
+                                                            }
+                                                        }
+                                                        since.setText(TimeUtils.getTimeAgo(sortTime, getActivity()) + " (" + commentcount + " comments)");
+                                                    }
+                                                });
+                                                builder.setView(dialoglayout);
+                                                builder.setPositiveButton(R.string.btn_set, null).show();
+                                                break;
+
+                                            case 3:
+                                                currentSort = CommentNavType.LINK;
+                                                break;
+                                            case 4:
+                                                currentSort = CommentNavType.GILDED;
+                                                break;
+
+                                    }
+
+                                }
+                            }).show();
+
                 }
             });
         }
@@ -709,6 +776,22 @@ public class CommentPage extends Fragment {
         }
     }
 
+    public int getCurrentSort() {
+        switch(currentSort){
+            case PARENTS:
+                return 0;
+            case TIME:
+                return 2;
+            case GILDED:
+                return 4;
+            case OP:
+                return 1;
+            case LINK:
+                return 3;
+        }
+        return 0;
+    }
+
     public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
         final PreCachingLayoutManagerComments lm;
 
@@ -821,7 +904,26 @@ public class CommentPage extends Fragment {
         for (int i = pos - 1; i >= 0; i--) {
             CommentObject o = adapter.users.get(adapter.getRealPosition(i));
             if (o instanceof CommentItem && pos - 1 != i) {
-                if (o.comment.isTopLevel()) {
+                boolean matches = false;
+                switch(currentSort){
+
+                    case PARENTS:
+                        matches = o.comment.isTopLevel();
+                        break;
+                    case TIME:
+                        matches = o.comment.getComment().getCreated().getTime() < sortTime;
+                        break;
+                    case GILDED:
+                        matches = o.comment.getComment().getTimesGilded() >0;
+                        break;
+                    case OP:
+                        matches = adapter.submission !=null && o.comment.getComment().getAuthor().equals(adapter.submission.getAuthor());
+                        break;
+                    case LINK:
+                        matches = o.comment.getComment().getDataNode().get("body_html").asText().contains("&lt;/a");
+                        break;
+                }
+                if (matches) {
                     if (i + 2 == old) {
                         doGoUp(old - 1);
                     } else {
@@ -893,7 +995,26 @@ public class CommentPage extends Fragment {
         for (int i = pos + 1; i < adapter.users.size(); i++) {
             CommentObject o = adapter.users.get(adapter.getRealPosition(i));
             if (o instanceof CommentItem) {
-                if (o.comment.isTopLevel()) {
+                boolean matches = false;
+                switch(currentSort){
+
+                    case PARENTS:
+                        matches = o.comment.isTopLevel();
+                        break;
+                    case TIME:
+                        matches = o.comment.getComment().getCreated().getTime() < sortTime;
+                        break;
+                    case GILDED:
+                        matches = o.comment.getComment().getTimesGilded() >0;
+                        break;
+                    case OP:
+                        matches = adapter.submission !=null && o.comment.getComment().getAuthor().equals(adapter.submission.getAuthor());
+                        break;
+                    case LINK:
+                        matches = o.comment.getComment().getDataNode().get("body_html").asText().contains("&lt;/a");
+                        break;
+                }
+                if (matches) {
                     if (o.getName().equals(original)) {
                         doGoDown(i + 2);
                     } else {
@@ -928,4 +1049,7 @@ public class CommentPage extends Fragment {
             }
         }
     }
+
+    CommentNavType currentSort = CommentNavType.PARENTS;
+    long sortTime = 0;
 }
