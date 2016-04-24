@@ -17,7 +17,7 @@ public class ContentTypeTest {
 
     @BeforeClass
     public static void setUp() {
-        SettingValues.alwaysExternal = "twitter.com,github.com";
+        SettingValues.alwaysExternal = "twitter.com,github.com,t.co,example.com/path";
     }
 
     @Test
@@ -31,6 +31,15 @@ public class ContentTypeTest {
     public void detectsExternal() {
         assertThat(ContentType.getContentType("https://twitter.com/jaffathecake/status/718071903378735105?s=09"), is(Type.EXTERNAL));
         assertThat(ContentType.getContentType("https://github.com/ccrama/Slide"), is(Type.EXTERNAL));
+        assertThat(ContentType.getContentType("http://example.com/path/that/matches"), is(Type.EXTERNAL));
+        assertThat(ContentType.getContentType("http://example.com/path"), is(Type.EXTERNAL));
+        assertThat(ContentType.getContentType("http://subdomain.example.com/path"), is(Type.EXTERNAL));
+        assertThat(ContentType.getContentType("http://subdomain.twitter.com"), is(Type.EXTERNAL));
+
+        // t.co NOT t.com
+        assertThat(ContentType.getContentType("https://t.com"), is(not(Type.EXTERNAL)));
+        assertThat(ContentType.getContentType("example.com/differentpath"), is(not(Type.EXTERNAL)));
+        assertThat(ContentType.getContentType("https://example.com"), is(not(Type.EXTERNAL)));
     }
 
     @Test
