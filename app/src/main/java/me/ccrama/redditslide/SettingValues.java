@@ -15,6 +15,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class SettingValues {
     public static final String PREF_SINGLE = "Single";
     public static final String PREF_FAB = "Fab";
+    public static final String PREF_UPVOTE_PERCENTAGE = "upvotePercentage";
     public static final String PREF_FAB_TYPE = "FabType";
     public static final String PREF_DAY_TIME = "day";
     public static final String PREF_NIGHT_TIME = "night";
@@ -94,6 +95,7 @@ public class SettingValues {
     public static boolean cacheDefault;
     public static boolean image;
     public static boolean video;
+    public static boolean upvotePercentage;
     public static boolean colorBack;
     public static boolean colorNavBar;
     public static boolean actionbarVisible;
@@ -203,6 +205,7 @@ public class SettingValues {
         cacheDefault = false;
         customtabs = prefs.getBoolean(PREF_CUSTOMTABS, true);
         storeHistory = prefs.getBoolean(PREF_STORE_HISTORY, true);
+        upvotePercentage = prefs.getBoolean(PREF_UPVOTE_PERCENTAGE, false);
         storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, true);
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
