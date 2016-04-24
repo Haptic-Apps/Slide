@@ -37,7 +37,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -1847,7 +1846,6 @@ public class MainActivity extends BaseActivity {
                     new MaterialDialog.Builder(MainActivity.this)
                             .inputRange(3, 20)
                             .alwaysCallInputCallback()
-                            .inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
                             .input(getString(R.string.user_enter), null, new MaterialDialog.InputCallback() {
                                 @Override
                                 public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
