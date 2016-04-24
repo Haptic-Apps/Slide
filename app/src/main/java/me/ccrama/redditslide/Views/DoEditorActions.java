@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -177,8 +178,17 @@ public class DoEditorActions {
                                 Uri selectedImageUri = ((MainActivity) a).data.getData();
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                                 try {
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                    new UploadImgur(editText).execute(bitmap);
+                                    File f = new File(selectedImageUri.getPath());
+                                    if(f.length() > 2000000) {
+                                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
+                                        new UploadImgur(editText).execute(bitmap);
+                                    } else {
+                                        new AlertDialogWrapper.Builder(a)
+                                                .setTitle("Uh oh, file is too large")
+                                                .setMessage("Please choose a smaller file (2mb or lower)")
+                                                .setPositiveButton(R.string.btn_ok, null)
+                                                .show();
+                                    }
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -196,8 +206,17 @@ public class DoEditorActions {
                                 Uri selectedImageUri = data.getData();
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                                 try {
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                    new UploadImgur(editText).execute(bitmap);
+                                    File f = new File(selectedImageUri.getPath());
+                                    if(f.length() > 2000000) {
+                                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
+                                        new UploadImgur(editText).execute(bitmap);
+                                    } else {
+                                        new AlertDialogWrapper.Builder(a)
+                                                .setTitle("Uh oh, file is too large")
+                                                .setMessage("Please choose a smaller file (2mb or lower)")
+                                                .setPositiveButton(R.string.btn_ok, null)
+                                                .show();
+                                    }
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
