@@ -95,6 +95,7 @@ dependencies {
         transitive = true
     }
     compile 'com.jakewharton:process-phoenix:1.0.2'
+    compile 'org.ligi:snackengage:0.5'
     compile 'com.android.support:design:23.3.0'
     compile 'com.koushikdutta.ion:ion:2.1.6'
     compile 'com.android.support:customtabs:23.3.0'

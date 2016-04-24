@@ -752,6 +752,8 @@
     <string name="manage_offline_content">Manage offline content</string>
     <string name="go_offline">Go offline</string>
     <string name="cache_wifi_only">Only cache on WiFi</string>
+    <string name="misc_rate_title">Like Slide?</string>
+    <string name="misc_rate_msg">Rate it!</string>
     <string name="sidebar_edit_flair">Edit your flair</string>
     <string name="no_cached_comments_found">No cached comments found</string>
     <string name="go_online_view_content">Please go online to view this content</string>
