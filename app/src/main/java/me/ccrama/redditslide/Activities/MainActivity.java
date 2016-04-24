@@ -573,9 +573,10 @@ public class MainActivity extends BaseActivity {
             }
         }
 
-        //Make youtube and youtu.be links open externally by default, can be used with Chrome Customtabs if they remove the option in settings
-        domains.add("youtube.co");
+        // Make some domains open externally by default, can be used with Chrome Customtabs if they remove the option in settings
+        domains.add("youtube.com");
         domains.add("youtu.be");
+        domains.add("play.google.com");
 
         SharedPreferences.Editor e = SettingValues.prefs.edit();
         e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, Reddit.arrayToString(domains));

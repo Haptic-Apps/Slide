@@ -50,6 +50,7 @@ import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.UpgradeUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -484,7 +485,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void onCreate() {
         super.onCreate();
         //  LeakCanary.install(this);
-
+        UpgradeUtil.upgrade(getApplicationContext());
         doMainStuff();
     }
 
