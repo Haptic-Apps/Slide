@@ -1,7 +1,10 @@
 package me.ccrama.redditslide.Adapters;
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
@@ -27,5 +30,12 @@ class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
         gild = v.findViewById(R.id.gildtext);
         content = (SpoilerRobotoTextView) v.findViewById(R.id.content);
         overflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
+
+        //Needed for start/end margin adjustments to be on par with Material Design keylines
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float dp = 16 / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+
+        ((ViewGroup.MarginLayoutParams) v.getLayoutParams()).setMarginStart((int) dp);
+        ((ViewGroup.MarginLayoutParams) v.getLayoutParams()).setMarginEnd((int) dp);
     }
 }

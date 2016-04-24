@@ -10,6 +10,7 @@
         android:id="@+id/activity_main_swipe_refresh_layout"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
+        android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
