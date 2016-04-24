@@ -21,11 +21,21 @@ public class PostMatch {
         return false;
     }
     public static boolean isDomain(String target, String[] strings) throws MalformedURLException {
-        String domain = new URL(target).getHost();
+        URL domain = new URL(target);
         for (String s : strings) {
-            s = s.toLowerCase().trim();
-            if (!s.isEmpty() && !s.equals("\n") &&  domain.toLowerCase().contains(s)) {
-                return true;
+            URL toMatch = new URL(s);
+            String host2 = toMatch.getHost();
+            String path2 = toMatch.getPath();
+            String host1 = domain.getHost();
+            String path1 = domain.getPath();
+            if (host2 != null && host1 != null &&!host2.isEmpty() && !host1.isEmpty() && host2.equalsIgnoreCase(host1)) {
+                if(path1 != null && !path1.isEmpty() && path2 != null){
+                    if(path1.equalsIgnoreCase(path2)){
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
             }
         }
         return false;

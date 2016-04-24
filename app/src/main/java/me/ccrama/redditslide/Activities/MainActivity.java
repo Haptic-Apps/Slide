@@ -2817,6 +2817,7 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(MainActivity.this, Inbox.class);
+                            i.putExtra(Inbox.EXTRA_UNREAD, true);
                             startActivity(i);
                         }
                     });

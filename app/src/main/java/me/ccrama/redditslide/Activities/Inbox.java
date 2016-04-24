@@ -37,6 +37,7 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class Inbox extends BaseActivityAnim {
 
+    public static String EXTRA_UNREAD = "unread";
     public Inbox.OverviewPagerAdapter adapter;
     private TabLayout tabs;
     private ViewPager pager;
@@ -142,6 +143,10 @@ public class Inbox extends BaseActivityAnim {
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
+
+        if(getIntent() != null && getIntent().hasExtra(EXTRA_UNREAD)){
+            pager.setCurrentItem(1);
+        }
 
         tabs.setupWithViewPager(pager);
 

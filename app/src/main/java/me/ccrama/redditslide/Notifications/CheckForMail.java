@@ -82,6 +82,7 @@ public class CheckForMail extends BroadcastReceiver {
 
 
                 Intent notificationIntent = new Intent(c, Inbox.class);
+                notificationIntent.putExtra(Inbox.EXTRA_UNREAD, true);
 
                 notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                         | Intent.FLAG_ACTIVITY_SINGLE_TOP);
