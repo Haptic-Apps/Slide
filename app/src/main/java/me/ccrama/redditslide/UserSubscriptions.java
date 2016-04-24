@@ -126,6 +126,11 @@ public class UserSubscriptions {
     }
 
     public static ArrayList<String> toreturn;
+
+    public static ArrayList<String> getFriends() {
+        return friends;
+    }
+
     public static ArrayList<String> friends = new ArrayList<>();
 
     public static ArrayList<String> syncSubscriptionsOverwrite(final Context c) {
