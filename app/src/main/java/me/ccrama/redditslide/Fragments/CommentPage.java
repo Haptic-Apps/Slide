@@ -358,16 +358,16 @@ public class CommentPage extends Fragment {
                                                 final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
 
                                                 final TextView since = (TextView) dialoglayout.findViewById(R.id.time_string);
-                                                landscape.setValueRange(10, 300, false);
+                                                landscape.setValueRange(60, 18000, false);
                                                 landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
                                                     @Override
                                                     public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                                                        sortTime = 1000 * i1;
                                                         Calendar c = Calendar.getInstance();
-                                                        sortTime += c.getTimeInMillis();
+                                                        sortTime = c.getTimeInMillis() - i1 * 1000;
+
                                                         int commentcount =0;
                                                         for(CommentObject o : adapter.users){
-                                                            if(o.comment.getComment().getCreated().getTime() < sortTime){
+                                                            if(o.comment != null && o.comment.getComment() != null && o.comment.getComment().getCreated().getTime() > sortTime){
                                                                 commentcount +=1;
                                                             }
                                                         }
@@ -911,7 +911,8 @@ public class CommentPage extends Fragment {
                         matches = o.comment.isTopLevel();
                         break;
                     case TIME:
-                        matches = o.comment.getComment().getCreated().getTime() < sortTime;
+                        matches =( o.comment.getComment() != null && o.comment.getComment().getCreated().getTime() > sortTime);
+
                         break;
                     case GILDED:
                         matches = o.comment.getComment().getTimesGilded() >0;
@@ -1002,7 +1003,7 @@ public class CommentPage extends Fragment {
                         matches = o.comment.isTopLevel();
                         break;
                     case TIME:
-                        matches = o.comment.getComment().getCreated().getTime() < sortTime;
+                        matches = o.comment.getComment().getCreated().getTime() > sortTime;
                         break;
                     case GILDED:
                         matches = o.comment.getComment().getTimesGilded() >0;

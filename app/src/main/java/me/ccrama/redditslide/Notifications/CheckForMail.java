@@ -157,6 +157,7 @@ public class CheckForMail extends BroadcastReceiver {
                 }
             } catch (Exception ignored) {
                 ignored.printStackTrace();
+
             }
             return null;
         }
