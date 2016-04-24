@@ -44,7 +44,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
 
-
         firstPage = getIntent().getExtras().getInt(EXTRA_PAGE, 0);
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
         String multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);

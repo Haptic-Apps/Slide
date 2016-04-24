@@ -144,7 +144,13 @@ public class OfflineSubreddit {
     public static OfflineSubreddit getSubreddit(String subreddit, Long time, boolean offline, Context c) {
         if (cache == null)
             cache = new HashMap<>();
-        String title = subreddit.toLowerCase() + "," + time;
+        String title;
+        if (subreddit != null)
+            title = subreddit.toLowerCase() + "," + time;
+        else {
+            title = "";
+            subreddit = "";
+        }
         if (cache.containsKey(title)) {
             return cache.get(title);
         } else {
@@ -296,6 +302,7 @@ public class OfflineSubreddit {
         }
         return keys;
     }
+
     public static ArrayList<String> getAllFormatted() {
         ArrayList<String> keys = new ArrayList<>();
         for (String s : Reddit.cachedData.getAll().keySet()) {

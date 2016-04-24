@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -40,7 +41,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.ColorPreferences;
@@ -177,8 +177,9 @@ public class DoEditorActions {
                                 Uri selectedImageUri = ((MainActivity) a).data.getData();
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                                 try {
+                                    File f = new File(selectedImageUri.getPath());
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                    new UploadImgur(editText).execute(bitmap);
+                                    new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -196,8 +197,9 @@ public class DoEditorActions {
                                 Uri selectedImageUri = data.getData();
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                                 try {
+                                    File f = new File(selectedImageUri.getPath());
                                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                    new UploadImgur(editText).execute(bitmap);
+                                    new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -321,11 +323,13 @@ public class DoEditorActions {
         final EditText editText;
         private final ProgressDialog dialog;
         public Bitmap b;
+        boolean jpg;
 
-        public UploadImgur(EditText editText) {
+        public UploadImgur(EditText editText, boolean jpg) {
             this.c = editText.getContext();
             this.editText = editText;
             dialog = new ProgressDialog(c);
+            this.jpg = jpg;
         }
 
         @Override
@@ -404,7 +408,11 @@ public class DoEditorActions {
 
                 conn.connect();
                 OutputStream output = conn.getOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+                if (jpg)
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+                else
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+
                 output.close();
 
                 StringBuilder stb = new StringBuilder();

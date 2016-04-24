@@ -116,14 +116,14 @@ public class HeaderImageLinkView extends RelativeLayout {
                     } else {
                         double h = getHeightFromAspectRatio(height, width);
                         if (h != 0) {
-                            if (h > 3500) {
-                                backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3500));
+                            if (h > 3200) {
+                                backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3200));
                             } else {
                                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) h));
                             }
                         } else {
-                            if (height > 3500) {
-                                backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3500));
+                            if (height > 3200) {
+                                backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3200));
                             } else {
                                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                             }
@@ -139,14 +139,14 @@ public class HeaderImageLinkView extends RelativeLayout {
                 } else if (fullImage ||  height >= dpToPx(50)) {
                     double h = getHeightFromAspectRatio(height, width);
                     if (h != 0) {
-                        if (h > 3500) {
-                            backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3500));
+                        if (h > 3200) {
+                            backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3200));
                         } else {
                             backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) h));
                         }
                     } else {
-                        if (height > 3500) {
-                            backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3500));
+                        if (height > 3200) {
+                            backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3200));
                         } else {
                             backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                         }

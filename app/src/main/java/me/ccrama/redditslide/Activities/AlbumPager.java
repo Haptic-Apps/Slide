@@ -318,7 +318,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         }
     }
 
-    public class Gif extends Fragment {
+    public static class Gif extends Fragment {
 
         private int i = 0;
         private View gif;
@@ -359,17 +359,17 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             v.clearFocus();
 
             final String dat;
-            if (gallery) {
-                dat = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".gif");
+            if (((AlbumPager)getActivity()).gallery) {
+                dat = ("https://imgur.com/" + ((AlbumPager)getActivity()).images.get(i).getAsJsonObject().get("hash").getAsString() + ".gif");
             } else {
-                if (images.get(i).getAsJsonObject().has("mp4"))
-                    dat = (images.get(i).getAsJsonObject().get("mp4").getAsString());
+                if (((AlbumPager)getActivity()).images.get(i).getAsJsonObject().has("mp4"))
+                    dat = (((AlbumPager)getActivity()).images.get(i).getAsJsonObject().get("mp4").getAsString());
                 else
-                    dat = (images.get(i).getAsJsonObject().get("link").getAsString());
+                    dat = (((AlbumPager)getActivity()).images.get(i).getAsJsonObject().get("link").getAsString());
 
             }
 
-            new GifUtils.AsyncLoadGif(AlbumPager.this, (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, new Runnable() {
+            new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, new Runnable() {
                 @Override
                 public void run() {
 
@@ -378,7 +378,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showBottomSheetImage(dat, true);
+                    ((AlbumPager)getActivity()).showBottomSheetImage(dat, true);
                 }
             });
             rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
@@ -397,7 +397,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             super.onCreate(savedInstanceState);
             Bundle bundle = this.getArguments();
             i = bundle.getInt("page", 0);
-            user = images.get(bundle.getInt("page", 0));
+            user = ((AlbumPager)getActivity()).images.get(bundle.getInt("page", 0));
 
         }
 
@@ -473,7 +473,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
     }
 
-    public class ImageFullNoSubmission extends Fragment {
+    public static class ImageFullNoSubmission extends Fragment {
 
         private int i = 0;
         private JsonElement user;
@@ -490,7 +490,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             final String url;
 
-            if (gallery) {
+            if (((AlbumPager)getActivity()).gallery) {
                 url = ("https://imgur.com/" + user.getAsJsonObject().get("hash").getAsString() + ".png");
 
             } else {
@@ -503,7 +503,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        showBottomSheetImage(url, false);
+                        ((AlbumPager)getActivity()).showBottomSheetImage(url, false);
                     }
                 });
                 {
@@ -515,11 +515,11 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
 
                             try {
-                                ((Reddit) getApplication()).getImageLoader()
+                                ((Reddit) (getActivity()).getApplication()).getImageLoader()
                                         .loadImage(finalUrl, new SimpleImageLoadingListener() {
                                             @Override
                                             public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-                                                saveImageGallery(loadedImage, finalUrl1);
+                                                ((AlbumPager)getActivity()).saveImageGallery(loadedImage, finalUrl1);
                                             }
 
                                         });
@@ -630,7 +630,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             super.onCreate(savedInstanceState);
             Bundle bundle = this.getArguments();
             i = bundle.getInt("page", 0);
-            user = images.get(i);
+            user = ((AlbumPager)getActivity()).images.get(i);
         }
     }
 

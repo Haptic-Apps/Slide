@@ -304,7 +304,7 @@ public class SubredditPosts implements PostLoader {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                if (e.getMessage().contains("Forbidden")) {
+                if (e.getMessage() != null && e.getMessage().contains("Forbidden")) {
                     Reddit.authentication.updateToken(context);
                 }
 

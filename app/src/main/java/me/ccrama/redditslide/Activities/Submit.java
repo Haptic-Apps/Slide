@@ -37,13 +37,12 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.OpenRedditLink;
@@ -199,8 +198,9 @@ public class Submit extends BaseActivity {
             Uri imageUri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
             if (imageUri != null) {
                 try {
+                    File f = new File(imageUri.getPath());
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
-                    new UploadImgur().execute(bitmap);
+                    new UploadImgur(f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
                     self.setVisibility(View.GONE);
                     image.setVisibility(View.VISIBLE);
                     link.setVisibility(View.GONE);
@@ -254,8 +254,9 @@ public class Submit extends BaseActivity {
 
             Uri selectedImageUri = data.getData();
             try {
+                File f = new File(selectedImageUri.getPath());
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                new UploadImgur().execute(bitmap);
+                new UploadImgur(f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
 
@@ -513,6 +514,11 @@ public class Submit extends BaseActivity {
 
         private final ProgressDialog dialog = new ProgressDialog(Submit.this);
         public Bitmap b;
+        boolean jpg;
+
+        public UploadImgur(boolean jpg) {
+            this.jpg = jpg;
+        }
 
         @Override
         protected void onPostExecute(final JSONObject result) {
@@ -559,7 +565,7 @@ public class Submit extends BaseActivity {
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 conn.setRequestMethod("POST");
-                conn.addRequestProperty("X-Mashape-Key", SecretConstants.getImgurApiKey(c));
+                conn.addRequestProperty("X-Mashape-Key", SecretConstants.getImgurApiKey(Submit.this));
                 conn.addRequestProperty("Authorization", "Client-ID " + "bef87913eb202e9");
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type",
@@ -568,7 +574,10 @@ public class Submit extends BaseActivity {
                 conn.connect();
 
                 OutputStream output = conn.getOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+                if (jpg)
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+                else
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
                 output.close();
 
                 StringBuilder stb = new StringBuilder();

@@ -167,6 +167,9 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
 
+        if(Authentication.reddit == null)
+            Reddit.authentication = new Authentication(context);
+
         for (final String sub : subs) {
             if (!sub.isEmpty()) {
                 if (modal && context instanceof Activity) {
@@ -248,9 +251,9 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                     }
 
                 }
-                if (modal) {
+                if (modal && dialog != null) {
                     dialog.dismiss();
-                } else {
+                } else if(mBuilder != null){
                     mBuilder.setContentText("Caching complete")
                             // Removes the progress bar
                             .setProgress(0, 0, false);

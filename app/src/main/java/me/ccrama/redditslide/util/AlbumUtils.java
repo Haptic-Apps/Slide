@@ -110,7 +110,7 @@ public class AlbumUtils {
                         doWithData(jsons);
 
                     }
-                } else if (result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images")) {
+                } else if (result.has("data") && result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images")) {
                     JsonArray obj = result.getAsJsonObject("data").getAsJsonObject("image").getAsJsonObject("album_images").get("images").getAsJsonArray();
                     if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
                         overrideAlbum = true;
@@ -123,7 +123,7 @@ public class AlbumUtils {
                         doWithData(jsons);
 
                     }
-                } else if (result.get("data").getAsJsonObject().has("image")) {
+                } else if (result.has("data") && result.get("data").getAsJsonObject().has("image")) {
                     if (dontClose) {
                         jsons.add(result.get("data").getAsJsonObject().get("image"));
                         gallery = true;
