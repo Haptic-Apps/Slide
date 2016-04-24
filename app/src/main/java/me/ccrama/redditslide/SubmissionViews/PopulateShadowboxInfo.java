@@ -324,7 +324,7 @@ public class PopulateShadowboxInfo {
                                 mContext.startActivity(browserIntent);
                                 break;
                             case 4:
-                                Reddit.defaultShareText(submission.getTitle() + "\n" + submission.getUrl(), mContext);
+                                Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);
                                 break;
                             case 12:
                                 reportReason = "";
@@ -366,7 +366,7 @@ public class PopulateShadowboxInfo {
 
                                 break;
                             case 8:
-                                Reddit.defaultShareText(submission.getTitle() + " \n" + "https://reddit.com" + submission.getPermalink(), mContext);
+                                Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
                                 break;
                             case 6: {
                                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);

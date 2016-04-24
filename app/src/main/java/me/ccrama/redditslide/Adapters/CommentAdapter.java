@@ -2675,15 +2675,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class AsyncForceLoadChild extends AsyncTask<String, Void, Integer> {
-        public CommentViewHolder holder;
         CommentNode node;
         public int holderPos;
         public int position;
 
 
-        public AsyncForceLoadChild(int position, int holderPos, CommentViewHolder holder, CommentNode baseNode) {
+        public AsyncForceLoadChild(int position, int holderPos, CommentNode baseNode) {
             this.holderPos = holderPos;
-            this.holder = holder;
             this.node = baseNode;
             this.position = position;
         }
@@ -2733,7 +2731,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             CommentObject obj = new CommentItem(n);
                             finalData.add(obj);
                             i++;
-
                         }
                     }
 
@@ -2794,20 +2791,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             } else {
                 if (isSubmission) {
-                    Handler handler2 = new Handler();
-                    handler2.postDelayed(new Runnable() {
-                        public void run() {
-                            ((Activity) mContext).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dataSet.refreshLayout.setRefreshing(false);
-                                    dataSet.loadMoreReplyTop(CommentAdapter.this, s);
-                                }
-                            });
-                        }
-                    }, 2000);
+                    new AsyncForceLoadChild(1,1, submission.getComments()).execute(s);
                 } else {
-                    new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition()), holder.getAdapterPosition(), holder, node).execute(s);
+                    new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition()), holder.getAdapterPosition(), node).execute(s);
                 }
             }
         }
@@ -3017,8 +3003,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                    Toast.makeText(mContext, "Comment text copied", Toast.LENGTH_SHORT).show();
                                    break;
                                case 4:
-                                   Reddit.defaultShareText("https://reddit.com" + submission.getPermalink() +
-                                                   n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
+                                   Reddit.defaultShareText(submission.getTitle(),"https://reddit.com" + submission.getPermalink() +
+                                                                   n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
                                            , mContext);
                                    break;
 

@@ -73,7 +73,7 @@ public class Website extends BaseActivityAnim {
                 startActivity(Intent.createChooser(browserIntent, getDomainName(v.getUrl())));
                 return true;
             case R.id.share:
-                Reddit.defaultShareText(v.getUrl(), Website.this);
+                Reddit.defaultShareText(v.getTitle(), v.getUrl(), Website.this);
 
                 return true;
 

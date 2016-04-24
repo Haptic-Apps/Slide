@@ -15,6 +15,7 @@
         android:icon="@mipmap/ic_launcher"
         android:largeHeap="true"
         android:label="@string/app_name"
+        android:installLocation="preferExternal"
         android:hardwareAccelerated="true"
         android:theme="@style/yellow_dark">
         <activity

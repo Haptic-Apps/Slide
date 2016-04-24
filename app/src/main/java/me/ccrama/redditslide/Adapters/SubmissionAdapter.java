@@ -5,6 +5,7 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
@@ -241,12 +244,37 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                }
                                                            }
                                                        } else {
-                                                           Snackbar s = Snackbar.make(holder.itemView, R.string.offline_comments_not_loaded, Snackbar.LENGTH_SHORT);
-                                                           View view = s.getView();
-                                                           TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                           tv.setTextColor(Color.WHITE);
-                                                           s.show();
-
+                                                           if (!Reddit.appRestart.contains("offlinepopup")) {
+                                                               new AlertDialogWrapper.Builder(context).setTitle("No comments found")
+                                                                       .setMessage("This submission has no cached comments. To cache comments in the future, click the 3 dot menu on the main screen and click 'Cache Comments', or set up Auto Cache in the Offline Content tab in the nav drawer.")
+                                                                       .setCancelable(false)
+                                                                       .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                                           @Override
+                                                                           public void onClick(DialogInterface dialog, int which) {
+                                                                               Reddit.appRestart.edit().putString("offlinepopup", "").apply();
+                                                                           }
+                                                                       }).show();
+                                                           } else {
+                                                               Snackbar s = Snackbar.make(holder.itemView, R.string.no_cached_comments_found, Snackbar.LENGTH_SHORT);
+                                                               s.setAction("MORE INFO", new View.OnClickListener() {
+                                                                   @Override
+                                                                   public void onClick(View v) {
+                                                                       new AlertDialogWrapper.Builder(context).setTitle("No comments found")
+                                                                               .setMessage("This submission has no cached comments. To cache comments in the future, click the 3 dot menu on the main screen and click 'Cache Comments', or set up Auto Cache in the Offline Content tab in the nav drawer.")
+                                                                               .setCancelable(false)
+                                                                               .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                                                   @Override
+                                                                                   public void onClick(DialogInterface dialog, int which) {
+                                                                                       Reddit.appRestart.edit().putString("offlinepopup", "").apply();
+                                                                                   }
+                                                                               }).show();
+                                                                   }
+                                                               });
+                                                               View view = s.getView();
+                                                               TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                               tv.setTextColor(Color.WHITE);
+                                                               s.show();
+                                                           }
                                                        }
 
                                                    }

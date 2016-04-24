@@ -70,7 +70,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.lusfold.androidkeyvaluestore.core.KVManger;
 
+import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.managers.ModerationManager;
+import net.dean.jraw.models.FlairTemplate;
 import net.dean.jraw.models.LoggedInAccount;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
@@ -178,8 +181,8 @@ public class MainActivity extends BaseActivity {
                     LogUtil.v("Doing hide posts");
                     ArrayList<Integer> posts = data.getIntegerArrayListExtra("seen");
                     ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView(posts);
-                    if(data.hasExtra("lastPage") && data.getIntExtra("lastPage", 0) != 0 && ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager)
-                        ((LinearLayoutManager)((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).scrollToPositionWithOffset(data.getIntExtra("lastPage", 0) + 1, mToolbar.getHeight());
+                    if (data.hasExtra("lastPage") && data.getIntExtra("lastPage", 0) != 0 && ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager)
+                        ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).scrollToPositionWithOffset(data.getIntExtra("lastPage", 0) + 1, mToolbar.getHeight());
                 } else {
                     ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
                 }
@@ -480,15 +483,15 @@ public class MainActivity extends BaseActivity {
                         }
                     }
                     seen.edit().clear().putBoolean("isCleared", true).apply();
-                    if(getSharedPreferences("HIDDEN_POSTS", 0).getAll().size() != 0) {
+                    if (getSharedPreferences("HIDDEN_POSTS", 0).getAll().size() != 0) {
                         getSharedPreferences("HIDDEN", 0).edit().clear().apply();
                         getSharedPreferences("HIDDEN_POSTS", 0).edit().clear().apply();
                     }
-                    if(!Reddit.appRestart.contains("hasCleared")) {
+                    if (!Reddit.appRestart.contains("hasCleared")) {
                         SharedPreferences.Editor e = Reddit.appRestart.edit();
-                        Map<String , ?> toClear = Reddit.appRestart.getAll();
+                        Map<String, ?> toClear = Reddit.appRestart.getAll();
                         for (String s : toClear.keySet()) {
-                            if (toClear.get(s) instanceof  String && ((String)toClear.get(s)).length() > 300) {
+                            if (toClear.get(s) instanceof String && ((String) toClear.get(s)).length() > 300) {
                                 e.remove(s);
                             }
                         }
@@ -641,8 +644,9 @@ public class MainActivity extends BaseActivity {
             ((TextView) findViewById(R.id.wiki_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.post_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.mods_text)).setTextColor(subColor);
+            ((TextView) findViewById(R.id.flair_text)).setTextColor(subColor);
 
-            View dialoglayout = findViewById(R.id.sidebarsub);
+            final View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
                 View submit = (dialoglayout.findViewById(R.id.submit));
@@ -750,6 +754,127 @@ public class MainActivity extends BaseActivity {
                         }.execute();
                     }
                 });
+                dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
+                if(Authentication.didOnline)
+                new AsyncTask<View, Void, View>() {
+                    List<FlairTemplate> flairs;
+                    ArrayList<String> flairText;
+                    String current;
+
+                    @Override
+                    protected View doInBackground(View... params) {
+                        try {
+                            AccountManager m = new AccountManager(Authentication.reddit);
+                            flairs = m.getFlairChoices(subreddit);
+                            if (m.getCurrentFlair(subreddit) != null)
+                                current = m.getCurrentFlair(subreddit).getText();
+                            flairText = new ArrayList<>();
+                            for (FlairTemplate temp : flairs) {
+                                flairText.add(temp.getText());
+                            }
+                        } catch (ApiException e1) {
+                            e1.printStackTrace();
+                        }
+                        return params[0];
+                    }
+
+                    @Override
+                    protected void onPostExecute(View flair) {
+                        if (flairs != null && !flairs.isEmpty()) {
+                            flair.setVisibility(View.VISIBLE);
+                            if(current != null)
+                                ((TextView)dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                            flair.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    new MaterialDialog.Builder(MainActivity.this).items(flairText)
+                                            .title("Select flair")
+                                            .itemsCallback(new MaterialDialog.ListCallback() {
+                                                @Override
+                                                public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                                    final FlairTemplate t = flairs.get(which);
+                                                    if (t.isTextEditable()) {
+                                                        new MaterialDialog.Builder(MainActivity.this).title("Set flair text")
+                                                                .input("Flair text", t.getText(), true, new MaterialDialog.InputCallback() {
+                                                                    @Override
+                                                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                                                    }
+                                                                }).positiveText("Set")
+                                                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                                    @Override
+                                                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                                        final String flair = dialog.getInputEditText().getText().toString();
+                                                                        new AsyncTask<Void, Void, Boolean>() {
+                                                                            @Override
+                                                                            protected Boolean doInBackground(Void... params) {
+                                                                                try {
+                                                                                    new ModerationManager(Authentication.reddit).setFlair(subreddit, t, flair, Authentication.name);
+                                                                                    return true;
+                                                                                } catch (ApiException e) {
+                                                                                    e.printStackTrace();
+                                                                                    return false;
+                                                                                }
+                                                                            }
+
+                                                                            @Override
+                                                                            protected void onPostExecute(Boolean done) {
+                                                                                Snackbar s = null;
+                                                                                if (done) {
+                                                                                    s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                                } else {
+                                                                                    s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                                }
+                                                                                if (s != null) {
+                                                                                    View view = s.getView();
+                                                                                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                                    tv.setTextColor(Color.WHITE);
+                                                                                    s.show();
+                                                                                }
+                                                                            }
+                                                                        }.execute();
+                                                                    }
+                                                                }).negativeText(R.string.btn_cancel)
+                                                                .show();
+                                                    } else {
+                                                        new AsyncTask<Void, Void, Boolean>() {
+                                                            @Override
+                                                            protected Boolean doInBackground(Void... params) {
+                                                                try {
+                                                                    new ModerationManager(Authentication.reddit).setFlair(subreddit, t, null, Authentication.name);
+                                                                    return true;
+                                                                } catch (ApiException e) {
+                                                                    e.printStackTrace();
+                                                                    return false;
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            protected void onPostExecute(Boolean done) {
+                                                                Snackbar s = null;
+                                                                if (done) {
+                                                                    s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                } else {
+                                                                    s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                }
+                                                                if (s != null) {
+                                                                    View view = s.getView();
+                                                                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                    tv.setTextColor(Color.WHITE);
+                                                                    s.show();
+                                                                }
+                                                            }
+                                                        }.execute();
+                                                    }
+                                                }
+                                            }).show();
+
+
+                                }
+                            });
+                        }
+                    }
+                }.execute(dialoglayout.findViewById(R.id.flair));
             }
         } else {
             //Hide info button on frontpage and all
@@ -2692,6 +2817,7 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onClick(View v) {
                             Intent i = new Intent(MainActivity.this, Inbox.class);
+                            i.putExtra(Inbox.EXTRA_UNREAD, true);
                             startActivity(i);
                         }
                     });

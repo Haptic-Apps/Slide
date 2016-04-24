@@ -351,7 +351,7 @@ public class SubredditPosts implements PostLoader {
         int i = 0;
         for (String s : all) {
             String[] split = s.split(",");
-            titles[i] = (Long.valueOf(split[1]) == 0 ? "auto" : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c));
+            titles[i] = (Long.valueOf(split[1]) == 0 ? "submission only" : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c) + " (comments)");
             base[i] = s;
             i++;
         }

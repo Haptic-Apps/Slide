@@ -118,11 +118,12 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         return px;
     }
 
-    public static void defaultShareText(String url, Context c) {
+    public static void defaultShareText(String title, String url, Context c) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         /* Decode html entities */
-        url = StringEscapeUtils.unescapeHtml4(url);
+        title = StringEscapeUtils.unescapeHtml4(title);
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, url);
         c.startActivity(Intent.createChooser(sharingIntent, c.getString(R.string.title_share)));
     }

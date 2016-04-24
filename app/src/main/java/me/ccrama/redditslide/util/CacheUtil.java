@@ -36,11 +36,13 @@ public class CacheUtil {
         File[] files = dir.listFiles();
 
         for (File file : files) {
-            bytesDeleted += file.length();
-            file.delete();
+            if(file.getName().contains(".")) {
+                bytesDeleted += file.length();
+                file.delete();
 
-            if (bytesDeleted >= bytes) {
-                break;
+                if (bytesDeleted >= bytes) {
+                    break;
+                }
             }
         }
     }

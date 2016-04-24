@@ -455,13 +455,14 @@ public class CreateCardView {
         if (SettingValues.switchThumb) {
             RelativeLayout.LayoutParams picParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.thumbimage2).getLayoutParams();
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.findViewById(R.id.inside).getLayoutParams();
+
             if (!SettingValues.actionbarVisible && !SettingValues.actionbarTap) {
                 picParams.addRule(RelativeLayout.LEFT_OF, R.id.secondMenu);
             } else {
                 picParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
-
             }
-            picParams.setMargins(0, picParams.topMargin, picParams.leftMargin, picParams.bottomMargin);
+
+            picParams.setMargins(picParams.rightMargin, picParams.topMargin, picParams.leftMargin, picParams.bottomMargin);
 
             layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.thumbimage2);
             layoutParams.removeRule(RelativeLayout.RIGHT_OF);

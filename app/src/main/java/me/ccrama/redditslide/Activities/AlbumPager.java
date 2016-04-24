@@ -440,7 +440,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     }
                     break;
                     case (5): {
-                        Reddit.defaultShareText(contentUrl, AlbumPager.this);
+                        Reddit.defaultShareText("", contentUrl, AlbumPager.this);
                     }
                     case (4): {
                         if (!isGif) {
@@ -799,7 +799,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         dialoglayout.findViewById(R.id.share_link).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Reddit.defaultShareText(url, AlbumPager.this);
+                Reddit.defaultShareText("", url, AlbumPager.this);
             }
         });
 

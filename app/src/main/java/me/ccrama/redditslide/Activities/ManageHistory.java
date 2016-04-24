@@ -193,7 +193,7 @@ public class ManageHistory extends BaseActivityAnim {
 
                 String[] split = s.split(",");
 
-                final String name = "/r/" + split[0] + " → " + (Long.valueOf(split[1]) == 0 ? "auto backup" : TimeUtils.getTimeAgo(Long.valueOf(split[1]), ManageHistory.this));
+                final String name = "/r/" + split[0] + " → " + (Long.valueOf(split[1]) == 0 ? "submission only" : TimeUtils.getTimeAgo(Long.valueOf(split[1]), ManageHistory.this) + " (comments)");
                 domains.add(name);
 
                 final View t = getLayoutInflater().inflate(R.layout.account_textview, ((LinearLayout) findViewById(R.id.domainlist)), false);
