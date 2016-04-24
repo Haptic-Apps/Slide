@@ -33,15 +33,14 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.ColorPreferences;
@@ -178,17 +177,8 @@ public class DoEditorActions {
                                 Uri selectedImageUri = ((MainActivity) a).data.getData();
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                                 try {
-                                    File f = new File(selectedImageUri.getPath());
-                                    if(f.length() > 2000000) {
-                                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                        new UploadImgur(editText).execute(bitmap);
-                                    } else {
-                                        new AlertDialogWrapper.Builder(a)
-                                                .setTitle("Uh oh, file is too large")
-                                                .setMessage("Please choose a smaller file (2mb or lower)")
-                                                .setPositiveButton(R.string.btn_ok, null)
-                                                .show();
-                                    }
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
+                                    new UploadImgur(editText).execute(bitmap);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -206,17 +196,8 @@ public class DoEditorActions {
                                 Uri selectedImageUri = data.getData();
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                                 try {
-                                    File f = new File(selectedImageUri.getPath());
-                                    if(f.length() > 2000000) {
-                                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                        new UploadImgur(editText).execute(bitmap);
-                                    } else {
-                                        new AlertDialogWrapper.Builder(a)
-                                                .setTitle("Uh oh, file is too large")
-                                                .setMessage("Please choose a smaller file (2mb or lower)")
-                                                .setPositiveButton(R.string.btn_ok, null)
-                                                .show();
-                                    }
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
+                                    new UploadImgur(editText).execute(bitmap);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -330,8 +311,7 @@ public class DoEditorActions {
 
     public static String getImageLink(Bitmap b) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        b.compress(Bitmap.CompressFormat.PNG, 100, baos); // Not sure whether this should be jpeg or png, try both and see which works best
-
+        b.compress(Bitmap.CompressFormat.JPEG, 100, baos); // Not sure whether this should be jpeg or png, try both and see which works best
         return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
     }
 
@@ -406,17 +386,12 @@ public class DoEditorActions {
         @Override
         protected JSONObject doInBackground(Bitmap... sub) {
             Bitmap bitmap = sub[0];
-            b = bitmap;
-
             URL url;
 
             // Creates Byte Array from picture
             try {
                 url = new URL("https://imgur-apiv3.p.mashape.com/3/image");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-                String data = URLEncoder.encode("image", "UTF-8") + "="
-                        + URLEncoder.encode(getImageLink(bitmap), "UTF-8");
 
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
@@ -428,10 +403,11 @@ public class DoEditorActions {
                         "application/x-www-form-urlencoded");
 
                 conn.connect();
+                OutputStream output = conn.getOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+                output.close();
+
                 StringBuilder stb = new StringBuilder();
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
-                wr.flush();
 
                 // Get the response
                 BufferedReader rd = new BufferedReader(
@@ -440,7 +416,6 @@ public class DoEditorActions {
                 while ((line = rd.readLine()) != null) {
                     stb.append(line).append("\n");
                 }
-                wr.close();
                 rd.close();
                 return new JSONObject(stb.toString());
 

@@ -39,6 +39,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -209,6 +210,10 @@ public class Submit extends BaseActivity {
                     e.printStackTrace();
                 }
             }
+        }
+        if (intent.hasExtra(Intent.EXTRA_SUBJECT) && !intent.getExtras().getString(Intent.EXTRA_SUBJECT, "").isEmpty()) {
+            String data = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+            ((EditText) findViewById(R.id.titletext)).setText(data);
         }
         findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -551,23 +556,22 @@ public class Submit extends BaseActivity {
                 url = new URL("https://imgur-apiv3.p.mashape.com/3/image");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-                String data = URLEncoder.encode("image", "UTF-8") + "="
-                        + URLEncoder.encode(getImageLink(bitmap), "UTF-8");
-
                 conn.setDoOutput(true);
                 conn.setDoInput(true);
                 conn.setRequestMethod("POST");
-                conn.setRequestProperty("X-Mashape-Key", SecretConstants.getImgurApiKey(Submit.this));
-                conn.setRequestProperty("Authorization", "Client-ID " + "bef87913eb202e9");
+                conn.addRequestProperty("X-Mashape-Key", SecretConstants.getImgurApiKey(c));
+                conn.addRequestProperty("Authorization", "Client-ID " + "bef87913eb202e9");
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type",
                         "application/x-www-form-urlencoded");
 
                 conn.connect();
+
+                OutputStream output = conn.getOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+                output.close();
+
                 StringBuilder stb = new StringBuilder();
-                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-                wr.write(data);
-                wr.flush();
 
                 // Get the response
                 BufferedReader rd = new BufferedReader(
@@ -576,7 +580,6 @@ public class Submit extends BaseActivity {
                 while ((line = rd.readLine()) != null) {
                     stb.append(line).append("\n");
                 }
-                wr.close();
                 rd.close();
                 return new JSONObject(stb.toString());
 
