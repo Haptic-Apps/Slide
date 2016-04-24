@@ -367,7 +367,7 @@ public class CommentPage extends Fragment {
 
                                                         int commentcount =0;
                                                         for(CommentObject o : adapter.users){
-                                                            if(o.comment != null && o.comment.getComment() != null && o.comment.getComment().getCreated().getTime() > sortTime){
+                                                            if(o.comment != null && o.comment.getComment().getDataNode().has("created") && o.comment.getComment().getCreated().getTime() > sortTime){
                                                                 commentcount +=1;
                                                             }
                                                         }
