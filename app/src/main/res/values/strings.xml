@@ -763,4 +763,5 @@
     <string name="help">Help</string>
     <string name="upvote_percentage">Show upvote percentage</string>
     <string name="btn_set">SET</string>
+    <string name="view_subreddits">View subreddits</string>
 </resources>

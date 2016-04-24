@@ -25,7 +25,10 @@
         android:icon="@drawable/sort"
         android:title="@string/sorting_change_sorting"
         app:showAsAction="ifRoom"/>
-
+    <item android:id="@+id/subs"
+        android:icon="@drawable/infonew"
+        android:title="@string/view_subreddits"
+        app:showAsAction="ifRoom"/>
 
 
 </menu>

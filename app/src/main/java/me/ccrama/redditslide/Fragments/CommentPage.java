@@ -374,6 +374,7 @@ public class CommentPage extends Fragment {
                                                         since.setText(TimeUtils.getTimeAgo(sortTime, getActivity()) + " (" + commentcount + " comments)");
                                                     }
                                                 });
+                                                landscape.setValue(600, false);
                                                 builder.setView(dialoglayout);
                                                 builder.setPositiveButton(R.string.btn_set, null).show();
                                                 break;

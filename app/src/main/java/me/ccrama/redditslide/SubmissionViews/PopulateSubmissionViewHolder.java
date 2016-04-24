@@ -306,7 +306,7 @@ public class PopulateSubmissionViewHolder {
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         filter.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
-        BottomSheet.Builder b = new BottomSheet.Builder(mContext)
+        final BottomSheet.Builder b = new BottomSheet.Builder(mContext)
                 .title(Html.fromHtml(submission.getTitle()));
 
 
@@ -541,9 +541,7 @@ public class PopulateSubmissionViewHolder {
                         }
                     }
                 });
-
-
-        b.show();
+                b.show();
     }
 
     public <T extends Contribution> void hideSubmission(final Submission submission, final List<T> posts, final String baseSub, final RecyclerView recyclerview, Context c) {

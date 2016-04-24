@@ -166,6 +166,11 @@ public class MainActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SETTINGS_RESULT) {
             int current = pager.getCurrentItem();
+            if(commentPager && current == currentComment){
+                current = current - 1;
+            }
+            if(current < 0)
+                current = 0;
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
             pager.setCurrentItem(current);
@@ -887,6 +892,11 @@ public class MainActivity extends BaseActivity {
 
     public void reloadSubs() {
         int current = pager.getCurrentItem();
+        if(commentPager && current == currentComment){
+            current = current - 1;
+        }
+        if(current < 0)
+            current = 0;
         if (adapter instanceof OverviewPagerAdapterComment) {
             adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
             pager.setAdapter(adapter);
@@ -2341,6 +2351,11 @@ public class MainActivity extends BaseActivity {
         if (Settings.changed || SettingsTheme.changed || (NetworkUtil.isConnected(this) && usedArray != null && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())) {
 
             int current = pager.getCurrentItem();
+            if(commentPager && current == currentComment){
+                current = current - 1;
+            }
+            if(current < 0)
+                current = 0;
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
             pager.setCurrentItem(current);

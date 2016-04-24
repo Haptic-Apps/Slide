@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -163,6 +164,9 @@ public class MultiredditOverview extends BaseActivityAnim {
                 openPopup();
                 return true;
 
+            case R.id.subs:
+                ((DrawerLayout)findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
+                return true;
             case R.id.action_shadowbox:
                 if (UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
 
