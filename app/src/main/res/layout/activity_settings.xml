@@ -32,8 +32,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:paddingStart="16dp"
                     android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="16dp"
                     android:text="@string/settings_section_general"
                     android:textSize="14sp"
@@ -63,79 +63,6 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-
-                <LinearLayout
-                    android:id="@+id/handling"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        android:tint="?attr/tint"
-                        app:srcCompat="@drawable/link" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_link_handling"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/history"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        android:tint="?attr/tint"
-                        app:srcCompat="@drawable/history" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_title_history"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <!--  <LinearLayout
-                      android:id="@+id/autocache"
-                      android:layout_width="match_parent"
-                      android:layout_height="56dp"
-                      android:background="?android:selectableItemBackground"
-                      android:orientation="horizontal">
-
-                      <ImageView
-                          android:layout_width="56dp"
-                          android:layout_height="match_parent"
-                          android:layout_marginEnd="16dp"
-                          android:padding="16dp"
-                          app:srcCompat="@drawable/save"
-                          android:tint="?attr/tint" />
-
-                      <TextView
-                          android:layout_width="wrap_content"
-                          android:layout_height="match_parent"
-                          android:gravity="center_vertical"
-                          android:text="Autosync"
-                          android:textColor="?attr/font"
-                          android:textSize="16sp" />
-                  </LinearLayout>!-->
                 <LinearLayout
                     android:id="@+id/tablet"
                     android:layout_width="match_parent"
@@ -201,8 +128,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:paddingStart="16dp"
                     android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="16dp"
                     android:text="@string/settings_section_appearance"
                     android:textSize="14sp"
@@ -341,6 +268,150 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="?attr/card_background"
+                android:elevation="8dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:text="Content"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/handling"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginEnd="16dp"
+                        android:padding="16dp"
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/link" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_link_handling"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/history"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:padding="16dp"
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/history" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_history"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/datasave"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:padding="16dp"
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/world" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_data"
+
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginEnd="16dp"
+                        android:padding="16dp"
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/filter" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_title_filter"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/reddit_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginEnd="16dp"
+                        android:padding="16dp"
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/reddit" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_reddit_prefs"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -355,8 +426,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
-                    android:paddingStart="16dp"
                     android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="16dp"
                     android:text="@string/settings_section_other"
                     android:textSize="14sp"
@@ -415,55 +486,6 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/datasave"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        android:tint="?attr/tint"
-                        app:srcCompat="@drawable/world" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_data"
-
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/filter"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        android:tint="?attr/tint"
-                        app:srcCompat="@drawable/filter" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_title_filter"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/pro"
@@ -490,30 +512,6 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/reddit_settings"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-
-                        android:layout_marginEnd="16dp"
-                        android:padding="16dp"
-                        android:tint="?attr/tint"
-                        app:srcCompat="@drawable/reddit" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_reddit_prefs"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/support"

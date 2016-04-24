@@ -2,7 +2,6 @@ package me.ccrama.redditslide;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -259,8 +258,10 @@ public class SubmissionCache {
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, false);
             int color = typedValue.data;
+            theme.resolveAttribute(R.attr.font, typedValue, false);
+            int font = typedValue.data;
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + Html.fromHtml(submission.getSubmissionFlair().getText()) + "\u00A0");
-            pinned.setSpan(new RoundedBackgroundSpan(/*holder.title.getCurrentTextColor()*/Color.WHITE, color, true, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            pinned.setSpan(new RoundedBackgroundSpan(font, color, true, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);
         }

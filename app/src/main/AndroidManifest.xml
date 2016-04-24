@@ -64,6 +64,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />
         <activity
+            android:name=".Activities.SettingsViewType"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/swipeable" />
+        <activity
             android:name=".Activities.SettingsFilter"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/swipeable" />

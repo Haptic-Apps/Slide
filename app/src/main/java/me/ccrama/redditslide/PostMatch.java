@@ -30,7 +30,7 @@ public class PostMatch {
             String path1 = domain.getPath();
             if (host2 != null && host1 != null &&!host2.isEmpty() && !host1.isEmpty() && host2.equalsIgnoreCase(host1)) {
                 if(path1 != null && !path1.isEmpty() && path2 != null){
-                    if(path1.equalsIgnoreCase(path2)){
+                    if(path1.contains(path2)){
                         return true;
                     }
                 } else {

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="UnusedResources">
+    <item
+        android:id="@+id/alphabetize"
+        android:title="@string/alphabetize_subreddits"
+        app:showAsAction="always"
+        android:icon="@drawable/az" />
+    <item
+        android:id="@+id/refresh"
+        android:title="@string/sync_subscriptions"
+        app:showAsAction="always"
+        android:icon="@drawable/refresh" />
+    <item
+        android:id="@+id/info"
+        android:title="@string/help"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/infonew" />
+</menu>

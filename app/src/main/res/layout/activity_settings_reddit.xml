@@ -11,7 +11,13 @@
         android:orientation="vertical">
 
         <include layout="@layout/settings_toolbar" />
-
+        <TextView
+            android:layout_width="match_parent"
+            android:padding="16dp"
+            android:textSize="14sp"
+            android:alpha=".5"
+            android:text="These settings change what the Reddit API returns to Slide.\n\nTo see thumbnails in all subreddits, change the Thumbnail Mode to 'Always Show'\n\nTo see all NSFW content, turn off 'Hide NSFW photos' and turn on 'I am over 18'"
+            android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

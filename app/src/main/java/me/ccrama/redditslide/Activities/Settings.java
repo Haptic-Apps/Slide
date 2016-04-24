@@ -102,7 +102,7 @@ public class Settings extends BaseActivity {
             // two times.
             SnackEngage.from(Settings.this).withSnack(
                     new RateSnack().withConditions(new NeverAgainWhenClickedOnce(),
-                            new AfterNumberOfOpportunities(6), new WithLimitedNumberOfTimes(2))
+                            new AfterNumberOfOpportunities(3), new WithLimitedNumberOfTimes(2))
                             .overrideActionText(getString(R.string.misc_rate_msg))
                             .overrideTitleText(getString(R.string.misc_rate_title))
                             .withDuration(BaseSnack.DURATION_INDEFINITE))

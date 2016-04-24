@@ -27,8 +27,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -59,57 +63,21 @@ public class ReorderSubreddits extends BaseActivityAnim {
     CustomAdapter adapter;
     RecyclerView recyclerView;
 
-
     @Override
-    public void onPause() {
-        UserSubscriptions.setSubscriptions(new ArrayList<>(subs));
-        SettingsTheme.changed = true;
-        super.onPause();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.reorder_subs, menu);
+        return true;
     }
 
     @Override
-    public void onBackPressed() {
-        if (isMultiple) {
-            chosen = new ArrayList<>();
-            doOldToolbar();
-            adapter.notifyDataSetChanged();
-            isMultiple = false;
-        } else {
-            super.onBackPressed();
-        }
-    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
 
-
-    ArrayList<String> chosen = new ArrayList<>();
-    boolean isMultiple;
-
-    int done = 0;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        applyColorTheme();
-        setContentView(R.layout.activity_sort);
-        setupAppBar(R.id.toolbar, R.string.title_reorder_subs, false, true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        subs = new ArrayList<>(UserSubscriptions.getSubscriptions(this));
-        recyclerView = (RecyclerView) findViewById(R.id.subslist);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setItemAnimator(null);
-
-        findViewById(R.id.az).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                subs = UserSubscriptions.sort(subs);
-                adapter = new CustomAdapter(subs);
-                //  adapter.setHasStableIds(true);
-                recyclerView.setAdapter(adapter);
-            }
-        });
-
-        findViewById(R.id.refresh).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.refresh:
                 done = 0;
                 final Dialog d = new MaterialDialog.Builder(ReorderSubreddits.this).title(R.string.general_sub_sync)
                         .content(R.string.misc_please_wait)
@@ -151,9 +119,64 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     }
                 }.execute();
 
+                return true;
+            case R.id.alphabetize:
+                subs = UserSubscriptions.sort(subs);
+                adapter = new CustomAdapter(subs);
+                //  adapter.setHasStableIds(true);
+                recyclerView.setAdapter(adapter);
+                return true;
+            case R.id.info:
+                new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                        .setTitle("Reorder Subreddits FAQ")
+                        .setMessage(Html.fromHtml("<b>How do I refresh subreddits?</b><br>" +
+                                "To refresh subreddits, click the refresh icon in the toolbar!<br><br>" +
+                                "<b>I unsubscribed from some subreddits but they are still in the list!</b><br>" +
+                                "Slide will convert unsubscribed subs from the browser into casual subscriptions. To remove them, long press on the subreddit(s) and click remove!<br><br>" +
+                                "<b>How do I use collections?</b><br>" +
+                                "To create a collection, click the + FAB and select 'Create a collection'. This allows you to have multiple subs acting as one subreddit in the main screen!"))
+                        .show();
+                return true;
+        }
+        return false;
+    }
 
-            }
-        });
+    @Override
+    public void onPause() {
+        UserSubscriptions.setSubscriptions(new ArrayList<>(subs));
+        SettingsTheme.changed = true;
+        super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isMultiple) {
+            chosen = new ArrayList<>();
+            doOldToolbar();
+            adapter.notifyDataSetChanged();
+            isMultiple = false;
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    ArrayList<String> chosen = new ArrayList<>();
+    boolean isMultiple;
+
+    int done = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        applyColorTheme();
+        setContentView(R.layout.activity_sort);
+        setupAppBar(R.id.toolbar, R.string.title_reorder_subs, false, true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        subs = new ArrayList<>(UserSubscriptions.getSubscriptions(this));
+        recyclerView = (RecyclerView) findViewById(R.id.subslist);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setItemAnimator(null);
 
         DragSortRecycler dragSortRecycler = new DragSortRecycler();
         dragSortRecycler.setViewHandleId();

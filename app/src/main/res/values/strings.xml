@@ -757,4 +757,8 @@
     <string name="sidebar_edit_flair">Edit your flair</string>
     <string name="no_cached_comments_found">No cached comments found</string>
     <string name="go_online_view_content">Please go online to view this content</string>
+    <string name="FAQ">FAQ</string>
+    <string name="alphabetize_subreddits">Alphabetize subreddits</string>
+    <string name="sync_subscriptions">Sync subscriptions</string>
+    <string name="help">Help</string>
 </resources>

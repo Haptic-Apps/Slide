@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Environment;
@@ -39,6 +40,7 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 3/5/2015.
  */
 public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDialog.FolderCallback {
+
     public static void setupNotificationSettings(View dialoglayout, final Activity context) {
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
         final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
@@ -181,42 +183,12 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                 }
             });
         }
-        //View type multi choice
-        ((TextView) findViewById(R.id.currentViewType)).setText(SettingValues.single ? (SettingValues.commentPager ? getString(R.string.view_type_comments) : getString(R.string.view_type_none)) : getString(R.string.view_type_tabs));
 
         findViewById(R.id.viewtype).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(SettingsGeneral.this, v);
-                popup.getMenuInflater().inflate(R.menu.view_type_settings, popup.getMenu());
-
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.tabs:
-                                SettingValues.single = false;
-                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SINGLE, false).apply();
-                                break;
-                            case R.id.notabs:
-                                SettingValues.single = true;
-                                SettingValues.commentPager = false;
-                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SINGLE, true).apply();
-                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_PAGER, false).apply();
-                                break;
-                            case R.id.comments:
-                                SettingValues.single = true;
-                                SettingValues.commentPager = true;
-                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SINGLE, true).apply();
-                                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_PAGER, true).apply();
-                                break;
-                        }
-                        ((TextView) findViewById(R.id.currentViewType)).setText(SettingValues.single ? (SettingValues.commentPager ? getString(R.string.view_type_comments) : getString(R.string.view_type_none)) : getString(R.string.view_type_tabs));
-                        SettingsTheme.changed = true;
-                        return true;
-                    }
-                });
-
-                popup.show();
+                Intent i = new Intent(SettingsGeneral.this, SettingsViewType.class);
+                startActivity(i);
             }
         });
 
@@ -416,7 +388,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                     builder.setTitle(R.string.sorting_choose);
                     Resources res = getBaseContext().getResources();
                     builder.setSingleChoiceItems(
-                            new String[] {
+                            new String[]{
                                     res.getString(R.string.sorting_best),
                                     res.getString(R.string.sorting_top),
                                     res.getString(R.string.sorting_new),
