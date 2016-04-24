@@ -96,6 +96,7 @@ public class SubredditView extends BaseActivityAnim {
     }
 
     public OverviewPagerAdapter adapter;
+
     @Override
     public void onBackPressed() {
         if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START) || drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
@@ -106,6 +107,7 @@ public class SubredditView extends BaseActivityAnim {
             super.onBackPressed();
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -648,7 +650,7 @@ public class SubredditView extends BaseActivityAnim {
 
     public void doSubSidebar(final String subreddit) {
         if (!subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("frontpage") &&
-                !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") &&
+                !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") && !subreddit.equalsIgnoreCase("random") &&
                 !subreddit.contains("+")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
@@ -808,8 +810,8 @@ public class SubredditView extends BaseActivityAnim {
                     protected void onPostExecute(View flair) {
                         if (flairs != null && !flairs.isEmpty()) {
                             flair.setVisibility(View.VISIBLE);
-                            if(current != null)
-                                ((TextView)dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                            if (current != null)
+                                ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
                             flair.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -1060,16 +1062,16 @@ public class SubredditView extends BaseActivityAnim {
                                     + getString(Authentication.isLoggedIn ? R.string.over18_desc_loggedin : R.string.over18_desc_loggedout))
                             .setCancelable(false)
                             .setPositiveButton(R.string.misc_continue, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        ((SubmissionsView) adapter.getCurrentFragment()).doAdapter(true);
-                                    }
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    ((SubmissionsView) adapter.getCurrentFragment()).doAdapter(true);
+                                }
                             }).setNeutralButton(R.string.btn_go_back, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                            }).show();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).show();
                 }
             }
         }
@@ -1145,6 +1147,10 @@ public class SubredditView extends BaseActivityAnim {
                         if (positionOffsetPixels == 0) {
                             finish();
                         }
+
+                        blankPage.doOffset(positionOffset);
+                        pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+
                     } else if (positionOffset == 0) {
                         if (position == 1) {
                             doPageSelectedComments(position);
@@ -1220,11 +1226,13 @@ public class SubredditView extends BaseActivityAnim {
             return POSITION_UNCHANGED;
         }
 
+        BlankFragment blankPage;
         @Override
         public Fragment getItem(int i) {
 
             if (i == 0) {
-                return new BlankFragment();
+                blankPage = new BlankFragment();
+                return blankPage;
             } else if (openingComments == null || i != 2) {
                 SubmissionsView f = new SubmissionsView();
                 Bundle args = new Bundle();
