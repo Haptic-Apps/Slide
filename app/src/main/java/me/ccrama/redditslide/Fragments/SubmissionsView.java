@@ -258,7 +258,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         int headerOffset = Math.round((float) (screenHeight * 0.13));
 
         //if the view type is "single" (and therefore "commentPager"), we need a different offset
-        if (SettingValues.single) {
+        if (SettingValues.single || getActivity() instanceof SubredditView) {
             headerOffset = Math.round((float) (screenHeight * 0.07));
         }
 
