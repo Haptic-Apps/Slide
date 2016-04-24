@@ -88,21 +88,21 @@ public class Login extends BaseActivityAnim {
     }
 
     Dialog d;
-    ArrayList<String> subNames;
+    ArrayList<UserSubscriptions.Subscription> subNames;
 
     private void doSubStrings(ArrayList<Subreddit> subs) {
         subNames = new ArrayList<>();
         for (Subreddit s : subs) {
-            subNames.add(s.getDisplayName().toLowerCase());
+            subNames.add(new UserSubscriptions.Subscription(s));
         }
-        subNames = UserSubscriptions.sort(subNames);
+        subNames = UserSubscriptions.sortSubscriptions(subNames);
         if (!subNames.contains("slideforreddit")) {
             new AlertDialogWrapper.Builder(Login.this).setTitle(R.string.login_subscribe_rslideforreddit)
                     .setMessage(R.string.login_subscribe_rslideforreddit_desc)
                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            subNames.add(2, "slideforreddit");
+                            subNames.add(2, new UserSubscriptions.Subscription("slideforreddit", false));
                             UserSubscriptions.setSubscriptions(subNames);
                             Reddit.forceRestart(Login.this, true);
                         }

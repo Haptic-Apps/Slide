@@ -48,6 +48,7 @@ import me.ccrama.redditslide.Activities.SettingsTheme;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.UserSubscriptions.Subscription;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -55,7 +56,7 @@ import me.ccrama.redditslide.util.LogUtil;
 public class ReorderSubreddits extends BaseActivityAnim {
     String input;
 
-    ArrayList<String> subs;
+    ArrayList<Subscription> subs;
     CustomAdapter adapter;
     RecyclerView recyclerView;
 
@@ -80,7 +81,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
     }
 
 
-    ArrayList<String> chosen = new ArrayList<>();
+    ArrayList<Subscription> chosen = new ArrayList<>();
     boolean isMultiple;
 
     int done = 0;
@@ -100,7 +101,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         findViewById(R.id.az).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                subs = UserSubscriptions.sort(subs);
+                subs = UserSubscriptions.sortSubscriptions(subs);
                 adapter = new CustomAdapter(subs);
                 //  adapter.setHasStableIds(true);
                 recyclerView.setAdapter(adapter);
@@ -115,28 +116,29 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         .content(R.string.misc_please_wait)
                         .progress(true, 100)
                         .cancelable(false).show();
-                new AsyncTask<Void, Void, ArrayList<String>>() {
+                new AsyncTask<Void, Void, ArrayList<Subscription>>() {
                     @Override
-                    protected ArrayList<String> doInBackground(Void... params) {
-                        ArrayList<String> newSubs = new ArrayList<>(UserSubscriptions.syncSubreddits(ReorderSubreddits.this));
+                    protected ArrayList<Subscription> doInBackground(Void... params) {
+                        ArrayList<Subscription> newSubs = new ArrayList<>(UserSubscriptions.loadSubreddits(ReorderSubreddits.this));
                         return newSubs;
                     }
 
                     @Override
-                    protected void onPostExecute(ArrayList<String> newSubs) {
+                    protected void onPostExecute(ArrayList<Subscription> newSubs) {
                         d.dismiss();
                         // Determine if we should insert subreddits at the end of the list or sorted
-                        boolean sorted = (subs.equals(UserSubscriptions.sortNoExtras(subs)));
+                        boolean sorted = (subs.equals(UserSubscriptions.sortSubscriptionNoExtras(subs)));
                         Resources res = getResources();
 
-                        for (String s : newSubs) {
+
+                        for (Subscription s : newSubs) {
                             if (!subs.contains(s)) {
                                 done++;
                                 subs.add(s);
                             }
                         }
                         if (sorted && done > 0) {
-                            subs = UserSubscriptions.sortNoExtras(subs);
+                            subs = UserSubscriptions.sortSubscriptionNoExtras(subs);
                             adapter = new CustomAdapter(subs);
                             recyclerView.setAdapter(adapter);
                         } else if (done > 0) {
@@ -164,7 +166,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         dragSortRecycler.setOnItemMovedListener(new DragSortRecycler.OnItemMovedListener() {
             @Override
             public void onItemMoved(int from, int to) {
-                String item = subs.remove(from);
+                Subscription item = subs.remove(from);
                 subs.add(to, item);
                 adapter.notifyDataSetChanged();
             }
@@ -228,7 +230,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                                 }
                                                                 String finalS = b.toString().substring(0, b.length() - 1);
                                                                 Log.v(LogUtil.getTag(), finalS);
-                                                                subs.add(finalS);
+                                                                subs.add(new Subscription(finalS, true));
                                                                 adapter.notifyDataSetChanged();
                                                                 recyclerView.smoothScrollToPosition(subs.size());
                                                                 return false;
@@ -297,7 +299,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
     }
 
     public void doCollection() {
-        final ArrayList<String> subs2 = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(this));
+        final ArrayList<Subscription> subs2 = UserSubscriptions.sortSubscriptions(UserSubscriptions.getSubscriptions(this));
         subs2.remove("frontpage");
         subs2.remove("all");
 
@@ -322,7 +324,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         }
                         String finalS = b.toString().substring(0, b.length() - 1);
                         Log.v(LogUtil.getTag(), finalS);
-                        subs.add(finalS);
+                        subs.add(new Subscription(finalS, true));
                         adapter.notifyDataSetChanged();
                         recyclerView.smoothScrollToPosition(subs.size());
                         return true;
@@ -338,15 +340,15 @@ public class ReorderSubreddits extends BaseActivityAnim {
         @Override
         public void onPostExecute(Subreddit subreddit) {
             if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("all") || input.equalsIgnoreCase("frontpage") || input.equalsIgnoreCase("mod")) {
-                ArrayList<String> sortedSubs = UserSubscriptions.sortNoExtras(subs);
+                ArrayList<Subscription> sortedSubs = UserSubscriptions.sortSubscriptionNoExtras(subs);
 
                 if (sortedSubs.equals(subs)) {
-                    subs.add(input);
-                    subs = UserSubscriptions.sortNoExtras(subs);
+                    subs.add(new Subscription(subreddit));
+                    subs = UserSubscriptions.sortSubscriptionNoExtras(subs);
                     adapter = new CustomAdapter(subs);
                     recyclerView.setAdapter(adapter);
                 } else {
-                    subs.add(input);
+                    subs.add(new Subscription(subreddit));
                     adapter.notifyDataSetChanged();
                     recyclerView.smoothScrollToPosition(subs.size());
                 }
@@ -399,9 +401,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
     }
 
     public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-        private final ArrayList<String> items;
+        private final ArrayList<Subscription> items;
 
-        public CustomAdapter(ArrayList<String> items) {
+        public CustomAdapter(ArrayList<Subscription> items) {
             this.items = items;
 
         }
@@ -424,7 +426,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    for (String s : chosen) {
+                                    for (Subscription s : chosen) {
                                         int index = subs.indexOf(s);
                                         subs.remove(index);
                                         adapter.notifyItemRemoved(index);
@@ -445,7 +447,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             mToolbar.findViewById(R.id.top).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    for (String s : chosen) {
+                    for (Subscription s : chosen) {
                         int index = subs.indexOf(s);
                         subs.remove(index);
                         subs.add(0, s);
@@ -467,8 +469,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-            final String origPos = items.get(position);
-            holder.text.setText(origPos);
+            final Subscription origPos = items.get(position);
+            holder.text.setText(origPos.getName());
 
             if (chosen.contains(origPos)) {
                 holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
@@ -477,7 +479,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
             }
             holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-            holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
+            holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(origPos.getName()), PorterDuff.Mode.MULTIPLY);
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
@@ -531,7 +533,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                 }
                                             }).show();
                                         } else {
-                                            String s = items.get(holder.getAdapterPosition());
+                                            Subscription s = items.get(holder.getAdapterPosition());
                                             int index = subs.indexOf(s);
                                             subs.remove(index);
                                             subs.add(0, s);

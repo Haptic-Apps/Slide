@@ -95,7 +95,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
         findViewById(R.id.post_floating_action_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final ArrayList<String> subs = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(SettingsSubreddit.this));
+                final ArrayList<UserSubscriptions.Subscription> subs = UserSubscriptions.sortSubscriptions(UserSubscriptions.getSubscriptions(SettingsSubreddit.this));
                 final CharSequence[] subsAsChar = subs.toArray(new CharSequence[subs.size()]);
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(SettingsSubreddit.this);

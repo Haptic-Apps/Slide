@@ -51,7 +51,7 @@ public class Configure extends Activity {
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Configure.this);
 
                         builder.setTitle(R.string.subreddit_chooser);
-                        final ArrayList<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(Configure.this));
+                        final ArrayList<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptionNames(Configure.this));
                         builder.setAdapter(new SubredditListingAdapter(Configure.this, sorted), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

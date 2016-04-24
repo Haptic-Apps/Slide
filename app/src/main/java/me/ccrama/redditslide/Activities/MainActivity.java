@@ -83,6 +83,8 @@ import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -111,6 +113,7 @@ import me.ccrama.redditslide.Synccit.MySynccitUpdateTask;
 import me.ccrama.redditslide.Synccit.SynccitRead;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.UserSubscriptions.Subscription;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
@@ -137,7 +140,7 @@ public class MainActivity extends BaseActivity {
     public static boolean datasetChanged;
     public boolean singleMode;
     public ToggleSwipeViewPager pager;
-    public List<String> usedArray;
+    public List<Subscription> usedArray;
     public DrawerLayout drawerLayout;
     public View hea;
     public EditText e;
@@ -156,7 +159,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putStringArrayList(SUBS, (ArrayList<String>) usedArray);
         savedInstanceState.putBoolean(LOGGED_IN, Authentication.isLoggedIn);
         savedInstanceState.putBoolean(IS_ONLINE, Authentication.didOnline);
         savedInstanceState.putString(USERNAME, Authentication.name);
@@ -197,7 +199,7 @@ public class MainActivity extends BaseActivity {
                 drawerLayout.closeDrawers();
             }
         } else if (requestCode == TUTORIAL_RESULT) {
-            UserSubscriptions.doMainActivitySubs(this);
+            updateSubs(UserSubscriptions.getSubscriptions(this));
         } else if (requestCode == INBOX_RESULT) {
             //update notification badge
             new AsyncNotificationBadge().execute();
@@ -439,14 +441,16 @@ public class MainActivity extends BaseActivity {
             LogUtil.v("Starting main " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
+
             UserSubscriptions.doMainActivitySubs(this);
         } else if (!first) {
+
             LogUtil.v("Starting main 2 " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
             Reddit.appRestart.edit().putBoolean("isRestarting", false).commit();
             Reddit.isRestarting = false;
-            UserSubscriptions.doMainActivitySubs(this);
+            updateSubs(UserSubscriptions.getSubscriptions(this));
         }
 
         if (mTabLayout != null) {
@@ -525,7 +529,8 @@ public class MainActivity extends BaseActivity {
     public Runnable runAfterLoad;
 
 
-    public void updateSubs(ArrayList<String> subs) {
+
+    public void updateSubs(ArrayList<Subscription> subs) {
         if (subs.isEmpty() && !NetworkUtil.isConnected(this)) {
             d = new MaterialDialog.Builder(MainActivity.this)
                     .title("No offline content found")
@@ -616,7 +621,8 @@ public class MainActivity extends BaseActivity {
             }.execute();
     }
 
-    public void doSubSidebar(final String subreddit) {
+    public void doSubSidebar(final Subscription subscription) {
+        final String subreddit = subscription.getName();
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
         }
@@ -903,7 +909,7 @@ public class MainActivity extends BaseActivity {
         }
 
         if (SettingValues.single)
-            getSupportActionBar().setTitle(shouldLoad);
+            getSupportActionBar().setTitle(shouldLoad.getName());
 
     }
 
@@ -939,8 +945,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public void setDataSet(List<String> data) {
+
+    public void setDataSet(List<Subscription> data) {
         if (data != null && !data.isEmpty()) {
+
             usedArray = data;
             if (adapter == null) {
                 if (commentPager && singleMode) {
@@ -956,17 +964,18 @@ public class MainActivity extends BaseActivity {
             if (toGoto == -1) toGoto = 0;
             shouldLoad = usedArray.get(toGoto);
             selectedSub = (usedArray.get(toGoto));
-            themeSystemBars(usedArray.get(toGoto));
-
-            header.setBackgroundColor(Palette.getColor(usedArray.get(0)));
+            themeSystemBars(usedArray.get(toGoto).getName());
+            header.setBackgroundColor(Palette.getColor(usedArray.get(0).getName()));
 
             if (hea != null) {
-                hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
+                hea.setBackgroundColor(Palette.getColor(usedArray.get(0).getName()));
                 if (accountsArea != null)
-                    accountsArea.setBackgroundColor(Palette.getDarkerColor(usedArray.get(0)));
+                    findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(usedArray.get(0).getName()));
+
             }
+
             if (!SettingValues.single) {
-                mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
+                mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0).getName()));
                 shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
                 mTabLayout.setupWithViewPager(pager);
@@ -975,17 +984,18 @@ public class MainActivity extends BaseActivity {
                     scrollToTabAfterLayout(toGoto);
                 }
             } else {
-                getSupportActionBar().setTitle(usedArray.get(toGoto));
+                getSupportActionBar().setTitle(usedArray.get(toGoto).getName());
                 shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
             }
 
-            setRecentBar(usedArray.get(toGoto));
+            setRecentBar(usedArray.get(toGoto).getName());
             doSubSidebar(usedArray.get(toGoto));
 
 
         } else if (NetworkUtil.isConnected(this)) {
             UserSubscriptions.doMainActivitySubs(this);
+
         }
 
     }
@@ -1057,7 +1067,7 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onPostExecute(Void voids) {
                             if (isChecked) {
-                                UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
+                                UserSubscriptions.addSubreddit(subreddit, MainActivity.this);
                             } else {
                                 UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
                                 pager.setCurrentItem(pager.getCurrentItem() - 1);
@@ -1369,7 +1379,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Submit.class);
-                    inte.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
+                    inte.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub.getName());
                     MainActivity.this.startActivity(inte);
                 }
             });
@@ -1847,7 +1857,7 @@ public class MainActivity extends BaseActivity {
     SideArrayAdapter sideArrayAdapter;
 
     public void setDrawerSubList() {
-        ArrayList<String> copy = new ArrayList<>(usedArray);
+        ArrayList<String> copy = new ArrayList<>(UserSubscriptions.getNamesFromSubscriptions(new ArrayList<Subscription>(usedArray), false));
 
         e = ((EditText) headerMain.findViewById(R.id.sort));
 
@@ -1999,7 +2009,7 @@ public class MainActivity extends BaseActivity {
         mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                final String subreddit = usedArray.get(pager.getCurrentItem());
+                final String subreddit = usedArray.get(pager.getCurrentItem()).getName();
 
                 int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
                 final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
@@ -2218,7 +2228,7 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.submit: {
                 Intent i = new Intent(this, Submit.class);
-                i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
+                i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub.getName());
                 startActivity(i);
             }
             return true;
@@ -2255,7 +2265,9 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public void filterContent(final String subreddit) {
+
+    public void filterContent(final Subscription subscription) {
+        final String subreddit = subscription.getName();
         final boolean[] chosen = new boolean[]{
                 PostMatch.isGif(subreddit),
                 PostMatch.isAlbums(subreddit),
@@ -2267,6 +2279,7 @@ public class MainActivity extends BaseActivity {
 
         final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
                 : (getString(R.string.content_to_hide, "/r/" + subreddit));
+
 
         new AlertDialogWrapper.Builder(this)
                 .setTitle(FILTER_TITLE)
@@ -2401,7 +2414,7 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    public static String shouldLoad;
+    public static Subscription shouldLoad;
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
@@ -2437,21 +2450,23 @@ public class MainActivity extends BaseActivity {
                             p.doMainActivityOffline(p.displayer);
                         }
                     }
+                    final String subName = usedArray.get(position).getName();
 
                     if (hea != null) {
-                        hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                        hea.setBackgroundColor(Palette.getColor(subName));
                         if (accountsArea != null)
-                            accountsArea.setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
+                            findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(subName));
                     }
-                    header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                    header.setBackgroundColor(Palette.getColor(subName));
 
-                    themeSystemBars(usedArray.get(position));
-                    setRecentBar(usedArray.get(position));
+                    themeSystemBars(subName);
+                    setRecentBar(subName);
+
 
                     if (SettingValues.single || mTabLayout == null)
-                        getSupportActionBar().setTitle(usedArray.get(position));
+                        getSupportActionBar().setTitle(subName);
                     else mTabLayout.setSelectedTabIndicatorColor(
-                            new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
+                            new ColorPreferences(MainActivity.this).getColor(subName));
 
                     selectedSub = usedArray.get(position);
 
@@ -2501,7 +2516,7 @@ public class MainActivity extends BaseActivity {
 
             SubmissionsView f = new SubmissionsView();
             Bundle args = new Bundle();
-            args.putString("id", usedArray.get(i));
+            args.putString("id", usedArray.get(i).getName());
             f.setArguments(args);
 
             return f;
@@ -2524,7 +2539,7 @@ public class MainActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
 
             if (usedArray != null) {
-                return abbreviate(usedArray.get(position), 25);
+                return abbreviate(usedArray.get(position).getName(), 25);
             } else {
                 return "";
             }
@@ -2558,21 +2573,24 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
             }
         }
+        final String subName = usedArray.get(position).getName();
 
         if (hea != null) {
-            hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+            hea.setBackgroundColor(Palette.getColor(subName));
             if (accountsArea != null)
-                accountsArea.setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
-        }
-        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+                findViewById(R.id.accountsarea).setBackgroundColor(Palette.getDarkerColor(subName));
 
-        themeSystemBars(usedArray.get(position));
-        setRecentBar(usedArray.get(position));
+        }
+        header.setBackgroundColor(Palette.getColor(subName));
+
+        themeSystemBars(subName);
+        setRecentBar(subName);
+
 
         if (SettingValues.single)
-            getSupportActionBar().setTitle(usedArray.get(position));
+            getSupportActionBar().setTitle(subName);
         else mTabLayout.setSelectedTabIndicatorColor(
-                new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
+                new ColorPreferences(MainActivity.this).getColor(subName));
 
         selectedSub = usedArray.get(position);
     }
@@ -2677,7 +2695,7 @@ public class MainActivity extends BaseActivity {
             if (openingComments == null || i != toOpenComments) {
                 SubmissionsView f = new SubmissionsView();
                 Bundle args = new Bundle();
-                if (usedArray.size() > i) args.putString("id", usedArray.get(i));
+                if (usedArray.size() > i) args.putString("id", usedArray.get(i).getName());
                 f.setArguments(args);
                 return f;
 
@@ -2713,7 +2731,7 @@ public class MainActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
 
             if (usedArray != null && position != toOpenComments) {
-                return abbreviate(usedArray.get(position), 25);
+                return abbreviate(usedArray.get(position).getName(), 25);
             } else {
                 return "";
             }
@@ -2722,7 +2740,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public String selectedSub;
+    public Subscription selectedSub;
 
     public int getCurrentPage() {
         int position = 0;

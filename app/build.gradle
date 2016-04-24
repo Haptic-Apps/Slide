@@ -126,5 +126,7 @@ dependencies {
         transitive = true;
     }
     compile 'com.github.rjeschke:txtmark:0.13'
+    compile 'com.google.code.gson:gson:2.2.4'
     compile 'org.jetbrains:annotations-java5:15.0'
+
 }
