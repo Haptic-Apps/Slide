@@ -47,14 +47,17 @@
         </android.support.design.widget.AppBarLayout>
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/sidebar_scroll"
+    <ScrollView
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:background="?attr/card_background"
-        android:layout_gravity="end"
-        android:orientation="vertical" />
-
+        android:layout_gravity="end">
+        <LinearLayout
+            android:id="@+id/sidebar_scroll"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical" />
+    </ScrollView>
 </android.support.v4.widget.DrawerLayout>
 
 

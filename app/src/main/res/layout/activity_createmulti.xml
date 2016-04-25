@@ -53,14 +53,10 @@
             android:layout_height="48dp"
             android:layout_gravity="end|center_vertical"
             android:background="?android:selectableItemBackground"
-
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
-
             android:scaleType="fitCenter"
-
             app:srcCompat="@drawable/delete"
-
             />
     </android.support.v7.widget.Toolbar>
 

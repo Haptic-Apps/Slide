@@ -154,7 +154,7 @@ public class CreateMulti extends BaseActivityAnim {
 
         int i = 0;
         for (String s : sorted) {
-            if (!(s.equals("all") || !s.equals("frontpage")) || !s.contains("+")) {
+            if (!s.equals("all") && !s.equals("frontpage") && !s.contains("+")) {
                 all[i] = s;
                 if (s2.contains(s)) {
                     checked[i] = true;
@@ -167,7 +167,7 @@ public class CreateMulti extends BaseActivityAnim {
 
         for (String s : all) {
             if (s != null && s.length() > 0) {
-                if (!s2.contains(s) && !(s.equals("all") || !s.equals("frontpage")) || !s.contains("+"))
+                if (!s2.contains(s) && !s.equals("all") && !s.equals("frontpage") && !s.contains("+"))
                     list.add(s);
             }
         }
