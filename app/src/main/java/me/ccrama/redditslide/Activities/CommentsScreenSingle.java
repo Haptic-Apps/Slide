@@ -18,14 +18,20 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.Submission;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.LastComments;
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -95,7 +101,45 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         } else {
             setupAdapter();
         }
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (Authentication.me == null && Authentication.isLoggedIn) {
+                    Authentication.me = Authentication.reddit.me();
+                    Authentication.mod = Authentication.me.isMod();
+                    Reddit.over18 = Authentication.me.isOver18();
 
+                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod).apply();
+                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18).apply();
+
+                    if (Reddit.notificationTime != -1) {
+                        Reddit.notifications = new NotificationJobScheduler(CommentsScreenSingle.this);
+                        Reddit.notifications.start(getApplicationContext());
+                    }
+
+                    if (Reddit.cachedData.contains("toCache")) {
+                        Reddit.autoCache = new AutoCacheScheduler(CommentsScreenSingle.this);
+                        Reddit.autoCache.start(getApplicationContext());
+                    }
+
+                    final String name = Authentication.me.getFullName();
+                    Authentication.name = name;
+                    LogUtil.v("AUTHENTICATED");
+
+                    if (Authentication.reddit.isAuthenticated()) {
+                        final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                        if (accounts.contains(name)) { //convert to new system
+                            accounts.remove(name);
+                            accounts.add(name + ":" + Authentication.refresh);
+                            Authentication.authentication.edit().putStringSet("accounts", accounts).apply(); //force commit
+                        }
+                        Authentication.isLoggedIn = true;
+                        Reddit.notFirst = true;
+                    }
+                }
+                return null;
+            }
+        }.execute();
     }
 
     public int adjustAlpha( float factor) {

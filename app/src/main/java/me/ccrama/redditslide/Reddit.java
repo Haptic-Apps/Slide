@@ -333,7 +333,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public void onActivityResumed(Activity activity) {
         if(NetworkUtil.isConnected(activity) && authentication != null && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance().getTimeInMillis()){
             authentication.updateToken(activity);
-        } else if(authentication == null){
+        } else if(NetworkUtil.isConnected(activity) && authentication == null){
             authentication = new Authentication(this);
         }
     }
