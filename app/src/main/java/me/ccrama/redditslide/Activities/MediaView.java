@@ -414,7 +414,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         LogUtil.v(contentUrl);
         if (contentUrl.contains("m.imgur.com"))
             contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
-        if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.startsWith("https://i.reddituploads.com") && !contentUrl.contains("imgur.com")) || contentUrl != null && contentUrl.contains(".jpg") && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
+        if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.startsWith("https://i.reddituploads.com") && !contentUrl.contains("imgur.com")) || contentUrl != null  && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
             findViewById(R.id.progress).setVisibility(View.VISIBLE);
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
 
@@ -437,7 +437,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                         displayImage(finalUrl2);
                                     }
                                     actuallyLoaded = finalUrl2;
-                                } else {
+                                } else if(!imageShown){
                                     Intent i = new Intent(MediaView.this, Website.class);
                                     i.putExtra(Website.EXTRA_URL, finalUrl2);
                                     MediaView.this.startActivity(i);
@@ -457,7 +457,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 }
             }.execute();
 
-        } else if (contentUrl != null && !imageShown) {
+        }
+        if (contentUrl != null && !imageShown) {
             displayImage(contentUrl);
         } else if (!imageShown) {
             finish();

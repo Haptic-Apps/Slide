@@ -50,6 +50,7 @@ import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.UpgradeUtil;
 
 /**
@@ -330,8 +331,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @Override
     public void onActivityResumed(Activity activity) {
-        if(Authentication.didOnline && authentication != null && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance().getTimeInMillis()){
+        if(NetworkUtil.isConnected(activity) && authentication != null && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance().getTimeInMillis()){
             authentication.updateToken(activity);
+        } else if(authentication == null){
+            authentication = new Authentication(this);
         }
     }
 
