@@ -161,10 +161,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
-
         super.onCreate(savedInstanceState);
         getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE), true);
-        applyColorTheme();
         setContentView(R.layout.album_pager);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);

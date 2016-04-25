@@ -93,6 +93,7 @@ public class Profile extends BaseActivityAnim {
         applyColorTheme();
         setContentView(R.layout.activity_profile);
         setupUserAppBar(R.id.toolbar, name, true, name);
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         profSort = Sorting.HOT;
         profTime = TimePeriod.ALL;

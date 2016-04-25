@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.SettingsTheme;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -172,6 +173,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         applyColorTheme();
         setContentView(R.layout.activity_sort);
         setupAppBar(R.id.toolbar, R.string.title_reorder_subs, false, true);
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         subs = new ArrayList<>(UserSubscriptions.getSubscriptions(this));
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
