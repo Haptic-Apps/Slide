@@ -784,6 +784,7 @@ public class SubredditView extends BaseActivityAnim {
                     }
                 });
                 dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
+                if(Authentication.didOnline && Authentication.isLoggedIn)
                 new AsyncTask<View, Void, View>() {
                     List<FlairTemplate> flairs;
                     ArrayList<String> flairText;
@@ -800,7 +801,7 @@ public class SubredditView extends BaseActivityAnim {
                             for (FlairTemplate temp : flairs) {
                                 flairText.add(temp.getText());
                             }
-                        } catch (ApiException e1) {
+                        } catch (Exception e1) {
                             e1.printStackTrace();
                         }
                         return params[0];

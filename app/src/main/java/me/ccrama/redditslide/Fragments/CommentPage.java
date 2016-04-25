@@ -903,36 +903,40 @@ public class CommentPage extends Fragment {
         int pos = (old < 2) ? 0 : old - 1;
 
         for (int i = pos - 1; i >= 0; i--) {
-            CommentObject o = adapter.users.get(adapter.getRealPosition(i));
-            if (o instanceof CommentItem && pos - 1 != i) {
-                boolean matches = false;
-                switch(currentSort){
+            try {
+                CommentObject o = adapter.users.get(adapter.getRealPosition(i));
+                if (o instanceof CommentItem && pos - 1 != i) {
+                    boolean matches = false;
+                    switch (currentSort) {
 
-                    case PARENTS:
-                        matches = o.comment.isTopLevel();
-                        break;
-                    case TIME:
-                        matches =( o.comment.getComment() != null && o.comment.getComment().getCreated().getTime() > sortTime);
+                        case PARENTS:
+                            matches = o.comment.isTopLevel();
+                            break;
+                        case TIME:
+                            matches = (o.comment.getComment() != null && o.comment.getComment().getCreated().getTime() > sortTime);
 
-                        break;
-                    case GILDED:
-                        matches = o.comment.getComment().getTimesGilded() >0;
-                        break;
-                    case OP:
-                        matches = adapter.submission !=null && o.comment.getComment().getAuthor().equals(adapter.submission.getAuthor());
-                        break;
-                    case LINK:
-                        matches = o.comment.getComment().getDataNode().get("body_html").asText().contains("&lt;/a");
-                        break;
-                }
-                if (matches) {
-                    if (i + 2 == old) {
-                        doGoUp(old - 1);
-                    } else {
-                        (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header)).getHeight());
+                            break;
+                        case GILDED:
+                            matches = o.comment.getComment().getTimesGilded() > 0;
+                            break;
+                        case OP:
+                            matches = adapter.submission != null && o.comment.getComment().getAuthor().equals(adapter.submission.getAuthor());
+                            break;
+                        case LINK:
+                            matches = o.comment.getComment().getDataNode().get("body_html").asText().contains("&lt;/a");
+                            break;
                     }
-                    break;
+                    if (matches) {
+                        if (i + 2 == old) {
+                            doGoUp(old - 1);
+                        } else {
+                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header)).getHeight());
+                        }
+                        break;
+                    }
                 }
+            } catch (Exception ignored){
+
             }
         }
     }
@@ -995,35 +999,39 @@ public class CommentPage extends Fragment {
         String original = adapter.users.get(adapter.getRealPosition(pos)).getName();
 
         for (int i = pos + 1; i < adapter.users.size(); i++) {
-            CommentObject o = adapter.users.get(adapter.getRealPosition(i));
-            if (o instanceof CommentItem) {
-                boolean matches = false;
-                switch(currentSort){
+            try {
+                CommentObject o = adapter.users.get(adapter.getRealPosition(i));
+                if (o instanceof CommentItem) {
+                    boolean matches = false;
+                    switch (currentSort) {
 
-                    case PARENTS:
-                        matches = o.comment.isTopLevel();
-                        break;
-                    case TIME:
-                        matches = o.comment.getComment().getCreated().getTime() > sortTime;
-                        break;
-                    case GILDED:
-                        matches = o.comment.getComment().getTimesGilded() >0;
-                        break;
-                    case OP:
-                        matches = adapter.submission !=null && o.comment.getComment().getAuthor().equals(adapter.submission.getAuthor());
-                        break;
-                    case LINK:
-                        matches = o.comment.getComment().getDataNode().get("body_html").asText().contains("&lt;/a");
-                        break;
-                }
-                if (matches) {
-                    if (o.getName().equals(original)) {
-                        doGoDown(i + 2);
-                    } else {
-                        (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header).getHeight()));
+                        case PARENTS:
+                            matches = o.comment.isTopLevel();
+                            break;
+                        case TIME:
+                            matches = o.comment.getComment().getCreated().getTime() > sortTime;
+                            break;
+                        case GILDED:
+                            matches = o.comment.getComment().getTimesGilded() > 0;
+                            break;
+                        case OP:
+                            matches = adapter.submission != null && o.comment.getComment().getAuthor().equals(adapter.submission.getAuthor());
+                            break;
+                        case LINK:
+                            matches = o.comment.getComment().getDataNode().get("body_html").asText().contains("&lt;/a");
+                            break;
                     }
-                    break;
+                    if (matches) {
+                        if (o.getName().equals(original)) {
+                            doGoDown(i + 2);
+                        } else {
+                            (((PreCachingLayoutManagerComments) rv.getLayoutManager())).scrollToPositionWithOffset(i + 2, ((View) toolbar.getParent()).getTranslationY() != 0 ? 0 : (v.findViewById(R.id.header).getHeight()));
+                        }
+                        break;
+                    }
                 }
+            } catch(Exception ignored){
+
             }
         }
     }
