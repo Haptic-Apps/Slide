@@ -144,6 +144,7 @@ public class FontPreferences {
         Light(RobotoTypefaceManager.Typeface.ROBOTO_LIGHT, "Light"),
         Regular(RobotoTypefaceManager.Typeface.ROBOTO_REGULAR, "Regular"),
         Bold(RobotoTypefaceManager.Typeface.ROBOTO_BOLD, "Bold"),
+        Medium(RobotoTypefaceManager.Typeface.ROBOTO_MEDIUM, "Medium"),
         CondensedBold(RobotoTypefaceManager.Typeface.ROBOTO_CONDENSED_BOLD, "Condensed Bold"),
         System(-1, "System");
 

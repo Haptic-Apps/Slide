@@ -219,6 +219,7 @@
                     android:textColor="?attr/font"
                     android:text="@string/settings_font_regular"
                     app:typeface="roboto_regular" />
+
                 <com.devspark.robototextview.widget.RobotoRadioButton
                     android:id="@+id/sbold"
                     android:layout_width="match_parent"
@@ -227,6 +228,16 @@
                     android:textColor="?attr/font"
                     android:text="@string/settings_font_bold"
                     app:typeface="roboto_bold" />
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                    android:id="@+id/smed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:textColor="?attr/font"
+                    android:text="@string/settings_font_medium"
+                    app:typeface="roboto_medium" />
+
                 <com.devspark.robototextview.widget.RobotoRadioButton
                     android:id="@+id/sregl"
                     android:layout_width="match_parent"
@@ -271,6 +282,7 @@
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_condensed_light"
                     app:typeface="roboto_condensed_light" />
+
                 <com.devspark.robototextview.widget.RobotoRadioButton
                     android:id="@+id/scondb"
                     android:layout_width="match_parent"
@@ -279,6 +291,7 @@
                     android:background="?android:selectableItemBackground"
                     android:text="@string/settings_font_condensed_bold"
                     app:typeface="roboto_condensed_bold" />
+
                 <com.devspark.robototextview.widget.RobotoRadioButton
                     android:id="@+id/snone"
                     android:layout_width="match_parent"

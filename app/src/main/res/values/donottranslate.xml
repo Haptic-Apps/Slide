@@ -22,6 +22,7 @@
     <string name="settings_font_slab_light">Slab Light</string>
     <string name="settings_font_light">Light</string>
     <string name="settings_font_bold">Bold</string>
+    <string name="settings_font_medium">Medium</string>
     <string name="settings_font_condensed_bold">Condensed Bold</string>
     <string name="settings_general_force_en">Force English language</string>
     <string name="settings_general_force_en_desc">Applies everywhere</string>

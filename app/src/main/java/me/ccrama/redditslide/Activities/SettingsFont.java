@@ -187,6 +187,9 @@ public class SettingsFont extends BaseActivityAnim {
             case Bold:
                 ((RobotoRadioButton) findViewById(R.id.sbold)).setChecked(true);
                 break;
+            case Medium:
+                ((RobotoRadioButton) findViewById(R.id.smed)).setChecked(true);
+                break;
             case System:
                 ((RobotoRadioButton) findViewById(R.id.snone)).setChecked(true);
                 break;
@@ -224,6 +227,15 @@ public class SettingsFont extends BaseActivityAnim {
                 if (isChecked) {
                     SettingsTheme.changed = true;
                     new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Bold);
+                }
+            }
+        });
+        ((RobotoRadioButton) findViewById(R.id.smed)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    SettingsTheme.changed = true;
+                    new FontPreferences(SettingsFont.this).setTitleFont(FontPreferences.FontTypeTitle.Medium);
                 }
             }
         });
