@@ -354,7 +354,11 @@ public class MainActivity extends BaseActivity {
                                 p.setLimit(2);
                                 ArrayList<Submission> posts = new ArrayList<>(p.next());
                                 for (Submission s : posts) {
-                                    if (s.isStickied() && s.getSubmissionFlair().getText() != null && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(BuildConfig.VERSION_NAME)) {
+                                    String version = BuildConfig.VERSION_NAME;
+                                    if(version.length() > 5){
+                                        version = version.substring(0,version.lastIndexOf("."));
+                                    }
+                                    if (s.isStickied() && s.getSubmissionFlair().getText() != null && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(version)) {
                                         Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
                                         return s;
                                     }
