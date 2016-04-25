@@ -41,6 +41,7 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.ColorPreferences;
@@ -442,10 +443,16 @@ public class MultiredditOverview extends BaseActivityAnim {
         LinearLayout l = (LinearLayout) findViewById(R.id.sidebar_scroll);
         l.removeAllViews();
 
-        for (MultiSubreddit sub : current.getSubreddits()) {
+        ArrayList<String> toSort = new ArrayList<>();
+
+        for(MultiSubreddit s : current.getSubreddits()){
+            toSort.add(s.getDisplayName());
+        }
+
+        for (String sub : UserSubscriptions.sortNoExtras(toSort)) {
             final View convertView = getLayoutInflater().inflate(R.layout.subforsublist, l, false);
 
-            final String subreddit = sub.getDisplayName();
+            final String subreddit = sub;
             final TextView t = ((TextView) convertView.findViewById(R.id.name));
             t.setText(subreddit);
 

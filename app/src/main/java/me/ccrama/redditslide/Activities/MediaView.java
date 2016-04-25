@@ -327,6 +327,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         findViewById(R.id.hq).setVisibility(View.GONE);
         videoView = (MediaVideoView) findViewById(R.id.gif);
         videoView.clearFocus();
+        videoView.setZOrderOnTop(true);
         findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) findViewById(R.id.gifprogress);

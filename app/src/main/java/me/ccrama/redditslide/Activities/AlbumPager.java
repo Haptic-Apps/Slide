@@ -366,7 +366,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     dat = (((AlbumPager)getActivity()).images.get(i).getAsJsonObject().get("mp4").getAsString());
                 else
                     dat = (((AlbumPager)getActivity()).images.get(i).getAsJsonObject().get("link").getAsString());
-
             }
 
             new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, new Runnable() {
@@ -375,6 +374,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
                 }
             }, false, true, false).execute(dat);
+            ((MediaVideoView) rootView.findViewById(R.id.gif)).setZOrderOnTop(true);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

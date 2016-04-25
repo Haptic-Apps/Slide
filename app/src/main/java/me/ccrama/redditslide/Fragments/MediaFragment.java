@@ -272,6 +272,7 @@ public class MediaFragment extends Fragment {
         isGif = true;
         videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
         videoView.clearFocus();
+        videoView.setZOrderOnTop(true);
         rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);

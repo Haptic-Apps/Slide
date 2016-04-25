@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 
@@ -80,11 +79,8 @@ public class SettingsSynccit extends BaseActivityAnim {
                 SettingValues.synccitName = name.getText().toString();
                 SettingValues.synccitAuth = auth.getText().toString();
                 try {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            new MySynccitReadTask().execute("16noez");
-                            if (SynccitRead.visitedIds.contains("16noez")) {
+                    new MySynccitReadTask().execute("16noez").get();
+                    if (SynccitRead.visitedIds.contains("16noez")) {
                                 //success
 
                                 d.dismiss();
@@ -117,9 +113,6 @@ public class SettingsSynccit extends BaseActivityAnim {
                                         .setMessage(R.string.settings_synccit_failed_msg)
                                         .setPositiveButton(R.string.btn_ok, null).show();
                             }
-                        }
-                    }, 3000);
-
                 } catch (Exception e) {
                     d.dismiss();
 

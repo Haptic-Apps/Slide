@@ -61,6 +61,7 @@ public class GifView extends FullScreenActivity implements FolderChooserDialog.F
 
         v = (MediaVideoView) findViewById(R.id.gif);
         v.clearFocus();
+        v.setZOrderOnTop(true);
 
         prefs = getSharedPreferences("DATA", 0);
 

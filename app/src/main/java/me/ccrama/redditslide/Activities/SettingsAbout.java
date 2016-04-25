@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import me.ccrama.redditslide.BuildConfig;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 
@@ -47,7 +48,7 @@ public class SettingsAbout extends BaseActivityAnim {
                         clipboard.setPrimaryClip(clip);
                     }
                     prefs.edit().clear().apply();
-                    return false;
+                    return true;
                 }
             });
 
@@ -70,7 +71,12 @@ public class SettingsAbout extends BaseActivityAnim {
                 Reddit.defaultShare("https://github.com/ccrama/Slide/issues", SettingsAbout.this);
             }
         });
-
+        findViewById(R.id.changelogpost).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new OpenRedditLink(SettingsAbout.this, Reddit.appRestart.getString("url", ""));
+            }
+        });
         changelog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

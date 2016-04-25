@@ -376,8 +376,9 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
 
             if (comment.getTimesGilded() > 0) {
+                final String timesGilded = (comment.getTimesGilded() == 1) ? "" : "\u200A" + Integer.toString(comment.getTimesGilded());
                 holder.gild.setVisibility(View.VISIBLE);
-                ((TextView) holder.gild).setText("" + comment.getTimesGilded());
+                ((TextView) holder.gild).setText("\u00A0★" + timesGilded + "\u00A0");
             } else if (holder.gild.getVisibility() == View.VISIBLE)
                 holder.gild.setVisibility(View.GONE);
 

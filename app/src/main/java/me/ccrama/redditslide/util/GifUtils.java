@@ -169,7 +169,7 @@ public class GifUtils {
                                         }
                                         try {
                                             final URL url = new URL(obj);
-                                            final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+                                            final File f = new File(ImageLoaderUtils.getCacheDirectoryGif(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
 
                                             if (!f.exists()) {
@@ -231,7 +231,7 @@ public class GifUtils {
                                             c.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    video.setVideoPath(f.getAbsolutePath());
+                                                    video.setVideoPath("file://" + f.getAbsolutePath());
                                                     //videoView.set
                                                     if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
 
@@ -317,7 +317,7 @@ public class GifUtils {
                 try {
 
                     final URL url = new URL(s);
-                    final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+                    final File f = new File(ImageLoaderUtils.getCacheDirectoryGif(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
 
                     if (!f.exists()) {
@@ -380,7 +380,7 @@ public class GifUtils {
                     c.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            video.setVideoPath(f.getAbsolutePath());
+                            video.setVideoPath("file://" + f.getAbsolutePath());
                             //videoView.set
 
                             if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
@@ -457,7 +457,7 @@ public class GifUtils {
                                                     try {
 
                                                         final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
-                                                        final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+                                                        final File f = new File(ImageLoaderUtils.getCacheDirectoryGif(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
 
                                                         if (!f.exists()) {
@@ -520,7 +520,7 @@ public class GifUtils {
                                                         c.runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
-                                                                video.setVideoPath(f.getAbsolutePath());
+                                                                video.setVideoPath("file://" + f.getAbsolutePath());
                                                                 //videoView.set
 
                                                                 if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
@@ -635,7 +635,7 @@ public class GifUtils {
 
                                                                                          CacheUtil.makeRoom(c, length);
 
-                                                                                         final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+                                                                                         final File f = new File(ImageLoaderUtils.getCacheDirectoryGif(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
                                                                                          f.createNewFile();
                                                                                          MediaView.fileLoc = f.getAbsolutePath();
@@ -671,7 +671,7 @@ public class GifUtils {
                                                                                          c.runOnUiThread(new Runnable() {
                                                                                              @Override
                                                                                              public void run() {
-                                                                                                 video.setVideoPath(f.getAbsolutePath());
+                                                                                                 video.setVideoPath("file://" + f.getAbsolutePath());
                                                                                                  //videoView.set
 
                                                                                                  if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
@@ -771,7 +771,7 @@ public class GifUtils {
                                     }
                                     try {
                                         final URL url = new URL(obj);
-                                        final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+                                        final File f = new File(ImageLoaderUtils.getCacheDirectoryGif(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
                                         if (!f.exists()) {
                                             URLConnection ucon = url.openConnection();
@@ -827,7 +827,7 @@ public class GifUtils {
                             protected Void doInBackground(Void... params) {
                                 try {
                                     final URL url = new URL(getSmallerGfy(result.get("mp4Url").getAsString()));
-                                    final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+                                    final File f = new File(ImageLoaderUtils.getCacheDirectoryGif(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
                                     if (!f.exists()) {
                                         URLConnection ucon = url.openConnection();
@@ -888,7 +888,7 @@ public class GifUtils {
 
                                                         CacheUtil.makeRoom(c, length);
 
-                                                        final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+                                                        final File f = new File(ImageLoaderUtils.getCacheDirectoryGif(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
                                                         f.createNewFile();
                                                         MediaView.fileLoc = f.getAbsolutePath();

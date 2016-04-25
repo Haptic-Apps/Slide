@@ -78,6 +78,34 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/changelogpost"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
+
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="16dp"
+                    app:srcCompat="@drawable/commentchange"
+                    android:tint="?attr/tint"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/settings_about_changelog_post"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/libs"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"

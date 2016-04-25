@@ -124,7 +124,7 @@ public class StreamableUtil {
                                     }
                                     try {
                                         final URL url = new URL(obj);
-                                        final File f = new File(ImageLoaderUtils.getCacheDirectory(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
+                                        final File f = new File(ImageLoaderUtils.getCacheDirectoryGif(c).getAbsolutePath() + File.separator + url.toString().replaceAll("[^a-zA-Z0-9]", "") + ".mp4");
 
 
                                         if (!f.exists()) {

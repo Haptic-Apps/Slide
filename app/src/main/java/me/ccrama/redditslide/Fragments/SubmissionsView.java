@@ -233,6 +233,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             v.findViewById(R.id.back).setBackgroundResource(0);
         }
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+
         final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
@@ -248,6 +249,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         }
         rv.setLayoutManager(mLayoutManager);
         rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
+        rv.getLayoutManager().scrollToPosition(0);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getContext()));

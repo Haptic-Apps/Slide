@@ -874,9 +874,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             if (hiddenPersons.contains(comment.getFullName()) || toCollapse.contains(comment.getFullName())) {
-                if (hiddenPersons.contains(comment.getFullName())) {
+                int childnumber =  getChildNumber(baseNode);
+                if (hiddenPersons.contains(comment.getFullName()) && childnumber > 0) {
                     holder.children.setVisibility(View.VISIBLE);
-                    holder.childrenNumber.setText("+" + getChildNumber(baseNode));
+                    holder.childrenNumber.setText("+" + childnumber);
+                } else {
+                    holder.children.setVisibility(View.GONE);
                 }
                 if (SettingValues.collapseComments && toCollapse.contains(comment.getFullName())) {
                     holder.firstTextView.setVisibility(View.GONE);
@@ -2389,8 +2392,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         hideAll(baseNode, holder.getAdapterPosition() + 1);
                         if (!hiddenPersons.contains(comment.getFullName()))
                             hiddenPersons.add(comment.getFullName());
-                        showChildrenObject(holder.children);
-                        ((TextView) holder.children).setText("+" + childNumber);
+                        if(childNumber > 0) {
+                            showChildrenObject(holder.children);
+                            ((TextView) holder.children).setText("+" + childNumber);
+                        }
                     }
                     toCollapse.add(comment.getFullName());
                     if (holder.firstTextView.getVisibility() == View.VISIBLE && SettingValues.collapseComments) {

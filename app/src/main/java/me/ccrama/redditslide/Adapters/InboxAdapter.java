@@ -82,8 +82,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 && dataSet.posts.size() != 0 || position == dataSet.posts.size() && dataSet.nomore && !dataSet.where.equalsIgnoreCase("where")) {
-
+        if (position == 0 && dataSet.posts.size() != 0 || position == dataSet.posts.size() + 1 && dataSet.nomore && !dataSet.where.equalsIgnoreCase("where")) {
             return SPACER;
         } else  {
             position -= 1;
@@ -331,7 +330,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (dataSet.posts == null || dataSet.posts.size() == 0) {
             return 0;
         } else {
-            return dataSet.posts.size() + (dataSet.where.equalsIgnoreCase("unread") ? 1 : 2);
+            return dataSet.posts.size() +  2;
 
         }
     }

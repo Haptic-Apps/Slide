@@ -164,7 +164,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 } else {
                     wrapArea.setVisibility(View.VISIBLE);
                 }
-                if (submission.isSelfPost()) thumbImage2.setVisibility(View.GONE);
+                if (submission.isSelfPost() && full) wrapArea.setVisibility(View.GONE);
                 else {
                     thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
 
@@ -179,7 +179,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 }
 
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
-            } else if (type == ContentType.Type.IMAGE) {
+            } else if (type == ContentType.Type.IMAGE && !submission.getDataNode().get("thumbnail").isNull() && !submission.getDataNode().get("thumbnail").asText().isEmpty()) {
                 if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null && submission.getThumbnails().getVariations().length > 0) {
 
                     int length = submission.getThumbnails().getVariations().length;

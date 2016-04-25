@@ -135,7 +135,7 @@ public class Profile extends BaseActivityAnim {
                         .translationY(0)
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
-                if(sortItem != null){
+                if (sortItem != null) {
                     if (position < 3) {
                         sortItem.setVisible(true);
                     } else {
@@ -423,6 +423,9 @@ public class Profile extends BaseActivityAnim {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case (android.R.id.home):
+                onBackPressed();
+                break;
             case (R.id.info):
                 LayoutInflater inflater = getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);

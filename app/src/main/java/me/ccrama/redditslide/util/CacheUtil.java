@@ -14,11 +14,11 @@ import me.ccrama.redditslide.ImageLoaderUtils;
  */
 public class CacheUtil {
 
-    private static final long MAX_SIZE = 50000000l; // 50MB
+    private static final long MAX_SIZE = 75000000l; // 75MB
 
     public static void makeRoom(Activity context, int length) throws IOException {
 
-        File cacheDir = ImageLoaderUtils.getCacheDirectory(context);
+        File cacheDir = ImageLoaderUtils.getCacheDirectoryGif(context);
         long size = getDirSize(cacheDir);
         long newSize = length + size;
 
@@ -50,6 +50,9 @@ public class CacheUtil {
     private static long getDirSize(File dir) {
 
         long size = 0;
+        if(!dir.exists()){
+            dir.mkdir();
+        }
         File[] files = dir.listFiles();
 
         for (File file : files) {

@@ -70,7 +70,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.lusfold.androidkeyvaluestore.core.KVManger;
 
-import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.FlairTemplate;
@@ -766,18 +765,27 @@ public class MainActivity extends BaseActivity {
                     List<FlairTemplate> flairs;
                     ArrayList<String> flairText;
                     String current;
-
+                    AccountManager m;
                     @Override
                     protected View doInBackground(View... params) {
                         try {
-                            AccountManager m = new AccountManager(Authentication.reddit);
+                           m = new AccountManager(Authentication.reddit);
                             flairs = m.getFlairChoices(subreddit);
-                            if (m.getCurrentFlair(subreddit) != null) {
-                                current = m.getCurrentFlair(subreddit).getText();
+                            FlairTemplate currentF =  m.getCurrentFlair(subreddit);
+                            if (currentF != null) {
+                                if(currentF.getText().isEmpty()){
+                                    current = ("[" + currentF.getCssClass() + "]");
+                                } else {
+                                    current = (currentF.getText());
+                                }
                             }
                             flairText = new ArrayList<>();
                             for (FlairTemplate temp : flairs) {
-                                flairText.add(temp.getText());
+                                if(temp.getText().isEmpty()){
+                                    flairText.add("[" + temp.getCssClass() + "]");
+                                } else {
+                                    flairText.add(temp.getText());
+                                }
                             }
                         } catch (Exception e1) {
                             e1.printStackTrace();
@@ -818,8 +826,14 @@ public class MainActivity extends BaseActivity {
                                                                             protected Boolean doInBackground(Void... params) {
                                                                                 try {
                                                                                     new ModerationManager(Authentication.reddit).setFlair(subreddit, t, flair, Authentication.name);
+                                                                                    FlairTemplate currentF =  m.getCurrentFlair(subreddit);
+                                                                                    if(currentF.getText().isEmpty()){
+                                                                                        current = ("[" + currentF.getCssClass() + "]");
+                                                                                    } else {
+                                                                                        current = (currentF.getText());
+                                                                                    }
                                                                                     return true;
-                                                                                } catch (ApiException e) {
+                                                                                } catch (Exception e) {
                                                                                     e.printStackTrace();
                                                                                     return false;
                                                                                 }
@@ -829,6 +843,9 @@ public class MainActivity extends BaseActivity {
                                                                             protected void onPostExecute(Boolean done) {
                                                                                 Snackbar s = null;
                                                                                 if (done) {
+                                                                                    if (current != null) {
+                                                                                        ((TextView)dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                                                                    }
                                                                                     s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
                                                                                 } else {
                                                                                     s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
@@ -850,8 +867,14 @@ public class MainActivity extends BaseActivity {
                                                             protected Boolean doInBackground(Void... params) {
                                                                 try {
                                                                     new ModerationManager(Authentication.reddit).setFlair(subreddit, t, null, Authentication.name);
+                                                                    FlairTemplate currentF =  m.getCurrentFlair(subreddit);
+                                                                    if(currentF.getText().isEmpty()){
+                                                                        current = ("[" + currentF.getCssClass() + "]");
+                                                                    } else {
+                                                                        current = (currentF.getText());
+                                                                    }
                                                                     return true;
-                                                                } catch (ApiException e) {
+                                                                } catch (Exception e) {
                                                                     e.printStackTrace();
                                                                     return false;
                                                                 }
@@ -861,6 +884,9 @@ public class MainActivity extends BaseActivity {
                                                             protected void onPostExecute(Boolean done) {
                                                                 Snackbar s = null;
                                                                 if (done) {
+                                                                    if (current != null) {
+                                                                        ((TextView)dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                                                    }
                                                                     s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
                                                                 } else {
                                                                     s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);

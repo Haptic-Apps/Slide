@@ -33,7 +33,12 @@ public class ImageLoaderUtils {
         }
         return context.getCacheDir();
     }
-
+    public static File getCacheDirectoryGif(Context context) {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && context.getExternalCacheDir() != null) {
+            return new File(context.getExternalCacheDir() + File.separator + "gifs");
+        }
+        return new File(context.getCacheDir() + File.separator + "gifs");
+    }
     public static void initImageLoader(Context context) {
         long discCacheSize = 1024 * 1024;
         DiskCache discCache;
