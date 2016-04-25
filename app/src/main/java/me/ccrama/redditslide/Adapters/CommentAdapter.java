@@ -670,6 +670,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void collapseAll() {
+        if (users == null) return;
         for (CommentObject o : users) {
             if (o.comment.isTopLevel()) {
                 if (!hiddenPersons.contains(o.comment.getComment().getFullName()))
