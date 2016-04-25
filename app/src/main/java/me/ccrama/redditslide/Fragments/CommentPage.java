@@ -150,6 +150,14 @@ public class CommentPage extends Fragment {
         doTopBar();
     }
 
+    public void doRefresh(boolean b) {
+        if (b) {
+            v.findViewById(R.id.progress).setVisibility(View.VISIBLE);
+        } else {
+            v.findViewById(R.id.progress).setVisibility(View.GONE);
+        }
+    }
+
     public void doTopBar() {
         final View subtractHeight = v.findViewById(R.id.locked);
         toSubtract = 4;
@@ -166,7 +174,7 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.loadall).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mSwipeRefreshLayout.setRefreshing(true);
+                    doRefresh(true);
 
                     toSubtract++;
                     v.findViewById(R.id.loadall).setVisibility(View.GONE);
@@ -344,48 +352,48 @@ public class CommentPage extends Fragment {
                             }, getCurrentSort(), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                        switch(which){
-                                            case 0:
-                                                currentSort = CommentNavType.PARENTS;
-                                                break;
-                                            case 1:
-                                                currentSort = CommentNavType.OP;
-                                                break;
-                                            case 2:
-                                                currentSort = CommentNavType.TIME;
-                                                LayoutInflater inflater = getActivity().getLayoutInflater();
-                                                final View dialoglayout = inflater.inflate(R.layout.commenttime, null);
-                                                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-                                                final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
+                                    switch (which) {
+                                        case 0:
+                                            currentSort = CommentNavType.PARENTS;
+                                            break;
+                                        case 1:
+                                            currentSort = CommentNavType.OP;
+                                            break;
+                                        case 2:
+                                            currentSort = CommentNavType.TIME;
+                                            LayoutInflater inflater = getActivity().getLayoutInflater();
+                                            final View dialoglayout = inflater.inflate(R.layout.commenttime, null);
+                                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+                                            final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
 
-                                                final TextView since = (TextView) dialoglayout.findViewById(R.id.time_string);
-                                                landscape.setValueRange(60, 18000, false);
-                                                landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
-                                                    @Override
-                                                    public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                                                        Calendar c = Calendar.getInstance();
-                                                        sortTime = c.getTimeInMillis() - i1 * 1000;
+                                            final TextView since = (TextView) dialoglayout.findViewById(R.id.time_string);
+                                            landscape.setValueRange(60, 18000, false);
+                                            landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
+                                                @Override
+                                                public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
+                                                    Calendar c = Calendar.getInstance();
+                                                    sortTime = c.getTimeInMillis() - i1 * 1000;
 
-                                                        int commentcount =0;
-                                                        for(CommentObject o : adapter.users){
-                                                            if(o.comment != null && o.comment.getComment().getDataNode().has("created") && o.comment.getComment().getCreated().getTime() > sortTime){
-                                                                commentcount +=1;
-                                                            }
+                                                    int commentcount = 0;
+                                                    for (CommentObject o : adapter.users) {
+                                                        if (o.comment != null && o.comment.getComment().getDataNode().has("created") && o.comment.getComment().getCreated().getTime() > sortTime) {
+                                                            commentcount += 1;
                                                         }
-                                                        since.setText(TimeUtils.getTimeAgo(sortTime, getActivity()) + " (" + commentcount + " comments)");
                                                     }
-                                                });
-                                                landscape.setValue(600, false);
-                                                builder.setView(dialoglayout);
-                                                builder.setPositiveButton(R.string.btn_set, null).show();
-                                                break;
+                                                    since.setText(TimeUtils.getTimeAgo(sortTime, getActivity()) + " (" + commentcount + " comments)");
+                                                }
+                                            });
+                                            landscape.setValue(600, false);
+                                            builder.setView(dialoglayout);
+                                            builder.setPositiveButton(R.string.btn_set, null).show();
+                                            break;
 
-                                            case 3:
-                                                currentSort = CommentNavType.LINK;
-                                                break;
-                                            case 4:
-                                                currentSort = CommentNavType.GILDED;
-                                                break;
+                                        case 3:
+                                            currentSort = CommentNavType.LINK;
+                                            break;
+                                        case 4:
+                                            currentSort = CommentNavType.GILDED;
+                                            break;
 
                                     }
 
@@ -644,17 +652,10 @@ public class CommentPage extends Fragment {
 
     public void doAdapter(boolean load) {
         commentSorting = SettingValues.getCommentSorting(subreddit);
-        if(load)
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                if (adapter == null || adapter.users == null) {
-                    mSwipeRefreshLayout.setRefreshing(true);
-                }
-            }
-        });
-        if(load)
-        loaded = true;
+        if (load)
+            doRefresh(true);
+        if (load)
+            loaded = true;
         if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             Submission s = ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page);
@@ -779,7 +780,7 @@ public class CommentPage extends Fragment {
     }
 
     public int getCurrentSort() {
-        switch(currentSort){
+        switch (currentSort) {
             case PARENTS:
                 return 0;
             case TIME:
@@ -936,7 +937,7 @@ public class CommentPage extends Fragment {
                         break;
                     }
                 }
-            } catch (Exception ignored){
+            } catch (Exception ignored) {
 
             }
         }
@@ -1031,7 +1032,7 @@ public class CommentPage extends Fragment {
                         break;
                     }
                 }
-            } catch(Exception ignored){
+            } catch (Exception ignored) {
 
             }
         }

@@ -2109,6 +2109,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 menu.setVisibility(View.VISIBLE);
                 replyArea.setVisibility(View.GONE);
             }
+
             holder.itemView.findViewById(R.id.background).setBackgroundColor(Color.argb(50, Color.red(color), Color.green(color), Color.blue(color)));
         }
     }

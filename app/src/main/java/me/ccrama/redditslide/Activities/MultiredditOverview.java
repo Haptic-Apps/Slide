@@ -543,4 +543,23 @@ public class MultiredditOverview extends BaseActivityAnim {
         }
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+      if (requestCode == 940) {
+            if (adapter != null && adapter.getCurrentFragment() != null) {
+                if (resultCode == RESULT_OK) {
+                    LogUtil.v("Doing hide posts");
+                    ArrayList<Integer> posts = data.getIntegerArrayListExtra("seen");
+                    ((MultiredditView) adapter.getCurrentFragment()).adapter.refreshView(posts);
+                    if (data.hasExtra("lastPage") && data.getIntExtra("lastPage", 0) != 0 && ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager)
+                        ((LinearLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).scrollToPositionWithOffset(data.getIntExtra("lastPage", 0) + 1, mToolbar.getHeight());
+                } else {
+                    ((MultiredditView) adapter.getCurrentFragment()).adapter.refreshView();
+                }
+            }
+        }
+
+    }
+
 }

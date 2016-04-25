@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,10 @@ import me.ccrama.redditslide.Fragments.MultiredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
+
+;
 
 
 public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -116,7 +118,20 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         }, 500);
     }
+    public void refreshView(ArrayList<Integer> seen) {
+        listView.setItemAnimator(null);
+        final RecyclerView.ItemAnimator a = listView.getItemAnimator();
 
+        for (int i : seen) {
+            notifyItemChanged(i + 1);
+        }
+        listView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listView.setItemAnimator(a);
+            }
+        }, 500);
+    }
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder2, final int pos) {
 

@@ -200,6 +200,7 @@ public class SubmissionComments {
             if (page.isVisible() && submission != null) {
                 page.doData(reset);
                 refreshLayout.setRefreshing(false);
+                page.doRefresh(false);
                 if ((submission.isArchived() && !page.archived) || (submission.isLocked() && !page.locked))
                     page.doTopBar(submission);
                 if (adapter != null) {

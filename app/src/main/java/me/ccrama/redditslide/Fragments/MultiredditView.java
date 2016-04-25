@@ -50,7 +50,7 @@ import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class MultiredditView extends Fragment implements SubmissionDisplay {
 
-    private MultiredditAdapter adapter;
+    public MultiredditAdapter adapter;
     public MultiredditPosts posts;
     private SwipeRefreshLayout refreshLayout;
     private int id;

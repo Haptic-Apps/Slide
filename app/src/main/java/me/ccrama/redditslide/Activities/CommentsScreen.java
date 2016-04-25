@@ -182,7 +182,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                               @Override
                                               public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                                                  if (position == firstPage && positionOffsetPixels == 0) {
+                                                  if (position <= firstPage && positionOffsetPixels == 0) {
                                                       finish();
                                                   }
                                                   if (position == firstPage && !popup) {
@@ -310,7 +310,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
         @Override
         public Fragment getItem(int i) {
-            if (i == firstPage || i == 0) {
+            if (i <= firstPage || i == 0) {
                 blankPage = new BlankFragment();
                 return blankPage;
             } else {

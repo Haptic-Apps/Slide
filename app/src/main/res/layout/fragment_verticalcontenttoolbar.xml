@@ -22,63 +22,79 @@
 
     </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/header"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/orange"
-        android:elevation="16dp"
         android:orientation="vertical"
-        android:theme="@style/Theme.AppCompat">
+        android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false" />
+            android:background="@color/orange"
+            android:elevation="16dp"
+            android:orientation="vertical"
+            android:theme="@style/Theme.AppCompat">
 
-        <TextView
-            android:id="@+id/np"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false" />
+
+            <TextView
+                android:id="@+id/np"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/submission_np_link"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/archived"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/submission_info_archived"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/locked"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/submission_info_locked"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/loadall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorAccent"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="@string/submission_load_full"
+                android:textColor="?attr/font"
+                android:textSize="14sp" />
+        </android.support.design.widget.AppBarLayout>
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="@string/submission_np_link"
-            android:textColor="#fff"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/archived"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="@string/submission_info_archived"
-            android:textColor="#fff"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/locked"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="@string/submission_info_locked"
-            android:textColor="#fff"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/loadall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorAccent"
-            android:gravity="center"
-            android:padding="8dp"
-            android:text="@string/submission_load_full"
-            android:textColor="?attr/font"
-            android:textSize="14sp" />
-
-    </android.support.design.widget.AppBarLayout>
+            android:layout_marginTop="-7dp"
+            android:indeterminate="true"
+            android:max="100"
+            android:progress="0" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/fastscroll"
@@ -96,14 +112,16 @@
             android:layout_height="36dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/up" />
+
         <ImageView
             android:id="@+id/nav"
             style="@style/Ripple.List"
-            android:padding="8dp
-            "
             android:layout_width="48dp"
             android:layout_height="36dp"
+            android:padding="8dp
+            "
             app:srcCompat="@drawable/nav" />
+
         <ImageView
             android:id="@+id/down"
             style="@style/Ripple.List"
