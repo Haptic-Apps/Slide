@@ -428,279 +428,281 @@ public class Profile extends BaseActivityAnim {
                 onBackPressed();
                 break;
             case (R.id.info):
-                LayoutInflater inflater = getLayoutInflater();
-                final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
-                final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
-                title.setText(name);
+                if(account != null) {
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
+                    final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
+                    title.setText(name);
 
-                dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Reddit.defaultShareText(getString(R.string.profile_share, name),
-                                "https://www.reddit.com/u/" + name, Profile.this);
-                    }
-                });
+                    dialoglayout.findViewById(R.id.share).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Reddit.defaultShareText(getString(R.string.profile_share, name),
+                                    "https://www.reddit.com/u/" + name, Profile.this);
+                        }
+                    });
 
-                final int currentColor = Palette.getColorUser(name);
-                title.setBackgroundColor(currentColor);
+                    final int currentColor = Palette.getColorUser(name);
+                    title.setBackgroundColor(currentColor);
 
-                String info = getString(R.string.profile_age,
-                        TimeUtils.getTimeSince(account.getCreated().getTime(), Profile.this));
+                    String info = getString(R.string.profile_age,
+                            TimeUtils.getTimeSince(account.getCreated().getTime(), Profile.this));
                /*todo better if (account.hasGold() &&account.getDataNode().has("gold_expiration") ) {
                     Calendar c = Calendar.getInstance();
                     c.setTimeInMillis(account.getDataNode().get("gold_expiration").asLong());
                     info.append("Gold expires on " + new SimpleDateFormat("dd/MM/yy").format(c.getTime()));
                 }*/
 
-                ((TextView) dialoglayout.findViewById(R.id.moreinfo)).setText(info);
+                    ((TextView) dialoglayout.findViewById(R.id.moreinfo)).setText(info);
 
-                String tag = UserTags.getUserTag(name);
-                if (tag.isEmpty()) {
-                    tag = getString(R.string.profile_tag_user);
-                } else {
-                    tag = getString(R.string.profile_tag_user_existing, tag);
-                }
-
-                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
-                LinearLayout l = (LinearLayout) dialoglayout.findViewById(R.id.trophies_inner);
-
-                dialoglayout.findViewById(R.id.tag).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MaterialDialog.Builder b = new MaterialDialog.Builder(Profile.this)
-                                .title(getString(R.string.profile_tag_set, name))
-                                .input(getString(R.string.profile_tag), UserTags.getUserTag(name), false, new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-
-                                    }
-                                }).positiveText(R.string.profile_btn_tag)
-                                .neutralText(R.string.btn_cancel);
-
-                        if (UserTags.isUserTagged(name)) {
-                            b.negativeText(R.string.profile_btn_untag);
-                        }
-                        b.onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(MaterialDialog dialog, DialogAction which) {
-                                UserTags.setUserTag(name, dialog.getInputEditText().getText().toString());
-                                String tag = UserTags.getUserTag(name);
-                                if (tag.isEmpty()) {
-                                    tag = getString(R.string.profile_tag_user);
-                                } else {
-                                    tag = getString(R.string.profile_tag_user_existing, tag);
-                                }
-                                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
-                            }
-                        }).onNeutral(null).onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(MaterialDialog dialog, DialogAction which) {
-                                UserTags.removeUserTag(name);
-                                String tag = UserTags.getUserTag(name);
-                                if (tag.isEmpty()) {
-                                    tag = getString(R.string.profile_tag_user);
-                                } else {
-                                    tag = getString(R.string.profile_tag_user_existing, tag);
-                                }
-                                ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
-                            }
-                        }).show();
-                    }
-                });
-
-                if (trophyCase.isEmpty()) {
-                    dialoglayout.findViewById(R.id.trophies).setVisibility(View.GONE);
-                } else {
-                    for (final Trophy t : trophyCase) {
-                        View view = getLayoutInflater().inflate(R.layout.trophy, null);
-                        // Edit
-                        ((Reddit) getApplicationContext()).getImageLoader().displayImage(t.getIcon(), ((ImageView) view.findViewById(R.id.image)));
-                        ((TextView) view.findViewById(R.id.trophyTitle)).setText(t.getFullName());
-                        if (t.getAboutUrl() != null) {
-                            view.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    CustomTabUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
-                                }
-                            });
-                        }
-                        l.addView(view);
-                    }
-                }
-                if (Authentication.isLoggedIn) {
-                    dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i = new Intent(Profile.this, Sendmessage.class);
-                            i.putExtra(Sendmessage.EXTRA_NAME, name);
-                            startActivity(i);
-                        }
-                    });
-
-                    friend = account.isFriend();
-                    if (friend) {
-                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
+                    String tag = UserTags.getUserTag(name);
+                    if (tag.isEmpty()) {
+                        tag = getString(R.string.profile_tag_user);
                     } else {
-                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
-
+                        tag = getString(R.string.profile_tag_user_existing, tag);
                     }
-                    dialoglayout.findViewById(R.id.friend_body).setOnClickListener(new View.OnClickListener() {
+
+                    ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
+                    LinearLayout l = (LinearLayout) dialoglayout.findViewById(R.id.trophies_inner);
+
+                    dialoglayout.findViewById(R.id.tag).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            new AsyncTask<Void, Void, Void>() {
-                                @Override
-                                protected Void doInBackground(Void... params) {
-                                    if (friend) {
-                                        try {
-                                            new AccountManager(Authentication.reddit).deleteFriend(name);
-                                        } catch (Exception ignored) {
-                                            //Will throw java.lang.IllegalStateException: No Content-Type header was found, but it still works.
+                            MaterialDialog.Builder b = new MaterialDialog.Builder(Profile.this)
+                                    .title(getString(R.string.profile_tag_set, name))
+                                    .input(getString(R.string.profile_tag), UserTags.getUserTag(name), false, new MaterialDialog.InputCallback() {
+                                        @Override
+                                        public void onInput(MaterialDialog dialog, CharSequence input) {
+
                                         }
-                                        friend = false;
+                                    }).positiveText(R.string.profile_btn_tag)
+                                    .neutralText(R.string.btn_cancel);
 
-                                    } else {
-                                        new AccountManager(Authentication.reddit).updateFriend(name);
-                                        friend = true;
-
-
-                                    }
-                                    return null;
-                                }
-
+                            if (UserTags.isUserTagged(name)) {
+                                b.negativeText(R.string.profile_btn_untag);
+                            }
+                            b.onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
-                                public void onPostExecute(Void voids) {
-                                    if (friend) {
-                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    UserTags.setUserTag(name, dialog.getInputEditText().getText().toString());
+                                    String tag = UserTags.getUserTag(name);
+                                    if (tag.isEmpty()) {
+                                        tag = getString(R.string.profile_tag_user);
                                     } else {
-                                        ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
+                                        tag = getString(R.string.profile_tag_user_existing, tag);
                                     }
+                                    ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
                                 }
-                            }.execute();
-
+                            }).onNeutral(null).onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    UserTags.removeUserTag(name);
+                                    String tag = UserTags.getUserTag(name);
+                                    if (tag.isEmpty()) {
+                                        tag = getString(R.string.profile_tag_user);
+                                    } else {
+                                        tag = getString(R.string.profile_tag_user_existing, tag);
+                                    }
+                                    ((TextView) dialoglayout.findViewById(R.id.tagged)).setText(tag);
+                                }
+                            }).show();
                         }
                     });
-                } else {
-                    dialoglayout.findViewById(R.id.pm).setVisibility(View.GONE);
-                }
 
-                final View body = dialoglayout.findViewById(R.id.body2);
-                body.setVisibility(View.INVISIBLE);
+                    if (trophyCase.isEmpty()) {
+                        dialoglayout.findViewById(R.id.trophies).setVisibility(View.GONE);
+                    } else {
+                        for (final Trophy t : trophyCase) {
+                            View view = getLayoutInflater().inflate(R.layout.trophy, null);
+                            // Edit
+                            ((Reddit) getApplicationContext()).getImageLoader().displayImage(t.getIcon(), ((ImageView) view.findViewById(R.id.image)));
+                            ((TextView) view.findViewById(R.id.trophyTitle)).setText(t.getFullName());
+                            if (t.getAboutUrl() != null) {
+                                view.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        CustomTabUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
+                                    }
+                                });
+                            }
+                            l.addView(view);
+                        }
+                    }
+                    if (Authentication.isLoggedIn) {
+                        dialoglayout.findViewById(R.id.pm).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(Profile.this, Sendmessage.class);
+                                i.putExtra(Sendmessage.EXTRA_NAME, name);
+                                startActivity(i);
+                            }
+                        });
 
-                final View center = dialoglayout.findViewById(R.id.colorExpandFrom);
-                dialoglayout.findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int cx = center.getWidth() / 2;
-                        int cy = center.getHeight() / 2;
-
-                        int finalRadius = Math.max(body.getWidth(), body.getHeight());
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            Animator anim =
-                                    ViewAnimationUtils.createCircularReveal(body, cx, cy, 0, finalRadius);
-                            body.setVisibility(View.VISIBLE);
-                            anim.start();
+                        friend = account.isFriend();
+                        if (friend) {
+                            ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
                         } else {
-                            body.setVisibility(View.VISIBLE);
+                            ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
+
+                        }
+                        dialoglayout.findViewById(R.id.friend_body).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                new AsyncTask<Void, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        if (friend) {
+                                            try {
+                                                new AccountManager(Authentication.reddit).deleteFriend(name);
+                                            } catch (Exception ignored) {
+                                                //Will throw java.lang.IllegalStateException: No Content-Type header was found, but it still works.
+                                            }
+                                            friend = false;
+
+                                        } else {
+                                            new AccountManager(Authentication.reddit).updateFriend(name);
+                                            friend = true;
+
+
+                                        }
+                                        return null;
+                                    }
+
+                                    @Override
+                                    public void onPostExecute(Void voids) {
+                                        if (friend) {
+                                            ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_remove_friend);
+                                        } else {
+                                            ((TextView) dialoglayout.findViewById(R.id.friend)).setText(R.string.profile_add_friend);
+                                        }
+                                    }
+                                }.execute();
+
+                            }
+                        });
+                    } else {
+                        dialoglayout.findViewById(R.id.pm).setVisibility(View.GONE);
+                    }
+
+                    final View body = dialoglayout.findViewById(R.id.body2);
+                    body.setVisibility(View.INVISIBLE);
+
+                    final View center = dialoglayout.findViewById(R.id.colorExpandFrom);
+                    dialoglayout.findViewById(R.id.color).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            int cx = center.getWidth() / 2;
+                            int cy = center.getHeight() / 2;
+
+                            int finalRadius = Math.max(body.getWidth(), body.getHeight());
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Animator anim =
+                                        ViewAnimationUtils.createCircularReveal(body, cx, cy, 0, finalRadius);
+                                body.setVisibility(View.VISIBLE);
+                                anim.start();
+                            } else {
+                                body.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    });
+
+                    LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
+                    final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
+
+                    colorPicker.setColors(ColorPreferences.getBaseColors(Profile.this));
+
+                    colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
+                        @Override
+                        public void onColorChanged(int c) {
+
+                            colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), c));
+                            colorPicker2.setSelectedColor(c);
+                        }
+                    });
+
+                    for (int i : colorPicker.getColors()) {
+                        for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
+                            if (i2 == currentColor) {
+                                colorPicker.setSelectedColor(i);
+                                colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), i));
+                                colorPicker2.setSelectedColor(i2);
+                                break;
+                            }
                         }
                     }
-                });
 
-                LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
-                final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
-
-                colorPicker.setColors(ColorPreferences.getBaseColors(Profile.this));
-
-                colorPicker.setOnColorChangedListener(new OnColorChangedListener() {
-                    @Override
-                    public void onColorChanged(int c) {
-
-                        colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), c));
-                        colorPicker2.setSelectedColor(c);
-                    }
-                });
-
-                for (int i : colorPicker.getColors()) {
-                    for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
-                        if (i2 == currentColor) {
-                            colorPicker.setSelectedColor(i);
-                            colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), i));
-                            colorPicker2.setSelectedColor(i2);
-                            break;
+                    colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
+                        @Override
+                        public void onColorChanged(int i) {
+                            findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
+                            if (mToolbar != null)
+                                mToolbar.setBackgroundColor(colorPicker2.getColor());
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Window window = getWindow();
+                                window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
+                            }
+                            title.setBackgroundColor(colorPicker2.getColor());
                         }
-                    }
-                }
+                    });
 
-                colorPicker2.setOnColorChangedListener(new OnColorChangedListener() {
-                    @Override
-                    public void onColorChanged(int i) {
-                        findViewById(R.id.header).setBackgroundColor(colorPicker2.getColor());
-                        if (mToolbar != null)
-                            mToolbar.setBackgroundColor(colorPicker2.getColor());
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            Window window = getWindow();
-                            window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
-                        }
-                        title.setBackgroundColor(colorPicker2.getColor());
-                    }
-                });
+                    {
+                        TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
 
-            {
-                TextView dialogButton = (TextView) dialoglayout.findViewById(R.id.ok);
+                        // if button is clicked, close the custom dialog
+                        dialogButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Palette.setColorUser(name, colorPicker2.getColor());
 
-                // if button is clicked, close the custom dialog
-                dialogButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Palette.setColorUser(name, colorPicker2.getColor());
+                                int cx = center.getWidth() / 2;
+                                int cy = center.getHeight() / 2;
 
-                        int cx = center.getWidth() / 2;
-                        int cy = center.getHeight() / 2;
+                                int initialRadius = body.getWidth();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                        int initialRadius = body.getWidth();
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    Animator anim =
+                                            ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
 
-                            Animator anim =
-                                    ViewAnimationUtils.createCircularReveal(body, cx, cy, initialRadius, 0);
+                                    anim.addListener(new AnimatorListenerAdapter() {
+                                        @Override
+                                        public void onAnimationEnd(Animator animation) {
+                                            super.onAnimationEnd(animation);
+                                            body.setVisibility(View.GONE);
+                                        }
+                                    });
+                                    anim.start();
 
-                            anim.addListener(new AnimatorListenerAdapter() {
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    super.onAnimationEnd(animation);
+                                } else {
                                     body.setVisibility(View.GONE);
+
                                 }
-                            });
-                            anim.start();
 
-                        } else {
-                            body.setVisibility(View.GONE);
+                            }
+                        });
 
+
+                    }
+                    ((TextView) dialoglayout.findViewById(R.id.commentkarma)).setText(account.getCommentKarma() + "");
+                    ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(account.getLinkKarma() + "");
+
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            findViewById(R.id.header).setBackgroundColor(currentColor);
+                            if (mToolbar != null)
+                                mToolbar.setBackgroundColor(currentColor);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                Window window = getWindow();
+                                window.setStatusBarColor(Palette.getDarkerColor(currentColor));
+                            }
                         }
+                    });
 
-                    }
-                });
-
-
-            }
-            ((TextView) dialoglayout.findViewById(R.id.commentkarma)).setText(account.getCommentKarma() + "");
-            ((TextView) dialoglayout.findViewById(R.id.linkkarma)).setText(account.getLinkKarma() + "");
-
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    findViewById(R.id.header).setBackgroundColor(currentColor);
-                    if (mToolbar != null)
-                        mToolbar.setBackgroundColor(currentColor);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        Window window = getWindow();
-                        window.setStatusBarColor(Palette.getDarkerColor(currentColor));
-                    }
+                    builder.setView(dialoglayout);
+                    builder.show();
                 }
-            });
-
-            builder.setView(dialoglayout);
-            builder.show();
             return true;
 
             case (R.id.sort):

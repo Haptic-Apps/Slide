@@ -22,7 +22,6 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
@@ -183,6 +182,7 @@ public class SubredditPosts implements PostLoader {
             }
         }
     }
+
     public ArrayList<String> all;
 
     @Override
@@ -290,34 +290,8 @@ public class SubredditPosts implements PostLoader {
 
             }
 
-            List<Submission> things = new ArrayList<>();
+            List<Submission> filteredSubmissions = getNextFiltered();
 
-
-            try {
-                if (paginator != null && paginator.hasNext()) {
-                    if (force18) {
-                        paginator.setObeyOver18(false);
-                    }
-                    things.addAll(paginator.next());
-                } else {
-                    nomore = true;
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                if (e.getMessage() != null && e.getMessage().contains("Forbidden")) {
-                    Reddit.authentication.updateToken(context);
-                }
-
-            }
-
-
-            List<Submission> filteredSubmissions = new ArrayList<>();
-            for (Submission s : things) {
-                if (!PostMatch.doesMatch(s, paginator.getSubreddit(), force18)) {
-                    filteredSubmissions.add(s);
-                }
-            }
 
             loadPhotos(filteredSubmissions);
             SubmissionCache.cacheSubmissions(filteredSubmissions, context, subreddit);
@@ -337,12 +311,45 @@ public class SubredditPosts implements PostLoader {
             if (posts != null) {
                 start = posts.size() + 1;
             }
-            return things;
+            return filteredSubmissions;
+        }
+
+        public ArrayList<Submission> getNextFiltered() {
+            ArrayList<Submission> filteredSubmissions = new ArrayList<>();
+            ArrayList<Submission> adding = new ArrayList<>();
+
+            try {
+                if (paginator != null && paginator.hasNext()) {
+                    if (force18) {
+                        paginator.setObeyOver18(false);
+                    }
+                    adding.addAll(paginator.next());
+                } else {
+                    nomore = true;
+                }
+
+
+                for (Submission s : adding) {
+                    if (!PostMatch.doesMatch(s, paginator.getSubreddit(), force18)) {
+                        filteredSubmissions.add(s);
+                    }
+                }
+                if (paginator != null && paginator.hasNext() && filteredSubmissions.isEmpty()) {
+                    filteredSubmissions.addAll(getNextFiltered());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                if (e.getMessage() != null && e.getMessage().contains("Forbidden")) {
+                    Reddit.authentication.updateToken(context);
+                }
+
+            }
+            return filteredSubmissions;
         }
     }
 
-    public void doMainActivityOffline(final SubmissionDisplay displayer){
-        if(all == null){
+    public void doMainActivityOffline(final SubmissionDisplay displayer) {
+        if (all == null) {
             all = OfflineSubreddit.getAll(subreddit);
         }
         offline = true;
