@@ -2298,7 +2298,8 @@ public class MainActivity extends BaseActivity {
                 PostMatch.isImage(subreddit),
                 PostMatch.isNsfw(subreddit),
                 PostMatch.isSelftext(subreddit),
-                PostMatch.isUrls(subreddit)
+                PostMatch.isUrls(subreddit),
+                PostMatch.isVideo(subreddit)
         };
 
         final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
@@ -2313,7 +2314,8 @@ public class MainActivity extends BaseActivity {
                         getString(R.string.image_downloads),
                         getString(R.string.type_nsfw_content),
                         getString(R.string.type_selftext),
-                        getString(R.string.type_links)
+                        getString(R.string.type_links),
+                        getString(R.string.type_vid)
                 }, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {

@@ -114,6 +114,7 @@ public class PostMatch {
         boolean albums = isAlbums(baseSubreddit);
         boolean urls = isUrls(baseSubreddit);
         boolean selftext = isSelftext(baseSubreddit);
+        boolean videos = isVideo(baseSubreddit);
 
 
         if (s.isNsfw()) {
@@ -124,9 +125,6 @@ public class PostMatch {
             case REDDIT:
             case EMBEDDED:
             case LINK:
-            case VID_ME:
-            case VIDEO:
-            case STREAMABLE:
                 if (urls) contentMatch = true;
                 break;
             case SELF:
@@ -143,6 +141,11 @@ public class PostMatch {
                 break;
             case GIF:
                 if (gifs) contentMatch = true;
+                break;
+            case VID_ME:
+            case STREAMABLE:
+            case VIDEO:
+                if(videos) contentMatch = true;
                 break;
         }
 
@@ -189,6 +192,7 @@ public class PostMatch {
         e.putBoolean(subreddit + "_nsfwFilter", values[3]);
         e.putBoolean(subreddit + "_selftextFilter", values[4]);
         e.putBoolean(subreddit + "_urlsFilter", values[5]);
+        e.putBoolean(subreddit + "_videoFilter", values[6]);
         e.apply();
 
     }
@@ -215,5 +219,8 @@ public class PostMatch {
 
     public static boolean isUrls(String baseSubreddit) {
         return filters.getBoolean(baseSubreddit + "_urlsFilter", false);
+    }
+    public static boolean isVideo(String baseSubreddit) {
+        return filters.getBoolean(baseSubreddit + "_videoFilter", false);
     }
 }

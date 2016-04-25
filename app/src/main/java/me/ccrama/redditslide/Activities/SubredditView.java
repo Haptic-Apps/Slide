@@ -418,12 +418,19 @@ public class SubredditView extends BaseActivityAnim {
     boolean[] chosen;
 
     public void filterContent(final String subreddit) {
-        chosen = new boolean[]{PostMatch.isGif(subreddit), PostMatch.isAlbums(subreddit), PostMatch.isImage(subreddit), PostMatch.isNsfw(subreddit), PostMatch.isSelftext(subreddit), PostMatch.isUrls(subreddit)};
+        chosen = new boolean[]{PostMatch.isGif(subreddit), PostMatch.isAlbums(subreddit), PostMatch.isImage(subreddit), PostMatch.isNsfw(subreddit), PostMatch.isSelftext(subreddit), PostMatch.isUrls(subreddit), PostMatch.isVideo(subreddit)};
 
         new AlertDialogWrapper.Builder(this)
                 .setTitle("Content to show in /r/" + subreddit)
                 .alwaysCallMultiChoiceCallback()
-                .setMultiChoiceItems(new String[]{"Gifs", "Albums", "Images", "NSFW Content", "Selftext", "Websites"}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(new String[]{
+                        getString(R.string.type_gifs),
+                        getString(R.string.type_albums),
+                        getString(R.string.image_downloads),
+                        getString(R.string.type_nsfw_content),
+                        getString(R.string.type_selftext),
+                        getString(R.string.type_links),
+                        getString(R.string.type_vid)}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         chosen[which] = isChecked;
@@ -431,7 +438,6 @@ public class SubredditView extends BaseActivityAnim {
                 }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                LogUtil.v(chosen[0] + " " + chosen[1] + " " + chosen[2] + " " + chosen[3] + " " + chosen[4] + " " + chosen[5]);
                 PostMatch.setChosen(chosen, subreddit);
                 reloadSubs();
             }
