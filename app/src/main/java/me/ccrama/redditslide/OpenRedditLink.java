@@ -362,6 +362,9 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/w.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
             return RedditLinkType.WIKI;
+        }else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/about.*")) {
+            // Wiki link. Format: reddit.com/r/$subreddit/about/$page [optional]
+            return RedditLinkType.WIKI;
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/search.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/search?q= [optional]
             return RedditLinkType.SEARCH;

@@ -224,7 +224,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
         actuallyLoaded = contentUrl;
         if (getIntent().hasExtra(EXTRA_LQ)) {
-            doLoadImage(getIntent().getStringExtra(EXTRA_DISPLAY_URL));
+            displayImage(getIntent().getStringExtra(EXTRA_DISPLAY_URL));
             findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -237,7 +237,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             if (!firstUrl.isEmpty() && contentUrl != null) {
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
                 displayImage(firstUrl);
-            }  else if (firstUrl.isEmpty()) {
+            } else if (firstUrl.isEmpty()) {
                 imageShown = false;
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
             }
@@ -353,7 +353,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         if (NetworkUtil.isConnected(this)) {
 
-            if(hash.startsWith("/"))
+            if (hash.startsWith("/"))
                 hash = hash.substring(1, hash.length());
             LogUtil.v("Loading" + "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json");
             Ion.with(this).load("https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json")
@@ -410,11 +410,19 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         if (contentUrl != null && ContentType.isImgurLink(contentUrl)) {
             contentUrl = contentUrl + ".png";
         }
+
         findViewById(R.id.gifprogress).setVisibility(View.GONE);
         LogUtil.v(contentUrl);
+
         if (contentUrl.contains("m.imgur.com"))
             contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
-        if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.startsWith("https://i.reddituploads.com") && !contentUrl.contains("imgur.com")) || contentUrl != null  && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
+        if (contentUrl == null) {
+            finish();
+            //todo maybe something better
+
+        }
+
+        if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.startsWith("https://i.reddituploads.com") && !contentUrl.contains("imgur.com")) || contentUrl != null && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
             findViewById(R.id.progress).setVisibility(View.VISIBLE);
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
 
@@ -437,7 +445,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                         displayImage(finalUrl2);
                                     }
                                     actuallyLoaded = finalUrl2;
-                                } else if(!imageShown){
+                                } else if (!imageShown) {
                                     Intent i = new Intent(MediaView.this, Website.class);
                                     i.putExtra(Website.EXTRA_URL, finalUrl2);
                                     MediaView.this.startActivity(i);
@@ -458,12 +466,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             }.execute();
 
         }
-        if (contentUrl != null && !imageShown) {
-            displayImage(contentUrl);
-        } else if (!imageShown) {
-            finish();
-            //todo maybe something better
-        }
+
+
         actuallyLoaded = contentUrl;
     }
 
@@ -498,9 +502,10 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url);
         if (f != null && f.exists()) {
+            imageShown = true;
+
             try {
                 i.setImage(ImageSource.uri(f.getAbsolutePath()));
-                imageShown = true;
             } catch (Exception e) {
                 //todo  i.setImage(ImageSource.bitmap(loadedImage));
             }
