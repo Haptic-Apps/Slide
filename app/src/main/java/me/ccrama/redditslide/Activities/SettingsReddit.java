@@ -85,6 +85,7 @@ public class SettingsReddit extends BaseActivityAnim {
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             editor.setArgs("over_18", String.valueOf(isChecked));
                             Reddit.over18 = isChecked;
+                            Settings.changed = true;
 
                             if (isChecked) {
                                 (findViewById(R.id.nsfwrpev)).setEnabled(true);
@@ -110,6 +111,7 @@ public class SettingsReddit extends BaseActivityAnim {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             editor.setArgs("no_profanity", String.valueOf(isChecked));
+                            Settings.changed = true;
                         }
                     });
                 }
@@ -130,12 +132,15 @@ public class SettingsReddit extends BaseActivityAnim {
                                 switch (item.getItemId()) {
                                     case R.id.on:
                                         editor.setArgs("media", "on");
+                                        Settings.changed = true;
                                         break;
                                     case R.id.off:
                                         editor.setArgs("media", "off");
+                                        Settings.changed = true;
                                         break;
                                     case R.id.subreddit:
                                         editor.setArgs("media", "subreddit");
+                                        Settings.changed = true;
                                         break;
                                 }
                                 String thumbType = String.valueOf(editor.getArgs().get("media"));
