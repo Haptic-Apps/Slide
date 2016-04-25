@@ -630,16 +630,19 @@ public class MainActivity extends BaseActivity {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
         }
+
+        invalidateOptionsMenu();
+
         if (!subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("frontpage") &&
                 !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") &&
                 !subreddit.contains("+")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
-            invalidateOptionsMenu();
 
             mAsyncGetSubreddit = new AsyncGetSubreddit();
             mAsyncGetSubreddit.execute(subreddit);
+
             findViewById(R.id.loader).setVisibility(View.VISIBLE);
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             findViewById(R.id.sub_title).setVisibility(View.GONE);
@@ -660,16 +663,17 @@ public class MainActivity extends BaseActivity {
             {
                 CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
                 View submit = (dialoglayout.findViewById(R.id.submit));
+
                 if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                     pinned.setVisibility(View.GONE);
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
                     submit.setVisibility(View.GONE);
                 }
-                if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_POST)
+                if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_POST) {
                     submit.setVisibility(View.GONE);
+                }
 
                 pinned.setVisibility(View.GONE);
-
 
                 submit.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -681,91 +685,83 @@ public class MainActivity extends BaseActivity {
                 });
             }
 
+            dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(MainActivity.this, Wiki.class);
+                    i.putExtra(Wiki.EXTRA_SUBREDDIT, subreddit);
+                    startActivity(i);
+                }
+            });
+            dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(MainActivity.this, Submit.class);
+                    i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                    startActivity(i);
+                }
+            });
+            dialoglayout.findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
 
-            if (subreddit.equalsIgnoreCase("frontpage") || subreddit.equalsIgnoreCase("all") ||
-                    subreddit.equalsIgnoreCase("mod") || subreddit.equalsIgnoreCase("friends") ||
-                    subreddit.contains("+")) {
-                dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
-                dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
-                dialoglayout.findViewById(R.id.mods).setVisibility(View.GONE);
+                    final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
+                    LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
 
+                    final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
 
-            } else {
-                dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this, Wiki.class);
-                        i.putExtra(Wiki.EXTRA_SUBREDDIT, subreddit);
-                        startActivity(i);
-                    }
-                });
-                dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(MainActivity.this, Submit.class);
-                        i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
-                        startActivity(i);
-                    }
-                });
-                dialoglayout.findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
-                        final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
-                        LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
-                        final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                        ArrayList<String> arrayList = new ArrayList<>();
-                        arrayList.add(subreddit);
-                        SettingsSubAdapter.showSubThemeEditor(arrayList, MainActivity.this, dialoglayout);
-                    }
-                });
+                    ArrayList<String> arrayList = new ArrayList<>();
+                    arrayList.add(subreddit);
+                    SettingsSubAdapter.showSubThemeEditor(arrayList, MainActivity.this, dialoglayout);
+                }
+            });
+            dialoglayout.findViewById(R.id.mods).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dialog d = new MaterialDialog.Builder(MainActivity.this).title("Finding moderators")
+                            .cancelable(true)
+                            .content(R.string.misc_please_wait)
+                            .progress(true, 100)
+                            .show();
+                    new AsyncTask<Void, Void, Void>() {
+                        ArrayList<UserRecord> mods;
 
-                dialoglayout.findViewById(R.id.mods).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final Dialog d = new MaterialDialog.Builder(MainActivity.this).title("Finding moderators")
-                                .cancelable(true)
-                                .content(R.string.misc_please_wait)
-                                .progress(true, 100)
-                                .show();
-                        new AsyncTask<Void, Void, Void>() {
-                            ArrayList<UserRecord> mods;
-
-                            @Override
-                            protected Void doInBackground(Void... params) {
-                                mods = new ArrayList<>();
-                                UserRecordPaginator paginator = new UserRecordPaginator(Authentication.reddit, subreddit, "moderators");
-                                paginator.setSorting(Sorting.HOT);
-                                paginator.setTimePeriod(TimePeriod.ALL);
-                                while (paginator.hasNext()) {
-                                    mods.addAll(paginator.next());
-                                }
-                                return null;
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            mods = new ArrayList<>();
+                            UserRecordPaginator paginator = new UserRecordPaginator(Authentication.reddit, subreddit, "moderators");
+                            paginator.setSorting(Sorting.HOT);
+                            paginator.setTimePeriod(TimePeriod.ALL);
+                            while (paginator.hasNext()) {
+                                mods.addAll(paginator.next());
                             }
+                            return null;
+                        }
 
-                            @Override
-                            protected void onPostExecute(Void aVoid) {
-                                final ArrayList<String> names = new ArrayList<String>();
-                                for (UserRecord rec : mods) {
-                                    names.add(rec.getFullName());
-                                }
-                                d.dismiss();
-                                new MaterialDialog.Builder(MainActivity.this).title("/r/" + subreddit + " mods")
-                                        .items(names)
-                                        .itemsCallback(new MaterialDialog.ListCallback() {
-                                            @Override
-                                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                                Intent i = new Intent(MainActivity.this, Profile.class);
-                                                i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
-                                                startActivity(i);
-                                            }
-                                        }).show();
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            final ArrayList<String> names = new ArrayList<String>();
+                            for (UserRecord rec : mods) {
+                                names.add(rec.getFullName());
                             }
-                        }.execute();
-                    }
-                });
-                dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
-                if(Authentication.didOnline && Authentication.isLoggedIn)
+                            d.dismiss();
+                            new MaterialDialog.Builder(MainActivity.this).title("/r/" + subreddit + " mods")
+                                    .items(names)
+                                    .itemsCallback(new MaterialDialog.ListCallback() {
+                                        @Override
+                                        public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                            Intent i = new Intent(MainActivity.this, Profile.class);
+                                            i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
+                                            startActivity(i);
+                                        }
+                                    }).show();
+                        }
+                    }.execute();
+                }
+            });
+            dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
+            if (Authentication.didOnline && Authentication.isLoggedIn) {
                 new AsyncTask<View, Void, View>() {
                     List<FlairTemplate> flairs;
                     ArrayList<String> flairText;
@@ -776,8 +772,9 @@ public class MainActivity extends BaseActivity {
                         try {
                             AccountManager m = new AccountManager(Authentication.reddit);
                             flairs = m.getFlairChoices(subreddit);
-                            if (m.getCurrentFlair(subreddit) != null)
+                            if (m.getCurrentFlair(subreddit) != null) {
                                 current = m.getCurrentFlair(subreddit).getText();
+                            }
                             flairText = new ArrayList<>();
                             for (FlairTemplate temp : flairs) {
                                 flairText.add(temp.getText());
@@ -792,8 +789,9 @@ public class MainActivity extends BaseActivity {
                     protected void onPostExecute(View flair) {
                         if (flairs != null && !flairs.isEmpty()) {
                             flair.setVisibility(View.VISIBLE);
-                            if(current != null)
+                            if (current != null) {
                                 ((TextView)dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                            }
                             flair.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -878,8 +876,6 @@ public class MainActivity extends BaseActivity {
                                                     }
                                                 }
                                             }).show();
-
-
                                 }
                             });
                         }
@@ -887,21 +883,20 @@ public class MainActivity extends BaseActivity {
                 }.execute(dialoglayout.findViewById(R.id.flair));
             }
         } else {
-            //Hide info button on frontpage and all
-            invalidateOptionsMenu();
-
-            if (drawerLayout != null)
+            if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+            }
         }
     }
 
     public void reloadSubs() {
         int current = pager.getCurrentItem();
-        if(commentPager && current == currentComment){
+        if (commentPager && current == currentComment) {
             current = current - 1;
         }
-        if(current < 0)
+        if (current < 0) {
             current = 0;
+        }
         if (adapter instanceof OverviewPagerAdapterComment) {
             adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
             pager.setAdapter(adapter);

@@ -54,8 +54,6 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
-;
-
 /**
  * Created by ccrama on 9/17/2015.
  */
@@ -443,12 +441,14 @@ public class MultiredditOverview extends BaseActivityAnim {
         MultiReddit current = usedArray.get(position);
         LinearLayout l = (LinearLayout) findViewById(R.id.sidebar_scroll);
         l.removeAllViews();
+
         for (MultiSubreddit sub : current.getSubreddits()) {
             final View convertView = getLayoutInflater().inflate(R.layout.subforsublist, l, false);
+
             final String subreddit = sub.getDisplayName();
-            final TextView t =
-                    ((TextView) convertView.findViewById(R.id.name));
+            final TextView t = ((TextView) convertView.findViewById(R.id.name));
             t.setText(subreddit);
+
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
             convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
             convertView.setOnClickListener(new View.OnClickListener() {
@@ -460,9 +460,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 }
             });
             l.addView(convertView);
-
         }
-
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {

@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="-7dp"
             android:layout_marginTop="-7dp"
-
             android:indeterminate="true"
             android:padding="0dp" />
 
@@ -42,7 +41,7 @@
                     android:layout_toLeftOf="@+id/subimage"
                     android:paddingStart="16dp"
                     android:text="/r/Android"
-                    android:textColor="#fff"
+                    android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -54,7 +53,7 @@
                     android:layout_toLeftOf="@+id/subimage"
                     android:paddingStart="16dp"
                     android:text="A sub for 2 years"
-                    android:textColor="#fff"
+                    android:textColor="@color/white"
                     android:textSize="14sp" />
 
                 <ImageView
@@ -71,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:text="Android news, reviews, tips, and discussions about rooting, tutorials, and apps. Generic discussion about phones/tablets is allowed, but technical-support and carrier-related issues should be asked in their respective subreddits!"
-                android:textColor="#fff"
+                android:textColor="@color/white"
                 android:textSize="14sp" />
 
             <me.ccrama.redditslide.Views.CommentOverflow
@@ -221,7 +220,6 @@
                         android:layout_width="wrap_content"
                         android:paddingStart="52dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:textStyle="bold"
                         android:drawablePadding="16dp"
                         android:text="@string/editor_submit"
@@ -235,6 +233,7 @@
                     android:layout_width="match_parent"
                     android:id="@+id/mods"
                     android:background="?android:selectableItemBackground"
+                    android:layout_marginBottom="8dp"
                     android:layout_height="wrap_content">
 
                     <ImageView
@@ -250,7 +249,6 @@
                         android:paddingStart="52dp"
                         android:textStyle="bold"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:drawablePadding="16dp"
                         android:text="@string/sidebar_mods"
                         android:textAllCaps="true"
@@ -278,11 +276,10 @@
                         android:paddingStart="52dp"
                         android:textStyle="bold"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:drawablePadding="16dp"
                         android:text="@string/sidebar_edit_flair"
                         android:textAllCaps="true"
-                        android:height="48dp"
+                        android:minHeight="48dp"
                         android:textColor="?attr/colorAccent"
                         android:gravity="center_vertical" />
                 </RelativeLayout>
