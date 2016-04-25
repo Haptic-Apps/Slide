@@ -349,21 +349,25 @@ public class MainActivity extends BaseActivity {
                             @Override
                             protected Submission doInBackground(Void... params) {
                                 if (Authentication.isLoggedIn) UserSubscriptions.doOnlineSyncing();
-                                SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
-                                p.setLimit(2);
-                                ArrayList<Submission> posts = new ArrayList<>(p.next());
-                                for (Submission s : posts) {
-                                    String version = BuildConfig.VERSION_NAME;
-                                    if(version.length() > 5){
-                                        version = version.substring(0,version.lastIndexOf("."));
+                                try {
+                                    SubredditPaginator p = new SubredditPaginator(Authentication.reddit, "slideforreddit");
+                                    p.setLimit(2);
+                                    ArrayList<Submission> posts = new ArrayList<>(p.next());
+                                    for (Submission s : posts) {
+                                        String version = BuildConfig.VERSION_NAME;
+                                        if (version.length() > 5) {
+                                            version = version.substring(0, version.lastIndexOf("."));
+                                        }
+                                        if (s.isStickied() && s.getSubmissionFlair().getText() != null && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(version)) {
+                                            Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
+                                            return s;
+                                        } else if (BuildConfig.VERSION_NAME.contains("alpha") && s.isStickied() && s.getSubmissionFlair().getText() != null && s.getSubmissionFlair().getText().equalsIgnoreCase("Alpha") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(BuildConfig.VERSION_NAME)) {
+                                            Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
+                                            return s;
+                                        }
                                     }
-                                    if (s.isStickied() && s.getSubmissionFlair().getText() != null && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(version)) {
-                                        Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
-                                        return s;
-                                    } else if (BuildConfig.VERSION_NAME.contains("alpha") && s.isStickied() && s.getSubmissionFlair().getText() != null && s.getSubmissionFlair().getText().equalsIgnoreCase("Alpha") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(BuildConfig.VERSION_NAME)) {
-                                        Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
-                                        return s;
-                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                                 return null;
                             }
