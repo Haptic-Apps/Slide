@@ -20,6 +20,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.OfflineSubreddit;
@@ -285,7 +286,7 @@ public class SubredditPosts implements PostLoader {
                 }
                 paginator.setSorting(Reddit.getSorting(subreddit));
                 paginator.setTimePeriod(Reddit.getTime(subreddit));
-                paginator.setLimit(25);
+                paginator.setLimit(Constants.PAGINATOR_POST_LIMIT);
 
             }
 

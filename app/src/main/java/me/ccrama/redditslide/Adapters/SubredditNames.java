@@ -13,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.SubredditListView;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.util.LogUtil;
@@ -116,7 +117,7 @@ public class SubredditNames {
                     paginator = new SubredditStream(Authentication.reddit, subredditPaginators[0]);
                     paginator.setSorting(Reddit.getSorting(where));
                     paginator.setTimePeriod(Reddit.getTime(where));
-                    paginator.setLimit(25);
+                    paginator.setLimit(Constants.PAGINATOR_POST_LIMIT);
 
                 }
 
@@ -141,7 +142,7 @@ public class SubredditNames {
                     paginator = new SubredditSearchPaginator(Authentication.reddit, subredditPaginators[0]);
                     paginator.setSorting(Reddit.getSorting(where));
                     paginator.setTimePeriod(Reddit.getTime(where));
-                    paginator.setLimit(25);
+                    paginator.setLimit(Constants.PAGINATOR_POST_LIMIT);
                 }
 
                 try {
