@@ -360,6 +360,9 @@ public class MainActivity extends BaseActivity {
                                     if (s.isStickied() && s.getSubmissionFlair().getText() != null && s.getSubmissionFlair().getText().equalsIgnoreCase("Announcement") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(version)) {
                                         Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
                                         return s;
+                                    } else if (BuildConfig.VERSION_NAME.contains("alpha") && s.isStickied() && s.getSubmissionFlair().getText() != null && s.getSubmissionFlair().getText().equalsIgnoreCase("Alpha") && !Reddit.appRestart.contains("announcement" + s.getFullName()) && s.getTitle().contains(BuildConfig.VERSION_NAME)) {
+                                        Reddit.appRestart.edit().putBoolean("announcement" + s.getFullName(), true).apply();
+                                        return s;
                                     }
                                 }
                                 return null;
