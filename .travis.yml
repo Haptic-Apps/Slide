@@ -4,7 +4,7 @@ sudo: true
 
 env:
   global:
-    - MALLOC_ARENA_MAX=2
+  - MALLOC_ARENA_MAX=2
 
 android:
   components:
@@ -23,4 +23,4 @@ jdk:
 - oraclejdk8
 
 script:
-- ./gradlew build -PdisablePreDex
+- ./gradlew -PdisablePreDex assembleProd lintProd{With,No}GPlay{Debug,Release} testProd{With,No}GPlay{Debug,Release}UnitTest
