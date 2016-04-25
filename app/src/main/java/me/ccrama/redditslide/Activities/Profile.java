@@ -135,10 +135,12 @@ public class Profile extends BaseActivityAnim {
                         .translationY(0)
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
-                if (position < 3) {
-                    sortItem.setVisible(true);
-                } else {
-                    sortItem.setVisible(false);
+                if(sortItem != null){
+                    if (position < 3) {
+                        sortItem.setVisible(true);
+                    } else {
+                        sortItem.setVisible(false);
+                    }
                 }
             }
 
