@@ -69,6 +69,9 @@ public class InboxMessages extends GeneralPosts {
                 refreshLayout.setRefreshing(false);
             } else if(!nomore) {
 
+                if(subs.size() < 25){
+                    nomore = true;
+                }
                 if (reset) {
                     posts = subs;
 
@@ -101,6 +104,7 @@ public class InboxMessages extends GeneralPosts {
             try {
                 if (reset || paginator == null) {
                     paginator = new InboxPaginator(Authentication.reddit, where);
+                    paginator.setLimit(25);
                     nomore = false;
                 }
                 if (paginator.hasNext()) {
