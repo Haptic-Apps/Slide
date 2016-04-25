@@ -18,6 +18,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
@@ -296,7 +297,7 @@ public class MultiredditPosts implements PostLoader {
                 paginator.setTimePeriod(Reddit.getTime("multi" + subredditPaginators[0].getDisplayName().toLowerCase()));
 
                 LogUtil.v("Sorting is " + paginator.getSorting().name());
-                paginator.setLimit(25);
+                paginator.setLimit(Constants.PAGINATOR_POST_LIMIT);
 
             }
 
