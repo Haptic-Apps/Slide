@@ -19,6 +19,7 @@ public class SettingValues {
     public static final String PREF_FAB_TYPE = "FabType";
     public static final String PREF_DAY_TIME = "day";
     public static final String PREF_NIGHT_TIME = "night";
+    public static final String PREF_AUTOHIDE_COMMENTS = "night";
     public static final String PREF_AUTOTHEME = "autotime";
     public static final String PREF_COLOR_BACK = "colorBack";
     public static final String PREF_COLOR_NAV_BAR = "colorNavBar";
@@ -100,6 +101,7 @@ public class SettingValues {
     public static boolean colorNavBar;
     public static boolean actionbarVisible;
     public static boolean actionbarTap;
+    public static boolean commentAutoHide;
     public static boolean fullCommentOverride;
     public static boolean lowResAlways;
     public static boolean lowResMobile;
@@ -188,6 +190,7 @@ public class SettingValues {
         collapseComments = prefs.getBoolean(PREF_COLLAPSE_COMMENTS, false);
         collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
         rightHandedCommentMenu = prefs.getBoolean(PREF_RIGHT_HANDED_COMMENT_MENU, false);
+        commentAutoHide = prefs.getBoolean(PREF_AUTOHIDE_COMMENTS, false);
 
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);

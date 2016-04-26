@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.concurrent.ExecutionException;
-
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Adapters.ModeratorAdapter;
 import me.ccrama.redditslide.Adapters.ModeratorPosts;
@@ -64,11 +62,7 @@ public class ModPage extends Fragment {
 
         rv.setOnScrollListener(new ToolbarScrollHideHandler(((ModQueue) getActivity()).mToolbar, (getActivity()).findViewById(R.id.header)));
 
-        try {
-            posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        posts.bindAdapter(adapter, mSwipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
@@ -86,7 +80,6 @@ public class ModPage extends Fragment {
         Bundle bundle = this.getArguments();
         id = bundle.getString("id", "");
         sub = bundle.getString("subreddit", "");
-
     }
 
 

@@ -14,8 +14,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 
-import java.util.concurrent.ExecutionException;
-
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
 import me.ccrama.redditslide.ColorPreferences;
@@ -269,11 +267,7 @@ public class Search extends BaseActivityAnim {
         rv.setAdapter(adapter);
 
 
-        try {
-            posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        posts.bindAdapter(adapter, mSwipeRefreshLayout);
         //TODO catch errors
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {

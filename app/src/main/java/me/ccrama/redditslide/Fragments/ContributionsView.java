@@ -9,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.concurrent.ExecutionException;
-
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.ContributionPosts;
 import me.ccrama.redditslide.R;
@@ -71,11 +69,7 @@ public class ContributionsView extends Fragment {
         else adapter = new ContributionAdapter(getActivity(), posts, rv);
         rv.setAdapter(adapter);
 
-        try {
-            posts.bindAdapter(adapter, mSwipeRefreshLayout);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        posts.bindAdapter(adapter, mSwipeRefreshLayout);
         //TODO catch errors
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {

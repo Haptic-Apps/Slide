@@ -56,6 +56,7 @@ import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentNavType;
 import me.ccrama.redditslide.Adapters.CommentObject;
+import me.ccrama.redditslide.Adapters.MoreChildItem;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
@@ -297,7 +298,7 @@ public class CommentPage extends Fragment {
         }
         if (fab != null)
             fab.show();
-        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header), v.findViewById(R.id.progress)) {
+        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header), v.findViewById(R.id.progress), SettingValues.commentAutoHide?v.findViewById(R.id.fastscroll):null) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -339,65 +340,85 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.nav).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialogWrapper.Builder(getActivity())
-                            .setTitle(R.string.set_nav_mode)
-                            .setSingleChoiceItems(new String[]{
-                                    "Parent comment",
-                                    "OP",
-                                    "Time",
-                                    "Link",
-                                    "Gilded"
-                            }, getCurrentSort(), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    switch (which) {
-                                        case 0:
-                                            currentSort = CommentNavType.PARENTS;
-                                            break;
-                                        case 1:
-                                            currentSort = CommentNavType.OP;
-                                            break;
-                                        case 2:
-                                            currentSort = CommentNavType.TIME;
-                                            LayoutInflater inflater = getActivity().getLayoutInflater();
-                                            final View dialoglayout = inflater.inflate(R.layout.commenttime, null);
-                                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
-                                            final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
+                    if (adapter.users != null) {
+                        int parentCount, opCount, linkCount, gildCount;
+                        parentCount = 0;
+                        opCount = 0;
+                        linkCount = 0;
+                        gildCount = 0;
+                        String op = adapter.submission.getAuthor();
+                        for (CommentObject o : adapter.users) {
+                            if (o.comment != null && !(o instanceof MoreChildItem)) {
+                                if (o.comment.isTopLevel())
+                                    parentCount++;
+                                if (o.comment.getComment().getTimesGilded() > 0)
+                                    gildCount++;
+                                if (o.comment.getComment().getAuthor() != null && o.comment.getComment().getAuthor().equals(op))
+                                    opCount++;
+                                if (o.comment.getComment().getDataNode().has("body_html") && o.comment.getComment().getDataNode().get("body_html").asText().contains("&lt;/a"))
+                                    linkCount++;
+                            }
+                        }
+                        new AlertDialogWrapper.Builder(getActivity())
+                                .setTitle(R.string.set_nav_mode)
+                                .setSingleChoiceItems(new String[]{
+                                        "Parent comment (" + parentCount + ")",
+                                        "OP (" + opCount + ")",
+                                        "Time",
+                                        "Link (" + linkCount + ")",
+                                        "Gilded (" + gildCount + ")"
+                                }, getCurrentSort(), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which) {
+                                            case 0:
+                                                currentSort = CommentNavType.PARENTS;
+                                                break;
+                                            case 1:
+                                                currentSort = CommentNavType.OP;
+                                                break;
+                                            case 2:
+                                                currentSort = CommentNavType.TIME;
+                                                LayoutInflater inflater = getActivity().getLayoutInflater();
+                                                final View dialoglayout = inflater.inflate(R.layout.commenttime, null);
+                                                final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
+                                                final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
 
-                                            final TextView since = (TextView) dialoglayout.findViewById(R.id.time_string);
-                                            landscape.setValueRange(60, 18000, false);
-                                            landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
-                                                @Override
-                                                public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
-                                                    Calendar c = Calendar.getInstance();
-                                                    sortTime = c.getTimeInMillis() - i1 * 1000;
+                                                final TextView since = (TextView) dialoglayout.findViewById(R.id.time_string);
+                                                landscape.setValueRange(60, 18000, false);
+                                                landscape.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
+                                                    @Override
+                                                    public void onPositionChanged(Slider slider, boolean b, float v, float v1, int i, int i1) {
+                                                        Calendar c = Calendar.getInstance();
+                                                        sortTime = c.getTimeInMillis() - i1 * 1000;
 
-                                                    int commentcount = 0;
-                                                    for (CommentObject o : adapter.users) {
-                                                        if (o.comment != null && o.comment.getComment().getDataNode().has("created") && o.comment.getComment().getCreated().getTime() > sortTime) {
-                                                            commentcount += 1;
+                                                        int commentcount = 0;
+                                                        for (CommentObject o : adapter.users) {
+                                                            if (o.comment != null && o.comment.getComment().getDataNode().has("created") && o.comment.getComment().getCreated().getTime() > sortTime) {
+                                                                commentcount += 1;
+                                                            }
                                                         }
+                                                        since.setText(TimeUtils.getTimeAgo(sortTime, getActivity()) + " (" + commentcount + " comments)");
                                                     }
-                                                    since.setText(TimeUtils.getTimeAgo(sortTime, getActivity()) + " (" + commentcount + " comments)");
-                                                }
-                                            });
-                                            landscape.setValue(600, false);
-                                            builder.setView(dialoglayout);
-                                            builder.setPositiveButton(R.string.btn_set, null).show();
-                                            break;
+                                                });
+                                                landscape.setValue(600, false);
+                                                builder.setView(dialoglayout);
+                                                builder.setPositiveButton(R.string.btn_set, null).show();
+                                                break;
 
-                                        case 3:
-                                            currentSort = CommentNavType.LINK;
-                                            break;
-                                        case 4:
-                                            currentSort = CommentNavType.GILDED;
-                                            break;
+                                            case 3:
+                                                currentSort = CommentNavType.LINK;
+                                                break;
+                                            case 4:
+                                                currentSort = CommentNavType.GILDED;
+                                                break;
+
+                                        }
 
                                     }
+                                }).show();
 
-                                }
-                            }).show();
-
+                    }
                 }
             });
         }

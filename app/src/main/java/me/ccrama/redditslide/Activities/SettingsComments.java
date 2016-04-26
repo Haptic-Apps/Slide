@@ -71,6 +71,17 @@ public class SettingsComments extends BaseActivityAnim {
             });
         }
         {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.autohidenav);
+            single.setChecked(SettingValues.commentAutoHide);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.commentAutoHide = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_AUTOHIDE_COMMENTS, isChecked).apply();
+                }
+            });
+        }
+        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.selftextcomment);
             single.setChecked(SettingValues.hideSelftextLeadImage);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
