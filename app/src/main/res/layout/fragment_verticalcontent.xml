@@ -20,6 +20,7 @@
             android:clipToPadding="false"
             android:divider="@null"
             android:scrollbars="vertical"
+            android:scrollbarStyle="outsideInset"
             android:orientation="vertical"/>
     </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 
