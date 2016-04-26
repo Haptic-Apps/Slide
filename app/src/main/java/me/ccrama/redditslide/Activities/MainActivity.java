@@ -632,6 +632,7 @@ public class MainActivity extends BaseActivity {
             }.execute();
     }
 
+    AsyncTask<View, Void, View> currentFlair;
     public void doSubSidebar(final String subreddit) {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
@@ -768,7 +769,9 @@ public class MainActivity extends BaseActivity {
             });
             dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
             if (Authentication.didOnline && Authentication.isLoggedIn) {
-                new AsyncTask<View, Void, View>() {
+                if(currentFlair != null)
+                    currentFlair.cancel(true);
+                currentFlair = new AsyncTask<View, Void, View>() {
                     List<FlairTemplate> flairs;
                     ArrayList<String> flairText;
                     String current;
@@ -913,7 +916,8 @@ public class MainActivity extends BaseActivity {
                             });
                         }
                     }
-                }.execute(dialoglayout.findViewById(R.id.flair));
+                };
+                currentFlair.execute(dialoglayout.findViewById(R.id.flair));
             }
         } else {
             if (drawerLayout != null) {

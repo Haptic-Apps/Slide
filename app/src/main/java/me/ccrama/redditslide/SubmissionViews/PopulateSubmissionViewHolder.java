@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
@@ -284,16 +285,16 @@ public class PopulateSubmissionViewHolder {
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
-        Drawable saved = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
-        Drawable hide = mContext.getResources().getDrawable(R.drawable.hide);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
-        Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
-        Drawable share = mContext.getResources().getDrawable(R.drawable.share);
-        Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
-        Drawable filter = mContext.getResources().getDrawable(R.drawable.filter);
+        Drawable profile = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.profile, null);
+        final Drawable sub = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.sub, null);
+        Drawable saved = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.iconstarfilled, null);
+        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.hide, null);
+        final Drawable report = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.report, null);
+        Drawable copy = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.ic_content_copy, null);
+        Drawable open = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.openexternal, null);
+        Drawable share = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.share, null);
+        Drawable reddit = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.commentchange, null);
+        Drawable filter = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.filter, null);
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -338,210 +339,210 @@ public class PopulateSubmissionViewHolder {
         if (!(mContext instanceof Profile))
             b.sheet(10, filter, mContext.getString(R.string.filter_content));
         b.listener(new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 1: {
-                                Intent i = new Intent(mContext, Profile.class);
-                                i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
-                                mContext.startActivity(i);
-                            }
-                            break;
-                            case 2: {
-                                Intent i = new Intent(mContext, SubredditView.class);
-                                i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
-                                mContext.startActivityForResult(i, 14);
-                            }
-                            break;
-                            case 10:
-
-                                chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
-
-                                final boolean[] oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
-
-                                new AlertDialogWrapper.Builder(mContext).setTitle("What would you like to filter?")
-                                        .alwaysCallMultiChoiceCallback()
-                                        .setMultiChoiceItems(new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally"}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                                chosen[which] = isChecked;
-                                            }
-                                        })
-                                        .setPositiveButton("Filter", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                boolean filtered = false;
-                                                SharedPreferences.Editor e = SettingValues.prefs.edit();
-                                                if (chosen[0] && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters = SettingValues.subredditFilters + ((SettingValues.subredditFilters.isEmpty() || SettingValues.subredditFilters.endsWith(",")) ? "" : ",") + submission.getSubredditName();
-                                                    filtered = true;
-                                                    e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
-                                                } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
-                                                    SettingValues.subredditFilters = SettingValues.subredditFilters.replace(submission.getSubredditName(), "");
-                                                    filtered = false;
-                                                    e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
-                                                    e.apply();
-                                                }
-                                                if (chosen[1] && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.domainFilters = SettingValues.domainFilters + ((SettingValues.domainFilters.isEmpty() || SettingValues.domainFilters.endsWith(",")) ? "" : ",") + submission.getDomain();
-                                                    filtered = true;
-                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
-                                                } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
-                                                    SettingValues.domainFilters = SettingValues.domainFilters.replace(submission.getDomain(), "");
-                                                    filtered = false;
-                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
-                                                    e.apply();
-                                                }
-                                                if (chosen[2] && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.alwaysExternal = SettingValues.alwaysExternal + ((SettingValues.alwaysExternal.isEmpty() || SettingValues.alwaysExternal.endsWith(",")) ? "" : ",") + submission.getDomain();
-                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
-                                                    e.apply();
-                                                } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
-                                                    SettingValues.alwaysExternal = SettingValues.alwaysExternal.replace(submission.getDomain(), "");
-                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
-                                                    e.apply();
-                                                }
-
-                                                if (filtered) {
-                                                    e.apply();
-                                                    PostMatch.domains = null;
-                                                    PostMatch.subreddits = null;
-                                                    ArrayList<Contribution> toRemove = new ArrayList<>();
-                                                    for (Contribution s : posts) {
-                                                        if (s instanceof Submission && PostMatch.doesMatch((Submission) s)) {
-                                                            toRemove.add(s);
-                                                            LogUtil.v("Matching with " + ((Submission) s).getDomain());
-                                                        }
-                                                    }
-                                                    OfflineSubreddit s = OfflineSubreddit.getSubreddit(baseSub, false, mContext);
-
-                                                    for (Contribution remove : toRemove) {
-                                                        final int pos = posts.indexOf(remove);
-                                                        posts.remove(pos);
-                                                        if (baseSub != null) {
-                                                            s.hide(pos, false);
-                                                        }
-                                                        s.writeToMemoryNoStorage();
-                                                        recyclerview.getAdapter().notifyDataSetChanged();
-
-                                                    }
-
-                                                }
-                                            }
-                                        }).setNegativeButton("Cancel", null)
-                                        .show();
-                                break;
-
-                            case 3:
-                                new AsyncTask<Void, Void, Void>() {
-                                    @Override
-                                    protected Void doInBackground(Void... params) {
-                                        try {
-                                            if (ActionStates.isSaved(submission)) {
-                                                new AccountManager(Authentication.reddit).unsave(submission);
-                                                ActionStates.setSaved(submission, false);
-                                            } else {
-                                                new AccountManager(Authentication.reddit).save(submission);
-                                                ActionStates.setSaved(submission, true);
-                                            }
-
-                                        } catch (ApiException e) {
-                                            e.printStackTrace();
-                                        }
-
-                                        return null;
-                                    }
-
-                                    @Override
-                                    protected void onPostExecute(Void aVoid) {
-                                        Snackbar s;
-                                        if (ActionStates.isSaved(submission)) {
-                                            ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
-                                            s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
-                                            AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
-                                        } else {
-                                            s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
-                                            ((ImageView) holder.save).setColorFilter(((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none"))) || full) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                                        }
-                                        View view = s.getView();
-                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                        tv.setTextColor(Color.WHITE);
-                                        s.show();
-
-                                    }
-                                }.execute();
-                                break;
-                            case 5: {
-                                hideSubmission(submission, posts, baseSub, recyclerview, mContext);
-
-                            }
-                            break;
-                            case 7:
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
-                                mContext.startActivity(browserIntent);
-                                break;
-                            case 4:
-                                Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(), submission.getUrl(), mContext);
-                                break;
-                            case 12:
-                                reportReason = "";
-                                new MaterialDialog.Builder(mContext).input(mContext.getString(R.string.input_reason_for_report), null, true, new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                                        reportReason = input.toString();
-                                    }
-                                }).alwaysCallInputCallback()
-                                        .positiveText(R.string.btn_report)
-                                        .negativeText(R.string.btn_cancel)
-                                        .onNegative(null)
-                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                            @Override
-                                            public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                new AsyncTask<Void, Void, Void>() {
-                                                    @Override
-                                                    protected Void doInBackground(Void... params) {
-                                                        try {
-                                                            new AccountManager(Authentication.reddit).report(submission, reportReason);
-                                                        } catch (ApiException e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                        return null;
-                                                    }
-
-                                                    @Override
-                                                    protected void onPostExecute(Void aVoid) {
-                                                        Snackbar s = Snackbar.make(holder.itemView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
-                                                        View view = s.getView();
-                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
-                                                    }
-                                                }.execute();
-                                            }
-                                        })
-                                        .show();
-
-                                break;
-                            case 8:
-                                Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(), "https://reddit.com" + submission.getPermalink(), mContext);
-                                break;
-                            case 6: {
-                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
-                                clipboard.setPrimaryClip(clip);
-                                Toast.makeText(mContext, "Link copied", Toast.LENGTH_SHORT).show();
-                            }
-                            break;
-                            case 25:
-                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("Selftext", submission.getSelftext());
-                                clipboard.setPrimaryClip(clip);
-                                Toast.makeText(mContext, "Selftext copied", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 1: {
+                        Intent i = new Intent(mContext, Profile.class);
+                        i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
+                        mContext.startActivity(i);
                     }
-                });
-                b.show();
+                    break;
+                    case 2: {
+                        Intent i = new Intent(mContext, SubredditView.class);
+                        i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
+                        mContext.startActivityForResult(i, 14);
+                    }
+                    break;
+                    case 10:
+
+                        chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
+
+                        final boolean[] oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
+
+                        new AlertDialogWrapper.Builder(mContext).setTitle("What would you like to filter?")
+                                .alwaysCallMultiChoiceCallback()
+                                .setMultiChoiceItems(new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally"}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                        chosen[which] = isChecked;
+                                    }
+                                })
+                                .setPositiveButton("Filter", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        boolean filtered = false;
+                                        SharedPreferences.Editor e = SettingValues.prefs.edit();
+                                        if (chosen[0] && chosen[0] != oldChosen[0]) {
+                                            SettingValues.subredditFilters = SettingValues.subredditFilters + ((SettingValues.subredditFilters.isEmpty() || SettingValues.subredditFilters.endsWith(",")) ? "" : ",") + submission.getSubredditName();
+                                            filtered = true;
+                                            e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
+                                        } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
+                                            SettingValues.subredditFilters = SettingValues.subredditFilters.replace(submission.getSubredditName(), "");
+                                            filtered = false;
+                                            e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
+                                            e.apply();
+                                        }
+                                        if (chosen[1] && chosen[1] != oldChosen[1]) {
+                                            SettingValues.domainFilters = SettingValues.domainFilters + ((SettingValues.domainFilters.isEmpty() || SettingValues.domainFilters.endsWith(",")) ? "" : ",") + submission.getDomain();
+                                            filtered = true;
+                                            e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
+                                        } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
+                                            SettingValues.domainFilters = SettingValues.domainFilters.replace(submission.getDomain(), "");
+                                            filtered = false;
+                                            e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
+                                            e.apply();
+                                        }
+                                        if (chosen[2] && chosen[2] != oldChosen[2]) {
+                                            SettingValues.alwaysExternal = SettingValues.alwaysExternal + ((SettingValues.alwaysExternal.isEmpty() || SettingValues.alwaysExternal.endsWith(",")) ? "" : ",") + submission.getDomain();
+                                            e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
+                                            e.apply();
+                                        } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
+                                            SettingValues.alwaysExternal = SettingValues.alwaysExternal.replace(submission.getDomain(), "");
+                                            e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
+                                            e.apply();
+                                        }
+
+                                        if (filtered) {
+                                            e.apply();
+                                            PostMatch.domains = null;
+                                            PostMatch.subreddits = null;
+                                            ArrayList<Contribution> toRemove = new ArrayList<>();
+                                            for (Contribution s : posts) {
+                                                if (s instanceof Submission && PostMatch.doesMatch((Submission) s)) {
+                                                    toRemove.add(s);
+                                                    LogUtil.v("Matching with " + ((Submission) s).getDomain());
+                                                }
+                                            }
+                                            OfflineSubreddit s = OfflineSubreddit.getSubreddit(baseSub, false, mContext);
+
+                                            for (Contribution remove : toRemove) {
+                                                final int pos = posts.indexOf(remove);
+                                                posts.remove(pos);
+                                                if (baseSub != null) {
+                                                    s.hide(pos, false);
+                                                }
+                                                s.writeToMemoryNoStorage();
+                                                recyclerview.getAdapter().notifyDataSetChanged();
+
+                                            }
+
+                                        }
+                                    }
+                                }).setNegativeButton("Cancel", null)
+                                .show();
+                        break;
+
+                    case 3:
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... params) {
+                                try {
+                                    if (ActionStates.isSaved(submission)) {
+                                        new AccountManager(Authentication.reddit).unsave(submission);
+                                        ActionStates.setSaved(submission, false);
+                                    } else {
+                                        new AccountManager(Authentication.reddit).save(submission);
+                                        ActionStates.setSaved(submission, true);
+                                    }
+
+                                } catch (ApiException e) {
+                                    e.printStackTrace();
+                                }
+
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                Snackbar s;
+                                if (ActionStates.isSaved(submission)) {
+                                    ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
+                                    s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
+                                    AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
+                                } else {
+                                    s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
+                                    ((ImageView) holder.save).setColorFilter(((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none"))) || full) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                                }
+                                View view = s.getView();
+                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                tv.setTextColor(Color.WHITE);
+                                s.show();
+
+                            }
+                        }.execute();
+                        break;
+                    case 5: {
+                        hideSubmission(submission, posts, baseSub, recyclerview, mContext);
+
+                    }
+                    break;
+                    case 7:
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
+                        mContext.startActivity(browserIntent);
+                        break;
+                    case 4:
+                        Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(), submission.getUrl(), mContext);
+                        break;
+                    case 12:
+                        reportReason = "";
+                        new MaterialDialog.Builder(mContext).input(mContext.getString(R.string.input_reason_for_report), null, true, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                reportReason = input.toString();
+                            }
+                        }).alwaysCallInputCallback()
+                                .positiveText(R.string.btn_report)
+                                .negativeText(R.string.btn_cancel)
+                                .onNegative(null)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                        new AsyncTask<Void, Void, Void>() {
+                                            @Override
+                                            protected Void doInBackground(Void... params) {
+                                                try {
+                                                    new AccountManager(Authentication.reddit).report(submission, reportReason);
+                                                } catch (ApiException e) {
+                                                    e.printStackTrace();
+                                                }
+                                                return null;
+                                            }
+
+                                            @Override
+                                            protected void onPostExecute(Void aVoid) {
+                                                Snackbar s = Snackbar.make(holder.itemView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+                                                View view = s.getView();
+                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                tv.setTextColor(Color.WHITE);
+                                                s.show();
+                                            }
+                                        }.execute();
+                                    }
+                                })
+                                .show();
+
+                        break;
+                    case 8:
+                        Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(), "https://reddit.com" + submission.getPermalink(), mContext);
+                        break;
+                    case 6: {
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(mContext, "Link copied", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                    case 25:
+                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Selftext", submission.getSelftext());
+                        clipboard.setPrimaryClip(clip);
+                        Toast.makeText(mContext, "Selftext copied", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+        b.show();
     }
 
     public <T extends Contribution> void hideSubmission(final Submission submission, final List<T> posts, final String baseSub, final RecyclerView recyclerview, Context c) {
@@ -598,15 +599,15 @@ public class PopulateSubmissionViewHolder {
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
-        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
-        final Drawable approve = mContext.getResources().getDrawable(R.drawable.support);
-        final Drawable spam = mContext.getResources().getDrawable(R.drawable.fontsizedarker);
-        final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.hide);
-        final Drawable pin = mContext.getResources().getDrawable(R.drawable.lock);
-        final Drawable flair = mContext.getResources().getDrawable(R.drawable.ic_format_quote_white_48dp);
-        final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
-        final Drawable remove_reason = mContext.getResources().getDrawable(R.drawable.reportreason);
+        Drawable profile = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.profile, null);
+        final Drawable report = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.report, null);
+        final Drawable approve = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.support, null);
+        final Drawable spam = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.fontsizedarker, null);
+        final Drawable nsfw = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.hide, null);
+        final Drawable pin = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.lock, null);
+        final Drawable flair = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.ic_format_quote_white_48dp, null);
+        final Drawable remove = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.close, null);
+        final Drawable remove_reason = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.reportreason, null);
 
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -1334,8 +1335,8 @@ public class PopulateSubmissionViewHolder {
         int commentCount = submission.getCommentCount();
         int more = LastComments.commentsSince(submission);
         holder.comments.setText("" + commentCount + ((more != 0 && SettingValues.commentLastVisit) ? " (+" + more + ")" : ""));
-        final String ratio = SettingValues.upvotePercentage && full && submission.getUpvoteRatio() != null?" (" + (int)(submission.getUpvoteRatio() * 100) + "%)":"";
-        holder.score.setText("" + submission.getScore()+ ratio);
+        final String ratio = SettingValues.upvotePercentage && full && submission.getUpvoteRatio() != null ? " (" + (int) (submission.getUpvoteRatio() * 100) + "%)" : "";
+        holder.score.setText("" + submission.getScore() + ratio);
 
         final ImageView downvotebutton = (ImageView) holder.downvote;
         final ImageView upvotebutton = (ImageView) holder.upvote;
@@ -1361,7 +1362,7 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
-                holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name) || submission.getScore() == 0 ? 0 : -1))+ ratio);
+                holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name) || submission.getScore() == 0 ? 0 : -1)) + ratio);
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 break;
             }
@@ -1570,14 +1571,14 @@ public class PopulateSubmissionViewHolder {
                                 AnimateHelper.setFlashAnimation(holder.itemView, downvotebutton, ContextCompat.getColor(mContext, R.color.md_blue_500));
                                 holder.score.setTypeface(null, Typeface.BOLD);
                                 final int downvoteScore = (submission.getScore() == 0) ? 0 : submission.getScore() - 1; //if a post is at 0 votes, keep it at 0 when downvoting
-                                holder.score.setText(Integer.toString(downvoteScore)+ ratio);
+                                holder.score.setText(Integer.toString(downvoteScore) + ratio);
                                 new Vote(false, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.DOWNVOTE);
                             } else {
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
                                 holder.score.setTypeface(null, Typeface.NORMAL);
-                                holder.score.setText(Integer.toString(submission.getScore())+ ratio);
+                                holder.score.setText(Integer.toString(submission.getScore()) + ratio);
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
                                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                             }
@@ -1607,14 +1608,14 @@ public class PopulateSubmissionViewHolder {
 
                                 AnimateHelper.setFlashAnimation(holder.itemView, upvotebutton, ContextCompat.getColor(mContext, R.color.md_orange_500));
                                 holder.score.setTypeface(null, Typeface.BOLD);
-                                holder.score.setText(Integer.toString(submission.getScore() + 1)+ ratio);
+                                holder.score.setText(Integer.toString(submission.getScore() + 1) + ratio);
                                 new Vote(true, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.UPVOTE);
                             } else {
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
                                 holder.score.setTypeface(null, Typeface.NORMAL);
-                                holder.score.setText(Integer.toString(submission.getScore())+ ratio);
+                                holder.score.setText(Integer.toString(submission.getScore()) + ratio);
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
                                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                             }

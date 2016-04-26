@@ -427,7 +427,7 @@ public class Profile extends BaseActivityAnim {
                 onBackPressed();
                 break;
             case (R.id.info):
-                if(account != null) {
+                if(account != null && trophyCase != null) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
