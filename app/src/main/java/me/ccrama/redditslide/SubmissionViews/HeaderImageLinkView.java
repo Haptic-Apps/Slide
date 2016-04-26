@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -72,8 +73,10 @@ public class HeaderImageLinkView extends RelativeLayout {
 
 
     String lastDone = "";
+    ContentType.Type type;
 
-    public void setSubmission(final Submission submission, final boolean full, String baseSub) {
+    public void setSubmission(final Submission submission, final boolean full, String baseSub, ContentType.Type type) {
+        this.type = type;
         if (!lastDone.equals(submission.getFullName())) {
             lastDone = submission.getFullName();
             backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
@@ -83,7 +86,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     }
 
     DisplayImageOptions bigOptions = new DisplayImageOptions.Builder()
-            .resetViewBeforeLoading(true)
+            .resetViewBeforeLoading(false)
             .cacheOnDisk(true)
             .imageScaleType(ImageScaleType.EXACTLY)
             .cacheInMemory(false)
@@ -92,7 +95,6 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void doImageAndText(Submission submission, boolean full, String baseSub) {
 
-        final ContentType.Type type = ContentType.getContentType(submission);
         boolean fullImage = ContentType.fullImage(type);
 
         setVisibility(View.VISIBLE);
@@ -157,6 +159,9 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             }
 
+            JsonNode thumbnail = submission.getDataNode().get("thumbnail");
+            Submission.ThumbnailType thumbnailType = submission.getThumbnailType();
+
             if (submission.isNsfw() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) {
                 setVisibility(View.GONE);
                 if (!full || forceThumb) {
@@ -169,7 +174,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
 
                 }
-            } else if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (!submission.getDataNode().get("thumbnail").isNull() && (submission.getThumbnailType() != Submission.ThumbnailType.URL))) {
+            } else if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (!thumbnail.isNull() && ( thumbnailType != Submission.ThumbnailType.URL))) {
 
                 setVisibility(View.GONE);
                 if (!full) {
@@ -179,7 +184,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 }
 
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
-            } else if (type == ContentType.Type.IMAGE && !submission.getDataNode().get("thumbnail").isNull() && !submission.getDataNode().get("thumbnail").asText().isEmpty()) {
+            } else if (type == ContentType.Type.IMAGE && !thumbnail.isNull() && !thumbnail.asText().isEmpty()) {
                 if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null && submission.getThumbnails().getVariations().length > 0) {
 
                     int length = submission.getThumbnails().getVariations().length;
@@ -260,7 +265,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         wrapArea.setVisibility(View.GONE);
                     }
                 }
-            } else if (!submission.getDataNode().get("thumbnail").isNull() && submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || (!submission.getDataNode().get("thumbnail").isNull() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW))) {
+            } else if (!thumbnail.isNull() && submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || (!thumbnail.isNull() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW))) {
 
                 if (!full) {
                     thumbImage2.setVisibility(View.VISIBLE);

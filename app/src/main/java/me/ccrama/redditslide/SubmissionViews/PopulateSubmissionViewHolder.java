@@ -1461,9 +1461,9 @@ public class PopulateSubmissionViewHolder {
         if (full)
             holder.leadImage.setWrapArea(holder.itemView.findViewById(R.id.wraparea));
 
-        holder.leadImage.setSubmission(submission, full, baseSub);
-
         final ContentType.Type type = ContentType.getContentType(submission);
+
+        holder.leadImage.setSubmission(submission, full, baseSub, type);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override

@@ -64,6 +64,7 @@ public class ImageLoaderUtils {
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.NONE_SAFE)
                 .cacheInMemory(false)
+                .resetViewBeforeLoading(false)
                 .displayer(new FadeInBitmapDisplayer(250))
                 .build();
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)

@@ -233,6 +233,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         }
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
 
+        rv.setHasFixedSize(true);
         final RecyclerView.LayoutManager mLayoutManager;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
