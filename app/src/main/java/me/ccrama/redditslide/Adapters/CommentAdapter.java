@@ -839,7 +839,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
 
-            switch(comment.getVote()){
+            switch (comment.getVote()) {
 
                 case UPVOTE:
                     doScoreText(holder, comment, 1);
@@ -878,11 +878,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (SettingValues.swap) {
-                        doOnClick(holder, comment, baseNode);
-                    } else {
-                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
-                    }
+                    if (!currentlyEditingId.equals(comment.getFullName()))
+                        if (SettingValues.swap) {
+                            doOnClick(holder, comment, baseNode);
+                        } else {
+                            doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                        }
                     return true;
                 }
             });
@@ -915,11 +916,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (SettingValues.swap) {
-                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
-                    } else {
-                        doOnClick(holder, comment, baseNode);
-                    }
+                    if (!currentlyEditingId.equals(comment.getFullName()))
+
+                        if (SettingValues.swap) {
+                            doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                        } else {
+                            doOnClick(holder, comment, baseNode);
+                        }
                 }
             });
             holder.firstTextView.setOnClickListener(new View.OnClickListener() {
@@ -933,6 +936,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else if (SpoilerRobotoTextView.isSpoilerClicked()) {
                         SpoilerRobotoTextView.resetSpoilerClicked();
                     }
+
                 }
             });
 

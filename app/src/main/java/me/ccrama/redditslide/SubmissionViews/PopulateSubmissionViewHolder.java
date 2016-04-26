@@ -1517,7 +1517,7 @@ public class PopulateSubmissionViewHolder {
             holder.body.setVisibility(View.GONE);
         }
 
-        if (fullscreen) {
+        if (full) {
             if (!submission.getSelftext().isEmpty()) {
                 int typef = new FontPreferences(mContext).getFontTypeComment().getTypeface();
                 if (typef >= 0) {
