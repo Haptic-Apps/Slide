@@ -116,7 +116,7 @@ public class DoEditorActions {
                                 }
                             })
                             .setNeutralButton(R.string.btn_cancel, null)
-                            .setPositiveButton("Manage drafts", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.manage_drafts, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     final boolean[] selected = new boolean[drafts.size()];
@@ -127,7 +127,7 @@ public class DoEditorActions {
                                             .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
-                                                    new AlertDialogWrapper.Builder(a).setTitle("Really delete these drafts?")
+                                                    new AlertDialogWrapper.Builder(a).setTitle(R.string.really_delete_drafts)
                                                             .setCancelable(false)
                                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                                 @Override

@@ -362,21 +362,20 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                           @Override
                                           public void run() {
                                               try {
-
-                                                  new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
-                                                          .setMessage("The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.")
-                                                          .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                                  new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                                                          .setMessage(R.string.err_connection_failed_msg)
+                                                          .setNegativeButton(R.string.btn_close, new DialogInterface.OnClickListener() {
                                                               @Override
                                                               public void onClick(DialogInterface dialog, int which) {
                                                                   if (!(c instanceof MainActivity)) {
                                                                       ((Activity) c).finish();
                                                                   }
                                                               }
-                                                          }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
+                                                          }).setPositiveButton(R.string.btn_offline, new DialogInterface.OnClickListener() {
                                                       @Override
                                                       public void onClick(DialogInterface dialog, int which) {
-                                                          Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
-                                                          forceRestart(c);
+                                                          Reddit.appRestart.edit().putBoolean("forceoffline", true).apply();
+                                                          Reddit.forceRestart(c);
                                                       }
                                                   }).show();
                                               } catch (Exception ignored) {
@@ -393,8 +392,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                             @Override
                             public void run() {
                                 try {
-                                    new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
-                                            .setMessage("Reddit refused a request. Would you like to attempt to re-connect to Reddit?")
+                                    new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                                            .setMessage(R.string.err_refused_request_msg)
                                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -420,8 +419,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                             @Override
                             public void run() {
                                 try {
-                                    new AlertDialogWrapper.Builder(c).setTitle("Uh oh, an error occured")
-                                            .setMessage("Reddit could not find the requested content.")
+                                    new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                                            .setMessage(R.string.err_could_not_find_content_msg)
                                             .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {

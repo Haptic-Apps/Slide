@@ -191,7 +191,7 @@ public class Profile extends BaseActivityAnim {
         if (account.getDataNode().has("is_suspended") && account.getDataNode().get("is_suspended").asBoolean()) {
             try {
                 new AlertDialogWrapper.Builder(Profile.this)
-                        .setTitle("This account is suspended.")
+                        .setTitle(R.string.account_suspended)
                         .setCancelable(false)
                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {

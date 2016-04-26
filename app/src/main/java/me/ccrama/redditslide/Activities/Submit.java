@@ -161,7 +161,7 @@ public class Submit extends BaseActivity {
                         } else {
                             d.dismiss();
                             new AlertDialogWrapper.Builder(Submit.this)
-                                    .setTitle("Title not found")
+                                    .setTitle(R.string.title_not_found)
                                     .setPositiveButton(R.string.btn_ok, null).show();
                         }
                     }

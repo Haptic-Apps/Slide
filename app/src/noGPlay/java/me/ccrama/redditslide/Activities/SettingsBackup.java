@@ -116,23 +116,24 @@ public class SettingsBackup extends BaseActivityAnim {
                     } else {
                         progress.hide();
                         new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                .setTitle("Not a valid Slide backup file")
-                                .setMessage("The selected file is not a valid Slide backup file.")
+                                .setTitle(R.string.err_not_valid_backup)
+                                .setMessage(R.string.err_not_valid_backup_msg)
                                 .setPositiveButton(R.string.btn_ok, null).show();
                     }
                 } catch (Exception e) {
                     progress.hide();
                     e.printStackTrace();
                     new AlertDialogWrapper.Builder(SettingsBackup.this)
-                            .setTitle("File not found")
-                            .setMessage("The selected file could not be found. Please make sure it exists and Slide has permissions to access that file/folder")
+                            .setTitle(R.string.err_file_not_found)
+                            .setMessage(R.string.err_file_not_found_msg)
                             .setPositiveButton(R.string.btn_ok, null).show();
                 }
+
             } else {
                 progress.dismiss();
                 new AlertDialogWrapper.Builder(SettingsBackup.this)
-                        .setTitle("File not found")
-                        .setMessage("The selected file could not be found. Please make sure it exists and Slide has permissions to access that file/folder")
+                        .setTitle(R.string.err_file_not_found)
+                        .setMessage(R.string.err_file_not_found_msg)
                         .setPositiveButton(R.string.btn_ok, null).show();
             }
 
@@ -184,7 +185,7 @@ public class SettingsBackup extends BaseActivityAnim {
             new AlertDialogWrapper.Builder(SettingsBackup.this)
                     .setTitle(R.string.general_pro)
                     .setMessage(R.string.general_pro_msg)
-                            //avoid that the dialog can be closed
+                    //avoid that the dialog can be closed
                     .setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialog) {
@@ -265,9 +266,9 @@ public class SettingsBackup extends BaseActivityAnim {
             @Override
             protected void onPostExecute(Void aVoid) {
                 progress.dismiss();
-                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle("Backup complete!")
-                        .setMessage("Backup saved to Downloads")
-                        .setPositiveButton("VIEW", new DialogInterface.OnClickListener() {
+                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(R.string.backup_complete)
+                        .setMessage(R.string.backup_saved_downloads)
+                        .setPositiveButton(R.string.btn_view, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Uri selectedUri = Uri.parse("file://" + file.getAbsolutePath());

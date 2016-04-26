@@ -680,8 +680,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
     public void showFirstDialog() {
         new AlertDialogWrapper.Builder(this)
-                .setTitle("Set image save location")
-                .setMessage("Slide's image save location has not been set yet. Would you like to set this now?")
+                .setTitle(R.string.set_save_location)
+                .setMessage(R.string.set_save_location_msg)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -767,8 +767,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
     public void showErrorDialog() {
         new AlertDialogWrapper.Builder(AlbumPager.this)
-                .setTitle("Uh oh, something went wrong.")
-                .setMessage("Slide couldn't save to the selected directory. Would you like to choose a new save location?")
+                .setTitle(R.string.err_something_wrong)
+                .setMessage(R.string.err_couldnt_save_choose_new)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

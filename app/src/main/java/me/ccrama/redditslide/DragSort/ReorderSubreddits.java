@@ -129,7 +129,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 return true;
             case R.id.info:
                 new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                        .setTitle("Reorder Subreddits FAQ")
+                        .setTitle(R.string.reorder_subs_FAQ)
                         .setMessage(Html.fromHtml("<b>How do I refresh subreddits?</b><br>" +
                                 "To refresh subreddits, click the refresh icon in the toolbar!<br><br>" +
                                 "<b>I unsubscribed from some subreddits but they are still in the list!</b><br>" +
@@ -215,19 +215,19 @@ public class ReorderSubreddits extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                        .setItems(new CharSequence[]{"Add a Subreddit", "Add a Collection"}, new DialogInterface.OnClickListener() {
+                        .setItems(new CharSequence[]{getString(R.string.btn_add_subreddit), getString(R.string.btn_add_collection)}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 1) {
                                     if (UserSubscriptions.getMultireddits() != null && UserSubscriptions.getMultireddits().size() > 0) {
                                         new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                                                .setTitle("Would you like to create a new Collection or import a Multireddit?")
-                                                .setPositiveButton("New", new DialogInterface.OnClickListener() {
+                                                .setTitle(R.string.create_or_import_multi)
+                                                .setPositiveButton(R.string.btn_new, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         doCollection();
                                                     }
-                                                }).setNegativeButton("Import multi", new DialogInterface.OnClickListener() {
+                                                }).setNegativeButton(R.string.btn_import_multi, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 final String[] multis = new String[UserSubscriptions.getMultireddits().size()];
@@ -490,9 +490,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
+        public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-            final String origPos = items.get(holder.getAdapterPosition());
+            final String origPos = items.get(position);
             holder.text.setText(origPos);
 
             if (chosen.contains(origPos)) {

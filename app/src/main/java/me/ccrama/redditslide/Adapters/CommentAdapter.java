@@ -298,7 +298,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                             case 4:
                                 if (stickied) {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really un-sticky this comment?")
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.unsticky_comment)
                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(final DialogInterface dialog, int which) {
@@ -311,7 +311,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                             if (b) {
                                                                 dialog.dismiss();
 
-                                                                Snackbar s = Snackbar.make(holder.itemView, "Comment un-stickied", Snackbar.LENGTH_LONG);
+                                                                Snackbar s = Snackbar.make(holder.itemView, R.string.comment_unstickied, Snackbar.LENGTH_LONG);
                                                                 View view = s.getView();
                                                                 TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                                                 tv.setTextColor(Color.WHITE);
@@ -341,7 +341,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 }
                                             }).setNegativeButton(R.string.btn_no, null).show();
                                 } else {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really sticky this comment?")
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.sticky_comment)
                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(final DialogInterface dialog, int which) {
@@ -352,7 +352,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                         public void onPostExecute(Boolean b) {
                                                             if (b) {
                                                                 dialog.dismiss();
-                                                                Snackbar s = Snackbar.make(holder.itemView, "Comment stickied", Snackbar.LENGTH_LONG);
+                                                                Snackbar s = Snackbar.make(holder.itemView, R.string.comment_stickied, Snackbar.LENGTH_LONG);
                                                                 View view = s.getView();
                                                                 TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                                                 tv.setTextColor(Color.WHITE);
@@ -386,7 +386,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 break;
                             case 9:
                                 if (distinguished) {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really un-distinguish this comment?")
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.undistinguish_comment)
                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(final DialogInterface dialog, int which) {
@@ -398,7 +398,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                             if (b) {
                                                                 dialog.dismiss();
 
-                                                                Snackbar s = Snackbar.make(holder.itemView, "Comment un-distinguished", Snackbar.LENGTH_LONG);
+                                                                Snackbar s = Snackbar.make(holder.itemView, R.string.comment_undistinguished, Snackbar.LENGTH_LONG);
                                                                 View view = s.getView();
                                                                 TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                                                 tv.setTextColor(Color.WHITE);
@@ -427,7 +427,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 }
                                             }).setNegativeButton(R.string.btn_no, null).show();
                                 } else {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle("Really distinguish this comment?")
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.distinguish_comment)
                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(final DialogInterface dialog, int which) {
@@ -438,7 +438,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                         public void onPostExecute(Boolean b) {
                                                             if (b) {
                                                                 dialog.dismiss();
-                                                                Snackbar s = Snackbar.make(holder.itemView, "Comment distinguished", Snackbar.LENGTH_LONG);
+                                                                Snackbar s = Snackbar.make(holder.itemView, R.string.comment_distinguished, Snackbar.LENGTH_LONG);
                                                                 View view = s.getView();
                                                                 TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                                                 tv.setTextColor(Color.WHITE);
@@ -472,7 +472,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 break;
                             case 6:
 
-                                new AlertDialogWrapper.Builder(mContext).setTitle("Really remove this comment?")
+                                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.remove_comment)
                                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(final DialogInterface dialog, int which) {
@@ -483,7 +483,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                     public void onPostExecute(Boolean b) {
                                                         if (b) {
                                                             dialog.dismiss();
-                                                            Snackbar s = Snackbar.make(holder.itemView, "Comment removed", Snackbar.LENGTH_LONG);
+                                                            Snackbar s = Snackbar.make(holder.itemView, R.string.comment_removed, Snackbar.LENGTH_LONG);
                                                             View view = s.getView();
                                                             TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                                             tv.setTextColor(Color.WHITE);
@@ -1223,7 +1223,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             break;
                                             case 2: {
                                                 new AlertDialogWrapper.Builder(mContext)
-                                                        .setTitle("Really delete this submission? You cannot undo this")
+                                                        .setTitle(R.string.really_delete_submission)
                                                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialog, int which) {
@@ -1667,7 +1667,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 setViews(n.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
             toCollapse.remove(n.getFullName());
 
-            hideChildrenObject(holder.children);
+            hideChildrenObject(holder.childrenNumber);
             holder.firstTextView.setVisibility(View.VISIBLE);
             holder.commentOverflow.setVisibility(View.VISIBLE);
         } else {
@@ -2203,9 +2203,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doUnHighlighted(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode, boolean animate) {
         if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() && holder.getAdapterPosition() <= editingPosition) {
             new AlertDialogWrapper.Builder(mContext)
-                    .setTitle("Discard comment?")
-                    .setMessage("Do you really want to discard your comment?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.discard_comment_title)
+                    .setMessage(R.string.comment_discard_msg)
+                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -2226,7 +2226,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                             }
                         }
-                    }).setNegativeButton("No", null)
+                    }).setNegativeButton(R.string.btn_no, null)
                     .show();
         } else {
             currentlySelected = null;
@@ -2258,9 +2258,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doLongClick(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode, final int finalPos, final int finalPos1) {
         if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty()) {
             new AlertDialogWrapper.Builder(mContext)
-                    .setTitle("Discard comment?")
-                    .setMessage("Do you really want to discard your comment?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.discard_comment_title)
+                    .setMessage(R.string.comment_discard_msg)
+                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -2281,7 +2281,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                             }
                         }
-                    }).setNegativeButton("No", null)
+                    }).setNegativeButton(R.string.btn_no, null)
                     .show();
 
         } else {
@@ -2375,9 +2375,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doOnClick(final CommentViewHolder holder, final CommentNode baseNode, final Comment comment) {
         if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty() && holder.getAdapterPosition() <= editingPosition) {
             new AlertDialogWrapper.Builder(mContext)
-                    .setTitle("Discard comment?")
-                    .setMessage("Do you really want to discard your comment?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setTitle(R.string.discard_comment_title)
+                    .setMessage(R.string.comment_discard_msg)
+                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -2399,7 +2399,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
 
                         }
-                    }).setNegativeButton("No", null)
+                    }).setNegativeButton(R.string.btn_no, null)
                     .show();
 
         } else {
@@ -2415,7 +2415,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
 
                     toCollapse.remove(comment.getFullName());
-                    hideChildrenObject(holder.children);
+                    hideChildrenObject(holder.childrenNumber);
                     holder.firstTextView.setVisibility(View.VISIBLE);
                     holder.commentOverflow.setVisibility(View.VISIBLE);
                 } else {
@@ -2425,8 +2425,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         if (!hiddenPersons.contains(comment.getFullName()))
                             hiddenPersons.add(comment.getFullName());
                         if (childNumber > 0) {
-                            showChildrenObject(holder.children);
-                            ((TextView) holder.children).setText("+" + childNumber);
+                            showChildrenObject(holder.childrenNumber);
+                            ((TextView) holder.childrenNumber).setText("+" + childNumber);
                         }
                     }
                     toCollapse.add(comment.getFullName());

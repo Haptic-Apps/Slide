@@ -248,8 +248,8 @@ public class VidMeUtil {
 
     public static void showErrorDialog(final Activity a) {
         new AlertDialogWrapper.Builder(a)
-                .setTitle("Uh oh, something went wrong.")
-                .setMessage("Slide couldn't save to the selected directory. Would you like to choose a new save location?")
+                .setTitle(R.string.err_something_wrong)
+                .setMessage(R.string.err_couldnt_save_choose_new)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -265,8 +265,8 @@ public class VidMeUtil {
 
     public static void showFirstDialog(final Activity a) {
         new AlertDialogWrapper.Builder(a)
-                .setTitle("Set video save location")
-                .setMessage("Slide's video save location has not been set yet. Would you like to set this now?")
+                .setTitle(R.string.set_video_save_loc)
+                .setMessage(R.string.set_video_save_loc_msg)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -326,7 +326,7 @@ public class VidMeUtil {
 
 
         Notification notif = new NotificationCompat.Builder(c)
-                .setContentTitle("Video saved")
+                .setContentTitle(c.getString(R.string.video_saved))
                 .setSmallIcon(R.drawable.notif)
                 .setContentIntent(contentIntent)
                 .build();

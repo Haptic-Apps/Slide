@@ -74,9 +74,9 @@ public class SettingsSubreddit extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 new AlertDialogWrapper.Builder(SettingsSubreddit.this)
-                        .setTitle("Clear all subreddit themes?")
-                        .setMessage("You cannot undo this action.")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.clear_all_sub_themes)
+                        .setMessage(R.string.clear_all_sub_themes_msg)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 for (String s : changedSubs) {
@@ -88,7 +88,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                 reloadSubList();
 
                             }
-                        }).setNegativeButton("No", null)
+                        }).setNegativeButton(R.string.btn_no, null)
                         .show();
             }
         });

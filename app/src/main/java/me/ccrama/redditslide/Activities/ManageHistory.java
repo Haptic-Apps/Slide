@@ -146,7 +146,7 @@ public class ManageHistory extends BaseActivityAnim {
                 theme.resolveAttribute(R.attr.font, typedValue, true);
                 int color2 = typedValue.data;
 
-                d.setTitle("Choose a sync time");
+                d.setTitle(getString(R.string.choose_sync_time));
                 d.titleColor(color2);
                 d.show();
             }

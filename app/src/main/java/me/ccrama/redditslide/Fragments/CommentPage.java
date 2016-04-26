@@ -340,7 +340,7 @@ public class CommentPage extends Fragment {
                 @Override
                 public void onClick(View v) {
                     new AlertDialogWrapper.Builder(getActivity())
-                            .setTitle("Set navigation mode")
+                            .setTitle(R.string.set_nav_mode)
                             .setSingleChoiceItems(new String[]{
                                     "Parent comment",
                                     "OP",
@@ -620,16 +620,16 @@ public class CommentPage extends Fragment {
         doTopBar();
 
         if (Authentication.didOnline && !NetworkUtil.isConnectedNoOverride(getActivity())) {
-            new AlertDialogWrapper.Builder(getActivity()).setTitle("Uh oh, an error occured")
-                    .setMessage("The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.")
-                    .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+            new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.err_title)
+                    .setMessage(R.string.err_connection_failed_msg)
+                    .setNegativeButton(R.string.btn_close, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (!(getActivity() instanceof MainActivity)) {
                                 (getActivity()).finish();
                             }
                         }
-                    }).setPositiveButton("Enter offline mode", new DialogInterface.OnClickListener() {
+                    }).setPositiveButton(R.string.btn_offline, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Reddit.appRestart.edit().putBoolean("forceoffline", true).apply();
@@ -947,15 +947,15 @@ public class CommentPage extends Fragment {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())
-                        .setTitle("Discard comment?")
-                        .setMessage("Do you really want to discard your comment?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.discard_comment_title)
+                        .setMessage(R.string.comment_discard_msg)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 adapter.currentlyEditing = null;
                                 doGoUp(finalToGoto);
                             }
-                        }).setNegativeButton("No", null)
+                        }).setNegativeButton(R.string.btn_no, null)
                         .show();
 
             } else {
@@ -1043,15 +1043,15 @@ public class CommentPage extends Fragment {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())
-                        .setTitle("Discard comment?")
-                        .setMessage("Do you really want to discard your comment?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.discard_comment_title)
+                        .setMessage(R.string.comment_discard_msg)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 adapter.currentlyEditing = null;
                                 doGoDown(finalToGoto);
                             }
-                        }).setNegativeButton("No", null)
+                        }).setNegativeButton(R.string.btn_no, null)
                         .show();
 
             } else {

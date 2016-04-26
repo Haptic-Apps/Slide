@@ -311,7 +311,7 @@ public class CreateMulti extends BaseActivityAnim {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle("Really remove this subreddit?")
+                    new AlertDialogWrapper.Builder(CreateMulti.this).setTitle(R.string.really_remove_subreddit_title)
                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
