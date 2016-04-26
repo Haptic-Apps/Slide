@@ -128,6 +128,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             SpannableStringBuilder titleString = new SpannableStringBuilder();
             if (comment.getAuthor() != null) {
                 titleString.append(comment.getAuthor());
+                titleString.append(" ");
                 if (UserTags.isUserTagged(comment.getAuthor())) {
                     SpannableStringBuilder pinned = new SpannableStringBuilder(" " + UserTags.getUserTag(comment.getAuthor()) + " ");
                     pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
