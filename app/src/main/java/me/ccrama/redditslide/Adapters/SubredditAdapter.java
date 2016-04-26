@@ -9,7 +9,8 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,17 +32,15 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     private final RecyclerView listView;
-    private final String where;
     public Activity context;
     public SubredditNames dataSet;
     private final int LOADING_SPINNER = 5;
-    private final int SUBREDDIT = 1;
     private final int NO_MORE = 3;
     private final int SPACER = 6;
     SubredditListView displayer;
 
     public SubredditAdapter(Activity context, SubredditNames dataSet, RecyclerView listView, String where, SubredditListView displayer) {
-        this.where = where.toLowerCase();
+        String where1 = where.toLowerCase();
         this.listView = listView;
         this.dataSet = dataSet;
         this.context = context;
@@ -70,6 +69,7 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         } else if (position == dataSet.posts.size() && dataSet.nomore) {
             return NO_MORE;
         }
+        int SUBREDDIT = 1;
         return SUBREDDIT;
     }
 

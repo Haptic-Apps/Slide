@@ -15,7 +15,6 @@ import com.devspark.robototextview.util.RobotoTypefaceManager;
  */
 public class RoundedBackgroundSpan extends ReplacementSpan {
 
-    private static int CORNER_RADIUS = 8;
     private int backgroundColor = 0;
     private int textColor = 0;
     boolean half;
@@ -52,6 +51,7 @@ public class RoundedBackgroundSpan extends ReplacementSpan {
         }
         RectF rect = new RectF(x, top + offset, x + measureText(paint, oldText, start, end), bottom - offset);
         paint.setColor(backgroundColor);
+        int CORNER_RADIUS = 8;
         canvas.drawRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, paint);
         paint.setColor(textColor);
         float baseLine = -paint.ascent();

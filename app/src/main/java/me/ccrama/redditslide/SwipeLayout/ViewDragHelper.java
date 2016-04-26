@@ -17,7 +17,6 @@
 package me.ccrama.redditslide.SwipeLayout;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.VelocityTrackerCompat;
 import android.support.v4.view.ViewCompat;
@@ -28,11 +27,8 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.animation.Interpolator;
-import android.widget.HorizontalScrollView;
 
 import java.util.Arrays;
-
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * By ikew0ng

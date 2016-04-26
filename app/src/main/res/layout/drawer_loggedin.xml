@@ -141,12 +141,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="0dp"></LinearLayout>
-
     <RelativeLayout
         android:id="@+id/prof_click"
         android:layout_width="match_parent"

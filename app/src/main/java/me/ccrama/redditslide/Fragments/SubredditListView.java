@@ -26,8 +26,6 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
-;
-
 public class SubredditListView extends Fragment {
     public SubredditNames posts;
     public RecyclerView rv;

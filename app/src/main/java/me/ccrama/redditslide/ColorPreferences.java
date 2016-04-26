@@ -361,7 +361,7 @@ public class ColorPreferences {
 
 
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         return getFontStyle();
@@ -384,7 +384,7 @@ public class ColorPreferences {
             } else {
                 return Theme.valueOf(str).baseId;
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
         return getFontStyle().baseId;

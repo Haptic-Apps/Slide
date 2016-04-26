@@ -14,11 +14,9 @@ import me.ccrama.redditslide.util.NetworkUtil;
 
 public class CacheAll extends BroadcastReceiver {
 
-    private Context c;
-
     @Override
     public void onReceive(Context context, Intent intent) {
-        c = context;
+        Context c = context;
         if (NetworkUtil.isConnectedNoOverride(c)) {
             if (Reddit.cachedData.getBoolean("wifiOnly", false))
                 if (!NetworkUtil.isConnectedWifi(context)) return;

@@ -33,8 +33,6 @@ import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 
-;
-
 
 public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
@@ -43,7 +41,6 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public MultiredditPosts dataSet;
     public ArrayList<Submission> seen;
     private final int LOADING_SPINNER = 5;
-    private final int SUBMISSION = 1;
     private final int NO_MORE = 3;
     private final int SPACER = 6;
     SwipeRefreshLayout refreshLayout;
@@ -80,6 +77,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else if (position == dataSet.posts.size() && dataSet.nomore) {
             return NO_MORE;
         }
+        int SUBMISSION = 1;
         return SUBMISSION;
     }
 

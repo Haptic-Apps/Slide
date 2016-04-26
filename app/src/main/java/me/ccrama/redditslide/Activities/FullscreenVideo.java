@@ -27,9 +27,6 @@ public class FullscreenVideo extends FullScreenActivity {
     public static final String EXTRA_HTML = "html";
     private WebView v;
 
-    /**
-     * Called when the activity is first created.
-     */
     @Override
     public void finish() {
         super.finish();

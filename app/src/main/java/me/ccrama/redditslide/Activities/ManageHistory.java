@@ -160,7 +160,9 @@ public class ManageHistory extends BaseActivityAnim {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, Reddit.cachedData.getInt("hour", 0));
         cal.set(Calendar.MINUTE, Reddit.cachedData.getInt("minute", 0));
-        text.setText("Backup will occur at " + new SimpleDateFormat("hh:mm a").format(cal.getTime()));
+        if (text != null) {
+            text.setText("Backup will occur at " + new SimpleDateFormat("hh:mm a").format(cal.getTime()));
+        }
     }
 
     public void updateBackup() {

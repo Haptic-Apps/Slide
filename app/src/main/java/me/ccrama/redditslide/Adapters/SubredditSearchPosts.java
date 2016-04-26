@@ -39,7 +39,7 @@ public class SubredditSearchPosts extends GeneralPosts {
         this.term = term;
     }
 
-    public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
+    public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) {
         this.adapter = a;
         this.refreshLayout = layout;
         loadMore(a, subreddit, term, true);

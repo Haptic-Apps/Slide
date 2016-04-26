@@ -508,7 +508,7 @@
   <string name="login_sync_colors">Farben jetzt synchronisieren?</string>
   <string name="login_sync_colors_desc">Möchten Sie die Subreddit-Farben jetzt synchronisieren? Das kann auch später über die Einstellungen→Subreddit Themes erledigt werden</string>
   <string name="login_authenticating">Slide authentifiziert sich</string>
-  <string name="login_starting">Einige Dinge einrichten...</string>
+  <string name="login_starting">Einige Dinge einrichten…</string>
   <string name="login_starting_desc">Dies sollte nur eine Sekunde dauern!</string>
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
   <string name="over18_title">/r/%1$s enthält jugendgefährdende Inhalte</string>

@@ -37,7 +37,7 @@ public class InboxMessages extends GeneralPosts {
         this.where = where;
     }
 
-    public void bindAdapter(InboxAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
+    public void bindAdapter(InboxAdapter a, SwipeRefreshLayout layout) {
         this.adapter = a;
         this.refreshLayout = layout;
         loadMore(a, where, true);

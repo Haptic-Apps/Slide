@@ -36,7 +36,7 @@ public class ModeratorPosts {
         this.subreddit = subreddit;
     }
 
-    public void bindAdapter(ModeratorAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
+    public void bindAdapter(ModeratorAdapter a, SwipeRefreshLayout layout) {
         this.adapter = a;
         this.refreshLayout = layout;
         loadMore(a, where, subreddit);

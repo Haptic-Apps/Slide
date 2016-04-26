@@ -49,7 +49,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public SubredditPosts dataSet;
     public ArrayList<Submission> seen;
     private final int LOADING_SPINNER = 5;
-    private final int SUBMISSION = 1;
     private final int NO_MORE = 3;
     private final int SPACER = 6;
     SubmissionDisplay displayer;
@@ -86,6 +85,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } else if (position == dataSet.posts.size() && (dataSet.offline || dataSet.nomore)) {
             return NO_MORE;
         }
+        int SUBMISSION = 1;
         return SUBMISSION;
     }
 

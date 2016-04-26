@@ -40,7 +40,6 @@ public class AlbumFull extends Fragment {
     private Submission s;
     boolean hidden;
     View rootView;
-    private ArrayList<JsonElement> images;
 
 
     @Override
@@ -173,7 +172,7 @@ public class AlbumFull extends Fragment {
                 cancel(true);
                 new LoadIntoRecycler(url.replace("/gallery", "/a"), getActivity()).execute();
             } else {
-                images = new ArrayList<>(jsonElements);
+                ArrayList<JsonElement> images = new ArrayList<>(jsonElements);
                 AlbumView adapter = new AlbumView(baseActivity, images, gallery, 0);
                 ((RecyclerView) list).setAdapter(adapter);
 

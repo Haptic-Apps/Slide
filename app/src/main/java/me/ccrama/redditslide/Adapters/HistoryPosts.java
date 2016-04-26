@@ -33,7 +33,7 @@ public class HistoryPosts extends GeneralPosts {
     public HistoryPosts() {
     }
 
-    public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
+    public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) {
         this.adapter = a;
         this.refreshLayout = layout;
         loadMore(a, true);

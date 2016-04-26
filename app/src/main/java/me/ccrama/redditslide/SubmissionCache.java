@@ -86,6 +86,8 @@ public class SubmissionCache {
         } catch (Exception e) {
             titleString.append("just now");
         }
+        titleString.append(((submission.getEdited() != null) ? " (edit " + TimeUtils.getTimeAgo(submission.getEdited().getTime(), mContext) + ")" : ""));
+
         titleString.append(spacer);
 
         SpannableStringBuilder author = new SpannableStringBuilder(" " + submission.getAuthor() + " ");

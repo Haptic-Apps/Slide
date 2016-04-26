@@ -63,7 +63,6 @@ public class Submit extends BaseActivity {
     String trying;
     private View image;
     private View self;
-    private AutoCompleteTextView subredditText;
 
     private View link;
     private SwitchCompat inboxReplies;
@@ -91,7 +90,7 @@ public class Submit extends BaseActivity {
         final String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
 
         self = findViewById(R.id.selftext);
-        subredditText = ((AutoCompleteTextView) findViewById(R.id.subreddittext));
+        AutoCompleteTextView subredditText = ((AutoCompleteTextView) findViewById(R.id.subreddittext));
         image = findViewById(R.id.image);
         link = findViewById(R.id.url);
 

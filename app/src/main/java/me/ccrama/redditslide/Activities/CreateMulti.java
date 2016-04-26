@@ -270,7 +270,7 @@ public class CreateMulti extends BaseActivityAnim {
 
                                 }
                             }).show();
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
 
                         }
                     }

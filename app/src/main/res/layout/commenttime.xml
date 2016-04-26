@@ -22,7 +22,7 @@
                 android:textColor="?attr/font"
 
                 android:padding="24dp"
-                android:text="Navigate comments since..."
+                android:text="@string/navigate_comments_since"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
@@ -55,7 +55,7 @@
                         android:layout_width="match_parent"
                         android:padding="8dp"
                         android:textColor="?attr/font"
-                        android:textSize="14dp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         android:id="@+id/time_string"
                         android:layout_height="wrap_content" />

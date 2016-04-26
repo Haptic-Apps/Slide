@@ -16,7 +16,6 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.SubredditListView;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * This class is reponsible for loading a list of subreddits from an endpoint
@@ -82,7 +81,7 @@ public class SubredditNames {
                     start = posts.size() + 1;
                 }
 
-                if (reset || posts == null ) {
+                if (reset || posts == null) {
                     posts = new ArrayList<>(new LinkedHashSet(submissions));
                     start = -1;
                 } else {
@@ -105,13 +104,13 @@ public class SubredditNames {
 
             List<Subreddit> things = new ArrayList<>();
 
-            if(subredditPaginators[0].equalsIgnoreCase("trending")){
+            if (subredditPaginators[0].equalsIgnoreCase("trending")) {
                 List<String> trending = Authentication.reddit.getTrendingSubreddits();
-                for(String s : trending){
+                for (String s : trending) {
                     things.add(Authentication.reddit.getSubreddit(s));
                 }
                 nomore = true;
-            } else if(subredditPaginators[0].equalsIgnoreCase("popular")){
+            } else if (subredditPaginators[0].equalsIgnoreCase("popular")) {
                 stillShow = true;
                 if (reset || paginator == null) {
                     paginator = new SubredditStream(Authentication.reddit, subredditPaginators[0]);

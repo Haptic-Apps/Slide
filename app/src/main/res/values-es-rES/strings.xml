@@ -113,7 +113,7 @@
   <string name="comment_share">Compartir comentario</string>
   <string name="comment_delete">Eliminar comentario</string>
   <string name="comment_delete_msg">¿Seguro que quieres eliminar el comentario? Esto no puede deshacerse.</string>
-  <string name="comment_delete_err">Vaya... algo salió mal.</string>
+  <string name="comment_delete_err">Vaya… algo salió mal.</string>
   <string name="comment_delete_err_msg">¿Quieres volver a intentarlo?</string>
   <string name="comment_deleted">[eliminado]</string>
   <string name="comment_unsave">Eliminar de guardados</string>
@@ -164,11 +164,11 @@
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Foto guardada</string>
   <!-- General errors / errors without a category -->
-  <string name="err_title">Vaya... algo ha salido mal...</string>
+  <string name="err_title">Vaya… algo ha salido mal...</string>
   <string name="err_invalid_url">URL inválida</string>
   <string name="err_loading_content">Error al cargar contenido</string>
   <string name="err_connection_lost">Uh oh! Parece que has perdido la conexión a internet. Por favor, conectate a internet y vuelve!</string>
-  <string name="err_general">Vaya... ha habido un error</string>
+  <string name="err_general">Vaya… ha habido un error</string>
   <string name="err_no_connection">No se pudo llegar a Reddit. ¿Te gustaría intentarlo de nuevo?</string>
   <string name="err_retry_later">Intentalo dentro de un minuto</string>
   <string name="err_permission">El permiso ha sido denegado</string>
@@ -217,7 +217,7 @@
   <string name="mail_tab_messages">Mensajes</string>
   <string name="mail_tab_sent">Enviados</string>
   <string name="mail_tab_mentions">Menciones</string>
-  <string name="mail_author_wrote">%1$s escribió...</string>
+  <string name="mail_author_wrote">%1$s escribió…</string>
   <string name="mail_hint_recipient">Destinatario</string>
   <string name="mail_hint_subject">Sujeto</string>
   <string name="mail_hint_body">Cuerpo</string>

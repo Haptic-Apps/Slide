@@ -20,7 +20,6 @@ package me.ccrama.redditslide.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
 public class UpgradeUtil {

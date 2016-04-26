@@ -54,7 +54,7 @@ public class WikiPage extends Fragment {
             protected Void doInBackground(Void... params) {
                 try {
                     text = ((Wiki) getActivity()).wiki.get(subreddit, title).getDataNode().get("content_html").asText();
-                } catch(Exception e){
+                } catch(Exception ignored){
 
                 }
                 return null;

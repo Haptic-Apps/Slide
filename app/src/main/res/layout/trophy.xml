@@ -15,7 +15,7 @@
         android:id="@+id/trophyTitle"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:layout_height="wrap_content" />
 

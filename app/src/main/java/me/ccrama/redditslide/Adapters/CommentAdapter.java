@@ -153,7 +153,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
         final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
 
-
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         approve.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -161,6 +160,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         distinguish.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+        ta.recycle();
 
         BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
                 .title(Html.fromHtml(comment.getBody()));
@@ -898,17 +899,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (hiddenPersons.contains(comment.getFullName()) || toCollapse.contains(comment.getFullName())) {
                 int childnumber = getChildNumber(baseNode);
                 if (hiddenPersons.contains(comment.getFullName()) && childnumber > 0) {
-                    holder.children.setVisibility(View.VISIBLE);
+                    holder.childrenNumber.setVisibility(View.VISIBLE);
                     holder.childrenNumber.setText("+" + childnumber);
                 } else {
-                    holder.children.setVisibility(View.GONE);
+                    holder.childrenNumber.setVisibility(View.GONE);
                 }
                 if (SettingValues.collapseComments && toCollapse.contains(comment.getFullName())) {
                     holder.firstTextView.setVisibility(View.GONE);
                     holder.commentOverflow.setVisibility(View.GONE);
                 }
             } else {
-                holder.children.setVisibility(View.GONE);
+                holder.childrenNumber.setVisibility(View.GONE);
                 holder.firstTextView.setVisibility(View.VISIBLE);
                 holder.commentOverflow.setVisibility(View.VISIBLE);
             }
@@ -1132,6 +1133,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 edit_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
                                 delete_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
                                 flair_drawable.setColorFilter(color2, PorterDuff.Mode.SRC_ATOP);
+
+                                ta.recycle();
 
                                 BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
                                         .title(Html.fromHtml(submission.getTitle()));
@@ -2880,6 +2883,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         parent.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         permalink.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+        ta.recycle();
 
         BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
                 .title(Html.fromHtml(n.getBody()));

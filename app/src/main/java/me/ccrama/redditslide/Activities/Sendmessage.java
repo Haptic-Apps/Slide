@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;

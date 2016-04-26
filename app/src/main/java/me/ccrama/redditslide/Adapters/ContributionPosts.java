@@ -32,7 +32,7 @@ public class ContributionPosts extends GeneralPosts {
         this.where = where;
     }
 
-    public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) throws ExecutionException, InterruptedException {
+    public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) {
         this.adapter = a;
         this.refreshLayout = layout;
         loadMore(a, subreddit, true);

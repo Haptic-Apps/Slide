@@ -46,7 +46,6 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.AnimateHelper;
-import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 
@@ -172,7 +171,7 @@ public class PopulateShadowboxInfo {
                 });
             }
 
-            if (!SettingValues.saveButton && !true || !Authentication.isLoggedIn || !Authentication.didOnline) {
+            if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                 rootView.findViewById(R.id.save).setVisibility(View.GONE);
             }
             try {
@@ -186,7 +185,7 @@ public class PopulateShadowboxInfo {
                             public void onClick(View view) {
                                 ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
-                                if (SettingValues.storeHistory && !true) {
+                                if (SettingValues.storeHistory) {
                                     if (!s.isNsfw() || SettingValues.storeNSFWHistory) {
                                         HasSeen.addSeen(s.getFullName());
                                     }
@@ -210,8 +209,6 @@ public class PopulateShadowboxInfo {
                                     ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
                                     downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
                                 }
-                                if (!true && !SettingValues.actionbarVisible)
-                                    CreateCardView.toggleActionbar(rootView);
                             }
                         });
                     }
@@ -221,7 +218,7 @@ public class PopulateShadowboxInfo {
                             public void onClick(View view) {
                                 ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
-                                if (SettingValues.storeHistory && !true) {
+                                if (SettingValues.storeHistory) {
                                     if (!s.isNsfw() || SettingValues.storeNSFWHistory) {
                                         HasSeen.addSeen(s.getFullName());
                                     }
@@ -288,6 +285,8 @@ public class PopulateShadowboxInfo {
         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+        ta.recycle();
 
         BottomSheet.Builder b = new BottomSheet.Builder(mContext)
                 .title(Html.fromHtml(submission.getTitle()));

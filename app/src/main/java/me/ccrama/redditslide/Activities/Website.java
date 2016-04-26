@@ -81,6 +81,13 @@ public class Website extends BaseActivityAnim {
         return false;
     }
 
+    //Stop audio
+    @Override
+    public void finish() {
+        super.finish();
+        v.loadUrl("about:blank");
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();

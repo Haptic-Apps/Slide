@@ -19,11 +19,10 @@ import me.ccrama.redditslide.TimeUtils;
 public class ListProvider implements RemoteViewsService.RemoteViewsFactory {
     private ArrayList<Submission> listItemList = new ArrayList<>();
     private Context context = null;
-    private int appWidgetId;
 
     public ListProvider(Context context, Intent intent) {
         this.context = context;
-        appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
+        int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                 AppWidgetManager.INVALID_APPWIDGET_ID);
 
         populateListItem();

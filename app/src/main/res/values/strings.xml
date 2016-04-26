@@ -766,4 +766,15 @@
     <string name="btn_set">SET</string>
     <string name="view_subreddits">View subreddits</string>
     <string name="settings_about_changelog_post">View changelog post</string>
+    <string name="autocache_subreddits">Autocache subreddits</string>
+    <string name="autocache_time">Autocache time</string>
+    <string name="cache_subreddits_now">Cache subreddits now</string>
+    <string name="clear_saved_subreddits">Clear all saved subreddits</string>
+    <string name="settings_section_content">Content</string>
+    <string name="download_the_slide_video_player_plugin">Download the Slide Video Player plugin</string>
+    <string name="settings_reddit_description">These settings change what the Reddit API returns to Slide.\n\nTo see thumbnails in all subreddits, change the Thumbnail Mode to \'Always Show\'\n\nTo see all NSFW content, turn off \'Hide NSFW photos\' and turn on \'I am over 18\'</string>
+    <string name="settings_description_synccit">Synccit allows you to sync your submission history between devices and your browser</string>
+    <string name="settings_description_view_type">View types affect both the main view and single subreddit views.\n\nComment Pane: comments slide out from next to posts and the comment page state is saved after swiping back (so you don\'t lose your place)\n\nNo Subreddit Tabs: disables swiping between subreddits\n\nSubreddit tabs: slide between your subreddits</string>
+    <string name="btn_suggest_title">Suggest title</string>
+    <string name="navigate_comments_since">Navigate comments since...</string>
 </resources>

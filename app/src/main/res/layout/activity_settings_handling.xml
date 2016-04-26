@@ -44,7 +44,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:text="Swipe anywhere in view to exit"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -209,7 +208,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Download the Slide Video Player plugin"
+                            android:text="@string/download_the_slide_video_player_plugin"
                             android:textColor="?attr/font"
                             android:textSize="16sp" />
                     </LinearLayout>

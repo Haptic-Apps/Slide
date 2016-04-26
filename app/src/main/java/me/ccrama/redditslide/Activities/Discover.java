@@ -28,8 +28,6 @@ import me.ccrama.redditslide.Visuals.Palette;
 public class Discover extends BaseActivityAnim {
 
     public OverviewPagerAdapter adapter;
-    private ViewPager pager;
-    private TabLayout tabs;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,11 +88,11 @@ public class Discover extends BaseActivityAnim {
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());
-        tabs = (TabLayout) findViewById(R.id.sliding_tabs);
+        TabLayout tabs = (TabLayout) findViewById(R.id.sliding_tabs);
         tabs.setTabMode(TabLayout.MODE_FIXED);
         tabs.setSelectedTabIndicatorColor(new ColorPreferences(Discover.this).getColor("no sub"));
 
-        pager = (ViewPager) findViewById(R.id.content_view);
+        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
         pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         tabs.setupWithViewPager(pager);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {

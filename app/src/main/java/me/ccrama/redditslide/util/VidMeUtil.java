@@ -231,8 +231,6 @@ public class VidMeUtil {
                                     return null;
                                 }
 
-                                ;
-
 
                             }.execute();
                         }

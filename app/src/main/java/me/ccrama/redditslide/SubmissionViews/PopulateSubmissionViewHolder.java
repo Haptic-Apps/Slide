@@ -307,6 +307,8 @@ public class PopulateSubmissionViewHolder {
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         filter.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
+        ta.recycle();
+
         final BottomSheet.Builder b = new BottomSheet.Builder(mContext)
                 .title(Html.fromHtml(submission.getTitle()));
 
@@ -619,6 +621,8 @@ public class PopulateSubmissionViewHolder {
         flair.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove_reason.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+        ta.recycle();
 
         BottomSheet.Builder b = new BottomSheet.Builder(mContext)
                 .title(Html.fromHtml(submission.getTitle()));

@@ -97,9 +97,7 @@ public class CommentPage extends Fragment {
     private boolean single;
     public CommentAdapter adapter;
     private String fullname;
-    private String baseSubreddit;
     private String context;
-    private int subredditStyle;
     private ContextWrapper contextThemeWrapper;
     private PreCachingLayoutManagerComments mLayoutManager;
     public String subreddit;
@@ -756,11 +754,11 @@ public class CommentPage extends Fragment {
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
         locked = bundle.getBoolean("locked", false);
-        baseSubreddit = bundle.getString("baseSubreddit", "");
+        String baseSubreddit = bundle.getString("baseSubreddit", "");
 
         loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
         if (!single) loadMore = false;
-        subredditStyle = new ColorPreferences(getActivity()).getThemeSubreddit(subreddit);
+        int subredditStyle = new ColorPreferences(getActivity()).getThemeSubreddit(subreddit);
         contextThemeWrapper = new ContextThemeWrapper(getActivity(), subredditStyle);
         mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
     }

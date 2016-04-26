@@ -259,7 +259,7 @@ public class CreateCardView {
     }
 
     public static void setColorIndicicator(SettingValues.ColorIndicator b) {
-        String subreddit = false ? "second" : "";
+        String subreddit = "";
         if (subreddit.isEmpty()) {
 
 
@@ -502,19 +502,19 @@ public class CreateCardView {
     }
 
     public static SettingValues.ColorIndicator getColorIndicator() {
-        String subreddit = false ? "second" : "";
+        String subreddit = "";
 
         return SettingValues.ColorIndicator.valueOf(SettingValues.prefs.getString(subreddit + "colorIndicatorNew", SettingValues.colorIndicator.toString()));
     }
 
     public static SettingValues.ColorMatchingMode getColorMatchingMode() {
-        String subreddit = false ? "second" : "";
+        String subreddit = "";
 
         return SettingValues.ColorMatchingMode.valueOf(SettingValues.prefs.getString(subreddit + "ccolorMatchingModeNew", SettingValues.colorMatchingMode.toString()));
     }
 
     public static void setColorMatchingMode(SettingValues.ColorMatchingMode b) {
-        String subreddit = false ? "second" : "";
+        String subreddit = "";
         if (subreddit.isEmpty()) {
 
 

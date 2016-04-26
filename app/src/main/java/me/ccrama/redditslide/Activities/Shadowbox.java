@@ -33,7 +33,6 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
-    private OfflineSubreddit submissions;
     public PostLoader subredditPosts;
     public String subreddit;
     int firstPage;
@@ -57,7 +56,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_slide);
 
-        submissions = OfflineSubreddit.getSubreddit(subreddit, 0l, !Authentication.didOnline, this);
+        OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, 0L, !Authentication.didOnline, this);
 
         subredditPosts.getPosts().addAll(submissions.submissions);
 

@@ -405,7 +405,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                                     }
                                 }).show();
-                            } catch (Exception e) {
+                            } catch (Exception ignored) {
 
                             }
                         }
@@ -490,9 +490,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, final int position) {
+        public void onBindViewHolder(final ViewHolder holder, int position) {
 
-            final String origPos = items.get(position);
+            final String origPos = items.get(holder.getAdapterPosition());
             holder.text.setText(origPos);
 
             if (chosen.contains(origPos)) {

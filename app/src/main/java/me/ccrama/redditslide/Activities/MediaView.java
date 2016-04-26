@@ -105,6 +105,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
+        ta.recycle();
+
         BottomSheet.Builder b = new BottomSheet.Builder(this)
                 .title(contentUrl);
 

@@ -22,7 +22,7 @@
                 android:paddingTop="16dp"
                 android:textSize="14sp"
                 android:alpha=".5"
-                android:text="Synccit allows you to sync your submission history between devices and your browser"
+                android:text="@string/settings_description_synccit"
                 android:layout_height="wrap_content" />
 
             <LinearLayout

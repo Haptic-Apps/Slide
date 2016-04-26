@@ -240,7 +240,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                             AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
                         break;
                 }*/
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                     count++;
                     if (modal) {

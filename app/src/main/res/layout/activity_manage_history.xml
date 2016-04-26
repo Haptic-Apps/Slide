@@ -35,7 +35,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Autocache subreddits"
+                    android:text="@string/autocache_subreddits"
                     android:textColor="?attr/font"
                     android:textSize="16sp" />
                 <TextView
@@ -116,7 +116,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Autocache time"
+                    android:text="@string/autocache_time"
                     android:textColor="?attr/font"
                     android:textSize="16sp" />
                 <TextView
@@ -153,7 +153,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cache subreddits now"
+                    android:text="@string/cache_subreddits_now"
                     android:textColor="?attr/font"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -183,7 +183,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Clear all saved subreddits"
+                    android:text="@string/clear_saved_subreddits"
                     android:textColor="?attr/font"
                     android:textSize="16sp" />
             </LinearLayout>

@@ -46,8 +46,6 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
-;
-
 public class MultiredditView extends Fragment implements SubmissionDisplay {
 
     public MultiredditAdapter adapter;

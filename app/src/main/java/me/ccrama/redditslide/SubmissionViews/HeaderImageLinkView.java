@@ -386,6 +386,8 @@ public class HeaderImageLinkView extends RelativeLayout {
                     Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
                     copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
+                    ta.recycle();
+
                     b.sheet(R.id.open_link, open, getResources().getString(R.string.submission_link_extern));
                     b.sheet(R.id.share_link, share, getResources().getString(R.string.share_link));
                     b.sheet(R.id.copy_link, copy, getResources().getString(R.string.submission_link_copy));

@@ -14,7 +14,6 @@ import me.ccrama.redditslide.Views.CommentOverflow;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentViewHolder extends RecyclerView.ViewHolder {
-    public final View children;
     public final TextView childrenNumber;
     public final View dot;
     public final LinearLayout menuArea;
@@ -31,7 +30,6 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
         background = v.findViewById(R.id.background);
         dot = v.findViewById(R.id.dot);
         menuArea = (LinearLayout) v.findViewById(R.id.menuarea);
-        children = v.findViewById(R.id.commentnumber);
         childrenNumber = (TextView) v.findViewById(R.id.commentnumber);
         firstTextView = (SpoilerRobotoTextView) v.findViewById(R.id.firstTextView);
         textColorDown = ContextCompat.getColor(v.getContext(), R.color.md_blue_500);

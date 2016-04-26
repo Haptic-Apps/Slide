@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class OfflineSubreddit {
 
-    public static Long currentid = 0l;
+    public static Long currentid = 0L;
     public long time;
     public ArrayList<Submission> submissions;
     public String subreddit;
@@ -125,7 +125,7 @@ public class OfflineSubreddit {
     }
 
     public static OfflineSubreddit getSubreddit(String subreddit, boolean offline, Context c) {
-        return getSubreddit(subreddit, 0l, offline, c);
+        return getSubreddit(subreddit, 0L, offline, c);
     }
 
     public static OfflineSubreddit getSubNoLoad(String s) {

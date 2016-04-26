@@ -482,7 +482,7 @@
   <string name="login_sync_colors_desc">今あなたのサブレディットの色を同期しますか? 後で 設定 → サブレディット テーマ からでも変更できます</string>
   <string name="login_authenticating">Slideは認証中です</string>
   <string name="login_starting">色々設定しましょう!</string>
-  <string name="login_starting_desc">こんなのすぐに済むハズなんだけどなぁ...</string>
+  <string name="login_starting_desc">こんなのすぐに済むハズなんだけどなぁ…</string>
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
   <string name="over18_title">/r/%1$sには成人向けコンテンツが含まれています</string>
   <string name="over18_desc">あなたは18歳以上で、成人向けコンテンツを閲覧しますか?</string>

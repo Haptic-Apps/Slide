@@ -48,7 +48,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
     private final Context mContext;
     private final List<CommentNode> originalDataSet;
-    private final String subAuthor;
 
 
     ///... other methods
@@ -58,7 +57,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     public CommentAdapterSearch(Context mContext, List<CommentNode> dataSet, RecyclerView listView, String subAuthor) {
 
         this.mContext = mContext;
-        this.subAuthor = subAuthor;
+        String subAuthor1 = subAuthor;
         this.originalDataSet = dataSet;
         List<CommentNode> filteredUserList = new ArrayList<>();
 
@@ -182,7 +181,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
 
-        holder.children.setVisibility(View.GONE);
+        holder.childrenNumber.setVisibility(View.GONE);
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

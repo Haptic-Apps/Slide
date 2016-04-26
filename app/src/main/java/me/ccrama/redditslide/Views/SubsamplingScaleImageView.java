@@ -2799,7 +2799,7 @@ public class SubsamplingScaleImageView extends View {
      * these events are triggered if the activity is paused, the image is swapped, or in other cases
      * where the view's internal state gets wiped or draw events stop.
      */
-    public static interface OnAnimationEventListener {
+    public interface OnAnimationEventListener {
 
         /**
          * The animation has completed, having reached its endpoint.
@@ -2840,7 +2840,7 @@ public class SubsamplingScaleImageView extends View {
     /**
      * An event listener, allowing subclasses and activities to be notified of significant events.
      */
-    public static interface OnImageEventListener {
+    public interface OnImageEventListener {
 
         /**
          * Called when the dimensions of the image and view are known, and either a preview image,

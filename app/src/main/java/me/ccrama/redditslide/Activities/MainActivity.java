@@ -563,7 +563,7 @@ public class MainActivity extends BaseActivity {
                 doDrawer();
                 try {
                     setDataSet(subs);
-                } catch (Exception e) {
+                } catch (Exception ignored) {
 
                 }
                 loader.finish();
@@ -1608,7 +1608,7 @@ public class MainActivity extends BaseActivity {
             headerMain = header;
             hea = header.findViewById(R.id.back);
 
-            final LinearLayout profStuff = (LinearLayout) header.findViewById(R.id.accountsarea);
+            final LinearLayout profStuff = (LinearLayout) accountsArea;
             profStuff.setVisibility(View.GONE);
             findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override

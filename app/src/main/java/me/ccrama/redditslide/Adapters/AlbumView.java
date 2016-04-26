@@ -100,10 +100,9 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     }
 
-    private final int SPACER = 6;
-
     @Override
     public int getItemViewType(int position) {
+        int SPACER = 6;
         if (!paddingBottom && position == 0) {
             return SPACER;
         } else if (paddingBottom && position == getItemCount() - 1) {

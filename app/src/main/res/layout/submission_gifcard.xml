@@ -2,148 +2,130 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
     android:background="#000000"
     android:gravity="center"
-
     android:orientation="vertical">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000000"
+        android:layout_height="match_parent">
 
-        android:orientation="vertical">
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:id="@+id/imagearea"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            >
 
-            android:layout_height="match_parent"
+            <me.ccrama.redditslide.Views.MediaVideoView
+                android:id="@+id/gif"
+                android:layout_width="match_parent"
 
-           >
 
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
 
-            <RelativeLayout
-                android:id="@+id/imagearea"
+            </me.ccrama.redditslide.Views.MediaVideoView>
+
+            <FrameLayout
+                android:id="@+id/placeholder"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_gravity="center"
+                android:background="#000000" />
 
-                >
-
-                <me.ccrama.redditslide.Views.MediaVideoView
-                    android:id="@+id/gif"
-                    android:layout_width="match_parent"
-
-
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true">
-
-                </me.ccrama.redditslide.Views.MediaVideoView>
-
-                <FrameLayout
-                    android:id="@+id/placeholder"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:background="#000000" />
-
-                <ProgressBar
-                    android:id="@+id/gifprogress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:indeterminate="false"
-                    android:max="100"
-
-                    android:progress="0"
-                    />
-            </RelativeLayout>
-
-
-            <LinearLayout
-                android:id="@+id/base"
+            <ProgressBar
+                android:id="@+id/gifprogress"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_above="@+id/scoreimg"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingStart="16dp">
+                android:indeterminate="false"
+                android:max="100"
 
-                <me.ccrama.redditslide.Views.TitleTextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/example_domain"
-                    android:textColor="#ffffff"
-                    android:textSize="?attr/font_cardtitle"/>
-
-
-            </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/scoreimg"
-                    android:layout_width="15dp"
-                    android:layout_height="36dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="4dp"
-                    app:srcCompat="@drawable/upvoted"
-                    android:tag="tint" />
-
-                <TextView
-                    android:id="@+id/score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_toRightOf="@+id/scoreimg"
-                    android:gravity="center_vertical"
-                    android:textColor="#bcffffff"
-                    android:textSize="?attr/font_cardinfo" />
-
-                <ImageView
-                    android:id="@+id/pointsimg"
-                    android:layout_width="15dp"
-                    android:layout_height="36dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_toRightOf="@+id/score"
-                    app:srcCompat="@drawable/commentchange" />
-
-                <TextView
-                    android:id="@+id/comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_alignParentBottom="true"
-
-                    android:layout_gravity="center_vertical"
-                    android:layout_toRightOf="@+id/pointsimg"
-                    android:gravity="center_vertical"
-                    android:textColor="#bcffffff"
-                    android:textSize="?attr/font_cardinfo" />
-
-                <TextView
-                    android:id="@+id/desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="36dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginEnd="8dp"
-                    android:layout_toRightOf="@+id/comments"
-                    android:gravity="right|center_vertical"
-                    android:text="@string/example_url"
-                    android:textColor="#bcffffff"
-                    android:textSize="14sp" />
-
+                android:progress="0" />
         </RelativeLayout>
 
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/base"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/scoreimg"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingStart="16dp">
 
+            <me.ccrama.redditslide.Views.TitleTextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_domain"
+                android:textColor="#ffffff"
+                android:textSize="?attr/font_cardtitle" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/scoreimg"
+            android:layout_width="15dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="16dp"
+            android:tag="tint"
+            app:srcCompat="@drawable/upvoted" />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/scoreimg"
+            android:gravity="center_vertical"
+            android:textColor="#bcffffff"
+            android:textSize="?attr/font_cardinfo" />
+
+        <ImageView
+            android:id="@+id/pointsimg"
+            android:layout_width="15dp"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="8dp"
+            android:layout_toRightOf="@+id/score"
+            app:srcCompat="@drawable/commentchange" />
+
+        <TextView
+            android:id="@+id/comments"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/pointsimg"
+            android:gravity="center_vertical"
+            android:textColor="#bcffffff"
+            android:textSize="?attr/font_cardinfo" />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="8dp"
+            android:layout_toRightOf="@+id/comments"
+            android:gravity="right|center_vertical"
+            android:text="@string/example_url"
+            android:textColor="#bcffffff"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
 </LinearLayout>

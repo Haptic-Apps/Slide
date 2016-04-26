@@ -187,6 +187,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     reply.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
                     unhide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
+                    ta.recycle();
+
                     BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
                             .title(Html.fromHtml(comment.getSubject()));
 

@@ -27,7 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toRightOf="@+id/welcome"
             android:padding="16dp"
             android:text="@string/guest"
             android:textStyle="bold|italic"

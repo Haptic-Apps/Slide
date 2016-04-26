@@ -15,7 +15,7 @@
             android:padding="16dp"
             android:textSize="14sp"
             android:alpha=".5"
-            android:text="View types affect both the main view and single subreddit views.\n\nComment Pane: comments slide out from next to posts and the comment page state is saved after swiping back (so you don't lose your place)\n\nNo Subreddit Tabs: disables swiping between subreddits\n\nSubreddit tabs: slide between your subreddits"
+            android:text="@string/settings_description_view_type"
             android:layout_height="wrap_content" />
         <LinearLayout
             android:layout_width="match_parent"

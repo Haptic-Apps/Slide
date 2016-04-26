@@ -3,7 +3,6 @@ package me.ccrama.redditslide.util;
 import android.app.Activity;
 
 import java.io.File;
-import java.io.IOException;
 
 import me.ccrama.redditslide.ImageLoaderUtils;
 
@@ -14,9 +13,9 @@ import me.ccrama.redditslide.ImageLoaderUtils;
  */
 public class CacheUtil {
 
-    private static final long MAX_SIZE = 75000000l; // 75MB
+    private static final long MAX_SIZE = 75000000L; // 75MB
 
-    public static void makeRoom(Activity context, int length) throws IOException {
+    public static void makeRoom(Activity context, int length) {
 
         File cacheDir = ImageLoaderUtils.getCacheDirectoryGif(context);
         long size = getDirSize(cacheDir);

@@ -44,7 +44,7 @@ public class SettingsBackup extends BaseActivityAnim {
             if (stream != null) {
                 stream.close();
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
     }
 

@@ -21,6 +21,6 @@ public interface ImageDecoder {
      * @return Dimensions of the image.
      * @throws Exception if initialisation fails.
      */
-    Bitmap decode(Context context, Uri uri) throws Exception;
+    Bitmap decode(Context context, Uri uri);
 
 }

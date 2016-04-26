@@ -1136,7 +1136,7 @@ public class SubredditView extends BaseActivityAnim {
                                     finish();
                                 }
                             }).show();
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
 
                         }
                     }

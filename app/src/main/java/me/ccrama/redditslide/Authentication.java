@@ -37,13 +37,12 @@ public class Authentication {
     public static String name;
     public static SharedPreferences authentication;
     public static String refresh;
-    private Reddit a;
 
     public boolean hasDone;
     public static boolean didOnline;
 
     public Authentication(Context context) {
-        this.a = (Reddit) context;
+        Reddit a = (Reddit) context;
         Reddit.setDefaultErrorHandler(context);
 
         if (NetworkUtil.isConnected(context)) {

@@ -32,7 +32,7 @@ public class Utils {
             Method method = Activity.class.getDeclaredMethod("convertFromTranslucent");
             method.setAccessible(true);
             method.invoke(activity);
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
     }
 
@@ -74,7 +74,7 @@ public class Utils {
             method.invoke(activity, new Object[] {
                 null
             });
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
     }
 
@@ -98,7 +98,7 @@ public class Utils {
                     translucentConversionListenerClazz, ActivityOptions.class);
             convertToTranslucent.setAccessible(true);
             convertToTranslucent.invoke(activity, null, options);
-        } catch (Throwable t) {
+        } catch (Throwable ignored) {
         }
     }
 }
