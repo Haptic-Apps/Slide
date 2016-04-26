@@ -18,8 +18,8 @@ public class SettingValues {
     public static final String PREF_UPVOTE_PERCENTAGE = "upvotePercentage";
     public static final String PREF_FAB_TYPE = "FabType";
     public static final String PREF_DAY_TIME = "day";
-    public static final String PREF_NIGHT_TIME = "night";
-    public static final String PREF_AUTOHIDE_COMMENTS = "night";
+    public static final String PREF_NIGHT_TIME = "nightTime";
+    public static final String PREF_AUTOHIDE_COMMENTS = "autohideComments";
     public static final String PREF_AUTOTHEME = "autotime";
     public static final String PREF_COLOR_BACK = "colorBack";
     public static final String PREF_COLOR_NAV_BAR = "colorNavBar";
