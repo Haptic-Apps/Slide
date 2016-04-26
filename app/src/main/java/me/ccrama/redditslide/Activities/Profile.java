@@ -32,7 +32,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.fluent.FluentRedditClient;
-import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Account;
 import net.dean.jraw.models.Trophy;
@@ -232,7 +231,7 @@ public class Profile extends BaseActivityAnim {
                 }
                 account = Authentication.reddit.getUser(params[0]);
                 trophyCase = new FluentRedditClient(Authentication.reddit).user(params[0]).trophyCase();
-            } catch (NetworkException ignored) {
+            } catch (RuntimeException ignored) {
             }
             return null;
 
