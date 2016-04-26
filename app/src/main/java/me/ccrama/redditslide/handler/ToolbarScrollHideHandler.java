@@ -13,12 +13,18 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
 
     Toolbar tToolbar;
     View mAppBar;
+    View extra;
 
     public ToolbarScrollHideHandler(Toolbar t, View appBar) {
         tToolbar = t;
         mAppBar = appBar;
     }
 
+    public ToolbarScrollHideHandler(Toolbar t, View appBar, View extra) {
+        tToolbar = t;
+        mAppBar = appBar;
+        this.extra = extra;
+    }
 
     int verticalOffset;
 
@@ -52,14 +58,22 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
         if (scrollingUp) {
             if (toolbarYOffset < tToolbar.getHeight()) {
                 mAppBar.setTranslationY(-toolbarYOffset);
+                if (extra != null)
+                    extra.setTranslationY(-toolbarYOffset);
             } else {
                 mAppBar.setTranslationY(-tToolbar.getHeight());
+                if (extra != null)
+                    extra.setTranslationY(-tToolbar.getHeight());
             }
         } else {
             if (toolbarYOffset < 0) {
                 mAppBar.setTranslationY(0);
+                if (extra != null)
+                    extra.setTranslationY(0);
             } else {
                 mAppBar.setTranslationY(-toolbarYOffset);
+                if (extra != null)
+                    extra.setTranslationY(-toolbarYOffset);
             }
         }
     }
@@ -69,6 +83,11 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
                 .translationY(0)
                 .setInterpolator(new LinearInterpolator())
                 .setDuration(180);
+        if (extra != null)
+            extra.animate()
+                    .translationY(0)
+                    .setInterpolator(new LinearInterpolator())
+                    .setDuration(180);
     }
 
     private void toolbarAnimateHide() {
@@ -76,5 +95,10 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
                 .translationY(-tToolbar.getHeight())
                 .setInterpolator(new LinearInterpolator())
                 .setDuration(180);
+        if (extra != null)
+            extra.animate()
+                    .translationY(-tToolbar.getHeight())
+                    .setInterpolator(new LinearInterpolator())
+                    .setDuration(180);
     }
 }

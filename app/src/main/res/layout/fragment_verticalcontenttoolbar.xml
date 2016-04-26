@@ -31,7 +31,6 @@
             android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/orange"
             android:elevation="16dp"
             android:orientation="vertical"
             android:theme="@style/Theme.AppCompat">
@@ -83,7 +82,6 @@
                 android:textColor="?attr/font"
                 android:textSize="14sp" />
         </android.support.design.widget.AppBarLayout>
-
         <ProgressBar
             android:id="@+id/progress"
             style="?android:attr/progressBarStyleHorizontal"
@@ -94,6 +92,7 @@
             android:indeterminate="true"
             android:max="100"
             android:progress="0" />
+
     </LinearLayout>
 
     <LinearLayout

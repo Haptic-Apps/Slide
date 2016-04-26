@@ -299,7 +299,7 @@ public class CommentPage extends Fragment {
         }
         if (fab != null)
             fab.show();
-        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header)) {
+        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header), v.findViewById(R.id.progress)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);

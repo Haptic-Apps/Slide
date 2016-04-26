@@ -174,7 +174,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
 
                 }
-            } else if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (!thumbnail.isNull() && ( thumbnailType != Submission.ThumbnailType.URL)) || thumbnail.asText().isEmpty()) {
+            } else if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (!thumbnail.isNull() && ( thumbnailType != Submission.ThumbnailType.URL)) || thumbnail.asText().isEmpty() && !submission.isSelfPost()) {
 
                 setVisibility(View.GONE);
                 if (!full) {
