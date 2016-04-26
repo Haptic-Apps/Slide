@@ -41,7 +41,6 @@ import me.ccrama.redditslide.Adapters.SubredditPosts;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
-import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -556,7 +555,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        LastComments.setCommentsSince(submissions);
         if (getActivity() != null) {
             if (getActivity() instanceof MainActivity) {
                 if (((MainActivity) getActivity()).runAfterLoad != null) {

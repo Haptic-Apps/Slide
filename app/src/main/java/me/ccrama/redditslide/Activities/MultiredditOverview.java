@@ -446,7 +446,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         ArrayList<String> toSort = new ArrayList<>();
 
         for(MultiSubreddit s : current.getSubreddits()){
-            toSort.add(s.getDisplayName());
+            toSort.add(s.getDisplayName().toLowerCase());
         }
 
         for (String sub : UserSubscriptions.sortNoExtras(toSort)) {

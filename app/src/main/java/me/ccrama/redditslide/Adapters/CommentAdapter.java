@@ -696,7 +696,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doScoreText(CommentViewHolder holder, Comment comment, int offset) {
         String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString = new SpannableStringBuilder();
+        int sc = comment.getScore();
 
+        switch (comment.getVote()) {
+            case UPVOTE:
+                sc -= 1;
+                break;
+            case DOWNVOTE:
+                sc += 1;
+                break;
+        }
 
         SpannableStringBuilder author = new SpannableStringBuilder(" " + comment.getAuthor() + " ");
         int authorcolor = Palette.getFontColorUser(comment.getAuthor());
@@ -721,7 +730,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (comment.isScoreHidden()) {
             scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
         } else {
-            scoreText = Integer.toString(comment.getScore() + offset);
+            scoreText = Integer.toString(sc + offset);
         }
         SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
         int scoreColor;
@@ -830,7 +839,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
 
-            doScoreText(holder, comment, 0);
+            switch(comment.getVote()){
+
+                case UPVOTE:
+                    doScoreText(holder, comment, 1);
+                    break;
+                case DOWNVOTE:
+                    doScoreText(holder, comment, -1);
+                    break;
+                case NO_VOTE:
+                    doScoreText(holder, comment, 0);
+                    break;
+            }
 
 
             holder.firstTextView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -875,7 +895,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             if (hiddenPersons.contains(comment.getFullName()) || toCollapse.contains(comment.getFullName())) {
-                int childnumber =  getChildNumber(baseNode);
+                int childnumber = getChildNumber(baseNode);
                 if (hiddenPersons.contains(comment.getFullName()) && childnumber > 0) {
                     holder.children.setVisibility(View.VISIBLE);
                     holder.childrenNumber.setText("+" + childnumber);
@@ -2051,6 +2071,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
             upvote.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
                     doUnHighlighted(holder, baseNode.getComment(), baseNode, true);
@@ -2076,8 +2097,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
             downvote.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
+
                     doUnHighlighted(holder, baseNode.getComment(), baseNode, true);
 
                     if (down.contains(n.getFullName())) {
@@ -2394,7 +2417,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         hideAll(baseNode, holder.getAdapterPosition() + 1);
                         if (!hiddenPersons.contains(comment.getFullName()))
                             hiddenPersons.add(comment.getFullName());
-                        if(childNumber > 0) {
+                        if (childNumber > 0) {
                             showChildrenObject(holder.children);
                             ((TextView) holder.children).setText("+" + childNumber);
                         }
@@ -2798,7 +2821,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             } else {
                 if (isSubmission) {
-                    new AsyncForceLoadChild(1,1, submission.getComments()).execute(s);
+                    new AsyncForceLoadChild(1, 1, submission.getComments()).execute(s);
                 } else {
                     new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition()), holder.getAdapterPosition(), node).execute(s);
                 }
@@ -3010,8 +3033,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                    Toast.makeText(mContext, "Comment text copied", Toast.LENGTH_SHORT).show();
                                    break;
                                case 4:
-                                   Reddit.defaultShareText(submission.getTitle(),"https://reddit.com" + submission.getPermalink() +
-                                                                   n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
+                                   Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink() +
+                                                   n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
                                            , mContext);
                                    break;
 

@@ -805,7 +805,7 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     protected void onPostExecute(View flair) {
-                        if (flairs != null && !flairs.isEmpty()) {
+                        if (flairs != null && !flairs.isEmpty() && flairText != null && !flairText.isEmpty()) {
                             flair.setVisibility(View.VISIBLE);
                             if (current != null) {
                                 ((TextView)dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
@@ -2326,7 +2326,7 @@ public class MainActivity extends BaseActivity {
                         getString(R.string.type_nsfw_content),
                         getString(R.string.type_selftext),
                         getString(R.string.type_links),
-                        getString(R.string.type_vid)
+                        getString(R.string.type_videos)
                 }, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {

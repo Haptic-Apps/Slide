@@ -32,7 +32,6 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
-import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -189,7 +188,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                            //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
                                                                        } else {
                                                                            HasSeen.addSeen(submission.getFullName());
-                                                                           LastComments.setComments(submission);
                                                                        }
                                                                        ((MainActivity.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();
                                                                        ((MainActivity.OverviewPagerAdapterComment) (a).adapter).size = a.toOpenComments + 1;
@@ -222,7 +220,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                            //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
                                                                        } else {
                                                                            HasSeen.addSeen(submission.getFullName());
-                                                                           LastComments.setComments(submission);
                                                                        }
                                                                        ((SubredditView.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();
                                                                        ((SubredditView.OverviewPagerAdapterComment) a.adapter).size = 3;

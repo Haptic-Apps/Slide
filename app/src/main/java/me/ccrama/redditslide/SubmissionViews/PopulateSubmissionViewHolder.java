@@ -1334,7 +1334,7 @@ public class PopulateSubmissionViewHolder {
 
         int commentCount = submission.getCommentCount();
         int more = LastComments.commentsSince(submission);
-        holder.comments.setText("" + commentCount + ((more != 0 && SettingValues.commentLastVisit) ? " (+" + more + ")" : ""));
+        holder.comments.setText("" + commentCount + ((more != 0 && SettingValues.commentLastVisit) ? " (" + (more > 0?"+":"") + more + ")" : ""));
         final String ratio = SettingValues.upvotePercentage && full && submission.getUpvoteRatio() != null ? " (" + (int) (submission.getUpvoteRatio() * 100) + "%)" : "";
         holder.score.setText("" + submission.getScore() + ratio);
 

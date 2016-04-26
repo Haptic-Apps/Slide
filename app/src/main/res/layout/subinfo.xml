@@ -233,7 +233,6 @@
                     android:layout_width="match_parent"
                     android:id="@+id/mods"
                     android:background="?android:selectableItemBackground"
-                    android:layout_marginBottom="8dp"
                     android:layout_height="wrap_content">
 
                     <ImageView

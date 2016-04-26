@@ -236,6 +236,7 @@
     <string name="type_nsfw_album">NSFW album</string>
     <string name="type_img">Image</string>
     <string name="type_vid">Video</string>
+    <string name="type_videos">Videos</string>
     <string name="type_nsfw_video">NSFW video</string>
     <string name="type_emb">Embedded</string>
     <string name="type_nsfw_emb">NSFW embedded</string>
