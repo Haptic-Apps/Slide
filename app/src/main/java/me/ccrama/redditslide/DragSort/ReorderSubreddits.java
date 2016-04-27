@@ -302,15 +302,23 @@ public class ReorderSubreddits extends BaseActivityAnim {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
+                if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    diff += dy;
+                } else {
+                    diff = 0;
+                }
                 if (dy <= 0 && fab.getId() != 0) {
-                    fab.show();
+                    if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
+                        fab.show();
                 } else {
                     fab.hide();
                 }
+
             }
         });
     }
+
+    public int diff;
 
     public void doCollection() {
         final ArrayList<String> subs2 = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(this));

@@ -286,15 +286,15 @@ public class PopulateSubmissionViewHolder {
 
         int color = ta.getColor(0, Color.WHITE);
         Drawable profile = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.profile, null);
-        final Drawable sub = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.sub, null);
-        Drawable saved = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.iconstarfilled, null);
-        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.hide, null);
-        final Drawable report = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.report, null);
-        Drawable copy = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.ic_content_copy, null);
-        Drawable open = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.openexternal, null);
-        Drawable share = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.share, null);
-        Drawable reddit = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.commentchange, null);
-        Drawable filter = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.filter, null);
+        final Drawable sub = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
+        Drawable saved = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.iconstarfilled, null);
+        Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
+        final Drawable report = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
+        Drawable copy = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy, null);
+        Drawable open = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.openexternal, null);
+        Drawable share = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.share, null);
+        Drawable reddit = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange, null);
+        Drawable filter = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.filter, null);
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -601,15 +601,15 @@ public class PopulateSubmissionViewHolder {
         TypedArray ta = mContext.obtainStyledAttributes(attrs);
 
         int color = ta.getColor(0, Color.WHITE);
-        Drawable profile = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.profile, null);
-        final Drawable report = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.report, null);
-        final Drawable approve = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.support, null);
-        final Drawable spam = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.fontsizedarker, null);
-        final Drawable nsfw = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.hide, null);
-        final Drawable pin = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.lock, null);
-        final Drawable flair = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.ic_format_quote_white_48dp, null);
-        final Drawable remove = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.close, null);
-        final Drawable remove_reason = ResourcesCompat.getDrawable(mContext.getResources(),R.drawable.reportreason, null);
+        Drawable profile = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.profile, null);
+        final Drawable report = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
+        final Drawable approve = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.support, null);
+        final Drawable spam = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.fontsizedarker, null);
+        final Drawable nsfw = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
+        final Drawable pin = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.lock, null);
+        final Drawable flair = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_format_quote_white_48dp, null);
+        final Drawable remove = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.close, null);
+        final Drawable remove_reason = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.reportreason, null);
 
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -1338,10 +1338,30 @@ public class PopulateSubmissionViewHolder {
 
         int commentCount = submission.getCommentCount();
         int more = LastComments.commentsSince(submission);
-        holder.comments.setText("" + commentCount + ((more != 0 && SettingValues.commentLastVisit) ? " (" + (more > 0?"+":"") + more + ")" : ""));
-        final String ratio = SettingValues.upvotePercentage && full && submission.getUpvoteRatio() != null ? " (" + (int) (submission.getUpvoteRatio() * 100) + "%)" : "";
-        holder.score.setText("" + submission.getScore() + ratio);
-
+        holder.comments.setText("" + commentCount + ((more != 0 && SettingValues.commentLastVisit) ? " (" + (more > 0 ? "+" : "") + more + ")" : ""));
+        String scoreRatio = SettingValues.upvotePercentage && full && submission.getUpvoteRatio() != null ? " (" + (int) (submission.getUpvoteRatio() * 100) + "%)" : "";
+        holder.score.setText("" + submission.getScore());
+        if (!scoreRatio.isEmpty()) {
+            TextView percent = ((TextView) holder.itemView.findViewById(R.id.percent));
+            percent.setVisibility(View.VISIBLE);
+            percent.setText(scoreRatio);
+            double numb = (submission.getUpvoteRatio());
+            if (numb <= .5) {
+                if (numb <= .1)
+                    percent.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
+                else if (numb <= .3)
+                    percent.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_400));
+                else
+                    percent.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_300));
+            } else {
+                if (numb >= .9)
+                    percent.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
+                else if (numb >= .7)
+                    percent.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_400));
+                else
+                    percent.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_300));
+            }
+        }
         final ImageView downvotebutton = (ImageView) holder.downvote;
         final ImageView upvotebutton = (ImageView) holder.upvote;
         if (submission.isArchived() || submission.isLocked()) {
@@ -1358,7 +1378,7 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
-                holder.score.setText("" + (submission.getScore() + ratio));
+                holder.score.setText("" + (submission.getScore()));
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 break;
             }
@@ -1366,13 +1386,13 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
-                holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name) || submission.getScore() == 0 ? 0 : -1)) + ratio);
+                holder.score.setText("" + (submission.getScore() + (submission.getAuthor().equals(Authentication.name) || submission.getScore() == 0 ? 0 : -1)));
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 break;
             }
             case NO_VOTE: {
                 holder.score.setTextColor(holder.comments.getCurrentTextColor());
-                holder.score.setText("" + (submission.getScore()) + ratio);
+                holder.score.setText("" + (submission.getScore()));
                 holder.score.setTypeface(null, Typeface.NORMAL);
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
@@ -1575,14 +1595,14 @@ public class PopulateSubmissionViewHolder {
                                 AnimateHelper.setFlashAnimation(holder.itemView, downvotebutton, ContextCompat.getColor(mContext, R.color.md_blue_500));
                                 holder.score.setTypeface(null, Typeface.BOLD);
                                 final int downvoteScore = (submission.getScore() == 0) ? 0 : submission.getScore() - 1; //if a post is at 0 votes, keep it at 0 when downvoting
-                                holder.score.setText(Integer.toString(downvoteScore) + ratio);
+                                holder.score.setText(Integer.toString(downvoteScore));
                                 new Vote(false, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.DOWNVOTE);
                             } else {
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
                                 holder.score.setTypeface(null, Typeface.NORMAL);
-                                holder.score.setText(Integer.toString(submission.getScore()) + ratio);
+                                holder.score.setText(Integer.toString(submission.getScore()));
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
                                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                             }
@@ -1612,14 +1632,14 @@ public class PopulateSubmissionViewHolder {
 
                                 AnimateHelper.setFlashAnimation(holder.itemView, upvotebutton, ContextCompat.getColor(mContext, R.color.md_orange_500));
                                 holder.score.setTypeface(null, Typeface.BOLD);
-                                holder.score.setText(Integer.toString(submission.getScore() + 1) + ratio);
+                                holder.score.setText(Integer.toString(submission.getScore() + 1));
                                 new Vote(true, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.UPVOTE);
                             } else {
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
                                 holder.score.setTypeface(null, Typeface.NORMAL);
-                                holder.score.setText(Integer.toString(submission.getScore()) + ratio);
+                                holder.score.setText(Integer.toString(submission.getScore()));
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
                                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                             }

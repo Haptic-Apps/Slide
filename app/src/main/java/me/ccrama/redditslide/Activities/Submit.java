@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,15 +45,19 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.SubmissionParser;
 import me.ccrama.redditslide.util.TitleExtractor;
 
 
@@ -68,6 +74,7 @@ public class Submit extends BaseActivity {
     private SwitchCompat inboxReplies;
     private String URL;
 
+    AsyncTask<Void, Void, String> tchange;
 
     public void onCreate(Bundle savedInstanceState) {
         disableSwipeBackLayout();
@@ -90,7 +97,7 @@ public class Submit extends BaseActivity {
         final String subreddit = intent.getStringExtra(EXTRA_SUBREDDIT);
 
         self = findViewById(R.id.selftext);
-        AutoCompleteTextView subredditText = ((AutoCompleteTextView) findViewById(R.id.subreddittext));
+        final AutoCompleteTextView subredditText = ((AutoCompleteTextView) findViewById(R.id.subreddittext));
         image = findViewById(R.id.image);
         link = findViewById(R.id.url);
 
@@ -102,6 +109,55 @@ public class Submit extends BaseActivity {
 
         subredditText.setAdapter(adapter);
         subredditText.setThreshold(2);
+
+        subredditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (tchange != null)
+                    tchange.cancel(true);
+                findViewById(R.id.submittext).setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        subredditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                findViewById(R.id.submittext).setVisibility(View.GONE);
+                if (!hasFocus) {
+                    tchange = new AsyncTask<Void, Void, String>() {
+                        @Override
+                        protected String doInBackground(Void... params) {
+                            try {
+                                return Authentication.reddit.getSubreddit(subredditText.getText().toString()).getDataNode().get("submit_text_html").asText();
+                            } catch (Exception ignored) {
+
+                            }
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(String s) {
+                            if (s != null && !s.isEmpty()) {
+                                findViewById(R.id.submittext).setVisibility(View.VISIBLE);
+                                setViews(s, subredditText.getText().toString(), (SpoilerRobotoTextView) findViewById(R.id.submittext), (CommentOverflow) findViewById(R.id.commentOverflow));
+                            }
+                        }
+                    };
+                    tchange.execute();
+                }
+            }
+        });
 
         findViewById(R.id.selftextradio).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,6 +292,35 @@ public class Submit extends BaseActivity {
 
             }
         });
+    }
+
+    public void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0) + " ", subredditName);
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subredditName);
+            } else {
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+            }
+        } else {
+            commentOverflow.removeAllViews();
+        }
     }
 
     private String getImageLink(Bitmap b) {

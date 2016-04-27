@@ -75,7 +75,7 @@ public class Authentication {
 
 
     public void updateToken(Context c) {
-        if(reddit == null){
+        if (reddit == null) {
             hasDone = true;
             isLoggedIn = false;
             reddit = new RedditClient(UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
@@ -146,9 +146,12 @@ public class Authentication {
                             try {
 
                                 authData = reddit.getOAuthHelper().easyAuth(fcreds);
+
+                                authentication.edit().putLong("expires", authData.getExpirationDate().getTime()).apply();
+
+                                authentication.edit().putString("backedCreds", authData.getDataNode().toString()).apply();
                                 Authentication.name = "LOGGEDOUT";
                                 mod = false;
-
 
                                 reddit.authenticate(authData);
                                 Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
