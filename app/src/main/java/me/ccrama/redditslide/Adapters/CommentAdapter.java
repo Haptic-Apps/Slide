@@ -75,6 +75,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -731,7 +732,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (comment.isScoreHidden()) {
             scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
         } else {
-            scoreText = Integer.toString(sc + offset);
+            scoreText = String.format(Locale.getDefault(), "%d", sc + offset);
         }
         SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
         int scoreColor;
@@ -2426,7 +2427,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             hiddenPersons.add(comment.getFullName());
                         if (childNumber > 0) {
                             showChildrenObject(holder.childrenNumber);
-                            ((TextView) holder.childrenNumber).setText("+" + childNumber);
+                            holder.childrenNumber.setText("+" + childNumber);
                         }
                     }
                     toCollapse.add(comment.getFullName());

@@ -2798,7 +2798,6 @@ public class MainActivity extends BaseActivity {
     }
 
     public class AsyncNotificationBadge extends AsyncTask<Void, Void, Void> {
-
         int count;
         int modCount;
 
@@ -2850,8 +2849,6 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-
-
             if (Authentication.mod) {
                 headerMain.findViewById(R.id.mod).setVisibility(View.VISIBLE);
                 headerMain.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
@@ -2866,7 +2863,6 @@ public class MainActivity extends BaseActivity {
             }
 
             if (count != -1) {
-
                 int oldCount = Reddit.appRestart.getInt("inbox", 0);
                 if (count > oldCount) {
                     final Snackbar s = Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new View.OnClickListener() {
@@ -2887,12 +2883,16 @@ public class MainActivity extends BaseActivity {
             }
             View badge = headerMain.findViewById(R.id.count);
             if (count == 0) {
-                if (badge != null) badge.setVisibility(View.GONE);
+                if (badge != null) {
+                    badge.setVisibility(View.GONE);
+                }
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.cancelAll();
             } else if (count != -1) {
-                if (badge != null) badge.setVisibility(View.VISIBLE);
-                ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
+                if (badge != null) {
+                    badge.setVisibility(View.VISIBLE);
+                }
+                ((TextView) headerMain.findViewById(R.id.count)).setText(String.format(Locale.getDefault(), "%d", count));
             }
 
             /* Todo possibly
@@ -2902,9 +2902,8 @@ public class MainActivity extends BaseActivity {
                 if (modBadge != null) modBadge.setVisibility(View.GONE);
             } else if (modCount != -1) {
                 if (modBadge != null) modBadge.setVisibility(View.VISIBLE);
-                ((TextView) headerMain.findViewById(R.id.count)).setText(count + "");
+                ((TextView) headerMain.findViewById(R.id.count)).setText(String.format(Locale.getDefault(), "%d", count));
             }*/
         }
-
     }
 }

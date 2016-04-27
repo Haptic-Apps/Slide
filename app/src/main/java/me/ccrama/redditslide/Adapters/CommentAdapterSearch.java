@@ -33,6 +33,7 @@ import net.dean.jraw.models.DistinguishedStatus;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
@@ -106,15 +107,16 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         if (comment.isScoreHidden()) {
             scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
         } else {
-            scoreText = Integer.toString(comment.getScore() + offset);
+            scoreText = String.format(Locale.getDefault(), "%d", comment.getScore() + offset);
         }
         SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
         int scoreColor;
 
 
         titleString.append(score);
-        if (!scoreText.contains("["))
+        if (!scoreText.contains("[")) {
             titleString.append(mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
+        }
         titleString.append((comment.isControversial() ? " †" : ""));
 
         titleString.append(spacer);
