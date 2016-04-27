@@ -60,7 +60,7 @@ public class RoundedBackgroundSpan extends ReplacementSpan {
 
         final float MAGIC_NUMBER = 4; //this number adds a few extra dp to center the text horizontally (measured in dp)
         final float baseLine = paint.descent();
-        canvas.drawText(oldText, start, end, x, rect.bottom - ((rect.bottom - rect.top) / 2) + baseLine + dpToPx(MAGIC_NUMBER), paint); //center the text in the parent span
+        canvas.drawText(oldText, start, end, x, rect.bottom - ((rect.bottom - rect.top) / 2) + (baseLine*1.5f) + dpToPx(MAGIC_NUMBER), paint); //center the text in the parent span
     }
 
     @Override
