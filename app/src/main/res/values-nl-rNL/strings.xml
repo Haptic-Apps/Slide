@@ -352,7 +352,7 @@
   <string name="settings_store_history">Geschiedenis bewaren</string>
   <string name="settings_store_nsfw_history">NSFW-geschiedenis geschiedenis bewaren</string>
   <string name="settings_confirm_exit">\"Sluiten bevestigen\"-melding</string>
-  <string name="settings_fastscroll">Navigeer tussen bovenliggende reacties</string>
+  <string name="settings_commentnav">Navigeer tussen bovenliggende reacties</string>
   <string name="share_link">Link delen</string>
   <string name="posts_hidden_forever">Berichten voor altijd verborgen</string>
   <string name="share_image">Afbeelding delen</string>
@@ -538,7 +538,7 @@
   <string name="fab_disabled">Uitgeschakeld</string>
   <string name="handling_internal_browser">Gebruik de geïntegreerde browser</string>
   <string name="handling_external_browser">Gebruik de externe browser</string>
-  <string name="settings_fastscroll_description">Toont onderaan een balk met navigatiepijlen</string>
+  <string name="settings_commentnav_description">Toont onderaan een balk met navigatiepijlen</string>
   <string name="settings_comment_collapse">Reacties volledig inklappen</string>
   <string name="settings_comment_collapse_description">Reactie-animaties ook uitschakelen</string>
   <string name="settings_comment_collapse_default">Onderliggende reacties standaard inklappen</string>

@@ -348,7 +348,7 @@
   <string name="settings_store_history">Salva cronologia</string>
   <string name="settings_store_nsfw_history">Salva cronologia NSFW</string>
   <string name="settings_confirm_exit">Dialogo di conferma all\'uscita</string>
-  <string name="settings_fastscroll">Navigazione rapida tra i commenti genitori</string>
+  <string name="settings_commentnav">Navigazione rapida tra i commenti genitori</string>
   <string name="share_link">Condividi link</string>
   <string name="posts_hidden_forever">Post nascosti per sempre</string>
   <string name="share_image">Condividi immagine</string>
@@ -509,7 +509,7 @@
   <string name="fab_disabled">Disabilitato</string>
   <string name="handling_internal_browser">Usa browser integrato</string>
   <string name="handling_external_browser">Usa browser esterno</string>
-  <string name="settings_fastscroll_description">Abilita una barra inferiore con frecce di navigazione</string>
+  <string name="settings_commentnav_description">Abilita una barra inferiore con frecce di navigazione</string>
   <string name="settings_comment_collapse">Nascondi interamente i commenti</string>
   <string name="settings_comment_collapse_description">Disattiva anche le animazioni dei commenti</string>
   <string name="settings_comment_collapse_default">Collassa commenti figli di default</string>

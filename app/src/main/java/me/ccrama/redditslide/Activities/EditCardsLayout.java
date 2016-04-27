@@ -20,7 +20,7 @@ import me.ccrama.redditslide.Views.CreateCardView;
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class EditCardsLayout extends BaseActivity {
+public class EditCardsLayout extends BaseActivityAnim {
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideRedditSwipeAnywhere();

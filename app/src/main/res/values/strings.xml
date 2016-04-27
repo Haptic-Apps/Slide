@@ -425,7 +425,7 @@
     <string name="settings_store_history">Save history</string>
     <string name="settings_store_nsfw_history">Save NSFW history</string>
     <string name="settings_confirm_exit">Confirm exit dialog</string>
-    <string name="settings_fastscroll">Navigate between parent comments</string>
+    <string name="settings_commentnav">Navigate between parent comments</string>
     <string name="share_link">Share link</string>
     <string name="posts_hidden_forever">Posts hidden forever</string>
     <string name="share_image">Share image</string>
@@ -637,7 +637,7 @@
     <string name="fab_disabled">Disabled</string>
     <string name="handling_internal_browser">Use internal browser</string>
     <string name="handling_external_browser">Use external browser</string>
-    <string name="settings_fastscroll_description">Enables a bottom bar with navigation arrows</string>
+    <string name="settings_commentnav_description">Enables a bottom bar with navigation arrows</string>
     <string name="settings_comment_collapse">Fully collapse comments</string>
     <string name="settings_comment_collapse_description">Also disables comment animations</string>
     <string name="settings_comment_collapse_default">Collapse child comments by default</string>

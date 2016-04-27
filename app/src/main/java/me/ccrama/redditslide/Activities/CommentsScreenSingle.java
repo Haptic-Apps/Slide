@@ -64,7 +64,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
-        if (SettingValues.commentNav) {
+        if (SettingValues.commentVolumeNav) {
 
             switch (keyCode) {
                 case KeyEvent.KEYCODE_VOLUME_UP:

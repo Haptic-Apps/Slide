@@ -16,13 +16,23 @@ public class SettingsComments extends BaseActivityAnim {
         setContentView(R.layout.activity_settings_comments);
         setupAppBar(R.id.toolbar, R.string.settings_title_comments, true, true);
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.fastscroll);
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.commentnav);
             single.setChecked(SettingValues.fastscroll);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.fastscroll = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FASTSCROLL, isChecked).apply();
+
+                    //Disable autohidenav if commentNav isn't checked
+                    if (!isChecked) {
+                        findViewById(R.id.autohidenav).setEnabled(false);
+                        ((SwitchCompat) findViewById(R.id.autohidenav)).setChecked(SettingValues.commentAutoHide);
+                        findViewById(R.id.auto_hide_the_comment_nav_bar_text).setAlpha(0.25f);
+                    } else {
+                        findViewById(R.id.autohidenav).setEnabled(true);
+                        findViewById(R.id.auto_hide_the_comment_nav_bar_text).setAlpha(1f);
+                    }
                 }
             });
         }
@@ -73,6 +83,12 @@ public class SettingsComments extends BaseActivityAnim {
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.autohidenav);
             single.setChecked(SettingValues.commentAutoHide);
+
+            if (!((SwitchCompat) findViewById(R.id.commentnav)).isChecked()) {
+                single.setEnabled(false);
+                findViewById(R.id.auto_hide_the_comment_nav_bar_text).setAlpha(0.25f);
+            }
+
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -124,20 +140,18 @@ public class SettingsComments extends BaseActivityAnim {
             }
         });
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.navcomments);
-
-            single.setChecked(SettingValues.commentNav);
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.volumenavcomments);
+            single.setChecked(SettingValues.commentVolumeNav);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.commentNav = isChecked;
+                    SettingValues.commentVolumeNav = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COMMENT_NAV, isChecked).apply();
                 }
             });
         }
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.cropimage);
-
             single.setChecked(SettingValues.cropImage);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

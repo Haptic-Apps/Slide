@@ -362,7 +362,7 @@
   <string name="settings_store_history">Guardar historial</string>
   <string name="settings_store_nsfw_history">Guardar historial NSFW</string>
   <string name="settings_confirm_exit">Mensaje de confirmación de salida</string>
-  <string name="settings_fastscroll">Navegar entre comentarios parejos</string>
+  <string name="settings_commentnav">Navegar entre comentarios parejos</string>
   <string name="share_link">Compartir enlace</string>
   <string name="posts_hidden_forever">Ocultar posts para siempre</string>
   <string name="share_image">Compartir imagen</string>
@@ -522,7 +522,7 @@
   <string name="fab_disabled">Deshabilitado</string>
   <string name="handling_internal_browser">Usar navegador web interno</string>
   <string name="handling_external_browser">Usar navegador web externo</string>
-  <string name="settings_fastscroll_description">Activa una barra inferior con flechas de navegación</string>
+  <string name="settings_commentnav_description">Activa una barra inferior con flechas de navegación</string>
   <string name="settings_comment_collapse">Colapsar los comentarios completamente</string>
   <string name="settings_comment_collapse_description">También desactiva animaciones de comentarios</string>
   <string name="settings_comment_collapse_default">Ocultar comentarios hijos predeterminado</string>

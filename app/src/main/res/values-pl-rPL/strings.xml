@@ -374,7 +374,7 @@
   <string name="settings_store_history">Zapisuj historię</string>
   <string name="settings_store_nsfw_history">Zapisuj historię NSFW</string>
   <string name="settings_confirm_exit">Potwierdzanie wyjścia</string>
-  <string name="settings_fastscroll">Nawigacja między nadrzędnymi komentarzami</string>
+  <string name="settings_commentnav">Nawigacja między nadrzędnymi komentarzami</string>
   <string name="share_link">Udostępnij link</string>
   <string name="posts_hidden_forever">Posty na zawsze ukryte</string>
   <string name="share_image">Udostępnij obraz</string>
@@ -568,7 +568,7 @@
   <string name="fab_disabled">Wyłączony</string>
   <string name="handling_internal_browser">Używaj wbudowanej przeglądarki</string>
   <string name="handling_external_browser">Używaj zewnętrznej przeglądarki</string>
-  <string name="settings_fastscroll_description">Włącza dolny pasek z przyciskami nawigacji</string>
+  <string name="settings_commentnav_description">Włącza dolny pasek z przyciskami nawigacji</string>
   <string name="settings_comment_collapse">Zwiń komentarze w pełni</string>
   <string name="settings_comment_collapse_description">Wyłącza również animacje komentarzy</string>
   <string name="settings_comment_collapse_default">Domyślnie zwijaj komentarze</string>

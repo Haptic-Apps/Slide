@@ -276,7 +276,7 @@
   <string name="settings_notification_short">Provjeri svakih %1$s</string>
   <string name="settings_disable_nsfw_photo">Sakrij sve NSFW fotografije</string>
   <string name="settings_confirm_exit">Dijaloški prozor za izlaz</string>
-  <string name="settings_fastscroll">Navigacija između nadređenih komentara</string>
+  <string name="settings_commentnav">Navigacija između nadređenih komentara</string>
   <string name="share_link">Podijeli link</string>
   <string name="posts_hidden_forever">Uvijek sakriveni postovi</string>
   <string name="share_image">Podijeli sliku</string>

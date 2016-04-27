@@ -72,7 +72,7 @@ public class SettingValues {
     public static final String SYNCCIT_NAME = "SYNCCIT_NAME";
     public static final String PREF_BLUR = "blur";
     public static final String PREF_ALBUM_SWIPE = "albumswipe";
-    public static final String PREF_COMMENT_NAV = "commentNav";
+    public static final String PREF_COMMENT_NAV = "commentVolumeNav";
     public static final String PREF_COLOR_COMMENT_DEPTH = "colorCommentDepth";
 
     public static CreateCardView.CardEnum defaultCardView;
@@ -116,7 +116,7 @@ public class SettingValues {
     public static boolean gif;
     public static boolean colorCommentDepth;
     public static boolean web;
-    public static boolean commentNav;
+    public static boolean commentVolumeNav;
     public static boolean postNav;
     public static boolean exit;
     public static boolean cropImage;
@@ -173,7 +173,7 @@ public class SettingValues {
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
         overrideLanguage = prefs.getBoolean(PREF_OVERRIDE_LANGUAGE, false);
 
-        commentNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
+        commentVolumeNav = prefs.getBoolean(PREF_COMMENT_NAV, false);
         postNav = false;
 
         fab = prefs.getBoolean(PREF_FAB, true);

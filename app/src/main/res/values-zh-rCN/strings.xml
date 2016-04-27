@@ -260,7 +260,7 @@
   <string name="settings_notification_short">每 %1$s 检查一次</string>
   <string name="settings_disable_nsfw_photo">隐藏所有 NSFW 图片</string>
   <string name="settings_confirm_exit">确认退出对话框</string>
-  <string name="settings_fastscroll">父评论间的导航</string>
+  <string name="settings_commentnav">父评论间的导航</string>
   <string name="share_link">分享链接</string>
   <string name="posts_hidden_forever">永久隐藏的帖子</string>
   <string name="share_image">分享图片</string>

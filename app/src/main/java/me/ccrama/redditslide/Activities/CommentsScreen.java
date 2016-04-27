@@ -63,7 +63,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
-        if (SettingValues.commentNav) {
+        if (SettingValues.commentVolumeNav) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_VOLUME_UP:
                     return ((CommentPage) comments.getCurrentFragment()).onKeyDown(keyCode, event);

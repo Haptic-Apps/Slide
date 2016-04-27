@@ -282,7 +282,7 @@
   <string name="settings_notification_short">Verifică o dată la fiecare %1$s</string>
   <string name="settings_disable_nsfw_photo">Ascunde toate pozele NSFW</string>
   <string name="settings_confirm_exit">Mesajul de confirmare pentru a ieși</string>
-  <string name="settings_fastscroll">Navighează între comentariile părinte</string>
+  <string name="settings_commentnav">Navighează între comentariile părinte</string>
   <string name="share_link">Distribuie linkul</string>
   <string name="posts_hidden_forever">Post-uri ascunse pentru totdeauna</string>
   <string name="share_image">Distribuie imaginea</string>

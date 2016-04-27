@@ -313,7 +313,7 @@
   <string name="settings_store_history">Sauvegarder l\'historique</string>
   <string name="settings_store_nsfw_history">Enregistrer l\'historique NSFW</string>
   <string name="settings_confirm_exit">Confirmation de fermeture</string>
-  <string name="settings_fastscroll">Naviguer entre les commentaires parents</string>
+  <string name="settings_commentnav">Naviguer entre les commentaires parents</string>
   <string name="share_link">Partager un Lien</string>
   <string name="posts_hidden_forever">Publications masquées pour toujours</string>
   <string name="share_image">Partager l\'image</string>

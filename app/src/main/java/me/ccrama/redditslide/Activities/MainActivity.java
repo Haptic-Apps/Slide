@@ -2437,9 +2437,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        if (pager != null && SettingValues.commentPager && pager.getCurrentItem() == toOpenComments && SettingValues.commentNav && pager.getAdapter() instanceof OverviewPagerAdapterComment) {
+        if (pager != null && SettingValues.commentPager && pager.getCurrentItem() == toOpenComments && SettingValues.commentVolumeNav && pager.getAdapter() instanceof OverviewPagerAdapterComment) {
             int keyCode = event.getKeyCode();
-            if (SettingValues.commentNav) {
+            if (SettingValues.commentVolumeNav) {
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_VOLUME_UP:
                         return ((OverviewPagerAdapterComment) pager.getAdapter()).mCurrentComments.onKeyDown(keyCode, event);

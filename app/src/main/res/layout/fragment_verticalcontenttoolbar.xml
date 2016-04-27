@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/activity_background">
-
 
     <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
         android:id="@+id/activity_main_swipe_refresh_layout"
@@ -19,7 +17,6 @@
             android:fadeScrollbars="true"
             android:orientation="vertical"
             android:scrollbars="vertical" />
-
     </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 
     <LinearLayout
@@ -92,11 +89,10 @@
             android:indeterminate="true"
             android:max="100"
             android:progress="0" />
-
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/fastscroll"
+        android:id="@+id/commentnav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -116,8 +112,7 @@
             style="@style/Ripple.List"
             android:layout_width="48dp"
             android:layout_height="36dp"
-            android:padding="8dp
-            "
+            android:padding="8dp"
             app:srcCompat="@drawable/nav" />
 
         <ImageView
@@ -138,7 +133,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/activity_vertical_margin"
         app:elevation="4dp"
-
         app:fabSize="normal"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
