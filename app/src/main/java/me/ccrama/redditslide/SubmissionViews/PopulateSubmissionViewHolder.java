@@ -1376,21 +1376,21 @@ public class PopulateSubmissionViewHolder {
         }
 
         int scoreOffset = 0;
-        switch (ActionStates.getVoteDirection(submission)) {
+        switch (submission.getVote()) {
             case UPVOTE: {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
-                scoreOffset = 1;
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                scoreOffset = 1;
                 break;
             }
             case DOWNVOTE: {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
-                scoreOffset = -1;
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                scoreOffset = -1;
                 break;
             }
             case NO_VOTE: {
