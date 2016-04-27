@@ -171,7 +171,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
+        mToolbar.setPopupTheme(new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE));
 
         new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
         if (!Reddit.appRestart.contains("tutorialSwipe")) {

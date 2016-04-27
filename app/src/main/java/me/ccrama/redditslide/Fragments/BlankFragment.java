@@ -10,11 +10,13 @@ import android.widget.RelativeLayout;
 import me.ccrama.redditslide.R;
 
 public class BlankFragment extends Fragment {
-    View v2;
+    public View v2;
+    public View realBack;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
          View v = inflater.inflate(R.layout.blank_fragment, container, false);
         v2 = v.findViewById(R.id.back);
+        realBack = v;
         return v;
     }
 

@@ -13,13 +13,19 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -37,6 +43,7 @@ import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -47,11 +54,11 @@ import me.ccrama.redditslide.util.AlbumUtils;
 
 /**
  * Created by ccrama on 3/5/2015.
- * <p>
+ * <p/>
  * This class is responsible for accessing the Imgur api to get the album json data
  * from a URL or Imgur hash. It extends FullScreenActivity and supports swipe from anywhere.
  */
-public class Album extends FullScreenActivity  implements FolderChooserDialog.FolderCallback {
+public class Album extends FullScreenActivity implements FolderChooserDialog.FolderCallback {
     public static final String EXTRA_URL = "url";
     boolean gallery = false;
     private ArrayList<JsonElement> images;
@@ -63,6 +70,7 @@ public class Album extends FullScreenActivity  implements FolderChooserDialog.Fo
             Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -225,8 +233,6 @@ public class Album extends FullScreenActivity  implements FolderChooserDialog.Fo
 
     }
 
-    RecyclerView recyclerView;
-
     public String url;
 
     @Override
@@ -240,57 +246,46 @@ public class Album extends FullScreenActivity  implements FolderChooserDialog.Fo
         return true;
     }
 
+    OverviewPagerAdapter album;
+
     public void onCreate(Bundle savedInstanceState) {
-        overrideRedditSwipeAnywhere();
+        overrideSwipeFromAnywhere();
         super.onCreate(savedInstanceState);
         getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE), true);
-
         setContentView(R.layout.album);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle(R.string.type_album);
-        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
-        ToolbarColorizeHelper.colorizeToolbar(mToolbar, Color.WHITE, this);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        final ViewPager pager = (ViewPager) findViewById(R.id.images);
 
-        final PreCachingLayoutManager mLayoutManager;
-        mLayoutManager = new PreCachingLayoutManager(this);
-        recyclerView = (RecyclerView) findViewById(R.id.images);
-        recyclerView.setLayoutManager(mLayoutManager);
-        url = getIntent().getExtras().getString(EXTRA_URL, "");
+        album = new OverviewPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(album);
+        pager.setCurrentItem(1);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                                          @Override
+                                          public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                              if (position == 0 && positionOffsetPixels == 0) {
+                                                  finish();
+                                              }
+                                              if (position == 0) {
+                                                  if (((OverviewPagerAdapter) pager.getAdapter()).blankPage != null)
+                                                      ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
+                                                  ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                                              }
+                                          }
 
-        new LoadIntoRecycler(url, this).execute();
+                                          @Override
+                                          public void onPageSelected(int position) {
+                                          }
 
+                                          @Override
+                                          public void onPageScrollStateChanged(int state) {
+
+                                          }
+                                      }
+
+        );
 
         if (!Reddit.appRestart.contains("tutorialSwipe")) {
             startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
-        }
-    }
-
-    public class LoadIntoRecycler extends AlbumUtils.GetAlbumJsonFromUrl {
-
-        String url;
-
-        public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
-            super(url, baseActivity);
-            this.url = url;
-        }
-
-        @Override
-        public void doWithData(final ArrayList<JsonElement> jsonElements) {
-            findViewById(R.id.progress).setVisibility(View.GONE);
-
-            if (LoadIntoRecycler.this.overrideAlbum) {
-                cancel(true);
-                new LoadIntoRecycler(url.replace("/gallery", "/a"), Album.this).execute();
-            } else {
-                Album.this.gallery = LoadIntoRecycler.this.gallery;
-                images = new ArrayList<>(jsonElements);
-                AlbumView adapter = new AlbumView(baseActivity, images, false, findViewById(R.id.toolbar).getHeight());
-                recyclerView.setAdapter(adapter);
-
-            }
         }
     }
 
@@ -301,4 +296,91 @@ public class Album extends FullScreenActivity  implements FolderChooserDialog.Fo
 
         }
     }
+
+    public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
+        public BlankFragment blankPage;
+
+        public OverviewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            if (i == 0) {
+                blankPage = new BlankFragment();
+                return blankPage;
+            } else {
+                Fragment f = new AlbumFrag();
+                return f;
+
+            }
+        }
+
+        @Override
+        public int getCount() {
+
+            return 2;
+        }
+
+    }
+    public int adjustAlpha(float factor) {
+        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
+        int red = Color.red(Color.BLACK);
+        int green = Color.green(Color.BLACK);
+        int blue = Color.blue(Color.BLACK);
+        return Color.argb(alpha, red, green, blue);
+    }
+    public static class AlbumFrag extends Fragment {
+        View rootView;
+        RecyclerView recyclerView;
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            rootView = inflater.inflate(
+                    R.layout.fragment_verticalalbum, container, false);
+
+            final PreCachingLayoutManager mLayoutManager;
+            mLayoutManager = new PreCachingLayoutManager(getActivity());
+            recyclerView = (RecyclerView) rootView.findViewById(R.id.images);
+            recyclerView.setLayoutManager(mLayoutManager);
+            ((Album) getActivity()).url = getActivity().getIntent().getExtras().getString(EXTRA_URL, "");
+
+            new LoadIntoRecycler(((Album) getActivity()).url, getActivity()).execute();
+            ((Album) getActivity()).mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+            ((Album) getActivity()).mToolbar.setTitle(R.string.type_album);
+            ToolbarColorizeHelper.colorizeToolbar(((Album) getActivity()).mToolbar, Color.WHITE, ( getActivity()));
+            ((Album) getActivity()).setSupportActionBar(((Album) getActivity()).mToolbar);
+            ((Album) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            ((Album) getActivity()).mToolbar.setPopupTheme(new ColorPreferences(((Album) getActivity())).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE));
+            return rootView;
+        }
+
+        public class LoadIntoRecycler extends AlbumUtils.GetAlbumJsonFromUrl {
+
+            String url;
+
+            public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
+                super(url, baseActivity);
+                this.url = url;
+            }
+
+            @Override
+            public void doWithData(final ArrayList<JsonElement> jsonElements) {
+                getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
+
+                if (LoadIntoRecycler.this.overrideAlbum) {
+                    cancel(true);
+                    new LoadIntoRecycler(url.replace("/gallery", "/a"), getActivity()).execute();
+                } else {
+                    ((Album) getActivity()).gallery = LoadIntoRecycler.this.gallery;
+                    ((Album) getActivity()).images = new ArrayList<>(jsonElements);
+                    AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images, false, getActivity().findViewById(R.id.toolbar).getHeight());
+                    recyclerView.setAdapter(adapter);
+                }
+            }
+        }
+    }
+
 }
