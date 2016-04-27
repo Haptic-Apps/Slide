@@ -1,14 +1,12 @@
 package me.ccrama.redditslide.Views;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.text.style.ReplacementSpan;
-import android.util.DisplayMetrics;
 
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 
@@ -58,9 +56,8 @@ public class RoundedBackgroundSpan extends ReplacementSpan {
         canvas.drawRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, paint);
         paint.setColor(textColor);
 
-        final float MAGIC_NUMBER = 4; //this number adds a few extra dp to center the text horizontally (measured in dp)
         final float baseLine = paint.descent();
-        canvas.drawText(oldText, start, end, x, rect.bottom - ((rect.bottom - rect.top) / 2) + (baseLine*1.5f) + dpToPx(MAGIC_NUMBER), paint); //center the text in the parent span
+        canvas.drawText(oldText, start, end, x, rect.bottom - ((rect.bottom - rect.top) / 2) + (baseLine * 1.5f), paint); //center the text in the parent span
     }
 
     @Override
@@ -77,15 +74,5 @@ public class RoundedBackgroundSpan extends ReplacementSpan {
 
     private float measureText(Paint paint, CharSequence text, int start, int end) {
         return paint.measureText(text, start, end);
-    }
-
-    /**
-     * Converts dp into px
-     * @param dp to convert from
-     * @return px value of the specified dp
-     */
-    private float dpToPx(float dp) {
-        final DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        return (dp / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }
