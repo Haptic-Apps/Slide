@@ -1326,6 +1326,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void doDrawer() {
+
         drawerSubList = (ListView) findViewById(R.id.drawerlistview);
         drawerSubList.setDividerHeight(0);
         drawerSubList.setDescendantFocusability(ListView.FOCUS_BEFORE_DESCENDANTS);
@@ -1608,7 +1609,7 @@ public class MainActivity extends BaseActivity {
             headerMain = header;
             hea = header.findViewById(R.id.back);
 
-            final LinearLayout profStuff = (LinearLayout) accountsArea;
+            final LinearLayout profStuff = (LinearLayout) header.findViewById(R.id.accountsarea);
             profStuff.setVisibility(View.GONE);
             findViewById(R.id.back).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1872,6 +1873,7 @@ public class MainActivity extends BaseActivity {
         accountsArea = header.findViewById(R.id.accountsarea);
         if (accountsArea != null)
             accountsArea.setBackgroundColor(Palette.getDarkerColor("alsdkfjasld"));
+
 
         setDrawerSubList();
     }
