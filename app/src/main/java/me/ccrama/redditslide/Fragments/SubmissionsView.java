@@ -202,6 +202,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     }
                 } else {
                     i = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
+                    if (i == RecyclerView.NO_POSITION) {
+                        i = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+                    }
                 }
             }
             if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
@@ -228,7 +231,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
         View v = ((LayoutInflater) contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
 
-        if(getActivity() instanceof MainActivity){
+        if (getActivity() instanceof MainActivity) {
             v.findViewById(R.id.back).setBackgroundResource(0);
         }
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
@@ -396,7 +399,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     down = false;
                 }*///todo For future implementation instead of scrollFlags
 
-                if(recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
+                if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
                     diff += dy;
                 } else {
                     diff = 0;
