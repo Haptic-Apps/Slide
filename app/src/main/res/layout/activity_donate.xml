@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="?attr/activity_background"
     android:orientation="vertical">
 
@@ -15,33 +14,25 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_height="56dp"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/Theme.AppCompat"
             android:background="@color/md_light_green_500"
-
-            android:theme="@style/Theme.AppCompat">
-
-
-        </android.support.v7.widget.Toolbar>
+            android:elevation="8dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-
             android:padding="16dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="18dp"
-
+                android:paddingBottom="8dp"
                 android:text="@string/donate_title"
                 android:textColor="?attr/font"
-                android:textSize="22sp"
-
-
-                />
+                style="@style/TextAppearance.AppCompat.Title"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -49,9 +40,10 @@
 
                 <TextView
                     android:id="@+id/money"
-                    android:layout_width="wrap_content"
+                    android:layout_width="84dp"
                     android:layout_height="match_parent"
                     android:padding="16dp"
+                    android:gravity="center"
                     android:text="$4"
                     android:textColor="@color/md_light_green_500"
                     android:textSize="26sp" />
@@ -62,10 +54,11 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="16dp"
+                    app:sl_alwaysFillThumb="true"
                     app:sl_maxValue="20"
                     app:sl_minValue="2"
                     app:sl_primaryColor="@color/md_light_green_500"
-                    app:sl_secondaryColor="#424242"
+                    app:sl_secondaryColor="?attr/tint"
                     app:sl_stepValue="2"
                     app:sl_value="4" />
             </LinearLayout>
@@ -74,8 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:alpha=".5"
-
-                android:paddingTop="18dp"
+                android:paddingTop="16dp"
                 android:text="@string/donate_amount_title"
                 android:textAllCaps="true"
                 android:textColor="?attr/font"
@@ -142,13 +134,11 @@
                     android:text="@string/donate_amount_hours2"
                     android:textColor="?attr/font"
                     android:textSize="18sp" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:paddingTop="16dp">
 
                 <TextView
@@ -158,24 +148,19 @@
                     android:text="@string/donate_info_student"
                     android:textColor="?attr/font"
                     android:textSize="18sp" />
-
-
             </LinearLayout>
 
-            <TextView
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/donate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="bottom"
                 android:padding="16dp"
                 android:text="@string/donate_btn"
-
-                android:textAllCaps="true"
-                android:textColor="@color/md_light_green_500"
-
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:layout_gravity="end"
+                android:backgroundTint="@color/md_light_green_500"
+                style="@style/Widget.AppCompat.Button.Colored" />
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

@@ -17,6 +17,7 @@ import com.rey.material.widget.Slider;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
@@ -29,22 +30,20 @@ import me.ccrama.redditslide.util.Purchase;
  *
  * Allows a user to donate to Slide using Google Play's IabHelper
  */
-public class DonateView extends BaseActivity {
-
+public class DonateView extends BaseActivityAnim {
 
     private final IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener
             = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-
             if (result.isFailure()) {
                 Log.d(LogUtil.getTag(), "Error purchasing: " + result);
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(DonateView.this);
                 builder.setTitle(R.string.donate_err_title);
                 builder.setMessage(R.string.donate_err_msg);
                 builder.setNeutralButton(R.string.btn_ok, null);
                 builder.show();
             } else if (purchase.getSku().contains("donation")) {
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -56,12 +55,10 @@ public class DonateView extends BaseActivity {
                                 DonateView.this.finish();
                             }
                         });
-
                         builder.show();
                     }
                 });
             }
-
         }
     };
 
@@ -73,26 +70,28 @@ public class DonateView extends BaseActivity {
         applyColorTheme();
         setContentView(R.layout.activity_donate);
         Toolbar t = (Toolbar) findViewById(R.id.toolbar);
-        t.setTitle(R.string.donate_title);
-        setRecentBar(getString(R.string.donate_title), Palette.getDarkerColor(ContextCompat.getColor(DonateView.this, R.color.md_light_green_500)));
+        t.setTitle(R.string.settings_title_support);
+        setRecentBar(getString(R.string.settings_title_support), Palette.getDarkerColor(ContextCompat.getColor(DonateView.this, R.color.md_light_green_500)));
 
         setSupportActionBar(t);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
             window.setStatusBarColor(Palette.getDarkerColor(ContextCompat.getColor(DonateView.this, R.color.md_light_green_500)));
+            if (SettingValues.colorNavBar) {
+                window.setNavigationBarColor(Palette.getDarkerColor(ContextCompat.getColor(DonateView.this, R.color.md_light_green_500)));
+            }
         }
-        final Slider sl_discrete = (Slider) findViewById(R.id.slider_sl_discrete);
-        sl_discrete.setValue(4, false);
+
+        final Slider slider = (Slider) findViewById(R.id.slider_sl_discrete);
+        slider.setValue(4, false);
         final TextView ads = (TextView) findViewById(R.id.ads);
         final TextView hours = (TextView) findViewById(R.id.hours);
         final TextView money = (TextView) findViewById(R.id.money);
 
-
-
-
-        sl_discrete.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
+        slider.setOnPositionChangeListener(new Slider.OnPositionChangeListener() {
             @Override
             public void onPositionChanged(Slider view, boolean fromUser, float oldPos, float newPos, int oldValue, int newValue) {
                 ads.setText(" " + newValue * 330 + " ");
@@ -104,8 +103,9 @@ public class DonateView extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ads.setText(" " + 4 * 330 + " ");
-        hours.setText(" " + String.valueOf((double) 4/10) + " ");
+        hours.setText(" " + String.valueOf((double) 4 / 10) + " ");
         money.setText("$" + 4);
+
         findViewById(R.id.donate).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,11 +113,11 @@ public class DonateView extends BaseActivity {
                 if (Authentication.isLoggedIn) {
                     name = Authentication.name;
                 }
-                if (Reddit.mHelper != null)
+                if (Reddit.mHelper != null) {
                     Reddit.mHelper.flagEndAsync();
-                Reddit.mHelper.launchPurchaseFlow(DonateView.this, "donation_" + sl_discrete.getValue(), 1, mPurchaseFinishedListener, name);
+                }
+                Reddit.mHelper.launchPurchaseFlow(DonateView.this, "donation_" + slider.getValue(), 1, mPurchaseFinishedListener, name);
             }
         });
     }
-
 }
