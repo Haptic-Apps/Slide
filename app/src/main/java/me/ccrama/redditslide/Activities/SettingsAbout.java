@@ -3,7 +3,9 @@ package me.ccrama.redditslide.Activities;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -71,10 +73,20 @@ public class SettingsAbout extends BaseActivityAnim {
                 Reddit.defaultShare("https://github.com/ccrama/Slide/issues", SettingsAbout.this);
             }
         });
-        findViewById(R.id.changelogpost).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.sub).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OpenRedditLink(SettingsAbout.this, Reddit.appRestart.getString("url", ""));
+                new OpenRedditLink(SettingsAbout.this, "https://reddit.com/r/slideforreddit");
+            }
+        });
+        findViewById(R.id.rate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                }
             }
         });
         changelog.setOnClickListener(new View.OnClickListener() {

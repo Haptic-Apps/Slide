@@ -828,4 +828,5 @@
     <string name="manage_drafts">Manage drafts</string>
     <string name="really_delete_drafts">Really delete these drafts?</string>
     <string name="auto_hide_the_comment_nav_bar">Auto-hide the comment nav bar</string>
+    <string name="rate_slide">Rate Slide</string>
 </resources>
