@@ -1374,12 +1374,14 @@ public class PopulateSubmissionViewHolder {
                 upvotebutton.setVisibility(View.VISIBLE);
             }
         }
+
+        int scoreOffset = 0;
         switch (ActionStates.getVoteDirection(submission)) {
             case UPVOTE: {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
-                holder.score.setText(String.format(Locale.getDefault(), "%d", submission.getScore() + (submission.getAuthor().equals(Authentication.name) ? 0 : 1)));
+                scoreOffset = 1;
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 break;
             }
@@ -1387,19 +1389,23 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
-                holder.score.setText(String.format(Locale.getDefault(), "%d", submission.getScore() + (submission.getAuthor().equals(Authentication.name) || (submission.getScore() == 0) ? 0 : -1)));
+                scoreOffset = -1;
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 break;
             }
             case NO_VOTE: {
                 holder.score.setTextColor(holder.comments.getCurrentTextColor());
-                holder.score.setText(String.format(Locale.getDefault(), "%d", submission.getScore()));
                 holder.score.setTypeface(null, Typeface.NORMAL);
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 break;
             }
         }
+
+        final int submissionScore = submission.getScore() + scoreOffset;
+        //if the submission is already at 0pts, keep it at 0pts
+        final int scoreAmount = ((submissionScore < 0) ? 0 : submissionScore);
+        holder.score.setText(String.format(Locale.getDefault(), "%d", scoreAmount));
 
         final ImageView hideButton = (ImageView) holder.hide;
 
