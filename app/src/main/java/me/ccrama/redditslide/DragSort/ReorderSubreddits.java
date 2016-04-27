@@ -19,6 +19,7 @@ package me.ccrama.redditslide.DragSort;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -56,13 +57,11 @@ import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
-
 public class ReorderSubreddits extends BaseActivityAnim {
-    String input;
-
-    ArrayList<String> subs;
-    CustomAdapter adapter;
-    RecyclerView recyclerView;
+    private String input;
+    private ArrayList<String> subs;
+    private CustomAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,7 +73,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case android.R.id.home:
                 finish();
                 return true;
@@ -119,7 +117,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 .show();
                     }
                 }.execute();
-
                 return true;
             case R.id.alphabetize:
                 subs = UserSubscriptions.sort(subs);
@@ -161,11 +158,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
     }
 
-
-    ArrayList<String> chosen = new ArrayList<>();
-    boolean isMultiple;
-
-    int done = 0;
+    private ArrayList<String> chosen = new ArrayList<>();
+    private boolean isMultiple;
+    private int done = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -264,7 +259,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                     } else {
                                         doCollection();
                                     }
-
                                 } else {
                                     new MaterialDialog.Builder(ReorderSubreddits.this)
                                             .title(R.string.reorder_add_subreddit)
@@ -295,23 +289,20 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         }).show();
             }
         });
+
         if (subs != null && !subs.isEmpty()) {
-
-
             adapter = new CustomAdapter(subs);
             //  adapter.setHasStableIds(true);
-
             recyclerView.setAdapter(adapter);
-
         } else {
             subs = new ArrayList<>();
-
         }
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
                 if (dy <= 0 && fab.getId() != 0) {
                     fab.show();
                 } else {
@@ -359,7 +350,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
     }
 
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
-
         @Override
         public void onPostExecute(Subreddit subreddit) {
             if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("all") || input.equalsIgnoreCase("frontpage") || input.equalsIgnoreCase("mod")) {
@@ -383,8 +373,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             String sub = params[0];
             if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") && !sub.equalsIgnoreCase("frontpage")) {
                 try {
-                    if (subs.contains(params[0])) return null;
-                    return Authentication.reddit.getSubreddit(params[0]);
+                    return (subs.contains(params[0]) ? null : Authentication.reddit.getSubreddit(params[0]));
                 } catch (Exception e) {
                     runOnUiThread(new Runnable() {
                         @Override
@@ -402,20 +391,16 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                         }).setOnDismissListener(new DialogInterface.OnDismissListener() {
                                     @Override
                                     public void onDismiss(DialogInterface dialog) {
-
                                     }
                                 }).show();
                             } catch (Exception ignored) {
-
                             }
                         }
                     });
                 }
             }
             return null;
-
         }
-
     }
 
     public void doOldToolbar() {
@@ -428,7 +413,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
         public CustomAdapter(ArrayList<String> items) {
             this.items = items;
-
         }
 
         @Override
@@ -462,7 +446,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             }).setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                         }
                     }).show();
                 }
@@ -491,7 +474,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, final int position) {
-
             final String origPos = items.get(position);
             holder.text.setText(origPos);
 
@@ -499,7 +481,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
             } else {
                 holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-
             }
             holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
             holder.itemView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
@@ -510,11 +491,19 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         isMultiple = true;
                         chosen = new ArrayList<>();
                         chosen.add(origPos);
+
                         doNewToolbar();
                         holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
-
+                        holder.text.setTextColor(Color.WHITE);
                     } else if (chosen.contains(origPos)) {
                         holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+
+                        //set the color of the text back to what it should be
+                        int[] textColorAttr = new int[]{R.attr.font};
+                        TypedArray ta = obtainStyledAttributes(textColorAttr);
+                        holder.text.setTextColor(ta.getColor(0, Color.BLACK));
+                        ta.recycle();
+
                         chosen.remove(origPos);
 
                         if (chosen.size() == 0) {
@@ -524,8 +513,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     } else {
                         chosen.add(origPos);
                         holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
+                        holder.text.setTextColor(Color.WHITE);
                         updateToolbar();
-
                     }
                     return true;
                 }
@@ -535,7 +524,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     if (!isMultiple) {
-
                         new AlertDialogWrapper.Builder(ReorderSubreddits.this)
                                 .setItems(new CharSequence[]{"Move to Top", "Delete"}, new DialogInterface.OnClickListener() {
                                     @Override
@@ -560,19 +548,25 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             int index = subs.indexOf(s);
                                             subs.remove(index);
                                             subs.add(0, s);
+
                                             notifyItemMoved(holder.getAdapterPosition(), 0);
                                             recyclerView.smoothScrollToPosition(0);
-
                                         }
-
-
                                     }
                                 }).show();
                     } else {
                         if (chosen.contains(origPos)) {
                             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+
+                            //set the color of the text back to what it should be
+                            int[] textColorAttr = new int[]{R.attr.font};
+                            TypedArray ta = obtainStyledAttributes(textColorAttr);
+                            holder.text.setTextColor(ta.getColor(0, Color.BLACK));
+                            ta.recycle();
+
                             chosen.remove(origPos);
                             updateToolbar();
+
                             if (chosen.size() == 0) {
                                 isMultiple = false;
                                 doOldToolbar();
@@ -580,13 +574,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         } else {
                             chosen.add(origPos);
                             holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
+                            holder.text.setTextColor(Color.WHITE);
                             updateToolbar();
                         }
-
-
                     }
-
-
                 }
             });
         }
@@ -601,13 +592,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-
                 text = (TextView) itemView.findViewById(R.id.name);
-
-
             }
         }
-
-
     }
 }
