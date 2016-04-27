@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -63,6 +64,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -339,6 +341,26 @@ public class SubredditView extends BaseActivityAnim {
     }
 
     public String term;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (sub != null) {
+            if (sub.isNsfw() && (!SettingValues.storeHistory || !SettingValues.storeNSFWHistory)) {
+                SharedPreferences.Editor e = Reddit.cachedData.edit();
+                for (String s : OfflineSubreddit.getAll(sub.getDisplayName())) {
+                    e.remove(s);
+                }
+                e.apply();
+            } else if (!SettingValues.storeHistory) {
+                SharedPreferences.Editor e = Reddit.cachedData.edit();
+                for (String s : OfflineSubreddit.getAll(sub.getDisplayName())) {
+                    e.remove(s);
+                }
+                e.apply();
+            }
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -795,14 +817,15 @@ public class SubredditView extends BaseActivityAnim {
                         ArrayList<String> flairText;
                         String current;
                         AccountManager m;
+
                         @Override
                         protected View doInBackground(View... params) {
                             try {
                                 m = new AccountManager(Authentication.reddit);
                                 flairs = m.getFlairChoices(subreddit);
-                                FlairTemplate currentF =  m.getCurrentFlair(subreddit);
+                                FlairTemplate currentF = m.getCurrentFlair(subreddit);
                                 if (currentF != null) {
-                                    if(currentF.getText().isEmpty()){
+                                    if (currentF.getText().isEmpty()) {
                                         current = ("[" + currentF.getCssClass() + "]");
                                     } else {
                                         current = (currentF.getText());
@@ -810,7 +833,7 @@ public class SubredditView extends BaseActivityAnim {
                                 }
                                 flairText = new ArrayList<>();
                                 for (FlairTemplate temp : flairs) {
-                                    if(temp.getText().isEmpty()){
+                                    if (temp.getText().isEmpty()) {
                                         flairText.add("[" + temp.getCssClass() + "]");
                                     } else {
                                         flairText.add(temp.getText());
@@ -827,7 +850,7 @@ public class SubredditView extends BaseActivityAnim {
                             if (flairs != null && !flairs.isEmpty() && flairText != null && !flairText.isEmpty()) {
                                 flair.setVisibility(View.VISIBLE);
                                 if (current != null) {
-                                    ((TextView)dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                    ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
                                 }
                                 flair.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -855,8 +878,8 @@ public class SubredditView extends BaseActivityAnim {
                                                                                 protected Boolean doInBackground(Void... params) {
                                                                                     try {
                                                                                         new ModerationManager(Authentication.reddit).setFlair(subreddit, t, flair, Authentication.name);
-                                                                                        FlairTemplate currentF =  m.getCurrentFlair(subreddit);
-                                                                                        if(currentF.getText().isEmpty()){
+                                                                                        FlairTemplate currentF = m.getCurrentFlair(subreddit);
+                                                                                        if (currentF.getText().isEmpty()) {
                                                                                             current = ("[" + currentF.getCssClass() + "]");
                                                                                         } else {
                                                                                             current = (currentF.getText());
@@ -873,7 +896,7 @@ public class SubredditView extends BaseActivityAnim {
                                                                                     Snackbar s = null;
                                                                                     if (done) {
                                                                                         if (current != null) {
-                                                                                            ((TextView)dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                                                                            ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
                                                                                         }
                                                                                         s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
                                                                                     } else {
@@ -896,8 +919,8 @@ public class SubredditView extends BaseActivityAnim {
                                                                 protected Boolean doInBackground(Void... params) {
                                                                     try {
                                                                         new ModerationManager(Authentication.reddit).setFlair(subreddit, t, null, Authentication.name);
-                                                                        FlairTemplate currentF =  m.getCurrentFlair(subreddit);
-                                                                        if(currentF.getText().isEmpty()){
+                                                                        FlairTemplate currentF = m.getCurrentFlair(subreddit);
+                                                                        if (currentF.getText().isEmpty()) {
                                                                             current = ("[" + currentF.getCssClass() + "]");
                                                                         } else {
                                                                             current = (currentF.getText());
@@ -914,7 +937,7 @@ public class SubredditView extends BaseActivityAnim {
                                                                     Snackbar s = null;
                                                                     if (done) {
                                                                         if (current != null) {
-                                                                            ((TextView)dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                                                            ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
                                                                         }
                                                                         s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
                                                                     } else {
@@ -1076,11 +1099,15 @@ public class SubredditView extends BaseActivityAnim {
     }
 
 
+    Subreddit sub;
+
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
         public void onPostExecute(Subreddit subreddit) {
+
             if (subreddit != null) {
+                sub = subreddit;
                 doSubOnlyStuff(subreddit);
 
                 if (subreddit.isNsfw() && SettingValues.storeHistory && SettingValues.storeNSFWHistory)
@@ -1261,6 +1288,7 @@ public class SubredditView extends BaseActivityAnim {
         }
 
         BlankFragment blankPage;
+
         @Override
         public Fragment getItem(int i) {
 
