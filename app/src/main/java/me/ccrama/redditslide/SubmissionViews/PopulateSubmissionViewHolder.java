@@ -1379,7 +1379,7 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
-                holder.score.setText(String.format(Locale.getDefault(), "%d", submission.getScore()));
+                holder.score.setText(String.format(Locale.getDefault(), "%d", submission.getScore() + (submission.getAuthor().equals(Authentication.name) ? 0 : 1)));
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 break;
             }
