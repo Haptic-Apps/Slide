@@ -511,7 +511,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         chosen = new ArrayList<>();
                         chosen.add(origPos);
                         doNewToolbar();
-                        holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
+                        holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
 
                     } else if (chosen.contains(origPos)) {
                         holder.itemView.setBackgroundColor(Color.TRANSPARENT);
@@ -523,7 +523,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         }
                     } else {
                         chosen.add(origPos);
-                        holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
+                        holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
                         updateToolbar();
 
                     }
@@ -579,7 +579,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             }
                         } else {
                             chosen.add(origPos);
-                            holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
+                            holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
                             updateToolbar();
                         }
 
