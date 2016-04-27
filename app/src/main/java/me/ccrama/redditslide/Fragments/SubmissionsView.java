@@ -5,18 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.PointF;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,187 +43,48 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
-import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     public SubredditPosts posts;
     public RecyclerView rv;
+    public SubmissionAdapter adapter;
+    public String id;
+    public boolean main;
+    public boolean forced;
+    int diff;
+    boolean forceLoad;
     private FloatingActionButton fab;
     private int visibleItemCount;
     private int pastVisiblesItems;
     private int totalItemCount;
-    public SubmissionAdapter adapter;
-    public String id;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
-    public boolean onKeyDown(int keyCode) {
-        if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
-            goDown();
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {
-            goUp();
-            return true;
-        }
-        return false;
-    }
-
-    private void goUp() {
-        if (adapter.dataSet.posts != null) {
-
-            int position = 0;
-            int currentOrientation = getResources().getConfiguration().orientation;
-            RecyclerView.SmoothScroller smoothScroller = null;
-            if (rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                position = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), rv.getLayoutManager());
-
-            } else if (rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
-                int[] firstVisibleItems = null;
-                firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                    position = firstVisibleItems[0];
-                    (rv.getLayoutManager()).smoothScrollToPosition(rv, new RecyclerView.State(), position - 1);
-                    return;
-                }
-            } else {
-                position = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), rv.getLayoutManager());
-
-            }
-
-            if (smoothScroller != null) {
-                smoothScroller.setTargetPosition(position - 1);
-                (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-            }
-
-        }
-    }
-
-    private void goDown() {
-        if (adapter.dataSet.posts != null) {
-
-            int position = 0;
-            int currentOrientation = getResources().getConfiguration().orientation;
-            RecyclerView.SmoothScroller smoothScroller = null;
-            if (rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                position = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), rv.getLayoutManager());
-
-            } else if (rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
-                int[] firstVisibleItems = null;
-                firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                    position = firstVisibleItems[0];
-                    (rv.getLayoutManager()).smoothScrollToPosition(rv, new RecyclerView.State(), position + 1);
-                    return;
-                }
-            } else {
-                position = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                smoothScroller = new TopSnappedSmoothScroller(rv.getContext(), rv.getLayoutManager());
-
-            }
-
-            if (smoothScroller != null) {
-                smoothScroller.setTargetPosition(position + 1);
-                (rv.getLayoutManager()).startSmoothScroll(smoothScroller);
-            }
-
-        }
-    }
-
-    public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
-        final RecyclerView.LayoutManager lm;
-
-        public TopSnappedSmoothScroller(Context context, RecyclerView.LayoutManager lm) {
-            super(context);
-            this.lm = lm;
-
-        }
-
-        @Override
-        public PointF computeScrollVectorForPosition(int targetPosition) {
-            if (lm instanceof LinearLayoutManager) {
-                return ((LinearLayoutManager) lm).computeScrollVectorForPosition(targetPosition);
-
-            } else if (lm instanceof PreCachingLayoutManager) {
-                return ((PreCachingLayoutManager) lm).computeScrollVectorForPosition(targetPosition);
-
-            }
-            return null;
-        }
-
-        @Override
-        protected int getVerticalSnapPreference() {
-            return SNAP_TO_START;
-        }
-    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
 
         super.onConfigurationChanged(newConfig);
-        int currentOrientation = newConfig.orientation;
 
         int i = 0;
-        if (rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            if (rv.getAdapter() != null) {
-                i = ((LinearLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
+        if (rv.getAdapter() != null) {
+            int[] firstVisibleItems;
+
+            firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(null);
+            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                i = firstVisibleItems[0];
             }
-            final RecyclerView.LayoutManager mLayoutManager;
-            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-                mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
-            } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-                mLayoutManager = new CatchStaggeredGridLayoutManager(2, CatchStaggeredGridLayoutManager.VERTICAL);
-            } else {
-                mLayoutManager = new PreCachingLayoutManager(getContext());
-            }
-
-            rv.setLayoutManager(mLayoutManager);
-
-
-        } else {
-            final RecyclerView.LayoutManager mLayoutManager;
-
-            if (rv.getAdapter() != null) {
-                if (rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
-                    int[] firstVisibleItems = null;
-                    try {
-                        firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                    } catch (Exception e) {
-                        firstVisibleItems = new int[]{0, 1};
-                    }
-                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                        i = firstVisibleItems[0];
-                    }
-                } else {
-                    i = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition();
-                    if (i == RecyclerView.NO_POSITION) {
-                        i = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                    }
-                }
-            }
-            if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-                mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
-            } else if (currentOrientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-                mLayoutManager = new CatchStaggeredGridLayoutManager(2, CatchStaggeredGridLayoutManager.VERTICAL);
-            } else {
-                mLayoutManager = new PreCachingLayoutManager(getContext());
-            }
-            rv.setLayoutManager(mLayoutManager);
-
         }
+
+        final RecyclerView.LayoutManager mLayoutManager = createLayoutManager(newConfig.orientation);
+        rv.setLayoutManager(mLayoutManager);
         rv.getLayoutManager().scrollToPosition(i);
 
     }
 
-
-    boolean down = false;
-    int diff;
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
 
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
         View v = ((LayoutInflater) contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
@@ -237,15 +95,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
 
         rv.setHasFixedSize(true);
-        final RecyclerView.LayoutManager mLayoutManager;
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
-            mLayoutManager = new CatchStaggeredGridLayoutManager(Reddit.dpWidth, CatchStaggeredGridLayoutManager.VERTICAL);
-        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
-            mLayoutManager = new CatchStaggeredGridLayoutManager(2, CatchStaggeredGridLayoutManager.VERTICAL);
 
-        } else {
-            mLayoutManager = new PreCachingLayoutManager(getActivity());
-        }
+        final RecyclerView.LayoutManager mLayoutManager;
+        mLayoutManager = createLayoutManager(getResources().getConfiguration().orientation);
 
         if (!(getActivity() instanceof SubredditView)) {
             v.findViewById(R.id.back).setBackground(null);
@@ -361,23 +213,15 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
                     visibleItemCount = rv.getLayoutManager().getChildCount();
                     totalItemCount = rv.getLayoutManager().getItemCount();
-                    if (rv.getLayoutManager() instanceof PreCachingLayoutManager) {
-                        pastVisiblesItems = ((PreCachingLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPosition();
-                        if (SettingValues.scrollSeen) {
-                            if (pastVisiblesItems > 0) {
-                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
-                            }
-                        }
-                    } else {
-                        int[] firstVisibleItems = null;
-                        firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
-                        if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                            for (int i = 0; i < firstVisibleItems.length; i++) {
-                                pastVisiblesItems = firstVisibleItems[i];
-                                if (SettingValues.scrollSeen) {
-                                    if (pastVisiblesItems > 0) {
-                                        HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
-                                    }
+
+                    int[] firstVisibleItems;
+                    firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(null);
+                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                        for (int firstVisibleItem : firstVisibleItems) {
+                            pastVisiblesItems = firstVisibleItem;
+                            if (SettingValues.scrollSeen) {
+                                if (pastVisiblesItems > 0) {
+                                    HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                                 }
                             }
                         }
@@ -438,13 +282,27 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
 
         Reddit.isLoading = false;
-        if (MainActivity.shouldLoad == null || id == null || (MainActivity.shouldLoad != null && id != null && MainActivity.shouldLoad.equals(id)) || !(getActivity() instanceof MainActivity)) {
+        if (MainActivity.shouldLoad == null || id == null || (MainActivity.shouldLoad != null && MainActivity.shouldLoad.equals(id)) || !(getActivity() instanceof MainActivity)) {
             doAdapter();
         }
         return v;
     }
 
-    public boolean main;
+    @NonNull
+    private RecyclerView.LayoutManager createLayoutManager(int orientation) {
+        final int numColumns;
+
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
+            numColumns = Reddit.dpWidth;
+        } else if (orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
+            numColumns = 2;
+        } else {
+            numColumns = 1;
+        }
+
+        return new CatchStaggeredGridLayoutManager(numColumns, CatchStaggeredGridLayoutManager.VERTICAL);
+
+    }
 
     public void doAdapter() {
         mSwipeRefreshLayout.post(new Runnable() {
@@ -524,8 +382,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         return null;
     }
 
-    boolean forceLoad;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -536,8 +392,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         forceLoad = bundle.getBoolean("load", false);
 
     }
-
-    public boolean forced;
 
     private void refresh() {
         posts.forced = true;
