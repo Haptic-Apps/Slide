@@ -298,7 +298,7 @@ public class CommentPage extends Fragment {
         }
         if (fab != null)
             fab.show();
-        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header), v.findViewById(R.id.progress), SettingValues.commentAutoHide?v.findViewById(R.id.commentnav):null) {
+        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header), v.findViewById(R.id.progress), SettingValues.commentAutoHide ? v.findViewById(R.id.commentnav) : null) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -685,8 +685,10 @@ public class CommentPage extends Fragment {
             }
             if (load)
                 comments.setSorting(commentSorting);
-            adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-            rv.setAdapter(adapter);
+            if (adapter == null) {
+                adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                rv.setAdapter(adapter);
+            }
         } else if (getActivity() instanceof MainActivity) {
             if (Authentication.didOnline) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
@@ -698,13 +700,17 @@ public class CommentPage extends Fragment {
                 }
                 if (load)
                     comments.setSorting(commentSorting);
-                adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-                rv.setAdapter(adapter);
+                if (adapter == null) {
+                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                    rv.setAdapter(adapter);
+                }
             } else {
                 Submission s = ((MainActivity) getActivity()).openingComments;
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
-                adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-                rv.setAdapter(adapter);
+                if (adapter == null) {
+                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                    rv.setAdapter(adapter);
+                }
             }
         } else {
             Submission s = null;
@@ -715,14 +721,20 @@ public class CommentPage extends Fragment {
             }
             if (s != null && s.getComments() != null) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
-                adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-                rv.setAdapter(adapter);
+                if (adapter == null) {
+
+                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                    rv.setAdapter(adapter);
+                }
             } else if (context.isEmpty()) {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
                 comments.setSorting(commentSorting);
-                if (s != null)
-                    adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
-                rv.setAdapter(adapter);
+                if (adapter == null) {
+
+                    if (s != null)
+                        adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
+                    rv.setAdapter(adapter);
+                }
             } else {
                 if (context.equals(Reddit.EMPTY_STRING)) {
                     comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
