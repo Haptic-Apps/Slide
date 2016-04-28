@@ -185,7 +185,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                    LayoutInflater inflater = mContext.getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.postmenu, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
@@ -362,7 +362,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             if (comment.getTimesGilded() > 0) {
                 holder.gild.setVisibility(View.VISIBLE);
-                ((TextView) holder.gild).setText("" + comment.getTimesGilded());
+                ((TextView) holder.gild).setText(Integer.toString(comment.getTimesGilded()));
             } else if (holder.gild.getVisibility() == View.VISIBLE)
                 holder.gild.setVisibility(View.GONE);
 
