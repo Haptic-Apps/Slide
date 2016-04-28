@@ -2157,7 +2157,7 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.sidebar:
                 if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
-                    drawerLayout.openDrawer(Gravity.END);
+                    drawerLayout.openDrawer(GravityCompat.END);
                 } else {
                     Toast.makeText(this, "No sidebar found", Toast.LENGTH_SHORT).show();
                 }
