@@ -698,14 +698,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doScoreText(CommentViewHolder holder, Comment comment, int offset) {
         String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString = new SpannableStringBuilder();
-        int sc = comment.getScore();
 
-        switch (comment.getVote()) {
+        int commentScore = comment.getScore();
+
+        switch (ActionStates.getVoteDirection(comment)) {
             case UPVOTE:
-                sc -= 1;
+                commentScore -= 1 + offset;
                 break;
             case DOWNVOTE:
-                sc += 1;
+                commentScore += 1 + offset;
                 break;
         }
 
@@ -725,14 +726,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         titleString.append(author);
-
         titleString.append(spacer);
 
         String scoreText;
         if (comment.isScoreHidden()) {
             scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
         } else {
-            scoreText = String.format(Locale.getDefault(), "%d", sc + offset);
+            scoreText = String.format(Locale.getDefault(), "%d", commentScore);
         }
         SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
         int scoreColor;

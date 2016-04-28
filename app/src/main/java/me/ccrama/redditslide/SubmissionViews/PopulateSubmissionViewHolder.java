@@ -1375,14 +1375,16 @@ public class PopulateSubmissionViewHolder {
             }
         }
 
-        int scoreOffset = 0;
-        switch (submission.getVote()) {
+        int submissionScore = submission.getScore();
+        int offset = 0;
+        switch (ActionStates.getVoteDirection(submission)) {
             case UPVOTE: {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                scoreOffset = 1;
+                submissionScore += 1;
+                offset = -1;
                 break;
             }
             case DOWNVOTE: {
@@ -1390,7 +1392,8 @@ public class PopulateSubmissionViewHolder {
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                scoreOffset = -1;
+                submissionScore -= 1;
+                offset = 1;
                 break;
             }
             case NO_VOTE: {
@@ -1402,9 +1405,8 @@ public class PopulateSubmissionViewHolder {
             }
         }
 
-        final int submissionScore = submission.getScore() + scoreOffset;
         //if the submission is already at 0pts, keep it at 0pts
-        final int scoreAmount = ((submissionScore < 0) ? 0 : submissionScore);
+        final int scoreAmount = (((offset + submissionScore) < 0) ? 0 : submissionScore + offset);
         holder.score.setText(String.format(Locale.getDefault(), "%d", scoreAmount));
 
         final ImageView hideButton = (ImageView) holder.hide;
