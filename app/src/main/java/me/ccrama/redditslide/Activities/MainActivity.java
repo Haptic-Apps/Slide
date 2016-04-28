@@ -2108,7 +2108,6 @@ public class MainActivity extends BaseActivity {
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
-
                 builder.setView(dialoglayout);
                 final Dialog d = builder.show();
 
@@ -2123,8 +2122,7 @@ public class MainActivity extends BaseActivity {
                                 Reddit.themeBack = theme.getThemeType();
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 d.dismiss();
-                                recreate();
-
+                                restartTheme();
                                 break;
                             }
                         }
@@ -2141,7 +2139,7 @@ public class MainActivity extends BaseActivity {
                                 Reddit.themeBack = theme.getThemeType();
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 d.dismiss();
-                                recreate();
+                                restartTheme();
                                 break;
                             }
                         }
@@ -2158,7 +2156,7 @@ public class MainActivity extends BaseActivity {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 Reddit.themeBack = theme.getThemeType();
                                 d.dismiss();
-                                recreate();
+                                restartTheme();
                                 break;
                             }
                         }
@@ -2175,7 +2173,7 @@ public class MainActivity extends BaseActivity {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 Reddit.themeBack = theme.getThemeType();
                                 d.dismiss();
-                                recreate();
+                                restartTheme();
                                 break;
                             }
                         }
@@ -2192,8 +2190,7 @@ public class MainActivity extends BaseActivity {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 Reddit.themeBack = theme.getThemeType();
                                 d.dismiss();
-                                recreate();
-
+                                restartTheme();
                                 break;
                             }
                         }
