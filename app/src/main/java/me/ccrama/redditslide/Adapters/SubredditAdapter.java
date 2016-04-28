@@ -6,11 +6,11 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
-
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +21,11 @@ import net.dean.jraw.models.Subreddit;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.SubredditView;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.SubredditListView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -163,9 +165,17 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         }
         if (holder2 instanceof SpacerViewHolder) {
-            holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), (context).findViewById(R.id.header).getHeight()));
+            View header = (context).findViewById(R.id.header);
+
+            //Need to add a little more top margin to the view
+            final DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+            final int TOP_OFFSET = Math.round((Constants.TOP_MARGIN_SUBMISSIONS_OFFSET
+                    / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)));
+            int height = header.getHeight() + TOP_OFFSET;
+
+            holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), height));
             if (listView.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
-                CatchStaggeredGridLayoutManager.LayoutParams layoutParams = new CatchStaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (context).findViewById(R.id.header).getHeight());
+                CatchStaggeredGridLayoutManager.LayoutParams layoutParams = new CatchStaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
                 layoutParams.setFullSpan(true);
                 holder2.itemView.setLayoutParams(layoutParams);
             }
