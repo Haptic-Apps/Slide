@@ -83,6 +83,13 @@ import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
 
+import org.ligi.snackengage.SnackEngage;
+import org.ligi.snackengage.conditions.AfterNumberOfOpportunities;
+import org.ligi.snackengage.conditions.NeverAgainWhenClickedOnce;
+import org.ligi.snackengage.conditions.WithLimitedNumberOfTimes;
+import org.ligi.snackengage.snacks.BaseSnack;
+import org.ligi.snackengage.snacks.RateSnack;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -535,7 +542,22 @@ public class MainActivity extends BaseActivity {
             }.execute();
 
         }
-
+        if (Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this)) {
+            // Display an snackbar that asks the user to rate the app after this
+            // activity was created 6 times, never again when once clicked or with a maximum of
+            // two times.
+            SnackEngage.from(MainActivity.this).withSnack(
+                    new RateSnack().withConditions(new NeverAgainWhenClickedOnce(),
+                            new AfterNumberOfOpportunities(3), new WithLimitedNumberOfTimes(2))
+                            .overrideActionText(getString(R.string.misc_rate_msg))
+                            .overrideTitleText(getString(R.string.misc_rate_title))
+                            .withDuration(BaseSnack.DURATION_INDEFINITE))
+                    /*.withSnack(new CustomSnack(new Intent(MainActivity.this, SettingsReddit.class), "Thumbnails are disabled", "Change", "THUMBNAIL_INFO")
+                            .withConditions(new AfterNumberOfOpportunities(2),
+                                    new WithLimitedNumberOfTimes(2), new NeverAgainWhenClickedOnce())
+                            .withDuration(BaseSnack.DURATION_LONG))*/
+                    .build().engageWhenAppropriate();
+        }
     }
 
     public Runnable runAfterLoad;
