@@ -1,7 +1,9 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -10,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.TimePeriod;
@@ -153,6 +157,32 @@ public class Search extends BaseActivityAnim {
                 return true;
             case R.id.time:
                 openPopup();
+                return true;
+            case R.id.edit:
+                MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
+                        .alwaysCallInputCallback()
+                        .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
+                                where = charSequence.toString();
+                            }
+                        });
+
+                //Add "search current sub" if it is not frontpage/all/random
+
+                    builder.positiveText("Search again")
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                    Intent i = new Intent(Search.this, Search.class);
+                                    i.putExtra(Search.EXTRA_TERM, where);
+                                    i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
+                                    startActivity(i);
+                                    finish();
+                                }
+                            });
+
+                builder.show();
                 return true;
             case R.id.sort:
                 openPopup2();

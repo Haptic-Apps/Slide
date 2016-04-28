@@ -14,5 +14,9 @@
         android:icon="@drawable/sort"
         android:title="@string/sorting_change_sorting"
         app:showAsAction="ifRoom" />
-
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/edit"
+        android:title="@string/edit_query"
+        app:showAsAction="ifRoom" />
 </menu>
