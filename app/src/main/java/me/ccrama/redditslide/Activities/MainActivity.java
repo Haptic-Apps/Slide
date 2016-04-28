@@ -1721,11 +1721,10 @@ public class MainActivity extends BaseActivity {
                                             Authentication.authentication.edit().putStringSet("accounts", done).commit();
                                             dialog2.dismiss();
                                             accountList.removeView(t);
-                                            if (accName.equalsIgnoreCase(Authentication.name)) {
 
+                                            if (accName.equalsIgnoreCase(Authentication.name)) {
                                                 boolean d = false;
                                                 for (String s : keys) {
-
                                                     if (!s.equalsIgnoreCase(accName)) {
                                                         d = true;
                                                         LogUtil.v("Switching to " + s);
@@ -1826,9 +1825,11 @@ public class MainActivity extends BaseActivity {
             }
         });
         if (Authentication.didOnline) {
-
             View support = header.findViewById(R.id.support);
-            if (SettingValues.tabletUI) support.setVisibility(View.GONE);
+
+            if (SettingValues.tabletUI) {
+                support.setVisibility(View.GONE);
+            }
             else {
                 header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1929,8 +1930,9 @@ public class MainActivity extends BaseActivity {
         actionBarDrawerToggle.syncState();
         header.findViewById(R.id.back).setBackgroundColor(Palette.getColor("alsdkfjasld"));
         accountsArea = header.findViewById(R.id.accountsarea);
-        if (accountsArea != null)
+        if (accountsArea != null) {
             accountsArea.setBackgroundColor(Palette.getDarkerColor("alsdkfjasld"));
+        }
 
 
         setDrawerSubList();
@@ -1950,7 +1952,6 @@ public class MainActivity extends BaseActivity {
     }
 
     View accountsArea;
-
     SideArrayAdapter sideArrayAdapter;
 
     public void setDrawerSubList() {
@@ -2027,15 +2028,13 @@ public class MainActivity extends BaseActivity {
                     close.setVisibility(View.VISIBLE);
                 }
                 sideArrayAdapter.getFilter().filter(result);
-
             }
         });
     }
 
 
     public void resetAdapter() {
-        if (UserSubscriptions.hasSubs())
-
+        if (UserSubscriptions.hasSubs()) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -2053,13 +2052,14 @@ public class MainActivity extends BaseActivity {
                     int color = Palette.getColor(subToDo);
                     hea.setBackgroundColor(color);
                     header.setBackgroundColor(color);
-                    if (accountsArea != null)
+                    if (accountsArea != null) {
                         accountsArea.setBackgroundColor(Palette.getDarkerColor(color));
+                    }
                     themeSystemBars(subToDo);
                     setRecentBar(subToDo);
-
                 }
             });
+        }
     }
 
     public void restartTheme() {
@@ -2137,6 +2137,10 @@ public class MainActivity extends BaseActivity {
             } else {
                 inflater.inflate(R.menu.menu_subreddit_overview, menu);
             }
+            //Only show the "Share Slide" menu item if the user doesn't have Pro installed
+            if (SettingValues.tabletUI) {
+                menu.findItem(R.id.share).setVisible(false);
+            }
         } else {
             inflater.inflate(R.menu.menu_subreddit_overview_offline, menu);
         }
@@ -2148,13 +2152,12 @@ public class MainActivity extends BaseActivity {
         final String subreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
 
         switch (item.getItemId()) {
-
             case R.id.filter:
                 filterContent(shouldLoad);
                 return true;
             case R.id.sidebar:
                 if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
-                    drawerLayout.openDrawer(Gravity.RIGHT);
+                    drawerLayout.openDrawer(Gravity.END);
                 } else {
                     Toast.makeText(this, "No sidebar found", Toast.LENGTH_SHORT).show();
                 }
