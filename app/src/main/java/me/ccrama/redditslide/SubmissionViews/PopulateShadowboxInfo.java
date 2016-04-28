@@ -36,8 +36,6 @@ import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
-import java.util.Locale;
-
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
@@ -84,8 +82,8 @@ public class PopulateShadowboxInfo {
         titleString.append(TimeUtils.getTimeAgo(s.getCreated().getTime(), c));
 
         desc.setText(titleString);
-        ((TextView) rootView.findViewById(R.id.comments)).setText(String.format(Locale.getDefault(), "%d", s.getCommentCount()));
-        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+        ((TextView) rootView.findViewById(R.id.comments)).setText("" + s.getCommentCount());
+        ((TextView) rootView.findViewById(R.id.score)).setText("" + s.getScore());
 
         if (extras) {
             final ImageView downvotebutton = (ImageView) rootView.findViewById(R.id.downvote);
@@ -104,7 +102,7 @@ public class PopulateShadowboxInfo {
                         ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
                         upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
-                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : 1))));
+                        ((TextView) rootView.findViewById(R.id.score)).setText("" + (s.getScore() + (s.getAuthor().equals(Authentication.name) ? 0 : 1)));
                         downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
                         break;
                     }
@@ -112,13 +110,13 @@ public class PopulateShadowboxInfo {
                         ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
                         downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
-                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : -1))));
+                        ((TextView) rootView.findViewById(R.id.score)).setText("" + (s.getScore() + (s.getAuthor().equals(Authentication.name) ? 0 : -1)));
                         upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
                         break;
                     }
                     case NO_VOTE: {
                         ((TextView) rootView.findViewById(R.id.score)).setTextColor(((TextView) rootView.findViewById(R.id.comments)).getCurrentTextColor());
-                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+                        ((TextView) rootView.findViewById(R.id.score)).setText("" + (s.getScore()));
                         ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
                         downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
                         upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
@@ -200,14 +198,14 @@ public class PopulateShadowboxInfo {
                                     AnimateHelper.setFlashAnimation(rootView, downvotebutton, ContextCompat.getColor(c, R.color.md_blue_500));
                                     ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
                                     final int downvoteScore = (s.getScore() == 0) ? 0 : s.getScore() - 1; //if a post is at 0 votes, keep it at 0 when downvoting
-                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", downvoteScore));
+                                    ((TextView) rootView.findViewById(R.id.score)).setText(Integer.toString(downvoteScore));
                                     new Vote(false, points, c).execute(s);
                                     ActionStates.setVoteDirection(s, VoteDirection.DOWNVOTE);
                                 } else {
                                     points.setTextColor(comments.getCurrentTextColor());
                                     new Vote(points, c).execute(s);
                                     ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
-                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+                                    ((TextView) rootView.findViewById(R.id.score)).setText(Integer.toString(s.getScore()));
                                     ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
                                     downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
                                 }
@@ -233,14 +231,14 @@ public class PopulateShadowboxInfo {
 
                                     AnimateHelper.setFlashAnimation(rootView, upvotebutton, ContextCompat.getColor(c, R.color.md_orange_500));
                                     ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
-                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore() + 1));
+                                    ((TextView) rootView.findViewById(R.id.score)).setText(Integer.toString(s.getScore() + 1));
                                     new Vote(true, points, c).execute(s);
                                     ActionStates.setVoteDirection(s, VoteDirection.UPVOTE);
                                 } else {
                                     points.setTextColor(comments.getCurrentTextColor());
                                     new Vote(points, c).execute(s);
                                     ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
-                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+                                    ((TextView) rootView.findViewById(R.id.score)).setText(Integer.toString(s.getScore()));
                                     ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
                                     upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
                                 }

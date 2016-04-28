@@ -773,7 +773,6 @@ public class PopulateSubmissionViewHolder {
                                                 @Override
                                                 public void onClick(final DialogInterface dialog, int which) {
                                                     new AsyncTask<Void, Void, Boolean>() {
-
                                                         @Override
                                                         public void onPostExecute(Boolean b) {
                                                             if (b) {
@@ -805,14 +804,12 @@ public class PopulateSubmissionViewHolder {
 
                                         }
                                     }).show();
-
                                 } else {
                                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_mark_nsfw)
                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(final DialogInterface dialog, int which) {
                                                     new AsyncTask<Void, Void, Boolean>() {
-
                                                         @Override
                                                         public void onPostExecute(Boolean b) {
                                                             if (b) {
@@ -832,7 +829,6 @@ public class PopulateSubmissionViewHolder {
                                                             } catch (ApiException e) {
                                                                 e.printStackTrace();
                                                                 return false;
-
                                                             }
                                                             return true;
                                                         }
@@ -841,10 +837,8 @@ public class PopulateSubmissionViewHolder {
                                             }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-
                                         }
                                     }).show();
-
                                 }
                                 break;
                             case 4:
@@ -853,9 +847,7 @@ public class PopulateSubmissionViewHolder {
                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(final DialogInterface dialog, int which) {
-
                                                     new AsyncTask<Void, Void, Boolean>() {
-
                                                         @Override
                                                         public void onPostExecute(Boolean b) {
                                                             if (b) {
@@ -877,7 +869,6 @@ public class PopulateSubmissionViewHolder {
                                                                 TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                                                 tv.setTextColor(Color.WHITE);
                                                                 s.show();
-
                                                             } else {
                                                                 new AlertDialogWrapper.Builder(mContext)
                                                                         .setTitle(R.string.err_general)
@@ -892,12 +883,10 @@ public class PopulateSubmissionViewHolder {
                                                             } catch (ApiException e) {
                                                                 e.printStackTrace();
                                                                 return false;
-
                                                             }
                                                             return true;
                                                         }
                                                     }.execute();
-
                                                 }
                                             }).setNegativeButton(R.string.btn_no, null).show();
                                 } else {
@@ -944,16 +933,13 @@ public class PopulateSubmissionViewHolder {
                                                             } catch (ApiException e) {
                                                                 e.printStackTrace();
                                                                 return false;
-
                                                             }
                                                             return true;
                                                         }
                                                     }.execute();
-
                                                 }
                                             }).setNegativeButton(R.string.btn_no, null).show();
                                 }
-
                                 break;
                             case 5:
                                 new AsyncTask<Void, Void, ArrayList<String>>() {
@@ -964,8 +950,6 @@ public class PopulateSubmissionViewHolder {
                                     @Override
                                     protected ArrayList<String> doInBackground(Void... params) {
                                         FlairReference allFlairs = new FluentRedditClient(Authentication.reddit).subreddit(submission.getSubredditName()).flair();
-
-
                                         try {
                                             flair = allFlairs.options();
                                             currentFlair = allFlairs.current().getText();
@@ -1000,8 +984,6 @@ public class PopulateSubmissionViewHolder {
                                             e.printStackTrace();
                                             //sub probably has no flairs?
                                         }
-
-
                                         return null;
                                     }
 
@@ -1010,8 +992,6 @@ public class PopulateSubmissionViewHolder {
 
                                     }
                                 }.execute();
-
-
                                 break;
                             case 6:
 
@@ -1134,7 +1114,6 @@ public class PopulateSubmissionViewHolder {
                                                         return true;
                                                     }
                                                 }.execute();
-
                                             }
                                         }).negativeText(R.string.btn_cancel)
                                         .onNegative(null).show();
@@ -1162,8 +1141,6 @@ public class PopulateSubmissionViewHolder {
                                             e.printStackTrace();
                                             //sub probably has no flairs?
                                         }
-
-
                                         return null;
                                     }
 
@@ -1265,18 +1242,13 @@ public class PopulateSubmissionViewHolder {
 
                                             }
                                         } catch (Exception ignored) {
-
                                         }
                                     }
                                 }.execute();
-
                                 break;
-
                         }
                     }
                 });
-
-
         b.show();
     }
 
@@ -1374,40 +1346,32 @@ public class PopulateSubmissionViewHolder {
                 upvotebutton.setVisibility(View.VISIBLE);
             }
         }
-
-        int submissionScore = submission.getScore();
-        int offset = 0;
         switch (ActionStates.getVoteDirection(submission)) {
             case UPVOTE: {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
+                holder.score.setText(String.format(Locale.getDefault(), "%d", submission.getScore()));
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                submissionScore += 1;
-                offset = -1;
                 break;
             }
             case DOWNVOTE: {
                 holder.score.setTextColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
+                holder.score.setText(String.format(Locale.getDefault(), "%d", submission.getScore() + (submission.getAuthor().equals(Authentication.name) || (submission.getScore() == 0) ? 0 : -1)));
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                submissionScore -= 1;
-                offset = 1;
                 break;
             }
             case NO_VOTE: {
                 holder.score.setTextColor(holder.comments.getCurrentTextColor());
+                holder.score.setText(String.format(Locale.getDefault(), "%d", submission.getScore()));
                 holder.score.setTypeface(null, Typeface.NORMAL);
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 break;
             }
         }
-
-        //if the submission is already at 0pts, keep it at 0pts
-        final int scoreAmount = (((offset + submissionScore) < 0) ? 0 : submissionScore + offset);
-        holder.score.setText(String.format(Locale.getDefault(), "%d", scoreAmount));
 
         final ImageView hideButton = (ImageView) holder.hide;
 
@@ -1615,8 +1579,9 @@ public class PopulateSubmissionViewHolder {
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
                                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                             }
-                            if (!full && !SettingValues.actionbarVisible)
+                            if (!full && !SettingValues.actionbarVisible) {
                                 CreateCardView.toggleActionbar(holder.itemView);
+                            }
                         }
                     });
                 }

@@ -421,7 +421,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     private void openGif(String url) {
         if (SettingValues.gif) {
             Intent myIntent = new Intent(getContext(), MediaView.class);
-            myIntent.putExtra(MediaView.EXTRA_URL, url);
+            myIntent.putExtra(MediaView.EXTRA_URL, "" + url);
             getContext().startActivity(myIntent);
         } else {
             Reddit.defaultShare(url, getContext());

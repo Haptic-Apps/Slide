@@ -698,15 +698,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doScoreText(CommentViewHolder holder, Comment comment, int offset) {
         String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString = new SpannableStringBuilder();
+        int sc = comment.getScore();
 
-        int commentScore = comment.getScore();
-
-        switch (ActionStates.getVoteDirection(comment)) {
+        switch (comment.getVote()) {
             case UPVOTE:
-                commentScore -= 1 + offset;
+                sc -= 1;
                 break;
             case DOWNVOTE:
-                commentScore += 1 + offset;
+                sc += 1;
                 break;
         }
 
@@ -726,13 +725,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         titleString.append(author);
+
         titleString.append(spacer);
 
         String scoreText;
         if (comment.isScoreHidden()) {
             scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
         } else {
-            scoreText = String.format(Locale.getDefault(), "%d", commentScore);
+            scoreText = String.format(Locale.getDefault(), "%d", sc + offset);
         }
         SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
         int scoreColor;
@@ -1583,7 +1583,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final int heightSpec2 = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         l2.measure(widthSpec2, heightSpec2);
 
-
         mAnimator = slideAnimator((l.getMeasuredHeight() - l2.getMeasuredHeight()), l.getMeasuredHeight() - (l.getMeasuredHeight() - l2.getMeasuredHeight()), l);
 
         mAnimator.addListener(new Animator.AnimatorListener() {
@@ -2057,19 +2056,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         doShowMenu(baseView);
                     }
                 });
-
             } else {
-
-                if (reply.getVisibility() == View.VISIBLE)
-
+                if (reply.getVisibility() == View.VISIBLE) {
                     reply.setVisibility(View.GONE);
-                if (upvote.getVisibility() == View.VISIBLE)
-
+                }
+                if (upvote.getVisibility() == View.VISIBLE) {
                     upvote.setVisibility(View.GONE);
-                if (downvote.getVisibility() == View.VISIBLE)
-
+                }
+                if (downvote.getVisibility() == View.VISIBLE) {
                     downvote.setVisibility(View.GONE);
-
+                }
             }
 
             more.setOnClickListener(new View.OnClickListener() {
@@ -2157,7 +2153,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1, false, animate);
         }
-
     }
 
     public EditText currentlyEditing;
@@ -2198,7 +2193,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.itemView.setLayoutParams(params);
 
         holder.itemView.findViewById(R.id.background).setBackgroundColor(color);
-
     }
 
     public void doUnHighlighted(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode, boolean animate) {
@@ -2314,14 +2308,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         animator.setInterpolator(new FastOutSlowInInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 
-
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = ((Float) (animation.getAnimatedValue())).floatValue();
                 v.setAlpha(value);
                 v.setScaleX(value);
                 v.setScaleY(value);
-
             }
         });
 
@@ -2463,10 +2455,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else {
             position -= 1;
         }
-        if (position == 0)
+        if (position == 0) {
             return HEADER;
-        return (users.get(getRealPosition(position - 1)) instanceof CommentItem ? 2 : 3);
+        }
 
+        return (users.get(getRealPosition(position - 1)) instanceof CommentItem ? 2 : 3);
     }
 
     @Override
@@ -2534,7 +2527,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
                 boolean parentHidden = parentHidden(ignored);
 
-                if (parentHidden) continue;
+                if (parentHidden) {
+                    continue;
+                }
 
                 String name = ignored.getComment().getFullName();
 
@@ -2551,7 +2546,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     }
                 }
-
                 i += unhideNumber(ignored, 0);
             }
         }
@@ -2561,9 +2555,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (hidden.contains(fullname)) {
                 i++;
                 hidden.remove(fullname);
-
             }
-
         }
         return i;
     }
@@ -2571,13 +2563,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public int hideNumber(CommentNode n, int i) {
         for (CommentNode ignored : n.getChildren()) {
             if (!ignored.getComment().getFullName().equals(n.getComment().getFullName())) {
-
                 String fullname = ignored.getComment().getFullName();
 
                 if (!hidden.contains(fullname)) {
                     i++;
                     hidden.add(fullname);
-
                 }
                 if (ignored.hasMoreComments()) {
                     fullname = fullname + "more";
@@ -2585,7 +2575,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (!hidden.contains(fullname)) {
                         i++;
                         hidden.add(fullname);
-
                     }
                 }
                 i += hideNumber(ignored, 0);
@@ -2597,7 +2586,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (!hidden.contains(fullname)) {
                 i++;
                 hidden.add(fullname);
-
             }
         }
         return i;
@@ -2618,8 +2606,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private int getHiddenCountUpTo(int location) {
         int count = 0;
         for (int i = 0; i <= location; i++) {
-            if (users.size() > i && hidden.contains(users.get(i).getName()))
+            if (users.size() > i && hidden.contains(users.get(i).getName())) {
                 count++;
+            }
         }
         return count;
     }
@@ -2647,7 +2636,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         protected Integer doInBackground(MoreChildItem... params) {
-
             ArrayList<CommentObject> finalData = new ArrayList<>();
             int i = 0;
 
@@ -2751,7 +2739,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }, 2000);
             }
-
         }
 
         @Override
@@ -2855,7 +2842,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return null;
             }
         }
-
     }
 
     public String reportReason;
@@ -2932,13 +2918,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                } catch (ApiException e) {
                                                    e.printStackTrace();
                                                }
-
                                                return null;
                                            }
-
                                        }.execute();
-
-
                                    } else {
                                        new AsyncTask<Void, Void, Void>() {
                                            @Override
@@ -2949,14 +2931,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                } catch (ApiException e) {
                                                    e.printStackTrace();
                                                }
-
                                                return null;
                                            }
-
                                        }.execute();
-
                                    }
-
                                    break;
                                case 23: {
                                    String s = "https://reddit.com" + submission.getPermalink() +
@@ -3032,9 +3010,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                            }
                                        }
                                    }
-
                                    break;
-
                                case 7:
                                    ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                                    ClipData clip = ClipData.newPlainText("Comment text", n.getBody());
@@ -3047,15 +3023,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                    n.getFullName().substring(3, n.getFullName().length()) + "?context=3"
                                            , mContext);
                                    break;
-
                            }
                        }
                    }
-
         );
-
-
         b.show();
     }
-
 }
