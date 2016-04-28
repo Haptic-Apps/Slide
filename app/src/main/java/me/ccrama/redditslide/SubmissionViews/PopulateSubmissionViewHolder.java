@@ -339,8 +339,9 @@ public class PopulateSubmissionViewHolder {
         b.sheet(7, open, mContext.getString(R.string.submission_link_extern))
                 .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url));
-        if (!(mContext instanceof Profile))
+        if ((mContext instanceof MainActivity) || (mContext instanceof SubredditView))
             b.sheet(10, filter, mContext.getString(R.string.filter_content));
+
         b.listener(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
