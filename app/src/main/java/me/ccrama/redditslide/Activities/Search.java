@@ -161,7 +161,7 @@ public class Search extends BaseActivityAnim {
             case R.id.edit:
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
                         .alwaysCallInputCallback()
-                        .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
+                        .input(getString(R.string.search_msg), where, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
                                 where = charSequence.toString();
@@ -170,7 +170,7 @@ public class Search extends BaseActivityAnim {
 
                 //Add "search current sub" if it is not frontpage/all/random
 
-                    builder.positiveText("Search again")
+                    builder.positiveText("Search")
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
@@ -178,7 +178,9 @@ public class Search extends BaseActivityAnim {
                                     i.putExtra(Search.EXTRA_TERM, where);
                                     i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
                                     startActivity(i);
+                                    overridePendingTransition(0, 0);
                                     finish();
+                                    overridePendingTransition(0, 0);
                                 }
                             });
 
