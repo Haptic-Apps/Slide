@@ -59,9 +59,12 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
     private int pastVisiblesItems;
 
     @NonNull
-    private RecyclerView.LayoutManager createLayoutManager(int orientation) {
-        final int numColumns;
+    private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
+        return new CatchStaggeredGridLayoutManager(numColumns, CatchStaggeredGridLayoutManager.VERTICAL);
+    }
 
+    private int getNumColumns(final int orientation) {
+        final int numColumns;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             numColumns = Reddit.dpWidth;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
@@ -69,9 +72,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         } else {
             numColumns = 1;
         }
-
-        return new CatchStaggeredGridLayoutManager(numColumns, CatchStaggeredGridLayoutManager.VERTICAL);
-
+        return numColumns;
     }
 
     @Override
@@ -81,7 +82,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager =
-                createLayoutManager(getResources().getConfiguration().orientation);
+                createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
 
         rv.setLayoutManager(mLayoutManager);
         if (SettingValues.fab) {
@@ -306,25 +307,14 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-
         super.onConfigurationChanged(newConfig);
-        int currentOrientation = newConfig.orientation;
 
-        int i = 0;
+        final int currentOrientation = newConfig.orientation;
 
+        final CatchStaggeredGridLayoutManager mLayoutManager =
+                (CatchStaggeredGridLayoutManager) rv.getLayoutManager();
 
-        if (rv.getAdapter() != null) {
-            int[] firstVisibleItems;
-            firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(null);
-            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                i = firstVisibleItems[0];
-            }
-        }
-        final RecyclerView.LayoutManager mLayoutManager = createLayoutManager(currentOrientation);
-        rv.setLayoutManager(mLayoutManager);
-
-        rv.getLayoutManager().scrollToPosition(i);
-
+        mLayoutManager.setSpanCount(getNumColumns(currentOrientation));
     }
 
     @Override

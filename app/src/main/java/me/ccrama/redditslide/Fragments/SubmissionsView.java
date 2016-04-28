@@ -63,23 +63,14 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-
         super.onConfigurationChanged(newConfig);
 
-        int i = 0;
-        if (rv.getAdapter() != null) {
-            int[] firstVisibleItems;
+        final int currentOrientation = newConfig.orientation;
 
-            firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(null);
-            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                i = firstVisibleItems[0];
-            }
-        }
+        final CatchStaggeredGridLayoutManager mLayoutManager =
+                (CatchStaggeredGridLayoutManager) rv.getLayoutManager();
 
-        final RecyclerView.LayoutManager mLayoutManager = createLayoutManager(newConfig.orientation);
-        rv.setLayoutManager(mLayoutManager);
-        rv.getLayoutManager().scrollToPosition(i);
-
+        mLayoutManager.setSpanCount(getNumColumns(currentOrientation));
     }
 
     @Override
@@ -97,7 +88,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         rv.setHasFixedSize(true);
 
         final RecyclerView.LayoutManager mLayoutManager;
-        mLayoutManager = createLayoutManager(getResources().getConfiguration().orientation);
+        mLayoutManager = createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
 
         if (!(getActivity() instanceof SubredditView)) {
             v.findViewById(R.id.back).setBackground(null);
@@ -289,9 +280,12 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     }
 
     @NonNull
-    private RecyclerView.LayoutManager createLayoutManager(int orientation) {
-        final int numColumns;
+    private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
+        return new CatchStaggeredGridLayoutManager(numColumns, CatchStaggeredGridLayoutManager.VERTICAL);
+    }
 
+    private int getNumColumns(final int orientation) {
+        final int numColumns;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             numColumns = Reddit.dpWidth;
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT && SettingValues.dualPortrait) {
@@ -299,10 +293,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         } else {
             numColumns = 1;
         }
-
-        return new CatchStaggeredGridLayoutManager(numColumns, CatchStaggeredGridLayoutManager.VERTICAL);
-
+        return numColumns;
     }
+
 
     public void doAdapter() {
         mSwipeRefreshLayout.post(new Runnable() {
