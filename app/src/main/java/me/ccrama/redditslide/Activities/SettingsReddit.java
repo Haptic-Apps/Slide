@@ -89,10 +89,12 @@ public class SettingsReddit extends BaseActivityAnim {
 
                             if (isChecked) {
                                 (findViewById(R.id.nsfwrpev)).setEnabled(true);
-                                ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(Boolean.parseBoolean(prefs.data("no_profanity")));
+                                findViewById(R.id.nsfwrpev_text).setAlpha(1f);
+                                ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(true);
                             } else {
                                 ((SwitchCompat) findViewById(R.id.nsfwrpev)).setChecked(true);
                                 (findViewById(R.id.nsfwrpev)).setEnabled(false);
+                                findViewById(R.id.nsfwrpev_text).setAlpha(0.25f);
                             }
                         }
                     });
@@ -103,6 +105,7 @@ public class SettingsReddit extends BaseActivityAnim {
                     if (!((SwitchCompat) findViewById(R.id.nsfwcontent)).isChecked()) {
                         thumbnails.setChecked(true);
                         thumbnails.setEnabled(false);
+                        findViewById(R.id.nsfwrpev_text).setAlpha(0.25f);
                     } else {
                         thumbnails.setChecked(Boolean.parseBoolean(prefs.data("no_profanity")));
                     }
@@ -119,7 +122,6 @@ public class SettingsReddit extends BaseActivityAnim {
                 //Thumbnail type
                 String thumbType = String.valueOf(prefs.data("media"));
                 ((TextView) findViewById(R.id.thumbtext)).setText(thumbType.equals("on") ? getString(R.string.thumb_type_always) : thumbType.equals("off") ? getString(R.string.thumb_type_off) : getString(R.string.thumb_type_sub));
-
 
                 findViewById(R.id.thumbmode).setOnClickListener(new View.OnClickListener() {
                     @Override

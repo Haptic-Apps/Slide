@@ -301,7 +301,7 @@
   <string name="settings_disable_nsfw_photo">Tüm İİUD fotoğrafları gizle</string>
   <string name="settings_store_history">Geçmişi kaydet</string>
   <string name="settings_confirm_exit">Çıkış Onayı kutusu</string>
-  <string name="settings_fastscroll">Üst yorumlarda gezin</string>
+  <string name="settings_commentnav">Üst yorumlarda gezin</string>
   <string name="share_link">Bağlantıyı paylaş</string>
   <string name="share_image">Resmi paylaş</string>
   <string name="settings_libs">Açık kaynak kod kütüphaneleri</string>

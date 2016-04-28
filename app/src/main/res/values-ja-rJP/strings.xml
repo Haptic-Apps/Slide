@@ -346,7 +346,7 @@
   <string name="settings_store_history">履歴を保存</string>
   <string name="settings_store_nsfw_history">NSFW 履歴を保存</string>
   <string name="settings_confirm_exit">終了ダイアログを確認</string>
-  <string name="settings_fastscroll">親コメント間を移動</string>
+  <string name="settings_commentnav">親コメント間を移動</string>
   <string name="share_link">リンクを共有</string>
   <string name="posts_hidden_forever">投稿を永久に隠す</string>
   <string name="share_image">画像を共有</string>
@@ -524,7 +524,7 @@
   <string name="fab_disabled">無効</string>
   <string name="handling_internal_browser">内部ブラウザーを使用する</string>
   <string name="handling_external_browser">外部ブラウザーを使用する</string>
-  <string name="settings_fastscroll_description">最下段のナビ矢印付きバーを有効にする</string>
+  <string name="settings_commentnav_description">最下段のナビ矢印付きバーを有効にする</string>
   <string name="settings_comment_collapse">コメントを完全に折りたたむ</string>
   <string name="settings_comment_collapse_description">コメントのアニメーションも無効にします</string>
   <string name="settings_comment_collapse_default">デフォルトで子コメントを畳む</string>

@@ -367,7 +367,7 @@
   <string name="settings_store_history">Verlauf speichern</string>
   <string name="settings_store_nsfw_history">NSFW Verlauf speichern</string>
   <string name="settings_confirm_exit">Beenden von Slide bestätigen</string>
-  <string name="settings_fastscroll">Zwischen Kommentaren navigieren</string>
+  <string name="settings_commentnav">Zwischen Kommentaren navigieren</string>
   <string name="share_link">Link teilen</string>
   <string name="posts_hidden_forever">Beiträge für immer ausgeblendet</string>
   <string name="share_image">Bild teilen</string>
@@ -552,7 +552,7 @@
   <string name="fab_disabled">Deaktiviert</string>
   <string name="handling_internal_browser">In internem Browser öffnen</string>
   <string name="handling_external_browser">In externem Browser öffnen</string>
-  <string name="settings_fastscroll_description">Aktiviert eine Leiste mit Navigationspfeilen auf der Unterseite</string>
+  <string name="settings_commentnav_description">Aktiviert eine Leiste mit Navigationspfeilen auf der Unterseite</string>
   <string name="settings_comment_collapse">Kommentare komplett zusammenklappen</string>
   <string name="settings_comment_collapse_description">Deaktiviert Animationen in den Kommentaren</string>
   <string name="settings_comment_collapse_default">Untergeordnete Kommentare standardmäßig zusammenklappen</string>

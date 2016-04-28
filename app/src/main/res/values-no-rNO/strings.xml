@@ -352,7 +352,7 @@
   <string name="settings_store_history">Lagringshistorikk</string>
   <string name="settings_store_nsfw_history">Lagre NSFW-historikk</string>
   <string name="settings_confirm_exit">Bekreft lukking av appen</string>
-  <string name="settings_fastscroll">Hurtignavigering i kommentarer</string>
+  <string name="settings_commentnav">Hurtignavigering i kommentarer</string>
   <string name="share_link">Del lenke</string>
   <string name="posts_hidden_forever">Innlegg skjult for alltid</string>
   <string name="share_image">Del bilde</string>
@@ -538,7 +538,7 @@
   <string name="fab_disabled">Deaktivert</string>
   <string name="handling_internal_browser">Bruk intern nettleser</string>
   <string name="handling_external_browser">Bruk ekstern nettleser</string>
-  <string name="settings_fastscroll_description">Aktiverer en verktøyslinje på bunnen med navigasjonspiler</string>
+  <string name="settings_commentnav_description">Aktiverer en verktøyslinje på bunnen med navigasjonspiler</string>
   <string name="settings_comment_collapse">Kollaps kommentarer helt</string>
   <string name="settings_comment_collapse_description">Deaktiverer også kommentaranimasjoner</string>
   <string name="settings_comment_collapse_default">Kollaps barnekommentarer som standard</string>

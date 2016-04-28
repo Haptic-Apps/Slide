@@ -298,7 +298,7 @@ public class CommentPage extends Fragment {
         }
         if (fab != null)
             fab.show();
-        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header), v.findViewById(R.id.progress), SettingValues.commentAutoHide?v.findViewById(R.id.fastscroll):null) {
+        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header), v.findViewById(R.id.progress), SettingValues.commentAutoHide?v.findViewById(R.id.commentnav):null) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -321,7 +321,7 @@ public class CommentPage extends Fragment {
         };
 
         rv.addOnScrollListener(toolbarScroll);
-        fastScroll = v.findViewById(R.id.fastscroll);
+        fastScroll = v.findViewById(R.id.commentnav);
         if (!SettingValues.fastscroll) {
             fastScroll.setVisibility(View.GONE);
         } else {

@@ -346,7 +346,7 @@
   <string name="settings_store_history">保存瀏覽歷史</string>
   <string name="settings_store_nsfw_history">保存 NSFW 瀏覽歷史</string>
   <string name="settings_confirm_exit">確認退出對話框</string>
-  <string name="settings_fastscroll">在上下層留言間移動</string>
+  <string name="settings_commentnav">在上下層留言間移動</string>
   <string name="share_link">分享連結</string>
   <string name="posts_hidden_forever">永久隱藏的貼文</string>
   <string name="share_image">分享圖片</string>
@@ -524,7 +524,7 @@
   <string name="fab_disabled">已停用</string>
   <string name="handling_internal_browser">使用內建瀏覽器</string>
   <string name="handling_external_browser">使用外部瀏覽器</string>
-  <string name="settings_fastscroll_description">啟用在畫面下方的瀏覽按鈕工具列</string>
+  <string name="settings_commentnav_description">啟用在畫面下方的瀏覽按鈕工具列</string>
   <string name="settings_comment_collapse">完全摺疊留言</string>
   <string name="settings_comment_collapse_description">同時會關閉留言動畫</string>
   <string name="settings_comment_collapse_default">預設摺疊下層留言</string>
