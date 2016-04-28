@@ -698,16 +698,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doScoreText(CommentViewHolder holder, Comment comment, int offset) {
         String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString = new SpannableStringBuilder();
-        int sc = comment.getScore();
-
-        switch (comment.getVote()) {
-            case UPVOTE:
-                sc -= 1;
-                break;
-            case DOWNVOTE:
-                sc += 1;
-                break;
-        }
 
         SpannableStringBuilder author = new SpannableStringBuilder(" " + comment.getAuthor() + " ");
         int authorcolor = Palette.getFontColorUser(comment.getAuthor());
@@ -725,17 +715,28 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         titleString.append(author);
-
         titleString.append(spacer);
 
         String scoreText;
         if (comment.isScoreHidden()) {
             scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
         } else {
-            scoreText = String.format(Locale.getDefault(), "%d", sc + offset);
+            scoreText = String.format(Locale.getDefault(), "%d", comment.getScore() + offset);
         }
         SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
+
         int scoreColor;
+        switch (ActionStates.getVoteDirection(comment)) {
+            case UPVOTE:
+                scoreColor = (holder.textColorUp);
+                break;
+            case DOWNVOTE:
+                scoreColor = (holder.textColorDown);
+                break;
+            case NO_VOTE:
+                scoreColor = (holder.textColorRegular);
+                break;
+        }
 
         if (up.contains(comment.getFullName())) {
             scoreColor = (holder.textColorUp);
@@ -749,7 +750,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             score = new SpannableStringBuilder("0");
         }
         if (!scoreText.contains("[")) {
-            score.append(" " + mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
+            score.append(String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.points, comment.getScore() + offset)));
         }
         score.setSpan(new ForegroundColorSpan(scoreColor), 0, score.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
