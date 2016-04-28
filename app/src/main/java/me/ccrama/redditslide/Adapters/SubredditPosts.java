@@ -22,6 +22,7 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
@@ -294,6 +295,8 @@ public class SubredditPosts implements PostLoader {
 
 
             loadPhotos(filteredSubmissions);
+            HasSeen.setHasSeenSubmission(filteredSubmissions);
+
             SubmissionCache.cacheSubmissions(filteredSubmissions, context, subreddit);
 
             if (reset || offline || posts == null) {

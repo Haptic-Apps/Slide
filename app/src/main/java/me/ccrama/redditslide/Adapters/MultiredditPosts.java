@@ -20,6 +20,7 @@ import java.util.List;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
@@ -231,6 +232,7 @@ public class MultiredditPosts implements PostLoader {
                 if (!SettingValues.synccitName.isEmpty() && !offline) {
                     new MySynccitReadTask().execute(ids);
                 }
+                HasSeen.setHasSeenSubmission(filteredSubmissions);
                 loadPhotos(filteredSubmissions);
                 if (reset || offline || posts == null) {
                     posts = new ArrayList<>(new LinkedHashSet(filteredSubmissions));

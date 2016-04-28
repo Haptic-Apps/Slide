@@ -73,7 +73,6 @@ public class ImageLoaderUtils {
                 .diskCache(discCache)
                 .threadPoolSize(4)
                 .defaultDisplayImageOptions(options)
-                .memoryCacheSize(memory)
                 .imageDownloader(new BaseImageDownloader(context))
                 .build();
 

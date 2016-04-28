@@ -2,16 +2,15 @@ package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.UserContributionPaginator;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.util.LogUtil;
@@ -71,8 +70,8 @@ public class ContributionPosts extends GeneralPosts {
                         filteredSubmissions.add(c);
                     }
                 }
-                Log.v(LogUtil.getTag(), "SIZE IS " + filteredSubmissions.size());
 
+                HasSeen.setHasSeenContrib(filteredSubmissions);
                 if (reset || posts == null) {
                     posts = filteredSubmissions;
                     start = -1;
