@@ -158,7 +158,7 @@ public class CommentPage extends Fragment {
     }
 
     public void doTopBar() {
-        final View subtractHeight = v.findViewById(R.id.locked);
+        final View subtractHeight = v.findViewById(R.id.loadall);
         toSubtract = 4;
         final View header = v.findViewById(R.id.header);
         v.findViewById(R.id.np).setVisibility(View.VISIBLE);
@@ -175,13 +175,16 @@ public class CommentPage extends Fragment {
                 public void onClick(View v) {
                     doRefresh(true);
 
-                    toSubtract++;
+                    if (locked || (adapter != null && adapter.submission != null && adapter.submission.isLocked())) {
+                    } else {
+                        toSubtract --;
+                    }
+
+                    headerHeight = header.getHeight()- (subtractHeight.getHeight() * toSubtract);
                     v.findViewById(R.id.loadall).setVisibility(View.GONE);
 
-                    headerHeight = header.getHeight();
-
                     if (adapter != null)
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyItemChanged(0);
 
                     //avoid crashes when load more is clicked before loading is finished
                     if (comments.mLoadData != null) comments.mLoadData.cancel(true);

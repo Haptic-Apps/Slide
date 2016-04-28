@@ -63,6 +63,7 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
         }
     }
 
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         verticalOffset += dy;
