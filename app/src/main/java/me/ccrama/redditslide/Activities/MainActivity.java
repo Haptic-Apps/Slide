@@ -67,6 +67,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.lusfold.androidkeyvaluestore.core.KVManger;
 
@@ -782,7 +783,7 @@ public class MainActivity extends BaseActivity {
                     protected View doInBackground(View... params) {
                         try {
                             m = new AccountManager(Authentication.reddit);
-                            JsonNode node = m.getFlairChoicesRootNode(subreddit);
+                            JsonNode node = m.getFlairChoicesRootNode(subreddit, null);
                             flairs = m.getFlairChoices(subreddit, node);
 
                             FlairTemplate currentF = m.getCurrentFlair(subreddit, node);

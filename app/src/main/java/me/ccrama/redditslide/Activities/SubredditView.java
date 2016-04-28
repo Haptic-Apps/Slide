@@ -44,6 +44,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
@@ -721,8 +722,10 @@ public class SubredditView extends BaseActivityAnim {
                         protected View doInBackground(View... params) {
                             try {
                                 m = new AccountManager(Authentication.reddit);
-                                flairs = m.getFlairChoices(subreddit);
-                                FlairTemplate currentF = m.getCurrentFlair(subreddit);
+                                JsonNode node = m.getFlairChoicesRootNode(subreddit, null);
+                                flairs = m.getFlairChoices(subreddit, node);
+
+                                FlairTemplate currentF = m.getCurrentFlair(subreddit, node);
                                 if (currentF != null) {
                                     if (currentF.getText().isEmpty()) {
                                         current = ("[" + currentF.getCssClass() + "]");
