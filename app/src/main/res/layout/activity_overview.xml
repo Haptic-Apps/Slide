@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="?attr/activity_background">
 
-    <FrameLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -42,7 +42,7 @@
                 android:inflatedId="@+id/sliding_tabs"
                 android:layout="@layout/activity_overview_tabs" />
         </android.support.design.widget.AppBarLayout>
-    </FrameLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
     <ListView
         android:id="@+id/drawerlistview"
