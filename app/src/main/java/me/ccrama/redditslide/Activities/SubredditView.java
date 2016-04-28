@@ -310,7 +310,28 @@ public class SubredditView extends BaseActivityAnim {
         pager.setAdapter(adapter);
         pager.setCurrentItem(1);
         doSubSidebar(subreddit);
-
+        mToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[] firstVisibleItems;
+                int pastVisiblesItems = 0;
+                firstVisibleItems = ((CatchStaggeredGridLayoutManager) ((SubmissionsView) (adapter.getCurrentFragment())).rv.getLayoutManager()).findFirstVisibleItemPositions(null);
+                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                    for (int firstVisibleItem : firstVisibleItems) {
+                        pastVisiblesItems = firstVisibleItem;
+                    }
+                }
+                if (pastVisiblesItems > 8) {
+                    ((SubmissionsView) (adapter.getCurrentFragment())).rv.scrollToPosition(0);
+                    header.animate()
+                            .translationY(header.getHeight())
+                            .setInterpolator(new LinearInterpolator())
+                            .setDuration(180);
+                } else {
+                    ((SubmissionsView) (adapter.getCurrentFragment())).rv.smoothScrollToPosition(0);
+                }
+            }
+        });
 
     }
 

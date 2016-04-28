@@ -478,15 +478,46 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onTabReselected(TabLayout.Tab tab) {
                             super.onTabReselected(tab);
-                            ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
-
+                            int[] firstVisibleItems;
+                            int pastVisiblesItems = 0;
+                            firstVisibleItems = ((CatchStaggeredGridLayoutManager) (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())).findFirstVisibleItemPositions(null);
+                            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                                for (int firstVisibleItem : firstVisibleItems) {
+                                    pastVisiblesItems = firstVisibleItem;
+                                }
+                            }
+                            if (pastVisiblesItems > 8) {
+                                ((SubmissionsView) adapter.getCurrentFragment()).rv.scrollToPosition(0);
+                                header.animate()
+                                        .translationY(header.getHeight())
+                                        .setInterpolator(new LinearInterpolator())
+                                        .setDuration(180);
+                            } else {
+                                ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
+                            }
                         }
                     });
         } else {
             mToolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
+                    int[] firstVisibleItems;
+                    int pastVisiblesItems = 0;
+                    firstVisibleItems = ((CatchStaggeredGridLayoutManager) (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())).findFirstVisibleItemPositions(null);
+                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                        for (int firstVisibleItem : firstVisibleItems) {
+                            pastVisiblesItems = firstVisibleItem;
+                        }
+                    }
+                    if (pastVisiblesItems > 8) {
+                        ((SubmissionsView) adapter.getCurrentFragment()).rv.scrollToPosition(0);
+                        header.animate()
+                                .translationY(header.getHeight())
+                                .setInterpolator(new LinearInterpolator())
+                                .setDuration(180);
+                    } else {
+                        ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
+                    }
                 }
             });
         }

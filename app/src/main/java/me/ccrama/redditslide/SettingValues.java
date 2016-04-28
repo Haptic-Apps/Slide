@@ -276,6 +276,13 @@ public class SettingValues {
     public static CommentSort getCommentSorting(String sub) {
         return CommentSort.valueOf(prefs.getString("defaultComment" + sub.toLowerCase(), defaultCommentSorting.name()));
     }
+    public static void setDefaultSubmissionSorting(Sorting sort, String subreddit) {
+        prefs.edit().putString("defaultSort" + subreddit.toLowerCase(), sort.name()).apply();
+    }
+
+    public static Sorting getSubmissionSorting(String sub) {
+        return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(), defaultCommentSorting.name()));
+    }
 
     public enum ColorIndicator {
         CARD_BACKGROUND, TEXT_COLOR, NONE

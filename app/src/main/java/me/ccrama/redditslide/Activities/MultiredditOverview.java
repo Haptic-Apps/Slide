@@ -164,7 +164,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return true;
 
             case R.id.subs:
-                ((DrawerLayout)findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
+                ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
                 return true;
             case R.id.action_shadowbox:
                 if (UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
@@ -250,16 +250,6 @@ public class MultiredditOverview extends BaseActivityAnim {
                             .show();
             }
         }.execute();
-        tabs.setOnTabSelectedListener(
-                new TabLayout.ViewPagerOnTabSelectedListener(pager) {
-                    @Override
-                    public void onTabReselected(TabLayout.Tab tab) {
-                        super.onTabReselected(tab);
-                        ((MultiredditView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
-
-                    }
-                });
-
 
     }
 
@@ -280,7 +270,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                     i++;
                 }
                 LogUtil.v("Chosen is " + i);
-                if(pager.getAdapter() != null) {
+                if (pager.getAdapter() != null) {
                     switch (i) {
                         case 0:
                             Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.HOT);
@@ -413,7 +403,33 @@ public class MultiredditOverview extends BaseActivityAnim {
                     Window window = this.getWindow();
                     window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(0).getDisplayName()));
                 }
+                final View header = findViewById(R.id.header);
+                tabs.setOnTabSelectedListener(
+                        new TabLayout.ViewPagerOnTabSelectedListener(pager) {
+                            @Override
+                            public void onTabReselected(TabLayout.Tab tab) {
+                                super.onTabReselected(tab);
+                                int[] firstVisibleItems;
+                                int pastVisiblesItems = 0;
+                                firstVisibleItems = ((CatchStaggeredGridLayoutManager) (((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager())).findFirstVisibleItemPositions(null);
+                                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                                    for (int firstVisibleItem : firstVisibleItems) {
+                                        pastVisiblesItems = firstVisibleItem;
+                                    }
+                                }
+                                if (pastVisiblesItems > 8) {
+                                    ((MultiredditView) adapter.getCurrentFragment()).rv.scrollToPosition(0);
+                                    if (header.getTranslationY() == 0)
+                                        header.animate()
+                                                .translationY(-header.getHeight())
+                                                .setInterpolator(new LinearInterpolator())
+                                                .setDuration(180);
+                                } else {
+                                    ((MultiredditView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
+                                }
 
+                            }
+                        });
                 findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0).getDisplayName()));
             }
         } catch (NullPointerException e) {
@@ -445,7 +461,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
         ArrayList<String> toSort = new ArrayList<>();
 
-        for(MultiSubreddit s : current.getSubreddits()){
+        for (MultiSubreddit s : current.getSubreddits()) {
             toSort.add(s.getDisplayName().toLowerCase());
         }
 
@@ -546,7 +562,7 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-      if (requestCode == 940) {
+        if (requestCode == 940) {
             if (adapter != null && adapter.getCurrentFragment() != null) {
                 if (resultCode == RESULT_OK) {
                     LogUtil.v("Doing hide posts");
