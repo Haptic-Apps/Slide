@@ -7,11 +7,13 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +32,7 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
@@ -301,11 +304,18 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
         if (holder2 instanceof SpacerViewHolder) {
             View header = (context).findViewById(R.id.header);
-            int height = header.getHeight();
+
+            //Need to add a little more top margin to the view
+            final DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+            final int TOP_OFFSET = Math.round((Constants.TOP_MARGIN_SUBMISSIONS_OFFSET
+                    / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)));
+            int height = header.getHeight() + TOP_OFFSET;
+
             if (height == 0) {
                 header.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                height = header.getMeasuredHeight();
+                height = header.getMeasuredHeight() + TOP_OFFSET;
                 holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), height));
+
                 if (listView.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
                     CatchStaggeredGridLayoutManager.LayoutParams layoutParams = new CatchStaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
                     layoutParams.setFullSpan(true);

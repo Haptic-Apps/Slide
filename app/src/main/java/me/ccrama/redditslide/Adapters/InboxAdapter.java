@@ -193,8 +193,9 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
                             .title(Html.fromHtml(comment.getSubject()));
 
-                    if(comment.getAuthor()!=null)
-                    b.sheet(1, profile, "/u/" + comment.getAuthor());
+                    if (comment.getAuthor()!=null) {
+                        b.sheet(1, profile, "/u/" + comment.getAuthor());
+                    }
 
                     String read = mContext.getString(R.string.mail_mark_read);
                     Drawable rDrawable = hide;
@@ -279,16 +280,15 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         new AsyncSetRead(true).execute(comment);
 
                         messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
-
                     }
                 }
             });
 
             setViews(comment.getDataNode().get("body_html").asText(), "FORCE_LINK_CLICK", messageViewHolder);
-
         }
+
         if (viewHolder instanceof SpacerViewHolder) {
-            viewHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(viewHolder.itemView.getWidth(), ((Activity) (mContext)).findViewById(R.id.header).getHeight()));
+            viewHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(viewHolder.itemView.getWidth(), ((Activity) mContext).findViewById(R.id.header).getHeight()));
         }
     }
 

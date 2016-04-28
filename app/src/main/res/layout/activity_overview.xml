@@ -14,8 +14,7 @@
             android:layout_width="1dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="3dp"
-
-            android:layout_gravity="top|right"
+            android:layout_gravity="top|end"
             android:layout_height="1dp" />
 
         <me.ccrama.redditslide.Views.ToggleSwipeViewPager
@@ -42,10 +41,7 @@
                 android:layout_height="wrap_content"
                 android:inflatedId="@+id/sliding_tabs"
                 android:layout="@layout/activity_overview_tabs" />
-
         </android.support.design.widget.AppBarLayout>
-
-
     </FrameLayout>
 
     <ListView
