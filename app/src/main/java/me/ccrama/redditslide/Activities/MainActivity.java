@@ -2289,6 +2289,9 @@ public class MainActivity extends BaseActivity {
             case R.id.save:
                 saveOffline(((SubmissionsView) adapter.getCurrentFragment()).posts.posts, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                 return true;
+            case R.id.share:
+                Reddit.defaultShareText("Slide for Reddit", "https://play.google.com/store/apps/details?id=me.ccrama.redditslide", MainActivity.this);
+                return true;
             case R.id.submit: {
                 Intent i = new Intent(this, Submit.class);
                 i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
