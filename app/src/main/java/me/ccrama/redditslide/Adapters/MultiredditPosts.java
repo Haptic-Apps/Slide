@@ -26,6 +26,7 @@ import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SubmissionCache;
 import me.ccrama.redditslide.Synccit.MySynccitReadTask;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.util.LogUtil;
@@ -216,37 +217,27 @@ public class MultiredditPosts implements PostLoader {
                     start = posts.size() + 1;
                 }
 
-
-                List<Submission> filteredSubmissions = new ArrayList<>();
-                for (Submission s : submissions) {
-                    if (!PostMatch.doesMatch(s, paginator.getMultiReddit().getDisplayName(), false)) {
-                        filteredSubmissions.add(s);
-                    }
+                if (reset || offline || posts == null) {
+                    posts = new ArrayList<>(new LinkedHashSet(submissions));
+                    start = -1;
+                } else {
+                    posts.addAll(submissions);
+                    posts = new ArrayList<>(new LinkedHashSet(posts));
+                    offline = false;
                 }
-                String[] ids = new String[filteredSubmissions.size()];
+                if (!usedOffline)
+                    OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(), false, context).overwriteSubmissions(posts).writeToMemory(c);
+
+                String[] ids = new String[submissions.size()];
                 int i = 0;
-                for (Submission s : filteredSubmissions) {
+                for (Submission s : submissions) {
                     ids[i] = s.getId();
                     i++;
                 }
                 if (!SettingValues.synccitName.isEmpty() && !offline) {
                     new MySynccitReadTask().execute(ids);
                 }
-                HasSeen.setHasSeenSubmission(filteredSubmissions);
-                loadPhotos(filteredSubmissions);
-                if (reset || offline || posts == null) {
-                    posts = new ArrayList<>(new LinkedHashSet(filteredSubmissions));
-                    start = -1;
-                } else {
-                    posts.addAll(filteredSubmissions);
-                    posts = new ArrayList<>(new LinkedHashSet(posts));
-                    offline = false;
-                }
-
                 final int finalStart = start;
-
-                if (!usedOffline)
-                    OfflineSubreddit.getSubreddit("multi" + multiReddit.getDisplayName().toLowerCase(), false, context).overwriteSubmissions(posts).writeToMemory(c);
 
                 // update online
                 displayer.updateSuccess(posts, finalStart);
@@ -319,6 +310,17 @@ public class MultiredditPosts implements PostLoader {
                 }
 
             }
+
+            List<Submission> filteredSubmissions = new ArrayList<>();
+            for (Submission s : things) {
+                if (!PostMatch.doesMatch(s, paginator.getMultiReddit().getDisplayName(), false)) {
+                    filteredSubmissions.add(s);
+                }
+            }
+
+            HasSeen.setHasSeenSubmission(filteredSubmissions);
+            SubmissionCache.cacheSubmissions(filteredSubmissions, context, paginator.getMultiReddit().getDisplayName());
+            loadPhotos(filteredSubmissions);
 
             return things;
         }

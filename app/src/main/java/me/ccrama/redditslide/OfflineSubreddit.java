@@ -267,10 +267,9 @@ public class OfflineSubreddit {
         if (submissions != null) {
             savedSubmission = submissions.get(index);
             submissions.remove(index);
-            if (save) {
-                savedIndex = index;
-                writeToMemoryNoStorage();
-            }
+            savedIndex = index;
+            writeToMemoryNoStorage();
+
         }
     }
 
