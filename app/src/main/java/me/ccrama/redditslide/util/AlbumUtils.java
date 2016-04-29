@@ -194,7 +194,7 @@ public class AlbumUtils {
                                 target[pos] = obj.get("data");
                             }
                             done += 1;
-                            if (done == target.length -1) {
+                            if (done == target.length) {
                                 ArrayList<JsonElement> jsons = new ArrayList<>();
                                 for(JsonElement el : target){
                                     if(el != null)

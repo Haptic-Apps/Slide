@@ -7,6 +7,7 @@ import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
@@ -32,7 +33,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
     private Filter filter;
     public ArrayList<String> baseItems;
     public ArrayList<String> fitems;
-    public ListView parent;
+    public ListView parentL;
     public boolean openInSubView = true;
 
     public SideArrayAdapter(Context context, ArrayList<String> objects, ArrayList<String> allSubreddits, ListView view) {
@@ -41,7 +42,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         filter = new SubFilter();
         fitems = new ArrayList<>(objects);
         baseItems = new ArrayList<>(objects);
-        parent = view;
+        parentL = view;
     }
 
     @Override
@@ -62,19 +63,29 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         }
         return filter;
     }
+
     int height;
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        if(position < fitems.size()) {
-            if (convertView == null || convertView.findViewById(R.id.height) == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
-            }
+        if (position < fitems.size()) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
+
             final TextView t =
                     ((TextView) convertView.findViewById(R.id.name));
             t.setText(fitems.get(position));
 
-            height  = convertView.getHeight();
+            if (height == 0) {
+                final View finalConvertView = convertView;
+                convertView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        height = finalConvertView.getHeight();
+                        finalConvertView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+            }
+
             final String subreddit = fitems.get(position).contains("+") ? fitems.get(position) : SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
             convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
@@ -104,18 +115,26 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 }
             });
         } else {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) convertView.findViewById(R.id.height).getLayoutParams();
-            params.height =(parent.getHeight() - (getCount() - 1)* height);
-            convertView.setLayoutParams(params);
+            if ((fitems.size() * height) < parentL.getHeight()) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) convertView.findViewById(R.id.height).getLayoutParams();
+                params.height = (parentL.getHeight() - (getCount() - 1) * height);
+                convertView.setLayoutParams(params);
+            } else {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) convertView.findViewById(R.id.height).getLayoutParams();
+                params.height = 0;
+                convertView.setLayoutParams(params);
+            }
         }
         return convertView;
     }
 
     @Override
-    public int getCount(){
+    public int getCount() {
         return fitems.size() + 1;
     }
+
     private class SubFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
