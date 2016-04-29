@@ -697,19 +697,21 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     public void doScoreText(CommentViewHolder holder, Comment comment, int offset) {
-        String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
+        final String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString = new SpannableStringBuilder();
-
-        SpannableStringBuilder author = new SpannableStringBuilder(" " + comment.getAuthor() + " ");
-        int authorcolor = Palette.getFontColorUser(comment.getAuthor());
+        SpannableStringBuilder author = new SpannableStringBuilder(comment.getAuthor());
+        final int authorcolor = Palette.getFontColorUser(comment.getAuthor());
 
         author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+            author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (Authentication.name != null && comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+            author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (submission != null && comment.getAuthor().toLowerCase().equals(submission.getAuthor().toLowerCase())) {
+            author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (authorcolor != 0) {
             author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
