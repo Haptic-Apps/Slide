@@ -419,15 +419,15 @@ public class MultiredditOverview extends BaseActivityAnim {
                                 }
                                 if (pastVisiblesItems > 8) {
                                     ((MultiredditView) adapter.getCurrentFragment()).rv.scrollToPosition(0);
-                                    if (header.getTranslationY() == 0)
+                                    if (header != null) {
                                         header.animate()
-                                                .translationY(-header.getHeight())
+                                                .translationY(header.getHeight())
                                                 .setInterpolator(new LinearInterpolator())
-                                                .setDuration(180);
+                                                .setDuration(0);
+                                    }
                                 } else {
                                     ((MultiredditView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
                                 }
-
                             }
                         });
                 findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0).getDisplayName()));
