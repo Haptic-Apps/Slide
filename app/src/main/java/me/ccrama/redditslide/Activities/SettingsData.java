@@ -70,9 +70,11 @@ public class SettingsData extends BaseActivityAnim {
                         if (((TextView) findViewById(R.id.lowquality)).getText().equals(getString(R.string.never))) {
                             single.setEnabled(false);
                             findViewById(R.id.imagelq_text).setAlpha(0.25f);
+                            findViewById(R.id.imagelq_subtext).setAlpha(0.25f);
                         } else {
                             single.setEnabled(true);
                             findViewById(R.id.imagelq_text).setAlpha(1f);
+                            findViewById(R.id.imagelq_subtext).setAlpha(1f);
                         }
                         single.setChecked(SettingValues.loadImageLq);
 
@@ -86,6 +88,7 @@ public class SettingsData extends BaseActivityAnim {
         if (((TextView) findViewById(R.id.lowquality)).getText().equals(getString(R.string.never))) {
             single.setEnabled(false);
             findViewById(R.id.imagelq_text).setAlpha(0.25f);
+            findViewById(R.id.imagelq_subtext).setAlpha(0.25f);
         }
 
     }
