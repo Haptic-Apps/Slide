@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -234,7 +235,20 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                 mediaScanIntent.setData(contentUri);
                                 MediaView.this.sendBroadcast(mediaScanIntent);
 
-                                GifUtils.doNotifGif(f.getAbsolutePath(), MediaView.this);
+                                final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
+                                shareIntent.setDataAndType(contentUri, "image/gif");
+                                PendingIntent contentIntent = PendingIntent.getActivity(MediaView.this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+                                Notification notif = new NotificationCompat.Builder(MediaView.this)
+                                        .setContentTitle(getString(R.string.gif_saved))
+                                        .setSmallIcon(R.drawable.savecontent)
+                                        .setContentIntent(contentIntent)
+                                        .build();
+
+                                NotificationManager mNotificationManager =
+                                        (NotificationManager) getSystemService(Activity.NOTIFICATION_SERVICE);
+                                mNotificationManager.notify(1, notif);
                             }
                         });
                     } catch (Exception e) {

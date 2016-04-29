@@ -2535,6 +2535,10 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                     if (positionOffset == 0) {
+                        header.animate()
+                                .translationY(0)
+                                .setInterpolator(new LinearInterpolator())
+                                .setDuration(180);
                         doSubSidebar(usedArray.get(position));
 
                         SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
@@ -2556,10 +2560,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onPageSelected(final int position) {
-                    header.animate()
-                            .translationY(0)
-                            .setInterpolator(new LinearInterpolator())
-                            .setDuration(180);
+
 
                     Reddit.currentPosition = position;
 
@@ -2573,8 +2574,6 @@ public class MainActivity extends BaseActivity {
 
                     themeSystemBars(usedArray.get(position));
                     setRecentBar(usedArray.get(position));
-
-
                 }
 
                 @Override
