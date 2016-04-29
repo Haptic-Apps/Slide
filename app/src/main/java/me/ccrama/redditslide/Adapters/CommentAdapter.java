@@ -717,14 +717,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         titleString.append(author);
         titleString.append(spacer);
 
-        String scoreText;
-        if (comment.isScoreHidden()) {
-            scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
-        } else {
-            scoreText = String.format(Locale.getDefault(), "%d", comment.getScore() + offset);
-        }
-        SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
-
         int scoreColor;
         switch (ActionStates.getVoteDirection(comment)) {
             case UPVOTE:
@@ -738,13 +730,40 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 break;
         }
 
+        //Whether or not this comment was made by this user
+        final boolean ownComment = comment.getAuthor().equals(Authentication.name);
+
         if (up.contains(comment.getFullName())) {
             scoreColor = (holder.textColorUp);
+
+            //User upvoted their own comment--don't mess with what the API returns
+            if (ownComment) {
+                offset = 0;
+            }
         } else if (down.contains(comment.getFullName())) {
             scoreColor = (holder.textColorDown);
+
+            //User downvoted their own comment--offset it by an additional -1
+            if (ownComment) {
+                --offset;
+            }
         } else {
             scoreColor = (holder.textColorRegular);
+
+            //User un-voted their own comment--offset it by an additional -1
+            if (ownComment) {
+                --offset;
+            }
         }
+
+        String scoreText;
+        if (comment.isScoreHidden()) {
+            scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
+        } else {
+            scoreText = String.format(Locale.getDefault(), "%d", comment.getScore() + offset);
+        }
+
+        SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
 
         if (score == null || score.toString().isEmpty()) {
             score = new SpannableStringBuilder("0");
