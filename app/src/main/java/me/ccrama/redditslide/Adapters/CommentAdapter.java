@@ -105,6 +105,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -935,9 +936,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 holder.commentOverflow.setVisibility(View.VISIBLE);
             }
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onSingleClick(View v) {
                     if (!currentlyEditingId.equals(comment.getFullName()))
 
                         if (SettingValues.swap) {
@@ -947,9 +948,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                 }
             });
-            holder.firstTextView.setOnClickListener(new View.OnClickListener() {
+
+            holder.firstTextView.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onSingleClick(View v) {
                     SpoilerRobotoTextView SpoilerRobotoTextView = (SpoilerRobotoTextView) v;
                     if (SettingValues.swap) {
                         doLongClick(holder, comment, baseNode, finalPos, finalPos1);
@@ -1016,9 +1018,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (submission.isArchived() || submission.isLocked())
                     firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
                 else {
-                    firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new View.OnClickListener() {
+                    firstHolder.itemView.findViewById(R.id.reply).setOnClickListener(new OnSingleClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onSingleClick(View v) {
                             final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
                             if (replyArea.getVisibility() == View.GONE) {
                                 expand(replyArea, true, true);
@@ -1044,9 +1046,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 });
                                 editingPosition = firstHolder.getAdapterPosition();
 
-                                firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
+                                firstHolder.itemView.findViewById(R.id.send).setOnClickListener(new OnSingleClickListener() {
                                     @Override
-                                    public void onClick(View v) {
+                                    public void onSingleClick(View v) {
                                         dataSet.refreshLayout.setRefreshing(true);
 
                                         if (SettingValues.fastscroll) {
@@ -1073,9 +1075,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                         }
                     });
-                    firstHolder.itemView.findViewById(R.id.discard).setOnClickListener(new View.OnClickListener() {
+                    firstHolder.itemView.findViewById(R.id.discard).setOnClickListener(new OnSingleClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onSingleClick(View v) {
                             firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
                             currentlyEditing = null;
                             editingPosition = -1;
@@ -1098,12 +1100,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 firstHolder.itemView.findViewById(R.id.innerSend).setVisibility(View.GONE);
                 firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
-
             }
 
-            firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
+            firstHolder.itemView.findViewById(R.id.more).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onSingleClick(View v) {
                     firstHolder.itemView.findViewById(R.id.menu).callOnClick();
                 }
             });
@@ -1127,7 +1128,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         } catch (Exception e) {
                             e.printStackTrace();
                             //sub probably has no flairs?
-
                         }
 
 
@@ -1138,9 +1138,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onPostExecute(final ArrayList<String> data) {
                         final boolean flair = (data != null && !data.isEmpty());
 
-                        edit.setOnClickListener(new View.OnClickListener() {
+                        edit.setOnClickListener(new OnSingleClickListener() {
                             @Override
-                            public void onClick(View v) {
+                            public void onSingleClick(View v) {
 
 
                                 int[] attrs = new int[]{R.attr.tint};
@@ -1394,10 +1394,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final View progress = holder.loading;
             progress.setVisibility(View.GONE);
-            holder.content.setOnClickListener(new View.OnClickListener() {
+            holder.content.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View v) {
-
+                public void onSingleClick(View v) {
                     if (baseNode.children.getChildrenIds().isEmpty()) {
                         String toGoTo = "https://reddit.com" + submission.getPermalink() + baseNode.comment.getComment().getId();
                         new OpenRedditLink(mContext, toGoTo, true);
@@ -1773,11 +1772,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     }
 
-                    baseView.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
+                    baseView.findViewById(R.id.mod).setOnClickListener(new OnSingleClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onSingleClick(View v) {
                             showModBottomSheet(mContext, baseNode, baseNode.getComment(), holder, reports, reports2);
-
                         }
                     });
                 } else {
@@ -1787,9 +1785,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             {
                 final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
                 if (Authentication.name != null && Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase()) && Authentication.didOnline) {
-                    edit.setOnClickListener(new View.OnClickListener() {
+                    edit.setOnClickListener(new OnSingleClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onSingleClick(View v) {
                             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 
                             final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
@@ -1860,9 +1858,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             {
                 final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
                 if (Authentication.name != null && Authentication.name.toLowerCase().equals(baseNode.getComment().getAuthor().toLowerCase()) && Authentication.didOnline) {
-                    delete.setOnClickListener(new View.OnClickListener() {
+                    delete.setOnClickListener(new OnSingleClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onSingleClick(View v) {
 
                             new AlertDialogWrapper.Builder(mContext)
                                     .setTitle(R.string.comment_delete)
@@ -1987,9 +1985,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     });
                     editingPosition = holder.getAdapterPosition();
                 }
-                reply.setOnClickListener(new View.OnClickListener() {
+                reply.setOnClickListener(new OnSingleClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onSingleClick(View v) {
                         expand(baseView, true);
                         replyArea.setVisibility(View.VISIBLE);
                         menu.setVisibility(View.GONE);
@@ -2032,9 +2030,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     }
                 });
-                send.setOnClickListener(new View.OnClickListener() {
+                send.setOnClickListener(new OnSingleClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onSingleClick(View v) {
                         currentlyEditingId = "";
                         backedText = "";
 
@@ -2060,9 +2058,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                     }
                 });
-                discard.setOnClickListener(new View.OnClickListener() {
+                discard.setOnClickListener(new OnSingleClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onSingleClick(View v) {
                         currentlyEditing = null;
                         editingPosition = -1;
                         currentlyEditingId = "";
@@ -2088,16 +2086,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             }
 
-            more.setOnClickListener(new View.OnClickListener() {
+            more.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onSingleClick(View v) {
                     showBottomSheet(mContext, holder, baseNode);
                 }
             });
-            upvote.setOnClickListener(new View.OnClickListener() {
+            upvote.setOnClickListener(new OnSingleClickListener() {
 
                 @Override
-                public void onClick(View v) {
+                public void onSingleClick(View v) {
                     doUnHighlighted(holder, baseNode.getComment(), baseNode, true);
                     if (up.contains(n.getFullName())) {
                         new Vote(v, mContext).execute(n);
@@ -2120,10 +2118,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 }
             });
-            downvote.setOnClickListener(new View.OnClickListener() {
+            downvote.setOnClickListener(new OnSingleClickListener() {
 
                 @Override
-                public void onClick(View v) {
+                public void onSingleClick(View v) {
 
                     doUnHighlighted(holder, baseNode.getComment(), baseNode, true);
 

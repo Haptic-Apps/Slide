@@ -28,6 +28,7 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -109,25 +110,25 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             holder.color.setBackgroundResource(R.drawable.circle);
             holder.color.getBackground().setColorFilter(Palette.getColor(sub.getDisplayName().toLowerCase()), PorterDuff.Mode.MULTIPLY);
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(context, SubredditView.class);
                     inte.putExtra(SubredditView.EXTRA_SUBREDDIT, sub.getDisplayName());
                     context.startActivityForResult(inte, 4);
                 }
             });
-            holder.overflow.setOnClickListener(new View.OnClickListener() {
+            holder.overflow.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(context, SubredditView.class);
                     inte.putExtra(SubredditView.EXTRA_SUBREDDIT, sub.getDisplayName());
                     context.startActivityForResult(inte, 4);
                 }
             });
-            holder.body.setOnClickListener(new View.OnClickListener() {
+            holder.body.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(context, SubredditView.class);
                     inte.putExtra(SubredditView.EXTRA_SUBREDDIT, sub.getDisplayName());
                     context.startActivityForResult(inte, 4);

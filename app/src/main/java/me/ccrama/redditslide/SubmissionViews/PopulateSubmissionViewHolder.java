@@ -86,6 +86,7 @@ import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 /**
@@ -100,9 +101,9 @@ public class PopulateSubmissionViewHolder {
     }
 
     private static void addClickFunctions(final View base, final ContentType.Type type, final Activity contextActivity, final Submission submission, final SubmissionViewHolder holder, final boolean full) {
-        base.setOnClickListener(new View.OnClickListener() {
+        base.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 if (NetworkUtil.isConnected(contextActivity) || (!NetworkUtil.isConnected(contextActivity) && ContentType.fullImage(type))) {
                     if (SettingValues.storeHistory && !full) {
                         if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
@@ -115,7 +116,6 @@ public class PopulateSubmissionViewHolder {
                     }
 
                     if (!PostMatch.openExternal(submission.getUrl()) || type == ContentType.Type.VIDEO) {
-
                         switch (type) {
                             case VID_ME:
                             case STREAMABLE:

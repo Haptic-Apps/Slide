@@ -126,6 +126,7 @@ import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -394,9 +395,9 @@ public class MainActivity extends BaseActivity {
                                     } else {
                                         title = getString(R.string.btn_view);
                                     }
-                                    Snackbar snack = Snackbar.make(pager, s.getTitle(), Snackbar.LENGTH_INDEFINITE).setAction(title, new View.OnClickListener() {
+                                    Snackbar snack = Snackbar.make(pager, s.getTitle(), Snackbar.LENGTH_INDEFINITE).setAction(title, new OnSingleClickListener() {
                                         @Override
-                                        public void onClick(View v) {
+                                        public void onSingleClick(View v) {
                                             Intent i = new Intent(MainActivity.this, Announcement.class);
                                             startActivity(i);
                                         }
@@ -737,9 +738,9 @@ public class MainActivity extends BaseActivity {
 
                 pinned.setVisibility(View.GONE);
 
-                submit.setOnClickListener(new View.OnClickListener() {
+                submit.setOnClickListener(new OnSingleClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onSingleClick(View view) {
                         Intent inte = new Intent(MainActivity.this, Submit.class);
                         inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                         MainActivity.this.startActivity(inte);
@@ -1399,9 +1400,9 @@ public class MainActivity extends BaseActivity {
 
             drawerSubList.addHeaderView(header, null, false);
             ((TextView) header.findViewById(R.id.name)).setText(Authentication.name);
-            header.findViewById(R.id.multi).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.multi).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     if (runAfterLoad == null) {
                         Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
                         MainActivity.this.startActivity(inte);
@@ -1409,61 +1410,61 @@ public class MainActivity extends BaseActivity {
                 }
             });
 
-            header.findViewById(R.id.discover).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.discover).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Discover.class);
                     MainActivity.this.startActivity(inte);
                 }
             });
 
-            header.findViewById(R.id.prof_click).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.prof_click).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
                     inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.saved).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.saved).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
                     inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
                     inte.putExtra(Profile.EXTRA_SAVED, true);
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.history).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.history).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
                     inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
                     inte.putExtra(Profile.EXTRA_HISTORY, true);
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.commented).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.commented).setOnClickListener(new OnSingleClickListener(){
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
                     inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
                     inte.putExtra(Profile.EXTRA_COMMENT, true);
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.submitted).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.submitted).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
                     inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
                     inte.putExtra(Profile.EXTRA_SUBMIT, true);
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.upvoted).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.upvoted).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
                     inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
                     inte.putExtra(Profile.EXTRA_UPVOTE, true);
@@ -1471,9 +1472,9 @@ public class MainActivity extends BaseActivity {
                 }
             });
 
-            header.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.submit).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Submit.class);
                     inte.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
                     MainActivity.this.startActivity(inte);
@@ -1584,16 +1585,16 @@ public class MainActivity extends BaseActivity {
                             LogUtil.v("Switching to " + accName);
                             if (!accName.equals(guest)) {
                                 if (!accounts.get(accName).isEmpty()) {
-                                    Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).remove("backedCreds").commit();
+                                    Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).remove("backedCreds").apply();
                                 } else {
                                     ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                                    Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).remove("backedCreds").commit();
+                                    Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).remove("backedCreds").apply();
                                 }
                                 Authentication.name = accName;
                             } else {
                                 Authentication.name = "LOGGEDOUT";
                                 Authentication.isLoggedIn = false;
-                                Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").commit();
+                                Authentication.authentication.edit().remove("lasttoken").remove("backedCreds").apply();
                             }
 
                             UserSubscriptions.switchAccounts();
@@ -1632,23 +1633,23 @@ public class MainActivity extends BaseActivity {
                     }
                 }
             });
-            header.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.add).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Login.class);
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.offline).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.offline).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
                     Reddit.forceRestart(MainActivity.this);
                 }
             });
-            header.findViewById(R.id.inbox).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.inbox).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Inbox.class);
                     MainActivity.this.startActivityForResult(inte, INBOX_RESULT);
                 }
@@ -1739,7 +1740,6 @@ public class MainActivity extends BaseActivity {
                                                         UserSubscriptions.switchAccounts();
                                                         Reddit.forceRestart(MainActivity.this, true);
                                                     }
-
                                                 }
                                                 if (!d) {
                                                     Authentication.name = "LOGGEDOUT";
@@ -1748,7 +1748,6 @@ public class MainActivity extends BaseActivity {
                                                     UserSubscriptions.switchAccounts();
                                                     Reddit.forceRestart(MainActivity.this, true);
                                                 }
-
                                             } else {
                                                 accounts.remove(accName);
                                                 keys.remove(accName);
@@ -1756,16 +1755,14 @@ public class MainActivity extends BaseActivity {
                                         }
                                     })
                                     .setPositiveButton(R.string.btn_cancel, null).show();
-
-
                         }
                     });
                 } else {
                     t.findViewById(R.id.remove).setVisibility(View.GONE);
                 }
-                t.setOnClickListener(new View.OnClickListener() {
+                t.setOnClickListener(new OnSingleClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onSingleClick(View v) {
                         if (!accName.equalsIgnoreCase(Authentication.name)) {
                             if (!accName.equals(guest)) {
                                 if (!accounts.get(accName).isEmpty()) {
@@ -1786,16 +1783,16 @@ public class MainActivity extends BaseActivity {
             }
 
 
-            header.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.add).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Login.class);
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.offline).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.offline).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
                     Reddit.forceRestart(MainActivity.this);
                 }
@@ -1808,18 +1805,18 @@ public class MainActivity extends BaseActivity {
             drawerSubList.addHeaderView(header, null, false);
             hea = header.findViewById(R.id.back);
 
-            header.findViewById(R.id.online).setOnClickListener(new View.OnClickListener() {
+            header.findViewById(R.id.online).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onSingleClick(View view) {
                     Reddit.appRestart.edit().remove("forceoffline").apply();
                     ((Reddit) getApplication()).forceRestart(MainActivity.this);
                 }
             });
 
         }
-        header.findViewById(R.id.manage).setOnClickListener(new View.OnClickListener() {
+        header.findViewById(R.id.manage).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 Intent i = new Intent(MainActivity.this, ManageHistory.class);
                 startActivity(i);
             }
@@ -1831,9 +1828,9 @@ public class MainActivity extends BaseActivity {
                 support.setVisibility(View.GONE);
             }
             else {
-                header.findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
+                header.findViewById(R.id.support).setOnClickListener(new OnSingleClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onSingleClick(View view) {
                         try {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
                         } catch (android.content.ActivityNotFoundException anfe) {
@@ -1878,9 +1875,9 @@ public class MainActivity extends BaseActivity {
             });
         }
 
-        header.findViewById(R.id.settings).setOnClickListener(new View.OnClickListener() {
+        header.findViewById(R.id.settings).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(MainActivity.this, Settings.class);
                 startActivity(i);
                 // Cancel sub loading because exiting the settings will reload it anyway
@@ -2913,9 +2910,9 @@ public class MainActivity extends BaseActivity {
         protected void onPostExecute(Void aVoid) {
             if (Authentication.mod) {
                 headerMain.findViewById(R.id.mod).setVisibility(View.VISIBLE);
-                headerMain.findViewById(R.id.mod).setOnClickListener(new View.OnClickListener() {
+                headerMain.findViewById(R.id.mod).setOnClickListener(new OnSingleClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onSingleClick(View view) {
                         if (UserSubscriptions.modOf != null && !UserSubscriptions.modOf.isEmpty()) {
                             Intent inte = new Intent(MainActivity.this, ModQueue.class);
                             MainActivity.this.startActivity(inte);
@@ -2927,9 +2924,9 @@ public class MainActivity extends BaseActivity {
             if (count != -1) {
                 int oldCount = Reddit.appRestart.getInt("inbox", 0);
                 if (count > oldCount) {
-                    final Snackbar s = Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new View.OnClickListener() {
+                    final Snackbar s = Snackbar.make(mToolbar, getResources().getQuantityString(R.plurals.new_messages, count - oldCount, count - oldCount), Snackbar.LENGTH_LONG).setAction(R.string.btn_view, new OnSingleClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onSingleClick(View v) {
                             Intent i = new Intent(MainActivity.this, Inbox.class);
                             i.putExtra(Inbox.EXTRA_UNREAD, true);
                             startActivity(i);
