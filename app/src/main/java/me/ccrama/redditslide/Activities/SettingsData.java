@@ -25,7 +25,6 @@ public class SettingsData extends BaseActivityAnim {
 
         final SwitchCompat single = (SwitchCompat) findViewById(R.id.imagelq);
 
-
         single.setChecked(SettingValues.loadImageLq);
         single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -68,10 +67,13 @@ public class SettingsData extends BaseActivityAnim {
                                 break;
                         }
                         ((TextView) findViewById(R.id.lowquality)).setText(SettingValues.lowResMobile ? (SettingValues.lowResAlways ? getString(R.string.datasave_always) : getString(R.string.datasave_mobile)) : getString(R.string.never));
-                        if (((TextView) findViewById(R.id.lowquality)).getText().equals(getString(R.string.never)))
+                        if (((TextView) findViewById(R.id.lowquality)).getText().equals(getString(R.string.never))) {
                             single.setEnabled(false);
-                        else
+                            findViewById(R.id.imagelq_text).setAlpha(0.25f);
+                        } else {
                             single.setEnabled(true);
+                            findViewById(R.id.imagelq_text).setAlpha(1f);
+                        }
                         single.setChecked(SettingValues.loadImageLq);
 
                         return true;
@@ -81,8 +83,10 @@ public class SettingsData extends BaseActivityAnim {
                 popup.show();
             }
         });
-        if (((TextView) findViewById(R.id.lowquality)).getText().equals(getString(R.string.never)))
+        if (((TextView) findViewById(R.id.lowquality)).getText().equals(getString(R.string.never))) {
             single.setEnabled(false);
+            findViewById(R.id.imagelq_text).setAlpha(0.25f);
+        }
 
     }
 }
