@@ -491,7 +491,7 @@ public class MainActivity extends BaseActivity {
                                 header.animate()
                                         .translationY(header.getHeight())
                                         .setInterpolator(new LinearInterpolator())
-                                        .setDuration(180);
+                                        .setDuration(0);
                             } else {
                                 ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
                             }
@@ -514,7 +514,7 @@ public class MainActivity extends BaseActivity {
                         header.animate()
                                 .translationY(header.getHeight())
                                 .setInterpolator(new LinearInterpolator())
-                                .setDuration(180);
+                                .setDuration(0);
                     } else {
                         ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
                     }
