@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -39,9 +40,12 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -99,11 +103,13 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         Drawable share = getResources().getDrawable(R.drawable.share);
         Drawable image = getResources().getDrawable(R.drawable.image);
         Drawable save = getResources().getDrawable(R.drawable.save);
+        Drawable file = getResources().getDrawable(R.drawable.savecontent);
 
         external.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         image.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         save.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        file.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -114,7 +120,19 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         b.sheet(5, share, "Share link");
         if (!isGif)
             b.sheet(3, image, "Share image");
-        b.sheet(4, save, "Save image");
+        b.sheet(4, save, "Save " + (isGif ? "MP4" : "image"));
+        if (isGif && !contentUrl.contains(".mp4")) {
+            String type = contentUrl.substring(contentUrl.lastIndexOf(".") + 1, contentUrl.length()).toUpperCase();
+            try {
+                if (type.equals("GIFV") && new URL(contentUrl).getHost().equals("i.imgur.com")) {
+                    type = "GIF";
+                    contentUrl = contentUrl.replace(".gifv", ".gif");
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            b.sheet(6, file, "Save " + type);
+        }
         b.listener(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -131,6 +149,10 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         Reddit.defaultShareText("", contentUrl, MediaView.this);
                         break;
                     }
+                    case (6): {
+                        saveFile(contentUrl);
+                    }
+                    break;
                     case (4): {
                         if (!isGif) {
                             String url = actuallyLoaded;
@@ -156,6 +178,73 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             }
         });
         b.show();
+    }
+
+    NotificationManager mNotifyManager;
+    NotificationCompat.Builder mBuilder;
+
+    public void saveFile(final String baseUrl) {
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
+                    showFirstDialog();
+                } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
+                    showErrorDialog();
+                } else {
+                    final File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + baseUrl.substring(baseUrl.lastIndexOf(".")));
+                    mNotifyManager =
+                            (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    mBuilder = new NotificationCompat.Builder(MediaView.this);
+                    mBuilder.setContentTitle("Saving " + baseUrl)
+                            .setSmallIcon(R.drawable.save);
+                    try {
+
+                        final URL url = new URL(baseUrl); //wont exist on server yet, just load the full version
+                        URLConnection ucon = url.openConnection();
+                        ucon.setReadTimeout(5000);
+                        ucon.setConnectTimeout(10000);
+                        InputStream is = ucon.getInputStream();
+                        BufferedInputStream inStream = new BufferedInputStream(is, 1024 * 5);
+                        int length = ucon.getContentLength();
+                        f.createNewFile();
+                        FileOutputStream outStream = new FileOutputStream(f);
+                        byte[] buff = new byte[5 * 1024];
+
+                        int len;
+                        int last = 0;
+                        while ((len = inStream.read(buff)) != -1) {
+                            outStream.write(buff, 0, len);
+                            int percent = Math.round(100.0f * f.length() / length);
+                            if (percent > last) {
+                                last = percent;
+                                mBuilder.setProgress(length, (int) f.length(), false);
+                                mNotifyManager.notify(1, mBuilder.build());
+                            }
+                        }
+                        outStream.flush();
+                        outStream.close();
+                        inStream.close();
+                        MediaScannerConnection.scanFile(MediaView.this, new String[]{f.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+                            public void onScanCompleted(String path, Uri uri) {
+                                Intent mediaScanIntent = new Intent(
+                                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                Uri contentUri = Uri.parse("file://" + f.getAbsolutePath());
+                                mediaScanIntent.setData(contentUri);
+                                MediaView.this.sendBroadcast(mediaScanIntent);
+
+                                GifUtils.doNotifGif(f.getAbsolutePath(), MediaView.this);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                return null;
+            }
+        }.execute();
+
     }
 
     @Override
@@ -679,7 +768,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
                 Notification notif = new NotificationCompat.Builder(MediaView.this)
                         .setContentTitle(getString(R.string.info_photo_saved))
-                        .setSmallIcon(R.drawable.notif)
+                        .setSmallIcon(R.drawable.savecontent)
                         .setLargeIcon(loadedImage)
                         .setContentIntent(contentIntent)
                         .setStyle(new NotificationCompat.BigPictureStyle()
