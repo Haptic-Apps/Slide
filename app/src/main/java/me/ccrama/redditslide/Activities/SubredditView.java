@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -944,7 +945,7 @@ public class SubredditView extends BaseActivityAnim {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                     if (position == 0) {
-                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) header.getLayoutParams();
+                        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) header.getLayoutParams();
                         params.setMargins(header.getWidth() - positionOffsetPixels, 0, -((header.getWidth() - positionOffsetPixels)), 0);
                         header.setLayoutParams(params);
                         if (positionOffsetPixels == 0) {

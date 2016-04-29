@@ -296,6 +296,8 @@ public class SubredditPosts implements PostLoader {
 
             loadPhotos(filteredSubmissions);
             HasSeen.setHasSeenSubmission(filteredSubmissions);
+            LastCo
+                    
 
             SubmissionCache.cacheSubmissions(filteredSubmissions, context, subreddit);
 
