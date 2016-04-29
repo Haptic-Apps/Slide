@@ -41,6 +41,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.util.OnSingleClickListener;
 
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
@@ -160,16 +161,14 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         int i = pos != 0 ? pos - 1 : pos;
 
-
         if (holder2 instanceof SubmissionViewHolder) {
             final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
             final Submission submission = dataSet.posts.get(i);
             CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage") || subreddit.equals("mod") || subreddit.equals("friends") || (subreddit.equals("all")) || subreddit.contains(".") || subreddit.contains("+")));
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-
+            holder.itemView.setOnClickListener(new OnSingleClickListener() {
                                                    @Override
-                                                   public void onClick(View arg0) {
+                                                   public void onSingleClick(View v) {
 
                                                        if (Authentication.didOnline || submission.getComments() != null) {
                                                            holder.title.setAlpha(0.54f);
