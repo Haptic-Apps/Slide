@@ -1963,7 +1963,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        sideArrayAdapter = new SideArrayAdapter(this, copy, UserSubscriptions.getAllSubreddits(this));
+        sideArrayAdapter = new SideArrayAdapter(this, copy, UserSubscriptions.getAllSubreddits(this), drawerSubList);
         drawerSubList.setAdapter(sideArrayAdapter);
 
         e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
