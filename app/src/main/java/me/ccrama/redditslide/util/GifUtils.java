@@ -1006,7 +1006,7 @@ public class GifUtils {
 
         Notification notif = new NotificationCompat.Builder(c)
                 .setContentTitle(c.getString(R.string.gif_saved))
-                .setSmallIcon(R.drawable.notif)
+                .setSmallIcon(R.drawable.savecontent)
                 .setContentIntent(contentIntent)
                 .build();
 
