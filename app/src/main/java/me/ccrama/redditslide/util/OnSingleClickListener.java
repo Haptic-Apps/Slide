@@ -11,9 +11,9 @@ import android.view.View;
  */
 public abstract class OnSingleClickListener implements View.OnClickListener {
 
-    private long mLastClickTime;
     private static final long MIN_DELAY_MS = 300;
     private static final String TAG = OnSingleClickListener.class.getSimpleName();
+    private long mLastClickTime;
 
     /**
      * Called when a view has been clicked.
@@ -26,7 +26,6 @@ public abstract class OnSingleClickListener implements View.OnClickListener {
     public final void onClick(View v) {
         final long lastClickTime = mLastClickTime;
         final long now = SystemClock.uptimeMillis(); //guaranteed 100% monotonic
-        mLastClickTime = now;
 
         if (now - lastClickTime < MIN_DELAY_MS) {
             // Too fast: ignore
@@ -34,6 +33,7 @@ public abstract class OnSingleClickListener implements View.OnClickListener {
                 Log.d(TAG, "onClick Clicked too quickly: ignored");
             }
         } else {
+            mLastClickTime = now;
             // Register the click
             onSingleClick(v);
         }
