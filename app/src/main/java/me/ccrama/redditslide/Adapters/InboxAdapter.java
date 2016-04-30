@@ -263,9 +263,9 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             });
 
-            messageViewHolder.itemView.setOnClickListener(new OnSingleClickListener() {
+            messageViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onSingleClick(View v) {
+                public void onClick(View v) {
                     if (comment.isRead()) {
                         if (comment instanceof PrivateMessage) {
                             DataShare.sharedMessage = (PrivateMessage) comment;

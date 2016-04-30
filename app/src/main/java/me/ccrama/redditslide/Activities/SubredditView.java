@@ -1105,6 +1105,7 @@ public class SubredditView extends BaseActivityAnim {
                 .setInterpolator(new LinearInterpolator())
                 .setDuration(180);
         pager.setSwipeLeftOnly(false);
+        pager.setSwipingEnabled(true);
 
         Reddit.currentPosition = position;
     }
