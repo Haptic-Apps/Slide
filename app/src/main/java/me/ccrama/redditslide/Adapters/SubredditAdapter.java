@@ -6,11 +6,9 @@ package me.ccrama.redditslide.Adapters;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import net.dean.jraw.models.Subreddit;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.SubredditView;
-import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.SubredditListView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
@@ -166,13 +163,7 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         }
         if (holder2 instanceof SpacerViewHolder) {
-            View header = (context).findViewById(R.id.header);
-
-            //Need to add a little more top margin to the view
-            final DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-            final int TOP_OFFSET = Math.round((Constants.TOP_MARGIN_SUBMISSIONS_OFFSET
-                    / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)));
-            int height = header.getHeight() + TOP_OFFSET;
+            final int height = (context).findViewById(R.id.header).getHeight();
 
             holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), height));
             if (listView.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
