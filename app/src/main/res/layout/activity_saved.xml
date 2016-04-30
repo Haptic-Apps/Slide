@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:background="#00000000"
             android:clipToPadding="false"
-            app:layout_scrollFlags="scroll|enterAlways">
+            >
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>

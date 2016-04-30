@@ -2547,10 +2547,7 @@ public class MainActivity extends BaseActivity {
                         }
 
 
-                        if (SettingValues.single || mTabLayout == null)
-                            getSupportActionBar().setTitle(usedArray.get(position));
-                        else mTabLayout.setSelectedTabIndicatorColor(
-                                new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
+
 
                     }
                 }
@@ -2571,6 +2568,10 @@ public class MainActivity extends BaseActivity {
 
                     themeSystemBars(usedArray.get(position));
                     setRecentBar(usedArray.get(position));
+                    if (SettingValues.single || mTabLayout == null)
+                        getSupportActionBar().setTitle(usedArray.get(position));
+                    else mTabLayout.setSelectedTabIndicatorColor(
+                            new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
                 }
 
                 @Override
@@ -2735,6 +2736,7 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onPageSelected(final int position) {
+                    header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
 
                 }
 
