@@ -164,35 +164,36 @@ public class CommentPage extends Fragment {
         v.findViewById(R.id.np).setVisibility(View.VISIBLE);
         v.findViewById(R.id.archived).setVisibility(View.VISIBLE);
         v.findViewById(R.id.locked).setVisibility(View.VISIBLE);
-        v.findViewById(R.id.loadall).setVisibility(View.VISIBLE);
+        subtractHeight.setVisibility(View.VISIBLE);
 
         if (!loadMore) {
-            v.findViewById(R.id.loadall).setVisibility(View.GONE);
+            subtractHeight.setVisibility(View.GONE);
         } else {
             toSubtract--;
-            v.findViewById(R.id.loadall).setOnClickListener(new View.OnClickListener() {
+            subtractHeight.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     doRefresh(true);
 
-                    if (locked || (adapter != null && adapter.submission != null && adapter.submission.isLocked())) {
-                    } else {
-                        toSubtract --;
+                    if (!locked || !(adapter != null && adapter.submission != null && adapter.submission.isLocked())) {
+                        toSubtract--;
                     }
 
-                    headerHeight = header.getHeight()- (subtractHeight.getHeight() * toSubtract);
-                    v.findViewById(R.id.loadall).setVisibility(View.GONE);
+                    headerHeight = header.getHeight() - (subtractHeight.getHeight());
+                    subtractHeight.setVisibility(View.GONE);
 
-                    if (adapter != null)
+                    if (adapter != null) {
                         adapter.notifyItemChanged(0);
+                    }
 
                     //avoid crashes when load more is clicked before loading is finished
-                    if (comments.mLoadData != null) comments.mLoadData.cancel(true);
+                    if (comments.mLoadData != null) {
+                        comments.mLoadData.cancel(true);
+                    }
 
                     comments = new SubmissionComments(fullname, CommentPage.this, mSwipeRefreshLayout);
                     comments.setSorting(CommentSort.CONFIDENCE);
                     loadMore = false;
-
                 }
             });
 
