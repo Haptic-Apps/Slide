@@ -2712,6 +2712,7 @@ public class MainActivity extends BaseActivity {
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                     if (positionOffset == 0) {
                         if (position != toOpenComments) {
+                            header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
                             doPageSelectedComments(position);
                             if (position == toOpenComments - 1 && adapter != null && adapter.getCurrentFragment() != null) {
                                 ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
@@ -2736,7 +2737,6 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onPageSelected(final int position) {
-                    header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
 
                 }
 
