@@ -1,5 +1,7 @@
 package me.ccrama.redditslide;
 
+import android.content.res.Resources;
+
 /**
  * Constants used throughout the app
  */
@@ -8,9 +10,12 @@ public class Constants {
     public static final int PAGINATOR_POST_LIMIT = 25;
 
     /**
-     * Top margin of the SubmissionsView, MultiredditView, ModeratorView, and DiscoverView.
-     * This is used in the following Adapters: Submission, Subreddits, Multireddit, Moderator.
-     * This value is measured in dp units, and will need to be converted to px units before use.
+     * Height of the device's display, in px.
+     * This is used in conjunction with the multiplication of a percentage to adjust various UI
+     * component's offsets. For example, this is used when determining the offset to use for the
+     * SwipeRefreshLayout progress offset.
+     *
+     * This is used in the following adapters: Submission, Subreddits, Multireddit, Moderator.
      */
-    public static final int TOP_MARGIN_SUBMISSIONS_OFFSET = 24;
+    public static final int SCREEN_HEIGHT = Resources.getSystem().getDisplayMetrics().heightPixels;
 }
