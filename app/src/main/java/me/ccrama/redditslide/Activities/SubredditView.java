@@ -37,7 +37,6 @@ import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -303,8 +302,7 @@ public class SubredditView extends BaseActivityAnim {
         if (commentPager) {
             adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
             pager.setSwipeLeftOnly(false);
-            pager.setSwipingEnabled(false);
-
+            pager.setSwipingEnabled(true);
         } else {
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         }
@@ -952,6 +950,7 @@ public class SubredditView extends BaseActivityAnim {
                             finish();
                         }
                     }
+
                     if (position == 0) {
                         ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
                         pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
@@ -1105,7 +1104,7 @@ public class SubredditView extends BaseActivityAnim {
                 .translationY(0)
                 .setInterpolator(new LinearInterpolator())
                 .setDuration(180);
-        pager.setSwipeLeftOnly(true);
+        pager.setSwipeLeftOnly(false);
 
         Reddit.currentPosition = position;
     }
@@ -1126,7 +1125,7 @@ public class SubredditView extends BaseActivityAnim {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                     if (position == 0) {
-                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) header.getLayoutParams();
+                        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) header.getLayoutParams();
                         params.setMargins(header.getWidth() - positionOffsetPixels, 0, -((header.getWidth() - positionOffsetPixels)), 0);
                         header.setLayoutParams(params);
                         if (positionOffsetPixels == 0) {
@@ -1159,6 +1158,7 @@ public class SubredditView extends BaseActivityAnim {
 
                         }
                     }
+
                 }
 
                 @Override

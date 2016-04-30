@@ -25,6 +25,7 @@ import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -206,6 +207,7 @@ public class SubmissionComments {
                 if (adapter != null) {
                     adapter.notifyItemChanged(0);
                 }
+                LastComments.setComments(submission);
             }
         }
 

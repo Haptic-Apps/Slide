@@ -10,7 +10,6 @@ import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.SubmissionSearchPaginatorMultireddit;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Search;
@@ -114,6 +113,9 @@ public class SubredditSearchPosts extends GeneralPosts {
             } else if (!nomore) {
                 // error
                 adapter.setError(true);
+            } else {
+                posts = new ArrayList<>();
+                adapter.notifyDataSetChanged();
             }
             refreshLayout.setRefreshing(false);
         }
