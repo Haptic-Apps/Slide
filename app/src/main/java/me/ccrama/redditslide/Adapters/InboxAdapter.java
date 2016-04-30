@@ -49,6 +49,7 @@ import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -262,9 +263,9 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
             });
 
-            messageViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            messageViewHolder.itemView.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onSingleClick(View v) {
                     if (comment.isRead()) {
                         if (comment instanceof PrivateMessage) {
                             DataShare.sharedMessage = (PrivateMessage) comment;
