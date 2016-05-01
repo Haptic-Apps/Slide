@@ -378,6 +378,7 @@ public class MainActivity extends BaseActivity {
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
+
                                 return null;
                             }
 
@@ -2933,7 +2934,27 @@ public class MainActivity extends BaseActivity {
                     }
                 });
             }
-
+            if(UserSubscriptions.friends != null && UserSubscriptions.friends.size() > 0){
+                header.findViewById(R.id.friends).setOnClickListener(new OnSingleClickListener() {
+                    @Override
+                    public void onSingleClick(View view) {
+                        new MaterialDialog.Builder(MainActivity.this)
+                                .title("Friends")
+                                .items(UserSubscriptions.friends)
+                                .itemsCallback(new MaterialDialog.ListCallback() {
+                                    @Override
+                                    public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                        Intent i = new Intent(MainActivity.this, Profile.class);
+                                        i.putExtra(Profile.EXTRA_PROFILE, UserSubscriptions.friends.get(which));
+                                        startActivity(i);
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+                    }
+                });
+            } else if(Authentication.isLoggedIn){
+                header.findViewById(R.id.friends).setVisibility(View.GONE);
+            }
             if (count != -1) {
                 int oldCount = Reddit.appRestart.getInt("inbox", 0);
                 if (count > oldCount) {

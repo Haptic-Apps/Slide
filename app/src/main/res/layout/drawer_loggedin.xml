@@ -260,6 +260,16 @@
             android:paddingStart="24dp"
             android:text="@string/profile_history"
             android:textSize="14sp" />
+        <TextView
+            android:id="@+id/friends"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="24dp"
+            android:text="@string/sidebar_friends"
+            android:textSize="14sp" />
     </LinearLayout>
 
     <RelativeLayout
