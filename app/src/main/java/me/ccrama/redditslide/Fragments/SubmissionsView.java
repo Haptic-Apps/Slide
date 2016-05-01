@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -103,12 +102,12 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
         //So, we just do 13% of the device screen height as a general estimate for the Tabs view type
-        int screenHeight = getContext().getResources().getDisplayMetrics().heightPixels;
-        int headerOffset = Math.round((float) (screenHeight * 0.13));
+        int Constants.SCREEN_HEIGHT = getContext().getResources().getDisplayMetrics().heightPixels;
+        int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.13));
 
         //if the view type is "single" (and therefore "commentPager"), we need a different offset
         if (SettingValues.single || getActivity() instanceof SubredditView) {
-            headerOffset = Math.round((float) (screenHeight * 0.07));
+            headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.07));
         }
 
         mSwipeRefreshLayout.setProgressViewOffset(false,

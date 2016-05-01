@@ -33,6 +33,7 @@ import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.MultiredditAdapter;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.LastComments;
@@ -182,8 +183,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
         //So, we just do 13% of the device screen height as a general estimate for the Tabs view type
-        int screenHeight = getContext().getResources().getDisplayMetrics().heightPixels;
-        int headerOffset = Math.round((float) (screenHeight * 0.13));
+        final int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.13));
 
         refreshLayout.setProgressViewOffset(false,
                 headerOffset - Reddit.pxToDp(42, getContext()),
