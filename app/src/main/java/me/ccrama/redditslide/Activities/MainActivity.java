@@ -2486,22 +2486,22 @@ public class MainActivity extends BaseActivity {
 
     public static boolean dontAnimate;
 
-    public void doFriends() {
+    public void doFriends(final List<String> friends) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(UserSubscriptions.friends != null && UserSubscriptions.friends.size() > 0){
+                if(friends != null && friends.size() > 0){
                     headerMain.findViewById(R.id.friends).setOnClickListener(new OnSingleClickListener() {
                         @Override
                         public void onSingleClick(View view) {
                             new MaterialDialog.Builder(MainActivity.this)
                                     .title("Friends")
-                                    .items(UserSubscriptions.friends)
+                                    .items(friends)
                                     .itemsCallback(new MaterialDialog.ListCallback() {
                                         @Override
                                         public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                                             Intent i = new Intent(MainActivity.this, Profile.class);
-                                            i.putExtra(Profile.EXTRA_PROFILE, UserSubscriptions.friends.get(which));
+                                            i.putExtra(Profile.EXTRA_PROFILE, friends.get(which));
                                             startActivity(i);
                                             dialog.dismiss();
                                         }
