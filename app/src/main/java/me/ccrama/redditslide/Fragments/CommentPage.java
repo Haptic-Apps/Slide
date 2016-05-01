@@ -60,6 +60,7 @@ import me.ccrama.redditslide.Adapters.MoreChildItem;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Drafts;
@@ -226,7 +227,7 @@ public class CommentPage extends Fragment {
             //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
             //So, we just do 7% of the device screen height as a general estimate for just a toolbar.
             //Don't use "headerHeight" for consistency
-            int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
+            final int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
             int headerOffset = Math.round((float) (screenHeight * 0.07));
 
             //If the header has the "Load full thread", "Archived", or "Locked" header,
@@ -447,14 +448,13 @@ public class CommentPage extends Fragment {
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
         //So, we just do 7% of the device screen height as a general estimate for just a toolbar.
         //Don't use "headerHeight" for consistency
-        int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
-        int headerOffset = Math.round((float) (screenHeight * 0.07));
+        int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.07));
 
         //If the header has the "Load full thread" & "No participation" header, account for the extra height
         if (np && loadMore) {
-            headerOffset = Math.round((float) (screenHeight * 0.15));
+            headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.15));
         } else if (np) { //If the header has the "No participation" header, account for the extra height
-            headerOffset = Math.round((float) (screenHeight * 0.11));
+            headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.11));
         }
 
         mSwipeRefreshLayout.setProgressViewOffset(false,

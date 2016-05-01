@@ -54,8 +54,8 @@ public class SubredditListView extends Fragment {
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
         //So, we just do 13% of the phone screen height as a general estimate for the Tabs view type
-        int screenHeight = getContext().getResources().getDisplayMetrics().heightPixels;
-        int headerOffset = Math.round((float) (screenHeight * 0.13));
+        final int screenHeight = getContext().getResources().getDisplayMetrics().heightPixels;
+        final int headerOffset = Math.round((float) (screenHeight * 0.13));
 
         mSwipeRefreshLayout.setProgressViewOffset(false,
                 headerOffset - Reddit.pxToDp(42, getContext()),

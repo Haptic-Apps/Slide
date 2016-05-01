@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -19,7 +18,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +42,6 @@ import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Hidden;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -390,15 +387,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }
         if (firstHold instanceof SpacerViewHolder) {
-            View header = (mContext).findViewById(R.id.header);
-
-            //Need to add a little more top margin to the view
-            final DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-            final int TOP_OFFSET = Math.round((Constants.TOP_MARGIN_SUBMISSIONS_OFFSET
-                    / ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT)));
-            int height = header.getHeight() + TOP_OFFSET;
-
-            firstHold.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(firstHold.itemView.getWidth(), height));
+            firstHold.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(firstHold.itemView.getWidth(), mContext.findViewById(R.id.header).getHeight()));
         }
     }
 

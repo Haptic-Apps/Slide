@@ -4,10 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
     android:paddingBottom="24dp"
-    app:cardBackgroundColor="?attr/card_background"
-
-    >
-
+    android:paddingTop="24dp"
+    app:cardBackgroundColor="?attr/card_background">
 
     <TextView
         android:id="@+id/textView"
@@ -21,16 +19,15 @@
     <TextView
         android:id="@+id/reload"
         android:layout_width="match_parent"
-        android:padding="10dp"
-        android:gravity="center"
-        android:theme="@style/Ripple.List"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="10dp"
         android:text="@string/btn_refresh"
         android:textAllCaps="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="14sp"
-        android:textStyle="bold" />
-
+        android:textStyle="bold"
+        android:theme="@style/Ripple.List" />
 </RelativeLayout>

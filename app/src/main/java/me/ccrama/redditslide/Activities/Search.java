@@ -21,6 +21,7 @@ import net.dean.jraw.paginators.TimePeriod;
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.SubredditSearchPosts;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
@@ -280,8 +281,7 @@ public class Search extends BaseActivityAnim {
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
         //So, we just do 7% of the device screen height as a general estimate for just a toolbar
-        int screenHeight = this.getResources().getDisplayMetrics().heightPixels;
-        int headerOffset = Math.round((float) (screenHeight * 0.07));
+        final int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.07));
 
         mSwipeRefreshLayout.setProgressViewOffset(false,
                 headerOffset - Reddit.pxToDp(42, Search.this),
