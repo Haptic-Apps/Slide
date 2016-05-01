@@ -246,7 +246,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         return true;
     }
 
-    OverviewPagerAdapter album;
+    public OverviewPagerAdapter album;
 
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
@@ -299,6 +299,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
+        public AlbumFrag album;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -310,8 +311,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                 blankPage = new BlankFragment();
                 return blankPage;
             } else {
-                Fragment f = new AlbumFrag();
-                return f;
+                album = new AlbumFrag();
+                return album;
 
             }
         }
@@ -332,7 +333,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     }
     public static class AlbumFrag extends Fragment {
         View rootView;
-        RecyclerView recyclerView;
+        public RecyclerView recyclerView;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,

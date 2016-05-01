@@ -21,6 +21,7 @@ import com.google.gson.JsonElement;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.R;
@@ -74,7 +75,13 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
-                            ((LinearLayoutManager) ((RecyclerView) context.findViewById(R.id.images)).getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
+                            if (context instanceof Album) {
+                                ((LinearLayoutManager) ((Album)context).album.album.recyclerView.getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
+
+
+                            } else {
+                                ((LinearLayoutManager) ((RecyclerView) context.findViewById(R.id.images)).getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
+                            }
                             d.dismiss();
                         }
                     });

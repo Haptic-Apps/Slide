@@ -310,7 +310,7 @@ public class SubredditPosts implements PostLoader {
             }
 
             if (!usedOffline)
-                OfflineSubreddit.getSubNoLoad(subreddit.toLowerCase()).overwriteSubmissions(posts).writeToMemoryAsync(context);
+                OfflineSubreddit.getSubNoLoad(subreddit.toLowerCase()).overwriteSubmissions(posts).writeToMemory(context);
             start = 0;
             if (posts != null) {
                 start = posts.size() + 1;

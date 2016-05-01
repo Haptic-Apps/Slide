@@ -149,7 +149,7 @@ public class PostMatch {
                 break;
         }
 
-        return (titlec || bodyc || domainc || subredditc || contentMatch);
+        return (titlec || bodyc || domainc || subredditc || contentMatch || Hidden.id.contains(s.getFullName()));
     }
 
     public static boolean doesMatch(Submission s) {
