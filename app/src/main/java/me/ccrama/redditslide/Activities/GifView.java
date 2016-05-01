@@ -7,10 +7,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
-
 import java.io.File;
 
+import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.MediaVideoView;
@@ -22,12 +21,12 @@ import me.ccrama.redditslide.util.VidMeUtil;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class GifView extends FullScreenActivity implements FolderChooserDialog.FolderCallback {
+public class GifView extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_STREAMABLE = "streamable";
 
 
     @Override
-    public void onFolderSelection(FolderChooserDialog dialog, File folder) {
+    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("giflocation", folder.getAbsolutePath().toString()).apply();
             Toast.makeText(this, "Gifs will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();

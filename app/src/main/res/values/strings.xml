@@ -831,4 +831,7 @@
     <string name="rate_slide">Rate Slide</string>
     <string name="edit_query">Edit query</string>
     <string name="share_slide">Share Slide</string>
+    <string name="create_folder">Create folder</string>
+    <string name="folder_name">Folder name</string>
+    <string name="btn_create">Create</string>
 </resources>

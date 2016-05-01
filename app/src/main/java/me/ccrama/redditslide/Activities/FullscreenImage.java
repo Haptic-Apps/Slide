@@ -23,7 +23,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -43,6 +42,7 @@ import java.util.UUID;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.ImageSource;
@@ -55,7 +55,7 @@ import me.ccrama.redditslide.util.LogUtil;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class FullscreenImage extends FullScreenActivity implements FolderChooserDialog.FolderCallback {
+public class FullscreenImage extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
 
 
     public float previous;
@@ -303,7 +303,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder(FullscreenImage.this)
+                        new FolderChooserDialogCreate.Builder(FullscreenImage.this)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
@@ -347,7 +347,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder(FullscreenImage.this)
+                        new FolderChooserDialogCreate.Builder(FullscreenImage.this)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
@@ -471,7 +471,7 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
     }
 
     @Override
-    public void onFolderSelection(FolderChooserDialog dialog, File folder) {
+    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
             Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();

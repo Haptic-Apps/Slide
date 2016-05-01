@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.google.gson.JsonElement;
 
 import org.jetbrains.annotations.NotNull;
@@ -44,6 +43,7 @@ import java.util.UUID;
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
+import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -58,13 +58,13 @@ import me.ccrama.redditslide.util.AlbumUtils;
  * This class is responsible for accessing the Imgur api to get the album json data
  * from a URL or Imgur hash. It extends FullScreenActivity and supports swipe from anywhere.
  */
-public class Album extends FullScreenActivity implements FolderChooserDialog.FolderCallback {
+public class Album extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL = "url";
     boolean gallery = false;
     private ArrayList<JsonElement> images;
 
     @Override
-    public void onFolderSelection(FolderChooserDialog dialog, File folder) {
+    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
             Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
@@ -145,7 +145,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialog.Fol
                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            new FolderChooserDialog.Builder(Album.this)
+                            new FolderChooserDialogCreate.Builder(Album.this)
                                     .chooseButton(R.string.btn_select)  // changes label of the choose button
                                     .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                     .show();
@@ -192,7 +192,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialog.Fol
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder(Album.this)
+                        new FolderChooserDialogCreate.Builder(Album.this)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();

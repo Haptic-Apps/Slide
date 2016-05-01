@@ -17,7 +17,6 @@ import android.widget.MediaController;
 import android.widget.ProgressBar;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
@@ -35,6 +34,7 @@ import java.net.URLConnection;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Activities.GifView;
+import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -264,7 +264,7 @@ public class StreamableUtil {
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder((GifView) a)
+                        new FolderChooserDialogCreate.Builder((GifView) a)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
@@ -281,7 +281,7 @@ public class StreamableUtil {
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder((GifView) a)
+                        new FolderChooserDialogCreate.Builder((GifView) a)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();

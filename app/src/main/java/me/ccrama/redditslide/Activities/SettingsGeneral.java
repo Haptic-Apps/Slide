@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.rey.material.widget.Slider;
 
 import net.dean.jraw.models.CommentSort;
@@ -28,6 +27,7 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.io.File;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -39,7 +39,7 @@ import me.ccrama.redditslide.Visuals.Palette;
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDialog.FolderCallback {
+public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDialogCreate.FolderCallback {
 
     public static void setupNotificationSettings(View dialoglayout, final Activity context) {
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
@@ -161,7 +161,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             findViewById(R.id.download).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new FolderChooserDialog.Builder(SettingsGeneral.this)
+                    new FolderChooserDialogCreate.Builder(SettingsGeneral.this)
                             .chooseButton(R.string.btn_select)  // changes label of the choose button
                             .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                             .show();
@@ -403,7 +403,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
     }
 
     @Override
-    public void onFolderSelection(FolderChooserDialog dialog, File folder) {
+    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
             Toast.makeText(this, getString(R.string.settings_set_image_location, folder.getAbsolutePath()), Toast.LENGTH_LONG).show();

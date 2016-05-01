@@ -7,6 +7,7 @@
     <WebView
         android:id="@+id/web"
         android:layout_width="match_parent"
+        android:layout_marginTop="56dp"
         android:layout_height="match_parent" />
 
     <android.support.v7.widget.Toolbar

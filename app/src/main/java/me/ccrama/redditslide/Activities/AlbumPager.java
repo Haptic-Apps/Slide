@@ -60,6 +60,7 @@ import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapter;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -82,7 +83,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
  * instead of a RecyclerView (horizontal vs vertical). It also supports gifs and progress
  * bars which Album.java doesn't.
  */
-public class AlbumPager extends FullScreenActivity implements FolderChooserDialog.FolderCallback {
+public class AlbumPager extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     boolean gallery = false;
 
     @Override
@@ -685,7 +686,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder(AlbumPager.this)
+                        new FolderChooserDialogCreate.Builder(AlbumPager.this)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
@@ -772,7 +773,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialog.Builder(AlbumPager.this)
+                        new FolderChooserDialogCreate.Builder(AlbumPager.this)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();
@@ -809,7 +810,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
 
     @Override
-    public void onFolderSelection(FolderChooserDialog dialog, File folder) {
+    public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
             Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
