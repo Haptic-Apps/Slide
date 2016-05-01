@@ -1706,6 +1706,7 @@ public class PopulateSubmissionViewHolder {
         final View edit = holder.edit;
 
         if (Authentication.name != null && Authentication.name.toLowerCase().equals(submission.getAuthor().toLowerCase()) && Authentication.didOnline) {
+            edit.setVisibility(View.VISIBLE);
             edit.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {

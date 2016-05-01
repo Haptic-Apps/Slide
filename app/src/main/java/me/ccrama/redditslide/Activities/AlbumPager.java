@@ -39,7 +39,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.google.gson.JsonElement;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -442,6 +441,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     case (5): {
                         Reddit.defaultShareText("", contentUrl, AlbumPager.this);
                     }
+                    break;
                     case (4): {
                         if (!isGif) {
                             String url = contentUrl;
