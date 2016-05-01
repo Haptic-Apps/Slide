@@ -2486,6 +2486,35 @@ public class MainActivity extends BaseActivity {
 
     public static boolean dontAnimate;
 
+    public void doFriends() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(UserSubscriptions.friends != null && UserSubscriptions.friends.size() > 0){
+                    headerMain.findViewById(R.id.friends).setOnClickListener(new OnSingleClickListener() {
+                        @Override
+                        public void onSingleClick(View view) {
+                            new MaterialDialog.Builder(MainActivity.this)
+                                    .title("Friends")
+                                    .items(UserSubscriptions.friends)
+                                    .itemsCallback(new MaterialDialog.ListCallback() {
+                                        @Override
+                                        public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                            Intent i = new Intent(MainActivity.this, Profile.class);
+                                            i.putExtra(Profile.EXTRA_PROFILE, UserSubscriptions.friends.get(which));
+                                            startActivity(i);
+                                            dialog.dismiss();
+                                        }
+                                    }).show();
+                        }
+                    });
+                } else if(Authentication.isLoggedIn){
+                    headerMain.findViewById(R.id.friends).setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
     public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
@@ -2898,7 +2927,7 @@ public class MainActivity extends BaseActivity {
                     final String name = me.getFullName();
                     Authentication.name = name;
                     LogUtil.v("AUTHENTICATED");
-                    UserSubscriptions.doFriendsOf();
+                    UserSubscriptions.doFriendsOfMain(MainActivity.this);
                     if (Authentication.reddit.isAuthenticated()) {
                         final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
                         if (accounts.contains(name)) { //convert to new system
@@ -2935,27 +2964,6 @@ public class MainActivity extends BaseActivity {
                         }
                     }
                 });
-            }
-            if(UserSubscriptions.friends != null && UserSubscriptions.friends.size() > 0){
-                headerMain.findViewById(R.id.friends).setOnClickListener(new OnSingleClickListener() {
-                    @Override
-                    public void onSingleClick(View view) {
-                        new MaterialDialog.Builder(MainActivity.this)
-                                .title("Friends")
-                                .items(UserSubscriptions.friends)
-                                .itemsCallback(new MaterialDialog.ListCallback() {
-                                    @Override
-                                    public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                        Intent i = new Intent(MainActivity.this, Profile.class);
-                                        i.putExtra(Profile.EXTRA_PROFILE, UserSubscriptions.friends.get(which));
-                                        startActivity(i);
-                                        dialog.dismiss();
-                                    }
-                                }).show();
-                    }
-                });
-            } else if(Authentication.isLoggedIn){
-                headerMain.findViewById(R.id.friends).setVisibility(View.GONE);
             }
             if (count != -1) {
                 int oldCount = Reddit.appRestart.getInt("inbox", 0);

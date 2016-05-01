@@ -240,7 +240,11 @@ public class UserSubscriptions {
         return finished;
     }
 
-    public static void doFriendsOf() {
+    public static void doFriendsOfMain(MainActivity main){
+        doFriendsOf();
+        main.doFriends();
+    }
+    private static List<String> doFriendsOf() {
         if(friends == null) {
             friends = new ArrayList<>();
             ArrayList<String> finished = new ArrayList<>();
@@ -259,6 +263,7 @@ public class UserSubscriptions {
                 e.printStackTrace();
             }
         }
+        return friends;
     }
 
     public static MultiReddit getMultiredditByDisplayName(String displayName) {
