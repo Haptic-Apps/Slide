@@ -125,7 +125,7 @@
     <string name="profile_tag_user_existing">User tagged as ‘%s’</string>
     <string name="profile_btn_tag">Set tag</string>
     <string name="profile_btn_untag">Remove tag</string>
-    <string name="profile_info">Profile info</string>
+    <string name="profile_info">Profile information</string>
 
 
     <!-- Comment text options -->
@@ -774,9 +774,9 @@
     <string name="download_the_slide_video_player_plugin">Download the Slide Video Player plugin</string>
     <string name="settings_reddit_description">These settings change what the Reddit API returns to Slide.\n\nTo see thumbnails in all subreddits, change the Thumbnail Mode to \'Always Show\'\n\nTo see all NSFW content, turn off \'Hide NSFW photos\' and turn on \'I am over 18\'</string>
     <string name="settings_description_synccit">Synccit allows you to sync your submission history between devices and your browser</string>
-    <string name="settings_description_view_type">View types affect both the main view and single subreddit views.\n\nComment Pane: comments slide out from next to posts and the comment page state is saved after swiping back (so you don\'t lose your place)\n\nNo Subreddit Tabs: disables swiping between subreddits\n\nSubreddit tabs: slide between your subreddits</string>
+    <string name="settings_description_view_type">View types affect both the main view and single subreddit views.\n\nComment pane: comments slide out from next to posts and the comment page state is saved after swiping back (so you don\'t lose your place)\n\nNo subreddit tabs: disables swiping between subreddits\n\nSubreddit tabs: slide between your subreddits</string>
     <string name="btn_suggest_title">Suggest title</string>
-    <string name="navigate_comments_since">Navigate comments since...</string>
+    <string name="navigate_comments_since">Comments newer than…</string>
     <string name="err_connection_failed_msg">The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.</string>
     <string name="btn_offline">Enter offline mode</string>
     <string name="err_could_not_find_content_msg">Reddit could not find the requested content.</string>
@@ -784,7 +784,7 @@
     <string name="discard_comment_title">Discard comment?</string>
     <string name="comment_discard_msg">Do you really want to discard your comment?</string>
     <string name="backup_complete">Backup complete!</string>
-    <string name="backup_saved_downloads">Backup saved to Downloads</string>
+    <string name="backup_saved_downloads">Backup saved to downloads</string>
     <string name="err_file_not_found">File not found</string>
     <string name="err_not_valid_backup">Not a valid Slide backup file</string>
     <string name="err_not_valid_backup_msg">The selected file is not a valid Slide backup file.</string>
@@ -812,22 +812,22 @@
     <string name="comment_distinguished">Comment distinguished</string>
     <string name="remove_comment">Really remove this comment?</string>
     <string name="comment_removed">Comment removed</string>
-    <string name="create_or_import_multi">Would you like to create a new Collection or import a Multireddit?</string>
-    <string name="btn_add_subreddit">Add a Subreddit</string>
-    <string name="btn_add_collection">Add a Collection</string>
+    <string name="create_or_import_multi">Would you like to create a new collection or import a multireddit?</string>
+    <string name="btn_add_subreddit">Add a subreddit</string>
+    <string name="btn_add_collection">Add a collection</string>
     <string name="btn_new">New</string>
-    <string name="btn_import_multi">Import multi</string>
+    <string name="btn_import_multi">Import multireddit</string>
     <string name="reorder_subs_FAQ">Reorder Subreddits FAQ</string>
     <string name="set_nav_mode">Set navigation mode</string>
-    <string name="set_gif_save_loc">Set gif save location</string>
-    <string name="set_gif_save_loc_msg">Slide\'s gif save location has not been set yet. Would you like to set this now?</string>
-    <string name="gif_saved">Gif saved</string>
+    <string name="set_gif_save_loc">Set GIF save location</string>
+    <string name="set_gif_save_loc_msg">Slide\'s GIF save location has not been set yet. Would you like to set this now?</string>
+    <string name="gif_saved">GIF saved</string>
     <string name="set_video_save_loc">Set video save location</string>
     <string name="set_video_save_loc_msg">Slide\'s video save location has not been set yet. Would you like to set this now?</string>
     <string name="video_saved">Video saved</string>
     <string name="manage_drafts">Manage drafts</string>
     <string name="really_delete_drafts">Really delete these drafts?</string>
-    <string name="auto_hide_the_comment_nav_bar">Auto-hide the comment nav bar</string>
+    <string name="auto_hide_the_comment_nav_bar">Auto-hide the comment navigation bar</string>
     <string name="rate_slide">Rate Slide</string>
     <string name="edit_query">Edit query</string>
     <string name="share_slide">Share Slide</string>
