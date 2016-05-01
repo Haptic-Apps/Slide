@@ -101,6 +101,7 @@ public class ContentType {
         if (!url.startsWith("//") && ((url.startsWith("/") && url.length() < 4)
                 || url.startsWith("#spoil")
                 || url.startsWith("/spoil")
+                || url.startsWith("#s-")
                 || url.equals("#s")
                 || url.equals("#ln")
                 || url.equals("#b")
