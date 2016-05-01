@@ -576,19 +576,26 @@ public class PopulateSubmissionViewHolder {
                 posts.remove(pos);
                 Hidden.setHidden(t);
                 final OfflineSubreddit s;
+                boolean success = false;
                 if (baseSub != null) {
                     s = OfflineSubreddit.getSubreddit(baseSub, false, c);
-                    s.hide(pos);
+                    try {
+                        s.hide(pos);
+                        success = true;
+                    } catch(Exception e){
+                    }
                 } else {
+                    success = false;
                     s = null;
                 }
                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
 
 
+                final boolean finalSuccess = success;
                 Snackbar snack = Snackbar.make(recyclerview, R.string.submission_info_hidden, Snackbar.LENGTH_LONG).setAction(R.string.btn_undo, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (baseSub != null && s != null) {
+                        if (baseSub != null && s != null && finalSuccess) {
                             s.unhideLast();
                         }
                         posts.add(pos, t);

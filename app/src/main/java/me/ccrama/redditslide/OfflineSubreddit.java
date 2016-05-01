@@ -76,6 +76,7 @@ public class OfflineSubreddit {
         if (subreddit != null) {
             String title = subreddit.toLowerCase() + "," + (base ? 0 : time);
             String fullNames = "";
+            cache.put(title, this);
             for (Submission sub : submissions) {
                 fullNames += sub.getFullName() + ",";
                 if (!isStored(sub.getFullName(), c))
