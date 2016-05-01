@@ -2898,6 +2898,7 @@ public class MainActivity extends BaseActivity {
                     final String name = me.getFullName();
                     Authentication.name = name;
                     LogUtil.v("AUTHENTICATED");
+                    UserSubscriptions.doFriendsOf();
                     if (Authentication.reddit.isAuthenticated()) {
                         final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
                         if (accounts.contains(name)) { //convert to new system
@@ -2917,6 +2918,7 @@ public class MainActivity extends BaseActivity {
                 Log.w(LogUtil.getTag(), "Cannot fetch inbox count");
                 count = -1;
             }
+
             return null;
         }
 
@@ -2935,7 +2937,7 @@ public class MainActivity extends BaseActivity {
                 });
             }
             if(UserSubscriptions.friends != null && UserSubscriptions.friends.size() > 0){
-                header.findViewById(R.id.friends).setOnClickListener(new OnSingleClickListener() {
+                headerMain.findViewById(R.id.friends).setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View view) {
                         new MaterialDialog.Builder(MainActivity.this)
@@ -2953,7 +2955,7 @@ public class MainActivity extends BaseActivity {
                     }
                 });
             } else if(Authentication.isLoggedIn){
-                header.findViewById(R.id.friends).setVisibility(View.GONE);
+                headerMain.findViewById(R.id.friends).setVisibility(View.GONE);
             }
             if (count != -1) {
                 int oldCount = Reddit.appRestart.getInt("inbox", 0);

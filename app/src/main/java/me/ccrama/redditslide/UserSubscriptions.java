@@ -240,22 +240,24 @@ public class UserSubscriptions {
         return finished;
     }
 
-    private static void doFriendsOf() {
-        friends = new ArrayList<>();
-        ArrayList<String> finished = new ArrayList<>();
+    public static void doFriendsOf() {
+        if(friends == null) {
+            friends = new ArrayList<>();
+            ArrayList<String> finished = new ArrayList<>();
 
-        ImportantUserPaginator pag = new ImportantUserPaginator(Authentication.reddit, "friends");
-        pag.setLimit(100);
-        try {
-            while (pag.hasNext()) {
-                for (UserRecord s : pag.next()) {
-                    finished.add(s.getFullName());
+            ImportantUserPaginator pag = new ImportantUserPaginator(Authentication.reddit, "friends");
+            pag.setLimit(100);
+            try {
+                while (pag.hasNext()) {
+                    for (UserRecord s : pag.next()) {
+                        finished.add(s.getFullName());
+                    }
                 }
+                friends = (finished);
+            } catch (Exception e) {
+                //failed;
+                e.printStackTrace();
             }
-            friends = (finished);
-        } catch (Exception e) {
-            //failed;
-            e.printStackTrace();
         }
     }
 
