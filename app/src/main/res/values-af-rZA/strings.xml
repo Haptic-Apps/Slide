@@ -105,4 +105,5 @@
   <!-- Discover section: find -->
   <string name="submission_share_permalink">Deel artikel</string>
   <string name="mode_card">Kaart</string>
+  <string name="btn_new">Nuwe</string>
 </resources>

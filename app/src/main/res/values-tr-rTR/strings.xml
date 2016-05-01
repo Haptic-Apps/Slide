@@ -27,7 +27,7 @@
   <string name="submission_share">Mesajı paylaş</string>
   <string name="submission_load_full">Tüm mesajları yükle</string>
   <string name="submission_np_link">Katılma linki yok. Lütfen oylama veya yorum yapmayın</string>
-  <string name="submission_tap_gif">GIF\'i yüklemek için bas</string>
+  <string name="submission_tap_gif">GIF\'i yüklemek için dokunun</string>
   <string name="submission_not_found">Hay aksi, gönderi bulunamadı!</string>
   <string name="submission_not_found_msg">Üzgünüz, bu yazı bulunamadı</string>
   <string name="submission_copy">Yazıyı kopyala</string>
@@ -122,6 +122,18 @@
   <string name="sorting_old">Eski</string>
   <string name="sorting_controversial">Tartışmalı</string>
   <string name="sorting_rising">Yükselen</string>
+  <string name="sorting_hour">› saat</string>
+  <string name="sorting_day">› 24 saat</string>
+  <string name="sorting_week">› hafta</string>
+  <string name="sorting_month">› ay</string>
+  <string name="sorting_year">› yıl</string>
+  <string name="sorting_all">› ezelden beri</string>
+  <string name="sorting_search_hour">Son 1 saat</string>
+  <string name="sorting_search_day">Son 24 saat</string>
+  <string name="sorting_search_week">Geçen hafta</string>
+  <string name="sorting_search_month">Geçen ay</string>
+  <string name="sorting_search_year">Geçen sene</string>
+  <string name="sorting_search_all">Ezelden beri</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Metin</string>
@@ -144,6 +156,7 @@
   <string name="err_general">Uh oh, bir hata oluştu</string>
   <string name="err_no_connection">Reddit\'e ulaşılamadı. Tekrar denemek ister misin?</string>
   <string name="err_retry_later">Bir dakika içinde yeniden deneyin!</string>
+  <string name="err_permission">İzin reddedildi</string>
   <string name="err_permission_msg">Slide\'in harici depolama için yazma erişim iznini engellemişiniz gibi görünüyor. Bu durum resim önbelleğinde, yazı önbelleğinde ve resimleri kaydederken hatalara sebep olur :(. \nSlide\'ın harici depolamaya erişmesine izin vermek ister misiniz?</string>
   <string name="err_authentication">Kimlik doğrulaması başarısız</string>
   <!-- Gif -->
@@ -176,7 +189,12 @@
   <string name="type_emb">Yerleştirilmiş</string>
   <string name="type_imgur">Imgur içeriği</string>
   <string name="type_nsfw_imgur">NSFW Imgur içeriği</string>
+  <string name="type_external">Dış</string>
   <!-- Content types plural (Content filters) -->
+  <string name="type_gifs">GIFler</string>
+  <string name="type_albums">Albümler</string>
+  <string name="type_nsfw_content">NSFW içerik</string>
+  <string name="type_links">Linkler</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Gelen Kutusu</string>
   <string name="mail_tab_unread">Okunmayan</string>
@@ -190,15 +208,22 @@
   <string name="mail_send_to">%1$s kişisine bir mesaj gönder</string>
   <string name="mail_send">Bir mesaj gönder</string>
   <string name="mail_notification_msg">%1$s kişisinden yeni mesaj</string>
+  <string name="mod_mail_notification_msg">%1$s\'dan yeni modmail</string>
   <string name="mail_reply_to">%1$s kişisine cevapla</string>
   <string name="mail_notification_author">%2$s kişisinden %1$s</string>
   <string name="mail_theirs">Onların mesajını görüntüle</string>
   <string name="mail_re">ynt: %1$s</string>
+  <string name="mail_mark_read">Okundu olarak işaretle</string>
+  <string name="mail_mark_unread">Okunmadı olarak işaretle</string>
   <string name="mail_view_full_thread">Tüm konuşmayı görüntüle</string>
   <string name="mail_message_copied">Mesaj kopyalandı</string>
   <plurals name="mail_notification_title">
     <item quantity="one">%d yeni mesajın var!</item>
     <item quantity="other">%d yeni mesajın var!</item>
+  </plurals>
+  <plurals name="mod_mail_notification_title">
+    <item quantity="one">%d yeni modmailiniz var!</item>
+    <item quantity="other">%d yeni modmailiniz var!</item>
   </plurals>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Hata</string>
@@ -212,6 +237,7 @@
   <string name="misc_no_more_posts">Başka yazı kalmadı!</string>
   <string name="misc_please_wait">Lütfen bekleyin&#8230;</string>
   <string name="misc_img_share">Resmi paylaş</string>
+  <string name="misc_link_chooser">Linki birlikte aç</string>
   <string name="misc_copy_text">Yazıyı kopyala</string>
   <!-- Goto User -->
   <string name="user_enter">Kullanıcı adınızı giriniz</string>
@@ -255,13 +281,17 @@
   <string name="vote_err_login">Oy vermek için giriş yapmış olmalısın!</string>
   <!-- Moderation tools -->
   <string name="mod_mail">Mod E-Postası</string>
+  <string name="mod_mail_unread">Okunmamış mod mail</string>
   <string name="mod_reports">Raporlar</string>
   <string name="mod_approve">Bu gönderiyi gerçekten onaylamak istiyor musunuz?</string>
   <string name="mod_approved">Gönderi onaylandı.</string>
   <string name="mod_mark_nsfw">Bunu gerçekten NSFW olarak işaretlemek istiyor musun?</string>
   <string name="mod_remove_nsfw">NSFW etiketini gerçekten kaldırmak istiyor musun?</string>
+  <string name="mod_no_reports">Şikayet yok</string>
   <string name="mod_btn_approve">Onayla</string>
   <string name="mod_btn_approved">/u/%1$s tarafından onaylandı</string>
+  <string name="mod_btn_mark_nsfw">NSFW olarak işaretle</string>
+  <string name="mod_btn_unmark_nsfw">NSFW işaretini kaldır</string>
   <string name="mod_btn_sticky">İğnele</string>
   <string name="mod_btn_remove">Kaldır</string>
   <string name="mod_btn_author">Yazar profili</string>
@@ -281,7 +311,7 @@
   <string name="search_msg">Ne aramıştınız?</string>
   <string name="search_top">En üst</string>
   <string name="search_new">Yeni</string>
-  <string name="search_comments">yorumlar</string>
+  <string name="search_comments">Yorumlar</string>
   <!-- Captcha -->
   <string name="captcha">Yukarıdaki kodu girin</string>
   <string name="captcha_title">Robot olmadığınızı kanıtlayın</string>
@@ -301,7 +331,6 @@
   <string name="settings_disable_nsfw_photo">Tüm İİUD fotoğrafları gizle</string>
   <string name="settings_store_history">Geçmişi kaydet</string>
   <string name="settings_confirm_exit">Çıkış Onayı kutusu</string>
-  <string name="settings_commentnav">Üst yorumlarda gezin</string>
   <string name="share_link">Bağlantıyı paylaş</string>
   <string name="share_image">Resmi paylaş</string>
   <string name="settings_libs">Açık kaynak kod kütüphaneleri</string>
@@ -317,20 +346,31 @@
   <string name="settings_set_image_location">Görüntüler %s konumuna kaydedilecek</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Yedekleme ve geri yükleme</string>
+  <string name="settings_title_default_theme">Ana tema</string>
   <string name="settings_title_general">Genel</string>
+  <string name="settings_title_history">Geçmiş</string>
   <string name="settings_title_notifications">Posta Bildirim Ayarları</string>
   <string name="settings_title_pro">Pro sürüme geç</string>
+  <string name="settings_title_sub_theme">Subreddit temaları</string>
   <string name="settings_title_sorting">Varsayılan Sıralama</string>
   <string name="settings_title_support">Bağış yapın</string>
   <string name="settings_title_about">Hakkında</string>
   <string name="settings_title_multi_column">Çoklu-sütun Ayarları</string>
-  <string name="settings_title_comments">yorumlar</string>
+  <string name="settings_title_comments">Yorumlar</string>
+  <string name="settings_title_filter">Filtreler</string>
+  <string name="settings_title_font">Yazı tipi</string>
   <string name="settings_section_general">Genel</string>
+  <string name="settings_section_appearance">Görünüm</string>
   <!-- Setting subheaders -->
+  <string name="sorting">Sıralama</string>
+  <string name="image_downloads">Resimler</string>
+  <string name="app_theme">Uygulama teması</string>
+  <string name="tinting">Renklendirme</string>
   <string name="post_info">Gönderi bilgileri</string>
   <string name="post_buttons">Gönderi butonları</string>
   <string name="navigation">Gezinme</string>
   <string name="collapse_comments">Daraltma eylemleri</string>
+  <string name="nsfw">NSFW içerik</string>
   <string name="view_reddit_settings">Reddit ayarlarını tarayıcıda aç</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit Ayarları</string>
@@ -371,6 +411,10 @@
   <string name="reorder_subreddit_name">Subreddit adı</string>
   <string name="reorder_remove_title">Bu subredditi kaldır?</string>
   <string name="reorder_sync_complete">Eşitleme tamamlandı</string>
+  <plurals name="reorder_subs_added">
+    <item quantity="one">%d subreddit eklendi</item>
+    <item quantity="other">%d subreddit eklendi</item>
+  </plurals>
   <!-- Time -->
   <string name="time_just_now">Az önce</string>
   <plurals name="time_years">
@@ -399,34 +443,82 @@
   </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
   <!-- Strings present during the login process -->
+  <string name="login_subscribe_rslideforreddit">/r/slideforreddit\'e abone ol?</string>
+  <string name="login_subscribe_rslideforreddit_desc">/r/slideforreddit sorunları bildirmek ve son durumdan haberdar olmak için abone olmak ister misiniz?</string>
   <string name="login_sync_colors">Renkleri şimdi eşle?</string>
   <string name="login_sync_colors_desc">Subreddit renklerini şimdi eşlemek ister misiniz? Ayarlar → Subreddit temaları kısmından da yapabilirsiniz</string>
   <string name="login_authenticating">Slide bilgilerinizi doğruluyor</string>
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
   <string name="over18_title">/r/%1$s yetişkin içeriği içeriyor</string>
+  <string name="over18_desc">On sekiz yaşın üzerinde ve yetişkin içeriği görmek istiyor musunuz?</string>
   <string name="over18_desc_loggedout">Bu uyarıyı devre dışı bırakmak için oturum açın</string>
+  <string name="over18_desc_loggedin">Bu uyarıyı Ayarlar → Reddit tercihleri → NSFW içeriği göster kısmından kapatabilirsiniz</string>
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Eşleme tamamlandı</string>
+  <plurals name="color_sync_colored">
+    <item quantity="one">%d subreddit renklendirildi</item>
+    <item quantity="other">%d subreddit renklendirildi</item>
+  </plurals>
   <!-- Discover section: find -->
-  <string name="submission_share_permalink">Mesajı paylaş</string>
+  <string name="discover_title">Keşfet</string>
+  <string name="discover_search">Arama terimi veya konusu</string>
+  <string name="discover_popular">Popüler</string>
+  <string name="discover_trending">Yükselen</string>
+  <string name="comment_load_more_number_unknown">Daha fazla yorum yükle</string>
+  <string name="settings_comment_color">Renkli yorum derinliği göstergeleri</string>
+  <string name="settings_volume_nav_comments">Yorumlarda ses butonlarını kullanarak gezin</string>
+  <string name="settings_synccit_remove">SYNCCIT BAĞLANTISINI KES</string>
+  <string name="settings_synccit_auth">Doğrulama kodu</string>
+  <string name="settings_synccit_username">Kullanıcı adı</string>
+  <string name="settings_synccit_delete">Synccit hesabı gerçekten silinsin mi?</string>
+  <string name="settings_synccit_authenticate">Synccit ile kimlik doğrulaması yapılıyor</string>
+  <string name="settings_synccit_connected">Bağlantı başarılı!</string>
+  <string name="settings_synccit_active">Synccit bu aygıt için artık etkin</string>
+  <string name="settings_synccit_failed">Kimlik doğrulaması yapılamadı</string>
+  <string name="settings_synccit_failed_msg">Kullanıcı adı ve kimlik doğrulama anahtarının doğru olduğundan emin olun!</string>
+  <string name="settings_synccit">Synccit entegrasyonu</string>
+  <string name="card_right_thumb">Sağa hizalı küçük resim</string>
+  <string name="submission_share_permalink">Gönderiyi paylaş</string>
+  <string name="setting_filter_subreddits">Subreddit filtreleri</string>
+  <string name="subreddit_theme">Subreddit teması</string>
+  <string name="btn_select">Seç</string>
+  <string name="dialog_choose_subreddits_to_edit">Düzenlenecek subredditleri seçin</string>
+  <string name="fab_hide">Gizlenmiş yazıları görüntüle</string>
+  <string name="fab_create">Yeni yazı oluştur</string>
+  <string name="fab_disabled">Devre dışı</string>
+  <string name="handling_internal_browser">Dahili tarayıcıyı kullan</string>
+  <string name="handling_external_browser">Harici tarayıcı kullan</string>
+  <string name="settings_comment_collapse">Yorumları tamamen küçült</string>
+  <string name="settings_comment_collapse_description">Yorum animasyonlarını da devre dışı bırakır</string>
   <string name="settings_comment_collapse_default">Alt yorum varsayılan olarak daralt</string>
+  <string name="mode_list">Liste</string>
   <string name="mode_centered">Ortalanmış resimli kart</string>
   <string name="mode_card">Kart</string>
   <string name="mode_thumbnail">Sadece küçük resim</string>
   <string name="mode_cropped">Kırpılmış büyük resim</string>
   <string name="mode_bigpic">Büyük resim</string>
   <string name="settings_general_swipeanywhere_description">Görüntüden çıkmak için ekranı kaydır</string>
+  <string name="sub_content_filter">Subreddit içerik filtresi</string>
   <string name="submission_share_reddit_url">Yorumları paylaş</string>
   <string name="filter_content">Bu içeriği filtrele</string>
   <string name="settings_general_comment_last_visit">Son ziyaretten bu yana yapılmış yorum sayısını göster</string>
   <string name="error_video_not_found">Video bulunamadı</string>
   <string name="error_video_message">Video yüklenirken bir sorun oluştu</string>
   <string name="view_type_tabs">Subreddit sekmeleri</string>
+  <string name="view_type_none">Subreddit sekmeleri yok</string>
   <string name="view_type_comments">Yorum bölmesi</string>
   <string name="btn_collapse_children_all">Alt yorumları daralt</string>
+  <string name="btn_open_content">İçeriği aç</string>
   <string name="btn_report">Rapor Et</string>
   <string name="input_reason_for_report">Bildirme sebebi</string>
   <string name="msg_report_sent">Bildiri gönderildi</string>
+  <string name="load_videos_internally">Videoları uygulama içinde yükle</string>
+  <string name="load_videos_internally_content">Slayt Video eklentisini denemek ister misiniz? Bu eklenti video (YouTube gibi) uygulama içinde görüntülemenize olanak sağlayacak!</string>
+  <string name="do_not_show_again">Tekrar gösterme</string>
+  <plurals name="landscape_columns">
+    <item quantity="one">Yatayda %d sütun</item>
+    <item quantity="other">Yatayda %d sütun</item>
+  </plurals>
   <string name="datasave_always">Mobil veri ve Wi-Fi</string>
   <string name="datasave_mobile">Mobil veri</string>
   <string name="never">Hiç bir zaman</string>
@@ -443,15 +535,59 @@
   <string name="handling_browser">Web tarayıcısı</string>
   <string name="settings_comments_swap_long">Uzun ve kısa basma eylemlerini yer değiştir</string>
   <string name="settings_redditprefs_over18">18 yaşından büyüğüm ve NSFW içerik görmek istiyorum</string>
+  <string name="settings_layout_view">Görünüm biçimi</string>
+  <string name="settings_data_lowqaul_desc">Aksi takdirde, her zaman yüksek kaliteli görüntüleri aç</string>
+  <string name="settings_data_lowqaul">Mümkünse daha düşük kaliteli bir görüntü yükle</string>
   <string name="settings_subredditspecific_bigpic">Bu subredditte büyük resimleri hep göster</string>
   <string name="settings_layout_picture_mode">Resim modu</string>
   <string name="settings_general_expanded_toolbar">Genişletilmiş araç çubuğu menüsü</string>
   <string name="settings_general_expanded_toolbar_desc">Subreddit araç çubuğunda daha fazla seçenek göster</string>
+  <string name="settings_theme_tinting">Gönderi renklendirme modu</string>
+  <string name="settings_reddit_thumbnail_mode">Küçük resim modu</string>
+  <string name="settings_theme_tint_outside_desc">Sadece multiredditlerde, frontpage ve all subredditlerinde arkaplanı renklendir</string>
+  <string name="settings_links_force_external">Harici tarayıcı kullanmaya zorla</string>
+  <string name="settings_links_force_external_desc">Hep harici tarayıcıyla açılacak domainleri seç</string>
+  <string name="submit_replies_to_inbox">Cevapları gelen kutusuna gönder</string>
+  <string name="settings_data">Veri tasarrufu</string>
+  <string name="btn_view">GÖRÜNÜM</string>
+  <string name="btn_open_comments">Yorumları aç</string>
+  <string name="btn_preview">Önizleme</string>
+  <string name="sorting_default_comment">Varsayılan yorum sıralaması</string>
+  <string name="theme_amoled_contrast">Kontrastı yüksek AMOLED</string>
+  <string name="thread_continue">Yorumların devamı</string>
+  <string name="settings_handling_external_desc">Aşağıda girili domainler hep başka uygulamalarla açılacak</string>
+  <string name="settings_handling_enterdomain">Domainin tam adını veya bir kısmını girin</string>
+  <string name="err_comment_post">Hay aksi, yorumu gönderme başarısız oldu!</string>
+  <string name="err_comment_post_reason">"Sebep: "</string>
+  <string name="err_comment_post_message">\n\nİletiniz taslak olarak kaydedildi. Lütfen daha sonra tekrar deneyin.</string>
+  <string name="err_comment_post_copy">Yorumu kopyala</string>
+  <string name="choose_draft">Bir taslak seçin</string>
+  <string name="dialog_no_drafts">Daha taslak yok</string>
+  <string name="dialog_no_drafts_msg">Editör çubuğundaki \'Kaydet\' simgesini tıklayarak bir taslak oluşturabilirsiniz!</string>
+  <string name="msg_save_draft">Mesaj taslak olarak kaydedildi</string>
+  <string name="guest">Ziyaretçi</string>
   <string name="err_comment_post_nosave_message">\nLütfen bir dakika içinde yeniden deneyin.</string>
-  <string name="open_externally">Harici olarak aç</string>
+  <string name="open_externally">Başka uygulamayla aç</string>
   <string name="vertical_album_view">Dikey albüm görünümü</string>
   <string name="download_album">Albümü indir</string>
   <string name="compose_message">Mesaj yaz</string>
   <string name="mark_all_as_read">Hepsi okundu olarak işaretle</string>
   <string name="btn_changelog">Sürüm bilgileri</string>
+  <string name="clear_subreddit_history">Subreddit geçmişini temizle</string>
+  <string name="clear_submission_history">Gönderi geçmişini temizle</string>
+  <string name="alert_history_cleared">Geçmiş temizlendi!</string>
+  <string name="settings_font_system">Sistem</string>
+  <string name="manage_offline_content">Çevrimdışı içeriği yönet</string>
+  <string name="go_offline">Çevrimdışı ol</string>
+  <string name="cache_wifi_only">Sadece WiFi üzerinde önbelleğe al</string>
+  <string name="misc_rate_msg">Oy ver!</string>
+  <string name="no_cached_comments_found">Önbelleğe alınmış yorum yok</string>
+  <string name="go_online_view_content">Bu içeriği görüntülemek için lütfen çevrimiçi olun</string>
+  <string name="FAQ">S.S.S</string>
+  <string name="alphabetize_subreddits">Subredditleri alfabetik sıraya diz</string>
+  <string name="help">Yardım</string>
+  <string name="btn_set">AYARLA</string>
+  <string name="view_subreddits">Subredditleri görüntüle</string>
+  <string name="btn_add_subreddit">Subreddit ekle</string>
+  <string name="btn_new">Yeni</string>
 </resources>

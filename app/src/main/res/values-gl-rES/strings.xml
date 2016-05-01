@@ -105,4 +105,5 @@
   <string name="submission_share_permalink">Compartir post</string>
   <string name="mode_card">Tarxeta</string>
   <string name="open_externally">Abrir externamente</string>
+  <string name="btn_new">Novo</string>
 </resources>

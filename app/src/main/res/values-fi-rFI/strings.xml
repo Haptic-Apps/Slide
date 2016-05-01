@@ -223,4 +223,6 @@
   <string name="subreddit_name_tint">Subredditin nimi</string>
   <string name="content_deleted">[poistettu]</string>
   <string name="open_externally">Avaa ulkoisesti</string>
+  <string name="btn_add_subreddit">Lisää subredditti</string>
+  <string name="btn_new">Uudet</string>
 </resources>

@@ -39,7 +39,7 @@
     <item quantity="other">%d 則新訊息</item>
   </plurals>
   <plurals name="points">
-    <item quantity="other">點</item>
+    <item quantity="other">分</item>
   </plurals>
   <!-- Theme settings -->
   <string name="theme_light">淺色</string>
@@ -53,11 +53,11 @@
   <string name="theme_card">卡片</string>
   <!-- Font settings -->
   <string name="font_size">字型大小</string>
-  <string name="font_size_larger">加大</string>
-  <string name="font_size_large">大</string>
-  <string name="font_size_medium">中</string>
+  <string name="font_size_larger">較大字體</string>
+  <string name="font_size_large">大字體</string>
+  <string name="font_size_medium">中等字體</string>
   <string name="font_size_small">小</string>
-  <string name="font_size_smaller">加小</string>
+  <string name="font_size_smaller">较小</string>
   <string name="font_size_tiny">極小</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">在動作列中顯示「隱藏貼文」按鈕</string>
@@ -137,6 +137,18 @@
   <string name="sorting_old">最舊</string>
   <string name="sorting_controversial">最具爭議</string>
   <string name="sorting_rising">正在上升</string>
+  <string name="sorting_hour">› 小時</string>
+  <string name="sorting_day">› 24 小時</string>
+  <string name="sorting_week">› 周</string>
+  <string name="sorting_month">› 月</string>
+  <string name="sorting_year">› 年</string>
+  <string name="sorting_all">› 所有時間</string>
+  <string name="sorting_search_hour">過去一小時</string>
+  <string name="sorting_search_day">過去 24 小時</string>
+  <string name="sorting_search_week">過去一周</string>
+  <string name="sorting_search_month">過去一個月</string>
+  <string name="sorting_search_year">過去一年</string>
+  <string name="sorting_search_all">所有時間</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">連結</string>
   <string name="editor_text">文字</string>
@@ -196,7 +208,10 @@
   <string name="type_nsfw_imgur">NSFW Imgur 內容</string>
   <string name="type_external">外部</string>
   <!-- Content types plural (Content filters) -->
+  <string name="type_gifs">GIF 圖檔</string>
+  <string name="type_albums">相冊</string>
   <string name="type_nsfw_content">NSFW 內容</string>
+  <string name="type_links">鏈接</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">收件匣</string>
   <string name="mail_tab_unread">未讀</string>
@@ -346,7 +361,6 @@
   <string name="settings_store_history">保存瀏覽歷史</string>
   <string name="settings_store_nsfw_history">保存 NSFW 瀏覽歷史</string>
   <string name="settings_confirm_exit">確認退出對話框</string>
-  <string name="settings_commentnav">在上下層留言間移動</string>
   <string name="share_link">分享連結</string>
   <string name="posts_hidden_forever">永久隱藏的貼文</string>
   <string name="share_image">分享圖片</string>
@@ -524,7 +538,6 @@
   <string name="fab_disabled">已停用</string>
   <string name="handling_internal_browser">使用內建瀏覽器</string>
   <string name="handling_external_browser">使用外部瀏覽器</string>
-  <string name="settings_commentnav_description">啟用在畫面下方的瀏覽按鈕工具列</string>
   <string name="settings_comment_collapse">完全摺疊留言</string>
   <string name="settings_comment_collapse_description">同時會關閉留言動畫</string>
   <string name="settings_comment_collapse_default">預設摺疊下層留言</string>
@@ -541,6 +554,7 @@
   <string name="sub_content_filter">Subreddit 內容過濾</string>
   <string name="submission_share_reddit_url">分享留言連結</string>
   <string name="filter_content">過濾此內容</string>
+  <string name="content_to_hide">在 %1$s 隱藏的內容</string>
   <string name="settings_general_comment_last_visit">顯示在上次瀏覽後新留言的數目</string>
   <string name="error_video_not_found">找不到影片</string>
   <string name="error_video_message">在載入影片時發生錯誤</string>
@@ -552,6 +566,9 @@
   <string name="btn_report">檢舉</string>
   <string name="input_reason_for_report">檢舉原因</string>
   <string name="msg_report_sent">已發送檢舉報告</string>
+  <string name="load_videos_internally">內部載入視頻</string>
+  <string name="load_videos_internally_content">你想試試幻燈片視頻外掛程式嗎？這將允許您在內部觀賞視頻（比如 YouTube）！</string>
+  <string name="do_not_show_again">不要再顯示</string>
   <plurals name="landscape_columns">
     <item quantity="other">在橫向時顯示 %d 列</item>
   </plurals>
@@ -625,4 +642,26 @@
   <string name="compose_message">撰寫訊息</string>
   <string name="mark_all_as_read">標記全部項目為已讀</string>
   <string name="btn_changelog">更新列表</string>
+  <string name="clear_subreddit_history">清除閱讀歷史</string>
+  <string name="clear_submission_history">清除貼文記錄</string>
+  <string name="alert_history_cleared">閱讀紀錄已清除</string>
+  <string name="settings_subredditspecific_selftext">在這Subreddit中總是顯示文字貼文</string>
+  <string name="settings_font_system">系統</string>
+  <string name="manage_offline_content">管理離線內容</string>
+  <string name="go_offline">離線</string>
+  <string name="cache_wifi_only">使用 WiFi 時緩存</string>
+  <string name="misc_rate_title">你喜歡 Slide 嗎？</string>
+  <string name="misc_rate_msg">在 Play Store 留個評論吧！</string>
+  <string name="sidebar_edit_flair">更改你的前綴</string>
+  <string name="no_cached_comments_found">找不到已緩存的留言</string>
+  <string name="go_online_view_content">請先連至互聯網，再查看此內容。</string>
+  <string name="FAQ">常見問題</string>
+  <string name="alphabetize_subreddits">按字母順序排列 subreddit</string>
+  <string name="sync_subscriptions">同步訂閱</string>
+  <string name="help">幫助</string>
+  <string name="upvote_percentage">顯示投上票百分比</string>
+  <string name="btn_set">設定</string>
+  <string name="view_subreddits">檢視 Subreddits</string>
+  <string name="btn_add_subreddit">增加 Subreddit</string>
+  <string name="btn_new">最新</string>
 </resources>

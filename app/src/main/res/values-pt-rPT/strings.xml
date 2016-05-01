@@ -367,7 +367,6 @@
   <string name="settings_store_history">Guardar histórico</string>
   <string name="settings_store_nsfw_history">Salvar o histórico NSFW</string>
   <string name="settings_confirm_exit">Confirmar saída</string>
-  <string name="settings_commentnav">Navegar entre os comentários originais</string>
   <string name="share_link">Partilhar ligação</string>
   <string name="posts_hidden_forever">Postagens ocultas permanentemente</string>
   <string name="share_image">Partilhar imagem</string>
@@ -553,7 +552,6 @@
   <string name="fab_disabled">Desabilitado</string>
   <string name="handling_internal_browser">Usar navegador interno</string>
   <string name="handling_external_browser">Usar navegador externo</string>
-  <string name="settings_commentnav_description">Permite uma barra inferior com setas de navegação</string>
   <string name="settings_comment_collapse">Retrair comentários completamente</string>
   <string name="settings_comment_collapse_description">Também desativa animações de comentários</string>
   <string name="settings_comment_collapse_default">Retrair comentários subsequentes por padrão</string>
@@ -667,6 +665,6 @@
   <string name="manage_offline_content">Gerenciar conteúdo offline</string>
   <string name="go_offline">Ficar off-line</string>
   <string name="cache_wifi_only">Apenas fazer cache no WiFi</string>
-  <string name="settings_font_bold">Negrito</string>
-  <string name="settings_font_condensed_bold">Negrito condensado</string>
+  <string name="btn_add_subreddit">Adicionar um subreddit</string>
+  <string name="btn_new">Novas</string>
 </resources>

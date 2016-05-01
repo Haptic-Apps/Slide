@@ -218,4 +218,5 @@
   <string name="mode_card">Targeta</string>
   <string name="btn_report">Informar</string>
   <string name="open_externally">Obrir externament</string>
+  <string name="btn_new">Nou</string>
 </resources>

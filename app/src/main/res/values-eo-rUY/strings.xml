@@ -185,4 +185,5 @@
   <string name="btn_report">Raporti</string>
   <string name="content_deleted">[forigita]</string>
   <string name="open_externally">Malfermi ekstere</string>
+  <string name="btn_new">Novaj</string>
 </resources>

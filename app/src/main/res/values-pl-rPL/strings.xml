@@ -149,7 +149,7 @@
   <string name="sorting_week">› tydzień</string>
   <string name="sorting_month">› miesiąc</string>
   <string name="sorting_year">› rok</string>
-  <string name="sorting_all">Od początku</string>
+  <string name="sorting_all">› od początku</string>
   <string name="sorting_search_hour">Ostatnia godzina</string>
   <string name="sorting_search_day">Ostatnie 24 godziny</string>
   <string name="sorting_search_week">Ostatni tydzień</string>
@@ -374,7 +374,6 @@
   <string name="settings_store_history">Zapisuj historię</string>
   <string name="settings_store_nsfw_history">Zapisuj historię NSFW</string>
   <string name="settings_confirm_exit">Potwierdzanie wyjścia</string>
-  <string name="settings_commentnav">Nawigacja między nadrzędnymi komentarzami</string>
   <string name="share_link">Udostępnij link</string>
   <string name="posts_hidden_forever">Posty na zawsze ukryte</string>
   <string name="share_image">Udostępnij obraz</string>
@@ -568,7 +567,6 @@
   <string name="fab_disabled">Wyłączony</string>
   <string name="handling_internal_browser">Używaj wbudowanej przeglądarki</string>
   <string name="handling_external_browser">Używaj zewnętrznej przeglądarki</string>
-  <string name="settings_commentnav_description">Włącza dolny pasek z przyciskami nawigacji</string>
   <string name="settings_comment_collapse">Zwiń komentarze w pełni</string>
   <string name="settings_comment_collapse_description">Wyłącza również animacje komentarzy</string>
   <string name="settings_comment_collapse_default">Domyślnie zwijaj komentarze</string>
@@ -684,6 +682,18 @@
   <string name="manage_offline_content">Zarządzanie zawartością offline</string>
   <string name="go_offline">Przejdź offline</string>
   <string name="cache_wifi_only">Zapisuj tylko na WiFi</string>
-  <string name="settings_font_bold">Pogrubiona</string>
-  <string name="settings_font_condensed_bold">Ściśnięta pogrubiona</string>
+  <string name="misc_rate_title">Lubisz Slide?</string>
+  <string name="misc_rate_msg">Oceń!</string>
+  <string name="sidebar_edit_flair">Edytuj flarę</string>
+  <string name="no_cached_comments_found">Brak komentarzy offline</string>
+  <string name="go_online_view_content">Przejdź w online, by zobaczyć tą zawartość</string>
+  <string name="FAQ">FAQ</string>
+  <string name="alphabetize_subreddits">Alfabetyzuj subreddity</string>
+  <string name="sync_subscriptions">Synchronizuj subskrypcje</string>
+  <string name="help">Pomoc</string>
+  <string name="upvote_percentage">Pokaż procent polubień</string>
+  <string name="btn_set">USTAW</string>
+  <string name="view_subreddits">Zobacz subreddity</string>
+  <string name="btn_add_subreddit">Dodaj subreddita</string>
+  <string name="btn_new">Nowe</string>
 </resources>

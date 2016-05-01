@@ -261,7 +261,6 @@
   <string name="settings_notification_short">Проверять каждые %1$s</string>
   <string name="settings_disable_nsfw_photo">Скрыть все NSFW фото</string>
   <string name="settings_confirm_exit">Подтверждать Выход</string>
-  <string name="settings_commentnav">Перемещаться между родительскими комментариями</string>
   <string name="share_link">Поделиться ссылкой</string>
   <string name="posts_hidden_forever">Пост скрыт навсегда</string>
   <string name="share_image">Поделиться изображением</string>
@@ -358,4 +357,6 @@
   <string name="subreddit_name_tint">Название сабреддита</string>
   <string name="content_deleted">[deleted]</string>
   <string name="open_externally">Открыть в другом приложении</string>
+  <string name="btn_add_subreddit">Добавить сабреддит</string>
+  <string name="btn_new">Новое</string>
 </resources>

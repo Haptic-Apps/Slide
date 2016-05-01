@@ -90,4 +90,5 @@
   <string name="settings_synccit_username">Ainm Úsáideora</string>
   <string name="mode_list">Liosta</string>
   <string name="mode_card">Cárta</string>
+  <string name="btn_new">Nua</string>
 </resources>

@@ -27,6 +27,7 @@
   <string name="submission_save">保存告示</string>
   <string name="submission_share">分享告示</string>
   <string name="submission_load_full">打开完整帖子</string>
+  <string name="submission_np_link">此为不参与版本，请勿投票或留言。</string>
   <string name="submission_tap_gif">点击来载入动图</string>
   <string name="submission_not_found">噢，帖子未找到！</string>
   <string name="submission_not_found_msg">抱歉，此帖未找到</string>
@@ -34,16 +35,30 @@
   <plurals name="submission_points">
     <item quantity="other">%d 积分</item>
   </plurals>
+  <plurals name="new_messages">
+    <item quantity="other">%d 条新信息</item>
+  </plurals>
+  <plurals name="points">
+    <item quantity="other">分</item>
+  </plurals>
   <!-- Theme settings -->
   <string name="theme_light">浅色</string>
   <string name="theme_dark">暗</string>
   <string name="theme_black">AMOLED 黑色</string>
+  <string name="theme_dark_blue">深蓝</string>
+  <string name="theme_default_color">主色调</string>
   <string name="theme_subreddit_color">改变颜色</string>
   <string name="theme_accent_color">强调色</string>
   <string name="theme_base">基本主题</string>
   <string name="theme_card">卡片</string>
   <!-- Font settings -->
   <string name="font_size">字体大小</string>
+  <string name="font_size_larger">较大字体</string>
+  <string name="font_size_large">大字体</string>
+  <string name="font_size_medium">中等字体</string>
+  <string name="font_size_small">小字体</string>
+  <string name="font_size_smaller">较小字体</string>
+  <string name="font_size_tiny">迷你字体</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">动作栏放置“隐藏帖子”按钮</string>
   <string name="card_save_button">在操作栏放置 “保存帖子” 按钮</string>
@@ -52,12 +67,14 @@
   <string name="multi_column_landscape">风景</string>
   <string name="multi_column_portrait">纵向模式时显示双栏</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">你</string>
   <string name="drawer_support">升级为专业版</string>
   <string name="drawer_goto_profile">查看用户资料</string>
   <string name="drawer_add_account">添加帐户</string>
   <string name="drawer_hello">您好,</string>
   <string name="drawer_search">搜索一个版块</string>
   <string name="drawer_moderation">版主管理</string>
+  <string name="drawer_offline">Slide 现正在离线模式</string>
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
   <string name="profile_karma_link">链接 karma</string>
@@ -84,7 +101,7 @@
   <string name="comment_delete_err">噢，出问题了。</string>
   <string name="comment_delete_err_msg">你想再试一次吗？</string>
   <string name="comment_deleted">[deleted]</string>
-  <string name="comment_loading_more">正在加载更多评论…</string>
+  <string name="comment_loading_more">正在加载更多评论...</string>
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
   <string name="sorting_choose">选择一个排序分类</string>
@@ -170,7 +187,7 @@
   <string name="misc_continue">继续</string>
   <string name="misc_unsubscribed">已取消订阅</string>
   <string name="misc_no_more_posts">没有更多的帖子！</string>
-  <string name="misc_please_wait">请稍等…</string>
+  <string name="misc_please_wait">请稍等...</string>
   <string name="misc_img_share">分享图片方式</string>
   <string name="misc_link_chooser">打开链接方式</string>
   <string name="misc_copy_text">复制文字</string>
@@ -260,7 +277,6 @@
   <string name="settings_notification_short">每 %1$s 检查一次</string>
   <string name="settings_disable_nsfw_photo">隐藏所有 NSFW 图片</string>
   <string name="settings_confirm_exit">确认退出对话框</string>
-  <string name="settings_commentnav">父评论间的导航</string>
   <string name="share_link">分享链接</string>
   <string name="posts_hidden_forever">永久隐藏的帖子</string>
   <string name="share_image">分享图片</string>
@@ -351,4 +367,6 @@
   <string name="subreddit_name_tint">板块名称</string>
   <string name="content_deleted">[deleted]</string>
   <string name="open_externally">外部打开</string>
+  <string name="btn_add_subreddit">添加板块</string>
+  <string name="btn_new">新的</string>
 </resources>

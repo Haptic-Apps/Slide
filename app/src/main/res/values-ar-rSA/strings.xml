@@ -9,10 +9,12 @@
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">لم يتم حفظ البيانات</string>
   <string name="submission_info_saved">تم حفظ الادخال</string>
+  <string name="submission_info_archived">هذا منشور مؤرشف. لن تتمكن من التصويت أو التعليق</string>
   <string name="submission_post_saved">حُفظ المنشور</string>
   <string name="submission_info_hidden">المنشور مخفى للأبد</string>
   <string name="submission_stickied">مثبت</string>
   <string name="submission_link_extern">فتح بالخارج</string>
+  <string name="submission_link_copy">انسخ الرابط</string>
   <string name="submission_link_share">مشاركة الرابط</string>
   <string name="submission_share_title">تريد مشاركة اي رابط ؟</string>
   <string name="submission_share_reddit">رابط ريدات</string>
@@ -24,6 +26,8 @@
   <string name="submission_share">مشاركة المنشور</string>
   <string name="submission_load_full">فتح الموضوع بالكامل</string>
   <string name="submission_tap_gif">اضغط لتنزيل الـGIF</string>
+  <string name="submission_not_found">أووه، لم يتم العثور على المنشور!</string>
+  <string name="submission_not_found_msg">عذرًا، لا يمكن العثور على هذا المنشور</string>
   <string name="submission_copy">نسخ الكتابه</string>
   <!-- Theme settings -->
   <string name="theme_light">فاتح (ابيض)</string>
@@ -37,6 +41,12 @@
   <string name="theme_card">بطاقة</string>
   <!-- Font settings -->
   <string name="font_size">حجم حروف الطباعة</string>
+  <string name="font_size_larger">أكبر</string>
+  <string name="font_size_large">كبير</string>
+  <string name="font_size_medium">متوسط</string>
+  <string name="font_size_small">صغير</string>
+  <string name="font_size_smaller">أصغر</string>
+  <string name="font_size_tiny">صغير جدا</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">زر \"اخفاء البوست\" في شريط العمل</string>
   <string name="card_tint_outside">التظليل فقط خارج السب ريديت</string>
@@ -46,6 +56,7 @@
   <string name="multi_column_landscape">أفقي</string>
   <string name="multi_column_portrait">أعمدة مزدوجة في الوضع العامودي</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">أنت</string>
   <string name="drawer_support">اشتر نسخة Pro</string>
   <string name="drawer_goto_profile">انتقل إلى الصفحة الشخصية</string>
   <string name="drawer_add_account">إضافة حساب</string>
@@ -69,6 +80,8 @@
   <string name="profile_friend">صديق</string>
   <string name="profile_add_friend">أضف كصديق</string>
   <string name="profile_remove_friend">حذف صديق</string>
+  <string name="profile_history">السّجل</string>
+  <string name="profile_tag">وسم</string>
   <!-- Comment text options -->
   <string name="comment_share">شارك التعليق</string>
   <string name="comment_delete">حذف التعليق</string>
@@ -80,8 +93,10 @@
   <string name="sorting_best">أفضل</string>
   <string name="sorting_top">أعلى</string>
   <string name="sorting_hot">ذات شعبية</string>
+  <string name="sorting_ama">س&amp;ج (أسألني أي شيء AMA)</string>
   <string name="sorting_new">جديد</string>
   <string name="sorting_old">قديم</string>
+  <string name="sorting_rising">صاعد</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">الرابط</string>
   <string name="editor_text">النص</string>
@@ -93,6 +108,7 @@
   <string name="editor_select_img">قم بأختيار صورة</string>
   <string name="editor_hint_optional_body">الجسم (اختياري)</string>
   <string name="editor_submit">أرسِل المنشورة</string>
+  <string name="editor_hint_subreddit">ريدّت فرعي</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">حُفظت الصورة</string>
   <!-- General errors / errors without a category -->
@@ -108,14 +124,25 @@
   <!-- Content types -->
   <string name="type_nsfw_img">صورة NSFW</string>
   <string name="type_nsfw_gif">GIF NSFW</string>
+  <string name="type_reddit">رابط ريدّت</string>
   <string name="type_link">رابط</string>
   <string name="type_nsfw_link">رابط NSFW</string>
   <string name="type_gif">GIF</string>
   <string name="type_title_only">عنوان المنشورة</string>
   <string name="type_album">ألبوم</string>
+  <string name="type_nsfw_album">ألبوم غير صالح للعمل</string>
   <string name="type_img">صورة</string>
   <string name="type_vid">فيديو</string>
+  <string name="type_nsfw_video">فيديو غير صالح للعمل</string>
+  <string name="type_emb">مضمّن</string>
+  <string name="type_nsfw_emb">غير صالح للعمل مضمّن</string>
+  <string name="type_imgur">محتوى Imgur</string>
+  <string name="type_nsfw_imgur">محتوى Imgur غير صالح للعمل</string>
+  <string name="type_external">خارجي</string>
   <!-- Content types plural (Content filters) -->
+  <string name="type_albums">ألبومات</string>
+  <string name="type_nsfw_content">محتوى غير صالح للعمل</string>
+  <string name="type_links">روابط</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">صندوق الوارد</string>
   <string name="mail_hint_recipient">المُستلم</string>
@@ -131,6 +158,7 @@
   <string name="misc_none">لاشيء</string>
   <string name="misc_score_hidden">النقاط مخفية</string>
   <string name="misc_nsfw">NSFW</string>
+  <string name="misc_continue">متابعة</string>
   <string name="misc_copy_text">نسخ الكتابه</string>
   <!-- Goto User -->
   <string name="user_enter">أدخل اسم المستخدم</string>
@@ -166,6 +194,10 @@
   <!-- Moderation tools -->
   <string name="mod_reports">ابلاغ</string>
   <string name="mod_no_reports">لا توجد تقارير</string>
+  <string name="mod_btn_mark_nsfw">علّم محتوى غير صالح للعمل</string>
+  <string name="mod_btn_unmark_nsfw">ألغ تعليم محتوى غير صالح للعمل</string>
+  <string name="mod_btn_sticky">ثبّت</string>
+  <string name="mod_btn_unsticky">ألغ التثبيت</string>
   <string name="mod_btn_remove">إزالة</string>
   <!-- Subreddit Wiki -->
   <string name="wiki_err">لم يتم العصور على wiki</string>
@@ -195,15 +227,18 @@
   <string name="settings_colored_navigation_bar">شريط التنقل ملون</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_general">عامّ</string>
+  <string name="settings_title_history">السّجل</string>
   <string name="settings_title_notifications">إعدادات التنبيهات</string>
   <string name="settings_title_pro">اشتر نسخة Pro</string>
   <string name="settings_title_support">التبرع</string>
+  <string name="settings_title_about">حول</string>
   <string name="settings_title_multi_column">متعدد الأعمدة</string>
   <string name="settings_title_fab">زر العمل عائم</string>
   <string name="settings_title_comments">تعليقات</string>
   <string name="settings_title_filter">فلترة</string>
   <string name="settings_title_font">الخط</string>
   <string name="settings_section_general">عامّ</string>
+  <string name="settings_section_appearance">المظهر</string>
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_submit_post">إرسال المنشورة</string>
@@ -241,6 +276,8 @@
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">تم أكمال المزامنة</string>
   <!-- Discover section: find -->
+  <string name="discover_popular">الاكثر شعبية</string>
+  <string name="discover_trending">رائج</string>
   <string name="comment_load_more_number_unknown">إظهار المزيد من التعليقات</string>
   <string name="settings_synccit_username">إسم المستخدم</string>
   <string name="settings_synccit_delete">حذف حساب synccit حقا ؟</string>
@@ -250,4 +287,6 @@
   <string name="btn_report">ابلاغ</string>
   <string name="subreddit_name_tint">اسم السوبريديت</string>
   <string name="open_externally">فتح بالخارج</string>
+  <string name="btn_add_subreddit">إضافة سوبريديت</string>
+  <string name="btn_new">جديد</string>
 </resources>

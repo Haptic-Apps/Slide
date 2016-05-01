@@ -275,7 +275,6 @@
   <string name="settings_notification_short">Kontrollera varje %1$s</string>
   <string name="settings_disable_nsfw_photo">Dölj alla NSFW bilder</string>
   <string name="settings_confirm_exit">Bekräfta avsluts dialog</string>
-  <string name="settings_commentnav">Navigera mellan parent-kommentarer</string>
   <string name="share_link">Dela länk</string>
   <string name="posts_hidden_forever">Göm dolda för alltid</string>
   <string name="share_image">Dela bild</string>
@@ -362,4 +361,5 @@
   <string name="btn_report">Rapportera</string>
   <string name="content_deleted">[borttagen]</string>
   <string name="open_externally">Öppna externt</string>
+  <string name="btn_new">Nya</string>
 </resources>

@@ -110,11 +110,60 @@
   <string name="comment_deleted">[slettet]</string>
   <string name="comment_unsave">Gem ikke</string>
   <string name="comment_load_more">Indlæs %1$d mere</string>
+  <string name="comment_loading_more">Indlæser flere kommentarer&#8230;</string>
+  <string name="comment_permalink">Indlæs kommentars permalink</string>
+  <string name="comment_parent">Vis oprindelig kommentar</string>
   <!-- Welcome view (first time setup) -->
+  <string name="welcome_start">Kom i gang</string>
+  <string name="welcome_personalize">Tilpas</string>
   <!-- Sorting options -->
+  <string name="sorting_choose">Vælg sortering</string>
+  <string name="sorting_time_choose">Vælg en tidsramme</string>
+  <string name="sorting_change_sorting">Sorteringstilstand</string>
+  <string name="sorting_best">Bedste</string>
+  <string name="sorting_top">Top</string>
+  <string name="sorting_hot">Hot</string>
+  <string name="sorting_ama">Q&amp;A (AMA)</string>
+  <string name="sorting_new">Nye</string>
+  <string name="sorting_old">Gamle</string>
+  <string name="sorting_controversial">Kontroversielle</string>
+  <string name="sorting_rising">Stigende</string>
+  <string name="sorting_hour">> time</string>
+  <string name="sorting_day">> 24 timer</string>
+  <string name="sorting_week">> uge</string>
+  <string name="sorting_month">> måned</string>
+  <string name="sorting_year">> år</string>
+  <string name="sorting_all">> for altid</string>
+  <string name="sorting_search_hour">Sidste time</string>
+  <string name="sorting_search_day">Sidste 24 timer</string>
+  <string name="sorting_search_week">Sidste uge</string>
+  <string name="sorting_search_month">Sidste måned</string>
+  <string name="sorting_search_year">Sidste år</string>
+  <string name="sorting_search_all">For altid</string>
   <!-- Editor (save/submit a post) actions -->
+  <string name="editor_url">URL</string>
+  <string name="editor_text">Tekst</string>
+  <string name="editor_title_link">Indsæt link</string>
+  <string name="editor_action_link">INDSÆT</string>
+  <string name="editor_title">Titel</string>
+  <string name="editor_err_msg">Prøv venligst igen om et par sekunder</string>
+  <string name="editor_uploading_image">Upload billede til Imgur</string>
+  <string name="editor_self">Selftext</string>
+  <string name="editor_select_img">Vælg billede</string>
+  <string name="editor_hint_optional_body">Tekst (valgfrit)</string>
+  <string name="editor_submit">Indsend et indlæg</string>
+  <string name="editor_hint_subreddit">Subreddit</string>
   <!-- General information / information without a category -->
+  <string name="info_photo_saved">Billede gemt</string>
   <!-- General errors / errors without a category -->
+  <string name="err_title">Ups! Noget gik galt</string>
+  <string name="err_invalid_url">Ugyldig URL</string>
+  <string name="err_loading_content">Fejl ved indlæsning af indhold</string>
+  <string name="err_connection_lost">Ups! Det ser ud, som om du har mistet internetforbindelsen. Forbind venligst til internettet og gå tilbage!</string>
+  <string name="err_general">Ups! En fejl opstod</string>
+  <string name="err_no_connection">Kunne ikke forbinde til Reddit. Vil du prøve igen?</string>
+  <string name="err_retry_later">Prøv igen om et minut!</string>
+  <string name="err_permission">Tilladelse nægtet</string>
   <!-- Gif -->
   <!-- Multireddit errors -->
   <string name="multireddit_title_empty_msg">Angiv venligst en titel til din multireddit</string>
@@ -173,8 +222,17 @@
   <!-- Goto User -->
   <!-- Buttons -->
   <!-- Backup -->
+  <string name="backup_btn">Sikkerkedskopiér</string>
+  <string name="backup_btn_restore">Gendan</string>
+  <string name="backup_btn_file">Sikkerhedskopiér til fil</string>
+  <string name="backup_btn_restore_file">Gendan fra fil</string>
   <!-- Vote -->
+  <string name="vote_err">Fejl ved afgivelse af stemme!</string>
+  <string name="vote_err_login">Du skal være logget ind for at stemme!</string>
   <!-- Moderation tools -->
+  <string name="mod_mail">Moderatorbesked</string>
+  <string name="mod_mail_unread">Moderatorbesked ulæst</string>
+  <string name="mod_modqueue">Moderatorkø</string>
   <string name="mod_approve">Vil du virkelig godkende dette indlæg?</string>
   <string name="mod_approved">Indlæg godkendt</string>
   <string name="mod_mark_nsfw">Vil du virkelig markere dette som NSFW?</string>
@@ -182,6 +240,8 @@
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
+  <string name="search_top">Top</string>
+  <string name="search_new">Nye</string>
   <string name="search_comments">Kommentarer</string>
   <!-- Captcha -->
   <!-- Settings -->
@@ -205,4 +265,5 @@
   <string name="mode_card">Kort</string>
   <string name="content_deleted">[slettet]</string>
   <string name="open_externally">Åbn eksternt</string>
+  <string name="btn_new">Nye</string>
 </resources>

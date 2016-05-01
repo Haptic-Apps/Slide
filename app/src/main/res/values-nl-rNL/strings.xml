@@ -88,7 +88,7 @@
   <string name="profile_karma_comment">Reactiekarma</string>
   <string name="profile_message">Privébericht</string>
   <string name="profile_saved">Opgeslagen</string>
-  <string name="profile_upvoted">Omhooggewillemd</string>
+  <string name="profile_upvoted">upvoted</string>
   <string name="profile_err_title">Gebruiker niet gevonden</string>
   <string name="profile_err_msg">Reddit-gebruiker kan niet worden geladen.</string>
   <string name="profile_overview">Overzicht</string>
@@ -140,6 +140,18 @@
   <string name="sorting_old">Oud</string>
   <string name="sorting_controversial">Controversieel</string>
   <string name="sorting_rising">Stijgende</string>
+  <string name="sorting_hour">uur</string>
+  <string name="sorting_day">24 uur</string>
+  <string name="sorting_week">week</string>
+  <string name="sorting_month">maand</string>
+  <string name="sorting_year">jaar</string>
+  <string name="sorting_all">altijd</string>
+  <string name="sorting_search_hour">Afgelopen uur</string>
+  <string name="sorting_search_day">Afgelopen 24 uur</string>
+  <string name="sorting_search_week">Afgelopen week</string>
+  <string name="sorting_search_month">Afgelopen maand</string>
+  <string name="sorting_search_year">Afgelopen jaar</string>
+  <string name="sorting_search_all">Altijd</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Tekst</string>
@@ -199,7 +211,10 @@
   <string name="type_nsfw_imgur">NSFW-Imgur-inhoud</string>
   <string name="type_external">Extern</string>
   <!-- Content types plural (Content filters) -->
+  <string name="type_gifs">GIF\'s</string>
+  <string name="type_albums">Albums</string>
   <string name="type_nsfw_content">NSFW-inhoud</string>
+  <string name="type_links">Links</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Inbox</string>
   <string name="mail_tab_unread">Ongelezen</string>
@@ -352,7 +367,6 @@
   <string name="settings_store_history">Geschiedenis bewaren</string>
   <string name="settings_store_nsfw_history">NSFW-geschiedenis geschiedenis bewaren</string>
   <string name="settings_confirm_exit">\"Sluiten bevestigen\"-melding</string>
-  <string name="settings_commentnav">Navigeer tussen bovenliggende reacties</string>
   <string name="share_link">Link delen</string>
   <string name="posts_hidden_forever">Berichten voor altijd verborgen</string>
   <string name="share_image">Afbeelding delen</string>
@@ -538,7 +552,6 @@
   <string name="fab_disabled">Uitgeschakeld</string>
   <string name="handling_internal_browser">Gebruik de geïntegreerde browser</string>
   <string name="handling_external_browser">Gebruik de externe browser</string>
-  <string name="settings_commentnav_description">Toont onderaan een balk met navigatiepijlen</string>
   <string name="settings_comment_collapse">Reacties volledig inklappen</string>
   <string name="settings_comment_collapse_description">Reactie-animaties ook uitschakelen</string>
   <string name="settings_comment_collapse_default">Onderliggende reacties standaard inklappen</string>
@@ -555,6 +568,7 @@
   <string name="sub_content_filter">Subreddit inhoudfilter</string>
   <string name="submission_share_reddit_url">Deel reacties</string>
   <string name="filter_content">Filter deze berichten</string>
+  <string name="content_to_hide">Inhoud om te verbergen in %1$s</string>
   <string name="settings_general_comment_last_visit">Toon aantal nieuwe reacties sinds laatste bezoek</string>
   <string name="error_video_not_found">Video niet gevonden</string>
   <string name="error_video_message">Er is een fout opgetreden tijdens het laden van deze video</string>
@@ -566,6 +580,9 @@
   <string name="btn_report">Melden</string>
   <string name="input_reason_for_report">Reden voor de melding</string>
   <string name="msg_report_sent">Melding verzonden</string>
+  <string name="load_videos_internally">Video\'s intern laden</string>
+  <string name="load_videos_internally_content">Wil je de Slide Video Plugin proberen? Hiermee kan je onder andere YouTube-video\'s intern laden!</string>
+  <string name="do_not_show_again">Niet meer tonen</string>
   <plurals name="landscape_columns">
     <item quantity="one">%d kolom in landschapsmodus</item>
     <item quantity="other">%d kolommen in landschapsmodus</item>
@@ -640,4 +657,26 @@
   <string name="compose_message">Bericht opstellen</string>
   <string name="mark_all_as_read">Markeer alles als gelezen</string>
   <string name="btn_changelog">Wijzigingen</string>
+  <string name="clear_subreddit_history">Subreddit geschiedenis wissen</string>
+  <string name="clear_submission_history">Instuurgeschiedenis wissen</string>
+  <string name="alert_history_cleared">Geschiedenis gewist!</string>
+  <string name="settings_subredditspecific_selftext">Altijd voorbeelden van zelfteksten tonen in deze Subreddit</string>
+  <string name="settings_font_system">Systeem</string>
+  <string name="manage_offline_content">Offline-inhoud beheren</string>
+  <string name="go_offline">Offline gaan</string>
+  <string name="cache_wifi_only">Alleen cachen met WiFi</string>
+  <string name="misc_rate_title">Bevalt Slide?</string>
+  <string name="misc_rate_msg">Beoordeel!</string>
+  <string name="sidebar_edit_flair">Wijzig jouw flair</string>
+  <string name="no_cached_comments_found">Geen gecachete reacties gevonden</string>
+  <string name="go_online_view_content">Ga online om dit te bekijken</string>
+  <string name="FAQ">VGV</string>
+  <string name="alphabetize_subreddits">Alfabetiseer subreddits</string>
+  <string name="sync_subscriptions">Synchroniseer abonnementen</string>
+  <string name="help">Help</string>
+  <string name="upvote_percentage">Toon omhoogstem-percentage</string>
+  <string name="btn_set">INSTELLEN</string>
+  <string name="view_subreddits">Bekijk subreddits</string>
+  <string name="btn_add_subreddit">Subreddit toevoegen</string>
+  <string name="btn_new">Nieuw</string>
 </resources>

@@ -306,4 +306,5 @@
   <string name="btn_report">Nahlásit</string>
   <string name="content_deleted">[deleted]</string>
   <string name="open_externally">Otevřít externě</string>
+  <string name="btn_new">Nové</string>
 </resources>

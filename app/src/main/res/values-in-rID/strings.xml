@@ -182,4 +182,5 @@
   <string name="submission_share_permalink">Bagikan post</string>
   <string name="mode_card">Kartu</string>
   <string name="content_deleted">[deleted]</string>
+  <string name="btn_new">Baru</string>
 </resources>
