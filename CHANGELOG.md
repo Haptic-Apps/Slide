@@ -1,4 +1,121 @@
 
+5.3.3 / 2016-05-01
+==================
+
+  * Added a 'Share Slide' button to the MainActivity overflow menu
+  * Added ability to create a new folder from the image save location dialog
+  * Added ability to download the base gif file
+  * Added ability to edit search query from the Search activity
+  * Added edit button to the card view too
+  * Added friends list to the drawer under 'You'
+  * Added Medium font setting for titles
+  * Added more links to Settings > About
+  * Added option to automatically hide the comment navigation bar
+  * Added subreddit content filter for videos
+  * Added support for /r/dota2 spoilers
+  * Added touch ripples on largecards
+  * Better scroll to top handling when far down in a list
+  * Centered text inside post flair and tags
+  * Color coded upvote percentages
+  * Don't allow collapsing the currently editing comment
+  * Enabled snackbars to be swiped away
+  * Hide "Share Slide" menu item if user has Pro installed
+  * Keep autocache based on history preferences
+  * Moved add account out of the header area when not logged in
+  * Moved rate snackbar to MainActivity
+  * Normalise cases and wording on a few strings
+  * Reduce lag scrolling through subreddits horizontally
+  * Revamped the Donation screen
+  * Show rate snackbar after 10 visits to Slide
+  * Show submit text on applicable subreddits
+  * Switched albums to new swiping style
+  * Switched to using a horizontal loading bar for loading comments
+  * Use a different icon colour for debug builds
+
+5.3.2 / 2016-04-24
+==================
+
+  * Added a rate snackbar
+  * Added a setting to view vote count percentage in the comment screen
+  * Added ability to edit and view your user flair in the subreddit sidebar
+  * Added more sorting types for navigating comments (link, op, gilded, time, and parent comment)
+  * Don't allow photo upload if over 2mb
+  * Don't clear out submissions when making room for gifs in cache
+  * Don't translate font names
+  * Insert top level reply into the comment tree instantly
+  * Made Profile toolbar use a menu
+  * Made wording more clear for offline content
+  * More clear instructions while offline clicking on non-cached content
+  * More specific matching for domain filters
+  * Open unread directly from bottom shackbar and notification intent
+  * Re-organized settings, adding more information to areas that needed it
+  * Respect filetype while uploading images (png or jpg)
+  * Share and recieve intents using EXTRA_SUBJECT for titles
+  * Upload images using OutputStream instead of Base64 encoding
+  * Uploaded the app to F-Droid!
+
+5.3.1 / 2016-04-22
+==================
+
+  * Cache and preload info and title SpannableStringBuilders for submissions (shaves some MS off of onBindViewHolder)
+  * Made leaving the comments screen go to the post you were last at
+  * Make shadowbox drag area the title height
+  * Show subreddit names in inbox items and mod queue
+
+5.3.0 / 2016-04-21
+================
+
+  * Added option for bold title fonts
+  * Adjustments to Profile cards
+  * Don't show spinner forever if there are no posts in a subreddit
+  * Hide "Mark all as read" button in Inbox when on Sent page
+  * Made the time picker use the subreddit theme and show either AM or PM
+  * Only load 25 posts at a time (vs 50)
+  * Precache images while syncing subs for offline
+  * Show popup if user is suspended
+  * Stopped EditText fields from autofocusing upon entering certain Settings activities
+
+5.2.4 / 2016-04-21
+==================
+
+  * Added Manage Offline Content section on all sidebars
+  * Added ability to force an auto-cache at the current time
+  * Cache the values of last seen (improves scrolling performance)
+  * Made comments remember their state after being collapsed
+  * Made comments since last seen work again
+  * Show a opup if no offline content is found
+  * Show a popup suggesting offline mode if trying to open comments without internet
+  * Reduced number of calls to Synccit auth by 1
+  * Removed EditText style for KitKat and below
+  * Removed the hidden posts listing (not neccesary and caused RAM issues)
+  * Reordered the subreddits in the offline sidebar to show subscribed subreddits first
+  * Stricter link handling for opening externally
+
+5.2.3 / 2016-04-19
+==================
+
+  * Added a button to force enter offline mode (even if internet access is unavailable)
+  * Added a manage offline content section to the drawer
+  * Added a method to apply the AMOLED with contrast theme to darker activities (like Shadowbox and MediaView)
+  * Added a modal dialog if caching subs whilst the app is open
+  * Added a new dragging layout to the MediaFragment, with the ability to vote, save, and view more options
+  * Added a progress bar to albums while waiting for data
+  * Added option to use the default system font in Settings > Font
+  * Added the ability to autocache a list of subreddits at a certain time of day
+  * Changed style of sorting strings
+  * Made Album and AlbumPager use the new dark theme option
+  * Made history work with the new storage system
+  * Made offline mode only show cached subreddits
+  * Added an option for autobackup only on Wi-Fi
+  * Made the MediaFragment extend to Vid.me links and Streamable links, Made Album fragment use the new drag layout, Make sub names colored if applicable
+  * Make switching accounts use apply() instead of commit()
+  * Memory improvements in Shadowbox mode
+  * Redesigned the profile dropdown (icons for offline mode and add account)
+  * Show dropdown with cached subreddit options while in offline mode in the toolbar
+  * Sidebar now uses comment font size
+  * Simplified content filter dialog title
+  * Updated the OfflineSubreddit model to save on a per-submission basis with the ability to store multiple states of the same subreddit
+
 5.2.2 / 2016-04-17
 ==================
 
