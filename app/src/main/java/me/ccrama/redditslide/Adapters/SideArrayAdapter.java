@@ -11,7 +11,6 @@ import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -117,12 +116,12 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         } else {
             if ((fitems.size() * height) < parentL.getHeight()) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) convertView.findViewById(R.id.height).getLayoutParams();
+                ViewGroup.LayoutParams params = convertView.findViewById(R.id.height).getLayoutParams();
                 params.height = (parentL.getHeight() - (getCount() - 1) * height);
                 convertView.setLayoutParams(params);
             } else {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) convertView.findViewById(R.id.height).getLayoutParams();
+                ViewGroup.LayoutParams params = convertView.findViewById(R.id.height).getLayoutParams();
                 params.height = 0;
                 convertView.setLayoutParams(params);
             }
