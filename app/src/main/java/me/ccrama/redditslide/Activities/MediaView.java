@@ -156,20 +156,27 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     break;
                     case (4): {
                         if (!isGif) {
-                            String url = actuallyLoaded;
-                            final String finalUrl1 = url;
-                            final String finalUrl = actuallyLoaded;
-                            try {
-                                ((Reddit) getApplication()).getImageLoader()
-                                        .loadImage(finalUrl, new SimpleImageLoadingListener() {
-                                            @Override
-                                            public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-                                                saveImageGallery(loadedImage, finalUrl1);
-                                            }
-                                        });
-                            } catch (Exception e) {
-                                Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
-                            }
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    String url = actuallyLoaded;
+                                    final String finalUrl1 = url;
+                                    final String finalUrl = actuallyLoaded;
+                                    try {
+                                        ((Reddit) getApplication()).getImageLoader()
+                                                .loadImage(finalUrl, new SimpleImageLoadingListener() {
+                                                    @Override
+                                                    public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
+                                                        saveImageGallery(loadedImage, finalUrl1);
+                                                    }
+                                                });
+                                    } catch (Exception e) {
+                                        Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
+                                    }
+                                    return null;
+                                }
+                            }.execute();
+
                         } else {
                             doOnClick.run();
                         }
@@ -363,22 +370,29 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             @Override
             public void onClick(View v) {
                 if (!isGif) {
-                    String url = actuallyLoaded;
-                    final String finalUrl1 = url;
-                    final String finalUrl = actuallyLoaded;
-                    try {
-                        ((Reddit) getApplication()).getImageLoader()
-                                .loadImage(finalUrl, new SimpleImageLoadingListener() {
-                                    @Override
-                                    public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-                                        saveImageGallery(loadedImage, finalUrl1);
-                                    }
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            String url = actuallyLoaded;
+                            final String finalUrl1 = url;
+                            final String finalUrl = actuallyLoaded;
+                            try {
+                                ((Reddit) getApplication()).getImageLoader()
+                                        .loadImage(finalUrl, new SimpleImageLoadingListener() {
+                                            @Override
+                                            public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
+                                                saveImageGallery(loadedImage, finalUrl1);
+                                            }
 
-                                });
+                                        });
 
-                    } catch (Exception e) {
-                        Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
-                    }
+                            } catch (Exception e) {
+                                Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
+                            }
+                            return null;
+                        }
+                    }.execute();
+
                 } else {
                     doOnClick.run();
                 }
@@ -789,7 +803,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                 .bigPicture(loadedImage)).build();
 
                 NotificationManager mNotificationManager =
-                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
                 mNotificationManager.notify(1, notif);
                 loadedImage.recycle();
             }

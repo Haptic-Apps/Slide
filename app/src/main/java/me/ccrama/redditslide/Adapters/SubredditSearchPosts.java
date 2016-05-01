@@ -114,17 +114,22 @@ public class SubredditSearchPosts extends GeneralPosts {
                 // error
                 adapter.setError(true);
             } else {
-                posts = new ArrayList<>();
-                adapter.notifyDataSetChanged();
+                if(isNew) {
+                    posts = new ArrayList<>();
+                    adapter.notifyDataSetChanged();
+                }
             }
             refreshLayout.setRefreshing(false);
         }
+
+        boolean isNew;
 
         @Override
         protected ArrayList<Contribution> doInBackground(String... subredditPaginators) {
             ArrayList<Contribution> newSubmissions = new ArrayList<>();
             try {
                 if (reset || paginator == null) {
+                    isNew = true;
                     if (parent.multireddit) {
                         paginator = new SubmissionSearchPaginatorMultireddit(Authentication.reddit, term);
                         ((SubmissionSearchPaginatorMultireddit) paginator).setMultiReddit(MultiredditOverview.searchMulti);

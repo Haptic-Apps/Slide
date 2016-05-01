@@ -13,6 +13,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -71,6 +73,10 @@ import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -83,6 +89,8 @@ import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import me.ccrama.redditslide.ActionStates;
+import me.ccrama.redditslide.Activities.Internet;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
@@ -101,6 +109,7 @@ import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
+import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
@@ -1263,7 +1272,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                                                                     @Override
                                                                     protected void onPostExecute(Void aVoid) {
-                                                                        ((Activity) mContext).finish();
+                                                                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                                            @Override
+                                                                            public void run() {
+                                                                                ((TitleTextView) firstHolder.itemView.findViewById(R.id.title)).setTextHtml(mContext.getString(R.string.content_deleted));
+                                                                                ((SpoilerRobotoTextView) firstHolder.itemView.findViewById(R.id.firstTextView)).setText(R.string.content_deleted);
+                                                                                firstHolder.itemView.findViewById(R.id.commentOverflow).setVisibility(View.GONE);
+                                                                            }
+                                                                        });
                                                                     }
                                                                 }.execute();
                                                             }
@@ -1405,7 +1421,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else if (progress.getVisibility() == View.GONE) {
                         progress.setVisibility(View.VISIBLE);
                         holder.content.setText(R.string.comment_loading_more);
-                        new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 2), holder.getAdapterPosition(), holder).execute(baseNode);
+                        new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 2), holder.getAdapterPosition(), holder, nextPos).execute(baseNode);
                     }
                 }
             });
@@ -2638,20 +2654,35 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public MoreCommentViewHolder holder;
         public int holderPos;
         public int position;
+        public int dataPos;
 
-        public AsyncLoadMore(int position, int holderPos, MoreCommentViewHolder holder) {
+        public AsyncLoadMore(int position, int holderPos, MoreCommentViewHolder holder, int dataPos) {
             this.holderPos = holderPos;
             this.holder = holder;
             this.position = position;
+            this.dataPos = dataPos;
         }
 
         @Override
         public void onPostExecute(Integer data) {
-            listView.setItemAnimator(new ScaleInLeftAnimator());
-            notifyItemRangeInserted(holderPos, data);
-            currentPos = holderPos;
-            toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
-            shiftFrom = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
+            if(data != null) {
+                listView.setItemAnimator(new ScaleInLeftAnimator());
+                notifyItemRangeInserted(holderPos, data);
+                currentPos = holderPos;
+                toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
+                shiftFrom = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
+            } else {
+                final MoreChildItem baseNode = (MoreChildItem) users.get(dataPos);
+                if (baseNode.children.getCount() > 0) {
+                    holder.content.setText(mContext.getString(R.string.comment_load_more, baseNode.children.getCount()));
+                } else if (!baseNode.children.getChildrenIds().isEmpty()) {
+                    holder.content.setText(R.string.comment_load_more_number_unknown);
+                } else {
+                    holder.content.setText(R.string.thread_continue);
+                }
+                holder.loading.setVisibility(View.GONE);
+
+            }
         }
 
         @Override
@@ -2697,6 +2728,80 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                 } catch (Exception e) {
                     Log.w(LogUtil.getTag(), "Cannot load more comments " + e);
+                    Writer writer = new StringWriter();
+                    PrintWriter printWriter = new PrintWriter(writer);
+                    e.printStackTrace(printWriter);
+                    String stacktrace = writer.toString().replace(";", ",");
+                    if (stacktrace.contains("UnknownHostException") || stacktrace.contains("SocketTimeoutException") || stacktrace.contains("ConnectException")) {
+                        //is offline
+                        final Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.post(new Runnable() {
+                                          @Override
+                                          public void run() {
+                                              try {
+                                                  new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_title)
+                                                          .setMessage(R.string.err_connection_failed_msg)
+                                                          .setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                              @Override
+                                                              public void onClick(DialogInterface dialog, int which) {
+
+                                                              }
+                                                          }).show();
+                                              } catch (Exception ignored) {
+
+                                              }
+                                          }
+                                      }
+
+                        );
+                    } else if (stacktrace.contains("403 Forbidden") || stacktrace.contains("401 Unauthorized")) {
+                        //Un-authenticated
+                        final Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_title)
+                                            .setMessage(R.string.err_refused_request_msg)
+                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                }
+                                            }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ((Reddit) mContext.getApplicationContext()).authentication.updateToken((mContext));
+                                        }
+                                    }).show();
+                                } catch (Exception ignored) {
+
+                                }
+                            }
+                        });
+
+                    } else if (stacktrace.contains("404 Not Found") || stacktrace.contains("400 Bad Request")) {
+                        final Handler mHandler = new Handler(Looper.getMainLooper());
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_title)
+                                            .setMessage(R.string.err_could_not_find_content_msg)
+                                            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                }
+
+                                            }).show();
+                                } catch (Exception ignored) {
+
+                                }
+                            }
+                        });
+                    }
+                    return null;
                 }
 
                 shifted += i;

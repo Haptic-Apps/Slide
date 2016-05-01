@@ -1983,6 +1983,17 @@ public class MainActivity extends BaseActivity {
                         inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
                         MainActivity.this.startActivity(inte);
                     } else {
+                        if(commentPager && adapter instanceof OverviewPagerAdapterComment){
+                            openingComments = null;
+                            toOpenComments = -1;
+                            ((MainActivity.OverviewPagerAdapterComment)adapter).size = (usedArray.size() + 1);
+                            adapter.notifyDataSetChanged();
+                            if (usedArray.contains(e.getText().toString().toLowerCase())) {
+                                doPageSelectedComments(usedArray.indexOf(e.getText().toString().toLowerCase()));
+                            } else {
+                                doPageSelectedComments(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
+                            }
+                        }
                         if (usedArray.contains(e.getText().toString().toLowerCase())) {
                             pager.setCurrentItem(usedArray.indexOf(e.getText().toString().toLowerCase()));
                         } else {
