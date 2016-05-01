@@ -166,7 +166,17 @@
                 android:tag="tintactionbar"
                 android:text="420"
                 android:textSize="?attr/font_cardinfo" />
-
+            <ImageView
+                android:id="@+id/edit"
+                style="@style/Ripple.List"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_below="@+id/innerrelative"
+                android:layout_toLeftOf="@+id/save"
+                android:padding="8dp"
+                android:tag="tintactionbar"
+                android:tint="?attr/tint"
+                app:srcCompat="@drawable/edit" />
             <ImageView
                 android:id="@+id/save"
                 style="@style/Ripple.List"
