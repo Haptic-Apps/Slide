@@ -99,6 +99,7 @@ public class SettingsBackup extends BaseActivityAnim {
 
                         }
                         new AlertDialogWrapper.Builder(SettingsBackup.this)
+                                .setCancelable(false)
                                 .setTitle(R.string.backup_restore_settings)
                                 .setMessage(R.string.backup_restarting).setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
