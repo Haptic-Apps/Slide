@@ -146,7 +146,7 @@ public class MainActivity extends BaseActivity {
     public boolean singleMode;
     public ToggleSwipeViewPager pager;
     public List<String> usedArray;
-    Map<String, String> multiNameToSubsMap;
+    Map<String, String> multiNameToSubsMap = new HashMap<>();
     public DrawerLayout drawerLayout;
     public View hea;
     public EditText e;
@@ -704,7 +704,7 @@ public class MainActivity extends BaseActivity {
 
         if (!subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("frontpage") &&
                 !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") &&
-                !subreddit.contains("+")) {
+                !subreddit.contains("+") && !subreddit.contains("/m/")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
@@ -2164,7 +2164,7 @@ public class MainActivity extends BaseActivity {
                 filterContent(shouldLoad);
                 return true;
             case R.id.sidebar:
-                if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")) {
+                if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")&& !subreddit.contains("/m/")) {
                     drawerLayout.openDrawer(GravityCompat.END);
                 } else {
                     Toast.makeText(this, "No sidebar found", Toast.LENGTH_SHORT).show();
@@ -2346,7 +2346,7 @@ public class MainActivity extends BaseActivity {
                     if (posts != null && !posts.isEmpty()) {
                         Intent i2 = new Intent(this, Shadowbox.class);
                         i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                        i2.putExtra("offline",((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time );
+                        i2.putExtra("offline",((SubmissionsView) adapter.getCurrentFragment()).posts.cached!= null?((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time:0L );
                         i2.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i2);
                     }
@@ -2659,7 +2659,13 @@ public class MainActivity extends BaseActivity {
 
             SubmissionsView f = new SubmissionsView();
             Bundle args = new Bundle();
-            args.putString("id", usedArray.get(i));
+            String name;
+            if (multiNameToSubsMap.containsKey(usedArray.get(i))) {
+                name = multiNameToSubsMap.get(usedArray.get(i));
+            } else {
+                name = usedArray.get(i);
+            }
+            args.putString("id", name);
             f.setArguments(args);
 
             return f;

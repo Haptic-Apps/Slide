@@ -51,6 +51,7 @@ public class UserSubscriptions {
     }
 
     public static void doMainActivitySubs(MainActivity c) {
+        c.updateMultiNameToSubs(getMultiNameToSubs());
         if(NetworkUtil.isConnected(c)) {
             String s = subscriptions.getString(Authentication.name, "");
             if (s.isEmpty()) {
