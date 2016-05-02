@@ -22,7 +22,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -55,6 +54,7 @@ import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -161,6 +161,7 @@ public class MainActivity extends BaseActivity {
     String term;
     View headerMain;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
+    private String currentSub; //used for Toolbar subreddit search
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -597,19 +598,20 @@ public class MainActivity extends BaseActivity {
             mToolbar.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    final String CURRENT_TOOLBAR_TITLE = getSupportActionBar().getTitle().toString();
-                    final TextInputEditText GO_TO_SUB_FIELD = (TextInputEditText) findViewById(R.id.toolbar_search);
-                    final ImageView CLOSE_BUTTON = (ImageView) findViewById(R.id.close);
+                    currentSub = getSupportActionBar().getTitle().toString();
+                    final AutoCompleteTextView GO_TO_SUB_FIELD = (AutoCompleteTextView) findViewById(R.id.toolbar_search);
+                    final ImageView CLOSE_BUTTON = (ImageView) findViewById(R.id.close_search_toolbar);
 
                     getSupportActionBar().setTitle("");
 
                     if (GO_TO_SUB_FIELD != null && CLOSE_BUTTON != null) {
+                        GO_TO_SUB_FIELD.setVisibility(View.VISIBLE);
                         CLOSE_BUTTON.setVisibility(View.VISIBLE);
 
                         CLOSE_BUTTON.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                View view = MainActivity.this.getCurrentFocus();
+                                final View view = MainActivity.this.getCurrentFocus();
 
                                 if (view != null) {
                                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -619,7 +621,7 @@ public class MainActivity extends BaseActivity {
                                 GO_TO_SUB_FIELD.setText("");
                                 GO_TO_SUB_FIELD.setVisibility(View.GONE);
                                 CLOSE_BUTTON.setVisibility(View.GONE);
-                                getSupportActionBar().setTitle(CURRENT_TOOLBAR_TITLE);
+                                getSupportActionBar().setTitle(currentSub);
                             }
                         });
 
@@ -638,6 +640,7 @@ public class MainActivity extends BaseActivity {
                                             toOpenComments = -1;
                                             ((OverviewPagerAdapterComment) adapter).size = (usedArray.size() + 1);
                                             adapter.notifyDataSetChanged();
+
                                             if (usedArray.contains(GO_TO_SUB_FIELD.getText().toString().toLowerCase())) {
                                                 doPageSelectedComments(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
                                             } else {
@@ -645,6 +648,9 @@ public class MainActivity extends BaseActivity {
                                             }
                                         }
                                         if (usedArray.contains(GO_TO_SUB_FIELD.getText().toString().toLowerCase())) {
+                                            if (SettingValues.single) {
+                                                currentSub = usedArray.get(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
+                                            }
                                             pager.setCurrentItem(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
                                         } else {
                                             pager.setCurrentItem(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
@@ -659,7 +665,8 @@ public class MainActivity extends BaseActivity {
 
                                     GO_TO_SUB_FIELD.setText("");
                                     GO_TO_SUB_FIELD.setVisibility(View.GONE);
-                                    getSupportActionBar().setTitle(CURRENT_TOOLBAR_TITLE);
+                                    CLOSE_BUTTON.setVisibility(View.GONE);
+                                    getSupportActionBar().setTitle(currentSub);
                                 }
                                 return false;
                             }
@@ -679,16 +686,9 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void afterTextChanged(Editable editable) {
                                 final String result = GO_TO_SUB_FIELD.getText().toString().replaceAll(" ", "");
-
-                                if (result.isEmpty()) {
-                                    CLOSE_BUTTON.setVisibility(View.GONE);
-                                } else {
-                                    CLOSE_BUTTON.setVisibility(View.VISIBLE);
-                                }
                                 sideArrayAdapter.getFilter().filter(result);
                             }
                         });
-                        GO_TO_SUB_FIELD.setVisibility(View.VISIBLE);
                     }
                     return true;
                 }
@@ -697,7 +697,6 @@ public class MainActivity extends BaseActivity {
     }
 
     public Runnable runAfterLoad;
-
 
     public void updateSubs(ArrayList<String> subs) {
         if (subs.isEmpty() && !NetworkUtil.isConnected(this)) {
@@ -2060,7 +2059,7 @@ public class MainActivity extends BaseActivity {
 
         e = ((EditText) headerMain.findViewById(R.id.sort));
 
-        headerMain.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+        headerMain.findViewById(R.id.close_search_drawer).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 e.setText("");
@@ -2117,7 +2116,7 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        final View close = findViewById(R.id.close);
+        final View close = findViewById(R.id.close_search_drawer);
         close.setVisibility(View.GONE);
 
         e.addTextChangedListener(new TextWatcher() {
@@ -2191,7 +2190,7 @@ public class MainActivity extends BaseActivity {
         } else if (commentPager && pager.getCurrentItem() == toOpenComments) {
             pager.setCurrentItem(pager.getCurrentItem() - 1);
         } else if (findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
-            findViewById(R.id.close).performClick(); //close GO_TO_SUB_FIELD
+            findViewById(R.id.close_search_toolbar).performClick(); //close GO_TO_SUB_FIELD
         } else if (SettingValues.exit) {
             final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
             builder.setTitle(R.string.general_confirm_exit);

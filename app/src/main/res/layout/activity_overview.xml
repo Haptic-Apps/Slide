@@ -40,13 +40,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/toolbar_search"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:hint="@string/drawer_search"
                     android:textColor="@color/white"
-                    android:textColorHint="@color/md_grey_400"
+                    android:textColorHint="@color/md_grey_300"
                     android:visibility="gone"
                     android:imeOptions="actionSearch"
                     android:singleLine="true"
@@ -55,7 +55,7 @@
                     style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
                     <ImageView
-                        android:id="@+id/close"
+                        android:id="@+id/close_search_toolbar"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_alignBottom="@+id/toolbar_search"

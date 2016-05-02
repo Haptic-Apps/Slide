@@ -238,7 +238,7 @@
             android:textColorHint="?attr/font" />
 
         <ImageView
-            android:id="@+id/close"
+            android:id="@+id/close_search_drawer"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignBottom="@+id/sort"
