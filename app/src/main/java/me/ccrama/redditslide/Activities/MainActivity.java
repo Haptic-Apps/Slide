@@ -1968,7 +1968,6 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 drawerSubList.smoothScrollToPositionFromTop(1, e.getHeight());
-
             }
         });
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -2344,6 +2343,7 @@ public class MainActivity extends BaseActivity {
                     if (posts != null && !posts.isEmpty()) {
                         Intent i2 = new Intent(this, Shadowbox.class);
                         i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
+                        i2.putExtra("offline",((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time );
                         i2.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i2);
                     }
