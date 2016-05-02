@@ -124,6 +124,7 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.EditTextValidator;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
@@ -1849,15 +1850,11 @@ public class MainActivity extends BaseActivity {
                             .inputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS)
                             .input(getString(R.string.user_enter), null, new MaterialDialog.InputCallback() {
                                 @Override
-                                public void onInput(MaterialDialog dialog, CharSequence input) {
-                                    if (input.toString().matches("^[a-zA-Z0-9_-]*$")) {
-                                        if (input.length() >= 3 && input.length() <= 20)
-                                            dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-                                        dialog.setContent("");
-                                    } else {
-                                        dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
-                                        dialog.setContent(R.string.user_invalid_msg);
-                                    }
+                                public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                    final EditText editText = dialog.getInputEditText();
+                                    EditTextValidator.validateUsername(editText);
+                                    if (input.length() >= 3 && input.length() <= 20)
+                                        dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
                                 }
                             })
                             .positiveText(R.string.user_btn_goto)
