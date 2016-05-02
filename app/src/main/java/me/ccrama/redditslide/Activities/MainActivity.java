@@ -1967,7 +1967,7 @@ public class MainActivity extends BaseActivity {
         e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                drawerSubList.smoothScrollToPositionFromTop(1, e.getHeight());
+                drawerSubList.smoothScrollToPositionFromTop(1, e.getHeight(), 100);
             }
         });
         e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
