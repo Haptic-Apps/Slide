@@ -748,7 +748,8 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onSingleClick(View view) {
                         Intent inte = new Intent(MainActivity.this, Submit.class);
-                        inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                        if (!subreddit.contains("/m/"))
+                            inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                         MainActivity.this.startActivity(inte);
                     }
                 });
@@ -766,7 +767,8 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(MainActivity.this, Submit.class);
-                    i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                    if (!subreddit.contains("/m/"))
+                        i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                     startActivity(i);
                 }
             });
@@ -1482,7 +1484,8 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Submit.class);
-                    inte.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
+                    if (!selectedSub.contains("/m/"))
+                        inte.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
                     MainActivity.this.startActivity(inte);
                 }
             });
@@ -2113,13 +2116,7 @@ public class MainActivity extends BaseActivity {
         mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                String subreddit;
-                if (multiNameToSubsMap.containsKey(usedArray.get(pager.getCurrentItem()))) {
-                    subreddit = multiNameToSubsMap.get(usedArray.get(pager.getCurrentItem()));
-                } else {
-                    subreddit = usedArray.get(pager.getCurrentItem());
-                }
-
+                String subreddit = usedArray.get(pager.getCurrentItem());
                 int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
                 final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
                 LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
@@ -2348,7 +2345,7 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.submit: {
                 Intent i = new Intent(this, Submit.class);
-                if (!subredditBase.contains("/m/"))
+                if (!selectedSub.contains("/m/"))
                     i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
                 startActivity(i);
             }

@@ -22,6 +22,7 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SantitizeField;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -85,14 +86,8 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 });
             }
 
-            String subredditBase = fitems.get(position).contains("+") ? fitems.get(position) : SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
-            if(subredditBase.contains("/m/")){
-                if (MainActivity.multiNameToSubsMap.containsKey(subredditBase)) {
-                    subredditBase = MainActivity.multiNameToSubsMap.get(subredditBase);
-                }
-            }
+            final String subreddit = (fitems.get(position).contains("+") || fitems.get(position).contains("/m/")) ? fitems.get(position) : SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
 
-            final String subreddit = subredditBase;
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
             convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
             convertView.setOnClickListener(new View.OnClickListener() {
