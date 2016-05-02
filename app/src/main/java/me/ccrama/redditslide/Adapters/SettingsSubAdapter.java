@@ -309,6 +309,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
             }
 
             builder.setView(dialoglayout);
+            builder.setCancelable(false);
             final Dialog d = builder.show();
             {
                 Button dialogButton = (Button) dialoglayout.findViewById(R.id.cancel);

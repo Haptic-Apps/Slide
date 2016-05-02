@@ -52,6 +52,7 @@ import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentNavType;
@@ -651,6 +652,7 @@ public class CommentPage extends Fragment {
                 ((LinearLayoutManager) rv.getLayoutManager()).scrollToPositionWithOffset(1, headerHeight);
             }
         });
+        addClickFunctionSubName(toolbar);
 
         doTopBar();
 
@@ -682,7 +684,27 @@ public class CommentPage extends Fragment {
     }
 
     public CommentSort commentSorting;
-
+    private void addClickFunctionSubName(Toolbar toolbar) {
+            TextView titleTv = null;
+            for (int i = 0; i < toolbar.getChildCount(); i++) {
+                View view = toolbar.getChildAt(i);
+                CharSequence text = null;
+                if (view instanceof TextView && (text = ((TextView) view).getText()) != null) {
+                    titleTv = (TextView) view;
+                }
+            }
+            if (titleTv != null) {
+                final String text = titleTv.getText().toString();
+               titleTv.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       Intent i = new Intent(getActivity(), SubredditView.class);
+                       i.putExtra(SubredditView.EXTRA_SUBREDDIT, text);
+                       startActivity(i);
+                   }
+               });
+            }
+    }
     public void doAdapter(boolean load) {
         commentSorting = SettingValues.getCommentSorting(subreddit);
         if (load)
