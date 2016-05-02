@@ -37,7 +37,7 @@ android {
             // to pre-dex each module and produce an APK that can be used
             // without time consuming dex merging processes.
             dimension "api"
-            minSdkVersion 21
+            minSdkVersion 17
         }
         prod {
             // The actual minSdkVersion for the application.

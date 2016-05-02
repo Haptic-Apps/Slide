@@ -267,6 +267,7 @@
             android:background="?android:selectableItemBackground"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:paddingStart="24dp"
             android:text="@string/sidebar_friends"
             android:textSize="14sp" />

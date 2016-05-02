@@ -2491,6 +2491,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void run() {
                 if(friends != null && friends.size() > 0){
+                    headerMain.findViewById(R.id.friends).setVisibility(View.VISIBLE);
                     headerMain.findViewById(R.id.friends).setOnClickListener(new OnSingleClickListener() {
                         @Override
                         public void onSingleClick(View view) {
@@ -2927,7 +2928,6 @@ public class MainActivity extends BaseActivity {
                     final String name = me.getFullName();
                     Authentication.name = name;
                     LogUtil.v("AUTHENTICATED");
-                    UserSubscriptions.doFriendsOfMain(MainActivity.this);
                     if (Authentication.reddit.isAuthenticated()) {
                         final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
                         if (accounts.contains(name)) { //convert to new system
@@ -2942,6 +2942,7 @@ public class MainActivity extends BaseActivity {
                     me = Authentication.reddit.me();
                 }
                 count = me.getInboxCount(); //Force reload of the LoggedInAccount object
+                UserSubscriptions.doFriendsOfMain(MainActivity.this);
 
             } catch (Exception e) {
                 Log.w(LogUtil.getTag(), "Cannot fetch inbox count");

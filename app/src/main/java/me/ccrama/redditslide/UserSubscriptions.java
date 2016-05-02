@@ -264,7 +264,7 @@ public class UserSubscriptions {
                 e.printStackTrace();
             }
         }
-        return null;
+        return friends;
     }
 
     public static MultiReddit getMultiredditByDisplayName(String displayName) {

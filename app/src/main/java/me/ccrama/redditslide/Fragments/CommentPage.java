@@ -142,14 +142,18 @@ public class CommentPage extends Fragment {
     RecyclerView.OnScrollListener toolbarScroll;
     public Toolbar toolbar;
     public int headerHeight;
-    int toSubtract;
+    public int shownHeaders = 0;
 
     public void doTopBar(Submission s) {
         archived = s.isArchived();
         locked = s.isLocked();
         doTopBar();
     }
-
+    public void doTopBarNotify(Submission submission, CommentAdapter adapter2) {
+        doTopBar(submission);
+        if(adapter2 != null)
+        adapter2.notifyItemChanged(0);
+    }
     public void doRefresh(boolean b) {
         if (b) {
             v.findViewById(R.id.progress).setVisibility(View.VISIBLE);
@@ -159,29 +163,35 @@ public class CommentPage extends Fragment {
     }
 
     public void doTopBar() {
-        final View subtractHeight = v.findViewById(R.id.loadall);
-        toSubtract = 4;
-        final View header = v.findViewById(R.id.header);
-        v.findViewById(R.id.np).setVisibility(View.VISIBLE);
-        v.findViewById(R.id.archived).setVisibility(View.VISIBLE);
-        v.findViewById(R.id.locked).setVisibility(View.VISIBLE);
-        subtractHeight.setVisibility(View.VISIBLE);
+        final View loadallV = v.findViewById(R.id.loadall);
+        final View npV = v.findViewById(R.id.np);
+        final View archivedV = v.findViewById(R.id.archived);
+        final View lockedV = v.findViewById(R.id.locked);
+        final View headerV = v.findViewById(R.id.toolbar);
+
+        shownHeaders = 0;
+
+        headerV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+
+        loadallV.setVisibility(View.VISIBLE);
+        npV.setVisibility(View.VISIBLE);
+        archivedV.setVisibility(View.VISIBLE);
+        lockedV.setVisibility(View.VISIBLE);
 
         if (!loadMore) {
-            subtractHeight.setVisibility(View.GONE);
+            loadallV.setVisibility(View.GONE);
         } else {
-            toSubtract--;
-            subtractHeight.setOnClickListener(new View.OnClickListener() {
+            loadallV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            shownHeaders += loadallV.getMeasuredHeight();
+
+            loadallV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     doRefresh(true);
 
-                    if (!locked || !(adapter != null && adapter.submission != null && adapter.submission.isLocked())) {
-                        toSubtract--;
-                    }
-
-                    headerHeight = header.getHeight() - (subtractHeight.getHeight());
-                    subtractHeight.setVisibility(View.GONE);
+                    shownHeaders -= loadallV.getMeasuredHeight();
+                    headerHeight = headerV.getMeasuredHeight() + shownHeaders;
+                    loadallV.setVisibility(View.GONE);
 
                     if (adapter != null) {
                         adapter.notifyItemChanged(0);
@@ -200,27 +210,28 @@ public class CommentPage extends Fragment {
 
         }
         if (!np && !archived) {
-            v.findViewById(R.id.np).setVisibility(View.GONE);
-            v.findViewById(R.id.archived).setVisibility(View.GONE);
+            npV.setVisibility(View.GONE);
+            archivedV.setVisibility(View.GONE);
         } else if (archived) {
-            toSubtract--;
-            v.findViewById(R.id.np).setVisibility(View.GONE);
-            v.findViewById(R.id.archived).setBackgroundColor(Palette.getColor(subreddit));
+            archivedV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            shownHeaders += archivedV.getMeasuredHeight();
+            npV.setVisibility(View.GONE);
+            archivedV.setBackgroundColor(Palette.getColor(subreddit));
         } else {
-            toSubtract--;
-            v.findViewById(R.id.archived).setVisibility(View.GONE);
-            v.findViewById(R.id.np).setBackgroundColor(Palette.getColor(subreddit));
+            npV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            shownHeaders += npV.getMeasuredHeight();
+            archivedV.setVisibility(View.GONE);
+            npV.setBackgroundColor(Palette.getColor(subreddit));
         }
 
         if (locked) {
-            toSubtract--;
+            lockedV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            shownHeaders += lockedV.getMeasuredHeight();
         } else {
-            v.findViewById(R.id.locked).setVisibility(View.GONE);
+            lockedV.setVisibility(View.GONE);
         }
 
-        subtractHeight.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        header.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        headerHeight = header.getMeasuredHeight() - (subtractHeight.getHeight() * toSubtract);
+        headerHeight = headerV.getMeasuredHeight() + shownHeaders;
 
         //If the "No participation" header was present, the offset has already been set
         if (!np) {

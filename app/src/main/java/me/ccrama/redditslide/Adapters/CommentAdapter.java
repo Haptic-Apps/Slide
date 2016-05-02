@@ -645,7 +645,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int i = 2;
             for (CommentObject n : users) {
                 if (n instanceof CommentItem && n.comment.getComment().getFullName().contains(currentSelectedItem)) {
-                    ((PreCachingLayoutManagerComments) listView.getLayoutManager()).scrollToPositionWithOffset(i, mPage.getActivity().findViewById(R.id.header).getHeight());
+                    ((PreCachingLayoutManagerComments) listView.getLayoutManager()).scrollToPositionWithOffset(i, mPage.headerHeight);
                     break;
                 }
                 i++;

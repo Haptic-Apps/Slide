@@ -46,7 +46,7 @@
                 android:padding="8dp"
                 android:text="@string/submission_np_link"
                 android:textColor="#fff"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/archived"
@@ -56,7 +56,7 @@
                 android:padding="8dp"
                 android:text="@string/submission_info_archived"
                 android:textColor="#fff"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/locked"
@@ -66,7 +66,7 @@
                 android:padding="8dp"
                 android:text="@string/submission_info_locked"
                 android:textColor="#fff"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/loadall"
