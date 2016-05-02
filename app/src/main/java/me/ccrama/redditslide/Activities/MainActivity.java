@@ -2637,6 +2637,11 @@ public class MainActivity extends BaseActivity {
         public void doSetPrimary(Object object, int position) {
             if (object != null && getCurrentFragment() != object && position != toOpenComments && object instanceof SubmissionsView) {
                 shouldLoad = usedArray.get(position);
+                if (multiNameToSubsMap.containsKey(usedArray.get(position))) {
+                    shouldLoad = multiNameToSubsMap.get(usedArray.get(position));
+                } else {
+                    shouldLoad = usedArray.get(position);
+                }
                 mCurrentFragment = ((SubmissionsView) object);
                 if (mCurrentFragment.posts == null) {
                     if (mCurrentFragment.isAdded()) {

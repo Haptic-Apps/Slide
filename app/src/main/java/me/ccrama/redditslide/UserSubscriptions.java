@@ -51,7 +51,6 @@ public class UserSubscriptions {
     }
 
     public static void doMainActivitySubs(MainActivity c) {
-        c.updateMultiNameToSubs(getMultiNameToSubs());
         if(NetworkUtil.isConnected(c)) {
             String s = subscriptions.getString(Authentication.name, "");
             if (s.isEmpty()) {
@@ -64,6 +63,8 @@ public class UserSubscriptions {
                 }
                 c.updateSubs(subredditsForHome);
             }
+            c.updateMultiNameToSubs(getMultiNameToSubs());
+
         } else {
             String s = subscriptions.getString(Authentication.name, "");
             ArrayList<String> subredditsForHome = new ArrayList<>();
