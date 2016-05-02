@@ -2404,7 +2404,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 currentPos = holderPos;
                 toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
                 shiftFrom = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
-            } else {
+            } else if( users.get(dataPos) instanceof MoreChildItem){
                 final MoreChildItem baseNode = (MoreChildItem) users.get(dataPos);
                 if (baseNode.children.getCount() > 0) {
                     holder.content.setText(mContext.getString(R.string.comment_load_more, baseNode.children.getCount()));
@@ -2414,7 +2414,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.content.setText(R.string.thread_continue);
                 }
                 holder.loading.setVisibility(View.GONE);
-
             }
         }
 

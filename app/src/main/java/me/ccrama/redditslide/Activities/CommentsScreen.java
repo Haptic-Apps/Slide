@@ -195,7 +195,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
                                               @Override
                                               public void onPageSelected(int position) {
-                                                  if (position != firstPage) {
+                                                  if (position != firstPage && position < subredditPosts.getPosts().size()) {
                                                       position = position - 1;
                                                       updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
 

@@ -767,20 +767,26 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
     public void showFirstDialog() {
         try {
-            new AlertDialogWrapper.Builder(this)
-                    .setTitle(R.string.set_save_location)
-                    .setMessage(R.string.set_save_location_msg)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            new FolderChooserDialogCreate.Builder(MediaView.this)
-                                    .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                    .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
-                                    .show();
-                        }
-                    })
-                    .setNegativeButton(R.string.btn_no, null)
-                    .show();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    new AlertDialogWrapper.Builder(MediaView.this)
+                            .setTitle(R.string.set_save_location)
+                            .setMessage(R.string.set_save_location_msg)
+                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new FolderChooserDialogCreate.Builder(MediaView.this)
+                                            .chooseButton(R.string.btn_select)  // changes label of the choose button
+                                            .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
+                                            .show();
+                                }
+                            })
+                            .setNegativeButton(R.string.btn_no, null)
+                            .show();
+                }
+            });
+
         } catch (Exception ignored) {
 
         }
@@ -811,20 +817,26 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     }
 
     public void showErrorDialog() {
-        new AlertDialogWrapper.Builder(MediaView.this)
-                .setTitle(R.string.err_something_wrong)
-                .setMessage(R.string.err_couldnt_save_choose_new)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder(MediaView.this)
-                                .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
-                                .show();
-                    }
-                })
-                .setNegativeButton(R.string.btn_no, null)
-                .show();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new AlertDialogWrapper.Builder(MediaView.this)
+                        .setTitle(R.string.err_something_wrong)
+                        .setMessage(R.string.err_couldnt_save_choose_new)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new FolderChooserDialogCreate.Builder(MediaView.this)
+                                        .chooseButton(R.string.btn_select)  // changes label of the choose button
+                                        .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
+                                        .show();
+                            }
+                        })
+                        .setNegativeButton(R.string.btn_no, null)
+                        .show();
+            }
+        });
+
     }
 
     private void shareImage(String finalUrl) {
