@@ -85,7 +85,14 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 });
             }
 
-            final String subreddit = fitems.get(position).contains("+") ? fitems.get(position) : SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
+            String subredditBase = fitems.get(position).contains("+") ? fitems.get(position) : SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
+            if(subredditBase.contains("/m/")){
+                if (MainActivity.multiNameToSubsMap.containsKey(subredditBase)) {
+                    subredditBase = MainActivity.multiNameToSubsMap.get(subredditBase);
+                }
+            }
+
+            final String subreddit = subredditBase;
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
             convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
             convertView.setOnClickListener(new View.OnClickListener() {

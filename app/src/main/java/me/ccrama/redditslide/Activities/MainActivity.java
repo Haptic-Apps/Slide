@@ -146,7 +146,7 @@ public class MainActivity extends BaseActivity {
     public boolean singleMode;
     public ToggleSwipeViewPager pager;
     public List<String> usedArray;
-    Map<String, String> multiNameToSubsMap = new HashMap<>();
+    public static Map<String, String> multiNameToSubsMap = new HashMap<>();
     public DrawerLayout drawerLayout;
     public View hea;
     public EditText e;
@@ -1450,7 +1450,7 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
-            header.findViewById(R.id.commented).setOnClickListener(new OnSingleClickListener(){
+            header.findViewById(R.id.commented).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
@@ -1832,8 +1832,7 @@ public class MainActivity extends BaseActivity {
 
             if (SettingValues.tabletUI) {
                 support.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 header.findViewById(R.id.support).setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View view) {
@@ -1983,10 +1982,10 @@ public class MainActivity extends BaseActivity {
                         inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
                         MainActivity.this.startActivity(inte);
                     } else {
-                        if(commentPager && adapter instanceof OverviewPagerAdapterComment){
+                        if (commentPager && adapter instanceof OverviewPagerAdapterComment) {
                             openingComments = null;
                             toOpenComments = -1;
-                            ((MainActivity.OverviewPagerAdapterComment)adapter).size = (usedArray.size() + 1);
+                            ((MainActivity.OverviewPagerAdapterComment) adapter).size = (usedArray.size() + 1);
                             adapter.notifyDataSetChanged();
                             if (usedArray.contains(e.getText().toString().toLowerCase())) {
                                 doPageSelectedComments(usedArray.indexOf(e.getText().toString().toLowerCase()));
@@ -2114,7 +2113,12 @@ public class MainActivity extends BaseActivity {
         mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                final String subreddit = usedArray.get(pager.getCurrentItem());
+                String subreddit;
+                if (multiNameToSubsMap.containsKey(usedArray.get(pager.getCurrentItem()))) {
+                    subreddit = multiNameToSubsMap.get(usedArray.get(pager.getCurrentItem()));
+                } else {
+                    subreddit = usedArray.get(pager.getCurrentItem());
+                }
 
                 int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
                 final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
@@ -2157,14 +2161,22 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        final String subreddit = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
+
+        String subredditBase = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
+        if (subredditBase.contains("/m/")) {
+            if (MainActivity.multiNameToSubsMap.containsKey(subredditBase)) {
+                subredditBase = MainActivity.multiNameToSubsMap.get(subredditBase);
+            }
+        }
+
+        final String subreddit = subredditBase;
 
         switch (item.getItemId()) {
             case R.id.filter:
                 filterContent(shouldLoad);
                 return true;
             case R.id.sidebar:
-                if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+")&& !subreddit.contains("/m/")) {
+                if (!subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.contains(".") && !subreddit.contains("+") && !subreddit.contains("/m/")) {
                     drawerLayout.openDrawer(GravityCompat.END);
                 } else {
                     Toast.makeText(this, "No sidebar found", Toast.LENGTH_SHORT).show();
@@ -2336,7 +2348,8 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.submit: {
                 Intent i = new Intent(this, Submit.class);
-                i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
+                if (!subredditBase.contains("/m/"))
+                    i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
                 startActivity(i);
             }
             return true;
@@ -2346,7 +2359,7 @@ public class MainActivity extends BaseActivity {
                     if (posts != null && !posts.isEmpty()) {
                         Intent i2 = new Intent(this, Shadowbox.class);
                         i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                        i2.putExtra("offline",((SubmissionsView) adapter.getCurrentFragment()).posts.cached!= null?((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time:0L );
+                        i2.putExtra("offline", ((SubmissionsView) adapter.getCurrentFragment()).posts.cached != null ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time : 0L);
                         i2.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i2);
                     }
@@ -2490,7 +2503,7 @@ public class MainActivity extends BaseActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(friends != null && friends.size() > 0){
+                if (friends != null && friends.size() > 0) {
                     headerMain.findViewById(R.id.friends).setVisibility(View.VISIBLE);
                     headerMain.findViewById(R.id.friends).setOnClickListener(new OnSingleClickListener() {
                         @Override
@@ -2509,7 +2522,7 @@ public class MainActivity extends BaseActivity {
                                     }).show();
                         }
                     });
-                } else if(Authentication.isLoggedIn){
+                } else if (Authentication.isLoggedIn) {
                     headerMain.findViewById(R.id.friends).setVisibility(View.GONE);
                 }
             }
@@ -2587,8 +2600,6 @@ public class MainActivity extends BaseActivity {
                                 p.doMainActivityOffline(p.displayer);
                             }
                         }
-
-
 
 
                     }
@@ -2816,7 +2827,7 @@ public class MainActivity extends BaseActivity {
         public void doSetPrimary(Object object, int position) {
             if (position != toOpenComments) {
                 if (multiNameToSubsMap.containsKey(usedArray.get(position))) {
-                     shouldLoad = multiNameToSubsMap.get(usedArray.get(position));
+                    shouldLoad = multiNameToSubsMap.get(usedArray.get(position));
                 } else {
                     shouldLoad = usedArray.get(position);
                 }
