@@ -357,10 +357,17 @@ public class SubredditView extends BaseActivityAnim {
         return true;
     }
 
-    boolean[] chosen;
 
     public void filterContent(final String subreddit) {
-        chosen = new boolean[]{PostMatch.isGif(subreddit), PostMatch.isAlbums(subreddit), PostMatch.isImage(subreddit), PostMatch.isNsfw(subreddit), PostMatch.isSelftext(subreddit), PostMatch.isUrls(subreddit), PostMatch.isVideo(subreddit)};
+        final boolean[] chosen = new boolean[] {
+                PostMatch.isGif(subreddit),
+                PostMatch.isAlbums(subreddit),
+                PostMatch.isImage(subreddit),
+                PostMatch.isNsfw(subreddit),
+                PostMatch.isSelftext(subreddit),
+                PostMatch.isUrls(subreddit),
+                PostMatch.isVideo(subreddit)
+        };
 
         final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
                 : (getString(R.string.content_to_hide, "/r/" + subreddit));

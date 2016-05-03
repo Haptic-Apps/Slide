@@ -41,21 +41,25 @@ public class PostMatch {
                 }
             }
 
-            if (!s.contains("://")) s = "http://" + s;
+            if (!s.contains("://")) {
+                s = "http://" + s;
+            }
 
             try {
                 URL comparison = new URL(s.toLowerCase());
 
                 if (domain.getHost().endsWith(comparison.getHost())
-                        && domain.getPath().startsWith(comparison.getPath()))
+                        && domain.getPath().startsWith(comparison.getPath())) {
                     return true;
+                }
             } catch (MalformedURLException ignored) {}
         }
         return false;
     }
     public static boolean openExternal(String url) {
-        if (externalDomain == null)
+        if (externalDomain == null) {
             externalDomain = SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+");
+        }
         try {
             return !SettingValues.alwaysExternal.isEmpty() && isDomain(url.toLowerCase(), externalDomain);
         } catch (MalformedURLException e) {
@@ -83,14 +87,18 @@ public class PostMatch {
         boolean domainc;
         boolean subredditc;
 
-        if (titles == null)
+        if (titles == null) {
             titles = SettingValues.titleFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        if (texts == null)
+        }
+        if (texts == null) {
             texts = SettingValues.textFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        if (domains == null)
+        }
+        if (domains == null) {
             domains = SettingValues.domainFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        if (subreddits == null)
+        }
+        if (subreddits == null) {
             subreddits = SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
+        }
 
         titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(), titles, false);
 
@@ -106,7 +114,9 @@ public class PostMatch {
 
         boolean contentMatch = false;
 
-        if (baseSubreddit == null || baseSubreddit.isEmpty()) baseSubreddit = "frontpage";
+        if (baseSubreddit == null || baseSubreddit.isEmpty()) {
+            baseSubreddit = "frontpage";
+        }
         baseSubreddit = baseSubreddit.toLowerCase();
         boolean gifs = isGif(baseSubreddit);
         boolean images = isImage(baseSubreddit);
@@ -118,34 +128,50 @@ public class PostMatch {
 
 
         if (s.isNsfw()) {
-            if (nsfw) contentMatch = true;
-            if (!Reddit.over18 && !ignore18) contentMatch = true;
+            if (nsfw) {
+                contentMatch = true;
+            }
+            if (!Reddit.over18 && !ignore18) {
+                contentMatch = true;
+            }
         }
         switch (ContentType.getContentType(s)) {
             case REDDIT:
             case EMBEDDED:
             case LINK:
-                if (urls) contentMatch = true;
+                if (urls) {
+                    contentMatch = true;
+                }
                 break;
             case SELF:
             case NONE:
-                if (selftext) contentMatch = true;
+                if (selftext) {
+                    contentMatch = true;
+                }
                 break;
             case ALBUM:
-                if (albums) contentMatch = true;
+                if (albums) {
+                    contentMatch = true;
+                }
                 break;
             case IMAGE:
             case DEVIANTART:
             case IMGUR:
-                if (images) contentMatch = true;
+                if (images) {
+                    contentMatch = true;
+                }
                 break;
             case GIF:
-                if (gifs) contentMatch = true;
+                if (gifs) {
+                    contentMatch = true;
+                }
                 break;
             case VID_ME:
             case STREAMABLE:
             case VIDEO:
-                if(videos) contentMatch = true;
+                if (videos) {
+                    contentMatch = true;
+                }
                 break;
         }
 
@@ -163,14 +189,18 @@ public class PostMatch {
         boolean domainc;
         boolean subredditc;
 
-        if (titles == null)
+        if (titles == null) {
             titles = SettingValues.titleFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        if (texts == null)
+        }
+        if (texts == null) {
             texts = SettingValues.textFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        if (domains == null)
+        }
+        if (domains == null) {
             domains = SettingValues.domainFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
-        if (subreddits == null)
+        }
+        if (subreddits == null) {
             subreddits = SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
+        }
 
         titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(), titles, false);
 
@@ -194,7 +224,6 @@ public class PostMatch {
         e.putBoolean(subreddit + "_urlsFilter", values[5]);
         e.putBoolean(subreddit + "_videoFilter", values[6]);
         e.apply();
-
     }
 
     public static boolean isGif(String baseSubreddit) {

@@ -1100,21 +1100,25 @@ public class MainActivity extends BaseActivity {
             }
             pager.setAdapter(adapter);
             pager.setOffscreenPageLimit(1);
-            if (toGoto == -1) toGoto = 0;
+            if (toGoto == -1) {
+                toGoto = 0;
+            }
             shouldLoad = usedArray.get(toGoto);
             selectedSub = (usedArray.get(toGoto));
             themeSystemBars(usedArray.get(toGoto));
 
-            header.setBackgroundColor(Palette.getColor(usedArray.get(0)));
+            final String USEDARRAY_0 = usedArray.get(0);
+            header.setBackgroundColor(Palette.getColor(USEDARRAY_0));
 
             if (hea != null) {
-                hea.setBackgroundColor(Palette.getColor(usedArray.get(0)));
-                if (accountsArea != null)
-                    accountsArea.setBackgroundColor(Palette.getDarkerColor(usedArray.get(0)));
+                hea.setBackgroundColor(Palette.getColor(USEDARRAY_0));
+                if (accountsArea != null) {
+                    accountsArea.setBackgroundColor(Palette.getDarkerColor(USEDARRAY_0));
+                }
             }
+
             if (!SettingValues.single) {
-                mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(usedArray.get(0)));
-                shouldLoad = usedArray.get(toGoto);
+                mTabLayout.setSelectedTabIndicatorColor(new ColorPreferences(MainActivity.this).getColor(USEDARRAY_0));
                 pager.setCurrentItem(toGoto);
                 mTabLayout.setupWithViewPager(pager);
                 if (mTabLayout != null) {
@@ -1123,18 +1127,14 @@ public class MainActivity extends BaseActivity {
                 }
             } else {
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
-                shouldLoad = usedArray.get(toGoto);
                 pager.setCurrentItem(toGoto);
             }
 
             setRecentBar(usedArray.get(toGoto));
             doSubSidebar(usedArray.get(toGoto));
-
-
         } else if (NetworkUtil.isConnected(this)) {
             UserSubscriptions.doMainActivitySubs(this);
         }
-
     }
 
     SpoilerRobotoTextView sidebarBody;
@@ -2156,7 +2156,7 @@ public class MainActivity extends BaseActivity {
         mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                String subreddit = usedArray.get(pager.getCurrentItem());
+                final String subreddit = usedArray.get(pager.getCurrentItem());
                 int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
                 final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
                 LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
@@ -2199,14 +2199,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        String subredditBase = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
-        if (subredditBase.contains("/m/")) {
-            if (MainActivity.multiNameToSubsMap.containsKey(subredditBase)) {
-                subredditBase = MainActivity.multiNameToSubsMap.get(subredditBase);
-            }
-        }
-
-        final String subreddit = subredditBase;
+        final String subreddit = usedArray.get(Reddit.currentPosition);
 
         switch (item.getItemId()) {
             case R.id.filter:
@@ -2315,11 +2308,11 @@ public class MainActivity extends BaseActivity {
                     }
                 });
             }
-
             return true;
             case R.id.action_refresh:
-                if (adapter != null && adapter.getCurrentFragment() != null)
+                if (adapter != null && adapter.getCurrentFragment() != null) {
                     ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
+                }
                 return true;
             case R.id.action_sort:
                 if (subreddit.equalsIgnoreCase("friends")) {
@@ -2425,21 +2418,32 @@ public class MainActivity extends BaseActivity {
     }
 
     public void filterContent(final String subreddit) {
-        final boolean[] chosen = new boolean[]{
-                PostMatch.isGif(subreddit),
-                PostMatch.isAlbums(subreddit),
-                PostMatch.isImage(subreddit),
-                PostMatch.isNsfw(subreddit),
-                PostMatch.isSelftext(subreddit),
-                PostMatch.isUrls(subreddit),
-                PostMatch.isVideo(subreddit)
+        final boolean[] chosen = new boolean[] {
+                PostMatch.isGif(subreddit.toLowerCase()),
+                PostMatch.isAlbums(subreddit.toLowerCase()),
+                PostMatch.isImage(subreddit.toLowerCase()),
+                PostMatch.isNsfw(subreddit.toLowerCase()),
+                PostMatch.isSelftext(subreddit.toLowerCase()),
+                PostMatch.isUrls(subreddit.toLowerCase()),
+                PostMatch.isVideo(subreddit.toLowerCase())
         };
 
-        final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
-                : (getString(R.string.content_to_hide, "/r/" + subreddit));
+        final String currentSubredditName = usedArray.get(Reddit.currentPosition);
+
+        //Title of the filter dialog
+        String filterTitle;
+        if (currentSubredditName.contains("/m/")) {
+            filterTitle = getString(R.string.content_to_hide, currentSubredditName);
+        } else {
+            if (currentSubredditName.equals("frontpage")) {
+                filterTitle = getString(R.string.content_to_hide, "frontpage");
+            } else {
+                filterTitle = getString(R.string.content_to_hide, "/r/" + currentSubredditName);
+            }
+        }
 
         new AlertDialogWrapper.Builder(this)
-                .setTitle(FILTER_TITLE)
+                .setTitle(filterTitle)
                 .alwaysCallMultiChoiceCallback()
                 .setMultiChoiceItems(new String[]{
                         getString(R.string.type_gifs),
@@ -2933,6 +2937,7 @@ public class MainActivity extends BaseActivity {
                 } else {
                     shouldLoad = usedArray.get(position);
                 }
+
                 mCurrentFragment = ((SubmissionsView) object);
                 if (mCurrentFragment.posts == null) {
                     if (mCurrentFragment.isAdded()) {
