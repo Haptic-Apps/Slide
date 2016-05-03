@@ -1,21 +1,20 @@
 package me.ccrama.redditslide.ImgurAlbum;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import org.jetbrains.annotations.NotNull;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,11 +23,28 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.util.OkHttpJson;
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by carlo_000 on 2/1/2016.
  */
 public class AlbumUtils {
+
+    // URLS should all have trailing slash
+    public static final String IMGUR_SITE_URL       = "https://imgur.com/";
+    public static final String IMGUR_AJAX_ALBUMS    = "https://imgur.com/ajaxalbums/getimages/";
+    public static final String IMGUR_AJAX_SUFFIX    = "/hit.json?all=true";
+    public static final String IMGUR_MASHAPE_BASE   = "https://imgur-apiv3.p.mashape.com/3/";
+    public static final String IMGUR_MASHAPE_ALBUM  = IMGUR_MASHAPE_BASE + "album/";
+    public static final String IMGUR_MASHAPE_IMAGE  = IMGUR_MASHAPE_BASE + "image/";
+    public static final String JSON_SUFFIX          = ".json";
+    public static final String X_MASHAPE_KEY_HEADER = "X-Mashape-Key";
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+    public static final String AUTHORIZATION_VALUE  = "Client-ID bef87913eb202e9";
 
     public static SharedPreferences albumRequests;
 
@@ -107,26 +123,30 @@ public class AlbumUtils {
         AlbumImage album;
 
         public void parseJson(JsonElement baseData) {
+            OkHttpClient client = new OkHttpClient();
             try {
                 if (!baseData.toString().contains("\"data\":[]")) {
                     album = new ObjectMapper().readValue(baseData.toString(), AlbumImage.class);
                     doWithData(album.getData().getImages());
                 } else  {
-                    Ion.with(baseActivity).load("https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json")
-                            .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(baseActivity)).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
-                            .asJsonObject().setCallback(
-                            new FutureCallback<JsonObject>() {
-                                @Override
-                                public void onCompleted(Exception e, JsonObject obj) {
-                                    try {
-                                        SingleImage single = new ObjectMapper().readValue(obj.toString(), SingleAlbumImage.class).getData();
-                                        doWithDataSingle(single);
-                                    } catch (IOException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                }
+                    Request request = new Request.Builder()
+                            .url(IMGUR_MASHAPE_ALBUM + hash + JSON_SUFFIX)
+                            .addHeader(X_MASHAPE_KEY_HEADER, SecretConstants.getImgurApiKey(baseActivity))
+                            .addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_VALUE)
+                            .build();
+                    client.newCall(request).enqueue(new OkHttpJson.ImgurCallback() {
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            final JsonObject obj = OkHttpJson.getJsonFromResponse(response);
+                            if (obj == null || obj.isJsonNull()) return; // TODO handle null obj
+                            try {
+                                SingleImage single = new ObjectMapper().readValue(obj.toString(), SingleAlbumImage.class).getData();
+                                doWithDataSingle(single);
+                            } catch (IOException e1) {
+                                e1.printStackTrace();
                             }
-                    );
+                        }
+                    });
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -135,49 +155,58 @@ public class AlbumUtils {
 
         @Override
         protected ArrayList<JsonElement> doInBackground(final String... sub) {
+            OkHttpClient client = new OkHttpClient();
+
             if (hash.startsWith("/")) {
+                // Remove stray forward slash
                 hash = hash.substring(1, hash.length());
             }
             if (hash.contains(",")) {
+                // URL had a comma in it, attempt to split up the hashes and load each image individually
                 target = new JsonElement[hash.split(",").length];
                 count = 0;
                 done = 0;
                 for (String s : hash.split(",")) {
-                    final int pos = count;
-                    count++;
-                    Ion.with(baseActivity).load("https://imgur-apiv3.p.mashape.com/3/image/" + s + ".json")
-                            .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(baseActivity)).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
-                            .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                    final int pos = count++;
+
+                    Request request = new Request.Builder()
+                            .url(IMGUR_MASHAPE_IMAGE + s + JSON_SUFFIX)
+                            .addHeader(X_MASHAPE_KEY_HEADER, SecretConstants.getImgurApiKey(baseActivity))
+                            .addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_VALUE)
+                            .build();
+
+                    client.newCall(request).enqueue(new OkHttpJson.ImgurCallback() {
                         @Override
-                        public void onCompleted(Exception e, JsonObject obj) {
+                        public void onResponse(Call call, Response response) throws IOException {
+                            JsonObject obj = OkHttpJson.getJsonFromResponse(response);
                             if (obj != null && obj.has("data")) {
                                 target[pos] = obj.get("data");
                             }
                             done += 1;
                             if (done == target.length) {
-                                ArrayList<Image> jsons = new ArrayList<>();
-                                for (JsonElement el : target) {
-                                    if (el != null)
-                                        jsons.add(new Image()); //todo make this work
+                                ArrayList<Image> imageArrayList = new ArrayList<>();
+                                for (JsonElement element : target) {
+                                    if (element != null)
+                                        imageArrayList.add(new Image()); // TODO: make this work
                                 }
-                                if (jsons.isEmpty()) {
+                                if (imageArrayList.isEmpty()) {
                                     Intent i = new Intent(baseActivity, Website.class);
-                                    i.putExtra(Website.EXTRA_URL, "https://imgur.com/" + hash);
+                                    i.putExtra(Website.EXTRA_URL, IMGUR_SITE_URL + hash);
                                     baseActivity.startActivity(i);
                                     baseActivity.finish();
                                 } else {
-                                    doWithData(jsons);
+                                    doWithData(imageArrayList);
                                 }
                             }
                         }
                     });
-
                 }
 
             } else {
                 if (baseActivity != null) {
                     final String url = getUrl(hash);
                     if (albumRequests.contains(url) && new JsonParser().parse(albumRequests.getString(url, "")).getAsJsonObject().has("data")) {
+                        // Use the cached gallery data to display the images
                         baseActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -186,28 +215,27 @@ public class AlbumUtils {
                         });
 
                     } else {
-                        Ion.with(baseActivity)
-                                .load(url)
-                                .asJsonObject()
-                                .setCallback(new FutureCallback<JsonObject>() {
-                                    @Override
-                                    public void onCompleted(Exception e, final JsonObject result) {
-                                        if (result != null && result.has("data")) {
-                                            albumRequests.edit().putString(url, result.toString()).apply();
-                                            baseActivity.runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    parseJson(result);
-                                                }
-                                            });
+                        // No cached gallery data found, make a new request to the Imgur API
+                        Request request = new Request.Builder()
+                                .url(url)
+                                .build();
+                        client.newCall(request).enqueue(new OkHttpJson.ImgurCallback() {
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                final JsonObject result = OkHttpJson.getJsonFromResponse(response);
+                                if (result != null && result.has("data")) {
+                                    albumRequests.edit().putString(url, result.toString()).apply();
+                                    baseActivity.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            parseJson(result);
                                         }
-                                    }
-
-                                });
+                                    });
+                                }
+                            }
+                        });
                     }
                     return null;
-
-
                 }
             }
             return null;
@@ -218,7 +246,7 @@ public class AlbumUtils {
     }
 
     public static String getUrl(String hash) {
-        return "http://imgur.com/ajaxalbums/getimages/" + hash + "/hit.json?all=true";
+        return IMGUR_AJAX_ALBUMS + hash + IMGUR_AJAX_SUFFIX;
     }
 
     public static void preloadImages(Context c, JsonObject result, boolean gallery) {
@@ -229,12 +257,11 @@ public class AlbumUtils {
                 if (obj != null && !obj.isJsonNull() && obj.size() > 0) {
 
                     for (JsonElement o : obj) {
-                        ((Reddit) c.getApplicationContext()).getImageLoader().loadImage("https://imgur.com/" + o.getAsJsonObject().get("hash").getAsString() + ".png", new SimpleImageLoadingListener());
+                        ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(IMGUR_SITE_URL + o.getAsJsonObject().get("hash").getAsString() + ".png", new SimpleImageLoadingListener());
                     }
 
                 }
             }
-
         } else if (result != null) {
             if (result.has("album") && result.get("album").getAsJsonObject().has("images")) {
                 JsonObject obj = result.getAsJsonObject("album");
