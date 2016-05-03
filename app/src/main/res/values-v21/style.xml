@@ -34,4 +34,11 @@
         <item name="android:colorControlActivated">?attr/tint</item>
         <item name="android:colorControlHighlight">?attr/tint</item>
     </style>
+
+    <!-- When searching for a subreddit in the toolbar, tint the EditText bar -->
+    <style name="SearchEditTextTheme">
+        <item name="android:colorControlNormal">@color/white</item>
+        <item name="android:colorControlActivated">@color/white</item>
+        <item name="android:colorControlHighlight">@color/white</item>
+    </style>
 </resources>

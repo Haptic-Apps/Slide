@@ -57,6 +57,7 @@ public class SettingValues {
     public static final String PREF_SHOW_DOMAIN = "showDomain";
     public static final String PREF_CARD_TEXT = "cardText";
     public static final String PREF_ZOOM_DEFAULT = "zoomDefault";
+    public static final String PREF_SUBREDDIT_SEARCH_METHOD = "subredditSearchMethod";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
     public static final String PREF_ALBUM = "album";
@@ -124,6 +125,7 @@ public class SettingValues {
     public static boolean collapseComments;
     public static boolean collapseCommentsDefault;
     public static boolean rightHandedCommentMenu;
+    public static int subredditSearchMethod;
 
     public static String synccitName;
     public static String synccitAuth;
@@ -178,6 +180,7 @@ public class SettingValues {
 
         fab = prefs.getBoolean(PREF_FAB, true);
         fabType = prefs.getInt(PREF_FAB_TYPE, R.integer.FAB_DISMISS);
+        subredditSearchMethod = prefs.getInt(PREF_SUBREDDIT_SEARCH_METHOD, R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER);
         nighttime = prefs.getInt(PREF_DAY_TIME, 20);
         daytime = prefs.getInt(PREF_NIGHT_TIME, 6);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);

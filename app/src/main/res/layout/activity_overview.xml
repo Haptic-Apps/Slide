@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <me.ccrama.redditslide.Views.SidebarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,7 +34,41 @@
                 android:layout_height="56dp"
                 android:minHeight="56dp"
                 android:theme="@style/ActionBarCompat"
-                android:title="@string/app_name" />
+                android:title="@string/app_name" >
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/toolbar_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:hint="@string/drawer_search"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/md_grey_300"
+                        android:visibility="gone"
+                        android:imeOptions="actionSearch"
+                        android:singleLine="true"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
+                        android:theme="@style/SearchEditTextTheme"
+                        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+
+                    <ImageView
+                        android:id="@+id/close_search_toolbar"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_alignBottom="@+id/toolbar_search"
+                        android:layout_toEndOf="@+id/toolbar_search"
+                        android:padding="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:tint="@color/white"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/close" />
+                </RelativeLayout>
+            </android.support.v7.widget.Toolbar>
 
             <ViewStub
                 android:id="@+id/stub_tabs"
@@ -42,6 +77,23 @@
                 android:inflatedId="@+id/sliding_tabs"
                 android:layout="@layout/activity_overview_tabs" />
         </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/toolbar_search_suggestions"
+            android:layout_width="256dp"
+            android:layout_height="316dp"
+            android:visibility="gone"
+            android:layout_below="@id/header"
+            android:elevation="8dp"
+            app:cardBackgroundColor="?attr/card_background">
+
+            <ListView
+                android:id="@+id/toolbar_search_suggestions_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/card_background">
+            </ListView>
+        </android.support.v7.widget.CardView>
     </android.support.design.widget.CoordinatorLayout>
 
     <ListView

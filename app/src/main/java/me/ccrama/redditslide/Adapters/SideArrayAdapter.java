@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Filter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,8 +25,8 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SantitizeField;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -93,8 +97,30 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     if (fitems.get(position).startsWith(getContext().getString(R.string.search_goto) + " ") || !((MainActivity) getContext()).usedArray.contains(fitems.get(position))) {
+                        try {
+                            //Hide the toolbar search UI without an animation because we're starting a new activity
+                            if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                    && ((MainActivity) getContext()).findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
+                                ((MainActivity) getContext()).findViewById(R.id.toolbar_search_suggestions).setVisibility(View.GONE);
+                                ((MainActivity) getContext()).findViewById(R.id.toolbar_search).setVisibility(View.GONE);
+                                ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar).setVisibility(View.GONE);
+
+                                //Play the exit animations of the search toolbar UI to avoid the animations failing to animate upon the next time
+                                //the search toolbar UI is called. Set animation to 0 because the UI is already hidden.
+                                ((MainActivity) getContext()).exitAnimationsForToolbarSearch(0,
+                                        ((CardView) ((MainActivity) getContext()).findViewById(R.id.toolbar_search_suggestions)),
+                                        ((AutoCompleteTextView) ((MainActivity) getContext()).findViewById(R.id.toolbar_search)),
+                                        ((ImageView) ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar)));
+                                if (SettingValues.single) {
+                                    ((MainActivity) getContext()).getSupportActionBar().setTitle(((MainActivity) getContext()).selectedSub);
+                                } else {
+                                    ((MainActivity) getContext()).getSupportActionBar().setTitle(((MainActivity) getContext()).tabViewModeTitle);
+                                }
+                            }
+                        } catch (NullPointerException npe) {
+                            Log.e(getClass().getName(), npe.getMessage());
+                        }
                         Intent inte = new Intent(getContext(), SubredditView.class);
                         inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
                         ((Activity) getContext()).startActivityForResult(inte, 4);
@@ -106,17 +132,26 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                             ((MainActivity) getContext()).adapter.notifyDataSetChanged();
                             ((MainActivity) getContext()).doPageSelectedComments(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
                         }
+                        try {
+                            //Hide the toolbar search UI with an animation because we're just changing tabs
+                            if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                    && ((MainActivity) getContext()).findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
+                                ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar).performClick();
+                            }
+                        } catch (NullPointerException npe) {
+                            Log.e(getClass().getName(), npe.getMessage());
+                        }
+
                         ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
                     }
-
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    ((MainActivity) getContext()).drawerLayout.closeDrawers();
 
+                    ((MainActivity) getContext()).drawerLayout.closeDrawers();
                 }
             });
         } else {
-            if ((fitems.size() * height) < parentL.getHeight()) {
+            if ((fitems.size() * height) < parentL.getHeight() && (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER)) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
                 ViewGroup.LayoutParams params = convertView.findViewById(R.id.height).getLayoutParams();
                 params.height = (parentL.getHeight() - (getCount() - 1) * height);

@@ -41,6 +41,8 @@ import me.ccrama.redditslide.Visuals.Palette;
  */
 public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDialogCreate.FolderCallback {
 
+    public static boolean searchChanged; //whether or not the subreddit search method changed
+
     public static void setupNotificationSettings(View dialoglayout, final Activity context) {
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(context);
         final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
@@ -231,6 +233,41 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                 popup.show();
             }
         });
+
+        //SettingValues.subredditSearchMethod == 1 for drawer, 2 for toolbar
+        ((TextView) findViewById(R.id.toolbar_search_current)).setText(SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR ? getString(R.string.subreddit_search_method_toolbar) : getString(R.string.subreddit_search_method_drawer));
+
+        findViewById(R.id.subreddit_search_method).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(SettingsGeneral.this, v);
+                popup.getMenuInflater().inflate(R.menu.subreddit_search_settings, popup.getMenu());
+
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.subreddit_search_drawer:
+                                System.out.println("DRAWER SEARCH");
+                                SettingValues.subredditSearchMethod = R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER;
+                                SettingValues.prefs.edit().putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD, R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER).apply();
+                                SettingsGeneral.searchChanged = true;
+                                break;
+                            case R.id.subreddit_search_toolbar:
+                                System.out.println("TOOLBAR SEARCH");
+                                SettingValues.subredditSearchMethod = R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR;
+                                SettingValues.prefs.edit().putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD, R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR).apply();
+                                SettingsGeneral.searchChanged = true;
+                                break;
+                        }
+                        ((TextView) findViewById(R.id.toolbar_search_current)).setText(SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR ? getString(R.string.subreddit_search_method_toolbar) : getString(R.string.subreddit_search_method_drawer));
+
+                        return true;
+                    }
+                });
+                popup.show();
+            }
+        });
+
 
 
         {

@@ -198,6 +198,28 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         final View header = getActivity().findViewById(R.id.header);
 
+        //TODO, have it so that if the user clicks anywhere in the rv to hide and cancel GoToSubreddit?
+//        final TextInputEditText GO_TO_SUB_FIELD = (TextInputEditText) getActivity().findViewById(R.id.toolbar_search);
+//        final Toolbar TOOLBAR = ((Toolbar) getActivity().findViewById(R.id.toolbar));
+//        final String PREV_TITLE = TOOLBAR.getTitle().toString();
+//        final ImageView CLOSE_BUTTON = (ImageView) getActivity().findViewById(R.id.close);
+//
+//        rv.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                System.out.println("touched");
+//                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//
+//                GO_TO_SUB_FIELD.setText("");
+//                GO_TO_SUB_FIELD.setVisibility(View.GONE);
+//                CLOSE_BUTTON.setVisibility(View.GONE);
+//                TOOLBAR.setTitle(PREV_TITLE);
+//
+//                return false;
+//            }
+//        });
+
         rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, header) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -296,7 +318,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         }
         return numColumns;
     }
-
 
     public void doAdapter() {
         mSwipeRefreshLayout.post(new Runnable() {
