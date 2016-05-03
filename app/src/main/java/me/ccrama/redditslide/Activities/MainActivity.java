@@ -2031,7 +2031,7 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String result = e.getText().toString().replaceAll(" ", "");
+                final String result = editable.toString();
                 if (result.isEmpty()) {
                     close.setVisibility(View.GONE);
                 } else {
