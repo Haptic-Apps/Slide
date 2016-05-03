@@ -559,7 +559,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                 if (type != null && !type.isEmpty() && type.startsWith("image/")) {
                                     //is image
                                     if (type.contains("gif")) {
-                                        doLoadGif(finalUrl2.replace(".jpg", ".gif"));
+                                        doLoadGif(finalUrl2.replace(".jpg", ".gif").replace(".png", ".gif"));
                                     } else if (!imageShown) {
                                         displayImage(finalUrl2);
                                     }

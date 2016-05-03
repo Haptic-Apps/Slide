@@ -1360,7 +1360,7 @@ public class PopulateSubmissionViewHolder {
 
         final int commentCount = submission.getCommentCount();
         final int more = LastComments.commentsSince(submission);
-        holder.comments.setText(String.format(Locale.getDefault(), "%d %s", commentCount, ((more > 0 && SettingValues.commentLastVisit) ? "(" + more + ")" : "")));
+        holder.comments.setText(String.format(Locale.getDefault(), "%d %s", commentCount, ((more > 0 && SettingValues.commentLastVisit) ? "(+" + more + ")" : "")));
         String scoreRatio = (SettingValues.upvotePercentage && full && submission.getUpvoteRatio() != null) ? "(" + (int) (submission.getUpvoteRatio() * 100) + "%)" : "";
         holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
 
@@ -1498,25 +1498,29 @@ public class PopulateSubmissionViewHolder {
 
                         @Override
                         protected void onPostExecute(Void aVoid) {
-                            if (!full && !SettingValues.actionbarVisible)
-                                CreateCardView.toggleActionbar(holder.itemView);
-                            Snackbar s;
-                            if (ActionStates.isSaved(submission)) {
-                                ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
-                                s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
-                                AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
-                            } else {
-                                s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
-                                ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                                if (mContext instanceof Profile) {
-                                    posts.remove(posts.indexOf(submission));
-                                    recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
+                            try {
+                                if (!full && !SettingValues.actionbarVisible)
+                                    CreateCardView.toggleActionbar(holder.itemView);
+                                Snackbar s;
+                                if (ActionStates.isSaved(submission)) {
+                                    ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
+                                    s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
+                                    AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
+                                } else {
+                                    s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
+                                    ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                                    if (mContext instanceof Profile) {
+                                        posts.remove(posts.indexOf(submission));
+                                        recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
+                                    }
                                 }
+                                View view = s.getView();
+                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                tv.setTextColor(Color.WHITE);
+                                s.show();
+                            } catch(Exception ignored){
+
                             }
-                            View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
 
                         }
                     }.execute();

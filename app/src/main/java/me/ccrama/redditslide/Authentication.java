@@ -157,10 +157,11 @@ public class Authentication {
                                 Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
 
                             } catch (Exception e) {
-                                try {
-                                    ((Activity) context).runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
+                                ((Activity) context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+
                                             new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
                                                     .setMessage(R.string.err_no_connection)
                                                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
@@ -175,11 +176,12 @@ public class Authentication {
 
                                                 }
                                             }).show();
-                                        }
-                                    });
-                                } catch (Exception ignored) {
+                                        } catch (Exception ignored) {
 
-                                }
+                                        }
+                                    }
+                                });
+
                                 //TODO fail
                             }
                         }
@@ -251,10 +253,11 @@ public class Authentication {
                         return null;
 
                     } catch (Exception e) {
-                        try {
-                            ((Activity) mContext).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
+                        ((Activity) mContext).runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+
                                     new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
                                             .setMessage(R.string.err_no_connection)
                                             .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
@@ -269,11 +272,12 @@ public class Authentication {
 
                                         }
                                     }).show();
-                                }
-                            });
-                        } catch (Exception ignored) {
+                                } catch (Exception ignored) {
 
-                        }
+                                }
+                            }
+                        });
+
                         //TODO fail
                     }
 
