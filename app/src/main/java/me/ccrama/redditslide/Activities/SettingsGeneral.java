@@ -247,13 +247,11 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.subreddit_search_drawer:
-                                System.out.println("DRAWER SEARCH");
                                 SettingValues.subredditSearchMethod = R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER;
                                 SettingValues.prefs.edit().putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD, R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER).apply();
                                 SettingsGeneral.searchChanged = true;
                                 break;
                             case R.id.subreddit_search_toolbar:
-                                System.out.println("TOOLBAR SEARCH");
                                 SettingValues.subredditSearchMethod = R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR;
                                 SettingValues.prefs.edit().putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD, R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR).apply();
                                 SettingsGeneral.searchChanged = true;
