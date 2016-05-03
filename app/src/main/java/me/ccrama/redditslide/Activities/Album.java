@@ -44,8 +44,8 @@ import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
-import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
-import me.ccrama.redditslide.ImgurAlbum.Image;
+import me.ccrama.redditslide.Models.Imgur.ImgurAlbum.AlbumUtils;
+import me.ccrama.redditslide.Models.Imgur.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -355,9 +355,9 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             }
 
             @Override
-            public void doWithData(final List<Image> jsonElements) {
+            public void doWithData(final List<Image> imageList) {
                 getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
-                ((Album) getActivity()).images = new ArrayList<>(jsonElements);
+                ((Album) getActivity()).images = new ArrayList<>(imageList);
                 AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images, getActivity().findViewById(R.id.toolbar).getHeight());
                 recyclerView.setAdapter(adapter);
 

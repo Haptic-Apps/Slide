@@ -1,4 +1,4 @@
-package me.ccrama.redditslide.ImgurAlbum;
+package me.ccrama.redditslide.Models.Imgur.ImgurAlbum;
 
 /**
  * Created by carlo_000 on 5/3/2016.
@@ -49,11 +49,11 @@ public class SingleImage {
     @JsonProperty("type")
     private String type;
     @JsonProperty("animated")
-    private Boolean animated;
+    private boolean animated;
     @JsonProperty("width")
-    private Integer width;
+    private int width;
     @JsonProperty("height")
-    private Integer height;
+    private int height;
     @JsonProperty("size")
     private Double size;
     @JsonProperty("views")
@@ -63,9 +63,9 @@ public class SingleImage {
     @JsonProperty("vote")
     private Object vote;
     @JsonProperty("favorite")
-    private Boolean favorite;
+    private boolean favorite;
     @JsonProperty("nsfw")
-    private Boolean nsfw;
+    private boolean nsfw;
     @JsonProperty("section")
     private String section;
     @JsonProperty("account_url")
@@ -73,7 +73,7 @@ public class SingleImage {
     @JsonProperty("account_id")
     private Object accountId;
     @JsonProperty("in_gallery")
-    private Boolean inGallery;
+    private boolean inGallery;
     @JsonProperty("link")
     private String link;
     @JsonIgnore
@@ -163,7 +163,7 @@ public class SingleImage {
      * @return The animated
      */
     @JsonProperty("animated")
-    public Boolean getAnimated() {
+    public boolean getAnimated() {
         return animated;
     }
 
@@ -171,7 +171,7 @@ public class SingleImage {
      * @param animated The animated
      */
     @JsonProperty("animated")
-    public void setAnimated(Boolean animated) {
+    public void setAnimated(boolean animated) {
         this.animated = animated;
     }
 
@@ -179,7 +179,7 @@ public class SingleImage {
      * @return The width
      */
     @JsonProperty("width")
-    public Integer getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -187,7 +187,7 @@ public class SingleImage {
      * @param width The width
      */
     @JsonProperty("width")
-    public void setWidth(Integer width) {
+    public void setWidth(int width) {
         this.width = width;
     }
 
@@ -195,7 +195,7 @@ public class SingleImage {
      * @return The height
      */
     @JsonProperty("height")
-    public Integer getHeight() {
+    public int getHeight() {
         return height;
     }
 
@@ -203,7 +203,7 @@ public class SingleImage {
      * @param height The height
      */
     @JsonProperty("height")
-    public void setHeight(Integer height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
@@ -275,7 +275,7 @@ public class SingleImage {
      * @return The favorite
      */
     @JsonProperty("favorite")
-    public Boolean getFavorite() {
+    public boolean getFavorite() {
         return favorite;
     }
 
@@ -283,7 +283,7 @@ public class SingleImage {
      * @param favorite The favorite
      */
     @JsonProperty("favorite")
-    public void setFavorite(Boolean favorite) {
+    public void setFavorite(boolean favorite) {
         this.favorite = favorite;
     }
 
@@ -291,7 +291,7 @@ public class SingleImage {
      * @return The nsfw
      */
     @JsonProperty("nsfw")
-    public Boolean getNsfw() {
+    public boolean getNsfw() {
         return nsfw;
     }
 
@@ -299,7 +299,7 @@ public class SingleImage {
      * @param nsfw The nsfw
      */
     @JsonProperty("nsfw")
-    public void setNsfw(Boolean nsfw) {
+    public void setNsfw(boolean nsfw) {
         this.nsfw = nsfw;
     }
 
@@ -355,7 +355,7 @@ public class SingleImage {
      * @return The inGallery
      */
     @JsonProperty("in_gallery")
-    public Boolean getInGallery() {
+    public boolean getInGallery() {
         return inGallery;
     }
 
@@ -363,7 +363,7 @@ public class SingleImage {
      * @param inGallery The in_gallery
      */
     @JsonProperty("in_gallery")
-    public void setInGallery(Boolean inGallery) {
+    public void setInGallery(boolean inGallery) {
         this.inGallery = inGallery;
     }
 
