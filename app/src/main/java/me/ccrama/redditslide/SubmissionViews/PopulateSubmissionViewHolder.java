@@ -582,7 +582,7 @@ public class PopulateSubmissionViewHolder {
                     try {
                         s.hide(pos);
                         success = true;
-                    } catch(Exception e){
+                    } catch (Exception e) {
                     }
                 } else {
                     success = false;
@@ -1518,7 +1518,7 @@ public class PopulateSubmissionViewHolder {
                                 TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                 tv.setTextColor(Color.WHITE);
                                 s.show();
-                            } catch(Exception ignored){
+                            } catch (Exception ignored) {
 
                             }
 
@@ -1815,7 +1815,7 @@ public class PopulateSubmissionViewHolder {
                                                                     adapter.dataSet.reloadSubmission(adapter);
                                                                 d.dismiss();
                                                             } catch (Exception e) {
-                                                                ( mContext).runOnUiThread(new Runnable() {
+                                                                (mContext).runOnUiThread(new Runnable() {
                                                                     @Override
                                                                     public void run() {
                                                                         new AlertDialogWrapper.Builder(mContext)
@@ -1841,7 +1841,7 @@ public class PopulateSubmissionViewHolder {
 
                                                         @Override
                                                         protected void onPostExecute(Void aVoid) {
-                                                            if(adapter != null)
+                                                            if (adapter != null)
                                                                 adapter.notifyItemChanged(1);
                                                         }
                                                     }.execute();
@@ -1872,8 +1872,13 @@ public class PopulateSubmissionViewHolder {
                                                                         @Override
                                                                         public void run() {
                                                                             (holder.title).setTextHtml(mContext.getString(R.string.content_deleted));
-                                                                            holder.firstTextView.setText(R.string.content_deleted);
-                                                                            holder.commentOverflow.setVisibility(View.GONE);
+                                                                            if (holder.firstTextView != null) {
+                                                                                holder.firstTextView.setText(R.string.content_deleted);
+                                                                                holder.commentOverflow.setVisibility(View.GONE);
+                                                                            } else {
+                                                                                if (holder.itemView.findViewById(R.id.body) != null)
+                                                                                    ((TextView) holder.itemView.findViewById(R.id.body)).setText(R.string.content_deleted);
+                                                                            }
                                                                         }
                                                                     });
                                                                 }
