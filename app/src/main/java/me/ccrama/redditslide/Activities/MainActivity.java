@@ -2628,6 +2628,7 @@ public class MainActivity extends BaseActivity {
     //if the view mode is set to Subreddit Tabs, save the title ("Slide" or "Slide (debug)")
     public String tabViewModeTitle;
     public final long ANIMATE_DURATION = 250; //duration of animations
+    private final long ANIMATE_DURATION_OFFSET = 30; //offset for smoothing out the animations
 
     /**
      * If the user has the Subreddit Search method set to "long press on toolbar title",
@@ -2832,7 +2833,7 @@ public class MainActivity extends BaseActivity {
 
         //Helps smooth the transition between the toolbar title being reset and the search elements
         //fading out.
-        final int OFFSET_ANIM = (ANIMATION_DURATION == 0) ? 0 : 30;
+        final long OFFSET_ANIM = (ANIMATION_DURATION == 0) ? 0 : ANIMATE_DURATION_OFFSET;
 
         //Hide the various UI components after the animations are complete and
         //reset the toolbar title
@@ -2851,7 +2852,7 @@ public class MainActivity extends BaseActivity {
                     getSupportActionBar().setTitle(tabViewModeTitle);
                 }
             }
-        }, ANIMATION_DURATION + OFFSET_ANIM);
+        }, ANIMATION_DURATION + ANIMATE_DURATION_OFFSET);
     }
 
     public static String shouldLoad;
@@ -2891,24 +2892,37 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 public void onPageSelected(final int position) {
-
-
                     Reddit.currentPosition = position;
-
                     selectedSub = usedArray.get(position);
-                    if (hea != null) {
-                        hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-                        if (accountsArea != null)
-                            accountsArea.setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
-                    }
-                    header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
 
-                    themeSystemBars(usedArray.get(position));
-                    setRecentBar(usedArray.get(position));
-                    if (SettingValues.single || mTabLayout == null)
-                        getSupportActionBar().setTitle(usedArray.get(position));
-                    else mTabLayout.setSelectedTabIndicatorColor(
-                            new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
+                    if (hea != null) {
+                        hea.setBackgroundColor(Palette.getColor(selectedSub));
+                        if (accountsArea != null)
+                            accountsArea.setBackgroundColor(Palette.getDarkerColor(selectedSub));
+                    }
+                    header.setBackgroundColor(Palette.getColor(selectedSub));
+
+                    themeSystemBars(selectedSub);
+                    setRecentBar(selectedSub);
+
+                    if (SettingValues.single || mTabLayout == null) {
+                        //Smooth out the fading animation for the toolbar subreddit search UI
+                        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                && findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getSupportActionBar().setTitle(selectedSub);
+                                }
+                            }, ANIMATE_DURATION + ANIMATE_DURATION_OFFSET);
+                        } else {
+                            getSupportActionBar().setTitle(selectedSub);
+                        }
+                    } else {
+                        mTabLayout.setSelectedTabIndicatorColor(
+                                new ColorPreferences(MainActivity.this)
+                                        .getColor(selectedSub));
+                    }
                 }
 
                 @Override
@@ -2916,11 +2930,11 @@ public class MainActivity extends BaseActivity {
 
                 }
             });
+
             if (pager.getAdapter() != null) {
                 pager.getAdapter().notifyDataSetChanged();
                 pager.setCurrentItem(1);
                 pager.setCurrentItem(0);
-
             }
         }
 
