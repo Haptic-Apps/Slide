@@ -23,8 +23,8 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.Shadowbox;
 import me.ccrama.redditslide.Adapters.AlbumView;
-import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
-import me.ccrama.redditslide.ImgurAlbum.Image;
+import me.ccrama.redditslide.Models.Imgur.ImgurAlbum.AlbumUtils;
+import me.ccrama.redditslide.Models.Imgur.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
 

@@ -21,7 +21,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.MediaView;
-import me.ccrama.redditslide.ImgurAlbum.Image;
+import me.ccrama.redditslide.Models.Imgur.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;

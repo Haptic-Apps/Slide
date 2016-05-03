@@ -1,4 +1,4 @@
-package me.ccrama.redditslide.ImgurAlbum;
+package me.ccrama.redditslide.Models.Imgur.ImgurAlbum;
 
 /**
  * Created by carlo_000 on 5/3/2016.

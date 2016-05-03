@@ -1,6 +1,8 @@
+package me.ccrama.redditslide.Models.Imgur.ImgurAlbum;
 
-package me.ccrama.redditslide.ImgurAlbum;
-
+/**
+ * Created by carlo_000 on 5/3/2016.
+ */
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,14 +15,14 @@ import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "data",
-    "success",
-    "status"
+        "data",
+        "success",
+        "status"
 })
-public class AlbumImage {
+public class SingleAlbumImage {
 
     @JsonProperty("data")
-    private Data data;
+    private SingleImage data;
     @JsonProperty("success")
     private boolean success;
     @JsonProperty("status")
@@ -31,27 +33,27 @@ public class AlbumImage {
     /**
      *
      * @return
-     *     The data
+     * The data
      */
     @JsonProperty("data")
-    public Data getData() {
+    public SingleImage getData() {
         return data;
     }
 
     /**
      *
      * @param data
-     *     The data
+     * The data
      */
     @JsonProperty("data")
-    public void setData(Data data) {
+    public void setData(SingleImage data) {
         this.data = data;
     }
 
     /**
      *
      * @return
-     *     The success
+     * The success
      */
     @JsonProperty("success")
     public boolean getSuccess() {
@@ -61,7 +63,7 @@ public class AlbumImage {
     /**
      *
      * @param success
-     *     The success
+     * The success
      */
     @JsonProperty("success")
     public void setSuccess(boolean success) {
@@ -71,7 +73,7 @@ public class AlbumImage {
     /**
      *
      * @return
-     *     The status
+     * The status
      */
     @JsonProperty("status")
     public int getStatus() {
@@ -81,7 +83,7 @@ public class AlbumImage {
     /**
      *
      * @param status
-     *     The status
+     * The status
      */
     @JsonProperty("status")
     public void setStatus(int status) {

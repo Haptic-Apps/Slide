@@ -1,4 +1,4 @@
-package me.ccrama.redditslide.ImgurAlbum;
+package me.ccrama.redditslide.Models.Imgur.ImgurAlbum;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
