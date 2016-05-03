@@ -108,10 +108,10 @@ public class AlbumUtils {
 
         public void parseJson(JsonElement baseData) {
             try {
-                album = new ObjectMapper().readValue(baseData.toString(), AlbumImage.class);
-                if (album.getData().getImages() != null) {
+                if (!baseData.toString().contains("\"data\":[]")) {
+                    album = new ObjectMapper().readValue(baseData.toString(), AlbumImage.class);
                     doWithData(album.getData().getImages());
-                } else if (album.getSuccess()) {
+                } else  {
                     Ion.with(baseActivity).load("https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json")
                             .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(baseActivity)).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
                             .asJsonObject().setCallback(
@@ -119,7 +119,7 @@ public class AlbumUtils {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject obj) {
                                     try {
-                                        SingleImage single = new ObjectMapper().readValue(obj.get("data").toString(), SingleImage.class);
+                                        SingleImage single = new ObjectMapper().readValue(obj.toString(), SingleAlbumImage.class).getData();
                                         doWithDataSingle(single);
                                     } catch (IOException e1) {
                                         e1.printStackTrace();
@@ -127,8 +127,6 @@ public class AlbumUtils {
                                 }
                             }
                     );
-                } else {
-                    //album not found
                 }
             } catch (IOException e) {
                 e.printStackTrace();

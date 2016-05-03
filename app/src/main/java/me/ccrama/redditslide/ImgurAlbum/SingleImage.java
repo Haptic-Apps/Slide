@@ -45,7 +45,7 @@ public class SingleImage {
     @JsonProperty("description")
     private String description;
     @JsonProperty("datetime")
-    private Integer datetime;
+    private Double datetime;
     @JsonProperty("type")
     private String type;
     @JsonProperty("animated")
@@ -55,11 +55,11 @@ public class SingleImage {
     @JsonProperty("height")
     private Integer height;
     @JsonProperty("size")
-    private Integer size;
+    private Double size;
     @JsonProperty("views")
-    private Integer views;
+    private Double views;
     @JsonProperty("bandwidth")
-    private Integer bandwidth;
+    private Double bandwidth;
     @JsonProperty("vote")
     private Object vote;
     @JsonProperty("favorite")
@@ -131,7 +131,7 @@ public class SingleImage {
      * @return The datetime
      */
     @JsonProperty("datetime")
-    public Integer getDatetime() {
+    public Double getDatetime() {
         return datetime;
     }
 
@@ -139,7 +139,7 @@ public class SingleImage {
      * @param datetime The datetime
      */
     @JsonProperty("datetime")
-    public void setDatetime(Integer datetime) {
+    public void setDatetime(Double datetime) {
         this.datetime = datetime;
     }
 
@@ -211,7 +211,7 @@ public class SingleImage {
      * @return The size
      */
     @JsonProperty("size")
-    public Integer getSize() {
+    public Double getSize() {
         return size;
     }
 
@@ -219,7 +219,7 @@ public class SingleImage {
      * @param size The size
      */
     @JsonProperty("size")
-    public void setSize(Integer size) {
+    public void setSize(Double size) {
         this.size = size;
     }
 
@@ -227,7 +227,7 @@ public class SingleImage {
      * @return The views
      */
     @JsonProperty("views")
-    public Integer getViews() {
+    public Double getViews() {
         return views;
     }
 
@@ -235,7 +235,7 @@ public class SingleImage {
      * @param views The views
      */
     @JsonProperty("views")
-    public void setViews(Integer views) {
+    public void setViews(Double views) {
         this.views = views;
     }
 
@@ -243,7 +243,7 @@ public class SingleImage {
      * @return The bandwidth
      */
     @JsonProperty("bandwidth")
-    public Integer getBandwidth() {
+    public Double getBandwidth() {
         return bandwidth;
     }
 
@@ -251,7 +251,7 @@ public class SingleImage {
      * @param bandwidth The bandwidth
      */
     @JsonProperty("bandwidth")
-    public void setBandwidth(Integer bandwidth) {
+    public void setBandwidth(Double bandwidth) {
         this.bandwidth = bandwidth;
     }
 
