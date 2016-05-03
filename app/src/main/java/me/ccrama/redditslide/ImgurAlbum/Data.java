@@ -21,34 +21,34 @@ import java.util.Map;
 public class Data {
 
     @JsonProperty("count")
-    private Integer count;
+    private int count;
     @JsonProperty("images")
-    private List<Image> images = new ArrayList<Image>();
+    private List<Image> images = new ArrayList<>();
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
-     * 
+     *
      * @return
      *     The count
      */
     @JsonProperty("count")
-    public Integer getCount() {
+    public int getCount() {
         return count;
     }
 
     /**
-     * 
+     *
      * @param count
      *     The count
      */
     @JsonProperty("count")
-    public void setCount(Integer count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
     /**
-     * 
+     *
      * @return
      *     The images
      */
@@ -58,7 +58,7 @@ public class Data {
     }
 
     /**
-     * 
+     *
      * @param images
      *     The images
      */

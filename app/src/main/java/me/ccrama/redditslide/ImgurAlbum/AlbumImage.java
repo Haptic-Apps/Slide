@@ -22,14 +22,14 @@ public class AlbumImage {
     @JsonProperty("data")
     private Data data;
     @JsonProperty("success")
-    private Boolean success;
+    private boolean success;
     @JsonProperty("status")
-    private Integer status;
+    private int status;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     * 
+     *
      * @return
      *     The data
      */
@@ -39,7 +39,7 @@ public class AlbumImage {
     }
 
     /**
-     * 
+     *
      * @param data
      *     The data
      */
@@ -49,42 +49,42 @@ public class AlbumImage {
     }
 
     /**
-     * 
+     *
      * @return
      *     The success
      */
     @JsonProperty("success")
-    public Boolean getSuccess() {
+    public boolean getSuccess() {
         return success;
     }
 
     /**
-     * 
+     *
      * @param success
      *     The success
      */
     @JsonProperty("success")
-    public void setSuccess(Boolean success) {
+    public void setSuccess(boolean success) {
         this.success = success;
     }
 
     /**
-     * 
+     *
      * @return
      *     The status
      */
     @JsonProperty("status")
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
     /**
-     * 
+     *
      * @param status
      *     The status
      */
     @JsonProperty("status")
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

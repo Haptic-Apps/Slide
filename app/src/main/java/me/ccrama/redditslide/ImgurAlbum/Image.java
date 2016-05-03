@@ -34,19 +34,19 @@ public class Image {
     @JsonProperty("description")
     private String description;
     @JsonProperty("width")
-    private Integer width;
+    private int width;
     @JsonProperty("height")
-    private Integer height;
+    private int height;
     @JsonProperty("size")
-    private Integer size;
+    private int size;
     @JsonProperty("ext")
     private String ext;
     @JsonProperty("animated")
-    private Boolean animated;
+    private boolean animated;
     @JsonProperty("prefer_video")
-    private Boolean preferVideo;
+    private boolean preferVideo;
     @JsonProperty("looping")
-    private Boolean looping;
+    private boolean looping;
     @JsonProperty("datetime")
     private String datetime;
     @JsonIgnore
@@ -104,7 +104,7 @@ public class Image {
      * @return The width
      */
     @JsonProperty("width")
-    public Integer getWidth() {
+    public int getWidth() {
         return width;
     }
 
@@ -112,7 +112,7 @@ public class Image {
      * @param width The width
      */
     @JsonProperty("width")
-    public void setWidth(Integer width) {
+    public void setWidth(int width) {
         this.width = width;
     }
 
@@ -120,7 +120,7 @@ public class Image {
      * @return The height
      */
     @JsonProperty("height")
-    public Integer getHeight() {
+    public int getHeight() {
         return height;
     }
 
@@ -128,7 +128,7 @@ public class Image {
      * @param height The height
      */
     @JsonProperty("height")
-    public void setHeight(Integer height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
@@ -136,7 +136,7 @@ public class Image {
      * @return The size
      */
     @JsonProperty("size")
-    public Integer getSize() {
+    public int getSize() {
         return size;
     }
 
@@ -144,7 +144,7 @@ public class Image {
      * @param size The size
      */
     @JsonProperty("size")
-    public void setSize(Integer size) {
+    public void setSize(int size) {
         this.size = size;
     }
 
@@ -168,7 +168,7 @@ public class Image {
      * @return The animated
      */
     @JsonProperty("animated")
-    public Boolean isAnimated() {
+    public boolean isAnimated() {
         return animated;
     }
 
@@ -176,7 +176,7 @@ public class Image {
      * @param animated The animated
      */
     @JsonProperty("animated")
-    public void setAnimated(Boolean animated) {
+    public void setAnimated(boolean animated) {
         this.animated = animated;
     }
 
@@ -184,7 +184,7 @@ public class Image {
      * @return The preferVideo
      */
     @JsonProperty("prefer_video")
-    public Boolean getPreferVideo() {
+    public boolean getPreferVideo() {
         return preferVideo;
     }
 
@@ -192,7 +192,7 @@ public class Image {
      * @param preferVideo The prefer_video
      */
     @JsonProperty("prefer_video")
-    public void setPreferVideo(Boolean preferVideo) {
+    public void setPreferVideo(boolean preferVideo) {
         this.preferVideo = preferVideo;
     }
 
@@ -200,7 +200,7 @@ public class Image {
      * @return The looping
      */
     @JsonProperty("looping")
-    public Boolean getLooping() {
+    public boolean getLooping() {
         return looping;
     }
 
@@ -208,7 +208,7 @@ public class Image {
      * @param looping The looping
      */
     @JsonProperty("looping")
-    public void setLooping(Boolean looping) {
+    public void setLooping(boolean looping) {
         this.looping = looping;
     }
 
