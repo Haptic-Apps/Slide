@@ -33,6 +33,7 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
@@ -50,6 +51,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -162,7 +164,8 @@ public class MainActivity extends BaseActivity {
     String term;
     View headerMain;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
-    private String currentSub; //used for Toolbar subreddit search
+    public String selectedSub; //currently selected subreddit
+    private int headerHeight; //height of the header
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -448,16 +451,32 @@ public class MainActivity extends BaseActivity {
 
         mTabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
         header = findViewById(R.id.header);
+
+        //Gets the height of the header
+        if (header != null) {
+            header.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    headerHeight = header.getHeight();
+                    header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
+        }
+
         pager = (ToggleSwipeViewPager) findViewById(R.id.content_view);
 
         singleMode = SettingValues.single;
-        if (singleMode)
+        if (singleMode) {
             commentPager = SettingValues.commentPager;
+        }
         // Inflate tabs if single mode is disabled
-        if (!singleMode)
+        if (!singleMode) {
             mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
+        }
         // Disable swiping if single mode is enabled
-        if (singleMode) pager.setSwipingEnabled(false);
+        if (singleMode) {
+            pager.setSwipingEnabled(false);
+        }
 
         sidebarBody = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
         sidebarOverflow = (CommentOverflow) findViewById(R.id.commentOverflow);
@@ -699,9 +718,7 @@ public class MainActivity extends BaseActivity {
 
         //Upon leaving MainActivity--hide the toolbar search if it is visible
         if (findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
-            findViewById(R.id.toolbar_search).setVisibility(View.GONE);
-            findViewById(R.id.close_search_toolbar).setVisibility(View.GONE);
-            getSupportActionBar().setTitle(currentSub);
+            findViewById(R.id.close_search_toolbar).performClick();
         }
     }
 
@@ -1028,9 +1045,13 @@ public class MainActivity extends BaseActivity {
             scrollToTabAfterLayout(current);
         }
 
-        if (SettingValues.single)
+        if (SettingValues.single) {
             getSupportActionBar().setTitle(shouldLoad);
+        }
 
+        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+            setupSubredditSearchToolbar();
+        }
     }
 
     private void scrollToTabAfterLayout(final int tabIndex) {
@@ -1403,7 +1424,6 @@ public class MainActivity extends BaseActivity {
     }
 
     public void doDrawer() {
-
         drawerSubList = (ListView) findViewById(R.id.drawerlistview);
         drawerSubList.setDividerHeight(0);
         drawerSubList.setDescendantFocusability(ListView.FOCUS_BEFORE_DESCENDANTS);
@@ -2105,7 +2125,8 @@ public class MainActivity extends BaseActivity {
             drawerLayout.closeDrawers();
         } else if (commentPager && pager.getCurrentItem() == toOpenComments) {
             pager.setCurrentItem(pager.getCurrentItem() - 1);
-        } else if (findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
+        } else if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                && findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
             findViewById(R.id.close_search_toolbar).performClick(); //close GO_TO_SUB_FIELD
         } else if (SettingValues.exit) {
             final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(MainActivity.this);
@@ -2600,6 +2621,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    //if the view mode is set to Subreddit Tabs, save the title ("Slide" or "Slide (debug)")
+    public String tabViewModeTitle;
+    public final long ANIMATE_DURATION = 250; //duration of animations
+
     /**
      * If the user has the Subreddit Search method set to "long press on toolbar title",
      * an OnLongClickListener needs to be set for the toolbar as well as handling all of the relevant
@@ -2608,35 +2633,57 @@ public class MainActivity extends BaseActivity {
     private void setupSubredditSearchToolbar() {
         if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
             findViewById(R.id.drawer_divider).setVisibility(View.VISIBLE);
+            final ListView TOOLBAR_SEARCH_SUGGEST_LIST = (ListView) findViewById(R.id.toolbar_search_suggestions_list);
+            final ArrayList<String> subs_copy = new ArrayList<>(usedArray);
+            final SideArrayAdapter TOOLBAR_SEARCH_SUGGEST_ADAPTER
+                    = new SideArrayAdapter(this, subs_copy, UserSubscriptions.getAllSubreddits(this), TOOLBAR_SEARCH_SUGGEST_LIST);
+
+            if (TOOLBAR_SEARCH_SUGGEST_LIST != null) {
+                TOOLBAR_SEARCH_SUGGEST_LIST.setAdapter(TOOLBAR_SEARCH_SUGGEST_ADAPTER);
+            }
 
             if (mToolbar != null) {
                 mToolbar.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        currentSub = getSupportActionBar().getTitle().toString();
                         final AutoCompleteTextView GO_TO_SUB_FIELD = (AutoCompleteTextView) findViewById(R.id.toolbar_search);
                         final ImageView CLOSE_BUTTON = (ImageView) findViewById(R.id.close_search_toolbar);
+                        final CardView SUGGESTIONS_BACKGROUND = (CardView) findViewById(R.id.toolbar_search_suggestions);
 
-                        getSupportActionBar().setTitle("");
+                        //if the view mode is set to Subreddit Tabs, save the title ("Slide" or "Slide (debug)")
+                        tabViewModeTitle = (!SettingValues.single) ? getSupportActionBar().getTitle().toString() : null;
 
-                        if (GO_TO_SUB_FIELD != null && CLOSE_BUTTON != null) {
+                        getSupportActionBar().setTitle(""); //clear title to make room for search field
+
+                        if (GO_TO_SUB_FIELD != null && CLOSE_BUTTON != null && SUGGESTIONS_BACKGROUND != null) {
                             GO_TO_SUB_FIELD.setVisibility(View.VISIBLE);
                             CLOSE_BUTTON.setVisibility(View.VISIBLE);
+                            SUGGESTIONS_BACKGROUND.setVisibility(View.VISIBLE);
 
+                            //run enter animations
+                            enterAnimationsForToolbarSearch(ANIMATE_DURATION, SUGGESTIONS_BACKGROUND,
+                                    GO_TO_SUB_FIELD, CLOSE_BUTTON);
+
+                            //Get focus of the search field and show the keyboard
+                            GO_TO_SUB_FIELD.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
+
+                            //Close the search UI and keyboard when clicking the close button
                             CLOSE_BUTTON.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     final View view = MainActivity.this.getCurrentFocus();
-
                                     if (view != null) {
+                                        //Hide the keyboard
                                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                                     }
 
-                                    GO_TO_SUB_FIELD.setText("");
-                                    GO_TO_SUB_FIELD.setVisibility(View.GONE);
-                                    CLOSE_BUTTON.setVisibility(View.GONE);
-                                    getSupportActionBar().setTitle(currentSub);
+                                    //run the exit animations
+                                    exitAnimationsForToolbarSearch(ANIMATE_DURATION,
+                                            SUGGESTIONS_BACKGROUND, GO_TO_SUB_FIELD, CLOSE_BUTTON);
                                 }
                             });
 
@@ -2646,9 +2693,9 @@ public class MainActivity extends BaseActivity {
                                     if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
                                         //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
                                         if (sideArrayAdapter.fitems == null || sideArrayAdapter.openInSubView || !usedArray.contains(GO_TO_SUB_FIELD.getText().toString().toLowerCase())) {
-                                            Intent inte = new Intent(MainActivity.this, SubredditView.class);
-                                            inte.putExtra(SubredditView.EXTRA_SUBREDDIT, GO_TO_SUB_FIELD.getText().toString());
-                                            MainActivity.this.startActivity(inte);
+                                            Intent intent = new Intent(MainActivity.this, SubredditView.class);
+                                            intent.putExtra(SubredditView.EXTRA_SUBREDDIT, GO_TO_SUB_FIELD.getText().toString());
+                                            MainActivity.this.startActivity(intent);
                                         } else {
                                             if (commentPager && adapter instanceof OverviewPagerAdapterComment) {
                                                 openingComments = null;
@@ -2663,9 +2710,6 @@ public class MainActivity extends BaseActivity {
                                                 }
                                             }
                                             if (usedArray.contains(GO_TO_SUB_FIELD.getText().toString().toLowerCase())) {
-                                                if (SettingValues.single) {
-                                                    currentSub = usedArray.get(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
-                                                }
                                                 pager.setCurrentItem(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
                                             } else {
                                                 pager.setCurrentItem(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
@@ -2674,14 +2718,23 @@ public class MainActivity extends BaseActivity {
 
                                         View view = MainActivity.this.getCurrentFocus();
                                         if (view != null) {
+                                            //Hide the keyboard
                                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                                             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                                         }
 
-                                        GO_TO_SUB_FIELD.setText("");
+                                        SUGGESTIONS_BACKGROUND.setVisibility(View.GONE);
                                         GO_TO_SUB_FIELD.setVisibility(View.GONE);
                                         CLOSE_BUTTON.setVisibility(View.GONE);
-                                        getSupportActionBar().setTitle(currentSub);
+
+                                        GO_TO_SUB_FIELD.setText(""); //clear text from search field
+
+                                        if (SettingValues.single) {
+                                            getSupportActionBar().setTitle(selectedSub);
+                                        } else {
+                                            //Set the title back to "Slide" or "Slide (debug)"
+                                            getSupportActionBar().setTitle(tabViewModeTitle);
+                                        }
                                     }
                                     return false;
                                 }
@@ -2700,9 +2753,8 @@ public class MainActivity extends BaseActivity {
 
                                 @Override
                                 public void afterTextChanged(Editable editable) {
-                                    //TODO, filter suggestions
-//                                    final String result = GO_TO_SUB_FIELD.getText().toString().replaceAll(" ", "");
-//                                    sideArrayAdapter.getFilter().filter(result);
+                                    final String RESULT = GO_TO_SUB_FIELD.getText().toString().replaceAll(" ", "");
+                                    TOOLBAR_SEARCH_SUGGEST_ADAPTER.getFilter().filter(RESULT);
                                 }
                             });
                         }
@@ -2711,6 +2763,91 @@ public class MainActivity extends BaseActivity {
                 });
             }
         }
+    }
+
+    /**
+     * Starts the enter animations for various UI components of the toolbar subreddit search
+     * @param ANIMATION_DURATION duration of the animation in ms
+     * @param SUGGESTIONS_BACKGROUND background of subreddit suggestions list
+     * @param GO_TO_SUB_FIELD search field in toolbar
+     * @param CLOSE_BUTTON button that clears the search and closes the search UI
+     */
+    public void enterAnimationsForToolbarSearch(final long ANIMATION_DURATION,
+                                                final CardView SUGGESTIONS_BACKGROUND,
+                                                final AutoCompleteTextView GO_TO_SUB_FIELD,
+                                                final ImageView CLOSE_BUTTON) {
+        SUGGESTIONS_BACKGROUND.animate()
+                .translationY(headerHeight)
+                .alpha(1f)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setDuration(ANIMATION_DURATION)
+                .start();
+
+        GO_TO_SUB_FIELD.animate()
+                .alpha(1f)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setDuration(ANIMATION_DURATION)
+                .start();
+
+        CLOSE_BUTTON.animate()
+                .alpha(1f)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setDuration(ANIMATION_DURATION)
+                .start();
+    }
+
+    /**
+     * Starts the exit animations for various UI components of the toolbar subreddit search
+     * @param ANIMATION_DURATION duration of the animation in ms
+     * @param SUGGESTIONS_BACKGROUND background of subreddit suggestions list
+     * @param GO_TO_SUB_FIELD search field in toolbar
+     * @param CLOSE_BUTTON button that clears the search and closes the search UI
+     */
+    public void exitAnimationsForToolbarSearch(final long ANIMATION_DURATION,
+                                               final CardView SUGGESTIONS_BACKGROUND,
+                                               final AutoCompleteTextView GO_TO_SUB_FIELD,
+                                               final ImageView CLOSE_BUTTON) {
+        SUGGESTIONS_BACKGROUND.animate()
+                .translationY(0)
+                .alpha(0f)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setDuration(ANIMATION_DURATION)
+                .start();
+
+        GO_TO_SUB_FIELD.animate()
+                .alpha(0f)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setDuration(ANIMATION_DURATION)
+                .start();
+
+        CLOSE_BUTTON.animate()
+                .alpha(0f)
+                .setInterpolator(new AccelerateDecelerateInterpolator())
+                .setDuration(ANIMATION_DURATION)
+                .start();
+
+        //Helps smooth the transition between the toolbar title being reset and the search elements
+        //fading out.
+        final int OFFSET_ANIM = (ANIMATION_DURATION == 0) ? 0 : 30;
+
+        //Hide the various UI components after the animations are complete and
+        //reset the toolbar title
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SUGGESTIONS_BACKGROUND.setVisibility(View.GONE);
+                GO_TO_SUB_FIELD.setVisibility(View.GONE);
+                CLOSE_BUTTON.setVisibility(View.GONE);
+
+                GO_TO_SUB_FIELD.setText(""); //clear text from search field
+
+                if (SettingValues.single) {
+                    getSupportActionBar().setTitle(selectedSub);
+                } else {
+                    getSupportActionBar().setTitle(tabViewModeTitle);
+                }
+            }
+        }, ANIMATION_DURATION + OFFSET_ANIM);
     }
 
     public static String shouldLoad;
@@ -2892,10 +3029,12 @@ public class MainActivity extends BaseActivity {
         themeSystemBars(usedArray.get(position));
         setRecentBar(usedArray.get(position));
 
-        if (SettingValues.single)
+        if (SettingValues.single) {
             getSupportActionBar().setTitle(usedArray.get(position));
-        else mTabLayout.setSelectedTabIndicatorColor(
-                new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
+        } else {
+            mTabLayout.setSelectedTabIndicatorColor(
+                    new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
+        }
 
         selectedSub = usedArray.get(position);
     }
@@ -2937,7 +3076,6 @@ public class MainActivity extends BaseActivity {
                             pager.setSwipeLeftOnly(true);
                             themeSystemBars(openingComments.getSubredditName().toLowerCase());
                             setRecentBar(openingComments.getSubredditName().toLowerCase());
-
                         }
                     }
                 }
@@ -3057,8 +3195,6 @@ public class MainActivity extends BaseActivity {
 
         }
     }
-
-    public String selectedSub;
 
     public int getCurrentPage() {
         int position = 0;
