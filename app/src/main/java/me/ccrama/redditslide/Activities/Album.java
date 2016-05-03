@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.gson.JsonElement;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,18 +37,20 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.AlbumView;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
+import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
+import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
-import me.ccrama.redditslide.util.AlbumUtils;
 
 
 /**
@@ -60,8 +61,7 @@ import me.ccrama.redditslide.util.AlbumUtils;
  */
 public class Album extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL = "url";
-    boolean gallery = false;
-    private ArrayList<JsonElement> images;
+    private List<Image> images;
 
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
@@ -101,30 +101,15 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                 @Override
                 protected Void doInBackground(Void... params) {
                     if (images != null && !images.isEmpty()) {
-                        if (gallery) {
-                            for (final JsonElement elem : images) {
-                                final String url = "https://imgur.com/" + elem.getAsJsonObject().get("hash").getAsString() + ".png";
-                                saveImageGallery(((Reddit) getApplicationContext()).getImageLoader().loadImageSync(url), url);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        d.setProgress(d.getCurrentProgress() + 1);
+                        for (final Image elem : images) {
+                            saveImageGallery(((Reddit) getApplicationContext()).getImageLoader().loadImageSync(elem.getImageUrl()), elem.getImageUrl());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    d.setProgress(d.getCurrentProgress() + 1);
 
-                                    }
-                                });
-                            }
-                        } else {
-                            for (final JsonElement elem : images) {
-                                final String url = elem.getAsJsonObject().get("link").getAsString();
-                                saveImageGallery(((Reddit) getApplicationContext()).getImageLoader().loadImageSync(url), url);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        d.setProgress(d.getCurrentProgress() + 1);
-
-                                    }
-                                });
-                            }
+                                }
+                            });
                         }
                         d.dismiss();
                     }
@@ -324,6 +309,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         }
 
     }
+
     public int adjustAlpha(float factor) {
         int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
         int red = Color.red(Color.BLACK);
@@ -331,6 +317,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         int blue = Color.blue(Color.BLACK);
         return Color.argb(alpha, red, green, blue);
     }
+
     public static class AlbumFrag extends Fragment {
         View rootView;
         public RecyclerView recyclerView;
@@ -350,7 +337,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             new LoadIntoRecycler(((Album) getActivity()).url, getActivity()).execute();
             ((Album) getActivity()).mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
             ((Album) getActivity()).mToolbar.setTitle(R.string.type_album);
-            ToolbarColorizeHelper.colorizeToolbar(((Album) getActivity()).mToolbar, Color.WHITE, ( getActivity()));
+            ToolbarColorizeHelper.colorizeToolbar(((Album) getActivity()).mToolbar, Color.WHITE, (getActivity()));
             ((Album) getActivity()).setSupportActionBar(((Album) getActivity()).mToolbar);
             ((Album) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -358,7 +345,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             return rootView;
         }
 
-        public class LoadIntoRecycler extends AlbumUtils.GetAlbumJsonFromUrl {
+        public class LoadIntoRecycler extends AlbumUtils.GetAlbumWithCallback {
 
             String url;
 
@@ -368,18 +355,12 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             }
 
             @Override
-            public void doWithData(final ArrayList<JsonElement> jsonElements) {
+            public void doWithData(final List<Image> jsonElements) {
                 getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
+                ((Album) getActivity()).images = new ArrayList<>(jsonElements);
+                AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images, getActivity().findViewById(R.id.toolbar).getHeight());
+                recyclerView.setAdapter(adapter);
 
-                if (LoadIntoRecycler.this.overrideAlbum) {
-                    cancel(true);
-                    new LoadIntoRecycler(url.replace("/gallery", "/a"), getActivity()).execute();
-                } else {
-                    ((Album) getActivity()).gallery = LoadIntoRecycler.this.gallery;
-                    ((Album) getActivity()).images = new ArrayList<>(jsonElements);
-                    AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images, false, getActivity().findViewById(R.id.toolbar).getHeight());
-                    recyclerView.setAdapter(adapter);
-                }
             }
         }
     }

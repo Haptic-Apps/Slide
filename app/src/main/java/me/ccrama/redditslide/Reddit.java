@@ -44,7 +44,7 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.util.AlbumUtils;
+import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
