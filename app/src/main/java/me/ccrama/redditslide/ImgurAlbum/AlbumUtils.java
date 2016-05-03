@@ -119,7 +119,7 @@ public class AlbumUtils {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject obj) {
                                     try {
-                                        SingleImage single = new ObjectMapper().readValue(obj.toString(), SingleImage.class);
+                                        SingleImage single = new ObjectMapper().readValue(obj.get("data").toString(), SingleImage.class);
                                         doWithDataSingle(single);
                                     } catch (IOException e1) {
                                         e1.printStackTrace();
