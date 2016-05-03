@@ -17,7 +17,9 @@ import net.dean.jraw.paginators.UserSubredditsPaginator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -28,7 +30,25 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * Created by carlo_000 on 1/16/2016.
  */
 public class UserSubscriptions {
+    public static final String SUB_NAME_TO_PROPERTIES = "multiNameToSubs";
     public static SharedPreferences subscriptions;
+    public static SharedPreferences multiNameToSubs;
+
+    public static void  setSubNameToProperties(String name, String descrption) {
+        multiNameToSubs.edit().putString(name, descrption).apply();
+    }
+
+    public static Map<String, String> getMultiNameToSubs() {
+        Map<String, String> multiNameToSubsMap = new HashMap<>();
+
+        Map<String,?> multiNameToSubsObject = multiNameToSubs.getAll();
+
+        for(Map.Entry<String,?> entry : multiNameToSubsObject.entrySet()){
+            multiNameToSubsMap.put(entry.getKey(), entry.getValue().toString());
+        }
+
+        return multiNameToSubsMap;
+    }
 
     public static void doMainActivitySubs(MainActivity c) {
         if(NetworkUtil.isConnected(c)) {
@@ -43,6 +63,8 @@ public class UserSubscriptions {
                 }
                 c.updateSubs(subredditsForHome);
             }
+            c.updateMultiNameToSubs(getMultiNameToSubs());
+
         } else {
             String s = subscriptions.getString(Authentication.name, "");
             ArrayList<String> subredditsForHome = new ArrayList<>();
@@ -64,6 +86,7 @@ public class UserSubscriptions {
                 }
             }
             c.updateSubs(finals);
+            c.updateMultiNameToSubs(getMultiNameToSubs());
         }
     }
 
@@ -264,7 +287,7 @@ public class UserSubscriptions {
                 e.printStackTrace();
             }
         }
-        return null;
+        return friends;
     }
 
     public static MultiReddit getMultiredditByDisplayName(String displayName) {

@@ -387,7 +387,7 @@ public class CreateCardView {
             if (a != null)
                 a.start();
             for (View v2 : getViewsByTag((ViewGroup) v, "tintactionbar")) {
-                if (v2.getId() != R.id.mod) {
+                if (v2.getId() != R.id.mod && v2.getId() != R.id.edit) {
                     if (v2.getId() == R.id.save) {
                         if (SettingValues.saveButton) {
                             if (v2.getVisibility() == View.VISIBLE) {

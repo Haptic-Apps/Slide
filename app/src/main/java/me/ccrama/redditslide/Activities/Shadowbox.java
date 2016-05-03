@@ -56,7 +56,9 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_slide);
 
-        OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, 0L, !Authentication.didOnline, this);
+        long offline = getIntent().getLongExtra("offline",0L);
+
+        OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
 
         subredditPosts.getPosts().addAll(submissions.submissions);
 
