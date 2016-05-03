@@ -150,7 +150,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             View.OnClickListener onGifImageClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (SettingValues.image && !user.getAnimated() || SettingValues.gif && user.getAnimated()) {
+                    if (SettingValues.image && !user.isAnimated() || SettingValues.gif && user.isAnimated()) {
                         Intent myIntent = new Intent(main, MediaView.class);
                         myIntent.putExtra(MediaView.EXTRA_URL, user.getImageUrl());
                         main.startActivity(myIntent);
@@ -161,7 +161,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             };
 
 
-            if (user.getAnimated()) {
+            if (user.isAnimated()) {
                 holder.body.setVisibility(View.VISIBLE);
                 holder.body.setSingleLine(false);
                 holder.body.setText(holder.text.getText() + main.getString(R.string.submission_tap_gif).toUpperCase()); //got rid of the \n thing, because it didnt parse and it was already a new line so...

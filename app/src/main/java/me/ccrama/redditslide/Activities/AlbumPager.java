@@ -258,7 +258,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             Image current = images.get(i);
 
-            if (current.getAnimated()) {
+            if (current.isAnimated()) {
                 //do gif stuff
                 Fragment f = new Gif();
                 Bundle args = new Bundle();

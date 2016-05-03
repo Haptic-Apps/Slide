@@ -168,7 +168,7 @@ public class Image {
      * @return The animated
      */
     @JsonProperty("animated")
-    public Boolean getAnimated() {
+    public Boolean isAnimated() {
         return animated;
     }
 

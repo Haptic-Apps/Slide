@@ -84,16 +84,52 @@ public class AlbumUtils {
 
         }
 
+        public void doWithDataSingle(SingleImage data) {
+            final Image toDo = new Image();
+            toDo.setAnimated(data.getAnimated());
+            toDo.setDescription(data.getDescription());
+            toDo.setHash(getHash(data.getLink()));
+            toDo.setTitle(data.getTitle());
+            toDo.setExt(data.getLink().substring(data.getLink().lastIndexOf("."), data.getLink().length()));
+            toDo.setHeight(data.getHeight());
+            toDo.setWidth(data.getWidth());
+            doWithData(new ArrayList<Image>() {
+                {
+                    this.add(toDo);
+                }
+            });
+        }
+
         JsonElement[] target;
         int count;
         int done;
 
         AlbumImage album;
 
-        public void parseJson(JsonElement baseData){
+        public void parseJson(JsonElement baseData) {
             try {
                 album = new ObjectMapper().readValue(baseData.toString(), AlbumImage.class);
-                doWithData(album.getData().getImages());
+                if (album.getData().getImages() != null) {
+                    doWithData(album.getData().getImages());
+                } else if (album.getSuccess()) {
+                    Ion.with(baseActivity).load("https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json")
+                            .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(baseActivity)).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
+                            .asJsonObject().setCallback(
+                            new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject obj) {
+                                    try {
+                                        SingleImage single = new ObjectMapper().readValue(obj.toString(), SingleImage.class);
+                                        doWithDataSingle(single);
+                                    } catch (IOException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                }
+                            }
+                    );
+                } else {
+                    //album not found
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -143,7 +179,7 @@ public class AlbumUtils {
             } else {
                 if (baseActivity != null) {
                     final String url = getUrl(hash);
-                    if (albumRequests.contains(url) && new JsonParser().parse(url).getAsJsonObject().has("data")) {
+                    if (albumRequests.contains(url) && new JsonParser().parse(albumRequests.getString(url, "")).getAsJsonObject().has("data")) {
                         baseActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
