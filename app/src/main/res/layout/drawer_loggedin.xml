@@ -563,6 +563,17 @@
             app:srcCompat="@drawable/down" />
     </RelativeLayout>
 
+    <View
+        android:id="@+id/drawer_divider"
+        android:layout_width="match_parent"
+        android:background="?attr/tint"
+        android:alpha=".25"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_height="0.25dp"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -578,6 +589,7 @@
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
             android:hint="@string/drawer_search"
             android:imeOptions="actionSearch"
+            android:visibility="gone"
             android:singleLine="true"
             android:textColor="?attr/font"
             android:textColorHint="?attr/font" />
@@ -592,6 +604,7 @@
             android:layout_marginEnd="16dp"
             android:padding="8dp"
             android:theme="@style/Ripple.List"
+            android:visibility="gone"
             android:tint="?attr/tint"
             app:srcCompat="@drawable/close" />
     </RelativeLayout>

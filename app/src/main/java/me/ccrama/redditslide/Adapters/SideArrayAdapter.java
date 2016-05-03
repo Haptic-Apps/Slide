@@ -21,6 +21,7 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SantitizeField;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 
 
@@ -114,7 +115,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 }
             });
         } else {
-            if ((fitems.size() * height) < parentL.getHeight()) {
+            if ((fitems.size() * height) < parentL.getHeight() && (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER)) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
                 ViewGroup.LayoutParams params = convertView.findViewById(R.id.height).getLayoutParams();
                 params.height = (parentL.getHeight() - (getCount() - 1) * height);

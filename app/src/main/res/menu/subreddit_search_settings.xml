@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/subreddit_search_drawer"
+        android:title="@string/subreddit_search_method_drawer"/>
+
+    <item
+        android:id="@+id/subreddit_search_toolbar"
+        android:title="@string/subreddit_search_method_toolbar"/>
+
+</menu>

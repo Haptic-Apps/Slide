@@ -594,105 +594,8 @@ public class MainActivity extends BaseActivity {
                     .build().engageWhenAppropriate();
         }
 
-        if (mToolbar != null) {
-            mToolbar.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    currentSub = getSupportActionBar().getTitle().toString();
-                    final AutoCompleteTextView GO_TO_SUB_FIELD = (AutoCompleteTextView) findViewById(R.id.toolbar_search);
-                    final ImageView CLOSE_BUTTON = (ImageView) findViewById(R.id.close_search_toolbar);
-
-                    getSupportActionBar().setTitle("");
-
-                    if (GO_TO_SUB_FIELD != null && CLOSE_BUTTON != null) {
-                        GO_TO_SUB_FIELD.setVisibility(View.VISIBLE);
-                        CLOSE_BUTTON.setVisibility(View.VISIBLE);
-
-                        CLOSE_BUTTON.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                final View view = MainActivity.this.getCurrentFocus();
-
-                                if (view != null) {
-                                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                }
-
-                                GO_TO_SUB_FIELD.setText("");
-                                GO_TO_SUB_FIELD.setVisibility(View.GONE);
-                                CLOSE_BUTTON.setVisibility(View.GONE);
-                                getSupportActionBar().setTitle(currentSub);
-                            }
-                        });
-
-                        GO_TO_SUB_FIELD.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                            @Override
-                            public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
-                                if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
-                                    //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
-                                    if (sideArrayAdapter.fitems == null || sideArrayAdapter.openInSubView || !usedArray.contains(GO_TO_SUB_FIELD.getText().toString().toLowerCase())) {
-                                        Intent inte = new Intent(MainActivity.this, SubredditView.class);
-                                        inte.putExtra(SubredditView.EXTRA_SUBREDDIT, GO_TO_SUB_FIELD.getText().toString());
-                                        MainActivity.this.startActivity(inte);
-                                    } else {
-                                        if (commentPager && adapter instanceof OverviewPagerAdapterComment) {
-                                            openingComments = null;
-                                            toOpenComments = -1;
-                                            ((OverviewPagerAdapterComment) adapter).size = (usedArray.size() + 1);
-                                            adapter.notifyDataSetChanged();
-
-                                            if (usedArray.contains(GO_TO_SUB_FIELD.getText().toString().toLowerCase())) {
-                                                doPageSelectedComments(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
-                                            } else {
-                                                doPageSelectedComments(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
-                                            }
-                                        }
-                                        if (usedArray.contains(GO_TO_SUB_FIELD.getText().toString().toLowerCase())) {
-                                            if (SettingValues.single) {
-                                                currentSub = usedArray.get(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
-                                            }
-                                            pager.setCurrentItem(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
-                                        } else {
-                                            pager.setCurrentItem(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
-                                        }
-                                    }
-
-                                    View view = MainActivity.this.getCurrentFocus();
-                                    if (view != null) {
-                                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                                    }
-
-                                    GO_TO_SUB_FIELD.setText("");
-                                    GO_TO_SUB_FIELD.setVisibility(View.GONE);
-                                    CLOSE_BUTTON.setVisibility(View.GONE);
-                                    getSupportActionBar().setTitle(currentSub);
-                                }
-                                return false;
-                            }
-                        });
-
-                        GO_TO_SUB_FIELD.addTextChangedListener(new TextWatcher() {
-                            @Override
-                            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-                            }
-
-                            @Override
-                            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-                            }
-
-                            @Override
-                            public void afterTextChanged(Editable editable) {
-                                final String result = GO_TO_SUB_FIELD.getText().toString().replaceAll(" ", "");
-                                sideArrayAdapter.getFilter().filter(result);
-                            }
-                        });
-                    }
-                    return true;
-                }
-            });
+        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+            setupSubredditSearchToolbar();
         }
     }
 
@@ -733,7 +636,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-
     public void doForcePrefs() {
         ArrayList<String> domains = new ArrayList<>();
 
@@ -766,7 +668,7 @@ public class MainActivity extends BaseActivity {
         if (!SettingValues.synccitName.isEmpty()) {
             new MySynccitUpdateTask().execute(SynccitRead.newVisited.toArray(new String[SynccitRead.newVisited.size()]));
         }
-        if (Authentication.isLoggedIn && Authentication.me != null && Authentication.me.hasGold() && !SynccitRead.newVisited.isEmpty())
+        if (Authentication.isLoggedIn && Authentication.me != null && Authentication.me.hasGold() && !SynccitRead.newVisited.isEmpty()) {
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
@@ -788,6 +690,14 @@ public class MainActivity extends BaseActivity {
                     return null;
                 }
             }.execute();
+        }
+
+        //Upon leaving MainActivity--hide the toolbar search if it is visible
+        if (findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
+            findViewById(R.id.toolbar_search).setVisibility(View.GONE);
+            findViewById(R.id.close_search_toolbar).setVisibility(View.GONE);
+            getSupportActionBar().setTitle(currentSub);
+        }
     }
 
     AsyncTask<View, Void, View> currentFlair;
@@ -1201,7 +1111,6 @@ public class MainActivity extends BaseActivity {
 
     SpoilerRobotoTextView sidebarBody;
     CommentOverflow sidebarOverflow;
-
 
     private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
@@ -2057,92 +1966,98 @@ public class MainActivity extends BaseActivity {
     public void setDrawerSubList() {
         ArrayList<String> copy = new ArrayList<>(usedArray);
 
-        e = ((EditText) headerMain.findViewById(R.id.sort));
-
-        headerMain.findViewById(R.id.close_search_drawer).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                e.setText("");
-            }
-        });
-
         sideArrayAdapter = new SideArrayAdapter(this, copy, UserSubscriptions.getAllSubreddits(this), drawerSubList);
         drawerSubList.setAdapter(sideArrayAdapter);
 
-        e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                drawerSubList.smoothScrollToPositionFromTop(1, e.getHeight());
+        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER) {
+            e = ((EditText) headerMain.findViewById(R.id.sort));
+            e.setVisibility(View.VISIBLE);
 
-            }
-        });
-        e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
-                if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
-                    //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
-                    if (sideArrayAdapter.fitems == null || sideArrayAdapter.openInSubView || !usedArray.contains(e.getText().toString().toLowerCase())) {
-                        Intent inte = new Intent(MainActivity.this, SubredditView.class);
-                        inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
-                        MainActivity.this.startActivity(inte);
-                    } else {
-                        if(commentPager && adapter instanceof OverviewPagerAdapterComment){
-                            openingComments = null;
-                            toOpenComments = -1;
-                            ((MainActivity.OverviewPagerAdapterComment)adapter).size = (usedArray.size() + 1);
-                            adapter.notifyDataSetChanged();
-                            if (usedArray.contains(e.getText().toString().toLowerCase())) {
-                                doPageSelectedComments(usedArray.indexOf(e.getText().toString().toLowerCase()));
-                            } else {
-                                doPageSelectedComments(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
-                            }
-                        }
-                        if (usedArray.contains(e.getText().toString().toLowerCase())) {
-                            pager.setCurrentItem(usedArray.indexOf(e.getText().toString().toLowerCase()));
-                        } else {
-                            pager.setCurrentItem(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
-                        }
-                    }
-
-                    View view = MainActivity.this.getCurrentFocus();
-                    if (view != null) {
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                    }
-                    drawerLayout.closeDrawers();
+            headerMain.findViewById(R.id.close_search_drawer).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     e.setText("");
                 }
-                return false;
-            }
-        });
+            });
 
-        final View close = findViewById(R.id.close_search_drawer);
-        close.setVisibility(View.GONE);
-
-        e.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String result = e.getText().toString().replaceAll(" ", "");
-                if (result.isEmpty()) {
-                    close.setVisibility(View.GONE);
-                } else {
-                    close.setVisibility(View.VISIBLE);
+            e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    drawerSubList.smoothScrollToPositionFromTop(1, e.getHeight());
                 }
-                sideArrayAdapter.getFilter().filter(result);
-            }
-        });
-    }
+            });
+            e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+                    if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
+                        //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
+                        if (sideArrayAdapter.fitems == null || sideArrayAdapter.openInSubView || !usedArray.contains(e.getText().toString().toLowerCase())) {
+                            Intent inte = new Intent(MainActivity.this, SubredditView.class);
+                            inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
+                            MainActivity.this.startActivity(inte);
+                        } else {
+                            if(commentPager && adapter instanceof OverviewPagerAdapterComment){
+                                openingComments = null;
+                                toOpenComments = -1;
+                                ((MainActivity.OverviewPagerAdapterComment)adapter).size = (usedArray.size() + 1);
+                                adapter.notifyDataSetChanged();
+                                if (usedArray.contains(e.getText().toString().toLowerCase())) {
+                                    doPageSelectedComments(usedArray.indexOf(e.getText().toString().toLowerCase()));
+                                } else {
+                                    doPageSelectedComments(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
+                                }
+                            }
+                            if (usedArray.contains(e.getText().toString().toLowerCase())) {
+                                pager.setCurrentItem(usedArray.indexOf(e.getText().toString().toLowerCase()));
+                            } else {
+                                pager.setCurrentItem(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
+                            }
+                        }
 
+                        View view = MainActivity.this.getCurrentFocus();
+                        if (view != null) {
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                        }
+                        drawerLayout.closeDrawers();
+                        e.setText("");
+                    }
+                    return false;
+                }
+            });
+
+            final View close = findViewById(R.id.close_search_drawer);
+            close.setVisibility(View.GONE);
+
+            e.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String result = e.getText().toString().replaceAll(" ", "");
+                    if (result.isEmpty()) {
+                        close.setVisibility(View.GONE);
+                    } else {
+                        close.setVisibility(View.VISIBLE);
+                    }
+                    sideArrayAdapter.getFilter().filter(result);
+                }
+            });
+        } else {
+            if (e != null) {
+                e.setOnClickListener(null); //remove the touch listener on the drawer search field
+                e.setVisibility(View.GONE);
+            }
+        }
+    }
 
     public void resetAdapter() {
         if (UserSubscriptions.hasSubs()) {
@@ -2569,8 +2484,9 @@ public class MainActivity extends BaseActivity {
             if (commentPager && current == currentComment) {
                 current = current - 1;
             }
-            if (current < 0)
+            if (current < 0) {
                 current = 0;
+            }
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
             pager.setCurrentItem(current);
@@ -2583,6 +2499,20 @@ public class MainActivity extends BaseActivity {
             if (SettingsTheme.changed || (usedArray != null && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())) {
                 restartTheme();
             }
+
+            //Need to change the subreddit search method
+            if (SettingsGeneral.searchChanged) {
+                setDrawerSubList();
+
+                if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER) {
+                    mToolbar.setOnLongClickListener(null); //remove the long click listener from the toolbar
+                    findViewById(R.id.drawer_divider).setVisibility(View.GONE);
+                } else if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+                    setupSubredditSearchToolbar();
+                }
+                SettingsGeneral.searchChanged = false;
+            }
+
             SettingsTheme.changed = false;
             Settings.changed = false;
         }
@@ -2659,6 +2589,118 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    /**
+     * If the user has the Subreddit Search method set to "long press on toolbar title",
+     * an OnLongClickListener needs to be set for the toolbar as well as handling all of the relevant
+     * onClicks for the views of the search bar.
+     */
+    private void setupSubredditSearchToolbar() {
+        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+            findViewById(R.id.drawer_divider).setVisibility(View.VISIBLE);
+
+            if (mToolbar != null) {
+                mToolbar.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        currentSub = getSupportActionBar().getTitle().toString();
+                        final AutoCompleteTextView GO_TO_SUB_FIELD = (AutoCompleteTextView) findViewById(R.id.toolbar_search);
+                        final ImageView CLOSE_BUTTON = (ImageView) findViewById(R.id.close_search_toolbar);
+
+                        getSupportActionBar().setTitle("");
+
+                        if (GO_TO_SUB_FIELD != null && CLOSE_BUTTON != null) {
+                            GO_TO_SUB_FIELD.setVisibility(View.VISIBLE);
+                            CLOSE_BUTTON.setVisibility(View.VISIBLE);
+
+                            CLOSE_BUTTON.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    final View view = MainActivity.this.getCurrentFocus();
+
+                                    if (view != null) {
+                                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                    }
+
+                                    GO_TO_SUB_FIELD.setText("");
+                                    GO_TO_SUB_FIELD.setVisibility(View.GONE);
+                                    CLOSE_BUTTON.setVisibility(View.GONE);
+                                    getSupportActionBar().setTitle(currentSub);
+                                }
+                            });
+
+                            GO_TO_SUB_FIELD.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                @Override
+                                public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
+                                    if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
+                                        //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
+                                        if (sideArrayAdapter.fitems == null || sideArrayAdapter.openInSubView || !usedArray.contains(GO_TO_SUB_FIELD.getText().toString().toLowerCase())) {
+                                            Intent inte = new Intent(MainActivity.this, SubredditView.class);
+                                            inte.putExtra(SubredditView.EXTRA_SUBREDDIT, GO_TO_SUB_FIELD.getText().toString());
+                                            MainActivity.this.startActivity(inte);
+                                        } else {
+                                            if (commentPager && adapter instanceof OverviewPagerAdapterComment) {
+                                                openingComments = null;
+                                                toOpenComments = -1;
+                                                ((OverviewPagerAdapterComment) adapter).size = (usedArray.size() + 1);
+                                                adapter.notifyDataSetChanged();
+
+                                                if (usedArray.contains(GO_TO_SUB_FIELD.getText().toString().toLowerCase())) {
+                                                    doPageSelectedComments(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
+                                                } else {
+                                                    doPageSelectedComments(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
+                                                }
+                                            }
+                                            if (usedArray.contains(GO_TO_SUB_FIELD.getText().toString().toLowerCase())) {
+                                                if (SettingValues.single) {
+                                                    currentSub = usedArray.get(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
+                                                }
+                                                pager.setCurrentItem(usedArray.indexOf(GO_TO_SUB_FIELD.getText().toString().toLowerCase()));
+                                            } else {
+                                                pager.setCurrentItem(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
+                                            }
+                                        }
+
+                                        View view = MainActivity.this.getCurrentFocus();
+                                        if (view != null) {
+                                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                                        }
+
+                                        GO_TO_SUB_FIELD.setText("");
+                                        GO_TO_SUB_FIELD.setVisibility(View.GONE);
+                                        CLOSE_BUTTON.setVisibility(View.GONE);
+                                        getSupportActionBar().setTitle(currentSub);
+                                    }
+                                    return false;
+                                }
+                            });
+
+                            GO_TO_SUB_FIELD.addTextChangedListener(new TextWatcher() {
+                                @Override
+                                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                                }
+
+                                @Override
+                                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                                }
+
+                                @Override
+                                public void afterTextChanged(Editable editable) {
+                                    //TODO, filter suggestions
+//                                    final String result = GO_TO_SUB_FIELD.getText().toString().replaceAll(" ", "");
+//                                    sideArrayAdapter.getFilter().filter(result);
+                                }
+                            });
+                        }
+                        return true;
+                    }
+                });
+            }
+        }
+    }
 
     public static String shouldLoad;
 
