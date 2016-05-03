@@ -27,7 +27,6 @@ import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.text.WordUtils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -303,12 +302,12 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static String[] getSortingStringsSearch(Context c) {
         return new String[] {
-                WordUtils.capitalize(c.getString(R.string.sorting_search_hour)),
-                WordUtils.capitalize(c.getString(R.string.sorting_search_day)),
-                WordUtils.capitalize(c.getString(R.string.sorting_search_week)),
-                WordUtils.capitalize(c.getString(R.string.sorting_search_month)),
-                WordUtils.capitalize(c.getString(R.string.sorting_search_year)),
-                WordUtils.capitalize(c.getString(R.string.sorting_search_all)),
+                c.getString(R.string.sorting_search_hour),
+                c.getString(R.string.sorting_search_day),
+                c.getString(R.string.sorting_search_week),
+                c.getString(R.string.sorting_search_month),
+                c.getString(R.string.sorting_search_year),
+                c.getString(R.string.sorting_search_all),
         };
     }
 
