@@ -195,15 +195,23 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                 if (sub.equals("frontpage")) {
                     titleString += sub + ", ";
                 } else {
-                    titleString += "/r/" + sub + ", ";
+                    if (sub.contains("/m/")) {
+                        titleString += sub + ", ";
+                    } else {
+                        titleString += "/r/" + sub + ", ";
+                    }
                 }
             }
             titleString = titleString.substring(0, titleString.length() - 2);
             title.setMaxLines(3);
             title.setText(titleString);
         } else {
-            //if the subreddit is the frontpage, don't put "/r/" in front of it
-            title.setText(((subreddit.equals("frontpage")) ? "frontpage" : "/r/" + subreddit));
+            if (subreddit.contains("/m/")) {
+                title.setText(subreddit);
+            } else {
+                //if the subreddit is the frontpage, don't put "/r/" in front of it
+                title.setText(((subreddit.equals("frontpage")) ? "frontpage" : "/r/" + subreddit));
+            }
         }
 
         {
