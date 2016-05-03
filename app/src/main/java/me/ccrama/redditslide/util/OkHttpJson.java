@@ -12,7 +12,7 @@ import okhttp3.Response;
 /**
  * Created by Fernando Barillas on 5/2/16.
  *
- * Helper class to parse OkHTTP responses as JsonObjects
+ * Helper class to parse OkHTTP responses
  */
 public class OkHttpJson {
     /**
@@ -22,11 +22,16 @@ public class OkHttpJson {
      * @return A JsonObject if the response from the server was a JSON String, null otherwise.
      * @throws IOException Thrown when a a response was not successful
      */
-    public static JsonObject getJsonFromResponse(Response response) throws IOException {
+    public static JsonObject getJsonObject(Response response) throws IOException {
         if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
         String responseString = response.body().string();
         if (responseString.isEmpty()) return null;
         return new Gson().fromJson(responseString, JsonObject.class);
+    }
+
+    public static String getJsonString(Response response) throws IOException {
+        if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+        return response.body().string();
     }
 
     /**

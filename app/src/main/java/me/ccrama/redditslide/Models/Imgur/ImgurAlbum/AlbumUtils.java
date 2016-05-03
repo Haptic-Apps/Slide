@@ -1,18 +1,16 @@
 package me.ccrama.redditslide.Models.Imgur.ImgurAlbum;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
@@ -20,9 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OkHttpJson;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -35,16 +33,17 @@ import okhttp3.Response;
 public class AlbumUtils {
 
     // URLS should all have trailing slash
-    public static final String IMGUR_SITE_URL       = "https://imgur.com/";
-    public static final String IMGUR_AJAX_ALBUMS    = "https://imgur.com/ajaxalbums/getimages/";
-    public static final String IMGUR_AJAX_SUFFIX    = "/hit.json?all=true";
-    public static final String IMGUR_MASHAPE_BASE   = "https://imgur-apiv3.p.mashape.com/3/";
-    public static final String IMGUR_MASHAPE_ALBUM  = IMGUR_MASHAPE_BASE + "album/";
-    public static final String IMGUR_MASHAPE_IMAGE  = IMGUR_MASHAPE_BASE + "image/";
-    public static final String JSON_SUFFIX          = ".json";
+    public static final String IMGUR_SITE_URL = "https://imgur.com/";
+    public static final String IMGUR_AJAX_ALBUMS = "https://imgur.com/ajaxalbums/getimages/";
+    public static final String IMGUR_AJAX_SUFFIX = "/hit.json?all=true";
+    public static final String IMGUR_MASHAPE_BASE = "https://imgur-apiv3.p.mashape.com/3/";
+    public static final String IMGUR_MASHAPE_ALBUM = IMGUR_MASHAPE_BASE + "album/";
+    public static final String IMGUR_MASHAPE_IMAGE = IMGUR_MASHAPE_BASE + "image/";
+    public static final int IMGUR_ALBUM_HASH_LENGTH = 5;
+    public static final String JSON_SUFFIX = ".json";
     public static final String X_MASHAPE_KEY_HEADER = "X-Mashape-Key";
     public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String AUTHORIZATION_VALUE  = "Client-ID bef87913eb202e9";
+    public static final String AUTHORIZATION_VALUE = "Client-ID bef87913eb202e9";
 
     public static SharedPreferences albumRequests;
 
@@ -57,8 +56,6 @@ public class AlbumUtils {
         }
 
     }
-
-    boolean slider;
 
     private static String cutEnds(String s) {
         if (s.endsWith("/")) {
@@ -73,13 +70,15 @@ public class AlbumUtils {
         public String hash;
         public Activity baseActivity;
         public boolean overrideAlbum;
+        private JsonElement[] target;
+        private int count;
+        private int done;
 
         public GetAlbumWithCallback(@NotNull String url, @NotNull Activity baseActivity) {
-
-
+            LogUtil.v("GetAlbumWithCallback() called with: " + "url = [" + url + "], baseActivity = [" + baseActivity + "]");
             this.baseActivity = baseActivity;
-            String rawDat = cutEnds(url);
 
+            String rawDat = cutEnds(url);
             if (rawDat.endsWith("/")) {
                 rawDat = rawDat.substring(0, rawDat.length() - 1);
             }
@@ -91,16 +90,22 @@ public class AlbumUtils {
             if (rawDat.contains("?")) {
                 rawDat = rawDat.substring(0, rawDat.indexOf("?"));
             }
-            hash = getHash(rawDat);
 
+            hash = getHash(rawDat);
         }
 
-
-        public void doWithData(List<Image> data) {
-
+        /**
+         * Handles Imgur JSON Object data that was downloaded by this class. This method must be
+         * implemented in overridden classes.
+         *
+         * @param imageList A List of Imgur Image Objects to be displayed in the UI
+         */
+        public void doWithData(List<Image> imageList) {
+            // Implement this method in overridden classes to handle Imgur Image List
         }
 
         public void doWithDataSingle(SingleImage data) {
+            // TODO: Finish me
             final Image toDo = new Image();
             toDo.setAnimated(data.getAnimated());
             toDo.setDescription(data.getDescription());
@@ -116,45 +121,47 @@ public class AlbumUtils {
             });
         }
 
-        JsonElement[] target;
-        int count;
-        int done;
-
-        AlbumImage album;
-
-        public void parseJson(JsonElement baseData) {
-            OkHttpClient client = new OkHttpClient();
+        /**
+         * Attempts to parse a JSON String into Imgur Album data
+         *
+         * @param url        The API URL that requested the data
+         * @param jsonString The JSON response String returned by the Imgur API
+         */
+        public void parseJson(String url, String jsonString) {
+            LogUtil.v("parseJson() called with: " + "jsonString = [" + jsonString + "]");
             try {
-                if (!baseData.toString().contains("\"data\":[]")) {
-                    album = new ObjectMapper().readValue(baseData.toString(), AlbumImage.class);
-                    doWithData(album.getData().getImages());
-                } else  {
-                    Request request = new Request.Builder()
-                            .url(IMGUR_MASHAPE_ALBUM + hash + JSON_SUFFIX)
-                            .addHeader(X_MASHAPE_KEY_HEADER, SecretConstants.getImgurApiKey(baseActivity))
-                            .addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_VALUE)
-                            .build();
-                    client.newCall(request).enqueue(new OkHttpJson.ImgurCallback() {
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            final JsonObject obj = OkHttpJson.getJsonFromResponse(response);
-                            if (obj == null || obj.isJsonNull()) return; // TODO handle null obj
-                            try {
-                                SingleImage single = new ObjectMapper().readValue(obj.toString(), SingleAlbumImage.class).getData();
-                                doWithDataSingle(single);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
-                    });
+                ImgurResponse response = getResponseFromJson(jsonString);
+                final Data data = response.getData();
+                if (data.getCount() < 1) {
+                    LogUtil.e("parseJson: Valid data but album was empty");
+                    // TODO: Handle empty albums
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+
+                // JSON data was valid, cache the response
+                if (!albumRequests.contains(url)) {
+                    LogUtil.v("parseJson: Caching valid JSON data");
+                    albumRequests.edit().putString(url, jsonString).apply();
+                } else {
+                    LogUtil.v("parseJson: JSON data already in cache");
+                }
+
+                baseActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        doWithData(data.getImages());
+                    }
+                });
+            } catch (InvalidImgurResponseException e) {
+                // TODO: Load WebView, try again with different API url?
+                LogUtil.e("parseJson: Parse error ", e);
+            } catch (Exception e) {
+                LogUtil.e("parseJson: ", e);
             }
         }
 
         @Override
         protected ArrayList<JsonElement> doInBackground(final String... sub) {
+            LogUtil.v("doInBackground() called with: " + "sub = [" + sub + "]");
             OkHttpClient client = new OkHttpClient();
 
             if (hash.startsWith("/")) {
@@ -169,8 +176,9 @@ public class AlbumUtils {
                 for (String s : hash.split(",")) {
                     final int pos = count++;
 
+                    final String apiUrl = IMGUR_MASHAPE_IMAGE + s + JSON_SUFFIX;
                     Request request = new Request.Builder()
-                            .url(IMGUR_MASHAPE_IMAGE + s + JSON_SUFFIX)
+                            .url(apiUrl)
                             .addHeader(X_MASHAPE_KEY_HEADER, SecretConstants.getImgurApiKey(baseActivity))
                             .addHeader(AUTHORIZATION_HEADER, AUTHORIZATION_VALUE)
                             .build();
@@ -178,43 +186,27 @@ public class AlbumUtils {
                     client.newCall(request).enqueue(new OkHttpJson.ImgurCallback() {
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
-                            JsonObject obj = OkHttpJson.getJsonFromResponse(response);
-                            if (obj != null && obj.has("data")) {
-                                target[pos] = obj.get("data");
+                            LogUtil.e("onResponse() " + response.body().string());
+                            try {
+                                parseJson(apiUrl, OkHttpJson.getJsonString(response));
+                            } catch (IOException e) {
+                                LogUtil.e("onResponse: ", e);
+                                // TODO: Handle 404's etc
                             }
-                            done += 1;
-                            if (done == target.length) {
-                                ArrayList<Image> imageArrayList = new ArrayList<>();
-                                for (JsonElement element : target) {
-                                    if (element != null)
-                                        imageArrayList.add(new Image()); // TODO: make this work
-                                }
-                                if (imageArrayList.isEmpty()) {
-                                    Intent i = new Intent(baseActivity, Website.class);
-                                    i.putExtra(Website.EXTRA_URL, IMGUR_SITE_URL + hash);
-                                    baseActivity.startActivity(i);
-                                    baseActivity.finish();
-                                } else {
-                                    doWithData(imageArrayList);
-                                }
-                            }
+                            // TODO: Handle single image API calls using new model
                         }
                     });
                 }
-
             } else {
                 if (baseActivity != null) {
                     final String url = getUrl(hash);
-                    if (albumRequests.contains(url) && new JsonParser().parse(albumRequests.getString(url, "")).getAsJsonObject().has("data")) {
+                    LogUtil.v("doInBackground: URL: " + url);
+                    if (albumRequests.contains(url)) {
+                        LogUtil.v("doInBackground: Cached");
                         // Use the cached gallery data to display the images
-                        baseActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                parseJson(new JsonParser().parse(albumRequests.getString(url, "")).getAsJsonObject());
-                            }
-                        });
-
+                        parseJson(url, albumRequests.getString(url, ""));
                     } else {
+                        LogUtil.v("doInBackground: Making HTTP call");
                         // No cached gallery data found, make a new request to the Imgur API
                         Request request = new Request.Builder()
                                 .url(url)
@@ -222,15 +214,11 @@ public class AlbumUtils {
                         client.newCall(request).enqueue(new OkHttpJson.ImgurCallback() {
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
-                                final JsonObject result = OkHttpJson.getJsonFromResponse(response);
-                                if (result != null && result.has("data")) {
-                                    albumRequests.edit().putString(url, result.toString()).apply();
-                                    baseActivity.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            parseJson(result);
-                                        }
-                                    });
+                                LogUtil.v("onResponse() called with: " + "call = [" + call + "], response = [" + response + "]");
+                                try {
+                                    parseJson(url, OkHttpJson.getJsonString(response));
+                                } catch (IOException e) {
+                                    LogUtil.e("onResponse: ", e);
                                 }
                             }
                         });
@@ -239,17 +227,41 @@ public class AlbumUtils {
                 }
             }
             return null;
-
         }
-
-
     }
 
+    /**
+     * Gets the Imgur API URL for a given hash
+     *
+     * @param hash The hash to get the URL from
+     * @return An API URL String for the passed in hash
+     */
     public static String getUrl(String hash) {
+        LogUtil.v("getUrl() called with: " + "hash = [" + hash + "]");
         return IMGUR_AJAX_ALBUMS + hash + IMGUR_AJAX_SUFFIX;
     }
 
+    /**
+     * Attempts to parse a JSON String as an ImgurResponse Object
+     *
+     * @param jsonResponse The JSON String to attempt to parse
+     * @return A valid ImgurResponse de-serialized from the passed in JSON String
+     * @throws InvalidImgurResponseException When passed-in JSON data could not be parsed as a
+     *                                       valid
+     *                                       ImgurResponse Object
+     */
+    private static ImgurResponse getResponseFromJson(String jsonResponse) throws InvalidImgurResponseException {
+        try {
+            return new Gson().fromJson(jsonResponse, ImgurResponse.class);
+        } catch (Exception e) {
+            LogUtil.e("getResponseFromJson: " + jsonResponse, e);
+            throw new InvalidImgurResponseException();
+            // TODO: Show UI error
+        }
+    }
+
     public static void preloadImages(Context c, JsonObject result, boolean gallery) {
+        // TODO: Make me better
         if (gallery && result != null) {
 
             if (result.has("data") && result.get("data").getAsJsonObject().has("image") && result.get("data").getAsJsonObject().get("image").getAsJsonObject().has("album_images") && result.get("data").getAsJsonObject().get("image").getAsJsonObject().get("album_images").getAsJsonObject().has("images")) {

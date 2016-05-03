@@ -355,9 +355,9 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             }
 
             @Override
-            public void doWithData(final List<Image> jsonElements) {
+            public void doWithData(final List<Image> imageList) {
                 getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
-                ((Album) getActivity()).images = new ArrayList<>(jsonElements);
+                ((Album) getActivity()).images = new ArrayList<>(imageList);
                 AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images, getActivity().findViewById(R.id.toolbar).getHeight());
                 recyclerView.setAdapter(adapter);
 

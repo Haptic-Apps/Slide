@@ -172,13 +172,13 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         }
 
         @Override
-        public void doWithData(final List<Image> jsonElements) {
+        public void doWithData(final List<Image> imageList) {
             findViewById(R.id.progress).setVisibility(View.GONE);
             if (LoadIntoPager.this.overrideAlbum) {
                 cancel(true);
                 new LoadIntoPager((getIntent().getExtras().getString("url").replace("/gallery", "/a")), AlbumPager.this).execute();
             } else {
-                images = new ArrayList<>(jsonElements);
+                images = new ArrayList<>(imageList);
 
                 final ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
 
