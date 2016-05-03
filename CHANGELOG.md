@@ -1,4 +1,19 @@
 
+5.3.4 / 2016-05-02
+==================
+
+  * Added better username validation
+  * Added on fly conversion to multi
+  * Adding multi reddits from import screen
+  * Disallow closing the restore dialog by clicking back
+  * Enable suggestions when viewing profile
+  * Fixed album crash
+  * Fixed comment crash on KitKat
+  * Fixed crash typing in the sidebar
+  * Fixed profile margins
+  * Make scroll to top faster in the drawer
+  * Remove some full stops in strings
+
 5.3.3 / 2016-05-01
 ==================
 

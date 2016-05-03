@@ -207,14 +207,10 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             fitems = (ArrayList<String>) results.values;
-            notifyDataSetChanged();
             clear();
             if (fitems != null) {
-                int count = fitems.size();
-                for (int i = 0; i < count; i++) {
-                    add(fitems.get(i));
-                    notifyDataSetInvalidated();
-                }
+                addAll(fitems);
+                notifyDataSetChanged();
             }
         }
     }
