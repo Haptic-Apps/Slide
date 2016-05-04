@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.List;
 
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ColorPreferences;
@@ -75,12 +76,12 @@ public class ManageHistory extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
 
-                ArrayList<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(ManageHistory.this));
+                List<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(ManageHistory.this));
                 final String[] all = new String[sorted.size()];
                 boolean[] checked = new boolean[all.length];
 
                 int i = 0;
-                ArrayList<String> s2 = new ArrayList<>();
+                List<String> s2 = new ArrayList<>();
                 Collections.addAll(s2, Reddit.cachedData.getString("toCache", "").split(","));
 
                 for (String s : sorted) {
@@ -184,7 +185,7 @@ public class ManageHistory extends BaseActivityAnim {
     }
 
     public ArrayList<String> domains = new ArrayList<>();
-    ArrayList<String> subsToBack;
+    List<String> subsToBack;
 
     public void updateFilters() {
         domains = new ArrayList<>();

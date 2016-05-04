@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import net.dean.jraw.models.Subreddit;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Authentication;
@@ -184,7 +185,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
 
     public void reloadSubList() {
         changedSubs.clear();
-        ArrayList<String> allSubs = UserSubscriptions.sort(UserSubscriptions.getAllUserSubreddits(this));
+        List<String> allSubs = UserSubscriptions.sort(UserSubscriptions.getAllUserSubreddits(this));
 
         // Check which subreddits are different
         ColorPreferences colorPrefs = new ColorPreferences(SettingsSubreddit.this);

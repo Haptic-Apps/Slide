@@ -74,7 +74,7 @@ public class Wiki extends BaseActivityAnim {
             try {
                 pages = wiki.getPages(subreddit);
 
-                ArrayList<String> toRemove = new ArrayList<>();
+                List<String> toRemove = new ArrayList<>();
                 for (String s : pages) {
                     if (s.startsWith("config")) {
                         toRemove.add(s);

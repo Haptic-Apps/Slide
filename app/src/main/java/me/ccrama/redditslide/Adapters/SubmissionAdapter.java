@@ -24,6 +24,7 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
@@ -48,7 +49,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public Activity context;
     private final boolean custom;
     public SubredditPosts dataSet;
-    public ArrayList<Submission> seen;
+    public List<Submission> seen;
     private final int LOADING_SPINNER = 5;
     private final int NO_MORE = 3;
     private final int SPACER = 6;
