@@ -190,7 +190,6 @@ public class GifUtils {
                                                 byte[] buff = new byte[5 * 1024];
 
                                                 int len;
-                                                int readBytes = 0;
                                                 while ((len = inStream.read(buff)) != -1) {
                                                     outStream.write(buff, 0, len);
                                                     final int percent = Math.round(100.0f * f.length() / length);
@@ -338,7 +337,6 @@ public class GifUtils {
                         byte[] buff = new byte[5 * 1024];
 
                         int len;
-                        int readBytes = 0;
 
                         while ((len = inStream.read(buff)) != -1) {
                             outStream.write(buff, 0, len);
@@ -478,7 +476,6 @@ public class GifUtils {
                                                             byte[] buff = new byte[5 * 1024];
 
                                                             int len;
-                                                            int readBytes = 0;
 
                                                             while ((len = inStream.read(buff)) != -1) {
                                                                 outStream.write(buff, 0, len);
@@ -791,7 +788,6 @@ public class GifUtils {
                                             byte[] buff = new byte[5 * 1024];
 
                                             int len;
-                                            int readBytes = 0;
                                             while ((len = inStream.read(buff)) != -1) {
                                                 outStream.write(buff, 0, len);
                                             }
@@ -847,7 +843,6 @@ public class GifUtils {
                                         byte[] buff = new byte[5 * 1024];
 
                                         int len;
-                                        int readBytes = 0;
 
                                         while ((len = inStream.read(buff)) != -1) {
                                             outStream.write(buff, 0, len);

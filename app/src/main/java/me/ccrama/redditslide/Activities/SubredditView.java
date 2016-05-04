@@ -825,7 +825,7 @@ public class SubredditView extends BaseActivityAnim {
 
                                                                                 @Override
                                                                                 protected void onPostExecute(Boolean done) {
-                                                                                    Snackbar s = null;
+                                                                                    Snackbar s;
                                                                                     if (done) {
                                                                                         if (current != null) {
                                                                                             ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
@@ -866,7 +866,7 @@ public class SubredditView extends BaseActivityAnim {
 
                                                                 @Override
                                                                 protected void onPostExecute(Boolean done) {
-                                                                    Snackbar s = null;
+                                                                    Snackbar s;
                                                                     if (done) {
                                                                         if (current != null) {
                                                                             ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
