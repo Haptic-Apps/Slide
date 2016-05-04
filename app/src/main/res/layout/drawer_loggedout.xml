@@ -21,7 +21,6 @@
             android:theme="@style/Ripple.List"
             app:srcCompat="@drawable/slogo" />
 
-
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
@@ -41,9 +40,8 @@
             android:layout_alignParentRight="true"
             android:layout_margin="12dp"
             app:srcCompat="@drawable/down" />
-
-
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/accountsarea"
         android:layout_width="match_parent"
@@ -71,18 +69,17 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/go_offline"
-
                 android:textColor="#fff"
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/manage"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="?android:selectableItemBackground"
             android:orientation="horizontal"
-
             android:paddingStart="0dp">
 
             <ImageView
@@ -103,13 +100,13 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/add"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
-
         android:paddingStart="0dp">
 
         <ImageView
@@ -117,7 +114,6 @@
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
-
             app:srcCompat="@drawable/add"
             android:tint="?attr/tint" />
 
@@ -125,7 +121,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-
             android:text="@string/drawer_add_account"
             android:textColor="?attr/font"
             android:textSize="14sp"
@@ -138,7 +133,6 @@
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
-
         android:paddingStart="0dp">
 
         <ImageView
@@ -146,7 +140,6 @@
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="26dp"
-
             app:srcCompat="@drawable/crown"
             android:tint="?attr/tint" />
 
@@ -154,13 +147,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-
             android:text="@string/drawer_support"
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/prof"
@@ -168,7 +159,6 @@
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
-
         android:paddingStart="0dp">
 
         <ImageView
@@ -183,7 +173,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-
             android:text="@string/drawer_goto_profile"
             android:textColor="?attr/font"
             android:textSize="14sp"
@@ -196,7 +185,6 @@
         android:layout_height="48dp"
         android:background="?android:selectableItemBackground"
         android:orientation="horizontal"
-
         android:paddingStart="0dp">
 
         <ImageView
@@ -211,12 +199,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-
             android:text="@string/title_settings"
             android:textColor="?attr/font"
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
+
     <View
         android:id="@+id/drawer_divider"
         android:layout_width="match_parent"
@@ -225,8 +213,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="4dp"
-        android:layout_height="0.25dp"
+        android:layout_height="0.75dp"
         android:visibility="gone" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -242,6 +231,7 @@
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
             android:hint="@string/drawer_search"
             android:imeOptions="actionSearch"
+            android:visibility="gone"
             android:singleLine="true"
             android:textColor="?attr/font"
             android:textColorHint="?attr/font" />
@@ -251,12 +241,13 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_alignBottom="@+id/sort"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_marginBottom="8dp"
-            android:tint="?attr/tint"
             android:layout_marginEnd="16dp"
             android:padding="8dp"
             android:theme="@style/Ripple.List"
+            android:visibility="gone"
+            android:tint="?attr/tint"
             app:srcCompat="@drawable/close" />
     </RelativeLayout>
 </LinearLayout>
