@@ -1,4 +1,4 @@
-package me.ccrama.redditslide.Widget;
+package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
@@ -10,28 +10,38 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import java.util.ArrayList;
 
-import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Visuals.FontPreferences;
+import me.ccrama.redditslide.Widget.ListViewWidgetService;
+import me.ccrama.redditslide.Widget.SubredditWidgetProvider;
 
 /**
- * Created by ccrama on 10/2/2015.
+ * Created by carlo_000 on 5/4/2016.
  */
-public class Configure extends Activity {
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        doShortcut();
-        assignAppWidgetId();
-
-
-    }
+public class SetupWidget extends Activity {
 
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        getTheme().applyStyle(new FontPreferences(this).getCommentFontStyle().getResId(), true);
+        getTheme().applyStyle(new FontPreferences(this).getPostFontStyle().getResId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+
+        super.onCreate(savedInstanceState);
+        assignAppWidgetId();
+        doShortcut();
+    }
+
+    /**
+     * Widget configuration activity,always receives appwidget Id appWidget Id =
+     * unique id that identifies your widget analogy : same as setting view id
+     * via @+id/viewname on layout but appwidget id is assigned by the system
+     * itself
+     */
     private void assignAppWidgetId() {
         Bundle extras = getIntent().getExtras();
         if (extras != null)
@@ -46,18 +56,16 @@ public class Configure extends Activity {
                 new Runnable() {
                     @Override
                     public void run() {
-                        final Intent shortcutIntent = new Intent(Configure.this, OpenContent.class);
 
-                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Configure.this);
+                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
 
                         builder.setTitle(R.string.subreddit_chooser);
-                        final ArrayList<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(Configure.this));
-                        builder.setAdapter(new SubredditListingAdapter(Configure.this, sorted), new DialogInterface.OnClickListener() {
+                        final ArrayList<String> sorted = UserSubscriptions.getAllSubreddits(SetupWidget.this);
+                        builder.setAdapter(new SubredditListingAdapter(SetupWidget.this, sorted), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                sub = sorted.get(which);
+                                name = sorted.get(which);
                                 startWidget();
-                                finish();
                             }
                         });
 
@@ -68,24 +76,29 @@ public class Configure extends Activity {
 
     }
 
-    public String sub;
+    String name;
 
+
+    /**
+     * This method right now displays the widget and starts a Service to fetch
+     * remote data from Server
+     */
     private void startWidget() {
 
         // this intent is essential to show the widget
         // if this intent is not included,you can't show
         // widget on homescreen
+        SubredditWidgetProvider.setSubFromid(appWidgetId, name, this);
+
         Intent intent = new Intent();
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        intent.putExtra("sub", sub);
         setResult(Activity.RESULT_OK, intent);
 
         // start your service
         // to fetch data from web
-        Intent serviceIntent = new Intent(this, FetchData.class);
+        Intent serviceIntent = new Intent(this, ListViewWidgetService.class);
         serviceIntent
                 .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        serviceIntent.putExtra("sub", sub);
         startService(serviceIntent);
 
         // finish this activity

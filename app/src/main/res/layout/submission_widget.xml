@@ -1,90 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#424242"
+    android:layout_marginBottom="2dp"
+    android:gravity="center"
+    android:layerType="hardware"
+    android:orientation="vertical">
 
-    >
-
-
-    <ImageView
-        android:id="@+id/thumbnail"
-        android:layout_width="wrap_content"
-        android:layout_height="75dp"
-        android:adjustViewBounds="true"
-        android:maxHeight="65dp"
-        android:maxWidth="65dp"
-        android:scaleType="centerCrop" />
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:orientation="horizontal">
-
-
-        <LinearLayout
+        android:id="@+id/card"
+        android:background="?android:selectableItemBackground">
+        <RelativeLayout
+            android:id="@+id/innerrelative"
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingTop="8dp">
 
-            <TextView
-
-                android:id="@+id/title"
+            <ImageView
+                android:id="@+id/thumbimage2"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="8dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop" />
+            <RelativeLayout
+                android:id="@+id/inside"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/example_title"
-                android:textColor="#b3FFFFFF"
-                android:textSize="20sp"
+                android:layout_marginBottom="6dp"
+                android:layout_toLeftOf="@+id/secondMenu"
+                android:layout_toRightOf="@+id/thumbimage2">
 
-
-                />
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:tag="tint"
+                    android:text="@string/example_title"/>
                 <TextView
                     android:id="@+id/subreddit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="16dp"
                     android:gravity="center_vertical"
-                    android:paddingEnd="5dp"
-                    android:text="@string/example_sub"
-
-                    android:textColor="#b3FFFFFF"
-                    android:textSize="16sp"
-
-                    android:textStyle="bold" />
-
+                    />
                 <TextView
                     android:id="@+id/information"
                     android:layout_width="wrap_content"
+                    android:layout_toRightOf="@+id/subreddit"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
                     android:layout_gravity="start"
-                    android:alpha=".56"
-
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="4dp"
                     android:gravity="center_vertical"
-                    android:text="@string/example_time"
-                    android:textColor="#b3FFFFFF"
+                    android:tag="tintsecond"
+                    android:text="@string/example_time"/>
 
-                    android:textSize="16sp" />
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/scoreimg"
+                    android:layout_width="15dp"
+                    android:layout_height="36dp"
+                    android:layout_below="@+id/information"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="16dp"
+                    android:tag="tintactionbar"
+                    android:src="@drawable/upvoted" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_below="@+id/information"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@+id/scoreimg"
+                    android:gravity="center_vertical"
+                    android:tag="tintactionbar"
+                    android:text="400"
+                     />
 
+                <ImageView
+                    android:id="@+id/pointsimg"
+                    android:layout_width="15dp"
+                    android:layout_height="36dp"
+                    android:layout_below="@+id/information"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_toRightOf="@+id/score"
+                    android:tag="tintactionbar"
+                    android:src="@drawable/commentwidget" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/comments"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_toRightOf="@+id/pointsimg"
+                    android:layout_below="@+id/information"
+                    android:gravity="center_vertical"
+                    android:tag="tintactionbar"
+                    android:text="420"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
 
-
+    </RelativeLayout>
 </LinearLayout>
-
-

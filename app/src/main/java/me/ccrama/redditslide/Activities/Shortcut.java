@@ -20,8 +20,10 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import java.util.ArrayList;
 
 import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
+import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -55,6 +57,10 @@ public class Shortcut extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getTheme().applyStyle(new FontPreferences(this).getCommentFontStyle().getResId(), true);
+        getTheme().applyStyle(new FontPreferences(this).getPostFontStyle().getResId(), true);
+        getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
+
         super.onCreate(savedInstanceState);
 
 

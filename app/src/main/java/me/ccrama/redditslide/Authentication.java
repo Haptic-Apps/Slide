@@ -245,6 +245,7 @@ public class Authentication {
                     try {
 
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);
+                        authentication.edit().putLong("expires", authData.getExpirationDate().getTime()).apply();
                         reddit.authenticate(authData);
                         Authentication.name = "LOGGEDOUT";
                         Reddit.notFirst = true;
