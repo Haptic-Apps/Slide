@@ -15,6 +15,9 @@ public class CacheUtil {
 
     private static final long MAX_SIZE = 75000000L; // 75MB
 
+    private CacheUtil() {
+    }
+
     public static void makeRoom(Activity context, int length) {
 
         File cacheDir = ImageLoaderUtils.getCacheDirectoryGif(context);

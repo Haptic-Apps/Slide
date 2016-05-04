@@ -16,6 +16,9 @@ public class NetworkUtil {
     // Assigned a random value that is not a value of ConnectivityManager.TYPE_*
     private static final int CONST_NO_NETWORK = 525138;
 
+    private NetworkUtil() {
+    }
+
     /**
      * Uses the provided context to determine the current connectivity status.
      *

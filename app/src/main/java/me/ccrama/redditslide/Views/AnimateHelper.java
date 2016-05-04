@@ -16,6 +16,9 @@ import me.ccrama.redditslide.R;
 public class AnimateHelper {
 
 
+    private AnimateHelper() {
+    }
+
     public static void setFlashAnimation(final View vBig, final View from, final int color) {
         // get the center for the clipping circle
         final View v = vBig.findViewById(R.id.vote);

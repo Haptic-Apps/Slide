@@ -46,6 +46,9 @@ import me.ccrama.redditslide.Views.MediaVideoView;
 public class StreamableUtil {
 
 
+    private StreamableUtil() {
+    }
+
     public static class AsyncLoadStreamable extends AsyncTask<String, Void, Void> {
 
         public Activity c;

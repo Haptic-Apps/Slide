@@ -26,6 +26,9 @@ public class UpgradeUtil {
     // Increment for each needed change
     private static final int VERSION = 1;
 
+    private UpgradeUtil() {
+    }
+
     /**
      * Runs any upgrade actions required between versions in an organised way
      */
