@@ -22,6 +22,7 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.CommentsScreen;
@@ -39,7 +40,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final RecyclerView listView;
     public Activity context;
     public MultiredditPosts dataSet;
-    public ArrayList<Submission> seen;
+    public List<Submission> seen;
     private final int LOADING_SPINNER = 5;
     private final int NO_MORE = 3;
     private final int SPACER = 6;

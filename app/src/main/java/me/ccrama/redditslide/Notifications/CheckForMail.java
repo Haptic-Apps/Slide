@@ -148,7 +148,7 @@ public class CheckForMail extends BroadcastReceiver {
                 if (Authentication.isLoggedIn && Authentication.didOnline) {
                     InboxPaginator unread = new InboxPaginator(Authentication.reddit, "unread");
 
-                    ArrayList<Message> messages = new ArrayList<>();
+                    List<Message> messages = new ArrayList<>();
                     if (unread.hasNext()) {
                         messages.addAll(unread.next());
                     }
@@ -230,7 +230,7 @@ public class CheckForMail extends BroadcastReceiver {
                 if (Authentication.isLoggedIn && Authentication.didOnline) {
                     InboxPaginator unread = new InboxPaginator(Authentication.reddit, "moderator/unread");
 
-                    ArrayList<Message> messages = new ArrayList<>();
+                    List<Message> messages = new ArrayList<>();
                     if (unread.hasNext()) {
                         messages.addAll(unread.next());
                     }

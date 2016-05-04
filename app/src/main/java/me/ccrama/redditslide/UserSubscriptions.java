@@ -67,14 +67,14 @@ public class UserSubscriptions {
 
         } else {
             String s = subscriptions.getString(Authentication.name, "");
-            ArrayList<String> subredditsForHome = new ArrayList<>();
+            List<String> subredditsForHome = new ArrayList<>();
             if (!s.isEmpty()) {
                 for (String s2 : s.split(",")) {
                     subredditsForHome.add(s2.toLowerCase());
                 }
             }
             ArrayList<String> finals = new ArrayList<>();
-            ArrayList<String> offline = OfflineSubreddit.getAllFormatted();
+            List<String> offline = OfflineSubreddit.getAllFormatted();
             for(String subs : subredditsForHome){
                 if(offline.contains(subs)){
                     finals.add(subs);
@@ -303,8 +303,8 @@ public class UserSubscriptions {
     //Gets user subscriptions + top 500 subs + subs in history
     public static ArrayList<String> getAllSubreddits(Context c) {
         ArrayList<String> finalReturn = new ArrayList<>();
-        ArrayList<String> history = getHistory();
-        ArrayList<String> defaults = getDefaults(c);
+        List<String> history = getHistory();
+        List<String> defaults = getDefaults(c);
         finalReturn.addAll(getSubscriptions(c));
         for(String s : finalReturn){
             if(history.contains(s)){
@@ -479,7 +479,7 @@ public class UserSubscriptions {
      * @see #sort(ArrayList)
      */
     public static ArrayList<String> sortNoExtras(ArrayList<String> unsorted) {
-        ArrayList<String> subs = new ArrayList<>(unsorted);
+        List<String> subs = new ArrayList<>(unsorted);
         ArrayList<String> finals = new ArrayList<>();
         final List<String> specialSubreddits = Arrays.asList(
                 "frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod"

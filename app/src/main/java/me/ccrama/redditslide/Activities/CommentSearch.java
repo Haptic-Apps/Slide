@@ -9,6 +9,7 @@ import android.widget.EditText;
 import net.dean.jraw.models.CommentNode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.Adapters.CommentAdapterSearch;
 import me.ccrama.redditslide.Adapters.CommentItem;
@@ -40,7 +41,7 @@ public class CommentSearch extends BaseActivityAnim {
         mLayoutManager = new PreCachingLayoutManager(this);
         rv.setLayoutManager(mLayoutManager);
         ArrayList<CommentNode> comments = new ArrayList<>();
-        ArrayList<CommentObject> commentsOld = DataShare.sharedComments;
+        List<CommentObject> commentsOld = DataShare.sharedComments;
         for (CommentObject o : commentsOld) {
             if(o instanceof CommentItem)
             comments.add(o.comment);

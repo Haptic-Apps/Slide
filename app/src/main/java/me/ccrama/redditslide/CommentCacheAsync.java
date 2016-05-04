@@ -197,7 +197,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                     mBuilder.setContentTitle("Caching " + (sub.equalsIgnoreCase("frontpage") ? "" : "/r/") + sub)
                             .setSmallIcon(R.drawable.save);
                 }
-                ArrayList<Submission> submissions = new ArrayList<>();
+                List<Submission> submissions = new ArrayList<>();
                 ArrayList<String> newFullnames = new ArrayList<>();
                 int count = 0;
                 if (alreadyReceived != null) {

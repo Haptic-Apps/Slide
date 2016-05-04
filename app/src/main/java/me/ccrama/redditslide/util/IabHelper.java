@@ -734,11 +734,11 @@ public class IabHelper {
                 return IABHELPER_BAD_RESPONSE;
             }
 
-            ArrayList<String> ownedSkus = ownedItems.getStringArrayList(
+            List<String> ownedSkus = ownedItems.getStringArrayList(
                     RESPONSE_INAPP_ITEM_LIST);
-            ArrayList<String> purchaseDataList = ownedItems.getStringArrayList(
+            List<String> purchaseDataList = ownedItems.getStringArrayList(
                     RESPONSE_INAPP_PURCHASE_DATA_LIST);
-            ArrayList<String> signatureList = ownedItems.getStringArrayList(
+            List<String> signatureList = ownedItems.getStringArrayList(
                     RESPONSE_INAPP_SIGNATURE_LIST);
 
             for (int i = 0; i < purchaseDataList.size(); ++i) {
@@ -805,7 +805,7 @@ public class IabHelper {
             }
         }
 
-        ArrayList<String> responseList = skuDetails.getStringArrayList(
+        List<String> responseList = skuDetails.getStringArrayList(
                 RESPONSE_GET_SKU_DETAILS_LIST);
 
         for (String thisResponse : responseList) {

@@ -38,6 +38,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -569,7 +570,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         sorting.put(s, sort);
     }
 
-    public static HashMap<String, Sorting> sorting = new HashMap<>();
+    public static Map<String, Sorting> sorting = new HashMap<>();
 
     public static Sorting getSorting(String subreddit) {
         if (sorting.containsKey(subreddit)) {
@@ -583,7 +584,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         times.put(s, sort);
     }
 
-    public static HashMap<String, TimePeriod> times = new HashMap<>();
+    public static Map<String, TimePeriod> times = new HashMap<>();
 
     public static TimePeriod getTime(String subreddit) {
         if (times.containsKey(subreddit)) {

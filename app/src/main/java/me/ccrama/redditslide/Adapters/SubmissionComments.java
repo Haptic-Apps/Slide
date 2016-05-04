@@ -20,6 +20,7 @@ import net.dean.jraw.util.JrawUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -53,12 +54,12 @@ public class SubmissionComments {
             CommentNode baseComment = s.getComments();
             boolean online = NetworkUtil.isConnected(page.getActivity());
             comments = new ArrayList<>();
-            HashMap<Integer, MoreChildItem> waiting = new HashMap<>();
+            Map<Integer, MoreChildItem> waiting = new HashMap<>();
 
             for (CommentNode n : baseComment.walkTree()) {
 
                 CommentObject obj = new CommentItem(n);
-                ArrayList<Integer> removed = new ArrayList<>();
+                List<Integer> removed = new ArrayList<>();
                 Map<Integer, MoreChildItem> map = new TreeMap<>(Collections.reverseOrder());
                 map.putAll(waiting);
 
@@ -227,12 +228,12 @@ public class SubmissionComments {
                     page.o.setCommentAndWrite(submission.getFullName(), node, submission).writeToMemory();*/
 
                 comments = new ArrayList<>();
-                HashMap<Integer, MoreChildItem> waiting = new HashMap<>();
+                Map<Integer, MoreChildItem> waiting = new HashMap<>();
 
                 for (CommentNode n : baseComment.walkTree()) {
 
                     CommentObject obj = new CommentItem(n);
-                    ArrayList<Integer> removed = new ArrayList<>();
+                    List<Integer> removed = new ArrayList<>();
                     Map<Integer, MoreChildItem> map = new TreeMap<>(Collections.reverseOrder());
                     map.putAll(waiting);
 

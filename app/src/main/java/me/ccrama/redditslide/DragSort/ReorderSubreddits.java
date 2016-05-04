@@ -47,6 +47,7 @@ import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.models.Subreddit;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.BaseActivityAnim;
 import me.ccrama.redditslide.Activities.SettingsTheme;
@@ -364,7 +365,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         @Override
         public void onPostExecute(Subreddit subreddit) {
             if (subreddit != null || input.equalsIgnoreCase("friends") || input.equalsIgnoreCase("all") || input.equalsIgnoreCase("frontpage") || input.equalsIgnoreCase("mod")) {
-                ArrayList<String> sortedSubs = UserSubscriptions.sortNoExtras(subs);
+                List<String> sortedSubs = UserSubscriptions.sortNoExtras(subs);
 
                 if (sortedSubs.equals(subs)) {
                     subs.add(input);
