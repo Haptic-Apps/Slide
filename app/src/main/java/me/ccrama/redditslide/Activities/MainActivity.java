@@ -2628,7 +2628,7 @@ public class MainActivity extends BaseActivity {
     //if the view mode is set to Subreddit Tabs, save the title ("Slide" or "Slide (debug)")
     public String tabViewModeTitle;
     public final long ANIMATE_DURATION = 250; //duration of animations
-    private final long ANIMATE_DURATION_OFFSET = 30; //offset for smoothing out the animations
+    private final long ANIMATE_DURATION_OFFSET = 45; //offset for smoothing out the exit animations
 
     /**
      * If the user has the Subreddit Search method set to "long press on toolbar title",
@@ -2783,9 +2783,8 @@ public class MainActivity extends BaseActivity {
                                                 final ImageView CLOSE_BUTTON) {
         SUGGESTIONS_BACKGROUND.animate()
                 .translationY(headerHeight)
-                .alpha(1f)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
-                .setDuration(ANIMATION_DURATION)
+                .setDuration(ANIMATION_DURATION + ANIMATE_DURATION_OFFSET)
                 .start();
 
         GO_TO_SUB_FIELD.animate()
@@ -2813,10 +2812,9 @@ public class MainActivity extends BaseActivity {
                                                final AutoCompleteTextView GO_TO_SUB_FIELD,
                                                final ImageView CLOSE_BUTTON) {
         SUGGESTIONS_BACKGROUND.animate()
-                .translationY(0)
-                .alpha(0f)
+                .translationY(-SUGGESTIONS_BACKGROUND.getHeight())
                 .setInterpolator(new AccelerateDecelerateInterpolator())
-                .setDuration(ANIMATION_DURATION)
+                .setDuration(ANIMATION_DURATION + ANIMATE_DURATION_OFFSET)
                 .start();
 
         GO_TO_SUB_FIELD.animate()
