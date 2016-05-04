@@ -16,7 +16,7 @@ public class SecretConstants {
 
     public static String getBase64EncodedPublicKey(Context context) {
         if (base64EncodedPublicKey == null) {
-            InputStream input = null;
+            InputStream input;
             try {
                 input = context.getAssets().open("secretconstants.properties");
                 Properties properties = new Properties();
@@ -32,7 +32,7 @@ public class SecretConstants {
     }
     public static String getApiKey(Context context) {
         if (apiKey == null) {
-            InputStream input = null;
+            InputStream input;
             try {
                 input = context.getAssets().open("secretconstants.properties");
                 Properties properties = new Properties();
@@ -48,7 +48,7 @@ public class SecretConstants {
     }
     public static String getImgurApiKey(Context context) {
         if (apiKey == null) {
-            InputStream input = null;
+            InputStream input;
             try {
                 input = context.getAssets().open("secretconstants.properties");
                 Properties properties = new Properties();

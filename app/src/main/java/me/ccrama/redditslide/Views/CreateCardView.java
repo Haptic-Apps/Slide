@@ -51,7 +51,6 @@ public class CreateCardView {
     public static View CreateView(ViewGroup viewGroup, Boolean secondary, String sub) {
         secondary = false; //removing secondary layouts for now
         String subreddit = (secondary) ? "second" : "";
-        sub = sub.toLowerCase();
         CardEnum cardEnum = CardEnum.valueOf(SettingValues.prefs.getString(subreddit + "defaultCardViewNew", SettingValues.defaultCardView.toString()).toUpperCase());
         View v = null;
         switch (cardEnum) {

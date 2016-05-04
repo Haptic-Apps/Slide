@@ -42,7 +42,6 @@ public class Authentication {
     public static boolean didOnline;
 
     public Authentication(Context context) {
-        Reddit a = (Reddit) context;
         Reddit.setDefaultErrorHandler(context);
 
         if (NetworkUtil.isConnected(context)) {
@@ -141,7 +140,7 @@ public class Authentication {
 
                         } else {
                             final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
-                            OAuthData authData = null;
+                            OAuthData authData;
                             LogUtil.v("Not logged in");
                             try {
 
@@ -242,7 +241,7 @@ public class Authentication {
                     LogUtil.v("NOT LOGGED IN");
 
                     final Credentials fcreds = Credentials.userlessApp(CLIENT_ID, UUID.randomUUID());
-                    OAuthData authData = null;
+                    OAuthData authData;
                     try {
 
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);

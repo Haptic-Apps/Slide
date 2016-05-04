@@ -58,9 +58,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
     public CommentAdapterSearch(Context mContext, List<CommentNode> dataSet, RecyclerView listView, String subAuthor) {
 
         this.mContext = mContext;
-        String subAuthor1 = subAuthor;
         this.originalDataSet = dataSet;
-        List<CommentNode> filteredUserList = new ArrayList<>();
 
     }
 
@@ -110,7 +108,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             scoreText = String.format(Locale.getDefault(), "%d", comment.getScore() + offset);
         }
         SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
-        int scoreColor;
 
 
         titleString.append(score);
@@ -316,7 +313,6 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            String search = constraint.toString();
 
             adapter.dataSet = new ArrayList<>();
             adapter.dataSet.addAll((ArrayList<CommentNode>) results.values);

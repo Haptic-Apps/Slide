@@ -32,7 +32,7 @@ public class Website extends BaseActivityAnim {
     ProgressBar p;
 
     public static String getDomainName(String url) {
-        URI uri = null;
+        URI uri;
         try {
             uri = new URI(url);
 
