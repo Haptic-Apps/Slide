@@ -180,7 +180,8 @@ class GifDecoder {
             status = STATUS_OPEN_ERROR;
         }
         try {
-            is.close();
+            if (is != null)
+                is.close();
         } catch (Exception ignored) {
         }
         return status;

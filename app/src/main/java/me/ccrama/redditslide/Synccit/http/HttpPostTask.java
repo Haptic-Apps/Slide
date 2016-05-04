@@ -74,7 +74,8 @@ public abstract class HttpPostTask<Result> extends AsyncTask<String, Long, Resul
 			Log.e(TAG, "Error during POST", ex);
 		} finally {
 			try {
-				in.close();
+				if (in != null)
+					in.close();
 			} catch (Exception ignore) {}
 			try {
 				entity.consumeContent();

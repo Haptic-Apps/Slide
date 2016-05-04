@@ -486,7 +486,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                                             (MediaView.this).finish();
                                                         } else {
                                                             try {
-                                                                if (!obj.isJsonNull() && obj.has("image")) {
+                                                                if (obj != null && !obj.isJsonNull() && obj.has("image")) {
                                                                     String type = obj.get("image").getAsJsonObject().get("image").getAsJsonObject().get("type").getAsString();
                                                                     String urls = obj.get("image").getAsJsonObject().get("links").getAsJsonObject().get("original").getAsString();
 
@@ -533,7 +533,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         findViewById(R.id.gifprogress).setVisibility(View.GONE);
         LogUtil.v(contentUrl);
 
-        if (contentUrl.contains("m.imgur.com"))
+        if (contentUrl != null && contentUrl.contains("m.imgur.com"))
             contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
         if (contentUrl == null) {
             finish();

@@ -309,7 +309,7 @@ public class MediaFragment extends Fragment {
                                                             (getActivity()).finish();
                                                         } else {
                                                             try {
-                                                                if (!obj.isJsonNull() && obj.has("image")) {
+                                                                if (obj != null && !obj.isJsonNull() && obj.has("image")) {
                                                                     String type = obj.get("image").getAsJsonObject().get("image").getAsJsonObject().get("type").getAsString();
                                                                     String urls = obj.get("image").getAsJsonObject().get("links").getAsJsonObject().get("original").getAsString();
 
@@ -343,7 +343,7 @@ public class MediaFragment extends Fragment {
             imageShown = true;
             rootView.findViewById(R.id.gifprogress).setVisibility(View.GONE);
             LogUtil.v(contentUrl);
-            if (contentUrl.contains("m.imgur.com"))
+            if (contentUrl != null && contentUrl.contains("m.imgur.com"))
                 contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
             if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.contains("imgur.com")) || contentUrl != null && contentUrl.contains(".jpg") && !contentUrl.contains("i.redditmedia.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
                 rootView.findViewById(R.id.progress).setVisibility(View.VISIBLE);
