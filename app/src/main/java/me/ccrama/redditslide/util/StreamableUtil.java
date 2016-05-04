@@ -301,8 +301,9 @@ public class StreamableUtil {
 
 
             FileOutputStream out = null;
+            InputStream in = null;
             try {
-                InputStream in = new FileInputStream(from);
+                in = new FileInputStream(from);
                 out = new FileOutputStream(f);
 
                 // Transfer bytes from in to out
@@ -321,6 +322,9 @@ public class StreamableUtil {
                     if (out != null) {
                         out.close();
                         doNotifGif(f.getAbsolutePath(), a);
+                    }
+                    if (in != null) {
+                        in.close();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -957,8 +957,9 @@ public class GifUtils {
             File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".mp4");
 
             FileOutputStream out = null;
+            InputStream in = null;
             try {
-                InputStream in = new FileInputStream(from);
+                in = new FileInputStream(from);
                 out = new FileOutputStream(f);
 
                 // Transfer bytes from in to out
@@ -967,7 +968,6 @@ public class GifUtils {
                 while ((len = in.read(buf)) > 0) {
                     out.write(buf, 0, len);
                 }
-                in.close();
                 out.close();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -977,6 +977,9 @@ public class GifUtils {
                     if (out != null) {
                         out.close();
                         doNotifGif(f.getAbsolutePath(), a);
+                    }
+                    if (in != null) {
+                        in.close();
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
