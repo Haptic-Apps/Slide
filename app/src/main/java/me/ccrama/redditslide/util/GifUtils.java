@@ -595,11 +595,11 @@ public class GifUtils {
 
                                                                                          if(result != null && result.has("error") && result.get("error").getAsString().contains("not animated")){
                                                                                               if(c instanceof MediaView && c.getIntent() != null && c.getIntent().hasExtra(MediaView.EXTRA_DISPLAY_URL)){
-                                                                                                  (c).runOnUiThread(new Runnable() {
+                                                                                                  c.runOnUiThread(new Runnable() {
                                                                                                       @Override
                                                                                                       public void run() {
                                                                                                           ((MediaView)c).imageShown = false;
-                                                                                                          ((MediaView)c).displayImage((c).getIntent().getStringExtra(MediaView.EXTRA_DISPLAY_URL));
+                                                                                                          ((MediaView)c).displayImage(c.getIntent().getStringExtra(MediaView.EXTRA_DISPLAY_URL));
                                                                                                       }
                                                                                                   });
                                                                                               } else if(c instanceof Shadowbox){

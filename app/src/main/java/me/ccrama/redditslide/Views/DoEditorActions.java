@@ -248,7 +248,7 @@ public class DoEditorActions {
             @Override
             public void onClick(View v) {
                 String html = Processor.process(editText.getText().toString());
-                LayoutInflater inflater = (a).getLayoutInflater();
+                LayoutInflater inflater = a.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
                 final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
                 setViews(html, "NO sub", (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));

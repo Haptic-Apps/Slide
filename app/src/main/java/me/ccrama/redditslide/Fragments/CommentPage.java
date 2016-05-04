@@ -264,7 +264,7 @@ public class CommentPage extends Fragment {
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
         v = localInflater.inflate(R.layout.fragment_verticalcontenttoolbar, container, false);
 
-        rv = ((RecyclerView) v.findViewById(R.id.vertical_content));
+        rv = (RecyclerView) v.findViewById(R.id.vertical_content);
         rv.setLayoutManager(mLayoutManager);
         rv.getLayoutManager().scrollToPosition(0);
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
@@ -281,7 +281,7 @@ public class CommentPage extends Fragment {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LayoutInflater inflater = (getActivity()).getLayoutInflater();
+                    LayoutInflater inflater = getActivity().getLayoutInflater();
 
                     final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
                     final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
@@ -663,7 +663,7 @@ public class CommentPage extends Fragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (!(getActivity() instanceof MainActivity)) {
-                                (getActivity()).finish();
+                                getActivity().finish();
                             }
                         }
                     }).setPositiveButton(R.string.btn_offline, new DialogInterface.OnClickListener() {
@@ -886,7 +886,7 @@ public class CommentPage extends Fragment {
         //This is the filter
         if (event.getAction() != KeyEvent.ACTION_DOWN)
             return true;
-        if ((keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             goDown();
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) {

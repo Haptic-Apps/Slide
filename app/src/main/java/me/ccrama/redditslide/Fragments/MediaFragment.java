@@ -158,7 +158,7 @@ public class MediaFragment extends Fragment {
                 Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                 i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
                 i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
-                (getActivity()).startActivity(i2);
+                getActivity().startActivity(i2);
 
             }
         });
@@ -192,7 +192,7 @@ public class MediaFragment extends Fragment {
                             Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                             i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
                             i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
-                            (getActivity()).startActivity(i2);
+                            getActivity().startActivity(i2);
                         }
                     });
                 } else {
@@ -306,7 +306,7 @@ public class MediaFragment extends Fragment {
 
                                                         if (obj != null && !obj.isJsonNull() && obj.has("error")) {
                                                             LogUtil.v("Error loading content");
-                                                            (getActivity()).finish();
+                                                            getActivity().finish();
                                                         } else {
                                                             try {
                                                                 if (!obj.isJsonNull() && obj.has("image")) {

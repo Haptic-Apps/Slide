@@ -402,7 +402,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             });
 
         } else if (firstHolder instanceof SpacerViewHolder) {
-            firstHolder.itemView.setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), (mContext).findViewById(R.id.header).getHeight()));
+            firstHolder.itemView.setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), mContext.findViewById(R.id.header).getHeight()));
         }
     }
 
