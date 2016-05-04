@@ -37,7 +37,7 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class Inbox extends BaseActivityAnim {
 
-    public static String EXTRA_UNREAD = "unread";
+    public static final String EXTRA_UNREAD = "unread";
     public Inbox.OverviewPagerAdapter adapter;
     private TabLayout tabs;
     private ViewPager pager;

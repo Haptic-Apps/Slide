@@ -22,7 +22,7 @@ import me.ccrama.redditslide.Reddit;
 public class ImageGridAdapter extends android.widget.BaseAdapter {
     private Context mContext;
     private List<Image> jsons;
-    public static DisplayImageOptions options = new DisplayImageOptions.Builder()
+    public static final DisplayImageOptions options = new DisplayImageOptions.Builder()
             .cacheOnDisk(true)
             .resetViewBeforeLoading(true)
             .bitmapConfig(Bitmap.Config.RGB_565)
