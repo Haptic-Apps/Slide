@@ -44,7 +44,7 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.util.AlbumUtils;
+import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
@@ -529,7 +529,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         authentication = new Authentication(this);
 
         Authentication.mod = Authentication.authentication.getBoolean(SHARED_PREF_IS_MOD, false);
-        over18 = Authentication.authentication.getBoolean(SHARED_PREF_IS_OVER_18, false);
 
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
 

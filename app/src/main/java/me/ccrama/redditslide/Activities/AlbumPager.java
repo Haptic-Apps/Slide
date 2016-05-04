@@ -40,7 +40,6 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
-import com.google.gson.JsonElement;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -61,6 +60,8 @@ import me.ccrama.redditslide.Adapters.ImageGridAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.ImageLoaderUtils;
+import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
+import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -69,7 +70,6 @@ import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
-import me.ccrama.redditslide.util.AlbumUtils;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -83,7 +83,6 @@ import me.ccrama.redditslide.util.SubmissionParser;
  * bars which Album.java doesn't.
  */
 public class AlbumPager extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
-    boolean gallery = false;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -115,30 +114,15 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 @Override
                 protected Void doInBackground(Void... params) {
                     if (images != null && !images.isEmpty()) {
-                        if (gallery) {
-                            for (final JsonElement elem : images) {
-                                final String url = "https://imgur.com/" + elem.getAsJsonObject().get("hash").getAsString() + ".png";
-                                saveImageGallery(((Reddit) getApplicationContext()).getImageLoader().loadImageSync(url), url);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        d.setProgress(d.getCurrentProgress() + 1);
+                        for (final Image elem : images) {
+                            saveImageGallery(((Reddit) getApplicationContext()).getImageLoader().loadImageSync(elem.getImageUrl()), elem.getImageUrl());
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    d.setProgress(d.getCurrentProgress() + 1);
 
-                                    }
-                                });
-                            }
-                        } else {
-                            for (final JsonElement elem : images) {
-                                final String url = elem.getAsJsonObject().get("link").getAsString();
-                                saveImageGallery(((Reddit) getApplicationContext()).getImageLoader().loadImageSync(url), url);
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        d.setProgress(d.getCurrentProgress() + 1);
-
-                                    }
-                                });
-                            }
+                                }
+                            });
                         }
                         d.dismiss();
                     }
@@ -181,20 +165,53 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
     }
 
 
-    public class LoadIntoPager extends AlbumUtils.GetAlbumJsonFromUrl {
+    public class LoadIntoPager extends AlbumUtils.GetAlbumWithCallback {
 
+        String url;
         public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
             super(url, baseActivity);
+            this.url = url;
         }
 
         @Override
-        public void doWithData(final ArrayList<JsonElement> jsonElements) {
+        public void onError(){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        new AlertDialogWrapper.Builder(AlbumPager.this)
+                                .setTitle("Album not found")
+                                .setMessage("Would you like to open the link in browser?")
+                                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).setCancelable(false)
+                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent i = new Intent(AlbumPager.this, Website.class);
+                                        i.putExtra(Website.EXTRA_URL, url);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                }).show();
+                    } catch(Exception e){
+
+                    }
+                }
+            });
+
+        }
+
+        @Override
+        public void doWithData(final List<Image> jsonElements) {
             findViewById(R.id.progress).setVisibility(View.GONE);
             if (LoadIntoPager.this.overrideAlbum) {
                 cancel(true);
                 new LoadIntoPager((getIntent().getExtras().getString("url").replace("/gallery", "/a")), AlbumPager.this).execute();
             } else {
-                AlbumPager.this.gallery = LoadIntoPager.this.gallery;
                 images = new ArrayList<>(jsonElements);
 
                 final ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
@@ -204,16 +221,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
                 AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
                 p.setAdapter(adapter);
-                final ArrayList<String> list = new ArrayList<>();
-                if (gallery) {
-                    for (final JsonElement elem : images) {
-                        list.add("https://imgur.com/" + elem.getAsJsonObject().get("hash").getAsString() + ".png");
-                    }
-                } else {
-                    for (final JsonElement elem : images) {
-                        list.add(elem.getAsJsonObject().get("link").getAsString());
-                    }
-                }
+
                 findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -221,7 +229,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                         View body = l.inflate(R.layout.album_grid_dialog, null, false);
                         AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(AlbumPager.this);
                         GridView gridview = (GridView) body.findViewById(R.id.images);
-                        gridview.setAdapter(new ImageGridAdapter(AlbumPager.this, list));
+                        gridview.setAdapter(new ImageGridAdapter(AlbumPager.this, images));
 
 
                         b.setView(body);
@@ -259,7 +267,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         }
     }
 
-    public ArrayList<JsonElement> images;
+    public List<Image> images;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -281,14 +289,10 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         @Override
         public Fragment getItem(int i) {
 
-            String url;
-            if (gallery) {
-                url = ("https://imgur.com/" + images.get(i).getAsJsonObject().get("hash").getAsString() + ".png");
-            } else {
-                url = (images.get(i).getAsJsonObject().get("link").getAsString());
-            }
 
-            if (url.contains("gif") || (images.get(i).getAsJsonObject().has("ext") && images.get(i).getAsJsonObject().get("ext").getAsString().contains("gif"))) {
+            Image current = images.get(i);
+
+            if (current.isAnimated()) {
                 //do gif stuff
                 Fragment f = new Gif();
                 Bundle args = new Bundle();
@@ -356,27 +360,18 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             final MediaVideoView v = (MediaVideoView) gif;
             v.clearFocus();
 
-            final String dat;
-            if (((AlbumPager)getActivity()).gallery) {
-                dat = ("https://imgur.com/" + ((AlbumPager)getActivity()).images.get(i).getAsJsonObject().get("hash").getAsString() + ".gif");
-            } else {
-                if (((AlbumPager)getActivity()).images.get(i).getAsJsonObject().has("mp4"))
-                    dat = (((AlbumPager)getActivity()).images.get(i).getAsJsonObject().get("mp4").getAsString());
-                else
-                    dat = (((AlbumPager)getActivity()).images.get(i).getAsJsonObject().get("link").getAsString());
-            }
-
+            final String url = ((AlbumPager) getActivity()).images.get(i).getImageUrl();
             new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, new Runnable() {
                 @Override
                 public void run() {
 
                 }
-            }, false, true, false).execute(dat);
+            }, false, true, false).execute(url);
             ((MediaVideoView) rootView.findViewById(R.id.gif)).setZOrderOnTop(true);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((AlbumPager)getActivity()).showBottomSheetImage(dat, true);
+                    ((AlbumPager) getActivity()).showBottomSheetImage(url, true);
                 }
             });
             rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
@@ -388,14 +383,12 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             return rootView;
         }
 
-        JsonElement user;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             Bundle bundle = this.getArguments();
             i = bundle.getInt("page", 0);
-            user = ((AlbumPager)getActivity()).images.get(bundle.getInt("page", 0));
 
         }
 
@@ -476,7 +469,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
     public static class ImageFullNoSubmission extends Fragment {
 
         private int i = 0;
-        private JsonElement user;
 
         public ImageFullNoSubmission() {
 
@@ -488,22 +480,15 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             final ViewGroup rootView = (ViewGroup) inflater.inflate(
                     R.layout.album_image_pager, container, false);
 
-            final String url;
-
-            if (((AlbumPager)getActivity()).gallery) {
-                url = ("https://imgur.com/" + user.getAsJsonObject().get("hash").getAsString() + ".png");
-
-            } else {
-                url = (user.getAsJsonObject().get("link").getAsString());
-
-            }
+            final Image current = ((AlbumPager) getActivity()).images.get(i);
+            final String url = current.getImageUrl();
 
             final String finalUrl = url;
             {
                 rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((AlbumPager)getActivity()).showBottomSheetImage(url, false);
+                        ((AlbumPager) getActivity()).showBottomSheetImage(url, false);
                     }
                 });
                 {
@@ -519,7 +504,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                                         .loadImage(finalUrl, new SimpleImageLoadingListener() {
                                             @Override
                                             public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-                                                ((AlbumPager)getActivity()).saveImageGallery(loadedImage, finalUrl1);
+                                                ((AlbumPager) getActivity()).saveImageGallery(loadedImage, finalUrl1);
                                             }
 
                                         });
@@ -572,54 +557,28 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     });
 
             {
-                if (user.getAsJsonObject().has("image")) {
-                    String title = "";
-                    String description = "";
-                    if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
-                        List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-                        title = text.get(0).trim();
-                    }
-
-                    if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
-                        List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-                        description = text.get(0).trim();
-                    }
-                    if (title.isEmpty() && description.isEmpty()) {
-                        rootView.findViewById(R.id.panel).setVisibility(View.GONE);
-                        SlidingUpPanelLayout.LayoutParams params = (SlidingUpPanelLayout.LayoutParams) (rootView.findViewById(R.id.margin)).getLayoutParams();
-                        params.setMargins(0,0,0,0);
-                        rootView.findViewById(R.id.margin).setLayoutParams(params);
-                    } else if (title.isEmpty()) {
-                        ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(description);
-                    } else {
-                        ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(title);
-                        ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)).setTextHtml(description);
-                    }
-
-                } else {
-                    String title = "";
-                    String description = "";
-                    if (user.getAsJsonObject().has("title") && !user.getAsJsonObject().get("title").isJsonNull()) {
-                        List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
-                        title = text.get(0).trim();
-                    }
-
-                    if (user.getAsJsonObject().has("description") && !user.getAsJsonObject().get("description").isJsonNull()) {
-                        List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
-                        description = text.get(0).trim();
-
-                    }
-                    if (title.isEmpty() && description.isEmpty()) {
-                        rootView.findViewById(R.id.panel).setVisibility(View.GONE);
-                        rootView.findViewById(R.id.margin).setPadding(0,0,0,0);
-                    } else if (title.isEmpty()) {
-                        ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(description);
-                    } else {
-                        ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(title);
-                        ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)).setTextHtml(description);
-                    }
+                String title = "";
+                String description = "";
+                if (current.getTitle() != null) {
+                    List<String> text = SubmissionParser.getBlocks(current.getTitle());
+                    title = text.get(0).trim();
                 }
 
+                if (current.getDescription() != null) {
+                    List<String> text = SubmissionParser.getBlocks(current.getDescription());
+                    description = text.get(0).trim();
+                }
+                if (title.isEmpty() && description.isEmpty()) {
+                    rootView.findViewById(R.id.panel).setVisibility(View.GONE);
+                    SlidingUpPanelLayout.LayoutParams params = (SlidingUpPanelLayout.LayoutParams) (rootView.findViewById(R.id.margin)).getLayoutParams();
+                    params.setMargins(0, 0, 0, 0);
+                    rootView.findViewById(R.id.margin).setLayoutParams(params);
+                } else if (title.isEmpty()) {
+                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(description);
+                } else {
+                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(title);
+                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)).setTextHtml(description);
+                }
             }
 
             return rootView;
@@ -630,7 +589,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             super.onCreate(savedInstanceState);
             Bundle bundle = this.getArguments();
             i = bundle.getInt("page", 0);
-            user = ((AlbumPager)getActivity()).images.get(i);
         }
     }
 

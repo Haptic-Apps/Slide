@@ -11,8 +11,9 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.Reddit;
 
 /**
@@ -20,7 +21,7 @@ import me.ccrama.redditslide.Reddit;
  */
 public class ImageGridAdapter extends android.widget.BaseAdapter {
     private Context mContext;
-    private ArrayList<String> jsons;
+    private List<Image> jsons;
     public static DisplayImageOptions options = new DisplayImageOptions.Builder()
             .cacheOnDisk(true)
             .resetViewBeforeLoading(true)
@@ -29,7 +30,8 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
             .cacheInMemory(false)
             .displayer(new FadeInBitmapDisplayer(250))
             .build();
-    public ImageGridAdapter(Context c, ArrayList<String> jsons) {
+
+    public ImageGridAdapter(Context c, List<Image> jsons) {
         mContext = c;
         this.jsons = jsons;
     }
@@ -39,11 +41,7 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
     }
 
     public String getItem(int position) {
-        String s = jsons.get(position);
-        if(s.contains(",")){
-            s = s.split(",")[0];
-        }
-        return s;
+        return jsons.get(position).getThumbnailUrl();
     }
 
     public long getItemId(int position) {
@@ -53,7 +51,7 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
     // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
-        GridView grid = (GridView)parent;
+        GridView grid = (GridView) parent;
         int size = grid.getColumnWidth();
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
@@ -64,14 +62,7 @@ public class ImageGridAdapter extends android.widget.BaseAdapter {
         imageView.setLayoutParams(new GridView.LayoutParams(size, size));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(getSmallerImageUrl(getItem(position)), imageView, options);
+        ((Reddit) mContext.getApplicationContext()).getImageLoader().displayImage(getItem(position), imageView, options);
         return imageView;
     }
-
-    public String getSmallerImageUrl(String s){
-        s = s.substring(0, s.lastIndexOf("."));
-        s = s + "s.png";
-        return s;
-    }
-
 }

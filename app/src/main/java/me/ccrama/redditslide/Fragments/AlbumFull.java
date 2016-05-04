@@ -12,21 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
-import com.google.gson.JsonElement;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Submission;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.Shadowbox;
 import me.ccrama.redditslide.Adapters.AlbumView;
+import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
+import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
-import me.ccrama.redditslide.util.AlbumUtils;
 
 
 /**
@@ -142,7 +142,7 @@ public class AlbumFull extends Fragment {
                         public void onClick(View v) {
                             Intent i2 = new Intent(getActivity(), CommentsScreen.class);
                             i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, ((Shadowbox)getActivity()).subreddit);
+                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, ((Shadowbox) getActivity()).subreddit);
                             (getActivity()).startActivity(i2);
                         }
                     });
@@ -157,26 +157,20 @@ public class AlbumFull extends Fragment {
         return rootView;
     }
 
-    public class LoadIntoRecycler extends AlbumUtils.GetAlbumJsonFromUrl {
+    public class LoadIntoRecycler extends AlbumUtils.GetAlbumWithCallback {
 
         String url;
+
         public LoadIntoRecycler(@NotNull String url, @NotNull Activity baseActivity) {
             super(url, baseActivity);
-            dontClose = true;
+            //todo htis dontClose = true;
             this.url = url;
         }
 
         @Override
-        public void doWithData(final ArrayList<JsonElement> jsonElements) {
-            if (LoadIntoRecycler.this.overrideAlbum) {
-                cancel(true);
-                new LoadIntoRecycler(url.replace("/gallery", "/a"), getActivity()).execute();
-            } else {
-                ArrayList<JsonElement> images = new ArrayList<>(jsonElements);
-                AlbumView adapter = new AlbumView(baseActivity, images, gallery, 0);
-                ((RecyclerView) list).setAdapter(adapter);
-
-            }
+        public void doWithData(final List<Image> jsonElements) {
+            AlbumView adapter = new AlbumView(baseActivity, jsonElements, 0);
+            ((RecyclerView) list).setAdapter(adapter);
         }
 
     }
@@ -186,7 +180,7 @@ public class AlbumFull extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = ((Shadowbox)getActivity()).subredditPosts.getPosts().get(i);
+        s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(i);
     }
 
 

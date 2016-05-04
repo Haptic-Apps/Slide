@@ -175,10 +175,10 @@ public class Profile extends BaseActivityAnim {
                         .setTitle(R.string.profile_err_title)
                         .setCancelable(false)
                         .setMessage(R.string.profile_err_msg)
-                        .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                             }
-                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        }).setCancelable(false).setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         onBackPressed();

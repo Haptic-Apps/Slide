@@ -766,10 +766,11 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     }
 
     public void showFirstDialog() {
-        try {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
                     new AlertDialogWrapper.Builder(MediaView.this)
                             .setTitle(R.string.set_save_location)
                             .setMessage(R.string.set_save_location_msg)
@@ -784,13 +785,15 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                             })
                             .setNegativeButton(R.string.btn_no, null)
                             .show();
+                } catch (Exception ignored) {
+
                 }
-            });
 
-        } catch (Exception ignored) {
-
-        }
+            }
+        });
     }
+
+
 
     public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
         MediaScannerConnection.scanFile(MediaView.this, new String[]{localAbsoluteFilePath.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {

@@ -16,14 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.google.gson.JsonElement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Album;
-import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -31,32 +29,18 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final ArrayList<JsonElement> users;
+    private final List<Image> users;
 
     private final Activity main;
-    private final ArrayList<String> list;
 
     public boolean paddingBottom;
     public int height;
 
-    public AlbumView(final Activity context, ArrayList<JsonElement> users, boolean gallery, int height) {
+    public AlbumView(final Activity context, final List<Image> users, int height) {
 
         this.height = height;
         main = context;
         this.users = users;
-        list = new ArrayList<>();
-        if (gallery) {
-            for (final JsonElement elem : users) {
-                list.add("https://imgur.com/" + elem.getAsJsonObject().get("hash").getAsString() + ".png");
-            }
-        } else {
-            for (final JsonElement elem : users) {
-                if (elem.getAsJsonObject().has("mp4"))
-                    list.add(elem.getAsJsonObject().get("link").getAsString() + "," + elem.getAsJsonObject().get("mp4").getAsString());
-                else
-                    list.add(elem.getAsJsonObject().get("link").getAsString());
-            }
-        }
 
         paddingBottom = main.findViewById(R.id.toolbar) == null;
         if (context.findViewById(R.id.grid) != null)
@@ -67,7 +51,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     View body = l.inflate(R.layout.album_grid_dialog, null, false);
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(context);
                     GridView gridview = (GridView) body.findViewById(R.id.images);
-                    gridview.setAdapter(new ImageGridAdapter(context, list));
+                    gridview.setAdapter(new ImageGridAdapter(context, users));
 
 
                     b.setView(body);
@@ -76,7 +60,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         public void onItemClick(AdapterView<?> parent, View v,
                                                 int position, long id) {
                             if (context instanceof Album) {
-                                ((LinearLayoutManager) ((Album)context).album.album.recyclerView.getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
+                                ((LinearLayoutManager) ((Album) context).album.album.recyclerView.getLayoutManager()).scrollToPositionWithOffset(position + 1, context.findViewById(R.id.toolbar).getHeight());
 
 
                             } else {
@@ -126,62 +110,33 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             AlbumViewHolder holder = (AlbumViewHolder) holder2;
 
-            final JsonElement user = users.get(position);
-            String url2 = list.get(position);
-            if (url2.contains(",")) url2 = url2.split(",")[0];
-            final String url = url2;
-            ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(url, holder.image, ImageGridAdapter.options);
+            final Image user = users.get(position);
+            ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(user.getImageUrl(), holder.image, ImageGridAdapter.options);
             holder.body.setVisibility(View.VISIBLE);
             holder.text.setVisibility(View.VISIBLE);
-            if (!user.isJsonNull() && user.getAsJsonObject().has("height")) {
-                View imageView = holder.image;
-                if (imageView.getWidth() == 0) {
-                    holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
-                } else {
-                    holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(user.getAsJsonObject().get("height").getAsInt(), user.getAsJsonObject().get("width").getAsInt(), imageView.getWidth())));
-                }
-            }
-            if (user.getAsJsonObject().has("image")) {
-                {
-                    if (!user.getAsJsonObject().getAsJsonObject("image").get("title").isJsonNull()) {
-                        List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("title").getAsString());
-                        holder.text.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
-                        if (holder.text.getText().toString().isEmpty()) {
-                            holder.text.setVisibility(View.GONE);
-                        }
-
-                    } else {
-                        holder.text.setVisibility(View.GONE);
-
-                    }
-                }
-                {
-                    if (!user.getAsJsonObject().getAsJsonObject("image").get("caption").isJsonNull()) {
-                        List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().getAsJsonObject("image").get("caption").getAsString());
-                        holder.body.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
-                        if (holder.body.getText().toString().isEmpty()) {
-                            holder.body.setVisibility(View.GONE);
-                        }
-                    } else {
-                        holder.body.setVisibility(View.GONE);
-
-                    }
-                }
+            View imageView = holder.image;
+            if (imageView.getWidth() == 0) {
+                holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
             } else {
-                if (user.getAsJsonObject().has("title") && !user.getAsJsonObject().get("title").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("title").getAsString());
+                holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(user.getHeight(), user.getWidth(), imageView.getWidth())));
+            }
+
+            {
+                if (user.getTitle() != null) {
+                    List<String> text = SubmissionParser.getBlocks(user.getTitle());
                     holder.text.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
                     if (holder.text.getText().toString().isEmpty()) {
                         holder.text.setVisibility(View.GONE);
                     }
 
                 } else {
-
                     holder.text.setVisibility(View.GONE);
 
                 }
-                if (user.getAsJsonObject().has("description") && !user.getAsJsonObject().get("description").isJsonNull()) {
-                    List<String> text = SubmissionParser.getBlocks(user.getAsJsonObject().get("description").getAsString());
+            }
+            {
+                if (user.getDescription() != null) {
+                    List<String> text = SubmissionParser.getBlocks(user.getDescription());
                     holder.body.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
                     if (holder.body.getText().toString().isEmpty()) {
                         holder.body.setVisibility(View.GONE);
@@ -190,37 +145,23 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     holder.body.setVisibility(View.GONE);
 
                 }
-
-
             }
+
             View.OnClickListener onGifImageClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String url3 = list.get(position);
-                    if (url3.contains(",")) url3 = url3.split(",")[1];
-
-                    if (url3.contains("mp4") || url3.contains("gif")) {
-                        if (SettingValues.gif) {
-                            Intent myIntent = new Intent(main, GifView.class);
-                            myIntent.putExtra(GifView.EXTRA_URL, url3);
-                            main.startActivity(myIntent);
-                        } else {
-                            Reddit.defaultShare(url, main);
-                        }
+                    if (SettingValues.image && !user.isAnimated() || SettingValues.gif && user.isAnimated()) {
+                        Intent myIntent = new Intent(main, MediaView.class);
+                        myIntent.putExtra(MediaView.EXTRA_URL, user.getImageUrl());
+                        main.startActivity(myIntent);
                     } else {
-                        if (SettingValues.image) {
-                            Intent myIntent = new Intent(main, MediaView.class);
-                            myIntent.putExtra(MediaView.EXTRA_URL, url);
-                            main.startActivity(myIntent);
-                        } else {
-                            Reddit.defaultShare(url, main);
-                        }
+                        Reddit.defaultShare(user.getImageUrl(), main);
                     }
                 }
             };
 
 
-            if (url.contains("gif")) {
+            if (user.isAnimated()) {
                 holder.body.setVisibility(View.VISIBLE);
                 holder.body.setSingleLine(false);
                 holder.body.setText(holder.text.getText() + main.getString(R.string.submission_tap_gif).toUpperCase()); //got rid of the \n thing, because it didnt parse and it was already a new line so...
