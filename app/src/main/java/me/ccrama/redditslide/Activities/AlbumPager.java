@@ -167,8 +167,42 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
     public class LoadIntoPager extends AlbumUtils.GetAlbumWithCallback {
 
+        String url;
         public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
             super(url, baseActivity);
+            this.url = url;
+        }
+
+        @Override
+        public void onError(){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        new AlertDialogWrapper.Builder(AlbumPager.this)
+                                .setTitle("Album not found")
+                                .setMessage("Would you like to open the link in browser?")
+                                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).setCancelable(false)
+                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent i = new Intent(AlbumPager.this, Website.class);
+                                        i.putExtra(Website.EXTRA_URL, url);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                }).show();
+                    } catch(Exception e){
+
+                    }
+                }
+            });
+
         }
 
         @Override

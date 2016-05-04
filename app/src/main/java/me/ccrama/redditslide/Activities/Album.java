@@ -355,6 +355,38 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             }
 
             @Override
+            public void onError(){
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            new AlertDialogWrapper.Builder(getActivity())
+                                    .setTitle("Album not found")
+                                    .setMessage("Would you like to open the link in browser?")
+                                    .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            getActivity().finish();
+                                        }
+                                    }).setCancelable(false)
+                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            Intent i = new Intent(getActivity(), Website.class);
+                                            i.putExtra(Website.EXTRA_URL, url);
+                                            startActivity(i);
+                                            getActivity().finish();
+                                        }
+                                    }).show();
+                        } catch(Exception e){
+
+                        }
+                    }
+                });
+
+            }
+
+            @Override
             public void doWithData(final List<Image> jsonElements) {
                 getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
                 ((Album) getActivity()).images = new ArrayList<>(jsonElements);
