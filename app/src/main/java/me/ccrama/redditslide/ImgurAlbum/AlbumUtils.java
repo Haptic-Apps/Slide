@@ -2,7 +2,6 @@ package me.ccrama.redditslide.ImgurAlbum;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
@@ -21,7 +20,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 
@@ -58,6 +56,10 @@ public class AlbumUtils {
         public Activity baseActivity;
         public boolean overrideAlbum;
 
+        public void onError() {
+
+        }
+
         public GetAlbumWithCallback(@NotNull String url, @NotNull Activity baseActivity) {
 
 
@@ -84,20 +86,30 @@ public class AlbumUtils {
 
         }
 
-        public void doWithDataSingle(SingleImage data) {
-            final Image toDo = new Image();
-            toDo.setAnimated(data.getAnimated());
-            toDo.setDescription(data.getDescription());
-            toDo.setHash(getHash(data.getLink()));
-            toDo.setTitle(data.getTitle());
-            toDo.setExt(data.getLink().substring(data.getLink().lastIndexOf("."), data.getLink().length()));
-            toDo.setHeight(data.getHeight());
-            toDo.setWidth(data.getWidth());
+        public void doWithDataSingle(final SingleImage data) {
             doWithData(new ArrayList<Image>() {
                 {
-                    this.add(toDo);
+                    this.add(convertToSingle(data));
                 }
             });
+        }
+
+        public Image convertToSingle(SingleImage data) {
+            try {
+                final Image toDo = new Image();
+                toDo.setAnimated(data.getAnimated());
+                toDo.setDescription(data.getDescription());
+                toDo.setHash(getHash(data.getLink()));
+                toDo.setTitle(data.getTitle());
+                toDo.setExt(data.getLink().substring(data.getLink().lastIndexOf("."), data.getLink().length()));
+                toDo.setHeight(data.getHeight());
+                toDo.setWidth(data.getWidth());
+                return toDo;
+            } catch (Exception e) {
+                e.printStackTrace();
+                onError();
+                return null;
+            }
         }
 
         JsonElement[] target;
@@ -111,7 +123,7 @@ public class AlbumUtils {
                 if (!baseData.toString().contains("\"data\":[]")) {
                     album = new ObjectMapper().readValue(baseData.toString(), AlbumImage.class);
                     doWithData(album.getData().getImages());
-                } else  {
+                } else {
                     Ion.with(baseActivity).load("https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json")
                             .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(baseActivity)).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
                             .asJsonObject().setCallback(
@@ -120,7 +132,12 @@ public class AlbumUtils {
                                 public void onCompleted(Exception e, JsonObject obj) {
                                     try {
                                         SingleImage single = new ObjectMapper().readValue(obj.toString(), SingleAlbumImage.class).getData();
-                                        doWithDataSingle(single);
+                                        if (single.getLink() != null)
+                                            doWithDataSingle(single);
+                                        else
+                                            onError();
+
+
                                     } catch (IOException e1) {
                                         e1.printStackTrace();
                                     }
@@ -150,21 +167,23 @@ public class AlbumUtils {
                             .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
                         @Override
                         public void onCompleted(Exception e, JsonObject obj) {
-                            if (obj != null && obj.has("data")) {
-                                target[pos] = obj.get("data");
-                            }
+                            target[pos] = obj;
+
                             done += 1;
                             if (done == target.length) {
-                                ArrayList<Image> jsons = new ArrayList<>();
+                                final ArrayList<Image> jsons = new ArrayList<>();
                                 for (JsonElement el : target) {
-                                    if (el != null)
-                                        jsons.add(new Image()); //todo make this work
+                                    if (el != null) {
+                                        try {
+                                            SingleImage single = new ObjectMapper().readValue(el.toString(), SingleAlbumImage.class).getData();
+                                            jsons.add(convertToSingle(single));
+                                        } catch (IOException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                    }
                                 }
                                 if (jsons.isEmpty()) {
-                                    Intent i = new Intent(baseActivity, Website.class);
-                                    i.putExtra(Website.EXTRA_URL, "https://imgur.com/" + hash);
-                                    baseActivity.startActivity(i);
-                                    baseActivity.finish();
+                                    onError();
                                 } else {
                                     doWithData(jsons);
                                 }
@@ -200,6 +219,8 @@ public class AlbumUtils {
                                                     parseJson(result);
                                                 }
                                             });
+                                        } else {
+                                            onError();
                                         }
                                     }
 

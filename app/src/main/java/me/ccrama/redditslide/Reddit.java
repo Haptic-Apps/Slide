@@ -529,7 +529,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         authentication = new Authentication(this);
 
         Authentication.mod = Authentication.authentication.getBoolean(SHARED_PREF_IS_MOD, false);
-        over18 = Authentication.authentication.getBoolean(SHARED_PREF_IS_OVER_18, false);
 
         enter_animation_time = enter_animation_time_original * enter_animation_time_multiplier;
 
