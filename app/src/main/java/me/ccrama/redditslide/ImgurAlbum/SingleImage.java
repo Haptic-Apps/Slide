@@ -77,7 +77,7 @@ public class SingleImage {
     @JsonProperty("link")
     private String link;
     @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Map<String, Object> additionalProperties = new HashMap<>();
 
     /**
      * @return The id

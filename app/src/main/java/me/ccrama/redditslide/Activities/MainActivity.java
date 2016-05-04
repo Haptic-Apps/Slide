@@ -841,7 +841,7 @@ public class MainActivity extends BaseActivity {
 
                         @Override
                         protected void onPostExecute(Void aVoid) {
-                            final ArrayList<String> names = new ArrayList<String>();
+                            final ArrayList<String> names = new ArrayList<>();
                             for (UserRecord rec : mods) {
                                 names.add(rec.getFullName());
                             }

@@ -85,7 +85,7 @@ public abstract class HttpPostTask<Result> extends AsyncTask<String, Long, Resul
 	}
 	
 	private ArrayList<NameValuePair> getPostArgs(String... params) {
-		ArrayList<NameValuePair> nvps = new ArrayList<NameValuePair>();
+		ArrayList<NameValuePair> nvps = new ArrayList<>();
 		for (int i = 0; i < params.length; i += 2) {
 			try {
 				nvps.add(new BasicNameValuePair(params[i], params[i+1]));

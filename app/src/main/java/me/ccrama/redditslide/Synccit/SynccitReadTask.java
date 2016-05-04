@@ -26,7 +26,7 @@ public abstract class SynccitReadTask extends SynccitTask {
 
 	@Override
 	protected SynccitResponse onInput(InputStream in) throws Exception {
-		HashSet<String> visitedLinkIds = new HashSet<String>();
+		HashSet<String> visitedLinkIds = new HashSet<>();
 		
 		// read the entire stream into a String
 		Scanner s = new Scanner(in);
