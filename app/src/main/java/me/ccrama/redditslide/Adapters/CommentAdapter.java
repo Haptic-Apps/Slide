@@ -830,6 +830,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
+        } else if(comment.getAuthorFlair() != null){
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = mContext.getTheme();
+            theme.resolveAttribute(R.attr.activity_background, typedValue, true);
+            int color = typedValue.data;
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + Html.fromHtml(comment.getAuthorFlair().getCssClass()) + "\u00A0");
+            pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(pinned);
+            titleString.append(" ");
         }
         holder.content.setText(titleString);
     }

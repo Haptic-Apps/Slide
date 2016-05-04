@@ -14,6 +14,7 @@ public abstract class OnSingleClickListener implements View.OnClickListener {
     private static final long MIN_DELAY_MS = 300;
     private static final String TAG = OnSingleClickListener.class.getSimpleName();
     private static long mLastClickTime;
+    public static boolean override;
 
     /**
      * Called when a view has been clicked.
@@ -27,12 +28,13 @@ public abstract class OnSingleClickListener implements View.OnClickListener {
         final long lastClickTime = mLastClickTime;
         final long now = SystemClock.uptimeMillis(); //guaranteed 100% monotonic
 
-        if (now - lastClickTime < MIN_DELAY_MS) {
+        if (now - lastClickTime < MIN_DELAY_MS && !override) {
             // Too fast: ignore
             if (Config.LOGD) {
                 Log.d(TAG, "onClick Clicked too quickly: ignored");
             }
         } else {
+            override = false;
             // Update mLastClickTime and register the click
             mLastClickTime = now;
             onSingleClick(v);

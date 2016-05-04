@@ -160,6 +160,7 @@ public class PopulateSubmissionViewHolder {
                                 break;
                             case SELF:
                                 if (holder != null) {
+                                    OnSingleClickListener.override = true;
                                     holder.itemView.performClick();
                                 }
                                 break;
