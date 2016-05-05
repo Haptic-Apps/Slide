@@ -1802,19 +1802,17 @@ public class MainActivity extends BaseActivity {
                 t.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
-                        if (!accName.equalsIgnoreCase(Authentication.name)) {
-                            if (!accName.equals(guest)) {
-                                if (!accounts.get(accName).isEmpty()) {
-                                    Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).remove("backedCreds").commit();
-                                } else {
-                                    ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
-                                    Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).remove("backedCreds").commit();
-                                }
-                                Authentication.isLoggedIn = true;
-                                Authentication.name = accName;
-                                UserSubscriptions.switchAccounts();
-                                Reddit.forceRestart(MainActivity.this, true);
+                        if (!accName.equalsIgnoreCase(Authentication.name) && !accName.equals(guest)) {
+                            if (!accounts.get(accName).isEmpty()) {
+                                Authentication.authentication.edit().putString("lasttoken", accounts.get(accName)).remove("backedCreds").commit();
+                            } else {
+                                ArrayList<String> tokens = new ArrayList<>(Authentication.authentication.getStringSet("tokens", new HashSet<String>()));
+                                Authentication.authentication.edit().putString("lasttoken", tokens.get(keys.indexOf(accName))).remove("backedCreds").commit();
                             }
+                            Authentication.isLoggedIn = true;
+                            Authentication.name = accName;
+                            UserSubscriptions.switchAccounts();
+                            Reddit.forceRestart(MainActivity.this, true);
                         }
                     }
                 });
@@ -2951,10 +2949,8 @@ public class MainActivity extends BaseActivity {
                 }
 
                 mCurrentFragment = ((SubmissionsView) object);
-                if (mCurrentFragment.posts == null) {
-                    if (mCurrentFragment.isAdded()) {
-                        mCurrentFragment.doAdapter();
-                    }
+                if (mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
+                    mCurrentFragment.doAdapter();
 
                 }
             }
@@ -3132,12 +3128,8 @@ public class MainActivity extends BaseActivity {
 
                 if (getCurrentFragment() != object) {
                     mCurrentFragment = ((SubmissionsView) object);
-                    if (mCurrentFragment != null) {
-                        if (mCurrentFragment.posts == null) {
-                            if (mCurrentFragment.isAdded()) {
-                                mCurrentFragment.doAdapter();
-                            }
-                        }
+                    if (mCurrentFragment != null && mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
+                        mCurrentFragment.doAdapter();
                     }
                 }
             } else if (object instanceof CommentPage) {

@@ -84,11 +84,9 @@ public class MediaFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            if (videoView != null) {
-                videoView.seekTo(0);
-                videoView.start();
-            }
+        if (isVisibleToUser && videoView != null) {
+            videoView.seekTo(0);
+            videoView.start();
         }
 
     }

@@ -275,10 +275,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         if (gif != null)
             gif.cancel(true);
         doOnClick = null;
-        if (!didLoadGif) {
-            if (fileLoc != null && !fileLoc.isEmpty()) {
-                new File(fileLoc).delete();
-            }
+        if (!didLoadGif && fileLoc != null && !fileLoc.isEmpty()) {
+            new File(fileLoc).delete();
         }
     }
 

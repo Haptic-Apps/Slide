@@ -876,10 +876,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (!up.contains(comment.getFullName())) {
                     up.add(comment.getFullName());
                 }
-            } else if (comment.getVote() == VoteDirection.DOWNVOTE) {
-                if (!down.contains(comment.getFullName())) {
-                    down.add(comment.getFullName());
-                }
+            } else if (comment.getVote() == VoteDirection.DOWNVOTE && !down.contains(comment.getFullName())) {
+                down.add(comment.getFullName());
             }
 
             switch (comment.getVote()) {
@@ -2863,17 +2861,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                    int pos = (old < 2) ? 0 : old - 1;
                                    for (int i = pos - 1; i >= 0; i--) {
                                        CommentObject o = users.get(getRealPosition(i));
-                                       if (o instanceof CommentItem && pos - 1 != i) {
-                                           if (o.comment.getDepth() < n2.getDepth()) {
-                                               LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-                                               final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
-                                               final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
-                                               Comment parent = o.comment.getComment();
-                                               setViews(parent.getDataNode().get("body_html").asText(), submission.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
-                                               builder.setView(dialoglayout);
-                                               builder.show();
-                                               break;
-                                           }
+                                       if (o instanceof CommentItem && pos - 1 != i && o.comment.getDepth() < n2.getDepth()) {
+                                           LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+                                           final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
+                                           final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                                           Comment parent = o.comment.getComment();
+                                           setViews(parent.getDataNode().get("body_html").asText(), submission.getSubredditName(), (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                                           builder.setView(dialoglayout);
+                                           builder.show();
+                                           break;
                                        }
                                    }
                                    break;
