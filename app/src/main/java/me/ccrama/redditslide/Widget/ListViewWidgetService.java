@@ -11,6 +11,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.Thumbnails;
 import net.dean.jraw.paginators.SubredditPaginator;
 
 import java.util.ArrayList;
@@ -91,12 +92,22 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         rv.setTextViewText(R.id.information, data.getAuthor() + " " + TimeUtils.getTimeAgo(data.getCreated().getTime(), mContext));
         rv.setTextViewText(R.id.subreddit, data.getSubredditName());
         rv.setTextColor(R.id.subreddit, Palette.getColor(data.getSubredditName()));
-        if (data.getThumbnailType() == Submission.ThumbnailType.URL) {
-            rv.setImageViewBitmap(R.id.thumbimage2, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(data.getThumbnail()));
-            rv.setViewVisibility(R.id.thumbimage2, View.VISIBLE);
-        } else
+        if(SubredditWidgetProvider.getLargePreviews(id, mContext)){
+            Thumbnails s = data.getThumbnails();
             rv.setViewVisibility(R.id.thumbimage2, View.GONE);
-
+            if(s != null && s.getVariations() != null && s.getSource() != null){
+                rv.setImageViewBitmap(R.id.bigpic, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(Html.fromHtml(data.getThumbnails().getSource().getUrl()).toString()));
+                rv.setViewVisibility(R.id.bigpic, View.VISIBLE);
+            } else
+                rv.setViewVisibility(R.id.bigpic, View.GONE);
+        } else {
+            rv.setViewVisibility(R.id.bigpic, View.GONE);
+            if (data.getThumbnailType() == Submission.ThumbnailType.URL) {
+                rv.setImageViewBitmap(R.id.thumbimage2, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(data.getThumbnail()));
+                rv.setViewVisibility(R.id.thumbimage2, View.VISIBLE);
+            } else
+                rv.setViewVisibility(R.id.thumbimage2, View.GONE);
+        }
         Bundle infos = new Bundle();
         infos.putString(OpenContent.EXTRA_URL, data.getPermalink());
         infos.putBoolean("popup", true);

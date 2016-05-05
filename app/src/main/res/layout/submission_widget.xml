@@ -17,7 +17,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="8dp">
-
+            <ImageView
+                android:id="@+id/bigpic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="200dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/chameleon"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop" />
             <ImageView
                 android:id="@+id/thumbimage2"
                 android:layout_width="65dp"
@@ -31,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="6dp"
+                android:layout_below="@+id/bigpic"
                 android:layout_toLeftOf="@+id/secondMenu"
                 android:layout_toRightOf="@+id/thumbimage2">
 

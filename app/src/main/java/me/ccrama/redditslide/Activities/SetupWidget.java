@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -93,6 +94,8 @@ public class SetupWidget extends BaseActivity {
                 break;
         }
         SubredditWidgetProvider.setThemeToId(appWidgetId, theme, this);
+        SubredditWidgetProvider.setLargePreviews(appWidgetId, ((SwitchCompat)findViewById(R.id.previews)).isChecked(), this);
+
         {
             Intent intent = new Intent();
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);

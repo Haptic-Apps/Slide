@@ -35,6 +35,12 @@
             android:text="LIGHT"
             android:layout_height="wrap_content" />
     </RadioGroup>
+    <android.support.v7.widget.SwitchCompat
+        android:layout_width="match_parent"
+        android:id="@+id/previews"
+        android:text="Large image previews"
+        android:padding="16dp"
+        android:layout_height="wrap_content" />
     <ListView
         android:id="@+id/subs"
         android:layout_width="match_parent"

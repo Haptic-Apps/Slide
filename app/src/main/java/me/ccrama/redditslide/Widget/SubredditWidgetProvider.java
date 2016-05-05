@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import me.ccrama.redditslide.Activities.OpenContent;
+import me.ccrama.redditslide.Activities.SetupWidget;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
 
@@ -68,12 +69,18 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_theme", 0);
     }
 
+    public static boolean getLargePreviews(int id, Context mContext) {
+        return mContext.getSharedPreferences("widget", 0).getBoolean(id + "_sub_pics", false);
+    }
     public static void setSubFromid(int id, String sub, Context mContext) {
         mContext.getSharedPreferences("widget", 0).edit().putString(id + "_sub", sub).apply();
     }
 
     public static void setThemeToId(int id, int theme, Context mContext) {
         mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_theme", theme).apply();
+    }
+    public static void setLargePreviews(int id, boolean checked, SetupWidget mContext) {
+        mContext.getSharedPreferences("widget", 0).edit().putBoolean(id + "_sub_pics", checked).apply();
     }
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
@@ -209,4 +216,6 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
 
         appWidgetManager.updateAppWidget(appWidgetId, rv);
     }
+
+
 }
