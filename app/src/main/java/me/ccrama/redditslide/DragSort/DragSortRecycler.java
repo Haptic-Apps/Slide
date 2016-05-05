@@ -209,10 +209,9 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
             {
                 if (itemPos > above)
                     above = itemPos;
-            } else if (floatMiddleY <= viewMiddleY) //Is below this item
+            } else if (floatMiddleY <= viewMiddleY && itemPos < below) //Is below this item
             {
-                if (itemPos < below)
-                    below = itemPos;
+                below = itemPos;
             }
         }
         debugLog("above = " + above + " below = " + below);

@@ -230,10 +230,8 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         for (int firstVisibleItem : firstVisibleItems) {
                             pastVisiblesItems = firstVisibleItem;
-                            if (SettingValues.scrollSeen) {
-                                if (pastVisiblesItems > 0) {
-                                    HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
-                                }
+                            if (SettingValues.scrollSeen && pastVisiblesItems > 0) {
+                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                             }
                         }
                     }

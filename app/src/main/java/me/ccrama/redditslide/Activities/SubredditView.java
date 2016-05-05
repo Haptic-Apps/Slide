@@ -990,10 +990,8 @@ public class SubredditView extends BaseActivityAnim {
         public void doSetPrimary(Object object, int position) {
             if (object != null && getCurrentFragment() != object && position != 3 && object instanceof SubmissionsView) {
                 mCurrentFragment = ((SubmissionsView) object);
-                if (mCurrentFragment.posts == null) {
-                    if (mCurrentFragment.isAdded()) {
-                        mCurrentFragment.doAdapter();
-                    }
+                if (mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
+                    mCurrentFragment.doAdapter();
 
                 }
             }
@@ -1199,12 +1197,8 @@ public class SubredditView extends BaseActivityAnim {
             if (position != 2 && position != 0) {
                 if (getCurrentFragment() != object) {
                     mCurrentFragment = ((SubmissionsView) object);
-                    if (mCurrentFragment != null) {
-                        if (mCurrentFragment.posts == null) {
-                            if (mCurrentFragment.isAdded()) {
-                                mCurrentFragment.doAdapter();
-                            }
-                        }
+                    if (mCurrentFragment != null && mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
+                        mCurrentFragment.doAdapter();
                     }
                 }
             }

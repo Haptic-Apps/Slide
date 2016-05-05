@@ -266,12 +266,10 @@ public class Search extends BaseActivityAnim {
                     }
                 }
 
-                if (!posts.loading) {
-                    if ((visibleItemCount + pastVisiblesItems) + 5>= totalItemCount) {
-                        posts.loading = true;
-                        posts.loadMore(adapter, subreddit, where, false);
+                if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5>= totalItemCount) {
+                    posts.loading = true;
+                    posts.loadMore(adapter, subreddit, where, false);
 
-                    }
                 }
             }
         });
