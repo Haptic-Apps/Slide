@@ -146,7 +146,7 @@ public class HistoryPosts extends GeneralPosts {
                 }
                 for (Thing c : paginator.next()) {
                     if (c instanceof Contribution) {
-                        newData.add(((Contribution)c));
+                        newData.add((Contribution)c);
                     }
                 }
 

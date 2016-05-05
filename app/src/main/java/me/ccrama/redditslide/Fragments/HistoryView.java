@@ -78,7 +78,7 @@ public class HistoryView extends Fragment {
                     }
                 }
         );
-        rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
+        rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) getActivity().findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);

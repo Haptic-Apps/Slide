@@ -298,7 +298,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
             super.setPrimaryItem(container, position, object);
             if (getCurrentFragment() != object && object != null && object instanceof CommentPage) {
-                mCurrentFragment = ((CommentPage) object);
+                mCurrentFragment = (CommentPage) object;
                 if (!mCurrentFragment.loaded) {
                     if (mCurrentFragment.isAdded()) {
                         mCurrentFragment.doAdapter(true);

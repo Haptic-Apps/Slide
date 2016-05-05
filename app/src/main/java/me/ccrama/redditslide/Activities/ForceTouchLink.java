@@ -45,8 +45,8 @@ public class ForceTouchLink extends BaseActivityAnim {
 
         ContentType.Type t = ContentType.getContentType(url);
 
-        final ImageView mainImage = ((ImageView) findViewById(R.id.image));
-        MediaVideoView mainVideo = ((MediaVideoView) findViewById(R.id.gif));
+        final ImageView mainImage = (ImageView) findViewById(R.id.image);
+        MediaVideoView mainVideo = (MediaVideoView) findViewById(R.id.gif);
         mainVideo.setVisibility(View.GONE);
         switch(t){
 
