@@ -82,9 +82,9 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 && dataSet.posts.size() != 0) {
+        if (position == 0 && !dataSet.posts.isEmpty()) {
             return SPACER;
-        } else if (dataSet.posts.size() != 0) {
+        } else if (!dataSet.posts.isEmpty()) {
             position -= 1;
         }
 
@@ -423,7 +423,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        if (dataSet.posts == null || dataSet.posts.size() == 0) {
+        if (dataSet.posts == null || dataSet.posts.isEmpty()) {
             return 0;
         } else {
             return dataSet.posts.size() + 1;

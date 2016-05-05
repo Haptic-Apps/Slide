@@ -115,7 +115,7 @@ public class CreateMulti extends BaseActivityAnim {
 
                                 }
                             }).show();
-                } else if (subs.size() == 0) {
+                } else if (subs.isEmpty()) {
                     new AlertDialogWrapper.Builder(CreateMulti.this)
                             .setTitle(R.string.multireddit_no_subs)
                             .setMessage(R.string.multireddit_no_subs_msg)
@@ -166,7 +166,7 @@ public class CreateMulti extends BaseActivityAnim {
         List<String> list = new ArrayList<>();
 
         for (String s : all) {
-            if (s != null && s.length() > 0) {
+            if (s != null && !s.isEmpty()) {
                 if (!s2.contains(s) && !s.equals("all") && !s.equals("frontpage") && !s.contains("+"))
                     list.add(s);
             }

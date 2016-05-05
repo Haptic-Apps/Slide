@@ -2559,7 +2559,7 @@ public class MainActivity extends BaseActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (friends != null && friends.size() > 0) {
+                if (friends != null && !friends.isEmpty()) {
                     headerMain.findViewById(R.id.friends).setVisibility(View.VISIBLE);
                     headerMain.findViewById(R.id.friends).setOnClickListener(new OnSingleClickListener() {
                         @Override

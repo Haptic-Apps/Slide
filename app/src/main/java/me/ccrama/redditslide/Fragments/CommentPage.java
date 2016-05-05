@@ -1012,7 +1012,7 @@ public class CommentPage extends Fragment {
 
     private void goUp() {
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (adapter.users != null && adapter.users.size() > 0) {
+        if (adapter.users != null && !adapter.users.isEmpty()) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())
@@ -1108,7 +1108,7 @@ public class CommentPage extends Fragment {
     private void goDown() {
         ((View) toolbar.getParent()).setTranslationY(-((View) toolbar.getParent()).getHeight());
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (adapter.users != null && adapter.users.size() > 0) {
+        if (adapter.users != null && !adapter.users.isEmpty()) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())

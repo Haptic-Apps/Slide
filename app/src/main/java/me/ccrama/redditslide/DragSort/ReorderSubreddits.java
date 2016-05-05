@@ -217,7 +217,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 1) {
-                                    if (UserSubscriptions.getMultireddits() != null && UserSubscriptions.getMultireddits().size() > 0) {
+                                    if (UserSubscriptions.getMultireddits() != null && !UserSubscriptions.getMultireddits().isEmpty()) {
                                         new AlertDialogWrapper.Builder(ReorderSubreddits.this)
                                                 .setTitle(R.string.create_or_import_multi)
                                                 .setPositiveButton(R.string.btn_new, new DialogInterface.OnClickListener() {
@@ -518,7 +518,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                         chosen.remove(origPos);
 
-                        if (chosen.size() == 0) {
+                        if (chosen.isEmpty()) {
                             isMultiple = false;
                             doOldToolbar();
                         }
@@ -579,7 +579,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             chosen.remove(origPos);
                             updateToolbar();
 
-                            if (chosen.size() == 0) {
+                            if (chosen.isEmpty()) {
                                 isMultiple = false;
                                 doOldToolbar();
                             }

@@ -159,7 +159,7 @@ public class SubredditSearchPosts extends GeneralPosts {
 
 
                     }
-                    if (newSubmissions.size() == 0) {
+                    if (newSubmissions.isEmpty()) {
                         nomore = true;
                     }
 

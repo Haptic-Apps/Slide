@@ -119,7 +119,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
      * @param dialoglayout The subchooser layout (R.layout.colorsub)
      */
     public static void showSubThemeEditor(final ArrayList<String> subreddits, final Activity context, View dialoglayout) {
-        if (subreddits.size() == 0) {
+        if (subreddits.isEmpty()) {
             return;
         }
 

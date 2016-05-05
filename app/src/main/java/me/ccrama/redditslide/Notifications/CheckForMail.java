@@ -52,7 +52,7 @@ public class CheckForMail extends BroadcastReceiver {
         @Override
         public void onPostExecute(List<Message> messages) {
             Resources res = c.getResources();
-            if (messages != null && messages.size() > 0) {
+            if (messages != null && !messages.isEmpty()) {
                 if(Reddit.isPackageInstalled(c, "com.teslacoilsw.notifier")) {
                     try {
 
@@ -168,7 +168,7 @@ public class CheckForMail extends BroadcastReceiver {
         @Override
         public void onPostExecute(List<Message> messages) {
             Resources res = c.getResources();
-            if (messages != null && messages.size() > 0) {
+            if (messages != null && !messages.isEmpty()) {
 
                 NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
 

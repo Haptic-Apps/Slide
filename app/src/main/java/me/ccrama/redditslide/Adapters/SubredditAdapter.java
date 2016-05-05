@@ -59,12 +59,12 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if (position <= 0 && dataSet.posts.size() != 0) {
+        if (position <= 0 && !dataSet.posts.isEmpty()) {
             return SPACER;
-        } else if (dataSet.posts.size() != 0) {
+        } else if (!dataSet.posts.isEmpty()) {
             position -= (1);
         }
-        if (position == dataSet.posts.size() && dataSet.posts.size() != 0 && !dataSet.nomore) {
+        if (position == dataSet.posts.size() && !dataSet.posts.isEmpty() && !dataSet.nomore) {
             return LOADING_SPINNER;
         } else if (position == dataSet.posts.size() && dataSet.nomore) {
             return NO_MORE;
@@ -188,7 +188,7 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        if (dataSet.posts == null || dataSet.posts.size() == 0) {
+        if (dataSet.posts == null || dataSet.posts.isEmpty()) {
             return 0;
         } else {
             return dataSet.posts.size() + 2; // Always account for footer

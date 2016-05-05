@@ -258,7 +258,7 @@ public class MultiredditPosts implements PostLoader {
 
                 posts = finalSubs;
 
-                if (cached.submissions.size() > 0) {
+                if (!cached.submissions.isEmpty()) {
                     stillShow = true;
                 } else {
                     displayer.updateOfflineError();

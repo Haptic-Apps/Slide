@@ -83,12 +83,12 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 && dataSet.posts.size() != 0 || position == dataSet.posts.size() +1  && dataSet.nomore && !dataSet.where.equalsIgnoreCase("where")) {
+        if (position == 0 && !dataSet.posts.isEmpty() || position == dataSet.posts.size() +1  && dataSet.nomore && !dataSet.where.equalsIgnoreCase("where")) {
             return SPACER;
         } else  {
             position -= 1;
         }
-        if (position == dataSet.posts.size()  && dataSet.posts.size() != 0 && !dataSet.nomore) {
+        if (position == dataSet.posts.size()  && !dataSet.posts.isEmpty() && !dataSet.nomore) {
             return 5;
         }
         if (!dataSet.posts.get(position).getSubject().toLowerCase().contains("re:"))//IS COMMENT
@@ -331,7 +331,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if (dataSet.posts == null || dataSet.posts.size() == 0) {
+        if (dataSet.posts == null || dataSet.posts.isEmpty()) {
             return 0;
         } else {
             return dataSet.posts.size() +  2;
