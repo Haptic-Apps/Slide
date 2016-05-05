@@ -148,7 +148,7 @@ public class Submit extends BaseActivity {
 
                         @Override
                         protected void onPostExecute(String s) {
-                            if (s != null && !s.isEmpty()) {
+                            if (s != null && !s.isEmpty() && !s.equals("null")) {
                                 findViewById(R.id.submittext).setVisibility(View.VISIBLE);
                                 setViews(s, subredditText.getText().toString(), (SpoilerRobotoTextView) findViewById(R.id.submittext), (CommentOverflow) findViewById(R.id.commentOverflow));
                             }

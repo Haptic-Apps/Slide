@@ -5,14 +5,15 @@ import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
-import android.view.View;
-import android.widget.AdapterView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 
-import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
+import me.ccrama.redditslide.Adapters.SubChooseAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.UserSubscriptions;
@@ -28,8 +29,7 @@ public class SetupWidget extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        overrideRedditSwipeAnywhere();
-        overrideRedditSwipeAnywhere();
+        disableSwipeBackLayout();
         getTheme().applyStyle(new FontPreferences(this).getCommentFontStyle().getResId(), true);
         getTheme().applyStyle(new FontPreferences(this).getPostFontStyle().getResId(), true);
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
@@ -58,27 +58,38 @@ public class SetupWidget extends BaseActivity {
         setupAppBar(R.id.toolbar, "New widget", true, false);
 
         ListView list = (ListView)findViewById(R.id.subs);
-        final ArrayList<String> sorted = UserSubscriptions.getAllSubreddits(SetupWidget.this);
+        final ArrayList<String> sorted = UserSubscriptions.getSubscriptions(SetupWidget.this);
+        final SubChooseAdapter adapter = new SubChooseAdapter(this, sorted, UserSubscriptions.getAllSubreddits(this));
+        list.setAdapter(adapter);
 
-        list.setAdapter(new SubredditListingAdapter(SetupWidget.this, sorted));
-        list.setOnItemClickListener( new ListView.OnItemClickListener() {
+        (findViewById(R.id.sort)).clearFocus();
+        ((EditText)findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                name = sorted.get(position);
-                SubredditWidgetProvider.lastDone = name;
-                startWidget();
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                final String result = editable.toString();
+                adapter.getFilter().filter(result);
             }
         });
     }
 
-    String name;
+    public String name;
 
 
     /**
      * This method right now displays the widget and starts a Service to fetch
      * remote data from Server
      */
-    private void startWidget() {
+    public void startWidget() {
 
         // this intent is essential to show the widget
         // if this intent is not included,you can't show

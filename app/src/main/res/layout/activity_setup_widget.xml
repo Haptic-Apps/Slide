@@ -1,37 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/card_background"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <include layout="@layout/settings_toolbar" />
+    <TextView
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/displayHeader"
+        android:text="Visuals"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <RadioGroup
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:gravity="center"
         android:id="@+id/theme"
+        android:layout_margin="16dp"
         android:checkedButton="@+id/clear"
         android:layout_height="wrap_content">
         <RadioButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:padding="8dp"
+            android:layout_weight="1"
             android:id="@+id/clear"
             android:text="CLEAR"
             android:layout_height="wrap_content" />
         <RadioButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:padding="8dp"
+            android:layout_weight="1"
             android:id="@+id/dark"
             android:text="DARK"
             android:layout_height="wrap_content" />
         <RadioButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:id="@+id/light"
             android:padding="8dp"
-
+            android:layout_weight="1"
             android:text="LIGHT"
             android:layout_height="wrap_content" />
     </RadioGroup>
@@ -40,7 +53,38 @@
         android:id="@+id/previews"
         android:text="Large image previews"
         android:padding="16dp"
+        android:layout_marginBottom="8dp"
         android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:background="?attr/tint"
+        android:alpha=".25"
+        android:layout_height="0.25dp"/>
+    <TextView
+        style="@style/TextAppearance.AppCompat.Body2"
+        android:id="@+id/content"
+        android:text="Content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/sort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="?attr/tint"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
+        android:hint="Subreddit name"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
+        android:textColor="?attr/font"
+        android:textColorHint="?attr/font" />
     <ListView
         android:id="@+id/subs"
         android:layout_width="match_parent"

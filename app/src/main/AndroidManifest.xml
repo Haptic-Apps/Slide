@@ -279,6 +279,7 @@
         <activity
             android:name=".Activities.SetupWidget"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.CreateMulti"
