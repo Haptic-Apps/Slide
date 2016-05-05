@@ -203,7 +203,7 @@ public class Search extends BaseActivityAnim {
 
         super.onCreate(savedInstanceState);
         applyColorTheme("");
-        setContentView(R.layout.activity_saved);
+        setContentView(R.layout.activity_search);
         where = getIntent().getExtras().getString(EXTRA_TERM, "");
 
         if(getIntent().hasExtra(EXTRA_MULTIREDDIT)){

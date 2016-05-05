@@ -15,6 +15,7 @@
             android:id="@+id/vertical_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="4dp"
             android:cacheColorHint="@android:color/transparent"
             android:clipToPadding="false"
             android:divider="@null"
