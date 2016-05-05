@@ -466,9 +466,10 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
 
                     File backedup = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "Slide" + new SimpleDateFormat("HH:mm-MMddyy").format(Calendar.getInstance().getTime()) + (!personal ? "-personal" : "") + ".txt");
                     file = backedup;
+                    FileWriter fw = null;
                     try {
                         backedup.createNewFile();
-                        FileWriter fw = new FileWriter(backedup);
+                        fw = new FileWriter(backedup);
                         fw.write("Slide_backupEND>");
                         for (String s : list) {
 
@@ -491,11 +492,12 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                             }
 
                         }
-                        close(fw);
                         return null;
                     } catch (Exception e) {
                         e.printStackTrace();
                         //todo error
+                    } finally {
+                        close(fw);
                     }
 
                 }
