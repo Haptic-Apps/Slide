@@ -214,6 +214,8 @@
     <!-- Multireddit errors -->
     <string name="multireddit_err_title">No multireddits (yet)!</string>
     <string name="multireddit_err_msg">Would you like to create a new multireddit?</string>
+    <string name="public_multireddit_err_title">No multireddits!</string>
+    <string name="public_multireddit_err_msg">This user has no public multireddits.</string>
     <string name="multireddit_title_empty">Title can\'t be empty</string>
     <string name="multireddit_title_empty_msg">Please enter a title for your multireddit</string>
     <string name="multireddit_no_subs">No subreddits are added</string>
@@ -302,6 +304,7 @@
     <!-- Goto User -->
     <string name="user_enter">Enter username</string>
     <string name="user_btn_goto">Go to user</string>
+    <string name="user_btn_gotomultis">Go to user\'s multis</string>
     <string name="user_invalid_msg">Reddit usernames can only contain letters, numbers, underscores and dashes</string>
 
 

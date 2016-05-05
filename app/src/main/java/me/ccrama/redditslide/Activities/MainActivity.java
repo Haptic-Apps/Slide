@@ -1438,15 +1438,56 @@ public class MainActivity extends BaseActivity {
 
             drawerSubList.addHeaderView(header, null, false);
             ((TextView) header.findViewById(R.id.name)).setText(Authentication.name);
-            header.findViewById(R.id.multi).setOnClickListener(new OnSingleClickListener() {
-                @Override
-                public void onSingleClick(View view) {
-                    if (runAfterLoad == null) {
-                        Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
-                        MainActivity.this.startActivity(inte);
+            header.findViewById(R.id.multi).setOnClickListener(
+                new OnSingleClickListener() {
+                    @Override
+                    public void onSingleClick(View view) {
+                        if (runAfterLoad == null) {
+                            Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
+                            MainActivity.this.startActivity(inte);
+                        }
                     }
                 }
-            });
+            );
+            header.findViewById(R.id.multi).setOnLongClickListener(
+                new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        new MaterialDialog.Builder(MainActivity.this)
+                            .inputRange(3, 20)
+                            .alwaysCallInputCallback()
+                            .input(
+                                getString(R.string.user_enter),
+                                null,
+                                new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                        final EditText editText = dialog.getInputEditText();
+                                        EditTextValidator.validateUsername(editText);
+                                        if (input.length() >= 3 && input.length() <= 20)
+                                            dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                    }
+                                }
+                            )
+                            .positiveText(R.string.user_btn_gotomultis)
+                            .onPositive(
+                                new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        if (runAfterLoad == null) {
+                                            Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
+                                            inte.putExtra(Profile.EXTRA_PROFILE, dialog.getInputEditText().getText().toString());
+                                            MainActivity.this.startActivity(inte);
+                                        }
+                                    }
+                                }
+                            )
+                            .negativeText(R.string.btn_cancel)
+                            .show();
+                        return true;
+                    }
+                }
+            );
 
             header.findViewById(R.id.discover).setOnClickListener(new OnSingleClickListener() {
                 @Override
@@ -1835,6 +1876,45 @@ public class MainActivity extends BaseActivity {
                 }
             });
             headerMain = header;
+
+            header.findViewById(R.id.multi).setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        new MaterialDialog.Builder(MainActivity.this)
+                            .inputRange(3, 20)
+                            .alwaysCallInputCallback()
+                            .input(
+                                getString(R.string.user_enter),
+                                null,
+                                new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                        final EditText editText = dialog.getInputEditText();
+                                        EditTextValidator.validateUsername(editText);
+                                        if (input.length() >= 3 && input.length() <= 20)
+                                            dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                    }
+                                }
+                            )
+                            .positiveText(R.string.user_btn_gotomultis)
+                            .onPositive(
+                                new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        if (runAfterLoad == null) {
+                                            Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
+                                            inte.putExtra(Profile.EXTRA_PROFILE, dialog.getInputEditText().getText().toString());
+                                            MainActivity.this.startActivity(inte);
+                                        }
+                                    }
+                                }
+                            )
+                            .negativeText(R.string.btn_cancel)
+                            .show();
+                    }
+                }
+            );
 
         } else {
             header = inflater.inflate(R.layout.drawer_offline, drawerSubList, false);

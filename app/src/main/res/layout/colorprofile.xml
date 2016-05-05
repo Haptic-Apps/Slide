@@ -192,6 +192,31 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/multi_body"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:alpha=".86"
+                        android:padding="12dp"
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/collection" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/title_multireddits"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/color"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"

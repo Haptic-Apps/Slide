@@ -47,6 +47,7 @@ import me.ccrama.redditslide.util.LogUtil;
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivityAnim implements SubmissionDisplay {
+    public static final String EXTRA_PROFILE = "profile";
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
@@ -59,6 +60,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     private String baseSubreddit;
 
     String multireddit;
+    String profile;
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -146,8 +148,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         baseSubreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT);
         subreddit = baseSubreddit;
         multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
+        profile = getIntent().getExtras().getString(EXTRA_PROFILE, "");
         if (multireddit != null) {
-            subredditPosts = new MultiredditPosts(multireddit);
+            subredditPosts = new MultiredditPosts(multireddit, profile);
             ((MultiredditPosts) subredditPosts).skipOne = true;
 
         } else {
