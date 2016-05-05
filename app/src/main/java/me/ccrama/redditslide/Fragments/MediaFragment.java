@@ -484,7 +484,7 @@ public class MediaFragment extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openImage(contextActivity, submission);
+                        PopulateSubmissionViewHolder.openImage(contextActivity, submission, null);
 
                     }
                 });

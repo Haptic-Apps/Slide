@@ -598,7 +598,7 @@ public class CommentPage extends Fragment {
                                         }
                                         break;
                                     case IMAGE:
-                                        PopulateSubmissionViewHolder.openImage(getActivity(), adapter.submission);
+                                        PopulateSubmissionViewHolder.openImage(getActivity(), adapter.submission, null);
                                         break;
                                     case GIF:
                                         PopulateSubmissionViewHolder.openGif(getActivity(), adapter.submission);

@@ -1175,7 +1175,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+    public void setViews(String rawHTML, String subredditName, final SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -1199,6 +1199,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
+            commentOverflow.setLongClickable(false);
         } else {
             commentOverflow.removeAllViews();
         }

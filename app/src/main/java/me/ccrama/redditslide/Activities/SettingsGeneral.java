@@ -303,7 +303,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             findViewById(R.id.notifications).setAlpha(0.25f);
         }
 
-        ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId("")]);
+        ((TextView) findViewById(R.id.sorting_current)).setText(Reddit.getSortingStrings(getBaseContext(), "")[Reddit.getSortingId("")]);
         {
             findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -361,13 +361,13 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                             SettingValues.defaultSorting = Reddit.defaultSorting;
                             SettingValues.timePeriod = Reddit.timePeriod;
                             ((TextView) findViewById(R.id.sorting_current)).setText(
-                                    Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId("")]);
+                                    Reddit.getSortingStrings(getBaseContext(), "")[Reddit.getSortingId("")]);
                         }
                     };
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsGeneral.this);
                     builder.setTitle(R.string.sorting_choose);
                     builder.setSingleChoiceItems(
-                            Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(""), l2);
+                            Reddit.getSortingStrings(getBaseContext(), ""), Reddit.getSortingId(""), l2);
                     builder.show();
                 }
             });

@@ -138,7 +138,7 @@ public class PopulateSubmissionViewHolder {
                                 }
                                 break;
                             case IMGUR:
-                                openImage(contextActivity, submission);
+                                openImage(contextActivity, submission, holder.leadImage);
                                 break;
                             case EMBEDDED:
                                 if (SettingValues.video) {
@@ -184,7 +184,7 @@ public class PopulateSubmissionViewHolder {
                                 break;
                             case DEVIANTART:
                             case IMAGE:
-                                openImage(contextActivity, submission);
+                                openImage(contextActivity, submission, holder.leadImage);
                                 break;
                             case GIF:
                                 openGif(contextActivity, submission);
@@ -231,7 +231,7 @@ public class PopulateSubmissionViewHolder {
     }
 
 
-    public static void openImage(Activity contextActivity, Submission submission) {
+    public static void openImage(Activity contextActivity, Submission submission, HeaderImageLinkView baseView) {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             String url;
@@ -242,10 +242,17 @@ public class PopulateSubmissionViewHolder {
                 int length = submission.getThumbnails().getVariations().length;
                 previewUrl = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
                 myIntent.putExtra(MediaView.EXTRA_LQ, true);
+                if(baseView == null)
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
+                else
+                    myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, baseView.loadedUrl);
+
             } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                 previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
+                if(baseView == null)
+                    myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
+                else
+                    myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, baseView.loadedUrl);
             }
             myIntent.putExtra(MediaView.EXTRA_URL, url);
             myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());

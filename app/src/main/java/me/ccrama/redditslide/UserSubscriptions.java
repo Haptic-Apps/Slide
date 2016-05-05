@@ -34,16 +34,16 @@ public class UserSubscriptions {
     public static SharedPreferences subscriptions;
     public static SharedPreferences multiNameToSubs;
 
-    public static void  setSubNameToProperties(String name, String descrption) {
+    public static void setSubNameToProperties(String name, String descrption) {
         multiNameToSubs.edit().putString(name, descrption).apply();
     }
 
     public static Map<String, String> getMultiNameToSubs() {
         Map<String, String> multiNameToSubsMap = new HashMap<>();
 
-        Map<String,?> multiNameToSubsObject = multiNameToSubs.getAll();
+        Map<String, ?> multiNameToSubsObject = multiNameToSubs.getAll();
 
-        for(Map.Entry<String,?> entry : multiNameToSubsObject.entrySet()){
+        for (Map.Entry<String, ?> entry : multiNameToSubsObject.entrySet()) {
             multiNameToSubsMap.put(entry.getKey(), entry.getValue().toString());
         }
 
@@ -51,7 +51,7 @@ public class UserSubscriptions {
     }
 
     public static void doMainActivitySubs(MainActivity c) {
-        if(NetworkUtil.isConnected(c)) {
+        if (NetworkUtil.isConnected(c)) {
             String s = subscriptions.getString(Authentication.name, "");
             if (s.isEmpty()) {
                 //get online subs
@@ -75,13 +75,13 @@ public class UserSubscriptions {
             }
             ArrayList<String> finals = new ArrayList<>();
             List<String> offline = OfflineSubreddit.getAllFormatted();
-            for(String subs : subredditsForHome){
-                if(offline.contains(subs)){
+            for (String subs : subredditsForHome) {
+                if (offline.contains(subs)) {
                     finals.add(subs);
                 }
             }
-            for(String subs : offline){
-                if(!finals.contains(subs)){
+            for (String subs : offline) {
+                if (!finals.contains(subs)) {
                     finals.add(subs);
                 }
             }
@@ -89,6 +89,7 @@ public class UserSubscriptions {
             c.updateMultiNameToSubs(getMultiNameToSubs());
         }
     }
+
 
     public static class SyncMultireddits extends AsyncTask<Void, Void, Boolean> {
 
@@ -126,6 +127,21 @@ public class UserSubscriptions {
             ArrayList<String> subredditsForHome = new ArrayList<>();
             for (String s2 : s.split(",")) {
                 subredditsForHome.add(s2.toLowerCase());
+            }
+            return subredditsForHome;
+        }
+    }
+
+    public static ArrayList<String> getSubscriptionsForShortcut(Context c) {
+        String s = subscriptions.getString(Authentication.name, "");
+        if (s.isEmpty()) {
+            //get online subs
+            return syncSubscriptionsOverwrite(c);
+        } else {
+            ArrayList<String> subredditsForHome = new ArrayList<>();
+            for (String s2 : s.split(",")) {
+                if (!s2.contains("/m/"))
+                    subredditsForHome.add(s2.toLowerCase());
             }
             return subredditsForHome;
         }
@@ -263,11 +279,12 @@ public class UserSubscriptions {
         return finished;
     }
 
-    public static void doFriendsOfMain(MainActivity main){
+    public static void doFriendsOfMain(MainActivity main) {
         main.doFriends(doFriendsOf());
     }
+
     private static List<String> doFriendsOf() {
-        if(friends == null || friends.isEmpty()) {
+        if (friends == null || friends.isEmpty()) {
             friends = new ArrayList<>();
             ArrayList<String> finished = new ArrayList<>();
 
@@ -306,16 +323,16 @@ public class UserSubscriptions {
         List<String> history = getHistory();
         List<String> defaults = getDefaults(c);
         finalReturn.addAll(getSubscriptions(c));
-        for(String s : finalReturn){
-            if(history.contains(s)){
+        for (String s : finalReturn) {
+            if (history.contains(s)) {
                 history.remove(s);
             }
-            if(defaults.contains(s)){
+            if (defaults.contains(s)) {
                 defaults.remove(s);
             }
         }
-        for(String s : history){
-            if(defaults.contains(s)){
+        for (String s : history) {
+            if (defaults.contains(s)) {
                 defaults.remove(s);
             }
         }

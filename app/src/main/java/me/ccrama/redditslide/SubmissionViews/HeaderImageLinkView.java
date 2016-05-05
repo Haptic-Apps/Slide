@@ -75,6 +75,8 @@ public class HeaderImageLinkView extends RelativeLayout {
     String lastDone = "";
     ContentType.Type type;
 
+    public String loadedUrl;
+
     public void setSubmission(final Submission submission, final boolean full, String baseSub, ContentType.Type type) {
         this.type = type;
         if (!lastDone.equals(submission.getFullName())) {
@@ -207,6 +209,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                             wrapArea.setVisibility(View.VISIBLE);
                         }
 
+                        loadedUrl = url;
                         if (!full) {
                             ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
                         } else {
@@ -218,7 +221,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     setVisibility(View.GONE);
 
                 } else {
-
+                    loadedUrl = url;
                     if (!full) {
                         ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, backdrop);
                     } else {
@@ -248,10 +251,12 @@ public class HeaderImageLinkView extends RelativeLayout {
                     } else {
                         wrapArea.setVisibility(View.VISIBLE);
                     }
+                    loadedUrl = url;
                     ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
                     setVisibility(View.GONE);
 
                 } else {
+                    loadedUrl = url;
 
                     if (!full) {
                         ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, backdrop);
@@ -272,6 +277,8 @@ public class HeaderImageLinkView extends RelativeLayout {
                 } else {
                     wrapArea.setVisibility(View.VISIBLE);
                 }
+                loadedUrl = url;
+
                 ((Reddit) getContext().getApplicationContext()).getImageLoader().displayImage(url, thumbImage2);
                 setVisibility(View.GONE);
 

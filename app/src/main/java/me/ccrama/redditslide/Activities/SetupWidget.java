@@ -58,7 +58,7 @@ public class SetupWidget extends BaseActivity {
         setupAppBar(R.id.toolbar, "New widget", true, false);
 
         ListView list = (ListView)findViewById(R.id.subs);
-        final ArrayList<String> sorted = UserSubscriptions.getSubscriptions(SetupWidget.this);
+        final ArrayList<String> sorted = UserSubscriptions.getSubscriptionsForShortcut(SetupWidget.this);
         final SubChooseAdapter adapter = new SubChooseAdapter(this, sorted, UserSubscriptions.getAllSubreddits(this));
         list.setAdapter(adapter);
 

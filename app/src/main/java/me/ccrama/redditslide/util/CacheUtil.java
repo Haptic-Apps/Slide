@@ -8,7 +8,7 @@ import me.ccrama.redditslide.ImageLoaderUtils;
 
 /**
  * Created by carlo_000 on 3/6/2016.
- *
+ * <p/>
  * Adapted from http://stackoverflow.com/a/10069679/3697225
  */
 public class CacheUtil {
@@ -21,30 +21,20 @@ public class CacheUtil {
     public static void makeRoom(Activity context, int length) {
 
         File cacheDir = ImageLoaderUtils.getCacheDirectoryGif(context);
-        long size = getDirSize(cacheDir);
-        long newSize = length + size;
 
-        LogUtil.v("Comparing " + newSize + " to " + MAX_SIZE);
-        if (newSize > MAX_SIZE) {
-            cleanDir(cacheDir, newSize - MAX_SIZE);
-        }
+        cleanDir(cacheDir);
+
 
     }
 
 
-    private static void cleanDir(File dir, long bytes) {
+    private static void cleanDir(File dir) {
 
-        long bytesDeleted = 0;
         File[] files = dir.listFiles();
 
         for (File file : files) {
-            if(file.getName().contains(".")) {
-                bytesDeleted += file.length();
+            if (file.lastModified() + 1000 < System.currentTimeMillis()) { //more than a day old
                 file.delete();
-
-                if (bytesDeleted >= bytes) {
-                    break;
-                }
             }
         }
     }
@@ -52,7 +42,7 @@ public class CacheUtil {
     private static long getDirSize(File dir) {
 
         long size = 0;
-        if(!dir.exists()){
+        if (!dir.exists()) {
             dir.mkdir();
         }
         File[] files = dir.listFiles();

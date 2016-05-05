@@ -168,13 +168,14 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
     public class LoadIntoPager extends AlbumUtils.GetAlbumWithCallback {
 
         String url;
+
         public LoadIntoPager(@NotNull String url, @NotNull Activity baseActivity) {
             super(url, baseActivity);
             this.url = url;
         }
 
         @Override
-        public void onError(){
+        public void onError() {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -197,7 +198,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                                         finish();
                                     }
                                 }).show();
-                    } catch(Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -208,62 +209,58 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         @Override
         public void doWithData(final List<Image> jsonElements) {
             findViewById(R.id.progress).setVisibility(View.GONE);
-            if (LoadIntoPager.this.overrideAlbum) {
-                cancel(true);
-                new LoadIntoPager((getIntent().getExtras().getString("url").replace("/gallery", "/a")), AlbumPager.this).execute();
-            } else {
-                images = new ArrayList<>(jsonElements);
+            images = new ArrayList<>(jsonElements);
 
-                final ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
+            final ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
 
-                if (getSupportActionBar() != null)
-                    getSupportActionBar().setSubtitle(1 + "/" + images.size());
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setSubtitle(1 + "/" + images.size());
 
-                AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
-                p.setAdapter(adapter);
+            AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
+            p.setAdapter(adapter);
 
-                findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        LayoutInflater l = getLayoutInflater();
-                        View body = l.inflate(R.layout.album_grid_dialog, null, false);
-                        AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(AlbumPager.this);
-                        GridView gridview = (GridView) body.findViewById(R.id.images);
-                        gridview.setAdapter(new ImageGridAdapter(AlbumPager.this, images));
+            findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LayoutInflater l = getLayoutInflater();
+                    View body = l.inflate(R.layout.album_grid_dialog, null, false);
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(AlbumPager.this);
+                    GridView gridview = (GridView) body.findViewById(R.id.images);
+                    gridview.setAdapter(new ImageGridAdapter(AlbumPager.this, images));
 
 
-                        b.setView(body);
-                        final Dialog d = b.create();
-                        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            public void onItemClick(AdapterView<?> parent, View v,
-                                                    int position, long id) {
-                                p.setCurrentItem(position);
-                                d.dismiss();
-                            }
-                        });
-                        d.show();
-                    }
-                });
-                p.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                        if (getSupportActionBar() != null)
+                    b.setView(body);
+                    final Dialog d = b.create();
+                    gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        public void onItemClick(AdapterView<?> parent, View v,
+                                                int position, long id) {
+                            p.setCurrentItem(position);
+                            d.dismiss();
+                        }
+                    });
+                    d.show();
+                }
+            });
+            p.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                    if (getSupportActionBar() != null)
 
-                            getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
-                    }
+                        getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
+                }
 
-                    @Override
-                    public void onPageSelected(int position) {
+                @Override
+                public void onPageSelected(int position) {
 
-                    }
+                }
 
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
+                @Override
+                public void onPageScrollStateChanged(int state) {
 
-                    }
-                });
-                adapter.notifyDataSetChanged();
-            }
+                }
+            });
+            adapter.notifyDataSetChanged();
+
         }
     }
 

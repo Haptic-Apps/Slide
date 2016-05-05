@@ -17,6 +17,7 @@ import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Activities.SetupWidget;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Visuals.Palette;
 
 public class SubredditWidgetProvider extends AppWidgetProvider {
     public static final String UPDATE_MEETING_ACTION = "android.appwidget.action.APPWIDGET_UPDATE";
@@ -40,6 +41,8 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
             }
             RemoteViews rv = new RemoteViews(context.getPackageName(), view);
             rv.setViewVisibility(R.id.loading, View.GONE);
+            rv.setViewVisibility(R.id.refresh, View.VISIBLE);
+
             mgr.partiallyUpdateAppWidget(appWidgetId, rv);
         } else if (intent.getAction().contains(REFRESH)) {
             int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0);
@@ -143,6 +146,8 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         // It should be in the same layout used to instantiate the RemoteViews  object above.
         rv.setEmptyView(R.id.list_view, R.id.empty_view);
         rv.setTextViewText(R.id.subreddit, sub);
+        rv.setTextColor(R.id.subreddit, Palette.getColor(sub));
+
         //
         // Do additional processing specific to this app widget...
         //
@@ -181,6 +186,7 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         // This is how you populate the data.
         rv.setRemoteAdapter(appWidgetId, R.id.list_view, intent);
         rv.setViewVisibility(R.id.loading, View.VISIBLE);
+        rv.setViewVisibility(R.id.refresh, View.GONE);
 
         // Trigger listview item click
         String sub = getSubFromId(appWidgetId, context);
@@ -207,6 +213,8 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
         // It should be in the same layout used to instantiate the RemoteViews  object above.
         rv.setEmptyView(R.id.list_view, R.id.empty_view);
         rv.setTextViewText(R.id.subreddit, sub);
+        rv.setTextColor(R.id.subreddit, Palette.getColor(sub));
+
         //
         // Do additional processing specific to this app widget...
         //

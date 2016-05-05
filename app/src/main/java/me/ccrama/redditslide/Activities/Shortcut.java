@@ -68,7 +68,7 @@ public class Shortcut extends BaseActivity {
 
         findViewById(R.id.tohide).setVisibility(View.GONE);
         ListView list = (ListView)findViewById(R.id.subs);
-        final ArrayList<String> sorted = UserSubscriptions.getSubscriptions(Shortcut.this);
+        final ArrayList<String> sorted = UserSubscriptions.getSubscriptionsForShortcut(Shortcut.this);
         final SubChooseAdapter adapter = new SubChooseAdapter(this, sorted, UserSubscriptions.getAllSubreddits(this));
         list.setAdapter(adapter);
 

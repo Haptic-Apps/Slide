@@ -44,8 +44,8 @@ import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
-import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
@@ -189,6 +189,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
             return "";
         }
     }
+
     public static String arrayToString(ArrayList<String> array, String separator) {
         if (array != null) {
             StringBuilder b = new StringBuilder();
@@ -261,8 +262,12 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                 3;
     }
 
-    public static String[] getSortingStrings(Context c) {
-        return new String[] {
+    public static String[] getSortingStrings(Context c, String currentSub) {
+        return getSortingStrings(c, getSorting(currentSub), getTime(currentSub));
+    }
+
+    public static String[] getSortingStrings(Context c, Sorting currentSort, TimePeriod currentTime) {
+        String[] current = new String[]{
                 c.getString(R.string.sorting_hot),
                 c.getString(R.string.sorting_new),
                 c.getString(R.string.sorting_rising),
@@ -279,10 +284,52 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_year).toLowerCase(),
                 c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_all).toLowerCase(),
         };
+        int pos = 0;
+        switch (currentSort) {
+
+            case HOT:
+                pos = 0;
+                break;
+            case NEW:
+                pos = 1;
+                break;
+            case RISING:
+                pos = 2;
+                break;
+            case CONTROVERSIAL:
+                pos = 4;
+                break;
+            case TOP:
+                pos = 3;
+                break;
+        }
+        if (pos > 2) {
+            switch (currentTime) {
+                case HOUR:
+                    break;
+                case DAY:
+                    pos += 1;
+                    break;
+                case WEEK:
+                    pos += 2;
+                    break;
+                case MONTH:
+                    pos += 3;
+                    break;
+                case YEAR:
+                    pos += 4;
+                    break;
+                case ALL:
+                    pos += 5;
+                    break;
+            }
+        }
+        current[pos] = "» " + current[pos]  +"";
+        return current;
     }
 
     public static String[] getSortingStringsComments(Context c) {
-        return new String[] {
+        return new String[]{
                 c.getString(R.string.sorting_best),
                 c.getString(R.string.sorting_top),
                 c.getString(R.string.sorting_new),
@@ -293,7 +340,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static String[] getSearch(Context c) {
-        return new String[] {
+        return new String[]{
                 c.getString(R.string.search_relevance),
                 c.getString(R.string.search_top),
                 c.getString(R.string.search_new),
@@ -302,7 +349,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static String[] getSortingStringsSearch(Context c) {
-        return new String[] {
+        return new String[]{
                 c.getString(R.string.sorting_search_hour),
                 c.getString(R.string.sorting_search_day),
                 c.getString(R.string.sorting_search_week),
@@ -331,9 +378,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @Override
     public void onActivityResumed(Activity activity) {
-        if(NetworkUtil.isConnected(activity) && authentication != null && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance().getTimeInMillis()){
+        if (NetworkUtil.isConnected(activity) && authentication != null && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance().getTimeInMillis()) {
             authentication.updateToken(activity);
-        } else if(NetworkUtil.isConnected(activity) && authentication == null){
+        } else if (NetworkUtil.isConnected(activity) && authentication == null) {
             authentication = new Authentication(this);
         }
     }
@@ -499,7 +546,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         cachedData = getSharedPreferences("cache", 0);
 
-        if(!cachedData.contains("hasReset")){
+        if (!cachedData.contains("hasReset")) {
             cachedData.edit().clear().putBoolean("hasReset", true).apply();
         }
 

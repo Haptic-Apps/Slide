@@ -24,11 +24,12 @@
             android:padding="8dp"
             android:layout_margin="2dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/refresh"
+            android:layout_toLeftOf="@+id/open"
             android:indeterminate="true" />
         <ImageView
             style="@style/Ripple.List"
             android:layout_width="36dp"
+            android:visibility="gone"
             android:layout_height="36dp"
             android:padding="8dp"
             android:src="@drawable/refresh"

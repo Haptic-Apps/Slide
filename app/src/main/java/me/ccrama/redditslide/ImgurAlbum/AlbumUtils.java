@@ -32,6 +32,12 @@ public class AlbumUtils {
 
     private static String getHash(String s) {
         String next = s.substring(s.lastIndexOf("/"), s.length());
+        if (next.contains(".")) {
+            next = next.substring(0, next.indexOf("."));
+        }
+        if (next.startsWith("/")) {
+            next = next.substring(1, next.length());
+        }
         if (next.length() < 5) {
             return getHash(s.replace(next, ""));
         } else {
@@ -97,7 +103,7 @@ public class AlbumUtils {
         public Image convertToSingle(SingleImage data) {
             try {
                 final Image toDo = new Image();
-                toDo.setAnimated(data.getAnimated());
+                toDo.setAnimated(data.getAnimated() || data.getLink().contains(".gif"));
                 toDo.setDescription(data.getDescription());
                 toDo.setHash(getHash(data.getLink()));
                 toDo.setTitle(data.getTitle());

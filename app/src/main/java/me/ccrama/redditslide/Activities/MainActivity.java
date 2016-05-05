@@ -1252,7 +1252,7 @@ public class MainActivity extends BaseActivity {
 
     public void openPopup() {
         PopupMenu popup = new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext());
+        final String[] base = Reddit.getSortingStrings(getBaseContext(), ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id);
         for (String s : base) {
             popup.getMenu().add(s);
         }

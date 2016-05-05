@@ -321,7 +321,7 @@ public class Profile extends BaseActivityAnim {
 
     public void openPopup() {
         PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext());
+        final String[] base = Reddit.getSortingStrings(getBaseContext(), profSort, profTime);
         for (String s : base) {
             popup.getMenu().add(s);
         }
