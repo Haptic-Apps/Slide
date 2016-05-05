@@ -553,11 +553,11 @@ public class MainActivity extends BaseActivity {
                 protected Void doInBackground(Void... params) {
                     KVManger m = KVStore.getInstance();
                     Map<String, ?> values = seen.getAll();
-                    for (String value : values.keySet()) {
-                        if (value.length() == 6 && values.get(value) instanceof Boolean) {
-                            m.insert(value, "true");
-                        } else if (values.get(value) instanceof Long) {
-                            m.insert(value, String.valueOf(seen.getLong(value, 0)));
+                    for (Map.Entry<String, ?> entry : values.entrySet()) {
+                        if (entry.getKey().length() == 6 && entry.getValue() instanceof Boolean) {
+                            m.insert(entry.getKey(), "true");
+                        } else if (entry.getValue() instanceof Long) {
+                            m.insert(entry.getKey(), String.valueOf(seen.getLong(entry.getKey(), 0)));
                         }
                     }
                     seen.edit().clear().putBoolean("isCleared", true).apply();
@@ -568,9 +568,9 @@ public class MainActivity extends BaseActivity {
                     if (!Reddit.appRestart.contains("hasCleared")) {
                         SharedPreferences.Editor e = Reddit.appRestart.edit();
                         Map<String, ?> toClear = Reddit.appRestart.getAll();
-                        for (String s : toClear.keySet()) {
-                            if (toClear.get(s) instanceof String && ((String) toClear.get(s)).length() > 300) {
-                                e.remove(s);
+                        for (Map.Entry<String, ?> entry : toClear.entrySet()) {
+                            if (entry.getValue() instanceof String && ((String) entry.getValue()).length() > 300) {
+                                e.remove(entry.getKey());
                             }
                         }
                         e.putBoolean("hasCleared", true);
