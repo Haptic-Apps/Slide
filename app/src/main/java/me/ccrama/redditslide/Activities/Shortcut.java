@@ -1,39 +1,31 @@
 package me.ccrama.redditslide.Activities;
 
-import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.AvoidXfermode;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import me.ccrama.redditslide.Adapters.SubredditListingAdapter;
+import me.ccrama.redditslide.Adapters.SubChooseAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 10/2/2015.
  */
-public class Shortcut extends Activity {
+public class Shortcut extends BaseActivity {
     private String name = "";
 
-    private static Bitmap drawableToBitmap(Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap;
 
         if (drawable instanceof BitmapDrawable) {
@@ -71,64 +63,33 @@ public class Shortcut extends Activity {
 
     public void doShortcut() {
 
+        setContentView(R.layout.activity_setup_widget);
+        setupAppBar(R.id.toolbar, "New widget", true, false);
 
-        runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        final Intent shortcutIntent = new Intent(Shortcut.this, OpenContent.class);
+        findViewById(R.id.tohide).setVisibility(View.GONE);
+        ListView list = (ListView)findViewById(R.id.subs);
+        final ArrayList<String> sorted = UserSubscriptions.getSubscriptions(Shortcut.this);
+        final SubChooseAdapter adapter = new SubChooseAdapter(this, sorted, UserSubscriptions.getAllSubreddits(this));
+        list.setAdapter(adapter);
 
-                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Shortcut.this);
+        (findViewById(R.id.sort)).clearFocus();
+        ((EditText)findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
-                        builder.setTitle(R.string.subreddit_chooser);
-                        final ArrayList<String> sorted = UserSubscriptions.getAllSubreddits(Shortcut.this);
-                        builder.setAdapter(new SubredditListingAdapter(Shortcut.this, sorted), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                name = sorted.get(which);
-                                final Bitmap src;
-                                final Bitmap bm2;
-                                if (name.toLowerCase().equals("androidcirclejerk")) {
-                                    bm2 = drawableToBitmap(ContextCompat.getDrawable(Shortcut.this, R.drawable.matiasduarte));
-                                    Log.v(LogUtil.getTag(), "NULL IS " + (bm2 == null));
-                                } else {
-                                    src = drawableToBitmap(ContextCompat.getDrawable(Shortcut.this, R.drawable.blackandwhite));
-                                    final int overlayColor = Palette.getColor(name);
-                                    final Paint paint = new Paint();
-                                    Canvas c;
-                                    final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
-                                    c = new Canvas(bm1);
-                                    paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.OVERLAY));
-                                    c.drawBitmap(src, 0, 0, paint);
+            }
 
-                                    bm2 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
-                                    c = new Canvas(bm2);
-                                    paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.SRC_ATOP));
-                                    c.drawBitmap(src, 0, 0, paint);
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
-                                    paint.setColorFilter(null);
-                                    paint.setXfermode(new AvoidXfermode(overlayColor, 0, AvoidXfermode.Mode.TARGET));
-                                    c.drawBitmap(bm1, 0, 0, paint);
-                                }
+            }
 
-                                final float scale = getResources().getDisplayMetrics().density;
-                                int p = (int) (50 * scale + 0.5f);
-                                shortcutIntent.putExtra(OpenContent.EXTRA_URL, "reddit.com/r/" + name);
-                                Intent intent = new Intent();
-                                intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-                                intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "/r/" + name);
-                                intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bm2.createScaledBitmap(bm2, p, p, false));
-                                setResult(RESULT_OK, intent);
-
-                                finish();
-                            }
-                        });
-
-                        builder.create().show();
-                    }
-                }
-        );
-
+            @Override
+            public void afterTextChanged(Editable editable) {
+                final String result = editable.toString();
+                adapter.getFilter().filter(result);
+            }
+        });
     }
 
 

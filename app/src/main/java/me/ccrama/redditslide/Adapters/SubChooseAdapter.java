@@ -1,7 +1,16 @@
 package me.ccrama.redditslide.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.AvoidXfermode;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +21,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Activities.SetupWidget;
+import me.ccrama.redditslide.Activities.Shortcut;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SantitizeField;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Widget.SubredditWidgetProvider;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -79,6 +91,48 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                 }
             });
 
+        } else if(getContext()instanceof Shortcut){
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Bitmap src;
+                    final Bitmap bm2;
+                    Intent shortcutIntent  = new Intent(getContext(), OpenContent.class);
+                    if (subreddit.toLowerCase().equals("androidcirclejerk")) {
+                        bm2 = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.matiasduarte));
+                        Log.v(LogUtil.getTag(), "NULL IS " + (bm2 == null));
+                    } else {
+                        src = Shortcut.drawableToBitmap(ContextCompat.getDrawable(getContext(), R.drawable.blackandwhite));
+                        final int overlayColor = Palette.getColor(subreddit);
+                        final Paint paint = new Paint();
+                        Canvas c;
+                        final Bitmap bm1 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
+                        c = new Canvas(bm1);
+                        paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.OVERLAY));
+                        c.drawBitmap(src, 0, 0, paint);
+
+                        bm2 = Bitmap.createBitmap(src.getWidth(), src.getHeight(), Bitmap.Config.ARGB_8888);
+                        c = new Canvas(bm2);
+                        paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.SRC_ATOP));
+                        c.drawBitmap(src, 0, 0, paint);
+
+                        paint.setColorFilter(null);
+                        paint.setXfermode(new AvoidXfermode(overlayColor, 0, AvoidXfermode.Mode.TARGET));
+                        c.drawBitmap(bm1, 0, 0, paint);
+                    }
+
+                    final float scale = ((Shortcut)getContext()).getResources().getDisplayMetrics().density;
+                    int p = (int) (50 * scale + 0.5f);
+                    shortcutIntent.putExtra(OpenContent.EXTRA_URL, "reddit.com/r/" + subreddit);
+                    Intent intent = new Intent();
+                    intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+                    intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "/r/" + subreddit);
+                    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bm2.createScaledBitmap(bm2, p, p, false));
+                    ((Shortcut)getContext()).setResult(Activity.RESULT_OK, intent);
+
+                    ((Shortcut)getContext()).finish();
+                }
+            });
         }
         return convertView;
     }

@@ -157,15 +157,13 @@
                     android:id="@+id/selImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-
                     android:background="?android:selectableItemBackground"
                     android:padding="16dp"
                     android:text="@string/editor_select_img"
                     android:textAllCaps="true"
+                    android:layout_gravity="right"
                     android:textColor="?attr/font"
                     android:textSize="14sp"
-
                     android:textStyle="bold" />
 
                 <ImageView
@@ -201,8 +199,11 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:padding="16dp"
+                    android:background="?android:selectableItemBackground"
                     android:text="@string/btn_suggest_title"
                     android:textAllCaps="true"
+                    android:textColor="?attr/font"
+                    android:textStyle="bold"
                     android:textSize="14sp" />
             </LinearLayout>
 

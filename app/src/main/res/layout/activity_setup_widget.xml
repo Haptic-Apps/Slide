@@ -8,68 +8,81 @@
     android:orientation="vertical">
 
     <include layout="@layout/settings_toolbar" />
-    <TextView
-        style="@style/TextAppearance.AppCompat.Body2"
-        android:id="@+id/displayHeader"
-        android:text="Visuals"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
-    <RadioGroup
+    <LinearLayout
+        android:id="@+id/tohide"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:id="@+id/theme"
-        android:layout_margin="16dp"
-        android:checkedButton="@+id/clear"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:layout_width="0dp"
-            android:padding="8dp"
-            android:layout_weight="1"
-            android:id="@+id/clear"
-            android:text="CLEAR"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:layout_width="0dp"
-            android:padding="8dp"
-            android:layout_weight="1"
-            android:id="@+id/dark"
-            android:text="DARK"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:layout_width="0dp"
-            android:id="@+id/light"
-            android:padding="8dp"
-            android:layout_weight="1"
-            android:text="LIGHT"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
-    <android.support.v7.widget.SwitchCompat
-        android:layout_width="match_parent"
-        android:id="@+id/previews"
-        android:text="Large image previews"
-        android:padding="16dp"
-        android:layout_marginBottom="8dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:background="?attr/tint"
-        android:alpha=".25"
-        android:layout_height="0.25dp"/>
-    <TextView
-        style="@style/TextAppearance.AppCompat.Body2"
-        android:id="@+id/content"
-        android:text="Content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/displayHeader"
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="Visuals" />
+
+        <RadioGroup
+            android:id="@+id/theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:checkedButton="@+id/clear"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/clear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:text="CLEAR" />
+
+            <RadioButton
+                android:id="@+id/dark"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:text="DARK" />
+
+            <RadioButton
+                android:id="@+id/light"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="8dp"
+                android:text="LIGHT" />
+        </RadioGroup>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/previews"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:padding="16dp"
+            android:text="Large image previews" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.25dp"
+            android:alpha=".25"
+            android:background="?attr/tint" />
+
+        <TextView
+            android:id="@+id/content"
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:text="Content" />
+    </LinearLayout>
 
     <EditText
         android:id="@+id/sort"
@@ -85,12 +98,12 @@
         android:singleLine="true"
         android:textColor="?attr/font"
         android:textColorHint="?attr/font" />
+
     <ListView
         android:id="@+id/subs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
         android:fadeScrollbars="true"
-        android:orientation="vertical">
-    </ListView>
+        android:orientation="vertical"
+        android:scrollbars="vertical"></ListView>
 </LinearLayout>
