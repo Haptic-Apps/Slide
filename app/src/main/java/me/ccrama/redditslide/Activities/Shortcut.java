@@ -64,7 +64,7 @@ public class Shortcut extends BaseActivity {
     public void doShortcut() {
 
         setContentView(R.layout.activity_setup_widget);
-        setupAppBar(R.id.toolbar, "New widget", true, false);
+        setupAppBar(R.id.toolbar, "New shortcut", true, false);
 
         findViewById(R.id.tohide).setVisibility(View.GONE);
         ListView list = (ListView)findViewById(R.id.subs);
