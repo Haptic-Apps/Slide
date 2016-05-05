@@ -12,6 +12,9 @@ import android.widget.EditText;
  */
 public class EditTextValidator {
 
+    private EditTextValidator() {
+    }
+
     /**
      * Validates EditTexts intended for reddit username input. Valid characters include:
      * A-Z, a-z

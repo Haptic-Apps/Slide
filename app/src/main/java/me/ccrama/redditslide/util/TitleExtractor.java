@@ -20,6 +20,9 @@ public class TitleExtractor {
     private static final Pattern TITLE_TAG =
             Pattern.compile("<title[^>]*>(.*?)</title>", Pattern.CASE_INSENSITIVE|Pattern.DOTALL);
 
+    private TitleExtractor() {
+    }
+
     /**
      * @param url the HTML page
      * @return title text (null if document isn't HTML or lacks a title tag)

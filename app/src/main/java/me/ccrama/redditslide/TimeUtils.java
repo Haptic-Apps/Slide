@@ -15,6 +15,9 @@ public class TimeUtils {
     private static final long YEAR_MILLIS = 365 * DAY_MILLIS;
     private static final long MONTH_MILLIS = 30 * DAY_MILLIS;
 
+    private TimeUtils() {
+    }
+
 
     public static String getTimeAgo(long time, Context c) {
         if (time < 1000000000000L) {

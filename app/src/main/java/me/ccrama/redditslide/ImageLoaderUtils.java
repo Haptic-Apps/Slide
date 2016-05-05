@@ -27,6 +27,9 @@ public class ImageLoaderUtils {
 
     public static ImageLoader imageLoader;
 
+    private ImageLoaderUtils() {
+    }
+
     public static File getCacheDirectory(Context context) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && context.getExternalCacheDir() != null) {
             return context.getExternalCacheDir();

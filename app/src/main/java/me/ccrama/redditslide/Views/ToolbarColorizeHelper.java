@@ -38,6 +38,9 @@ import me.ccrama.redditslide.R;
  */
 public class ToolbarColorizeHelper {
 
+    private ToolbarColorizeHelper() {
+    }
+
     /**
      * Use this method to colorize toolbar icons to the desired target color
      *

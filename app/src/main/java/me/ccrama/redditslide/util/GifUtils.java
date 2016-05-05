@@ -48,6 +48,9 @@ import me.ccrama.redditslide.Views.MediaVideoView;
  */
 public class GifUtils {
 
+    private GifUtils() {
+    }
+
     public static String getSmallerGfy(String gfyUrl) {
         gfyUrl = gfyUrl.replaceAll("fat|zippy|giant", "thumbs");
         if (!gfyUrl.endsWith("-mobile.mp4"))

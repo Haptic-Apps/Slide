@@ -29,6 +29,9 @@ public class CustomTabUtil {
     private static CustomTabsClient mClient;
     private static CustomTabsServiceConnection mConnection;
 
+    private CustomTabUtil() {
+    }
+
     public static Bitmap drawableToBitmap(Drawable drawable) {
 
         if (drawable instanceof BitmapDrawable) {

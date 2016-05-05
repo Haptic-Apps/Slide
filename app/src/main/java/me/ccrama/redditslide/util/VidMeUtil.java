@@ -48,6 +48,9 @@ import me.ccrama.redditslide.Views.MediaVideoView;
 public class VidMeUtil {
 
 
+    private VidMeUtil() {
+    }
+
     public static class AsyncLoadVidMe extends AsyncTask<String, Void, Void> {
 
         public Activity c;

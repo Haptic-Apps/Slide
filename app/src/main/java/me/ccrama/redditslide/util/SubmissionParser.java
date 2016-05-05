@@ -19,6 +19,9 @@ public class SubmissionParser {
     private static final String TABLE_START_TAG = "<table>";
     private static final String TABLE_END_TAG = "</table>";
 
+    private SubmissionParser() {
+    }
+
     /**
      * Parses html and returns a list corresponding to blocks of text to be
      * formatted.
