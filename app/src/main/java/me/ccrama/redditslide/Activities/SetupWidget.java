@@ -2,11 +2,12 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.afollestad.materialdialogs.AlertDialogWrapper;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.RadioGroup;
 
 import java.util.ArrayList;
 
@@ -15,18 +16,19 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.Widget.ListViewWidgetService;
 import me.ccrama.redditslide.Widget.SubredditWidgetProvider;
 
 /**
  * Created by carlo_000 on 5/4/2016.
  */
-public class SetupWidget extends Activity {
+public class SetupWidget extends BaseActivity {
 
     private int appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        overrideRedditSwipeAnywhere();
+        overrideRedditSwipeAnywhere();
         getTheme().applyStyle(new FontPreferences(this).getCommentFontStyle().getResId(), true);
         getTheme().applyStyle(new FontPreferences(this).getPostFontStyle().getResId(), true);
         getTheme().applyStyle(new ColorPreferences(this).getFontStyle().getBaseId(), true);
@@ -51,29 +53,21 @@ public class SetupWidget extends Activity {
 
     public void doShortcut() {
 
+        setContentView(R.layout.activity_setup_widget);
+        setupAppBar(R.id.toolbar, "New widget", true, false);
 
-        runOnUiThread(
-                new Runnable() {
-                    @Override
-                    public void run() {
+        ListView list = (ListView)findViewById(R.id.subs);
+        final ArrayList<String> sorted = UserSubscriptions.getAllSubreddits(SetupWidget.this);
 
-                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
-
-                        builder.setTitle(R.string.subreddit_chooser);
-                        final ArrayList<String> sorted = UserSubscriptions.getAllSubreddits(SetupWidget.this);
-                        builder.setAdapter(new SubredditListingAdapter(SetupWidget.this, sorted), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                name = sorted.get(which);
-                                startWidget();
-                            }
-                        });
-
-                        builder.create().show();
-                    }
-                }
-        );
-
+        list.setAdapter(new SubredditListingAdapter(SetupWidget.this, sorted));
+        list.setOnItemClickListener( new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                name = sorted.get(position);
+                SubredditWidgetProvider.lastDone = name;
+                startWidget();
+            }
+        });
     }
 
     String name;
@@ -89,19 +83,26 @@ public class SetupWidget extends Activity {
         // if this intent is not included,you can't show
         // widget on homescreen
         SubredditWidgetProvider.setSubFromid(appWidgetId, name, this);
+        int theme = 0;
+        switch(((RadioGroup)findViewById(R.id.theme)).getCheckedRadioButtonId()){
+            case R.id.dark:
+                theme = 1;
+                break;
+            case R.id.light:
+                theme = 2;
+                break;
+        }
+        SubredditWidgetProvider.setThemeToId(appWidgetId, theme, this);
+        {
+            Intent intent = new Intent();
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            setResult(Activity.RESULT_OK, intent);
+        }
 
-        Intent intent = new Intent();
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        setResult(Activity.RESULT_OK, intent);
+        Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, SubredditWidgetProvider.class);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {appWidgetId});
+        sendBroadcast(intent);
 
-        // start your service
-        // to fetch data from web
-        Intent serviceIntent = new Intent(this, ListViewWidgetService.class);
-        serviceIntent
-                .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        startService(serviceIntent);
-
-        // finish this activity
         this.finish();
 
     }

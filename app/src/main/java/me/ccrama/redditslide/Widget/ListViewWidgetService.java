@@ -75,7 +75,13 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         // position will always range from 0 to getCount() - 1.
         // Construct a RemoteViews item based on the app widget item XML file, and set the
         // text based on the position.
-        final RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.submission_widget);
+        int view = R.layout.submission_widget;
+        switch(SubredditWidgetProvider.getThemeFromId(id, mContext)){
+            case 2:
+                view = R.layout.submission_widget_light;
+                break;
+        }
+        final RemoteViews rv = new RemoteViews(mContext.getPackageName(), view);
         // feed row
         Submission data = records.get(position);
 
@@ -93,6 +99,7 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
 
         Bundle infos = new Bundle();
         infos.putString(OpenContent.EXTRA_URL, data.getPermalink());
+        infos.putBoolean("popup", true);
         final Intent activityIntent = new Intent();
         activityIntent.putExtras(infos);
 

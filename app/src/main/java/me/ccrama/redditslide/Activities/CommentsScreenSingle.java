@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -82,12 +83,23 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-        disableSwipeBackLayout();
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getDecorView().setBackgroundDrawable(null);
-        super.onCreate(savedInstance);
-        applyColorTheme();
-        setContentView(R.layout.activity_slide);
+       boolean popup = getIntent().hasExtra("popup");
+        if (true) {
+            disableSwipeBackLayout();
+            applyColorTheme();
+            setTheme(R.style.popup);
+            supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            super.onCreate(savedInstance);
+            setContentView(R.layout.activity_slide_popup);
+        } else {
+            overrideSwipeFromAnywhere();
+            applyColorTheme();
+            getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            getWindow().getDecorView().setBackgroundDrawable(null);
+            super.onCreate(savedInstance);
+            setContentView(R.layout.activity_slide);
+        }
         name = getIntent().getExtras().getString(EXTRA_SUBMISSION, "");
 
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");

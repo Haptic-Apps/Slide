@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#22000000"
+    android:background="#c2ffffff"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -15,6 +15,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
+            android:textColor="#424242"
             android:textSize="16sp"
             android:textStyle="bold" />
         <ProgressBar
@@ -30,6 +31,7 @@
             style="@style/Ripple.List"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:tint="#424242"
             android:padding="8dp"
             android:src="@drawable/refresh"
             android:id="@+id/refresh"
@@ -42,6 +44,7 @@
             android:layout_height="36dp"
             android:padding="8dp"
             android:src="@drawable/sub"
+            android:tint="#424242"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:id="@+id/open"
@@ -59,9 +62,9 @@
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:textColor="#424242"
         android:layout_gravity="center"
         android:gravity="center"
         android:text="Loading..." />
-
 
 </LinearLayout>
