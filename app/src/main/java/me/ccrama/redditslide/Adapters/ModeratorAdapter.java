@@ -56,10 +56,10 @@ import me.ccrama.redditslide.util.SubmissionParser;
 
 public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
-    public static int COMMENT = 1;
+    public static final int COMMENT = 1;
     private final int SPACER = 6;
-    public static int MESSAGE = 2;
-    public static int POST = 3;
+    public static final int MESSAGE = 2;
+    public static final int POST = 3;
     public final Activity mContext;
     private final RecyclerView listView;
     public ModeratorPosts dataSet;

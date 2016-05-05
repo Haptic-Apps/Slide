@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created by carlo_000 on 10/16/2015.
  */
 public class Hidden {
-   public static ArrayList<String> id = new ArrayList<>();
+   public static final ArrayList<String> id = new ArrayList<>();
 
 
     public static void setHidden(final Contribution s) {

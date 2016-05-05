@@ -67,7 +67,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static IabHelper mHelper;
     public static SubmissionSearchPaginator.SearchSort search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
     public static long enter_animation_time = enter_animation_time_original;
-    public static int enter_animation_time_multiplier = 1;
+    public static final int enter_animation_time_multiplier = 1;
 
     public static Authentication authentication;
 
@@ -83,13 +83,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean videoPlugin;
     public static NotificationJobScheduler notifications;
     public static boolean isLoading = false;
-    public static long time = System.currentTimeMillis();
+    public static final long time = System.currentTimeMillis();
     public static boolean fabClear;
     public static ArrayList<Integer> lastposition;
     public static int currentPosition;
     public static int themeBack;
     public static SharedPreferences cachedData;
-    public static boolean noGapps = true; //for testing
+    public static final boolean noGapps = true; //for testing
     public static boolean over18;
     public static boolean overrideLanguage;
     public static boolean isRestarting;
@@ -569,7 +569,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         sorting.put(s, sort);
     }
 
-    public static Map<String, Sorting> sorting = new HashMap<>();
+    public static final Map<String, Sorting> sorting = new HashMap<>();
 
     public static Sorting getSorting(String subreddit) {
         if (sorting.containsKey(subreddit)) {
@@ -583,7 +583,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         times.put(s, sort);
     }
 
-    public static Map<String, TimePeriod> times = new HashMap<>();
+    public static final Map<String, TimePeriod> times = new HashMap<>();
 
     public static TimePeriod getTime(String subreddit) {
         if (times.containsKey(subreddit)) {
