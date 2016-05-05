@@ -378,7 +378,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         o.clearPost(adapter.dataSet.posts.get(i));
 
                         adapter.dataSet.posts.remove(i);
-                        if (adapter.dataSet.posts.size() == 0) {
+                        if (adapter.dataSet.posts.isEmpty()) {
                             adapter.notifyDataSetChanged();
                         } else {
                             rv.setItemAnimator(new FadeInAnimator());

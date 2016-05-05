@@ -398,7 +398,7 @@ public class SubredditPosts implements PostLoader {
                     @Override
                     protected void onPostExecute(Void aVoid) {
 
-                        if (cached.submissions.size() > 0) {
+                        if (!cached.submissions.isEmpty()) {
                             stillShow = true;
                         } else {
                             displayer.updateOfflineError();

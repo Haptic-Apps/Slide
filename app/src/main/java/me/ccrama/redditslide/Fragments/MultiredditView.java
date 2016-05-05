@@ -279,7 +279,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                         o.clearPost(posts.posts.get(i));
 
                         posts.posts.remove(i);
-                        if (posts.posts.size() == 0) {
+                        if (posts.posts.isEmpty()) {
                             adapter.notifyDataSetChanged();
                         } else {
                             rv.setItemAnimator(new FadeInAnimator());

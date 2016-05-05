@@ -295,7 +295,7 @@ public class OpenRedditLink {
                 targetIntents.add(targetIntent);
             }
         }
-        if (targetIntents.size() > 0) {
+        if (!targetIntents.isEmpty()) {
             Intent chooserIntent = Intent.createChooser(targetIntents.remove(0), c.getString(R.string.misc_link_chooser));
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
             c.startActivity(chooserIntent);

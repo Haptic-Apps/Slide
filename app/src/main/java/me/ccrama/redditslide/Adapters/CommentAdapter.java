@@ -2228,7 +2228,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 || (users != null && users.size() > 0 && position == (users.size() - hidden.size()) + 2) || (users != null && users.size() == 0 && position == 2)) {
+        if (position == 0 || (users != null && !users.isEmpty() && position == (users.size() - hidden.size()) + 2) || (users != null && users.isEmpty() && position == 2)) {
             return SPACER;
         } else {
             position -= 1;

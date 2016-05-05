@@ -362,7 +362,7 @@ public class MultiredditOverview extends BaseActivityAnim {
     private void setDataSet(List<MultiReddit> data) {
         try {
             usedArray = data;
-            if (usedArray.size() == 0) {
+            if (usedArray.isEmpty()) {
                 AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
                 builder.setTitle(R.string.multireddit_err_title);
                 builder.setMessage(R.string.multireddit_err_msg);
