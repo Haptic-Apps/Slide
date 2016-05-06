@@ -12,7 +12,9 @@ import android.widget.RemoteViewsService;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thumbnails;
+import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubredditPaginator;
+import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.ArrayList;
 
@@ -55,6 +57,65 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
             protected Void doInBackground(Void... params) {
                 SubredditPaginator p = new SubredditPaginator(Authentication.reddit, SubredditWidgetProvider.getSubFromId(id, mContext));
                 p.setLimit(50);
+                switch(SubredditWidgetProvider.getSorting(id, mContext)){
+                    case 0:
+                        p.setSorting(Sorting.HOT);
+                        break;
+                    case 1:
+                        p.setSorting(Sorting.NEW);
+                        break;
+                    case 2:
+                        p.setSorting(Sorting.RISING);
+                        break;
+                    case 3:
+                        p.setSorting(Sorting.TOP);
+                        p.setTimePeriod(TimePeriod.HOUR);
+                        break;
+                    case 4:
+                        p.setSorting(Sorting.TOP);
+                        p.setTimePeriod(TimePeriod.DAY);
+                        break;
+                    case 5:
+                        p.setSorting(Sorting.TOP);
+                        p.setTimePeriod(TimePeriod.WEEK);
+                        break;
+                    case 6:
+                        p.setSorting(Sorting.TOP);
+                        p.setTimePeriod(TimePeriod.MONTH);
+                        break;
+                    case 7:
+                        p.setSorting(Sorting.TOP);
+                        p.setTimePeriod(TimePeriod.YEAR);
+                        break;
+                    case 8:
+                        p.setSorting(Sorting.TOP);
+                        p.setTimePeriod(TimePeriod.ALL);
+                        break;
+                    case 9:
+                        p.setSorting(Sorting.CONTROVERSIAL);
+                        p.setTimePeriod(TimePeriod.HOUR);
+                        break;
+                    case 10:
+                        p.setSorting(Sorting.CONTROVERSIAL);
+                        p.setTimePeriod(TimePeriod.DAY);
+                        break;
+                    case 11:
+                        p.setSorting(Sorting.CONTROVERSIAL);
+                        p.setTimePeriod(TimePeriod.WEEK);
+                        break;
+                    case 12:
+                        p.setSorting(Sorting.CONTROVERSIAL);
+                        p.setTimePeriod(TimePeriod.MONTH);
+                        break;
+                    case 13:
+                        p.setSorting(Sorting.CONTROVERSIAL);
+                        p.setTimePeriod(TimePeriod.YEAR);
+                        break;
+                    case 14:
+                        p.setSorting(Sorting.CONTROVERSIAL);
+                        p.setTimePeriod(TimePeriod.ALL);
+                        break;
+                }
                 records = new ArrayList<>(p.next());
                 return null;
             }

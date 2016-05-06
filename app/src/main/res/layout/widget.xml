@@ -30,6 +30,7 @@
             style="@style/Ripple.List"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:visibility="gone"
             android:padding="8dp"
             android:src="@drawable/refresh"
             android:id="@+id/refresh"

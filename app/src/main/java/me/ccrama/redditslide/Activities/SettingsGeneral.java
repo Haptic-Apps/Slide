@@ -355,6 +355,22 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                                     Reddit.defaultSorting = Sorting.CONTROVERSIAL;
                                     Reddit.timePeriod = TimePeriod.DAY;
                                     break;
+                                case 11:
+                                    Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                                    Reddit.timePeriod = TimePeriod.WEEK;
+                                    break;
+                                case 12:
+                                    Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                                    Reddit.timePeriod = TimePeriod.MONTH;
+                                    break;
+                                case 13:
+                                    Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                                    Reddit.timePeriod = TimePeriod.YEAR;
+                                    break;
+                                case 14:
+                                    Reddit.defaultSorting = Sorting.CONTROVERSIAL;
+                                    Reddit.timePeriod = TimePeriod.ALL;
+                                    break;
                             }
                             SettingValues.prefs.edit().putString("defaultSorting", Reddit.defaultSorting.name()).apply();
                             SettingValues.prefs.edit().putString("timePeriod", Reddit.timePeriod.name()).apply();
