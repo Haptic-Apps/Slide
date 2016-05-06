@@ -45,14 +45,25 @@ public class MultiredditPosts implements PostLoader {
     public boolean stillShow;
     public boolean offline;
     public boolean loading;
+    public String profile;
     private MultiRedditPaginator paginator;
     Context c;
     MultiredditAdapter adapter;
 
     public MultiredditPosts(String multireddit) {
-        posts = new ArrayList<>();
-        this.multiReddit = UserSubscriptions.getMultiredditByDisplayName(multireddit);
+        this(multireddit ,"");
+    }
 
+    public MultiredditPosts(String multireddit, String profile) {
+        posts = new ArrayList<>();
+        LogUtil.e("MJWHITTA: Profile is " + profile + ".");
+        LogUtil.e("MJWHITTA: Multireddit is " + multireddit + ".");
+        if (profile.isEmpty()) {
+            this.multiReddit = UserSubscriptions.getMultiredditByDisplayName(multireddit);
+        } else {
+            this.multiReddit = UserSubscriptions.getPublicMultiredditByDisplayName(profile, multireddit);
+        }
+        this.profile = profile;
     }
 
     @Override
@@ -273,7 +284,6 @@ public class MultiredditPosts implements PostLoader {
 
         @Override
         protected List<Submission> doInBackground(MultiReddit... subredditPaginators) {
-
             if (!NetworkUtil.isConnected(context)) {
                 offline = true;
                 return null;

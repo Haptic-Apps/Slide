@@ -44,6 +44,7 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.MultiredditView;
 import me.ccrama.redditslide.R;
@@ -60,9 +61,12 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class MultiredditOverview extends BaseActivityAnim {
 
+    public static final String EXTRA_PROFILE = "profile";
+
     public static MultiReddit searchMulti;
     public OverviewPagerAdapter adapter;
     private ViewPager pager;
+    private String profile;
     private TabLayout tabs;
     private List<MultiReddit> usedArray;
 
@@ -70,6 +74,11 @@ public class MultiredditOverview extends BaseActivityAnim {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_multireddits, menu);
+
+        if (!profile.isEmpty()) {
+            menu.findItem(R.id.action_edit).setVisible(false);
+            menu.findItem(R.id.create).setVisible(false);
+        }
 
         //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
         //   else menu.findItem(R.id.action_info).setVisible(false);
@@ -119,7 +128,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 onBackPressed();
                 return true;
             case R.id.action_edit: {
-                if (UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
+                if (profile.isEmpty() && (UserSubscriptions.multireddits != null) && !UserSubscriptions.multireddits.isEmpty()) {
                     Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
                     i.putExtra(CreateMulti.EXTRA_MULTI, UserSubscriptions.getMultireddits().get(pager.getCurrentItem()).getDisplayName());
                     startActivity(i);
@@ -127,9 +136,9 @@ public class MultiredditOverview extends BaseActivityAnim {
             }
             return true;
             case R.id.search: {
-                if (UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
-
-                    searchMulti = UserSubscriptions.getMultireddits().get(pager.getCurrentItem());
+                List<MultiReddit> multireddits = getMultireddits();
+                if ((multireddits != null) && !multireddits.isEmpty()) {
+                    searchMulti = multireddits.get(pager.getCurrentItem());
                     MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
                             .alwaysCallInputCallback()
                             .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
@@ -156,8 +165,10 @@ public class MultiredditOverview extends BaseActivityAnim {
             }
             return true;
             case R.id.create:
-                Intent i2 = new Intent(MultiredditOverview.this, CreateMulti.class);
-                startActivity(i2);
+                if (profile.isEmpty()) {
+                    Intent i2 = new Intent(MultiredditOverview.this, CreateMulti.class);
+                    startActivity(i2);
+                }
                 return true;
             case R.id.action_sort:
                 openPopup();
@@ -167,13 +178,14 @@ public class MultiredditOverview extends BaseActivityAnim {
                 ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
                 return true;
             case R.id.action_shadowbox:
-                if (UserSubscriptions.multireddits != null && !UserSubscriptions.multireddits.isEmpty()) {
-
+                List<MultiReddit> multireddits = getMultireddits();
+                if (multireddits != null && !multireddits.isEmpty()) {
                     if (SettingValues.tabletUI && adapter != null) {
                         List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
                         if (posts != null && !posts.isEmpty()) {
                             Intent i = new Intent(this, Shadowbox.class);
                             i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
+                            i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
                             i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
                             startActivity(i);
                         }
@@ -202,6 +214,63 @@ public class MultiredditOverview extends BaseActivityAnim {
         }
     }
 
+    private void buildDialog() {
+        buildDialog(false);
+    }
+
+    private void buildDialog(boolean wasException) {
+        AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(MultiredditOverview.this).setCancelable(false)
+            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+            }
+        });
+        if (wasException) {
+            b.setTitle(R.string.err_title)
+                .setMessage(R.string.err_loading_content)
+                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+        } else if (profile.isEmpty()) {
+            b.setTitle(R.string.multireddit_err_title)
+                .setMessage(R.string.multireddit_err_msg)
+                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                        startActivity(i);
+                    }
+                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+        } else {
+            b.setTitle(R.string.public_multireddit_err_title)
+                .setMessage(R.string.public_multireddit_err_msg)
+                .setNegativeButton(R.string.btn_go_back, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+        }
+        b.show();
+    }
+
+    private List<MultiReddit> getMultireddits() {
+        if (profile.isEmpty()) {
+            return UserSubscriptions.getMultireddits();
+        } else {
+            return UserSubscriptions.getPublicMultireddits(profile);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -219,11 +288,18 @@ public class MultiredditOverview extends BaseActivityAnim {
         pager = (ViewPager) findViewById(R.id.content_view);
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
+        profile = "";
+        if (getIntent().getExtras() != null) {
+            profile = getIntent().getExtras().getString(EXTRA_PROFILE, "");
+        }
+        if (profile.equalsIgnoreCase(Authentication.name)) {
+            profile = "";
+        }
 
         new AsyncTask<Void, Void, List<MultiReddit>>() {
             @Override
             protected List<MultiReddit> doInBackground(Void... params) {
-                return UserSubscriptions.getMultireddits();
+                return getMultireddits();
             }
 
             @Override
@@ -231,23 +307,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 if (multiReddits != null && !multiReddits.isEmpty())
                     setDataSet(multiReddits);
                 else
-                    new AlertDialogWrapper.Builder(MultiredditOverview.this)
-                            .setTitle(R.string.multireddit_err_title)
-                            .setMessage(R.string.multireddit_err_msg)
-                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                                    startActivity(i);
-                                    finish();
-                                }
-                            }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).setCancelable(false)
-                            .show();
+                    buildDialog();
             }
         }.execute();
 
@@ -363,30 +423,7 @@ public class MultiredditOverview extends BaseActivityAnim {
         try {
             usedArray = data;
             if (usedArray.isEmpty()) {
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
-                builder.setTitle(R.string.multireddit_err_title);
-                builder.setMessage(R.string.multireddit_err_msg);
-                builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                        startActivity(i);
-                    }
-                });
-                builder.setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        finish();
-                    }
-                });
-                builder.create().show();
-
+                buildDialog();
             } else {
 
                 if (adapter == null) {
@@ -433,22 +470,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                 findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0).getDisplayName()));
             }
         } catch (NullPointerException e) {
-            AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
-            builder.setTitle(R.string.err_title);
-            builder.setMessage(R.string.err_loading_content);
-            builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    finish();
-                }
-            });
-            builder.create().show();
+            buildDialog(true);
             Log.e(LogUtil.getTag(), "Cannot load multis:\n" + e);
         }
 
@@ -524,6 +546,7 @@ public class MultiredditOverview extends BaseActivityAnim {
             Bundle args = new Bundle();
 
             args.putInt("id", i);
+            args.putString(EXTRA_PROFILE, profile);
 
             f.setArguments(args);
 

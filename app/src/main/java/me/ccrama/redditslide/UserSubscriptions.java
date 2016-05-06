@@ -154,7 +154,7 @@ public class UserSubscriptions {
 
     public static ArrayList<String> modOf;
     public static ArrayList<MultiReddit> multireddits;
-
+    public static HashMap<String, List<MultiReddit>> public_multireddits = new HashMap<String, List<MultiReddit>>();
 
     public static void doOnlineSyncing() {
         if (Authentication.mod) {
@@ -259,6 +259,32 @@ public class UserSubscriptions {
         }
     }
 
+    /**
+     * @return list of multireddits if they are available, null if could not fetch multireddits
+     */
+    public static List<MultiReddit> getPublicMultireddits(final String profile) {
+        if (profile.isEmpty()) {
+            return getMultireddits();
+        }
+
+        if (public_multireddits.get(profile) == null) {
+            // It appears your own multis are pre-loaded at some point
+            // but some other user's multis obviously can't be so
+            // don't return until we've loaded them.
+            loadPublicMultireddits(profile);
+        }
+        return public_multireddits.get(profile);
+    }
+
+    private static void loadPublicMultireddits(String profile) {
+        try {
+            public_multireddits.put(profile, new ArrayList<>(new MultiRedditManager(Authentication.reddit).getPublicMultis(profile)));
+        } catch (Exception e) {
+            public_multireddits.put(profile, null);
+            e.printStackTrace();
+        }
+    }
+
     private static ArrayList<String> doModOf() {
         ArrayList<String> finished = new ArrayList<>();
 
@@ -310,6 +336,20 @@ public class UserSubscriptions {
     public static MultiReddit getMultiredditByDisplayName(String displayName) {
         if (multireddits != null)
             for (MultiReddit multiReddit : multireddits) {
+                if (multiReddit.getDisplayName().equals(displayName)) {
+                    return multiReddit;
+                }
+            }
+        return null;
+    }
+
+    public static MultiReddit getPublicMultiredditByDisplayName(String profile, String displayName) {
+        if (profile.isEmpty()) {
+            return getMultiredditByDisplayName(displayName);
+        }
+
+        if (public_multireddits.get(profile) != null)
+            for (MultiReddit multiReddit : public_multireddits.get(profile)) {
                 if (multiReddit.getDisplayName().equals(displayName)) {
                     return multiReddit;
                 }

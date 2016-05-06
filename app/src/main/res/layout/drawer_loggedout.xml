@@ -128,6 +128,33 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/multi"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
+        android:paddingStart="0dp">
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="26dp"
+            android:layout_marginStart="16dp"
+            android:tint="?attr/tint"
+            app:srcCompat="@drawable/collection" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/title_multireddits"
+
+            android:textColor="?attr/font"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/support"
         android:layout_width="match_parent"
         android:layout_height="48dp"
