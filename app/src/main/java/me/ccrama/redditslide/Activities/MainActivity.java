@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -38,7 +39,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -1252,9 +1256,16 @@ public class MainActivity extends BaseActivity {
 
     public void openPopup() {
         PopupMenu popup = new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id);
+        String id =((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
+        final String[] base = Reddit.getSortingStrings(getBaseContext(), id);
         for (String s : base) {
-            popup.getMenu().add(s);
+            MenuItem m =  popup.getMenu().add(s);
+            if(s.startsWith("» ")){
+                SpannableString spanString = new SpannableString(s.replace("» ",""));
+                spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(MainActivity.this).getColor(id)), 0, spanString.length(), 0);
+                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+                m.setTitle(spanString);
+            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {

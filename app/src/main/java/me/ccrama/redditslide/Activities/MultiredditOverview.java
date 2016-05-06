@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -18,6 +19,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -316,9 +320,16 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     public void openPopup() {
         PopupMenu popup = new PopupMenu(MultiredditOverview.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), "multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase());
+        String id =  ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase();
+        final String[] base = Reddit.getSortingStrings(getBaseContext(),"multi" + id );
         for (String s : base) {
-            popup.getMenu().add(s);
+            MenuItem m =  popup.getMenu().add(s);
+            if(s.startsWith("» ")){
+                SpannableString spanString = new SpannableString(s.replace("» ",""));
+                spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(MultiredditOverview.this).getColor(id)), 0, spanString.length(), 0);
+                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+                m.setTitle(spanString);
+            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {

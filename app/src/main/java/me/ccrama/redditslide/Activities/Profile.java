@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -323,7 +327,13 @@ public class Profile extends BaseActivityAnim {
         PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
         final String[] base = Reddit.getSortingStrings(getBaseContext(), profSort, profTime);
         for (String s : base) {
-            popup.getMenu().add(s);
+          MenuItem m =  popup.getMenu().add(s);
+            if(s.startsWith("» ")){
+                SpannableString spanString = new SpannableString(s.replace("» ",""));
+                spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(Profile.this).getColor(" ")), 0, spanString.length(), 0);
+                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+                m.setTitle(spanString);
+            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
