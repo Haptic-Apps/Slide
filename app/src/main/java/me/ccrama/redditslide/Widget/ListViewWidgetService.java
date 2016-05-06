@@ -55,9 +55,16 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
-                SubredditPaginator p = new SubredditPaginator(Authentication.reddit, SubredditWidgetProvider.getSubFromId(id, mContext));
+                String sub = SubredditWidgetProvider.getSubFromId(id, mContext);
+                SubredditPaginator p;
+                if (sub.equals("frontpage")) {
+                    p = new SubredditPaginator(Authentication.reddit);
+
+                } else {
+                    p = new SubredditPaginator(Authentication.reddit, sub);
+                }
                 p.setLimit(50);
-                switch(SubredditWidgetProvider.getSorting(id, mContext)){
+                switch (SubredditWidgetProvider.getSorting(id, mContext)) {
                     case 0:
                         p.setSorting(Sorting.HOT);
                         break;
@@ -138,7 +145,7 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         // Construct a RemoteViews item based on the app widget item XML file, and set the
         // text based on the position.
         int view = R.layout.submission_widget;
-        switch(SubredditWidgetProvider.getThemeFromId(id, mContext)){
+        switch (SubredditWidgetProvider.getThemeFromId(id, mContext)) {
             case 2:
                 view = R.layout.submission_widget_light;
                 break;
@@ -153,10 +160,10 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         rv.setTextViewText(R.id.information, data.getAuthor() + " " + TimeUtils.getTimeAgo(data.getCreated().getTime(), mContext));
         rv.setTextViewText(R.id.subreddit, data.getSubredditName());
         rv.setTextColor(R.id.subreddit, Palette.getColor(data.getSubredditName()));
-        if(SubredditWidgetProvider.getLargePreviews(id, mContext)){
+        if (SubredditWidgetProvider.getLargePreviews(id, mContext)) {
             Thumbnails s = data.getThumbnails();
             rv.setViewVisibility(R.id.thumbimage2, View.GONE);
-            if(s != null && s.getVariations() != null && s.getSource() != null){
+            if (s != null && s.getVariations() != null && s.getSource() != null) {
                 rv.setImageViewBitmap(R.id.bigpic, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(Html.fromHtml(data.getThumbnails().getSource().getUrl()).toString()));
                 rv.setViewVisibility(R.id.bigpic, View.VISIBLE);
             } else
