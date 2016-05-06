@@ -187,6 +187,9 @@ public class GifUtils {
             if (s.contains(".gif") && !s.contains(".gifv") && s.contains("imgur.com")) {
                 s = s.replace(".gif", ".mp4");
             }
+            if(s.endsWith("/"))
+                s = s.substring(0, s.length() - 1);
+
             return s;
         }
 
@@ -213,7 +216,7 @@ public class GifUtils {
             switch (getVideoType(url)) {
                 case GFYCAT:
                     Ion.with(c)
-                            .load("http://gfycat.com/cajax/get" + url)
+                            .load("http://gfycat.com/cajax/get" + url.substring(url.lastIndexOf("/", url.length())))
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {
                                 @Override

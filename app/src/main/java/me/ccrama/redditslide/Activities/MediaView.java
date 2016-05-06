@@ -52,7 +52,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.UUID;
 
-import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
@@ -542,7 +541,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         }
 
-        if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.startsWith("https://i.reddituploads.com") && !contentUrl.contains("imgur.com")) || contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.startsWith("https://i.reddituploads.com") && Authentication.didOnline) { //we can assume redditmedia and imgur links are to direct images and not websites
+        if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.startsWith("https://i.reddituploads.com") && !contentUrl.contains("imgur.com"))) { //we can assume redditmedia and imgur links are to direct images and not websites
             findViewById(R.id.progress).setVisibility(View.VISIBLE);
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
 
@@ -585,6 +584,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 }
             }.execute();
 
+        } else {
+            displayImage(contentUrl);
         }
 
 
