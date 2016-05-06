@@ -699,11 +699,11 @@ public class PopulateSubmissionViewHolder {
                                     protected ArrayList<String> doInBackground(Void... params) {
 
                                         ArrayList<String> finalReports = new ArrayList<>();
-                                        for (String s : reports.keySet()) {
-                                            finalReports.add(reports.get(s) + "× " + s);
+                                        for (Map.Entry<String, Integer> entry : reports.entrySet()) {
+                                            finalReports.add(entry.getValue() + "× " + entry.getKey());
                                         }
-                                        for (String s : reports2.keySet()) {
-                                            finalReports.add(s + ": " + reports2.get(s));
+                                        for (Map.Entry<String, String> entry : reports2.entrySet()) {
+                                            finalReports.add(entry.getKey() + ": " + entry.getValue());
                                         }
                                         if (finalReports.isEmpty()) {
                                             finalReports.add(mContext.getString(R.string.mod_no_reports));
