@@ -585,6 +585,17 @@ public class Profile extends BaseActivityAnim {
                         dialoglayout.findViewById(R.id.pm).setVisibility(View.GONE);
                     }
 
+                    dialoglayout.findViewById(R.id.multi_body).setOnClickListener(
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent inte = new Intent(Profile.this, MultiredditOverview.class);
+                                inte.putExtra(EXTRA_PROFILE, name);
+                                Profile.this.startActivity(inte);
+                            }
+                        }
+                    );
+
                     final View body = dialoglayout.findViewById(R.id.body2);
                     body.setVisibility(View.INVISIBLE);
 

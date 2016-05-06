@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.models.Submission;
 
@@ -48,6 +49,8 @@ import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class MultiredditView extends Fragment implements SubmissionDisplay {
 
+    private static final String EXTRA_PROFILE = "profile";
+
     public MultiredditAdapter adapter;
     public MultiredditPosts posts;
     public RecyclerView rv;
@@ -58,6 +61,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
     private int totalItemCount;
     private int visibleItemCount;
     private int pastVisiblesItems;
+    private String profile;
 
     @NonNull
     private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
@@ -178,8 +182,15 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         }
         refreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
 
-        if (UserSubscriptions.getMultireddits() != null && !UserSubscriptions.getMultireddits().isEmpty())
-            refreshLayout.setColorSchemeColors(Palette.getColors(UserSubscriptions.getMultireddits().get(id).getDisplayName(), getActivity()));
+        List<MultiReddit> multireddits;
+        if (profile.isEmpty()) {
+            multireddits = UserSubscriptions.getMultireddits();
+        } else {
+            multireddits = UserSubscriptions.getPublicMultireddits(profile);
+        }
+
+        if ((multireddits != null) && !multireddits.isEmpty())
+            refreshLayout.setColorSchemeColors(Palette.getColors(multireddits.get(id).getDisplayName(), getActivity()));
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
         //So, we just do 13% of the device screen height as a general estimate for the Tabs view type
@@ -195,8 +206,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 refreshLayout.setRefreshing(true);
             }
         });
-        if (UserSubscriptions.getMultireddits() != null && !UserSubscriptions.getMultireddits().isEmpty()) {
-            posts = new MultiredditPosts(UserSubscriptions.getMultireddits().get(id).getDisplayName());
+
+        if ((multireddits != null) && !multireddits.isEmpty()) {
+            posts = new MultiredditPosts(multireddits.get(id).getDisplayName(), profile);
 
             adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
             rv.setAdapter(adapter);
@@ -301,6 +313,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         id = bundle.getInt("id", 0);
+        profile = bundle.getString(EXTRA_PROFILE, "");
     }
 
     @Override
