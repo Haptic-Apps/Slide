@@ -532,7 +532,7 @@ public class Profile extends BaseActivityAnim {
                                 view.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        CustomTabUtil.openUrl("https://reddit.com" + t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
+                                        CustomTabUtil.openUrl(t.getAboutUrl(), Palette.getColorUser(account.getFullName()), Profile.this);
                                     }
                                 });
                             }
