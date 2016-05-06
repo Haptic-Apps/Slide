@@ -119,10 +119,11 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         b.sheet(2, external, "Open externally");
         b.sheet(5, share, "Share link");
+
         if (!isGif)
             b.sheet(3, image, "Share image");
         b.sheet(4, save, "Save " + (isGif ? "MP4" : "image"));
-        if (isGif && !contentUrl.contains(".mp4")) {
+        if (isGif && !contentUrl.contains(".mp4") && !contentUrl.contains("streamable.com") && !contentUrl.contains("vid.me")) {
             String type = contentUrl.substring(contentUrl.lastIndexOf(".") + 1, contentUrl.length()).toUpperCase();
             try {
                 if (type.equals("GIFV") && new URL(contentUrl).getHost().equals("i.imgur.com")) {
@@ -429,6 +430,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             case IMGUR:
                 doLoadImgur(contentUrl);
                 break;
+            case VID_ME:
+            case STREAMABLE:
             case GIF:
                 doLoadGif(contentUrl);
                 break;

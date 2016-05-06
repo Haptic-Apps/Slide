@@ -298,7 +298,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 pos = 2;
                 break;
             case CONTROVERSIAL:
-                pos = 4;
+                pos = 9;
                 break;
             case TOP:
                 pos = 3;

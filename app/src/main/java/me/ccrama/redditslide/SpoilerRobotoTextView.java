@@ -48,7 +48,6 @@ import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
@@ -430,9 +429,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
     private void openStreamable(String url) {
         if (SettingValues.video) { //todo maybe streamable here?
-            Intent myIntent = new Intent(getContext(), GifView.class);
+            Intent myIntent = new Intent(getContext(), MediaView.class);
 
-            myIntent.putExtra(GifView.EXTRA_STREAMABLE, url);
+            myIntent.putExtra(MediaView.EXTRA_URL, url);
             getContext().startActivity(myIntent);
 
         } else {

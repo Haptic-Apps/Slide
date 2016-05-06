@@ -93,8 +93,8 @@ public class FullscreenImage extends FullScreenActivity implements FolderChooser
                                 if (type != null && !type.isEmpty() && type.startsWith("image/")) {
                                     //is image
                                     if(type.contains("gif")){
-                                        Intent i = new Intent(FullscreenImage.this, GifView.class);
-                                        i.putExtra(GifView.EXTRA_URL, finalUrl2.replace(".jpg", ".gif"));
+                                        Intent i = new Intent(FullscreenImage.this, MediaView.class);
+                                        i.putExtra(MediaView.EXTRA_URL, finalUrl2.replace(".jpg", ".gif"));
                                         startActivity(i);
                                         finish();
                                     }

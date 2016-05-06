@@ -49,7 +49,6 @@ import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.CommentSearch;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
-import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.SubredditView;
@@ -525,9 +524,9 @@ public class CommentPage extends Fragment {
                                     case VID_ME:
                                     case STREAMABLE:
                                         if (SettingValues.video) {
-                                            Intent myIntent = new Intent(getActivity(), GifView.class);
+                                            Intent myIntent = new Intent(getActivity(), MediaView.class);
 
-                                            myIntent.putExtra(GifView.EXTRA_STREAMABLE, adapter.submission.getUrl());
+                                            myIntent.putExtra(MediaView.EXTRA_URL, adapter.submission.getUrl());
                                             getActivity().startActivity(myIntent);
 
                                         } else {

@@ -64,7 +64,6 @@ import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
-import me.ccrama.redditslide.Activities.GifView;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.ModQueue;
@@ -130,8 +129,8 @@ public class PopulateSubmissionViewHolder {
                             case VID_ME:
                             case STREAMABLE:
                                 if (SettingValues.video) {
-                                    Intent myIntent = new Intent(contextActivity, GifView.class);
-                                    myIntent.putExtra(GifView.EXTRA_STREAMABLE, submission.getUrl());
+                                    Intent myIntent = new Intent(contextActivity, MediaView.class);
+                                    myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
                                     contextActivity.startActivity(myIntent);
                                 } else {
                                     Reddit.defaultShare(submission.getUrl(), contextActivity);
