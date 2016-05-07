@@ -257,8 +257,15 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
 
                         }
                         new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                .setTitle(R.string.backup_restore_settings)
                                 .setCancelable(false)
+                                .setTitle(R.string.backup_restore_settings)
+                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        ProcessPhoenix.triggerRebirth(SettingsBackup.this);
+
+                                    }
+                                })
                                 .setMessage(R.string.backup_restarting).setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialog) {

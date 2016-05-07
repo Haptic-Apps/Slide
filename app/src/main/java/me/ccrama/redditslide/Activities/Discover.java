@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -84,6 +85,8 @@ public class Discover extends BaseActivityAnim {
 
         applyColorTheme("");
         setContentView(R.layout.activity_multireddits);
+
+        ((DrawerLayout)findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         setupAppBar(R.id.toolbar, "Discover", true, false);
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 

@@ -115,6 +115,7 @@ public class GifUtils {
                 @Override
                 public void run() {
                     final File downloaded = GifCache.getGif(url.toString());
+                    LogUtil.v("Path is " + "file://" + downloaded);
                     video.setVideoPath("file://" + downloaded);
                     //videoView.set
 
@@ -507,7 +508,6 @@ public class GifUtils {
                 });
             } else {
                 if (progressBar != null) {
-
                     c.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

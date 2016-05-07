@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Adapters;
 
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 
 import com.lusfold.androidkeyvaluestore.KVStore;
 
@@ -16,7 +15,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
@@ -71,11 +69,9 @@ public class HistoryPosts extends GeneralPosts {
                             filteredSubmissions.add(c);
                         }
                     } else {
-                        LogUtil.v("Not a submission");
                         filteredSubmissions.add(c);
                     }
                 }
-                Log.v(LogUtil.getTag(), "SIZE IS " + filteredSubmissions.size());
 
                 if (reset || posts == null) {
                     posts = filteredSubmissions;

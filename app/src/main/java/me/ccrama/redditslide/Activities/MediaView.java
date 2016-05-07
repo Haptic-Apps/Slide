@@ -695,6 +695,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            imageShown = true;
                             File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url);
                             if (f != null && f.exists()) {
                                 i.setImage(ImageSource.uri(f.getAbsolutePath()));
