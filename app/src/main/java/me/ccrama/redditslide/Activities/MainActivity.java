@@ -2472,6 +2472,34 @@ public class MainActivity extends BaseActivity {
                 startActivity(i);
             }
             return true;
+            case R.id.gallery:
+                if (SettingValues.tabletUI) {
+                    List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                    if (posts != null && !posts.isEmpty()) {
+                        Intent i2 = new Intent(this, Gallery.class);
+                        i2.putExtra("offline", ((SubmissionsView) adapter.getCurrentFragment()).posts.cached != null ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time : 0L);
+                        i2.putExtra(Gallery.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                        startActivity(i2);
+                    }
+                } else {
+                    new AlertDialogWrapper.Builder(this)
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (ActivityNotFoundException e) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                        }
+                    }).show();
+                }
+                return true;
             case R.id.action_shadowbox:
                 if (SettingValues.tabletUI) {
                     List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;

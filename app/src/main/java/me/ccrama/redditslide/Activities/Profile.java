@@ -76,6 +76,7 @@ public class Profile extends BaseActivityAnim {
     private ViewPager pager;
     private TabLayout tabs;
     private String[] usedArray;
+    public boolean isSavedView;
 
     public static boolean isValidUsername(String user) {
         /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
@@ -136,6 +137,11 @@ public class Profile extends BaseActivityAnim {
 
             @Override
             public void onPageSelected(int position) {
+                if(position == 6){
+                    isSavedView = true;
+                } else {
+                    isSavedView = false;
+                }
                 findViewById(R.id.header).animate()
                         .translationY(0)
                         .setInterpolator(new LinearInterpolator())
@@ -169,6 +175,11 @@ public class Profile extends BaseActivityAnim {
         }
         if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name)) {
             pager.setCurrentItem(4);
+        }
+        if(pager.getCurrentItem() == 6){
+            isSavedView = true;
+        } else {
+            isSavedView = false;
         }
     }
 

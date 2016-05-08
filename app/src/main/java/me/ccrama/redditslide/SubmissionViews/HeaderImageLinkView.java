@@ -77,12 +77,10 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public String loadedUrl;
     public boolean lq;
-    public String hqUrl;
 
     public void setSubmission(final Submission submission, final boolean full, String baseSub, ContentType.Type type) {
         this.type = type;
         lq = false;
-        hqUrl = "";
         if (!lastDone.equals(submission.getFullName())) {
             lastDone = submission.getFullName();
             backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
@@ -196,11 +194,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                     int length = submission.getThumbnails().getVariations().length;
                     url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
                     lq = true;
-                    if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                        hqUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                    } else {
-                        hqUrl = submission.getUrl();
-                    }
                 } else {
                     if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                         url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
@@ -249,9 +242,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                     int length = submission.getThumbnails().getVariations().length;
                     url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
-
                     lq = true;
-                    hqUrl = Html.fromHtml(submission.getThumbnails().getSource().getUrl()).toString(); //unescape url characters
 
                 } else {
                     url = Html.fromHtml(submission.getThumbnails().getSource().getUrl()).toString(); //unescape url characters

@@ -75,6 +75,10 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />
         <activity
+            android:name=".Activities.Gallery"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+            android:theme="@style/swipeable" />
+        <activity
             android:name=".Activities.Discover"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />

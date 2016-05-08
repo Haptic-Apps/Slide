@@ -411,6 +411,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
                                 if (newPrimaryColor != Palette.getDefaultColor()) {
                                     Palette.setColor(sub, newPrimaryColor);
+                                } else {
+                                    Palette.removeColor(sub);
                                 }
 
                                 // Set accent color
@@ -427,6 +429,8 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                                             break;
                                         }
                                     }
+                                } else {
+                                    new ColorPreferences(context).removeFontStyle(sub);
                                 }
 
                                 if (t != null) {

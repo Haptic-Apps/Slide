@@ -240,7 +240,7 @@ public class PopulateSubmissionViewHolder {
             if (baseView != null && baseView.lq && SettingValues.loadImageLq) {
                 myIntent.putExtra(MediaView.EXTRA_LQ, true);
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, baseView.loadedUrl);
-                myIntent.putExtra(MediaView.EXTRA_URL, baseView.hqUrl);
+                myIntent.putExtra(MediaView.EXTRA_URL, url);
 
             } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                 previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
@@ -485,13 +485,11 @@ public class PopulateSubmissionViewHolder {
                                 TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                 tv.setTextColor(Color.WHITE);
                                 s.show();
-
                             }
                         }.execute();
                         break;
                     case 5: {
                         hideSubmission(submission, posts, baseSub, recyclerview, mContext);
-
                     }
                     break;
                     case 7:
@@ -1512,7 +1510,7 @@ public class PopulateSubmissionViewHolder {
                                 } else {
                                     s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
                                     ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                                    if (mContext instanceof Profile) {
+                                    if (mContext instanceof Profile && ((Profile)mContext).isSavedView) {
                                         posts.remove(posts.indexOf(submission));
                                         recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
                                     }
