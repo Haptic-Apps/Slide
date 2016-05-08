@@ -213,7 +213,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                        .setItems(new CharSequence[]{getString(R.string.btn_add_subreddit), getString(R.string.btn_add_collection)}, new DialogInterface.OnClickListener() {
+                        .setItems(new CharSequence[]{getString(R.string.btn_add_subreddit), getString(R.string.btn_add_collection), "Domain"}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 1) {
@@ -263,7 +263,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                     } else {
                                         doCollection();
                                     }
-                                } else {
+                                } else if(which == 0){
                                     new MaterialDialog.Builder(ReorderSubreddits.this)
                                             .title(R.string.reorder_add_subreddit)
                                             .inputRangeRes(2, 21, R.color.md_red_500)
@@ -279,6 +279,53 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                 @Override
                                                 public void onClick(MaterialDialog dialog, DialogAction which) {
                                                     new AsyncGetSubreddit().execute(input);
+                                                }
+                                            })
+                                            .negativeText(R.string.btn_cancel)
+                                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(MaterialDialog dialog, DialogAction which) {
+
+                                                }
+                                            }).show();
+                                } else {
+                                    new MaterialDialog.Builder(ReorderSubreddits.this)
+                                            .title("Add a domain")
+                                            .inputRangeRes(2, 21, R.color.md_red_500)
+                                            .alwaysCallInputCallback()
+                                            .input("example.com (only the domain name)", null, false, new MaterialDialog.InputCallback() {
+                                                @Override
+                                                public void onInput(MaterialDialog dialog, CharSequence raw) {
+                                                    input = raw.toString().replaceAll("\\s", ""); //remove whitespace from input
+                                                }
+                                            })
+                                            .positiveText(R.string.btn_add)
+                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                    try {
+                                                        String url =(input);
+
+                                                        List<String> sortedSubs = UserSubscriptions.sortNoExtras(subs);
+
+                                                        if (sortedSubs.equals(subs)) {
+                                                            subs.add(url);
+                                                            subs = UserSubscriptions.sortNoExtras(subs);
+                                                            adapter = new CustomAdapter(subs);
+                                                            recyclerView.setAdapter(adapter);
+                                                        } else {
+                                                            subs.add(url);
+                                                            adapter.notifyDataSetChanged();
+                                                            recyclerView.smoothScrollToPosition(subs.size());
+                                                        }
+                                                    } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                        //todo make this better
+                                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                                                                .setTitle("URL Invalid")
+                                                                .setMessage("Please try again").show();
+
+                                                    }
                                                 }
                                             })
                                             .negativeText(R.string.btn_cancel)

@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -17,6 +16,7 @@ import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
+import me.ccrama.redditslide.Activities.Gallery;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.PostLoader;
@@ -29,12 +29,12 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.CustomTabUtil;
 
 public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final Activity main;
+    private final Gallery main;
     public boolean paddingBottom;
     public PostLoader displayer;
     public String subreddit;
 
-    public GalleryView(final Activity context, PostLoader displayer, String subreddit) {
+    public GalleryView(final Gallery context, PostLoader displayer, String subreddit) {
         main = context;
         this.displayer = displayer;
         this.subreddit = subreddit;
@@ -90,7 +90,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent i2 = new Intent(main, CommentsScreen.class);
-                    i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                    i2.putExtra(CommentsScreen.EXTRA_PAGE, main.baseSubs.indexOf(submission));
                     i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                     main.startActivity(i2);
                 }

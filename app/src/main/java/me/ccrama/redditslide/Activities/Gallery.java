@@ -7,9 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import net.dean.jraw.models.Submission;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.Adapters.GalleryView;
@@ -41,6 +43,8 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
     public PostLoader subredditPosts;
     public String subreddit;
 
+    public ArrayList<Submission> baseSubs;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -56,12 +60,25 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         applyDarkColorTheme(subreddit);
         super.onCreate(savedInstance);
         setContentView(R.layout.gallery);
-
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
         long offline = getIntent().getLongExtra("offline",0L);
 
         OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
 
-        subredditPosts.getPosts().addAll(submissions.submissions);
+        baseSubs = new ArrayList<>();
+
+        for(Submission s : submissions.submissions){
+            if(s.getThumbnails() != null && s.getThumbnails().getSource() != null){
+                subredditPosts.getPosts().add(s);
+            }
+            baseSubs.add(s);
+        }
 
         rv = (RecyclerView) findViewById(R.id.content_view);
         submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());

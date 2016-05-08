@@ -12,6 +12,8 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.paginators.DomainPaginator;
+import net.dean.jraw.paginators.Paginator;
 import net.dean.jraw.paginators.SubredditPaginator;
 
 import java.util.ArrayList;
@@ -50,7 +52,7 @@ public class SubredditPosts implements PostLoader {
     public boolean offline;
     public boolean forced;
     public boolean loading;
-    private SubredditPaginator paginator;
+    private Paginator paginator;
     public OfflineSubreddit cached;
     boolean doneOnce;
     Context c;
@@ -280,11 +282,13 @@ public class SubredditPosts implements PostLoader {
             if (reset || paginator == null) {
                 offline = false;
                 nomore = false;
-                if (subredditPaginators[0].toLowerCase().equals("frontpage")) {
+                String sub = subredditPaginators[0].toLowerCase();
+                if (sub.equals("frontpage")) {
                     paginator = new SubredditPaginator(Authentication.reddit);
+                } else if (!sub.contains(".")) {
+                    paginator = new SubredditPaginator(Authentication.reddit, sub);
                 } else {
-                    paginator = new SubredditPaginator(Authentication.reddit, subredditPaginators[0]);
-
+                    paginator = new DomainPaginator(Authentication.reddit, sub);
                 }
                 paginator.setSorting(Reddit.getSorting(subreddit));
                 paginator.setTimePeriod(Reddit.getTime(subreddit));
@@ -324,8 +328,8 @@ public class SubredditPosts implements PostLoader {
 
             try {
                 if (paginator != null && paginator.hasNext()) {
-                    if (force18) {
-                        paginator.setObeyOver18(false);
+                    if (force18 && paginator instanceof SubredditPaginator) {
+                        ((SubredditPaginator) paginator).setObeyOver18(false);
                     }
                     adding.addAll(paginator.next());
                 } else {
@@ -334,7 +338,7 @@ public class SubredditPosts implements PostLoader {
 
 
                 for (Submission s : adding) {
-                    if (!PostMatch.doesMatch(s, paginator.getSubreddit(), force18)) {
+                    if (!PostMatch.doesMatch(s, paginator instanceof SubredditPaginator ? ((SubredditPaginator) paginator).getSubreddit() : ((DomainPaginator) paginator).getDomain(), force18)) {
                         filteredSubmissions.add(s);
                     }
                 }
