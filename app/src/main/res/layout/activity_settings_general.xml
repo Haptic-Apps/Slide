@@ -174,7 +174,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".86"
-                        android:id="@+id/toolbar_search_current"
+                        android:id="@+id/subreddit_search_method_current"
                         android:textColor="?attr/font"
                         android:textSize="13sp" />
                 </LinearLayout>

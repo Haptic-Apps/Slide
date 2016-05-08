@@ -5,4 +5,5 @@
 
     <integer name="SUBREDDIT_SEARCH_METHOD_DRAWER">1</integer>
     <integer name="SUBREDDIT_SEARCH_METHOD_TOOLBAR">2</integer>
+    <integer name="SUBREDDIT_SEARCH_METHOD_BOTH">3</integer>
 </resources>

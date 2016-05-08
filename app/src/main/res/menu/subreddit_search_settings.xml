@@ -8,4 +8,7 @@
         android:id="@+id/subreddit_search_toolbar"
         android:title="@string/subreddit_search_method_toolbar"/>
 
+    <item
+        android:id="@+id/subreddit_search_both"
+        android:title="@string/subreddit_search_method_both"/>
 </menu>
