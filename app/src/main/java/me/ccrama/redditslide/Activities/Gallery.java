@@ -24,7 +24,6 @@ import me.ccrama.redditslide.Fragments.AlbumFull;
 import me.ccrama.redditslide.Fragments.MediaFragment;
 import me.ccrama.redditslide.Fragments.SelftextFull;
 import me.ccrama.redditslide.Fragments.TitleFull;
-import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
@@ -69,26 +68,56 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
         long offline = getIntent().getLongExtra("offline",0L);
 
-        OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
+        final OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
 
         baseSubs = new ArrayList<>();
 
         for(Submission s : submissions.submissions){
             if(s.getThumbnails() != null && s.getThumbnails().getSource() != null){
-                subredditPosts.getPosts().add(s);
+                baseSubs.add(s);
             }
-            baseSubs.add(s);
+            subredditPosts.getPosts().add(s);
         }
 
         rv = (RecyclerView) findViewById(R.id.content_view);
-        submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());
-
-        GalleryView recyclerAdapter = new GalleryView(this, subredditPosts,subreddit);
+        recyclerAdapter = new GalleryView(this, baseSubs ,subreddit);
         RecyclerView.LayoutManager layoutManager = createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(recyclerAdapter);
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if(subredditPosts instanceof SubredditPosts) {
+                    if (!((SubredditPosts)subredditPosts).loading) {
+
+                        visibleItemCount = rv.getLayoutManager().getChildCount();
+                        totalItemCount = rv.getLayoutManager().getItemCount();
+                        if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
+                            ((SubredditPosts)subredditPosts).loading = true;
+                            ((SubredditPosts)subredditPosts).loadMore(Gallery.this, Gallery.this, false, subreddit);
+                        }
+                    }
+                } else if(subredditPosts instanceof MultiredditPosts){
+                    if (!((MultiredditPosts)subredditPosts).loading) {
+
+                        visibleItemCount = rv.getLayoutManager().getChildCount();
+                        totalItemCount = rv.getLayoutManager().getItemCount();
+                        if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
+                            ((MultiredditPosts)subredditPosts).loading = true;
+                            (subredditPosts).loadMore(Gallery.this, Gallery.this, false);
+                        }
+                    }
+                }
+            }
+            
+        });
 
     }
+    GalleryView recyclerAdapter;
+    public int pastVisiblesItems;
+    public int visibleItemCount;
+    public int totalItemCount;
     RecyclerView rv;
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -102,22 +131,18 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         mLayoutManager.setSpanCount(getNumColumns(currentOrientation));
     }
 
-    OverviewPagerAdapter submissionsPager;
-
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        LastComments.setCommentsSince(submissions);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (startIndex != -1) {
-                    // TODO determine correct behaviour
-                    //comments.notifyItemRangeInserted(startIndex, posts.posts.size());
-                    submissionsPager.notifyDataSetChanged();
-                } else {
-                    submissionsPager.notifyDataSetChanged();
+                int startSize = baseSubs.size();
+                for(Submission s : submissions){
+                    if(!baseSubs.contains(s) && s.getThumbnails() != null && s.getThumbnails().getSource() != null){
+                        baseSubs.add(s);
+                    }
                 }
-
+                recyclerAdapter.notifyItemRangeInserted(startSize, baseSubs.size() - startSize);
             }
         });
     }
@@ -127,7 +152,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                submissionsPager.notifyDataSetChanged();
+                recyclerAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -166,9 +191,9 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         public Fragment getItem(int i) {
 
             Fragment f = null;
-            ContentType.Type t = ContentType.getContentType(subredditPosts.getPosts().get(i));
+            ContentType.Type t = ContentType.getContentType(baseSubs.get(i));
 
-            if (subredditPosts.getPosts().size() - 2 <= i && subredditPosts.hasMore()) {
+            if (baseSubs.size() - 2 <= i && subredditPosts.hasMore()) {
                 subredditPosts.loadMore(Gallery.this.getApplicationContext(), Gallery.this, false);
             }
             switch (t) {
@@ -187,7 +212,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                 {
                     f = new MediaFragment();
                     Bundle args = new Bundle();
-                    Submission submission = subredditPosts.getPosts().get(i);
+                    Submission submission = baseSubs.get(i);
                     String previewUrl = "";
                     if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                         previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
@@ -200,7 +225,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                 }
                 break;
                 case SELF: {
-                    if (subredditPosts.getPosts().get(i).getSelftext().isEmpty()) {
+                    if (baseSubs.get(i).getSelftext().isEmpty()) {
                         f = new TitleFull();
                         Bundle args = new Bundle();
                         args.putInt("page", i);
@@ -227,7 +252,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                 }
                 break;
                 case NONE: {
-                    if (subredditPosts.getPosts().get(i).getSelftext().isEmpty()) {
+                    if (baseSubs.get(i).getSelftext().isEmpty()) {
                         f = new TitleFull();
                         Bundle args = new Bundle();
                         args.putInt("page", i);
@@ -255,7 +280,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
 
         @Override
         public int getCount() {
-            return subredditPosts.getPosts().size() ;
+            return baseSubs.size() ;
         }
 
 

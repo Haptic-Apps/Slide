@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thumbnails;
 
+import java.util.ArrayList;
+
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.CommentsScreen;
@@ -19,7 +21,6 @@ import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.Gallery;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.ContentType;
-import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -31,12 +32,12 @@ import me.ccrama.redditslide.util.CustomTabUtil;
 public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Gallery main;
     public boolean paddingBottom;
-    public PostLoader displayer;
+    public ArrayList<Submission> posts;
     public String subreddit;
 
-    public GalleryView(final Gallery context, PostLoader displayer, String subreddit) {
+    public GalleryView(final Gallery context, ArrayList<Submission> displayer, String subreddit) {
         main = context;
-        this.displayer = displayer;
+        this.posts = displayer;
         this.subreddit = subreddit;
     }
 
@@ -57,7 +58,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             final AlbumViewHolder holder = (AlbumViewHolder) holder2;
 
-            final Submission submission = displayer.getPosts().get(i);
+            final Submission submission = posts.get(i);
 
             if (submission.getThumbnails() != null && submission.getThumbnails().getSource() != null) {
                 ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(submission.getThumbnails().getSource().getUrl(), holder.image, ImageGridAdapter.options);
@@ -90,7 +91,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Intent i2 = new Intent(main, CommentsScreen.class);
-                    i2.putExtra(CommentsScreen.EXTRA_PAGE, main.baseSubs.indexOf(submission));
+                    i2.putExtra(CommentsScreen.EXTRA_PAGE, main.subredditPosts.getPosts().indexOf(submission));
                     i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
                     main.startActivity(i2);
                 }
@@ -190,7 +191,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return displayer.getPosts() == null ? 0 : displayer.getPosts().size();
+        return posts == null ? 0 : posts.size();
     }
 
     public class SpacerViewHolder extends RecyclerView.ViewHolder {
