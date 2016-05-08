@@ -25,6 +25,11 @@
         android:title="@string/search_title"
         app:showAsAction="always" />
     <item
+        android:id="@+id/gallery"
+        android:icon="@drawable/image"
+        android:title="Gallery mode"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/action_info"
         android:icon="@drawable/infonew"
         android:title="@string/general_open_settings"

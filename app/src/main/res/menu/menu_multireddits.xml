@@ -12,7 +12,11 @@
         android:icon="@drawable/shadowbox"
         android:title="@string/general_enable_shadowbox"
         app:showAsAction="ifRoom"/>
-
+    <item
+        android:id="@+id/gallery"
+        android:icon="@drawable/image"
+        android:title="Gallery mode"
+        app:showAsAction="ifRoom" />
     <item android:id="@+id/create"
         android:icon="@drawable/add"
         android:title="@string/title_create_multi"
