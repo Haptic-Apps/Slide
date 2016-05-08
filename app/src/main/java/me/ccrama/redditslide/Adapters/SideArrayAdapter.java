@@ -100,7 +100,8 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     if (fitems.get(position).startsWith(getContext().getString(R.string.search_goto) + " ") || !((MainActivity) getContext()).usedArray.contains(fitems.get(position))) {
                         try {
                             //Hide the toolbar search UI without an animation because we're starting a new activity
-                            if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                            if ((SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                    || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
                                     && ((MainActivity) getContext()).findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
                                 ((MainActivity) getContext()).findViewById(R.id.toolbar_search_suggestions).setVisibility(View.GONE);
                                 ((MainActivity) getContext()).findViewById(R.id.toolbar_search).setVisibility(View.GONE);
@@ -134,7 +135,8 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                         }
                         try {
                             //Hide the toolbar search UI with an animation because we're just changing tabs
-                            if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                            if ((SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                    || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
                                     && ((MainActivity) getContext()).findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
                                 ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar).performClick();
                             }
@@ -151,7 +153,8 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 }
             });
         } else {
-            if ((fitems.size() * height) < parentL.getHeight() && (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER)) {
+            if ((fitems.size() * height) < parentL.getHeight() && (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
+                    || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.spacer, parent, false);
                 ViewGroup.LayoutParams params = convertView.findViewById(R.id.height).getLayoutParams();
                 params.height = (parentL.getHeight() - (getCount() - 1) * height);

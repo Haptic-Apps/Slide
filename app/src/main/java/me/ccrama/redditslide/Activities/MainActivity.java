@@ -618,7 +618,8 @@ public class MainActivity extends BaseActivity {
                     .build().engageWhenAppropriate();
         }
 
-        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
             setupSubredditSearchToolbar();
         }
     }
@@ -1053,7 +1054,8 @@ public class MainActivity extends BaseActivity {
             getSupportActionBar().setTitle(shouldLoad);
         }
 
-        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
             setupSubredditSearchToolbar();
         }
     }
@@ -1450,54 +1452,54 @@ public class MainActivity extends BaseActivity {
             drawerSubList.addHeaderView(header, null, false);
             ((TextView) header.findViewById(R.id.name)).setText(Authentication.name);
             header.findViewById(R.id.multi).setOnClickListener(
-                new OnSingleClickListener() {
-                    @Override
-                    public void onSingleClick(View view) {
-                        if (runAfterLoad == null) {
-                            Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
-                            MainActivity.this.startActivity(inte);
+                    new OnSingleClickListener() {
+                        @Override
+                        public void onSingleClick(View view) {
+                            if (runAfterLoad == null) {
+                                Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
+                                MainActivity.this.startActivity(inte);
+                            }
                         }
                     }
-                }
             );
             header.findViewById(R.id.multi).setOnLongClickListener(
-                new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View v) {
-                        new MaterialDialog.Builder(MainActivity.this)
-                            .inputRange(3, 20)
-                            .alwaysCallInputCallback()
-                            .input(
-                                getString(R.string.user_enter),
-                                null,
-                                new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                        final EditText editText = dialog.getInputEditText();
-                                        EditTextValidator.validateUsername(editText);
-                                        if (input.length() >= 3 && input.length() <= 20)
-                                            dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-                                    }
-                                }
-                            )
-                            .positiveText(R.string.user_btn_gotomultis)
-                            .onPositive(
-                                new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        if (runAfterLoad == null) {
-                                            Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
-                                            inte.putExtra(Profile.EXTRA_PROFILE, dialog.getInputEditText().getText().toString());
-                                            MainActivity.this.startActivity(inte);
-                                        }
-                                    }
-                                }
-                            )
-                            .negativeText(R.string.btn_cancel)
-                            .show();
-                        return true;
+                    new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View v) {
+                            new MaterialDialog.Builder(MainActivity.this)
+                                    .inputRange(3, 20)
+                                    .alwaysCallInputCallback()
+                                    .input(
+                                            getString(R.string.user_enter),
+                                            null,
+                                            new MaterialDialog.InputCallback() {
+                                                @Override
+                                                public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                                    final EditText editText = dialog.getInputEditText();
+                                                    EditTextValidator.validateUsername(editText);
+                                                    if (input.length() >= 3 && input.length() <= 20)
+                                                        dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                                }
+                                            }
+                                    )
+                                    .positiveText(R.string.user_btn_gotomultis)
+                                    .onPositive(
+                                            new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                    if (runAfterLoad == null) {
+                                                        Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
+                                                        inte.putExtra(Profile.EXTRA_PROFILE, dialog.getInputEditText().getText().toString());
+                                                        MainActivity.this.startActivity(inte);
+                                                    }
+                                                }
+                                            }
+                                    )
+                                    .negativeText(R.string.btn_cancel)
+                                    .show();
+                            return true;
+                        }
                     }
-                }
             );
 
             header.findViewById(R.id.discover).setOnClickListener(new OnSingleClickListener() {
@@ -1889,42 +1891,42 @@ public class MainActivity extends BaseActivity {
             headerMain = header;
 
             header.findViewById(R.id.multi).setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        new MaterialDialog.Builder(MainActivity.this)
-                            .inputRange(3, 20)
-                            .alwaysCallInputCallback()
-                            .input(
-                                getString(R.string.user_enter),
-                                null,
-                                new MaterialDialog.InputCallback() {
-                                    @Override
-                                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                                        final EditText editText = dialog.getInputEditText();
-                                        EditTextValidator.validateUsername(editText);
-                                        if (input.length() >= 3 && input.length() <= 20)
-                                            dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
-                                    }
-                                }
-                            )
-                            .positiveText(R.string.user_btn_gotomultis)
-                            .onPositive(
-                                new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        if (runAfterLoad == null) {
-                                            Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
-                                            inte.putExtra(Profile.EXTRA_PROFILE, dialog.getInputEditText().getText().toString());
-                                            MainActivity.this.startActivity(inte);
-                                        }
-                                    }
-                                }
-                            )
-                            .negativeText(R.string.btn_cancel)
-                            .show();
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            new MaterialDialog.Builder(MainActivity.this)
+                                    .inputRange(3, 20)
+                                    .alwaysCallInputCallback()
+                                    .input(
+                                            getString(R.string.user_enter),
+                                            null,
+                                            new MaterialDialog.InputCallback() {
+                                                @Override
+                                                public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                                                    final EditText editText = dialog.getInputEditText();
+                                                    EditTextValidator.validateUsername(editText);
+                                                    if (input.length() >= 3 && input.length() <= 20)
+                                                        dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                                }
+                                            }
+                                    )
+                                    .positiveText(R.string.user_btn_gotomultis)
+                                    .onPositive(
+                                            new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                    if (runAfterLoad == null) {
+                                                        Intent inte = new Intent(MainActivity.this, MultiredditOverview.class);
+                                                        inte.putExtra(Profile.EXTRA_PROFILE, dialog.getInputEditText().getText().toString());
+                                                        MainActivity.this.startActivity(inte);
+                                                    }
+                                                }
+                                            }
+                                    )
+                                    .negativeText(R.string.btn_cancel)
+                                    .show();
+                        }
                     }
-                }
             );
 
         } else {
@@ -2079,7 +2081,8 @@ public class MainActivity extends BaseActivity {
         sideArrayAdapter = new SideArrayAdapter(this, copy, UserSubscriptions.getAllSubreddits(this), drawerSubList);
         drawerSubList.setAdapter(sideArrayAdapter);
 
-        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER) {
+        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
+                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
             e = ((EditText) headerMain.findViewById(R.id.sort));
             e.setVisibility(View.VISIBLE);
 
@@ -2214,7 +2217,8 @@ public class MainActivity extends BaseActivity {
             drawerLayout.closeDrawers();
         } else if (commentPager && pager.getCurrentItem() == toOpenComments) {
             pager.setCurrentItem(pager.getCurrentItem() - 1);
-        } else if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+        } else if ((SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
                 && findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
             findViewById(R.id.close_search_toolbar).performClick(); //close GO_TO_SUB_FIELD
         } else if (SettingValues.exit) {
@@ -2661,6 +2665,10 @@ public class MainActivity extends BaseActivity {
                     findViewById(R.id.drawer_divider).setVisibility(View.GONE);
                 } else if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
                     setupSubredditSearchToolbar();
+                } else if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                    findViewById(R.id.drawer_divider).setVisibility(View.GONE);
+                    setupSubredditSearchToolbar();
+                    setDrawerSubList();
                 }
                 SettingsGeneral.searchChanged = false;
             }
@@ -2753,8 +2761,14 @@ public class MainActivity extends BaseActivity {
      * onClicks for the views of the search bar.
      */
     private void setupSubredditSearchToolbar() {
-        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
-            findViewById(R.id.drawer_divider).setVisibility(View.VISIBLE);
+        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+            if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                findViewById(R.id.drawer_divider).setVisibility(View.GONE);
+            } else {
+                findViewById(R.id.drawer_divider).setVisibility(View.VISIBLE);
+            }
+
             final ListView TOOLBAR_SEARCH_SUGGEST_LIST = (ListView) findViewById(R.id.toolbar_search_suggestions_list);
             final ArrayList<String> subs_copy = new ArrayList<>(usedArray);
             final SideArrayAdapter TOOLBAR_SEARCH_SUGGEST_ADAPTER
@@ -3022,7 +3036,8 @@ public class MainActivity extends BaseActivity {
 
                     if (SettingValues.single || mTabLayout == null) {
                         //Smooth out the fading animation for the toolbar subreddit search UI
-                        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                        if ((SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
                                 && findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
                             new Handler().postDelayed(new Runnable() {
                                 @Override

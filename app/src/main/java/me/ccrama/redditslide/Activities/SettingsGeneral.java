@@ -234,8 +234,15 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
             }
         });
 
-        //SettingValues.subredditSearchMethod == 1 for drawer, 2 for toolbar
-        ((TextView) findViewById(R.id.toolbar_search_current)).setText(SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR ? getString(R.string.subreddit_search_method_toolbar) : getString(R.string.subreddit_search_method_drawer));
+        //SettingValues.subredditSearchMethod == 1 for drawer, 2 for toolbar, 3 for both
+        final TextView currentMethodTitle = (TextView) findViewById(R.id.subreddit_search_method_current);
+        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER) {
+            currentMethodTitle.setText(getString(R.string.subreddit_search_method_drawer));
+        } else if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+            currentMethodTitle.setText(getString(R.string.subreddit_search_method_toolbar));
+        } else if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+            currentMethodTitle.setText(getString(R.string.subreddit_search_method_both));
+        }
 
         findViewById(R.id.subreddit_search_method).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,9 +263,20 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                                 SettingValues.prefs.edit().putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD, R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR).apply();
                                 SettingsGeneral.searchChanged = true;
                                 break;
+                            case R.id.subreddit_search_both:
+                                SettingValues.subredditSearchMethod = R.integer.SUBREDDIT_SEARCH_METHOD_BOTH;
+                                SettingValues.prefs.edit().putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD, R.integer.SUBREDDIT_SEARCH_METHOD_BOTH).apply();
+                                SettingsGeneral.searchChanged = true;
+                                break;
                         }
-                        ((TextView) findViewById(R.id.toolbar_search_current)).setText(SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR ? getString(R.string.subreddit_search_method_toolbar) : getString(R.string.subreddit_search_method_drawer));
 
+                        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER) {
+                            currentMethodTitle.setText(getString(R.string.subreddit_search_method_drawer));
+                        } else if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+                            currentMethodTitle.setText(getString(R.string.subreddit_search_method_toolbar));
+                        } else if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                            currentMethodTitle.setText(getString(R.string.subreddit_search_method_both));
+                        }
                         return true;
                     }
                 });

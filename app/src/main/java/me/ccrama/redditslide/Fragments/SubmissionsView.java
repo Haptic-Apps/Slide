@@ -79,7 +79,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             savedInstanceState) {
 
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), new ColorPreferences(inflater.getContext()).getThemeSubreddit(id));
-        View v = ((LayoutInflater) contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
+        final View v = ((LayoutInflater) contextThemeWrapper.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.fragment_verticalcontent, container, false);
 
         if (getActivity() instanceof MainActivity) {
             v.findViewById(R.id.back).setBackgroundResource(0);
@@ -224,8 +224,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (!posts.loading && !posts.nomore && !posts.offline) {
 
+                if (!posts.loading && !posts.nomore && !posts.offline) {
                     visibleItemCount = rv.getLayoutManager().getChildCount();
                     totalItemCount = rv.getLayoutManager().getItemCount();
 
@@ -243,7 +243,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
                         posts.loading = true;
                         posts.loadMore(mSwipeRefreshLayout.getContext(), SubmissionsView.this, false, posts.subreddit);
-
                     }
                 }
 
@@ -272,25 +271,27 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
             }
 
-            /*
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                switch (newState) {
-                    case RecyclerView.SCROLL_STATE_IDLE:
-                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
-                        break;
-                    case RecyclerView.SCROLL_STATE_DRAGGING:
-                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
-
-                        break;
-                    case RecyclerView.SCROLL_STATE_SETTLING:
-                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().pause();
-
-                        break;
-                }
+//                switch (newState) {
+//                    case RecyclerView.SCROLL_STATE_IDLE:
+//                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
+//                        break;
+//                    case RecyclerView.SCROLL_STATE_DRAGGING:
+//                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
+//                        break;
+//                    case RecyclerView.SCROLL_STATE_SETTLING:
+//                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().pause();
+//                        break;
+//                }
                 super.onScrollStateChanged(recyclerView, newState);
-
-            }*/
+                //If the toolbar search is open, and the user scrolls in the Main view--close the search UI
+                if (getActivity() instanceof MainActivity && (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                        || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
+                        && ((MainActivity) getContext()).findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
+                    ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar).performClick();
+                }
+            }
         });
 
         Reddit.isLoading = false;
