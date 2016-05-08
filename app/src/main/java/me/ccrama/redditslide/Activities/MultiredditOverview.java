@@ -182,67 +182,96 @@ public class MultiredditOverview extends BaseActivityAnim {
                 ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
                 return true;
             case R.id.gallery:
-                List<MultiReddit> multireddits2 = getMultireddits();
-                if (multireddits2 != null && !multireddits2.isEmpty()) {
-                    if (SettingValues.tabletUI && adapter != null) {
-                        List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
-                        if (posts != null && !posts.isEmpty()) {
-                            Intent i = new Intent(this, Gallery.class);
-                            i.putExtra(Gallery.EXTRA_PAGE, getCurrentPage());
-                            i.putExtra(Gallery.EXTRA_PROFILE, profile);
-                            i.putExtra(Gallery.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
-                            startActivity(i);
-                        }
-                    } else if (adapter != null) {
-                        new AlertDialogWrapper.Builder(this)
-                                .setTitle(R.string.general_pro)
-                                .setMessage(R.string.general_pro_msg)
-                                .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        try {
-                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                        } catch (ActivityNotFoundException e) {
-                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                        }
-                                    }
-                                }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        }).show();
+                if (SettingValues.tabletUI) {
+                    List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                    if (posts != null && !posts.isEmpty()) {
+                        Intent i2 = new Intent(this, Gallery.class);
+                        i2.putExtra(Gallery.EXTRA_PROFILE, profile);
+                        i2.putExtra(Gallery.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
+                        startActivity(i2);
                     }
+                } else {
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this)
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (ActivityNotFoundException e) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                    if (SettingValues.previews > 0) {
+                        b.setNeutralButton("Preview (" + SettingValues.previews + ")", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SettingValues.prefs.edit().putInt(SettingValues.PREVIEWS_LEFT, SettingValues.previews - 1).apply();
+                                SettingValues.previews = SettingValues.prefs.getInt(SettingValues.PREVIEWS_LEFT, 10);
+                                List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                                if (posts != null && !posts.isEmpty()) {
+                                    Intent i2 = new Intent(MultiredditOverview.this, Gallery.class);
+                                    i2.putExtra(Gallery.EXTRA_PROFILE, profile);
+                                    i2.putExtra(Gallery.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
+                                    startActivity(i2);
+                                }
+                            }
+                        });
+                    }
+                    b.show();
                 }
                 return true;
             case R.id.action_shadowbox:
-                List<MultiReddit> multireddits = getMultireddits();
-                if (multireddits != null && !multireddits.isEmpty()) {
-                    if (SettingValues.tabletUI && adapter != null) {
-                        List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
-                        if (posts != null && !posts.isEmpty()) {
-                            Intent i = new Intent(this, Shadowbox.class);
-                            i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                            i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
-                            i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
-                            startActivity(i);
-                        }
-                    } else if (adapter != null) {
-                        new AlertDialogWrapper.Builder(this)
-                                .setTitle(R.string.general_pro)
-                                .setMessage(R.string.general_pro_msg)
-                                .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int whichButton) {
-                                        try {
-                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                        } catch (ActivityNotFoundException e) {
-                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                        }
-                                    }
-                                }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.dismiss();
-                            }
-                        }).show();
+                if (SettingValues.tabletUI) {
+                    List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                    if (posts != null && !posts.isEmpty()) {
+                        Intent i = new Intent(this, Shadowbox.class);
+                        i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
+                        i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
+                        i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
+                        startActivity(i);
                     }
+                } else {
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this)
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (ActivityNotFoundException e) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    if (SettingValues.previews > 0) {
+                        b.setNeutralButton("Preview (" + SettingValues.previews + ")", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SettingValues.prefs.edit().putInt(SettingValues.PREVIEWS_LEFT, SettingValues.previews - 1).apply();
+                                SettingValues.previews = SettingValues.prefs.getInt(SettingValues.PREVIEWS_LEFT, 10);
+                                List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                                if (posts != null && !posts.isEmpty()) {
+                                    Intent i = new Intent(MultiredditOverview.this, Shadowbox.class);
+                                    i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
+                                    i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
+                                    i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
+                                    startActivity(i);
+                                }
+                            }
+                        });
+                    }
+                    b.show();
                 }
                 return true;
             default:

@@ -21,6 +21,7 @@ public class SettingValues {
     public static final String PREF_NIGHT_TIME = "nightTime";
     public static final String PREF_AUTOHIDE_COMMENTS = "autohideComments";
     public static final String PREF_AUTOTHEME = "autotime";
+    public static final String PREVIEWS_LEFT = "previewsLeft";
     public static final String PREF_COLOR_BACK = "colorBack";
     public static final String PREF_COLOR_NAV_BAR = "colorNavBar";
     public static final String PREF_COLOR_EVERYWHERE = "colorEverywhere";
@@ -127,6 +128,8 @@ public class SettingValues {
     public static boolean rightHandedCommentMenu;
     public static int subredditSearchMethod;
 
+    public static int previews;
+
     public static String synccitName;
     public static String synccitAuth;
 
@@ -216,6 +219,8 @@ public class SettingValues {
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
+
+        previews = prefs.getInt(PREVIEWS_LEFT, 10);
 
         fabComments = prefs.getBoolean(PREF_COMMENT_FAB, false);
         titleFilters = prefs.getString(PREF_TITLE_FILTERS, "");

@@ -1258,12 +1258,12 @@ public class MainActivity extends BaseActivity {
 
     public void openPopup() {
         PopupMenu popup = new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        String id =((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
+        String id = ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
         final String[] base = Reddit.getSortingStrings(getBaseContext(), id, true);
         for (String s : base) {
-            MenuItem m =  popup.getMenu().add(s);
-            if(s.startsWith("» ")){
-                SpannableString spanString = new SpannableString(s.replace("» ",""));
+            MenuItem m = popup.getMenu().add(s);
+            if (s.startsWith("» ")) {
+                SpannableString spanString = new SpannableString(s.replace("» ", ""));
                 spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(MainActivity.this).getColor(id)), 0, spanString.length(), 0);
                 spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
                 m.setTitle(spanString);
@@ -2486,7 +2486,7 @@ public class MainActivity extends BaseActivity {
                         startActivity(i2);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(this)
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this)
                             .setTitle(R.string.general_pro)
                             .setMessage(R.string.general_pro_msg)
                             .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
@@ -2497,11 +2497,29 @@ public class MainActivity extends BaseActivity {
                                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
                                     }
                                 }
-                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+                            }).setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                    if (SettingValues.previews > 0) {
+                        b.setNeutralButton("Preview (" + SettingValues.previews + ")", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SettingValues.prefs.edit().putInt(SettingValues.PREVIEWS_LEFT, SettingValues.previews - 1).apply();
+                                SettingValues.previews = SettingValues.prefs.getInt(SettingValues.PREVIEWS_LEFT, 10);
+                                List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                                if (posts != null && !posts.isEmpty()) {
+                                    Intent i2 = new Intent(MainActivity.this, Gallery.class);
+                                    i2.putExtra("offline", ((SubmissionsView) adapter.getCurrentFragment()).posts.cached != null ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time : 0L);
+                                    i2.putExtra(Gallery.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                                    startActivity(i2);
+                                }
+                            }
+                        });
+                    }
+                    b.show();
                 }
                 return true;
             case R.id.action_shadowbox:
@@ -2515,7 +2533,7 @@ public class MainActivity extends BaseActivity {
                         startActivity(i2);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(this)
+                   AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this)
                             .setTitle(R.string.general_pro)
                             .setMessage(R.string.general_pro_msg)
                             .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
@@ -2530,7 +2548,25 @@ public class MainActivity extends BaseActivity {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             dialog.dismiss();
                         }
-                    }).show();
+                    });
+                    if (SettingValues.previews > 0) {
+                        b.setNeutralButton("Preview (" + SettingValues.previews + ")", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SettingValues.prefs.edit().putInt(SettingValues.PREVIEWS_LEFT, SettingValues.previews - 1).apply();
+                                SettingValues.previews = SettingValues.prefs.getInt(SettingValues.PREVIEWS_LEFT, 10);
+                                List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                                if (posts != null && !posts.isEmpty()) {
+                                    Intent i2 = new Intent(MainActivity.this, Shadowbox.class);
+                                    i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
+                                    i2.putExtra("offline", ((SubmissionsView) adapter.getCurrentFragment()).posts.cached != null ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time : 0L);
+                                    i2.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                                    startActivity(i2);
+                                }
+                            }
+                        });
+                    }
+                    b.show();
                 }
                 return true;
             default:
@@ -2539,7 +2575,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void filterContent(final String subreddit) {
-        final boolean[] chosen = new boolean[] {
+        final boolean[] chosen = new boolean[]{
                 PostMatch.isGif(subreddit.toLowerCase()),
                 PostMatch.isAlbums(subreddit.toLowerCase()),
                 PostMatch.isImage(subreddit.toLowerCase()),
@@ -2903,10 +2939,11 @@ public class MainActivity extends BaseActivity {
 
     /**
      * Starts the enter animations for various UI components of the toolbar subreddit search
-     * @param ANIMATION_DURATION duration of the animation in ms
+     *
+     * @param ANIMATION_DURATION     duration of the animation in ms
      * @param SUGGESTIONS_BACKGROUND background of subreddit suggestions list
-     * @param GO_TO_SUB_FIELD search field in toolbar
-     * @param CLOSE_BUTTON button that clears the search and closes the search UI
+     * @param GO_TO_SUB_FIELD        search field in toolbar
+     * @param CLOSE_BUTTON           button that clears the search and closes the search UI
      */
     public void enterAnimationsForToolbarSearch(final long ANIMATION_DURATION,
                                                 final CardView SUGGESTIONS_BACKGROUND,
@@ -2933,10 +2970,11 @@ public class MainActivity extends BaseActivity {
 
     /**
      * Starts the exit animations for various UI components of the toolbar subreddit search
-     * @param ANIMATION_DURATION duration of the animation in ms
+     *
+     * @param ANIMATION_DURATION     duration of the animation in ms
      * @param SUGGESTIONS_BACKGROUND background of subreddit suggestions list
-     * @param GO_TO_SUB_FIELD search field in toolbar
-     * @param CLOSE_BUTTON button that clears the search and closes the search UI
+     * @param GO_TO_SUB_FIELD        search field in toolbar
+     * @param CLOSE_BUTTON           button that clears the search and closes the search UI
      */
     public void exitAnimationsForToolbarSearch(final long ANIMATION_DURATION,
                                                final CardView SUGGESTIONS_BACKGROUND,
