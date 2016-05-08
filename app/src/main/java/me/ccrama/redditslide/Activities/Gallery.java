@@ -84,13 +84,13 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         RecyclerView.LayoutManager layoutManager = createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(recyclerAdapter);
+        /* Coming soon
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if(subredditPosts instanceof SubredditPosts) {
                     if (!((SubredditPosts)subredditPosts).loading) {
-
                         visibleItemCount = rv.getLayoutManager().getChildCount();
                         totalItemCount = rv.getLayoutManager().getItemCount();
                         if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
@@ -111,7 +111,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                 }
             }
             
-        });
+        });*/
 
     }
     GalleryView recyclerAdapter;
