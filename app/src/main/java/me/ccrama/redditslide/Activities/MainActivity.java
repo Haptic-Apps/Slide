@@ -1259,7 +1259,7 @@ public class MainActivity extends BaseActivity {
     public void openPopup() {
         PopupMenu popup = new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
         String id =((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), id);
+        final String[] base = Reddit.getSortingStrings(getBaseContext(), id, true);
         for (String s : base) {
             MenuItem m =  popup.getMenu().add(s);
             if(s.startsWith("» ")){

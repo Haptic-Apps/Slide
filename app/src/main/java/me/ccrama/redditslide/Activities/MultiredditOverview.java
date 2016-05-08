@@ -353,7 +353,7 @@ public class MultiredditOverview extends BaseActivityAnim {
     public void openPopup() {
         PopupMenu popup = new PopupMenu(MultiredditOverview.this, findViewById(R.id.anchor), Gravity.RIGHT);
         String id = ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase();
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), "multi" + id);
+        final String[] base = Reddit.getSortingStrings(getBaseContext(), "multi" + id, true);
         for (String s : base) {
             MenuItem m = popup.getMenu().add(s);
             if (s.startsWith("» ")) {

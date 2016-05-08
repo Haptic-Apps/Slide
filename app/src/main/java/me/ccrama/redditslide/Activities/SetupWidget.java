@@ -130,7 +130,7 @@ public class SetupWidget extends BaseActivity {
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(
-                Reddit.getSortingStrings(getBaseContext(), ""), Reddit.getSortingId(""), l2);
+                Reddit.getSortingStrings(getBaseContext(), "", false), Reddit.getSortingId(""), l2);
         builder.show();
         // this intent is essential to show the widget
         // if this intent is not included,you can't show

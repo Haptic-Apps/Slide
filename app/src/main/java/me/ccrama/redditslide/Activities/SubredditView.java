@@ -432,7 +432,7 @@ public class SubredditView extends BaseActivityAnim {
 
     public void openPopup() {
         PopupMenu popup = new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), subreddit);
+        final String[] base = Reddit.getSortingStrings(getBaseContext(), subreddit, true);
         for (String s : base) {
             MenuItem m =  popup.getMenu().add(s);
             if(s.startsWith("» ")){

@@ -170,7 +170,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_sort);
-        setupAppBar(R.id.toolbar, R.string.title_reorder_subs, false, true);
+        setupAppBar(R.id.toolbar, R.string.settings_manage_subscriptions, false, true);
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         subs = new ArrayList<>(UserSubscriptions.getSubscriptions(this));
@@ -213,7 +213,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                        .setItems(new CharSequence[]{getString(R.string.btn_add_subreddit), getString(R.string.btn_add_collection), "Domain"}, new DialogInterface.OnClickListener() {
+                        .setItems(new CharSequence[]{getString(R.string.btn_add_subreddit), getString(R.string.btn_add_collection), getString(R.string.btn_add_domain)}, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == 1) {

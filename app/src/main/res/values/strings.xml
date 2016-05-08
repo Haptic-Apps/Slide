@@ -842,4 +842,6 @@
     <string name="folder_name">Folder name</string>
     <string name="btn_create">Create</string>
     <string name="sidebar_friends">Friends</string>
+    <string name="settings_manage_subscriptions">Manage your subscriptions</string>
+    <string name="btn_add_domain">Add a domain</string>
 </resources>

@@ -336,7 +336,7 @@ public class Profile extends BaseActivityAnim {
 
     public void openPopup() {
         PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), profSort, profTime);
+        final String[] base = Reddit.getSortingStrings(getBaseContext(), profSort, profTime, true);
         for (String s : base) {
           MenuItem m =  popup.getMenu().add(s);
             if(s.startsWith("» ")){

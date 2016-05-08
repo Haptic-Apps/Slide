@@ -12,6 +12,8 @@ import android.widget.RemoteViewsService;
 
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Thumbnails;
+import net.dean.jraw.paginators.DomainPaginator;
+import net.dean.jraw.paginators.Paginator;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
@@ -56,12 +58,13 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
             @Override
             protected Void doInBackground(Void... params) {
                 String sub = SubredditWidgetProvider.getSubFromId(id, mContext);
-                SubredditPaginator p;
+                Paginator p;
                 if (sub.equals("frontpage")) {
                     p = new SubredditPaginator(Authentication.reddit);
-
-                } else {
+                } else if (!sub.contains(".")) {
                     p = new SubredditPaginator(Authentication.reddit, sub);
+                } else {
+                    p = new DomainPaginator(Authentication.reddit, sub);
                 }
                 p.setLimit(50);
                 switch (SubredditWidgetProvider.getSorting(id, mContext)) {

@@ -106,7 +106,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="@string/title_reorder_subs"
+                        android:text="@string/settings_manage_subscriptions"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>

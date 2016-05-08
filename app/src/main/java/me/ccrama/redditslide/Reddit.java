@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import me.ccrama.redditslide.Activities.Internet;
@@ -263,11 +265,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                 3;
     }
 
-    public static String[] getSortingStrings(Context c, String currentSub) {
-        return getSortingStrings(c, getSorting(currentSub), getTime(currentSub));
+    public static String[] getSortingStrings(Context c, String currentSub, boolean arrows) {
+        return getSortingStrings(c, getSorting(currentSub), getTime(currentSub), arrows);
     }
 
-    public static String[] getSortingStrings(Context c, Sorting currentSort, TimePeriod currentTime) {
+    public static String[] getSortingStrings(Context c, Sorting currentSort, TimePeriod currentTime, boolean arrows) {
         String[] current = new String[]{
                 c.getString(R.string.sorting_hot),
                 c.getString(R.string.sorting_new),
@@ -325,7 +327,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                     break;
             }
         }
-        current[pos] = "» " + current[pos]  +"";
+        current[pos] = arrows?"» ":"" + current[pos]  +"";
         return current;
     }
 
@@ -562,7 +564,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         colors = getSharedPreferences("COLOR", 0);
         tags = getSharedPreferences("TAGS", 0);
         KVStore.init(this, "SEEN");
-
+        if(SettingValues.overrideLanguage) {
+            Locale locale = new Locale("en_US");
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getResources().updateConfiguration(config, null);
+        }
         lastposition = new ArrayList<>();
 
         new SetupIAB().execute();
