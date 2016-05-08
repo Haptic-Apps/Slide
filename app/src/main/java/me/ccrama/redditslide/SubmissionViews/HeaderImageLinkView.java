@@ -80,8 +80,8 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void setSubmission(final Submission submission, final boolean full, String baseSub, ContentType.Type type) {
         this.type = type;
-        lq = false;
         if (!lastDone.equals(submission.getFullName())) {
+            lq = false;
             lastDone = submission.getFullName();
             backdrop.setImageResource(android.R.color.transparent); //reset the image view in case the placeholder is still visible
             thumbImage2.setImageResource(android.R.color.transparent);
@@ -194,6 +194,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     int length = submission.getThumbnails().getVariations().length;
                     url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
                     lq = true;
+
                 } else {
                     if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                         url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();

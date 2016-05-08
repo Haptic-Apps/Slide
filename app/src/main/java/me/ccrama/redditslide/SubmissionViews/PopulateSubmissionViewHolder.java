@@ -240,10 +240,9 @@ public class PopulateSubmissionViewHolder {
             if (baseView != null && baseView.lq && SettingValues.loadImageLq) {
                 myIntent.putExtra(MediaView.EXTRA_LQ, true);
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, baseView.loadedUrl);
-
             } else if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
                 previewUrl = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
-                if (baseView == null)
+                if (baseView == null || (!SettingValues.loadImageLq && baseView.lq))
                     myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, previewUrl);
                 else
                     myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, baseView.loadedUrl);
