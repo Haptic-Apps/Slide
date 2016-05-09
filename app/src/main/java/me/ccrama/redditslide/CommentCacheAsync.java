@@ -167,16 +167,26 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
 
-        if(Authentication.reddit == null)
+        Map<String, String> multiNameToSubsMap = UserSubscriptions.getMultiNameToSubs(true);
+        if (Authentication.reddit == null)
             Reddit.authentication = new Authentication(context);
 
-        for (final String sub : subs) {
+        for (final String fSub : subs) {
+            final String sub;
+            final String name = fSub;
+
+            if (multiNameToSubsMap.containsKey(fSub)) {
+                sub = multiNameToSubsMap.get(fSub);
+            } else {
+                sub = fSub;
+            }
+
             if (!sub.isEmpty()) {
                 if (modal && context instanceof Activity) {
                     ((Activity) context).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            dialog = new MaterialDialog.Builder(context).title("Caching /r/" + sub)
+                            dialog = new MaterialDialog.Builder(context).title("Caching " + (name.contains("/m/") ? name : "/r/" + name))
                                     .progress(false, 50)
                                     .cancelable(false)
                                     .positiveText(R.string.btn_cancel)
@@ -194,7 +204,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                     mNotifyManager =
                             (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(context);
-                    mBuilder.setContentTitle("Caching " + (sub.equalsIgnoreCase("frontpage") ? "" : "/r/") + sub)
+                    mBuilder.setContentTitle("Caching " + (sub.equalsIgnoreCase("frontpage") ? name : (name.contains("/m/") ? name : "/r/" + name)))
                             .setSmallIcon(R.drawable.save);
                 }
                 List<Submission> submissions = new ArrayList<>();
@@ -203,15 +213,18 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                 if (alreadyReceived != null) {
                     submissions.addAll(alreadyReceived);
                 } else {
-
                     SubredditPaginator p;
-                    if (sub.equalsIgnoreCase("frontpage")) {
+                    if (name.equalsIgnoreCase("frontpage")) {
                         p = new SubredditPaginator(Authentication.reddit);
                     } else {
                         p = new SubredditPaginator(Authentication.reddit, sub);
                     }
                     p.setLimit(Constants.PAGINATOR_POST_LIMIT);
-                    submissions.addAll(p.next());
+                    try {
+                        submissions.addAll(p.next());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 if (!modal) {
@@ -253,7 +266,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                 }
                 if (modal && dialog != null) {
                     dialog.dismiss();
-                } else if(mBuilder != null){
+                } else if (mBuilder != null) {
                     mBuilder.setContentText("Caching complete")
                             // Removes the progress bar
                             .setProgress(0, 0, false);

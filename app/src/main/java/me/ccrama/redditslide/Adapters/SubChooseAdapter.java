@@ -25,7 +25,6 @@ import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Activities.SetupWidget;
 import me.ccrama.redditslide.Activities.Shortcut;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.SantitizeField;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Widget.SubredditWidgetProvider;
 import me.ccrama.redditslide.util.LogUtil;
@@ -76,7 +75,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                 ((TextView) convertView.findViewById(R.id.name));
         t.setText(fitems.get(position));
 
-        final String subreddit = (fitems.get(position).contains("+") || fitems.get(position).contains("/m/")) ? fitems.get(position) : SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
+        final String subreddit = fitems.get(position);
 
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
         convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);

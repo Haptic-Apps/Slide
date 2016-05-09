@@ -126,7 +126,11 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                         p.setTimePeriod(TimePeriod.ALL);
                         break;
                 }
-                records = new ArrayList<>(p.next());
+                try {
+                    records = new ArrayList<>(p.next());
+                } catch(Exception e){
+
+                }
                 return null;
             }
 

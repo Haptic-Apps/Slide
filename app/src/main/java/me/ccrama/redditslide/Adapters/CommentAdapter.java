@@ -13,7 +13,6 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -59,15 +58,12 @@ import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.ApiException;
-import net.dean.jraw.fluent.FlairReference;
-import net.dean.jraw.fluent.FluentRedditClient;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.DistinguishedStatus;
-import net.dean.jraw.models.FlairTemplate;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
@@ -76,7 +72,6 @@ import org.apache.commons.lang3.StringEscapeUtils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -89,8 +84,6 @@ import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import me.ccrama.redditslide.ActionStates;
-import me.ccrama.redditslide.Activities.Internet;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
@@ -109,7 +102,6 @@ import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
-import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
@@ -1027,6 +1019,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             if (currentlyEditingId.equals(comment.getFullName())) {
+                doUnHighlighted(holder, baseNode, false);
                 doHighlightedStuff(holder, comment, baseNode, finalPos, finalPos1, true, false);
             }
 

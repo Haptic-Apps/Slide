@@ -144,9 +144,7 @@ public class Authentication {
                         try {
 
                             authData = reddit.getOAuthHelper().easyAuth(fcreds);
-
                             authentication.edit().putLong("expires", authData.getExpirationDate().getTime()).apply();
-
                             authentication.edit().putString("backedCreds", authData.getDataNode().toString()).apply();
                             Authentication.name = "LOGGEDOUT";
                             mod = false;

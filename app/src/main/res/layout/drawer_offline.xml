@@ -126,7 +126,16 @@
             android:textSize="14sp"
             android:textStyle="bold" />
     </LinearLayout>
-
+    <View
+        android:id="@+id/drawer_divider"
+        android:layout_width="match_parent"
+        android:background="?attr/tint"
+        android:alpha=".25"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_height="0.75dp"
+        android:visibility="gone" />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

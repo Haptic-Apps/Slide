@@ -531,7 +531,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
 
         findViewById(R.id.gifprogress).setVisibility(View.GONE);
-        LogUtil.v(contentUrl);
 
         if (contentUrl != null && contentUrl.contains("m.imgur.com"))
             contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
@@ -601,7 +600,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
     public void displayImage(final String url) {
         actuallyLoaded = url;
-        LogUtil.v("Loading " + url);
         final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
         i.setMinimumDpi(70);

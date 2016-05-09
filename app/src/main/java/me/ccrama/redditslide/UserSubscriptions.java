@@ -38,13 +38,33 @@ public class UserSubscriptions {
         multiNameToSubs.edit().putString(name, descrption).apply();
     }
 
-    public static Map<String, String> getMultiNameToSubs() {
+    public static Map<String, String> getMultiNameToSubs(boolean all) {
+        Map<String, String> multiNameToSubsMapBase = new HashMap<>();
+
+        Map<String, ?> multiNameToSubsObject = multiNameToSubs.getAll();
+
+        for (Map.Entry<String, ?> entry : multiNameToSubsObject.entrySet()) {
+            multiNameToSubsMapBase.put(entry.getKey(), entry.getValue().toString());
+        }
+        if (all)
+            multiNameToSubsMapBase.putAll(getSubsNameToMulti());
+
+        Map<String, String> multiNameToSubsMap = new HashMap<>();
+
+        for (Map.Entry<String, String> entries : multiNameToSubsMapBase.entrySet()) {
+            multiNameToSubsMap.put(entries.getKey().toLowerCase(), entries.getValue());
+        }
+
+        return multiNameToSubsMap;
+    }
+
+    private static Map<String, String> getSubsNameToMulti() {
         Map<String, String> multiNameToSubsMap = new HashMap<>();
 
         Map<String, ?> multiNameToSubsObject = multiNameToSubs.getAll();
 
         for (Map.Entry<String, ?> entry : multiNameToSubsObject.entrySet()) {
-            multiNameToSubsMap.put(entry.getKey(), entry.getValue().toString());
+            multiNameToSubsMap.put(entry.getValue().toString(), entry.getKey().toString());
         }
 
         return multiNameToSubsMap;
@@ -63,7 +83,7 @@ public class UserSubscriptions {
                 }
                 c.updateSubs(subredditsForHome);
             }
-            c.updateMultiNameToSubs(getMultiNameToSubs());
+            c.updateMultiNameToSubs(getMultiNameToSubs(false));
 
         } else {
             String s = subscriptions.getString(Authentication.name, "");
@@ -86,7 +106,7 @@ public class UserSubscriptions {
                 }
             }
             c.updateSubs(finals);
-            c.updateMultiNameToSubs(getMultiNameToSubs());
+            c.updateMultiNameToSubs(getMultiNameToSubs(false));
         }
     }
 

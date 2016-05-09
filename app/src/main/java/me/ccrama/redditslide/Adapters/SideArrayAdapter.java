@@ -20,12 +20,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SantitizeField;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 
 
@@ -47,6 +49,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
         fitems = new ArrayList<>(objects);
         baseItems = new ArrayList<>(objects);
         parentL = view;
+        multiToMatch = UserSubscriptions.getMultiNameToSubs(true);
     }
 
     @Override
@@ -69,15 +72,23 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
     }
 
     int height;
+    Map<String, String> multiToMatch;
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if (position < fitems.size()) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.subforsublist, parent, false);
 
+            final String sub;
+            final String base = fitems.get(position);
+            if(multiToMatch.containsKey(fitems.get(position))){
+                sub = multiToMatch.get(fitems.get(position));
+            } else {
+                sub = fitems.get(position);
+            }
             final TextView t =
                     ((TextView) convertView.findViewById(R.id.name));
-            t.setText(fitems.get(position));
+            t.setText(sub);
 
             if (height == 0) {
                 final View finalConvertView = convertView;
@@ -90,14 +101,14 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 });
             }
 
-            final String subreddit = (fitems.get(position).contains("+") || fitems.get(position).contains("/m/")) ? fitems.get(position) : SantitizeField.sanitizeString(fitems.get(position).replace(getContext().getString(R.string.search_goto) + " ", ""));
+            final String subreddit = (sub.contains("+") || sub.contains("/m/")) ? sub : SantitizeField.sanitizeString(sub.replace(getContext().getString(R.string.search_goto) + " ", ""));
 
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
             convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (fitems.get(position).startsWith(getContext().getString(R.string.search_goto) + " ") || !((MainActivity) getContext()).usedArray.contains(fitems.get(position))) {
+                    if (base.startsWith(getContext().getString(R.string.search_goto) + " ") || !((MainActivity) getContext()).usedArray.contains(base)) {
                         try {
                             //Hide the toolbar search UI without an animation because we're starting a new activity
                             if ((SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
@@ -131,7 +142,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                             ((MainActivity) getContext()).toOpenComments = -1;
                             ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size = (((MainActivity) getContext()).usedArray.size() + 1);
                             ((MainActivity) getContext()).adapter.notifyDataSetChanged();
-                            ((MainActivity) getContext()).doPageSelectedComments(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
+                            ((MainActivity) getContext()).doPageSelectedComments(((MainActivity) getContext()).usedArray.indexOf(base));
                         }
                         try {
                             //Hide the toolbar search UI with an animation because we're just changing tabs
@@ -144,7 +155,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                             Log.e(getClass().getName(), npe.getMessage());
                         }
 
-                        ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(fitems.get(position)));
+                        ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(base));
                     }
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
