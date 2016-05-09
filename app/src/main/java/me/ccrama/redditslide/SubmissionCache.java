@@ -27,7 +27,7 @@ public class SubmissionCache {
     private static WeakHashMap<String, SpannableStringBuilder> titles;
     private static WeakHashMap<String, SpannableStringBuilder> info;
 
-    public static void cacheSubmissions(List<Submission> submissions, Context mContext, String baseSub) {
+    public static void cacheSubmissions(List<Submission> submissions, Context mContext, String baseSub){
         cacheInfo(submissions, mContext, baseSub);
     }
 
@@ -62,7 +62,7 @@ public class SubmissionCache {
         }
     }
 
-    private static SpannableStringBuilder getInfoSpannable(Submission submission, Context mContext, String baseSub) {
+    private static SpannableStringBuilder getInfoSpannable(Submission submission, Context mContext, String baseSub){
         String spacer = mContext.getString(R.string.submission_properties_seperator);
         SpannableStringBuilder titleString = new SpannableStringBuilder();
 
@@ -224,12 +224,12 @@ public class SubmissionCache {
             titleString.append(spacer);
             titleString.append(submission.getDomain());
         }
-        if (SettingValues.votesInfoLine) {
+        if(SettingValues.votesInfoLine){
             titleString.append(spacer);
-            SpannableStringBuilder s = new SpannableStringBuilder(String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.points, submission.getScore(), submission.getScore())) + spacer + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.comments, submission.getCommentCount(), submission.getCommentCount())));
+            SpannableStringBuilder s = new SpannableStringBuilder(submission.getScore() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.points, submission.getScore())) + spacer + submission.getCommentCount() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.comments, submission.getCommentCount())));
             titleString.append(s);
         }
-        if (SettingValues.typeInfoLine) {
+        if(SettingValues.typeInfoLine){
             titleString.append(spacer);
             SpannableStringBuilder s = new SpannableStringBuilder(ContentType.getContentDescription(submission, mContext));
             s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
