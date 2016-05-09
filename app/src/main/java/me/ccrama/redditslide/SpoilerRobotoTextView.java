@@ -266,6 +266,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
         if (!PostMatch.openExternal(url) || type == ContentType.Type.VIDEO) {
             switch (type) {
+                case DEVIANTART:
                 case IMGUR:
                     if (SettingValues.image) {
 

@@ -110,6 +110,7 @@ dependencies {
     compile 'com.github.johnkil.android-robototextview:robototextview:2.4.3'
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'com.sothree.slidinguppanel:library:3.3.0'
     compile 'com.github.suckgamony.RapidDecoder:library:7cdfca47fa'
     compile 'com.github.dasar:shiftcolorpicker:v0.5'

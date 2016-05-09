@@ -22,9 +22,10 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -41,6 +42,8 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
@@ -202,144 +205,161 @@ public class ReorderSubreddits extends BaseActivityAnim {
             public void onDragStop() {
             }
         });
+        final FloatingActionsMenu fab = (FloatingActionsMenu) findViewById(R.id.add);
 
+        {
+            FloatingActionButton collection = (FloatingActionButton) findViewById(R.id.collection);
+            Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.collection, null);
+            collection.setIconDrawable(icon);
+            collection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fab.collapse();
+                    if (UserSubscriptions.getMultireddits() != null && !UserSubscriptions.getMultireddits().isEmpty()) {
+                        new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                                .setTitle(R.string.create_or_import_multi)
+                                .setPositiveButton(R.string.btn_new, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        doCollection();
+                                    }
+                                }).setNegativeButton(R.string.btn_import_multi, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                final String[] multis = new String[UserSubscriptions.getMultireddits().size()];
+                                int i = 0;
+                                for (MultiReddit m : UserSubscriptions.getMultireddits()) {
+                                    multis[i] = m.getDisplayName();
+                                    i++;
+                                }
+                                MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
+                                builder.title(R.string.reorder_subreddits_title)
+                                        .items(multis)
+                                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                                            @Override
+                                            public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+
+                                                String name = multis[which];
+                                                MultiReddit r = UserSubscriptions.getMultiredditByDisplayName(name);
+                                                StringBuilder b = new StringBuilder();
+
+                                                for (MultiSubreddit s : r.getSubreddits()) {
+                                                    b.append(s.getDisplayName());
+                                                    b.append("+");
+                                                }
+                                                String finalS = b.toString().substring(0, b.length() - 1);
+                                                Log.v(LogUtil.getTag(), finalS);
+                                                subs.add(MULTI_REDDIT + r.getDisplayName());
+                                                UserSubscriptions.setSubNameToProperties(MULTI_REDDIT + r.getDisplayName(), b.toString());
+                                                adapter.notifyDataSetChanged();
+                                                recyclerView.smoothScrollToPosition(subs.size());
+                                                return false;
+                                            }
+                                        }).show();
+                            }
+                        }).show();
+                    } else {
+                        doCollection();
+                    }
+                }
+            });
+        }
+        {
+            FloatingActionButton collection = (FloatingActionButton) findViewById(R.id.sub);
+            Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.sub, null);
+            collection.setIconDrawable(icon);
+            collection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fab.collapse();
+                    new MaterialDialog.Builder(ReorderSubreddits.this)
+                            .title(R.string.reorder_add_subreddit)
+                            .inputRangeRes(2, 21, R.color.md_red_500)
+                            .alwaysCallInputCallback()
+                            .input(getString(R.string.reorder_subreddit_name), null, false, new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog dialog, CharSequence raw) {
+                                    input = raw.toString().replaceAll("\\s", ""); //remove whitespace from input
+                                }
+                            })
+                            .positiveText(R.string.btn_add)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    new AsyncGetSubreddit().execute(input);
+                                }
+                            })
+                            .negativeText(R.string.btn_cancel)
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+
+                                }
+                            }).show();
+                }
+            });
+        }
+        {
+            FloatingActionButton collection = (FloatingActionButton) findViewById(R.id.domain);
+            Drawable icon = ResourcesCompat.getDrawable(getResources(), R.drawable.link, null);
+            collection.setIconDrawable(icon);
+            collection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    fab.collapse();
+                    new MaterialDialog.Builder(ReorderSubreddits.this)
+                            .title("Add a domain")
+                            .inputRangeRes(2, 21, R.color.md_red_500)
+                            .alwaysCallInputCallback()
+                            .input("example.com (only the domain name)", null, false, new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog dialog, CharSequence raw) {
+                                    input = raw.toString().replaceAll("\\s", ""); //remove whitespace from input
+                                }
+                            })
+                            .positiveText(R.string.btn_add)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+                                    try {
+                                        String url =(input);
+
+                                        List<String> sortedSubs = UserSubscriptions.sortNoExtras(subs);
+
+                                        if (sortedSubs.equals(subs)) {
+                                            subs.add(url);
+                                            subs = UserSubscriptions.sortNoExtras(subs);
+                                            adapter = new CustomAdapter(subs);
+                                            recyclerView.setAdapter(adapter);
+                                        } else {
+                                            subs.add(url);
+                                            adapter.notifyDataSetChanged();
+                                            recyclerView.smoothScrollToPosition(subs.size());
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        //todo make this better
+                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this)
+                                                .setTitle("URL Invalid")
+                                                .setMessage("Please try again").show();
+
+                                    }
+                                }
+                            })
+                            .negativeText(R.string.btn_cancel)
+                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(MaterialDialog dialog, DialogAction which) {
+
+                                }
+                            }).show();
+                }
+            });
+        }
         recyclerView.addItemDecoration(dragSortRecycler);
         recyclerView.addOnItemTouchListener(dragSortRecycler);
         recyclerView.addOnScrollListener(dragSortRecycler.getScrollListener());
         dragSortRecycler.setViewHandleId();
-
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.add);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                        .setItems(new CharSequence[]{getString(R.string.btn_add_subreddit), getString(R.string.btn_add_collection), getString(R.string.btn_add_domain)}, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                if (which == 1) {
-                                    if (UserSubscriptions.getMultireddits() != null && !UserSubscriptions.getMultireddits().isEmpty()) {
-                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                                                .setTitle(R.string.create_or_import_multi)
-                                                .setPositiveButton(R.string.btn_new, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        doCollection();
-                                                    }
-                                                }).setNegativeButton(R.string.btn_import_multi, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                final String[] multis = new String[UserSubscriptions.getMultireddits().size()];
-                                                int i = 0;
-                                                for (MultiReddit m : UserSubscriptions.getMultireddits()) {
-                                                    multis[i] = m.getDisplayName();
-                                                    i++;
-                                                }
-                                                MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);
-                                                builder.title(R.string.reorder_subreddits_title)
-                                                        .items(multis)
-                                                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
-                                                            @Override
-                                                            public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-
-                                                                String name = multis[which];
-                                                                MultiReddit r = UserSubscriptions.getMultiredditByDisplayName(name);
-                                                                StringBuilder b = new StringBuilder();
-
-                                                                for (MultiSubreddit s : r.getSubreddits()) {
-                                                                    b.append(s.getDisplayName());
-                                                                    b.append("+");
-                                                                }
-                                                                String finalS = b.toString().substring(0, b.length() - 1);
-                                                                Log.v(LogUtil.getTag(), finalS);
-                                                                subs.add(MULTI_REDDIT + r.getDisplayName());
-                                                                UserSubscriptions.setSubNameToProperties(MULTI_REDDIT + r.getDisplayName(), b.toString());
-                                                                adapter.notifyDataSetChanged();
-                                                                recyclerView.smoothScrollToPosition(subs.size());
-                                                                return false;
-                                                            }
-                                                        }).show();
-                                            }
-                                        }).show();
-                                    } else {
-                                        doCollection();
-                                    }
-                                } else if(which == 0){
-                                    new MaterialDialog.Builder(ReorderSubreddits.this)
-                                            .title(R.string.reorder_add_subreddit)
-                                            .inputRangeRes(2, 21, R.color.md_red_500)
-                                            .alwaysCallInputCallback()
-                                            .input(getString(R.string.reorder_subreddit_name), null, false, new MaterialDialog.InputCallback() {
-                                                @Override
-                                                public void onInput(MaterialDialog dialog, CharSequence raw) {
-                                                    input = raw.toString().replaceAll("\\s", ""); //remove whitespace from input
-                                                }
-                                            })
-                                            .positiveText(R.string.btn_add)
-                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                                @Override
-                                                public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                    new AsyncGetSubreddit().execute(input);
-                                                }
-                                            })
-                                            .negativeText(R.string.btn_cancel)
-                                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                                @Override
-                                                public void onClick(MaterialDialog dialog, DialogAction which) {
-
-                                                }
-                                            }).show();
-                                } else {
-                                    new MaterialDialog.Builder(ReorderSubreddits.this)
-                                            .title("Add a domain")
-                                            .inputRangeRes(2, 21, R.color.md_red_500)
-                                            .alwaysCallInputCallback()
-                                            .input("example.com (only the domain name)", null, false, new MaterialDialog.InputCallback() {
-                                                @Override
-                                                public void onInput(MaterialDialog dialog, CharSequence raw) {
-                                                    input = raw.toString().replaceAll("\\s", ""); //remove whitespace from input
-                                                }
-                                            })
-                                            .positiveText(R.string.btn_add)
-                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                                @Override
-                                                public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                    try {
-                                                        String url =(input);
-
-                                                        List<String> sortedSubs = UserSubscriptions.sortNoExtras(subs);
-
-                                                        if (sortedSubs.equals(subs)) {
-                                                            subs.add(url);
-                                                            subs = UserSubscriptions.sortNoExtras(subs);
-                                                            adapter = new CustomAdapter(subs);
-                                                            recyclerView.setAdapter(adapter);
-                                                        } else {
-                                                            subs.add(url);
-                                                            adapter.notifyDataSetChanged();
-                                                            recyclerView.smoothScrollToPosition(subs.size());
-                                                        }
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
-                                                        //todo make this better
-                                                        new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                                                                .setTitle("URL Invalid")
-                                                                .setMessage("Please try again").show();
-
-                                                    }
-                                                }
-                                            })
-                                            .negativeText(R.string.btn_cancel)
-                                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                                @Override
-                                                public void onClick(MaterialDialog dialog, DialogAction which) {
-
-                                                }
-                                            }).show();
-                                }
-                            }
-                        }).show();
-            }
-        });
 
         if (subs != null && !subs.isEmpty()) {
             adapter = new CustomAdapter(subs);
@@ -359,10 +379,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     diff = 0;
                 }
                 if (dy <= 0 && fab.getId() != 0) {
-                    if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
-                        fab.show();
+
                 } else {
-                    fab.hide();
+                    fab.collapse();
                 }
 
             }

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:background="?attr/card_background"
     android:orientation="vertical">
 
@@ -52,12 +53,45 @@
         android:orientation="vertical">
     </android.support.v7.widget.RecyclerView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/add"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         app:srcCompat="@drawable/add"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        fab:fab_addButtonColorNormal="?attr/colorAccent"
+        fab:fab_addButtonPlusIconColor="@color/white"
+        fab:fab_addButtonColorPressed="?attr/colorAccent"
+        fab:fab_addButtonSize="normal"
+        fab:fab_labelStyle="@style/menu_labels_style"
+        fab:fab_labelsPosition="left">
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/md_amber_A700"
+            fab:fab_colorPressed="@color/md_amber_A700"
+            android:id="@+id/sub"
+            fab:fab_size="mini"
+            fab:fab_title="Subreddit"/>
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/md_deep_orange_A700"
+            fab:fab_size="mini"
+            android:id="@+id/collection"
+            fab:fab_title="Collection"
+            fab:fab_colorPressed="@color/md_deep_orange_A700"/>
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="@color/md_indigo_A700"
+            fab:fab_size="mini"
+            fab:fab_title="Domain"
+            android:id="@+id/domain"
+            fab:fab_colorPressed="@color/md_indigo_A700"/>
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>
