@@ -15,6 +15,7 @@ import java.util.Map;
 
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SubmissionCache;
 import me.ccrama.redditslide.Views.CreateCardView;
 
 /**
@@ -100,6 +101,32 @@ public class EditCardsLayout extends BaseActivityAnim {
                 }
             });
         }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.votes);
+            single.setChecked(SettingValues.votesInfoLine);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.votesInfoLine = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_VOTES_INFO_LINE, isChecked).apply();
+                    SubmissionCache.evictAll();
+                }
+            });
+        }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.contenttype);
+            single.setChecked(SettingValues.typeInfoLine);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.typeInfoLine = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_TYPE_INFO_LINE, isChecked).apply();
+                    SubmissionCache.evictAll();
+
+                }
+            });
+        }
+
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.selftext);
 

@@ -280,7 +280,11 @@
             android:name=".Activities.SetupWidget"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:windowSoftInputMode="adjustResize"
-            android:theme="@style/swipeable" />
+            android:theme="@style/swipeable" >
+            <intent-filter>
+                <action android:name="APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+            </activity>
         <activity
             android:name=".Activities.CreateMulti"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"

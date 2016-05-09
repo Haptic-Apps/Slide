@@ -41,7 +41,7 @@ public class GifCache {
 
     public static void writeGif(String url, InputStream stream, IoUtils.CopyListener listener) {
         try {
-            discCache.save(url, stream, listener);
+            LogUtil.v(discCache.save(url, stream, listener) + "DONE ");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

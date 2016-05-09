@@ -25,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -77,7 +78,23 @@ public class Profile extends BaseActivityAnim {
     private TabLayout tabs;
     private String[] usedArray;
     public boolean isSavedView;
+    private void scrollToTabAfterLayout(final int tabIndex) {
+        //from http://stackoverflow.com/a/34780589/3697225
+        if (tabs != null) {
+            final ViewTreeObserver observer = tabs.getViewTreeObserver();
 
+            if (observer.isAlive()) {
+                observer.dispatchOnGlobalLayout(); // In case a previous call is waiting when this call is made
+                observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        tabs.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        tabs.getTabAt(tabIndex).select();
+                    }
+                });
+            }
+        }
+    }
     public static boolean isValidUsername(String user) {
         /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
         return user.matches("^[a-zA-Z0-9_-]{3,20}$");
@@ -180,6 +197,9 @@ public class Profile extends BaseActivityAnim {
             isSavedView = true;
         } else {
             isSavedView = false;
+        }
+        if(pager.getCurrentItem() != 0){
+            scrollToTabAfterLayout(pager.getCurrentItem());
         }
     }
 

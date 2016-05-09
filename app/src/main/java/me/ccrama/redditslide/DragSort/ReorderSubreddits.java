@@ -376,6 +376,14 @@ public class ReorderSubreddits extends BaseActivityAnim {
         subs2.remove("frontpage");
         subs2.remove("all");
 
+        ArrayList<String> toRemove = new ArrayList<>();
+        for(String s : subs2){
+            if(s.contains(".") || s.contains("/m/")){
+                toRemove.add(s);
+            }
+        }
+        subs2.removeAll(toRemove);
+
         final CharSequence[] subsAsChar = subs2.toArray(new CharSequence[subs2.size()]);
 
         MaterialDialog.Builder builder = new MaterialDialog.Builder(ReorderSubreddits.this);

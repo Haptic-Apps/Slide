@@ -44,6 +44,10 @@
         <item quantity="one">pt</item>
         <item quantity="other">pts</item>
     </plurals>
+    <plurals name="comments">
+        <item quantity="one">cmt</item>
+        <item quantity="other">cmts</item>
+    </plurals>
 
     <!-- Theme settings -->
     <string name="theme_light">Light</string>

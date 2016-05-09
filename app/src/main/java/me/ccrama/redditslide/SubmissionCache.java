@@ -14,6 +14,7 @@ import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.Submission;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.WeakHashMap;
 
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
@@ -101,7 +102,6 @@ public class SubmissionCache {
             } else if (authorcolor != 0) {
                 author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-
             titleString.append(author);
         }
 
@@ -122,6 +122,8 @@ public class SubmissionCache {
             titleString.append(pinned);
             titleString.append(" ");
         }
+
+
         /* too big, might add later todo
         if (submission.getAuthorFlair() != null && submission.getAuthorFlair().getText() != null && !submission.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();
@@ -222,6 +224,18 @@ public class SubmissionCache {
             titleString.append(spacer);
             titleString.append(submission.getDomain());
         }
+        if(SettingValues.votesInfoLine){
+            titleString.append(spacer);
+            SpannableStringBuilder s = new SpannableStringBuilder(String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.points, submission.getScore())) + spacer + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.comments, submission.getCommentCount())));
+            titleString.append(s);
+        }
+        if(SettingValues.typeInfoLine){
+            titleString.append(spacer);
+            SpannableStringBuilder s = new SpannableStringBuilder(ContentType.getContentDescription(submission, mContext));
+            s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(s);
+        }
+
         return titleString;
     }
 
@@ -268,5 +282,9 @@ public class SubmissionCache {
             titleString.append(pinned);
         }
         return titleString;
+    }
+
+    public static void evictAll() {
+        info = new WeakHashMap<>();
     }
 }

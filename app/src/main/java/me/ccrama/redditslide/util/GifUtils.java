@@ -216,6 +216,13 @@ public class GifUtils {
             final String url = formatUrl(sub[0]);
             switch (getVideoType(url)) {
                 case GFYCAT:
+                    c.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(progressBar != null)
+                                progressBar.setIndeterminate(true);
+                        }
+                    });
                     Ion.with(c)
                             .load("http://gfycat.com/cajax/get" + url.substring(url.lastIndexOf("/", url.length())))
                             .asJsonObject()
@@ -251,6 +258,13 @@ public class GifUtils {
                                                 obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
 
                                             }
+                                            c.runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if(progressBar != null)
+                                                        progressBar.setIndeterminate(false);
+                                                }
+                                            });
                                             try {
                                                 final URL url = new URL(obj);
                                                 writeGif(url, progressBar, c, AsyncLoadGif.this);
@@ -481,7 +495,8 @@ public class GifUtils {
                 ucon.setConnectTimeout(10000);
                 InputStream is = ucon.getInputStream();
                 //todo  MediaView.fileLoc = f.getAbsolutePath();
-                GifCache.writeGif(url.toString(), new ContentLengthInputStream(new BufferedInputStream(is, 5 * 1024), ucon.getContentLength()), new IoUtils.CopyListener() {
+                LogUtil.v(url.toString());
+               GifCache.writeGif(url.toString(), new ContentLengthInputStream(new BufferedInputStream(is, 5 * 1024), ucon.getContentLength()), new IoUtils.CopyListener() {
                     @Override
                     public boolean onBytesCopied(int current, int total) {
                         final int percent = Math.round(100.0f * current / total);
@@ -501,7 +516,6 @@ public class GifUtils {
                         }
                         if (percent == 100) {
                             MediaView.didLoadGif = true;
-                            return false;
                         }
                         return true;
                     }

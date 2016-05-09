@@ -42,6 +42,8 @@ public class SettingValues {
     public static final String PREF_DRAFTS = "drafts";
     public static final String PREF_SUBREDDIT_FILTERS = "subredditFilters";
     public static final String PREF_COMMENT_LAST_VISIT = "commentLastVisit";
+    public static final String PREF_VOTES_INFO_LINE = "votesInfoLine";
+    public static final String PREF_TYPE_INFO_LINE = "typeInfoLine";
     public static final String PREF_COMMENT_PAGER = "commentPager";
     public static final String PREF_COLLAPSE_COMMENTS = "collapseCOmments";
     public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
@@ -123,6 +125,8 @@ public class SettingValues {
     public static boolean exit;
     public static boolean cropImage;
     public static boolean smallTag;
+    public static boolean typeInfoLine;
+    public static boolean votesInfoLine;
     public static boolean collapseComments;
     public static boolean collapseCommentsDefault;
     public static boolean rightHandedCommentMenu;
@@ -197,6 +201,9 @@ public class SettingValues {
         collapseCommentsDefault = prefs.getBoolean(PREF_COLLAPSE_COMMENTS_DEFAULT, false);
         rightHandedCommentMenu = prefs.getBoolean(PREF_RIGHT_HANDED_COMMENT_MENU, false);
         commentAutoHide = prefs.getBoolean(PREF_AUTOHIDE_COMMENTS, false);
+
+        typeInfoLine = prefs.getBoolean(PREF_TYPE_INFO_LINE, false);
+        votesInfoLine = prefs.getBoolean(PREF_VOTES_INFO_LINE, false);
 
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);
