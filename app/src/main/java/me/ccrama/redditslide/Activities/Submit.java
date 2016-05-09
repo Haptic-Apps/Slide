@@ -104,7 +104,7 @@ public class Submit extends BaseActivity {
         image.setVisibility(View.GONE);
         link.setVisibility(View.GONE);
 
-        if (!subreddit.equals("frontpage") && !subreddit.equals("all") && !subreddit.equals("friends") && !subreddit.equals("mod") && !subreddit.contains("/m/") && !subreddit.contains("+"))
+        if (subreddit != null && !subreddit.equals("frontpage") && !subreddit.equals("all") && !subreddit.equals("friends") && !subreddit.equals("mod") && !subreddit.contains("/m/") && !subreddit.contains("+"))
             subredditText.setText(subreddit);
         ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, UserSubscriptions.getAllSubreddits(this));
 

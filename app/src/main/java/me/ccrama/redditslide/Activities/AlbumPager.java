@@ -208,6 +208,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
         @Override
         public void doWithData(final List<Image> jsonElements) {
+            super.doWithData(jsonElements);
             findViewById(R.id.progress).setVisibility(View.GONE);
             images = new ArrayList<>(jsonElements);
 

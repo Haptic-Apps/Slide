@@ -2799,12 +2799,13 @@ public class MainActivity extends BaseActivity {
     private void setupSubredditSearchToolbar() {
         if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
                 || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
-            if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
-                findViewById(R.id.drawer_divider).setVisibility(View.GONE);
-            } else {
-                findViewById(R.id.drawer_divider).setVisibility(View.VISIBLE);
+            if(findViewById(R.id.drawer_divider) != null) {
+                if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                    findViewById(R.id.drawer_divider).setVisibility(View.GONE);
+                } else {
+                    findViewById(R.id.drawer_divider).setVisibility(View.VISIBLE);
+                }
             }
-
             final ListView TOOLBAR_SEARCH_SUGGEST_LIST = (ListView) findViewById(R.id.toolbar_search_suggestions_list);
             final ArrayList<String> subs_copy = new ArrayList<>(usedArray);
             final SideArrayAdapter TOOLBAR_SEARCH_SUGGEST_ADAPTER

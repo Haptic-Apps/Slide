@@ -169,6 +169,7 @@ public class AlbumFull extends Fragment {
 
         @Override
         public void doWithData(final List<Image> jsonElements) {
+            super.doWithData(jsonElements);
             AlbumView adapter = new AlbumView(baseActivity, jsonElements, 0);
             ((RecyclerView) list).setAdapter(adapter);
         }

@@ -92,7 +92,9 @@ public class AlbumUtils {
 
 
         public void doWithData(List<Image> data) {
-
+            if(data == null || data.isEmpty()){
+                onError();
+            }
         }
 
         public void doWithDataSingle(final SingleImage data) {
