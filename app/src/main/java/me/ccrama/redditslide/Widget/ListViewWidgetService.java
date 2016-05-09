@@ -158,39 +158,43 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                 break;
         }
         final RemoteViews rv = new RemoteViews(mContext.getPackageName(), view);
-        // feed row
-        Submission data = records.get(position);
+        try {
 
-        rv.setTextViewText(R.id.title, Html.fromHtml(data.getTitle()));
-        rv.setTextViewText(R.id.score, data.getScore() + "");
-        rv.setTextViewText(R.id.comments, data.getCommentCount() + "");
-        rv.setTextViewText(R.id.information, data.getAuthor() + " " + TimeUtils.getTimeAgo(data.getCreated().getTime(), mContext));
-        rv.setTextViewText(R.id.subreddit, data.getSubredditName());
-        rv.setTextColor(R.id.subreddit, Palette.getColor(data.getSubredditName()));
-        if (SubredditWidgetProvider.getLargePreviews(id, mContext)) {
-            Thumbnails s = data.getThumbnails();
-            rv.setViewVisibility(R.id.thumbimage2, View.GONE);
-            if (s != null && s.getVariations() != null && s.getSource() != null) {
-                rv.setImageViewBitmap(R.id.bigpic, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(Html.fromHtml(data.getThumbnails().getSource().getUrl()).toString()));
-                rv.setViewVisibility(R.id.bigpic, View.VISIBLE);
-            } else
-                rv.setViewVisibility(R.id.bigpic, View.GONE);
-        } else {
-            rv.setViewVisibility(R.id.bigpic, View.GONE);
-            if (data.getThumbnailType() == Submission.ThumbnailType.URL) {
-                rv.setImageViewBitmap(R.id.thumbimage2, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(data.getThumbnail()));
-                rv.setViewVisibility(R.id.thumbimage2, View.VISIBLE);
-            } else
+            // feed row
+            Submission data = records.get(position);
+
+            rv.setTextViewText(R.id.title, Html.fromHtml(data.getTitle()));
+            rv.setTextViewText(R.id.score, data.getScore() + "");
+            rv.setTextViewText(R.id.comments, data.getCommentCount() + "");
+            rv.setTextViewText(R.id.information, data.getAuthor() + " " + TimeUtils.getTimeAgo(data.getCreated().getTime(), mContext));
+            rv.setTextViewText(R.id.subreddit, data.getSubredditName());
+            rv.setTextColor(R.id.subreddit, Palette.getColor(data.getSubredditName()));
+            if (SubredditWidgetProvider.getLargePreviews(id, mContext)) {
+                Thumbnails s = data.getThumbnails();
                 rv.setViewVisibility(R.id.thumbimage2, View.GONE);
+                if (s != null && s.getVariations() != null && s.getSource() != null) {
+                    rv.setImageViewBitmap(R.id.bigpic, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(Html.fromHtml(data.getThumbnails().getSource().getUrl()).toString()));
+                    rv.setViewVisibility(R.id.bigpic, View.VISIBLE);
+                } else
+                    rv.setViewVisibility(R.id.bigpic, View.GONE);
+            } else {
+                rv.setViewVisibility(R.id.bigpic, View.GONE);
+                if (data.getThumbnailType() == Submission.ThumbnailType.URL) {
+                    rv.setImageViewBitmap(R.id.thumbimage2, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(data.getThumbnail()));
+                    rv.setViewVisibility(R.id.thumbimage2, View.VISIBLE);
+                } else
+                    rv.setViewVisibility(R.id.thumbimage2, View.GONE);
+            }
+            Bundle infos = new Bundle();
+            infos.putString(OpenContent.EXTRA_URL, data.getPermalink());
+            infos.putBoolean("popup", true);
+            final Intent activityIntent = new Intent();
+            activityIntent.putExtras(infos);
+
+            rv.setOnClickFillInIntent(R.id.card, activityIntent);
+        } catch(Exception e){
+
         }
-        Bundle infos = new Bundle();
-        infos.putString(OpenContent.EXTRA_URL, data.getPermalink());
-        infos.putBoolean("popup", true);
-        final Intent activityIntent = new Intent();
-        activityIntent.putExtras(infos);
-
-        rv.setOnClickFillInIntent(R.id.card, activityIntent);
-
         return rv;
     }
 
