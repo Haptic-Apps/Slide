@@ -81,7 +81,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
 
             final String sub;
             final String base = fitems.get(position);
-            if(multiToMatch.containsKey(fitems.get(position))){
+            if(multiToMatch.containsKey(fitems.get(position)) && !fitems.get(position).contains("/m/")){
                 sub = multiToMatch.get(fitems.get(position));
             } else {
                 sub = fitems.get(position);

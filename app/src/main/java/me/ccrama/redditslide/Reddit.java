@@ -327,7 +327,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                     break;
             }
         }
-        current[pos] = arrows?"» ":"" + current[pos]  +"";
+        current[pos] = (arrows?"» ":"") + current[pos]  +"";
         return current;
     }
 
