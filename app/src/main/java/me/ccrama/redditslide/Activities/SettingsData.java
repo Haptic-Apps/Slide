@@ -22,19 +22,32 @@ public class SettingsData extends BaseActivityAnim {
         applyColorTheme();
         setContentView(R.layout.activity_settings_datasaving);
         setupAppBar(R.id.toolbar, "Data saving", true, true);
-
         final SwitchCompat single = (SwitchCompat) findViewById(R.id.imagelq);
+        {
 
-        single.setChecked(SettingValues.loadImageLq);
-        single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.loadImageLq = isChecked;
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMAGE_LQ, isChecked).apply();
+            single.setChecked(SettingValues.loadImageLq);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.loadImageLq = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMAGE_LQ, isChecked).apply();
 
-            }
-        });
+                }
+            });
+        }
+        {
+            final SwitchCompat single2 = (SwitchCompat) findViewById(R.id.imgurlq);
 
+            single2.setChecked(SettingValues.imgurLq);
+            single2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.imgurLq = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_IMGUR_LQ, isChecked).apply();
+
+                }
+            });
+        }
         //Datasaving type multi choice
         ((TextView) findViewById(R.id.lowquality)).setText(SettingValues.lowResMobile ? (SettingValues.lowResAlways ? getString(R.string.datasave_always) : getString(R.string.datasave_mobile)) : getString(R.string.never));
 

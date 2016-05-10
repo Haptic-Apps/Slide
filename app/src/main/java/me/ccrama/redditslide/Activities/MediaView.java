@@ -334,7 +334,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
         actuallyLoaded = contentUrl;
         if (getIntent().hasExtra(EXTRA_LQ)) {
-            displayImage(getIntent().getStringExtra(EXTRA_DISPLAY_URL));
+            String lqUrl = getIntent().getStringExtra(EXTRA_DISPLAY_URL);
+            displayImage(lqUrl);
             findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

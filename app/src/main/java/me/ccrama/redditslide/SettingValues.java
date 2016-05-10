@@ -61,6 +61,7 @@ public class SettingValues {
     public static final String PREF_CARD_TEXT = "cardText";
     public static final String PREF_ZOOM_DEFAULT = "zoomDefault";
     public static final String PREF_SUBREDDIT_SEARCH_METHOD = "subredditSearchMethod";
+    public static final String PREF_IMGUR_LQ = "imgurLq";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
     public static final String PREF_ALBUM = "album";
@@ -163,6 +164,7 @@ public class SettingValues {
     public static boolean showDomain;
     public static boolean cardText;
     public static boolean alwaysZoom;
+    public static boolean imgurLq = true;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -204,6 +206,8 @@ public class SettingValues {
 
         typeInfoLine = prefs.getBoolean(PREF_TYPE_INFO_LINE, false);
         votesInfoLine = prefs.getBoolean(PREF_VOTES_INFO_LINE, false);
+
+        imgurLq = prefs.getBoolean(PREF_IMGUR_LQ, true);
 
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);

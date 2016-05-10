@@ -316,6 +316,22 @@ public class ContentType {
         }
     }
 
+    public static boolean isImgurImage(String lqUrl) {
+        try {
+            final URI uri = new URI(lqUrl);
+            final String host = uri.getHost().toLowerCase();
+            final String path = uri.getPath().toLowerCase();
+
+            return host.contains("imgur.com")
+                    && (path.endsWith(".png")
+                    || path.endsWith(".jpg")
+                    || path.endsWith(".jpeg"));
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public enum Type {
         ALBUM,
         DEVIANTART,

@@ -224,18 +224,19 @@ public class SubmissionCache {
             titleString.append(spacer);
             titleString.append(submission.getDomain());
         }
-        if(SettingValues.votesInfoLine){
-            titleString.append(spacer);
-            SpannableStringBuilder s = new SpannableStringBuilder(submission.getScore() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.points, submission.getScore())) + spacer + submission.getCommentCount() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.comments, submission.getCommentCount())));
-            titleString.append(s);
-        }
+
         if(SettingValues.typeInfoLine){
             titleString.append(spacer);
             SpannableStringBuilder s = new SpannableStringBuilder(ContentType.getContentDescription(submission, mContext));
             s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(s);
         }
-
+        if(SettingValues.votesInfoLine){
+            titleString.append("\n ");
+            SpannableStringBuilder s = new SpannableStringBuilder(submission.getScore() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.points, submission.getScore())) + spacer + submission.getCommentCount() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.comments, submission.getCommentCount())));
+            s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleString.append(s);
+        }
         return titleString;
     }
 

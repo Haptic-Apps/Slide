@@ -2759,13 +2759,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public static boolean dontAnimate;
-
     public void doFriends(final List<String> friends) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (friends != null && !friends.isEmpty()) {
+                if (friends != null && !friends.isEmpty() && headerMain.findViewById(R.id.friends) != null) {
                     headerMain.findViewById(R.id.friends).setVisibility(View.VISIBLE);
                     headerMain.findViewById(R.id.friends).setOnClickListener(new OnSingleClickListener() {
                         @Override
