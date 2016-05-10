@@ -1,309 +1,387 @@
-package me.ccrama.redditslide;
+package me.ccrama.redditslide.SubmissionViews;
 
+import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.res.Resources;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.util.TypedValue;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.cocosw.bottomsheet.BottomSheet;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import net.dean.jraw.ApiException;
+import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.VoteDirection;
 
-import java.util.List;
 import java.util.Locale;
-import java.util.WeakHashMap;
 
-import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
+import me.ccrama.redditslide.ActionStates;
+import me.ccrama.redditslide.Activities.Profile;
+import me.ccrama.redditslide.Activities.SubredditView;
+import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.Vote;
 
 /**
- * Created by carlo_000 on 4/22/2016.
+ * Created by carlo_000 on 2/27/2016.
  */
-public class SubmissionCache {
-    private static WeakHashMap<String, SpannableStringBuilder> titles;
-    private static WeakHashMap<String, SpannableStringBuilder> info;
+public class PopulateShadowboxInfo {
+    public static void doActionbar(final Submission s, final View rootView, final Activity c, boolean extras) {
+        TextView title = (TextView) rootView.findViewById(R.id.title);
+        TextView desc = (TextView) rootView.findViewById(R.id.desc);
+        String distingush = "";
+        if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
+            distingush = "[M]";
+        else if (s.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
+            distingush = "[A]";
 
-    public static void cacheSubmissions(List<Submission> submissions, Context mContext, String baseSub) {
-        cacheInfo(submissions, mContext, baseSub);
-    }
+        title.setText(Html.fromHtml(s.getTitle()));
 
-    private static void cacheInfo(List<Submission> submissions, Context mContext, String baseSub) {
-        if (titles == null)
-            titles = new WeakHashMap<>();
-        if (info == null)
-            info = new WeakHashMap<>();
-        for (Submission submission : submissions) {
-            titles.put(submission.getFullName(), getTitleSpannable(submission, mContext));
-            info.put(submission.getFullName(), getInfoSpannable(submission, mContext, baseSub));
-        }
-    }
-
-    public static void updateTitleFlair(Submission s, String flair, Context c) {
-        titles.put(s.getFullName(), getTitleSpannable(s, flair, c));
-
-    }
-
-    public static SpannableStringBuilder getTitleLine(Submission s, Context mContext) {
-        if (titles == null)
-            titles = new WeakHashMap<>();
-        if (titles.containsKey(s.getFullName())) {
-            return titles.get(s.getFullName());
-        } else {
-            return getTitleSpannable(s, mContext);
-        }
-    }
-
-    public static SpannableStringBuilder getInfoLine(Submission s, Context mContext, String baseSub) {
-        if (info == null)
-            info = new WeakHashMap<>();
-        if (info.containsKey(s.getFullName())) {
-            return info.get(s.getFullName());
-        } else {
-            return getInfoSpannable(s, mContext, baseSub);
-        }
-    }
-
-    private static SpannableStringBuilder getInfoSpannable(Submission submission, Context mContext, String baseSub) {
-        String spacer = mContext.getString(R.string.submission_properties_seperator);
+        String spacer = c.getString(R.string.submission_properties_seperator);
         SpannableStringBuilder titleString = new SpannableStringBuilder();
 
-        SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + submission.getSubredditName() + " ");
+        SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + s.getSubredditName() + " ");
 
-        String subname = submission.getSubredditName().toLowerCase();
-        if (baseSub == null || baseSub.isEmpty()) baseSub = subname;
-        if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor()) || (baseSub.equals("nomatching") && (SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor()))) {
-            boolean secondary = (baseSub.equalsIgnoreCase("frontpage") || (baseSub.equalsIgnoreCase("all")) || (baseSub.equalsIgnoreCase("friends")) || (baseSub.equalsIgnoreCase("mod")) || baseSub.contains(".") || baseSub.contains("+"));
-            if (!secondary && !SettingValues.colorEverywhere || secondary) {
-                subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
+        String subname = s.getSubredditName().toLowerCase();
+        if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
+            subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
         titleString.append(subreddit);
+        titleString.append(distingush);
         titleString.append(spacer);
 
-        try {
-            String time = TimeUtils.getTimeAgo(submission.getCreated().getTime(), mContext);
-            titleString.append(time);
-        } catch (Exception e) {
-            titleString.append("just now");
-        }
-        titleString.append(((submission.getEdited() != null) ? " (edit " + TimeUtils.getTimeAgo(submission.getEdited().getTime(), mContext) + ")" : ""));
+        titleString.append(TimeUtils.getTimeAgo(s.getCreated().getTime(), c));
 
-        titleString.append(spacer);
+        desc.setText(titleString);
+        ((TextView) rootView.findViewById(R.id.comments)).setText(String.format(Locale.getDefault(), "%d", s.getCommentCount()));
+        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
 
-        SpannableStringBuilder author = new SpannableStringBuilder(" " + submission.getAuthor() + " ");
-        int authorcolor = Palette.getFontColorUser(submission.getAuthor());
+        if (extras) {
+            final ImageView downvotebutton = (ImageView) rootView.findViewById(R.id.downvote);
+            final ImageView upvotebutton = (ImageView) rootView.findViewById(R.id.upvote);
 
-        if (submission.getAuthor() != null) {
-            if (Authentication.name != null && submission.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
-                author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } else if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
-                author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } else if (authorcolor != 0) {
-                author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (s.isArchived() || s.isLocked()) {
+                downvotebutton.setVisibility(View.GONE);
+                upvotebutton.setVisibility(View.GONE);
+            } else if (Authentication.isLoggedIn && Authentication.didOnline) {
+                if (SettingValues.actionbarVisible && downvotebutton.getVisibility() != View.VISIBLE) {
+                    downvotebutton.setVisibility(View.VISIBLE);
+                    upvotebutton.setVisibility(View.VISIBLE);
+                }
+                switch (ActionStates.getVoteDirection(s)) {
+                    case UPVOTE: {
+                        ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
+                        upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                        ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
+                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : 1))));
+                        downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                        break;
+                    }
+                    case DOWNVOTE: {
+                        ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
+                        downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
+                        ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
+                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : -1))));
+                        upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                        break;
+                    }
+                    case NO_VOTE: {
+                        ((TextView) rootView.findViewById(R.id.score)).setTextColor(((TextView) rootView.findViewById(R.id.comments)).getCurrentTextColor());
+                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+                        ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
+                        downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                        upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                        break;
+                    }
+                }
             }
-            titleString.append(author);
-        }
+            if (Authentication.isLoggedIn && Authentication.didOnline) {
+                if (ActionStates.isSaved(s)) {
+                    ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
+                } else {
+                    ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                }
+                rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... params) {
+                                try {
+                                    if (ActionStates.isSaved(s)) {
+                                        new AccountManager(Authentication.reddit).unsave(s);
+                                        ActionStates.setSaved(s, false);
+                                    } else {
+                                        new AccountManager(Authentication.reddit).save(s);
+                                        ActionStates.setSaved(s, true);
+                                    }
+                                } catch (ApiException e) {
+                                    e.printStackTrace();
+                                }
 
 
-      /*todo maybe?  titleString.append(((comment.hasBeenEdited() && comment.getEditDate() != null) ? " *" + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) : ""));
-        titleString.append("  ");*/
+                                return null;
+                            }
+                            @Override
+                            protected void onPostExecute(Void aVoid) {
+                                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
 
-        if (UserTags.isUserTagged(submission.getAuthor())) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + UserTags.getUserTag(submission.getAuthor()) + " ");
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(pinned);
-            titleString.append(" ");
-        }
+                                if (ActionStates.isSaved(s)) {
+                                    ((ImageView)  rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
+                                    AnimateHelper.setFlashAnimation(rootView,  rootView.findViewById(R.id.save), ContextCompat.getColor(c, R.color.md_amber_500));
+                                } else {
+                                    ((ImageView)  rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                }
 
-        if (UserSubscriptions.friends.contains(submission.getAuthor())) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.profile_friend) + " ");
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(pinned);
-            titleString.append(" ");
-        }
-
-
-        /* too big, might add later todo
-        if (submission.getAuthorFlair() != null && submission.getAuthorFlair().getText() != null && !submission.getAuthorFlair().getText().isEmpty()) {
-            TypedValue typedValue = new TypedValue();
-            Resources.Theme theme = mContext.getTheme();
-            theme.resolveAttribute(R.attr.activity_background, typedValue, true);
-            int color = typedValue.data;
-            SpannableStringBuilder pinned = new SpannableStringBuilder(" " + submission.getAuthorFlair().getText() + " ");
-            pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(pinned);
-            titleString.append(" ");
-        }
+                            }
+                        }.execute();
 
 
-
-        if (holder.leadImage.getVisibility() == View.GONE && !full) {
-            String text = "";
-
-            switch (ContentType.getContentType(submission)) {
-                case NSFW_IMAGE:
-                    text = mContext.getString(R.string.type_nsfw_img);
-                    break;
-
-                case NSFW_GIF:
-                case NSFW_GFY:
-                    text = mContext.getString(R.string.type_nsfw_gif);
-                    break;
-
-                case REDDIT:
-                    text = mContext.getString(R.string.type_reddit);
-                    break;
-
-                case LINK:
-                case IMAGE_LINK:
-                    text = mContext.getString(R.string.type_link);
-                    break;
-
-                case NSFW_LINK:
-                    text = mContext.getString(R.string.type_nsfw_link);
-
-                    break;
-                case STREAMABLE:
-                    text = ("Streamable");
-                    break;
-                case SELF:
-                    text = ("Selftext");
-                    break;
-
-                case ALBUM:
-                    text = mContext.getString(R.string.type_album);
-                    break;
-
-                case IMAGE:
-                    text = mContext.getString(R.string.type_img);
-                    break;
-                case IMGUR:
-                    text = mContext.getString(R.string.type_imgur);
-                    break;
-                case GFY:
-                case GIF:
-                case NONE_GFY:
-                case NONE_GIF:
-                    text = mContext.getString(R.string.type_gif);
-                    break;
-
-                case NONE:
-                    text = mContext.getString(R.string.type_title_only);
-                    break;
-
-                case NONE_IMAGE:
-                    text = mContext.getString(R.string.type_img);
-                    break;
-
-                case VIDEO:
-                    text = mContext.getString(R.string.type_vid);
-                    break;
-
-                case EMBEDDED:
-                    text = mContext.getString(R.string.type_emb);
-                    break;
-
-                case NONE_URL:
-                    text = mContext.getString(R.string.type_link);
-                    break;
+                    }
+                });
             }
-            if(!text.isEmpty()) {
-                titleString.append(" \n");
-                text = text.toUpperCase();
-                TypedValue typedValue = new TypedValue();
-                Resources.Theme theme = mContext.getTheme();
-                theme.resolveAttribute(R.attr.activity_background, typedValue, true);
-                int color = typedValue.data;
-                SpannableStringBuilder pinned = new SpannableStringBuilder(" " + text + " ");
-                pinned.setSpan(new RoundedBackgroundSpan(holder.title.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                titleString.append(pinned);
-            }
-        }*/
-        if (SettingValues.showDomain) {
-            titleString.append(spacer);
-            titleString.append(submission.getDomain());
-        }
 
-        if (SettingValues.typeInfoLine) {
-            titleString.append(spacer);
-            SpannableStringBuilder s = new SpannableStringBuilder(ContentType.getContentDescription(submission, mContext));
-            s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(s);
+            if (!Authentication.isLoggedIn || !Authentication.didOnline) {
+                rootView.findViewById(R.id.save).setVisibility(View.GONE);
+            }
+            try {
+                final TextView points = ((TextView) rootView.findViewById(R.id.score));
+                final TextView comments = ((TextView) rootView.findViewById(R.id.comments));
+                if (Authentication.isLoggedIn && Authentication.didOnline) {
+                    {
+
+                        downvotebutton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+                                if (SettingValues.storeHistory) {
+                                    if (!s.isNsfw() || SettingValues.storeNSFWHistory) {
+                                        HasSeen.addSeen(s.getFullName());
+                                    }
+                                }
+                                if (ActionStates.getVoteDirection(s) != VoteDirection.DOWNVOTE) { //has not been downvoted
+                                    points.setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
+                                    downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
+                                    upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
+                                    AnimateHelper.setFlashAnimation(rootView, downvotebutton, ContextCompat.getColor(c, R.color.md_blue_500));
+                                    ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
+                                    final int downvoteScore = (s.getScore() == 0) ? 0 : s.getScore() - 1; //if a post is at 0 votes, keep it at 0 when downvoting
+                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", downvoteScore));
+                                    new Vote(false, points, c).execute(s);
+                                    ActionStates.setVoteDirection(s, VoteDirection.DOWNVOTE);
+                                } else {
+                                    points.setTextColor(comments.getCurrentTextColor());
+                                    new Vote(points, c).execute(s);
+                                    ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
+                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+                                    ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
+                                    downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                }
+                            }
+                        });
+                    }
+                    {
+                        upvotebutton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+                                if (SettingValues.storeHistory) {
+                                    if (!s.isNsfw() || SettingValues.storeNSFWHistory) {
+                                        HasSeen.addSeen(s.getFullName());
+                                    }
+                                }
+
+                                if (ActionStates.getVoteDirection(s) != VoteDirection.UPVOTE) { //has not been upvoted
+                                    points.setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
+                                    upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                                    downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
+                                    AnimateHelper.setFlashAnimation(rootView, upvotebutton, ContextCompat.getColor(c, R.color.md_orange_500));
+                                    ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
+                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore() + 1));
+                                    new Vote(true, points, c).execute(s);
+                                    ActionStates.setVoteDirection(s, VoteDirection.UPVOTE);
+                                } else {
+                                    points.setTextColor(comments.getCurrentTextColor());
+                                    new Vote(points, c).execute(s);
+                                    ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
+                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+                                    ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
+                                    upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    upvotebutton.setVisibility(View.GONE);
+                    downvotebutton.setVisibility(View.GONE);
+
+                }
+            } catch (Exception ignored) {
+                ignored.printStackTrace();
+            }
+            rootView.findViewById(R.id.menu).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showBottomSheet(c, s, rootView);
+                }
+            });
         }
-        if (SettingValues.votesInfoLine) {
-            titleString.append("\n ");
-            SpannableStringBuilder s = new SpannableStringBuilder(submission.getScore() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.points, submission.getScore())) + spacer + submission.getCommentCount() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.comments, submission.getCommentCount())));
-            s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(s);
-        }
-        return titleString;
     }
 
-    private static SpannableStringBuilder getTitleSpannable(Submission submission, String flairOverride, Context mContext) {
-        SpannableStringBuilder titleString = new SpannableStringBuilder();
-        titleString.append(Html.fromHtml(submission.getTitle()));
+    public static String reportReason;
 
-        if (submission.isStickied()) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.submission_stickied).toUpperCase() + "\u00A0");
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(" ");
-            titleString.append(pinned);
-        }
-        if (!submission.getDataNode().get("approved_by").asText().equals("null")) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0Approved by " + submission.getDataNode().get("approved_by").asText().trim() + "\u00A0");
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(" ");
-            titleString.append(pinned);
-        }
-        if (submission.getTimesGilded() > 0) {
-            //if the post has only been gilded once, don't show a number
-            final String timesGilded = (submission.getTimesGilded() == 1) ? "" : "\u200A" + Integer.toString(submission.getTimesGilded());
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_orange_500, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(" ");
-            titleString.append(pinned);
-        }
-        if (submission.isNsfw()) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0NSFW\u00A0");
-            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(" ");
-            titleString.append(pinned);
-        }
-        if (submission.getSubmissionFlair().getText() != null && !submission.getSubmissionFlair().getText().isEmpty() || flairOverride != null || ( submission.getSubmissionFlair().getCssClass() != null)) {
-            TypedValue typedValue = new TypedValue();
-            Resources.Theme theme = mContext.getTheme();
-            theme.resolveAttribute(R.attr.activity_background, typedValue, false);
-            int color = typedValue.data;
-            theme.resolveAttribute(R.attr.font, typedValue, false);
-            int font = typedValue.data;
-            String flairString;
-            if (flairOverride != null) {
-                flairString = flairOverride;
-            } else if(submission.getSubmissionFlair().getCssClass() != null) {
-                flairString = submission.getSubmissionFlair().getCssClass();
-            } else {
-                flairString = submission.getSubmissionFlair().getText();
+    public static void showBottomSheet(final Activity mContext, final Submission submission, final View rootView) {
+
+        int[] attrs = new int[]{R.attr.tint};
+        TypedArray ta = mContext.obtainStyledAttributes(attrs);
+
+        int color = ta.getColor(0, Color.WHITE);
+        Drawable profile = mContext.getResources().getDrawable(R.drawable.profile);
+        final Drawable sub = mContext.getResources().getDrawable(R.drawable.sub);
+        final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
+        Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
+        Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
+        Drawable share = mContext.getResources().getDrawable(R.drawable.share);
+        Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
+
+        profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        sub.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+        ta.recycle();
+
+        BottomSheet.Builder b = new BottomSheet.Builder(mContext)
+                .title(Html.fromHtml(submission.getTitle()));
+
+
+        if (Authentication.didOnline) {
+            b.sheet(1, profile, "/u/" + submission.getAuthor())
+                    .sheet(2, sub, "/r/" + submission.getSubredditName());
+            if (Authentication.isLoggedIn) {
+                b.sheet(12, report, mContext.getString(R.string.btn_report));
             }
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + Html.fromHtml(flairString) + "\u00A0");
-            pinned.setSpan(new RoundedBackgroundSpan(font, color, true, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(" ");
-            titleString.append(pinned);
         }
-        return titleString;
+        b.sheet(7, open, mContext.getString(R.string.submission_link_extern))
+                .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
+                .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url))
+                .listener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 1: {
+                                Intent i = new Intent(mContext, Profile.class);
+                                i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
+                                mContext.startActivity(i);
+                            }
+                            break;
+                            case 2: {
+                                Intent i = new Intent(mContext, SubredditView.class);
+                                i.putExtra(SubredditView.EXTRA_SUBREDDIT, submission.getSubredditName());
+                                mContext.startActivityForResult(i, 14);
+                            }
+                            break;
+                            case 7:
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
+                                mContext.startActivity(browserIntent);
+                                break;
+                            case 4:
+                                Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);
+                                break;
+                            case 12:
+                                reportReason = "";
+                                new MaterialDialog.Builder(mContext).input(mContext.getString(R.string.input_reason_for_report), null, true, new MaterialDialog.InputCallback() {
+                                    @Override
+                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                                        reportReason = input.toString();
+                                    }
+                                }).alwaysCallInputCallback()
+                                        .positiveText(R.string.btn_report)
+                                        .negativeText(R.string.btn_cancel)
+                                        .onNegative(null)
+                                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                new AsyncTask<Void, Void, Void>() {
+                                                    @Override
+                                                    protected Void doInBackground(Void... params) {
+                                                        try {
+                                                            new AccountManager(Authentication.reddit).report(submission, reportReason);
+                                                        } catch (ApiException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                        return null;
+                                                    }
 
+                                                    @Override
+                                                    protected void onPostExecute(Void aVoid) {
+                                                        Snackbar s = Snackbar.make(rootView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
+                                                        View view = s.getView();
+                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                        tv.setTextColor(Color.WHITE);
+                                                        s.show();
+                                                    }
+                                                }.execute();
+                                            }
+                                        })
+                                        .show();
+
+                                break;
+                            case 8:
+                                Reddit.defaultShareText(submission.getTitle(), "https://reddit.com" + submission.getPermalink(), mContext);
+                                break;
+                            case 6: {
+                                ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
+                                clipboard.setPrimaryClip(clip);
+                                Toast.makeText(mContext, "Link copied", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+                        }
+                    }
+                });
+
+
+        b.show();
     }
 
-    private static SpannableStringBuilder getTitleSpannable(Submission submission, Context mContext) {
-        return getTitleSpannable(submission, null, mContext);
-    }
-
-    public static void evictAll() {
-        info = new WeakHashMap<>();
-    }
 }

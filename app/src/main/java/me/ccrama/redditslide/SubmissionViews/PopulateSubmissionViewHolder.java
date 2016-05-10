@@ -1230,6 +1230,10 @@ public class PopulateSubmissionViewHolder {
                                                                                             if (done) {
                                                                                                 if (recyclerview != null)
                                                                                                     s = Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                                                if (holder.itemView != null) {
+                                                                                                    SubmissionCache.updateTitleFlair(submission, flair, mContext);
+                                                                                                    holder.title.setText(SubmissionCache.getTitleLine(submission, mContext));
+                                                                                                }
                                                                                             } else {
                                                                                                 if (recyclerview != null)
                                                                                                     s = Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
@@ -1264,6 +1268,10 @@ public class PopulateSubmissionViewHolder {
                                                                             if (done) {
                                                                                 if (recyclerview != null)
                                                                                     s = Snackbar.make(recyclerview, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                                if (holder.itemView != null) {
+                                                                                    SubmissionCache.updateTitleFlair(submission, t.getCssClass(), mContext);
+                                                                                    holder.title.setText(SubmissionCache.getTitleLine(submission, mContext));
+                                                                                }
                                                                             } else {
                                                                                 if (recyclerview != null)
                                                                                     s = Snackbar.make(recyclerview, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
@@ -1922,8 +1930,11 @@ public class PopulateSubmissionViewHolder {
                                                                                     protected void onPostExecute(Boolean done) {
                                                                                         Snackbar s = null;
                                                                                         if (done) {
-                                                                                            if (holder.itemView != null)
+                                                                                            if (holder.itemView != null) {
                                                                                                 s = Snackbar.make(holder.itemView, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                                                SubmissionCache.updateTitleFlair(submission, flair, mContext);
+                                                                                                holder.title.setText(SubmissionCache.getTitleLine(submission, mContext));
+                                                                                            }
                                                                                         } else {
                                                                                             if (holder.itemView != null)
                                                                                                 s = Snackbar.make(holder.itemView, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
@@ -1956,8 +1967,11 @@ public class PopulateSubmissionViewHolder {
                                                                     protected void onPostExecute(Boolean done) {
                                                                         Snackbar s = null;
                                                                         if (done) {
-                                                                            if (holder.itemView != null)
+                                                                            if (holder.itemView != null) {
                                                                                 s = Snackbar.make(holder.itemView, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                                SubmissionCache.updateTitleFlair(submission, t.getCssClass(), mContext);
+                                                                                holder.title.setText(SubmissionCache.getTitleLine(submission, mContext));
+                                                                            }
                                                                         } else {
                                                                             if (holder.itemView != null)
                                                                                 s = Snackbar.make(holder.itemView, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
