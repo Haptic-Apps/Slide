@@ -193,7 +193,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                     if(SettingValues.imgurLq && ContentType.isImgurImage(submission.getUrl())){
                         url = submission.getUrl();
-                        url = url.substring(0, url.lastIndexOf(".")- 1) + "m" + url.substring(url.lastIndexOf("."), url.length());
+                        url = url.substring(0, url.lastIndexOf(".")) + "m" + url.substring(url.lastIndexOf("."), url.length());
                     }else {
                         int length = submission.getThumbnails().getVariations().length;
                         url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
@@ -247,7 +247,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails().getVariations().length != 0) {
                     if(SettingValues.imgurLq && ContentType.isImgurImage(submission.getUrl())){
                         url = submission.getUrl();
-                        url = url.substring(0, url.lastIndexOf(".")- 1) + "m" + url.substring(url.lastIndexOf("."), url.length());
+                        url = url.substring(0, url.lastIndexOf(".")) + "m" + url.substring(url.lastIndexOf("."), url.length());
                     }else {
                         int length = submission.getThumbnails().getVariations().length;
                         url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
