@@ -48,27 +48,35 @@
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
                     android:gravity="center_vertical"
-                    android:text="@string/font_size"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:orientation="vertical"
+                    android:paddingEnd="16dp">
 
-                <TextView
-                    android:id="@+id/commentFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_card"
-                    android:textColor="?attr/font"
-                    android:textSize="12sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:textStyle="bold"
+                        android:text="@string/font_size"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/commentFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/theme_card"
+                        android:textColor="?attr/font"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <RadioGroup
@@ -164,27 +172,35 @@
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
                     android:gravity="center_vertical"
-                    android:text="@string/font_size"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:orientation="vertical"
+                    android:paddingEnd="16dp">
 
-                <TextView
-                    android:id="@+id/postFont"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="@string/theme_card"
-                    android:textColor="?attr/font"
-                    android:textSize="12sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:text="@string/font_size"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/postFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/theme_card"
+                        android:textColor="?attr/font"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <RadioGroup

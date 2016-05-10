@@ -16,32 +16,39 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/datasavetype"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:minHeight="56dp"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_marginEnd="42dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_data_low_quality"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"/>
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/lowquality"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".86"
-                    android:textColor="?attr/font"
-                    android:textSize="13sp"/>
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_data_low_quality"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/lowquality"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:textColor="?attr/font"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -49,19 +56,20 @@
                 android:alpha=".25"
                 android:background="?attr/tint" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:minHeight="56dp"
+                android:orientation="horizontal"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_marginEnd="42dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_centerVertical="true"
                     android:orientation="vertical">
 
                     <TextView
@@ -84,8 +92,9 @@
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/imagelq"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
@@ -93,7 +102,7 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
 
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

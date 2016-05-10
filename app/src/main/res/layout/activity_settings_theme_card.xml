@@ -40,31 +40,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:background="?android:selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_layout_view"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/view_current"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp"/>
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_layout_view"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/view_current"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha=".86"
+                            android:textColor="?attr/font"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -72,31 +79,38 @@
                     android:alpha=".25"
                     android:background="?attr/tint" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/picture"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:background="?android:selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_layout_picture_mode"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/picture_current"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp"/>
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_layout_picture_mode"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/picture_current"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha=".86"
+                            android:textColor="?attr/font"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -104,31 +118,38 @@
                     android:alpha=".25"
                     android:background="?attr/tint" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/actionbar"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:background="?android:selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_layout_actionbar_mode"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/actionbar_current"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp"/>
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_layout_actionbar_mode"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/actionbar_current"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha=".86"
+                            android:textColor="?attr/font"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Body2"
@@ -140,69 +161,42 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                    <LinearLayout
                         android:layout_marginEnd="42dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_card_show_selftext"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_card_show_selftext"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/selftext"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:backgroundTint="?attr/tint"
-                        android:button="@null"
-                        android:buttonTint="?attr/tint"
-                        android:hapticFeedbackEnabled="true"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"/>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.25dp"
-                    android:alpha=".25"
-                    android:background="?attr/tint" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="42dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_layout_small_content_tag"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/tagsetting"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tint"
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-                </LinearLayout>
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -210,174 +204,252 @@
                     android:alpha=".25"
                     android:background="?attr/tint" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                    <LinearLayout
                         android:layout_marginEnd="42dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_layout_show_domain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_layout_small_content_tag"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/tagsetting"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackground"
+                        android:backgroundTint="?attr/tint"
+                        android:button="@null"
+                        android:buttonTint="?attr/tint"
+                        android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:textColorHint="?attr/font" />
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.25dp"
+                    android:alpha=".25"
+                    android:background="?attr/tint" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
+
+                    <LinearLayout
+                        android:layout_marginEnd="42dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_layout_show_domain"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/domain"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tint"
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
-                        android:textColorHint="?attr/font"/>
-                </LinearLayout>
-
+                        android:textColorHint="?attr/font" />
+                </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:background="?attr/tint"
                     android:alpha=".25"
                     android:layout_height="0.25dp"/>
-
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                    <LinearLayout
                         android:layout_marginEnd="42dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="Show content type in info line"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Show content type in info line"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/contenttype"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tint"
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-                </LinearLayout>
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
                     android:background="?attr/tint" />
-
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                    <LinearLayout
                         android:layout_marginEnd="42dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="Show votes/comments in info line"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Show votes/comments in info line"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/votes"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tint"
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-                </LinearLayout>
-
+                </RelativeLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
                     android:background="?attr/tint" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                    <LinearLayout
                         android:layout_marginEnd="42dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/card_right_thumb"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_right_thumb"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/action"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tint"
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-                </LinearLayout>
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.25dp"
                     android:alpha=".25"
                     android:background="?attr/tint" />
-
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:background="?android:selectableItemBackground"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                    <LinearLayout
                         android:layout_marginEnd="42dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/settings_general_comment_last_visit"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_general_comment_last_visit"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/commentlast"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tint"
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-                </LinearLayout>
+                </RelativeLayout>
 
                 <TextView
                     style="@style/TextAppearance.AppCompat.Body2"
@@ -389,26 +461,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                    <LinearLayout
                         android:layout_marginEnd="42dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/card_hide_post_button"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_hide_post_button"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
 
                     <android.support.v7.widget.AppCompatCheckBox
                         android:id="@+id/hidebutton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tint"
@@ -418,7 +498,7 @@
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-                </LinearLayout>
+                </RelativeLayout>
 
                 <View
                     android:layout_width="match_parent"
@@ -426,26 +506,33 @@
                     android:alpha=".25"
                     android:background="?attr/tint" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?selectableItemBackground"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
                     android:paddingStart="16dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                    <LinearLayout
                         android:layout_marginEnd="42dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:text="@string/card_save_button"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/card_save_button"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp" />
+                    </LinearLayout>
 
                     <android.support.v7.widget.AppCompatCheckBox
                         android:id="@+id/savebutton"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tint"
@@ -455,7 +542,7 @@
                         android:hapticFeedbackEnabled="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
-                </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

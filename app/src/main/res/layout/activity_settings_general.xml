@@ -26,17 +26,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/viewtype"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?selectableItemBackground"
+                android:id="@+id/viewtype"
+                android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
+                android:orientation="horizontal"
                 android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:text="@string/settings_view_type"
-                android:textColor="?attr/font"
-                android:textSize="16sp"/>
+                android:paddingStart="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_view_type"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -44,20 +57,20 @@
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?selectableItemBackground"
+                android:layout_height="56dp"
                 android:gravity="center_vertical"
-                android:minHeight="56dp"
+                android:orientation="horizontal"
+                android:background="?android:selectableItemBackground"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
                     android:layout_marginEnd="42dp"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:orientation="vertical">
 
                     <TextView
@@ -78,15 +91,16 @@
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/expandedmenu"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -94,31 +108,38 @@
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/fab"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_title_fab"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"/>
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/fab_current"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".86"
-                    android:textColor="?attr/font"
-                    android:textSize="13sp"/>
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_title_fab"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:id="@+id/fab_current"
+                        android:textColor="?attr/font"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -126,31 +147,38 @@
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/subreddit_search_method"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?selectableItemBackground"
+                android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/subreddit_search_method_title"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"/>
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/subreddit_search_method_current"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".86"
-                    android:textColor="?attr/font"
-                    android:textSize="13sp"/>
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/subreddit_search_method_title"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:id="@+id/subreddit_search_method_current"
+                        android:textColor="?attr/font"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
@@ -162,31 +190,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/notifications"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
                 android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_title_notifications"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"/>
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/notifications_current"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".86"
-                    android:textColor="?attr/font"
-                    android:textSize="13sp"/>
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_title_notifications"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:id="@+id/notifications_current"
+                        android:textColor="?attr/font"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
@@ -198,31 +232,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/sorting"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:background="?selectableItemBackground"
+                android:orientation="horizontal"
+                android:background="?android:selectableItemBackground"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_title_sorting"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"/>
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/sorting_current"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".86"
-                    android:textColor="?attr/font"
-                    android:textSize="13sp"/>
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_title_sorting"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:id="@+id/sorting_current"
+                        android:textColor="?attr/font"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -230,31 +271,38 @@
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/sorting_comment"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:background="?selectableItemBackground"
+                android:orientation="horizontal"
+                android:background="?android:selectableItemBackground"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/sorting_default_comment"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"/>
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/sorting_current_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".86"
-                    android:textColor="?attr/font"
-                    android:textSize="13sp" />
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sorting_default_comment"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:id="@+id/sorting_current_comment"
+                        android:textColor="?attr/font"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
@@ -266,31 +314,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:id="@+id/download"
-                android:background="?selectableItemBackground"
+                android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/settings_image_location"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"/>
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:alpha=".86"
-                    android:textColor="?attr/font"
-                    android:textSize="13sp"/>
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_image_location"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha=".86"
+                        android:id="@+id/location"
+                        android:textColor="?attr/font"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
@@ -302,20 +357,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
-                android:background="?selectableItemBackground"
+                android:orientation="horizontal"
+                android:background="?android:selectableItemBackground"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
                     android:layout_marginEnd="42dp"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_centerVertical="true"
                     android:orientation="vertical">
 
                     <TextView
@@ -336,15 +391,16 @@
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/forcelanguage"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -352,34 +408,42 @@
                 android:alpha=".25"
                 android:layout_height="0.25dp"/>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?selectableItemBackground"
+                android:gravity="center_vertical"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                <LinearLayout
                     android:layout_marginEnd="42dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:text="@string/settings_confirm_exit"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_confirm_exit"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/exitcheck"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
