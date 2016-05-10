@@ -645,7 +645,7 @@
     <string name="subreddit_search_method_title">Subreddit search method</string>
     <string name="subreddit_search_method_drawer">Search bar in the drawer</string>
     <string name="subreddit_search_method_toolbar">Long press on the toolbar title</string>
-    <string name="subreddit_search_method_both">Search bar in the drawer and long press on the toolbar title</string>
+    <string name="subreddit_search_method_both">Both drawer and toolbar title</string>
     <string name="handling_internal_browser">Use internal browser</string>
     <string name="handling_external_browser">Use external browser</string>
     <string name="settings_commentnav_description">Enables a bottom bar with navigation arrows</string>
