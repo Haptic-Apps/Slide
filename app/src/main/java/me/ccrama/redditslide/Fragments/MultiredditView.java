@@ -189,16 +189,15 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             multireddits = UserSubscriptions.getPublicMultireddits(profile);
         }
 
-        if ((multireddits != null) && !multireddits.isEmpty())
+        if ((multireddits != null) && !multireddits.isEmpty()) {
             refreshLayout.setColorSchemeColors(Palette.getColors(multireddits.get(id).getDisplayName(), getActivity()));
+        }
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
-        //So, we just do 13% of the device screen height as a general estimate for the Tabs view type
-        final int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.13));
-
+        //So, we estimate the height of the header in dp
         refreshLayout.setProgressViewOffset(false,
-                headerOffset - Constants.PTR_OFFSET_TOP,
-                headerOffset + Constants.PTR_OFFSET_BOTTOM);
+                Constants.TAB_HEADER_VIEW_OFFSET - Constants.PTR_OFFSET_TOP,
+                Constants.TAB_HEADER_VIEW_OFFSET + Constants.PTR_OFFSET_BOTTOM + Reddit.dpToPx(6));
 
         refreshLayout.post(new Runnable() {
             @Override

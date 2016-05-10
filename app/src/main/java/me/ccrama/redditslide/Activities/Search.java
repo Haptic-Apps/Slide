@@ -278,12 +278,11 @@ public class Search extends BaseActivityAnim {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, this));
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
-        //So, we just do 7% of the device screen height as a general estimate for just a toolbar
-        final int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.07));
+        //So, we estimate the height of the header in dp.
 
         mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerOffset - Constants.PTR_OFFSET_TOP,
-                headerOffset + Constants.PTR_OFFSET_BOTTOM);
+                Constants.SINGLE_HEADER_VIEW_OFFSET - Constants.PTR_OFFSET_TOP,
+                Constants.SINGLE_HEADER_VIEW_OFFSET + Constants.PTR_OFFSET_BOTTOM);
 
         mSwipeRefreshLayout.post(new Runnable() {
             @Override

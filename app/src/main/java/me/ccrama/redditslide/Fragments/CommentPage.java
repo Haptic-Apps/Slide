@@ -152,7 +152,7 @@ public class CommentPage extends Fragment {
     public void doTopBarNotify(Submission submission, CommentAdapter adapter2) {
         doTopBar(submission);
         if(adapter2 != null)
-        adapter2.notifyItemChanged(0);
+            adapter2.notifyItemChanged(0);
     }
     public void doRefresh(boolean b) {
         if (b) {
@@ -205,6 +205,10 @@ public class CommentPage extends Fragment {
                     comments = new SubmissionComments(fullname, CommentPage.this, mSwipeRefreshLayout);
                     comments.setSorting(CommentSort.CONFIDENCE);
                     loadMore = false;
+
+                    mSwipeRefreshLayout.setProgressViewOffset(false,
+                            Constants.SINGLE_HEADER_VIEW_OFFSET - Constants.PTR_OFFSET_TOP,
+                            Constants.SINGLE_HEADER_VIEW_OFFSET + (Constants.PTR_OFFSET_BOTTOM + shownHeaders));
                 }
             });
 
@@ -233,24 +237,11 @@ public class CommentPage extends Fragment {
 
         headerHeight = headerV.getMeasuredHeight() + shownHeaders;
 
-        //If the "No participation" header was present, the offset has already been set
-        if (!np) {
-            //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
-            //So, we just do 7% of the device screen height as a general estimate for just a toolbar.
-            //Don't use "headerHeight" for consistency
-            int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.07));
-
-            //If the header has the "Load full thread", "Archived", or "Locked" header,
-            //account for the extra height
-            if (loadMore || archived || locked) {
-                headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.11));
-            }
-
-            mSwipeRefreshLayout.setProgressViewOffset(false,
-                    headerOffset - Constants.PTR_OFFSET_TOP,
-                    headerOffset + Constants.PTR_OFFSET_BOTTOM);
-        }
-
+        //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
+        //So, we estimate the height of the header in dp. Account for show headers.
+        mSwipeRefreshLayout.setProgressViewOffset(false,
+                Constants.SINGLE_HEADER_VIEW_OFFSET - Constants.PTR_OFFSET_TOP,
+                Constants.SINGLE_HEADER_VIEW_OFFSET + (Constants.PTR_OFFSET_BOTTOM + shownHeaders));
     }
 
     View v;
@@ -450,27 +441,8 @@ public class CommentPage extends Fragment {
 
         toolbar.setBackgroundColor(Palette.getColor(subreddit));
 
-
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
-
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(subreddit, getActivity()));
-
-        //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
-        //So, we just do 7% of the device screen height as a general estimate for just a toolbar.
-        //Don't use "headerHeight" for consistency
-        int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.07));
-
-        //If the header has the "Load full thread" & "No participation" header, account for the extra height
-        if (np && loadMore) {
-            headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.15));
-        } else if (np) { //If the header has the "No participation" header, account for the extra height
-            headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.11));
-        }
-
-        mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerOffset - Constants.PTR_OFFSET_TOP,
-                headerOffset + Constants.PTR_OFFSET_BOTTOM);
-
 
         mSwipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -684,25 +656,25 @@ public class CommentPage extends Fragment {
 
     public CommentSort commentSorting;
     private void addClickFunctionSubName(Toolbar toolbar) {
-            TextView titleTv = null;
-            for (int i = 0; i < toolbar.getChildCount(); i++) {
-                View view = toolbar.getChildAt(i);
-                CharSequence text = null;
-                if (view instanceof TextView && (text = ((TextView) view).getText()) != null) {
-                    titleTv = (TextView) view;
+        TextView titleTv = null;
+        for (int i = 0; i < toolbar.getChildCount(); i++) {
+            View view = toolbar.getChildAt(i);
+            CharSequence text = null;
+            if (view instanceof TextView && (text = ((TextView) view).getText()) != null) {
+                titleTv = (TextView) view;
+            }
+        }
+        if (titleTv != null) {
+            final String text = titleTv.getText().toString();
+            titleTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), SubredditView.class);
+                    i.putExtra(SubredditView.EXTRA_SUBREDDIT, text);
+                    startActivity(i);
                 }
-            }
-            if (titleTv != null) {
-                final String text = titleTv.getText().toString();
-               titleTv.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       Intent i = new Intent(getActivity(), SubredditView.class);
-                       i.putExtra(SubredditView.EXTRA_SUBREDDIT, text);
-                       startActivity(i);
-                   }
-               });
-            }
+            });
+        }
     }
     public void doAdapter(boolean load) {
         commentSorting = SettingValues.getCommentSorting(subreddit);
