@@ -38,8 +38,8 @@ public class WikiPage extends Fragment {
         final int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.13));
 
         ref.setProgressViewOffset(false,
-                headerOffset - Reddit.pxToDp(42, getContext()),
-                headerOffset + Reddit.pxToDp(42, getContext()));
+                headerOffset - Reddit.pxToDp(Constants.PTR_OFFSET_TOP, getContext()),
+                headerOffset + Reddit.pxToDp(Constants.PTR_OFFSET_BOTTOM, getContext()));
 
         ref.post(new Runnable() {
             @Override

@@ -247,8 +247,8 @@ public class CommentPage extends Fragment {
             }
 
             mSwipeRefreshLayout.setProgressViewOffset(false,
-                    headerOffset - Reddit.pxToDp(42, getContext()),
-                    headerOffset + Reddit.pxToDp(42, getContext()));
+                    headerOffset - Reddit.pxToDp(Constants.PTR_OFFSET_TOP, getContext()),
+                    headerOffset + Reddit.pxToDp(Constants.PTR_OFFSET_BOTTOM, getContext()));
         }
 
     }
@@ -468,8 +468,8 @@ public class CommentPage extends Fragment {
         }
 
         mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerOffset - Reddit.pxToDp(42, getContext()),
-                headerOffset + Reddit.pxToDp(42, getContext()));
+                headerOffset - Reddit.pxToDp(Constants.PTR_OFFSET_TOP, getContext()),
+                headerOffset + Reddit.pxToDp(Constants.PTR_OFFSET_BOTTOM, getContext()));
 
 
         mSwipeRefreshLayout.setOnRefreshListener(
