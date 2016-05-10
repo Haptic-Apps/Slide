@@ -13,7 +13,6 @@ import net.dean.jraw.paginators.Paginator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
 

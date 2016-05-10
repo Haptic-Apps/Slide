@@ -1,12 +1,12 @@
 package me.ccrama.redditslide.Views;
 
-        import android.graphics.Bitmap;
-        import android.graphics.Rect;
-        import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
+import android.net.Uri;
 
-        import java.io.File;
-        import java.io.UnsupportedEncodingException;
-        import java.net.URLDecoder;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 /**
  * Helper class used to set the source and additional attributes from a variety of sources. Supports
