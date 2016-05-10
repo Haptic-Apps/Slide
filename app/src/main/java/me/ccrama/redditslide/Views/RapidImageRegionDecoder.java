@@ -1,14 +1,14 @@
 package me.ccrama.redditslide.Views;
 
-        import android.content.Context;
-        import android.graphics.Bitmap;
-        import android.graphics.Point;
-        import android.graphics.Rect;
-        import android.net.Uri;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.net.Uri;
 
-        import com.davemorrissey.labs.subscaleview.decoder.ImageRegionDecoder;
+import com.davemorrissey.labs.subscaleview.decoder.ImageRegionDecoder;
 
-        import rapid.decoder.BitmapDecoder;
+import rapid.decoder.BitmapDecoder;
 
 /**
  * A very simple implementation of {@link com.davemorrissey.labs.subscaleview.decoder.ImageRegionDecoder}

@@ -1,12 +1,12 @@
 package me.ccrama.redditslide.Synccit;
 
-import java.io.InputStream;
-import java.util.HashSet;
-import java.util.Scanner;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Scanner;
 
 /**
  * https://github.com/drakeapps/synccit#example-json-read-call

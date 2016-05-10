@@ -9,7 +9,6 @@ import net.dean.jraw.paginators.ModeratorPaginator;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Authentication;
 

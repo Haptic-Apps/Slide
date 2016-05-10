@@ -1,7 +1,7 @@
 package me.ccrama.redditslide.Synccit.http;
 
-import java.io.InputStream;
-import java.util.ArrayList;
+import android.os.AsyncTask;
+import android.util.Log;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
@@ -15,8 +15,8 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 
-import android.os.AsyncTask;
-import android.util.Log;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 public abstract class HttpPostTask<Result> extends AsyncTask<String, Long, Result> {
 	
