@@ -101,18 +101,17 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getContext()));
 
-        //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
-        //So, we just do 13% of the device screen height as a general estimate for the Tabs view type
-        int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.13));
-
-        //if the view type is "single" (and therefore "commentPager"), we need a different offset
-        if (SettingValues.single || getActivity() instanceof SubredditView) {
-            headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.07));
-        }
+        /**
+         * If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
+         * So, we estimate the height of the header in dp.
+         * If the view type is "single" (and therefore "commentPager"), we need a different offset
+         */
+         final int HEADER_OFFSET = (SettingValues.single || getActivity() instanceof SubredditView)
+                ? Constants.SINGLE_HEADER_VIEW_OFFSET : Constants.TAB_HEADER_VIEW_OFFSET;
 
         mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerOffset - Constants.PTR_OFFSET_TOP,
-                headerOffset + Constants.PTR_OFFSET_BOTTOM);
+                HEADER_OFFSET - Constants.PTR_OFFSET_TOP,
+                HEADER_OFFSET + Constants.PTR_OFFSET_BOTTOM);
 
         if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);

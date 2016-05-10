@@ -46,12 +46,10 @@ public class HistoryView extends Fragment {
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors("default", getActivity()));
 
         //If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
-        //So, we just do 13% of the phone screen height as a general estimate for the Tabs view type
-        final int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.13));
-
+        //So, we estimate the height of the header in dp
         mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerOffset - Constants.PTR_OFFSET_TOP,
-                headerOffset + Constants.PTR_OFFSET_BOTTOM);
+                Constants.TAB_HEADER_VIEW_OFFSET - Constants.PTR_OFFSET_TOP,
+                Constants.TAB_HEADER_VIEW_OFFSET + Constants.PTR_OFFSET_BOTTOM);
 
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
