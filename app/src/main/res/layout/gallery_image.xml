@@ -12,7 +12,15 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/chameleon"/>
-
+    <ImageView
+        android:id="@+id/type"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="15dp"
+        android:layout_centerInParent="true"
+        android:theme="@style/Ripple.List"
+        android:tint="#e1e1e1"
+        app:srcCompat="@drawable/album_grid" />
     <ImageView
         android:id="@+id/comments"
         android:layout_width="56dp"

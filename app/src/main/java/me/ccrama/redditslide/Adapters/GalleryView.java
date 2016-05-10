@@ -73,6 +73,31 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             }
 
+            holder.type.setVisibility(View.VISIBLE);
+            switch(ContentType.getContentType(submission)){
+                case ALBUM:
+                    holder.type.setImageResource(R.drawable.album);
+                    break;
+                case EXTERNAL:
+                case LINK:
+                case REDDIT:
+                    holder.type.setImageResource(R.drawable.world);
+                    break;
+                case SELF:
+                    holder.type.setImageResource(R.drawable.fontsizedarker);
+                    break;
+                case EMBEDDED:
+                case GIF:
+                case STREAMABLE:
+                case VIDEO:
+                case VID_ME:
+                    holder.type.setImageResource(R.drawable.play);
+                    break;
+                default:
+                    holder.type.setVisibility(View.GONE);
+                    break;
+            }
+
             if (h != 0) {
                 if (h > 3200) {
                     holder.image.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, 3200));
@@ -202,14 +227,14 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public static class AlbumViewHolder extends RecyclerView.ViewHolder {
         final ImageView image;
+        final ImageView type;
         final View comments;
 
         public AlbumViewHolder(View itemView) {
             super(itemView);
             comments = itemView.findViewById(R.id.comments);
             image = (ImageView) itemView.findViewById(R.id.image);
-
-
+            type = (ImageView) itemView.findViewById(R.id.type);
         }
     }
 
