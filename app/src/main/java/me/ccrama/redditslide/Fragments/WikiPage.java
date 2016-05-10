@@ -12,7 +12,6 @@ import java.util.List;
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout;
@@ -38,8 +37,8 @@ public class WikiPage extends Fragment {
         final int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.13));
 
         ref.setProgressViewOffset(false,
-                headerOffset - Reddit.pxToDp(Constants.PTR_OFFSET_TOP, getContext()),
-                headerOffset + Reddit.pxToDp(Constants.PTR_OFFSET_BOTTOM, getContext()));
+                headerOffset - Constants.PTR_OFFSET_TOP,
+                headerOffset + Constants.PTR_OFFSET_BOTTOM);
 
         ref.post(new Runnable() {
             @Override

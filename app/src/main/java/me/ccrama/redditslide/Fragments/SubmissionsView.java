@@ -111,8 +111,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         }
 
         mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerOffset - Reddit.pxToDp(Constants.PTR_OFFSET_TOP, getContext()),
-                headerOffset + Reddit.pxToDp(Constants.PTR_OFFSET_BOTTOM, getContext()));
+                headerOffset - Constants.PTR_OFFSET_TOP,
+                headerOffset + Constants.PTR_OFFSET_BOTTOM);
 
         if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
