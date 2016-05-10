@@ -728,11 +728,11 @@ public class MainActivity extends BaseActivity {
     }
 
     AsyncTask<View, Void, View> currentFlair;
-
-    public void doSubSidebar(final String subreddit) {
+    public void doSubSidebarNoLoad(final String subreddit) {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
         }
+        findViewById(R.id.loader).setVisibility(View.GONE);
 
         invalidateOptionsMenu();
 
@@ -742,9 +742,6 @@ public class MainActivity extends BaseActivity {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
-
-            mAsyncGetSubreddit = new AsyncGetSubreddit();
-            mAsyncGetSubreddit.execute(subreddit);
 
             findViewById(R.id.loader).setVisibility(View.VISIBLE);
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -761,6 +758,31 @@ public class MainActivity extends BaseActivity {
             ((TextView) findViewById(R.id.post_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.mods_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.flair_text)).setTextColor(subColor);
+
+        } else {
+            if (drawerLayout != null) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+            }
+        }
+    }
+
+    public void doSubSidebar(final String subreddit) {
+        if (mAsyncGetSubreddit != null) {
+            mAsyncGetSubreddit.cancel(true);
+        }
+        findViewById(R.id.loader).setVisibility(View.VISIBLE);
+
+        invalidateOptionsMenu();
+
+        if (!subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("frontpage") &&
+                !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") &&
+                !subreddit.contains("+") && !subreddit.contains(".") && !subreddit.contains("/m/")) {
+            if (drawerLayout != null) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+            }
+
+            mAsyncGetSubreddit = new AsyncGetSubreddit();
+            mAsyncGetSubreddit.execute(subreddit);
 
             final View dialoglayout = findViewById(R.id.sidebarsub);
             {
@@ -1137,7 +1159,7 @@ public class MainActivity extends BaseActivity {
             }
 
             setRecentBar(usedArray.get(toGoto));
-            doSubSidebar(usedArray.get(toGoto));
+            doSubSidebarNoLoad(usedArray.get(toGoto));
         } else if (NetworkUtil.isConnected(this)) {
             UserSubscriptions.doMainActivitySubs(this);
         }
@@ -2043,6 +2065,12 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                int current = pager.getCurrentItem();
+
+                if (current == currentComment) {
+                    current -= 1;
+                }
+                doSubSidebar(usedArray.get(current));
             }
         };
 
@@ -2533,7 +2561,7 @@ public class MainActivity extends BaseActivity {
                         startActivity(i2);
                     }
                 } else {
-                   AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this)
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this)
                             .setTitle(R.string.general_pro)
                             .setMessage(R.string.general_pro_msg)
                             .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
@@ -2545,10 +2573,10 @@ public class MainActivity extends BaseActivity {
                                     }
                                 }
                             }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.dismiss();
-                        }
-                    });
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    dialog.dismiss();
+                                }
+                            });
                     if (SettingValues.previews > 0) {
                         b.setNeutralButton("Preview (" + SettingValues.previews + ")", new DialogInterface.OnClickListener() {
                             @Override
@@ -2799,7 +2827,7 @@ public class MainActivity extends BaseActivity {
     private void setupSubredditSearchToolbar() {
         if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
                 || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
-            if(findViewById(R.id.drawer_divider) != null) {
+            if (findViewById(R.id.drawer_divider) != null) {
                 if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
                     findViewById(R.id.drawer_divider).setVisibility(View.GONE);
                 } else {
@@ -3044,7 +3072,7 @@ public class MainActivity extends BaseActivity {
                                 .translationY(0)
                                 .setInterpolator(new LinearInterpolator())
                                 .setDuration(180);
-                        doSubSidebar(usedArray.get(position));
+                        doSubSidebarNoLoad(usedArray.get(position));
 
                         SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                         if (page != null && page.adapter != null) {
@@ -3195,7 +3223,7 @@ public class MainActivity extends BaseActivity {
 
         Reddit.currentPosition = position;
         if (position + 1 != currentComment) {
-            doSubSidebar(usedArray.get(position));
+            doSubSidebarNoLoad(usedArray.get(position));
         }
         SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
         if (page != null && page.adapter != null) {

@@ -115,7 +115,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
      * <p/>
      * The text must be valid html.
      *
-     * @param baseText      html text
+     * @param baseText  html text
      * @param subreddit the subreddit to theme
      */
     public void setTextHtml(CharSequence baseText, String subreddit) {
@@ -149,7 +149,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         super.setText(builder, BufferType.SPANNABLE);
     }
 
-    private String wrapAlternateSpoilers(String html){
+    private String wrapAlternateSpoilers(String html) {
         Pattern htmlSpoilerPattern = Pattern.compile("<a href=\"(/spoiler|/s|/sp)\">(.*?)</a>");
         Matcher htmlSpoilerMatcher = htmlSpoilerPattern.matcher(html);
         while (htmlSpoilerMatcher.find()) {
@@ -317,7 +317,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 case NONE:
                     break;
                 case VIDEO:
-                    if(Reddit.videoPlugin){
+                    if (Reddit.videoPlugin) {
                         try {
                             Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                             sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
@@ -462,7 +462,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         } else {
             for (int i = 1; i < storedSpoilerStarts.size(); i++) {
                 if (storedSpoilerStarts.get(i) < endOfLink + 2 && storedSpoilerEnds.get(i) > endOfLink + 2) {
-                    text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i), storedSpoilerEnds.get(i) >text.toString().length()?storedSpoilerEnds.get(i)-1:storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    try {
+                        text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i), storedSpoilerEnds.get(i) > text.toString().length() ? storedSpoilerEnds.get(i) - 1 : storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                    } catch (Exception ignored) {
+                        //catch out of bounds
+                    }
                 }
             }
             setText(text);

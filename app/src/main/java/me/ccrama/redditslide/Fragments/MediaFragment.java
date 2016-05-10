@@ -212,7 +212,10 @@ public class MediaFragment extends Fragment {
         firstUrl = bundle.getString("firstUrl");
         sub = ((Shadowbox) getActivity()).subreddit;
         i = bundle.getInt("page");
-        s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(i);
+        if (((Shadowbox) getActivity()).subredditPosts.getPosts().size() != 0)
+            s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(i);
+        else
+            getActivity().finish();
         contentUrl = bundle.getString("contentUrl");
     }
 
