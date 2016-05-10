@@ -285,7 +285,7 @@ public class SubmissionCache {
             String flairString;
             if (flairOverride != null) {
                 flairString = flairOverride;
-            } else if(submission.getSubmissionFlair().getCssClass() != null) {
+            } else if((submission.getSubmissionFlair().getText() == null || submission.getSubmissionFlair().getText().isEmpty()) && submission.getSubmissionFlair().getCssClass() != null) {
                 flairString = submission.getSubmissionFlair().getCssClass();
             } else {
                 flairString = submission.getSubmissionFlair().getText();

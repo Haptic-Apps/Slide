@@ -1516,7 +1516,7 @@ public class PopulateSubmissionViewHolder {
                                 } else {
                                     s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
                                     ((ImageView) holder.save).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                                    if (mContext instanceof Profile && ((Profile)mContext).isSavedView) {
+                                    if (mContext instanceof Profile && ((Profile) mContext).isSavedView) {
                                         posts.remove(posts.indexOf(submission));
                                         recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
                                     }

@@ -58,6 +58,7 @@ import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
@@ -336,6 +337,19 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         if (getIntent().hasExtra(EXTRA_LQ)) {
             String lqUrl = getIntent().getStringExtra(EXTRA_DISPLAY_URL);
             displayImage(lqUrl);
+            findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imageShown = false;
+                    doLoad(contentUrl);
+                    findViewById(R.id.hq).setVisibility(View.GONE);
+                }
+            });
+        } else if(ContentType.isImgurImage(contentUrl) && SettingValues.imgurLq && SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(this) && SettingValues.lowResMobile) )) {
+            String url = contentUrl;
+            url = url.substring(0, url.lastIndexOf(".")) + "m" + url.substring(url.lastIndexOf("."), url.length());
+
+            displayImage(url);
             findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
