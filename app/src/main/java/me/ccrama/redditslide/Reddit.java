@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -103,25 +104,41 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static void forceRestart(Context context) {
         if (appRestart.contains("back")) {
-            appRestart.edit().remove("back").commit();
+            appRestart.edit().remove("back").apply();
         }
 
-        appRestart.edit().putBoolean("isRestarting", true).commit();
+        appRestart.edit().putBoolean("isRestarting", true).apply();
         isRestarting = true;
         ProcessPhoenix.triggerRebirth(context.getApplicationContext());
     }
 
     public static void forceRestart(Context c, boolean forceLoadScreen) {
-        appRestart.edit().putString("startScreen", "").commit();
-        appRestart.edit().putBoolean("isRestarting", true).commit();
+        appRestart.edit().putString("startScreen", "").apply();
+        appRestart.edit().putBoolean("isRestarting", true).apply();
         forceRestart(c);
     }
 
-    public static int pxToDp(int dp, Context c) {
-        DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
-        int px = Math.round(dp * (displayMetrics.ydpi / DisplayMetrics.DENSITY_DEFAULT));
-        return px;
+    /**
+     * Converts px to dp
+     * @param px to convert to dp
+     * @param c context of view
+     * @return dp
+     */
+    public static int pxToDp(int px, Context c) {
+        final DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
+        return Math.round(px / (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
+
+    /**
+     * Converts dp to px
+     * @param dp to convert to px
+     * @return px
+     */
+    public static int dpToPx(int dp) {
+        final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
 
     public static void defaultShareText(String title, String url, Context c) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
