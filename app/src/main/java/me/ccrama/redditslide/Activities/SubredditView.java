@@ -219,7 +219,7 @@ public class SubredditView extends BaseActivityAnim {
                 }
                 builder.show();
                 return true;
-            case R.id.action_info:
+            case R.id.sidebar:
                 drawerLayout.openDrawer(Gravity.RIGHT);
                 return true;
             case R.id.action_shadowbox:
@@ -372,10 +372,16 @@ public class SubredditView extends BaseActivityAnim {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+
+        //Hide the "Submit" menu item if the currently viewed sub is the frontpage or /r/all.
+        if (subreddit.equals("frontpage") || subreddit.equals("all")) {
+            menu.findItem(R.id.submit).setVisible(false);
+            menu.findItem(R.id.sidebar).setVisible(false);
+        }
+
         mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-
                 int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit);
                 final Context contextThemeWrapper = new ContextThemeWrapper(SubredditView.this, style);
                 LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
