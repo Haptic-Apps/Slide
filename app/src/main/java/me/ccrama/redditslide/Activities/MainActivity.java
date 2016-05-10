@@ -2067,12 +2067,14 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                int current = pager.getCurrentItem();
+                if(drawerLayout.isDrawerOpen(Gravity.END)) {
+                    int current = pager.getCurrentItem();
 
-                if (current == currentComment && currentComment != 0) {
-                    current -= 1;
+                    if (current == toOpenComments && toOpenComments != 0) {
+                        current -= 1;
+                    }
+                    doSubSidebar(usedArray.get(current));
                 }
-                doSubSidebar(usedArray.get(current));
             }
         };
 

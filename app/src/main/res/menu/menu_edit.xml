@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".SubredditOverview">
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/edit"
+        android:title="@string/edit_query"
+        app:showAsAction="ifRoom" />
+</menu>

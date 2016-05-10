@@ -355,7 +355,7 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.nav).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (adapter.users != null) {
+                    if (adapter != null && adapter.users != null) {
                         int parentCount, opCount, linkCount, gildCount;
                         parentCount = 0;
                         opCount = 0;
@@ -1011,7 +1011,7 @@ public class CommentPage extends Fragment {
 
     private void goUp() {
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (adapter.users != null && !adapter.users.isEmpty()) {
+        if (adapter != null && adapter.users != null && !adapter.users.isEmpty()) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())
@@ -1107,7 +1107,7 @@ public class CommentPage extends Fragment {
     private void goDown() {
         ((View) toolbar.getParent()).setTranslationY(-((View) toolbar.getParent()).getHeight());
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (adapter.users != null && !adapter.users.isEmpty()) {
+        if (adapter != null &&adapter.users != null && !adapter.users.isEmpty()) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())

@@ -35,6 +35,7 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
 
 import java.util.List;
+import java.util.Locale;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
@@ -340,7 +341,22 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHolder;
             final Comment comment = (Comment) dataSet.posts.get(i);
 
-            holder.score.setText(comment.getScore() + " " + mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
+            String scoreText;
+            if (comment.isScoreHidden()) {
+                scoreText = "[" + mContext.getString(R.string.misc_score_hidden).toUpperCase() + "]";
+            } else {
+                scoreText = String.format(Locale.getDefault(), "%d", comment.getScore());
+            }
+
+            SpannableStringBuilder score = new SpannableStringBuilder(scoreText);
+
+            if (score == null || score.toString().isEmpty()) {
+                score = new SpannableStringBuilder("0");
+            }
+            if (!scoreText.contains("[")) {
+                score.append(String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.points, comment.getScore())));
+            }
+            holder.score.setText(score);
 
             if (Authentication.isLoggedIn) {
                 if (ActionStates.getVoteDirection(comment) == VoteDirection.UPVOTE) {
