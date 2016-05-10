@@ -2,10 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="?attr/activity_background">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -36,42 +35,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:background="?selectableItemBackground"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <LinearLayout
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="42dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_redditprefs_over18"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/settings_redditprefs_over18"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/nsfwcontent"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -79,43 +70,35 @@
                 android:alpha=".25"
                 android:background="?attr/tint" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:background="?selectableItemBackground"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/nsfwrpev_text"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="42dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/nsfwrpev_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_disable_nsfw_photo"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/settings_disable_nsfw_photo"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/nsfwrpev"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
@@ -127,39 +110,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
                 android:id="@+id/thumbmode"
-                android:orientation="horizontal"
-                android:background="?android:selectableItemBackground"
+                android:orientation="vertical"
+                android:background="?selectableItemBackground"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
+                    android:text="@string/settings_reddit_thumbnail_mode"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_reddit_thumbnail_mode"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:id="@+id/thumbtext"
-                        android:text="@string/settings_general_swipeanywhere_description"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/thumbtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".86"
+                    android:text="@string/settings_general_swipeanywhere_description"
+                    android:textColor="?attr/font"
+                    android:textSize="13sp"/>
+            </LinearLayout>
 
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
@@ -171,30 +147,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <RelativeLayout
+            <TextView
                 android:id="@+id/viewRedditPrefs"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
+                android:background="?selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:paddingEnd="16dp"
-                android:paddingStart="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_prefs_reddit"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
-            </RelativeLayout>
+                android:paddingStart="16dp"
+                android:text="@string/settings_prefs_reddit"
+                android:textColor="?attr/font"
+                android:textSize="16sp"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

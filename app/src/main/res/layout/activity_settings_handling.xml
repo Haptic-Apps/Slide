@@ -16,38 +16,31 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/select_browser"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
+                    android:text="@string/handling_browser"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/handling_browser"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/browser"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/browser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".86"
+                    android:textColor="?attr/font"
+                    android:textSize="13sp"/>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -55,42 +48,35 @@
                 android:alpha=".25"
                 android:background="?attr/tint" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
+                android:background="?selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginEnd="42dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_link_gif"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                    android:text="@string/settings_link_gif"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/gif"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -98,42 +84,34 @@
                 android:alpha=".25"
                 android:background="?attr/tint" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:background="?selectableItemBackground"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="42dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_link_image"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/settings_link_image"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/image"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -141,44 +119,36 @@
                 android:alpha=".25"
                 android:background="?attr/tint" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:background="?selectableItemBackground"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="42dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_link_album"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/settings_link_album"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/album"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-            </RelativeLayout>
+            </LinearLayout>
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:id="@+id/video"
                 android:layout_height="wrap_content">
@@ -189,31 +159,17 @@
                     android:alpha=".25"
                     android:background="?attr/tint" />
 
-                <RelativeLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:background="?android:selectableItemBackground"
+                    android:background="?selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
                     android:paddingEnd="16dp"
-                    android:paddingStart="16dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="42dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/download_the_slide_video_player_plugin"
-                            android:textColor="?attr/font"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-                </RelativeLayout>
-            </RelativeLayout>
+                    android:paddingStart="16dp"
+                    android:text="@string/download_the_slide_video_player_plugin"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
+            </FrameLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -221,38 +177,31 @@
                 android:alpha=".25"
                 android:background="?attr/tint" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/custom_handling"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
+                android:background="?selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:paddingEnd="16dp"
+                android:orientation="vertical"
                 android:paddingStart="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
+                    android:text="@string/settings_links_force_external"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_links_force_external"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:text="@string/settings_handling_external_desc"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".86"
+                    android:text="@string/settings_handling_external_desc"
+                    android:textColor="?attr/font"
+                    android:textSize="13sp"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -260,33 +209,27 @@
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
             android:descendantFocusability="beforeDescendants"
+            android:paddingBottom="8dp"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/domainlist"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingBottom="8dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
 
-                <LinearLayout
-                    android:id="@+id/domainlist"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
-
-                <EditText
-                    android:id="@+id/domain"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginStart="12dp"
-                    android:hint="@string/settings_handling_enterdomain"
-                    android:imeOptions="actionDone"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font"
-                    android:inputType="textUri"
-                    android:textSize="16sp" />
-            </LinearLayout>
+            <EditText
+                android:id="@+id/domain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_marginStart="12dp"
+                android:hint="@string/settings_handling_enterdomain"
+                android:imeOptions="actionDone"
+                android:inputType="textUri"
+                android:textColor="?attr/font"
+                android:textColorHint="?attr/font"
+                android:textSize="16sp"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

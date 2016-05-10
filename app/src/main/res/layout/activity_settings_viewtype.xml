@@ -17,42 +17,31 @@
             android:alpha=".5"
             android:text="@string/settings_description_view_type"
             android:layout_height="wrap_content" />
+
         <LinearLayout
+            android:id="@+id/viewtype"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <RelativeLayout
-                android:id="@+id/viewtype"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
+            android:layout_height="56dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_view_type"
+                android:textColor="?attr/font"
+                android:textSize="16sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_view_type"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/currentViewType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/currentViewType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha=".86"
+                android:textColor="?attr/font"
+                android:textSize="13sp"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

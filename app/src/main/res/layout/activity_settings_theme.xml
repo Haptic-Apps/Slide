@@ -131,38 +131,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/dotint"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
+                    android:text="@string/settings_theme_tinting"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_theme_tinting"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tint_current"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </RelativeLayout>
+                <TextView
+                    android:id="@+id/tint_current"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha=".86"
+                    android:textColor="?attr/font"
+                    android:textSize="13sp"/>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -206,7 +199,6 @@
                     android:id="@+id/tint_everywhere"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
@@ -222,35 +214,27 @@
                 android:alpha=".25"
                 android:background="?attr/tint" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:background="?selectableItemBackground"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
-                <LinearLayout
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginEnd="42dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_colored_navigation_bar"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
-                </LinearLayout>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="@string/settings_colored_navigation_bar"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp"/>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/color_navigation_bar"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
@@ -258,7 +242,7 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
 
-            </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

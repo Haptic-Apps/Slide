@@ -161,25 +161,17 @@
                     android:textSize="16sp"/>
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/version"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-
+                android:background="?selectableItemBackground"
+                android:gravity="center_vertical|center_horizontal"
+                android:paddingEnd="16dp"
                 android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <TextView
-                    android:id="@+id/version"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-            </LinearLayout>
+                android:textColor="?attr/font"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
         </LinearLayout>
     </LinearLayout>
