@@ -823,8 +823,9 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(MainActivity.this, Submit.class);
-                    if (!subreddit.contains("/m/"))
+                    if (!subreddit.contains("/m/") || !subreddit.contains(".")) {
                         i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                    }
                     startActivity(i);
                 }
             });
@@ -1590,8 +1591,9 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Submit.class);
-                    if (!selectedSub.contains("/m/"))
+                    if (!selectedSub.contains("/m/") || !selectedSub.contains(".")) {
                         inte.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
+                    }
                     MainActivity.this.startActivity(inte);
                 }
             });
@@ -2274,10 +2276,25 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+        final String subreddit = usedArray.get(pager.getCurrentItem());
+
+        /**
+         * Hide the "Submit" and "Sidebar" menu items if the currently viewed sub is a multi,
+         * domain, the frontpage, or /r/all. If the subreddit has a "." in it, we know it's a domain because
+         * subreddits aren't allowed to have hard-stops in the name.
+         */
+        if (subreddit.contains("/m/") || subreddit.contains(".")
+                || subreddit.equals("frontpage") || subreddit.equals("all")) {
+            menu.findItem(R.id.submit).setVisible(false);
+            menu.findItem(R.id.sidebar).setVisible(false);
+        } else {
+            menu.findItem(R.id.submit).setVisible(true);
+            menu.findItem(R.id.sidebar).setVisible(true);
+        }
+
         mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                final String subreddit = usedArray.get(pager.getCurrentItem());
                 int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
                 final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
                 LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
@@ -2299,7 +2316,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
         if (NetworkUtil.isConnected(this)) {
             if (SettingValues.expandedToolbar) {
@@ -2499,8 +2515,9 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.submit: {
                 Intent i = new Intent(this, Submit.class);
-                if (!selectedSub.contains("/m/"))
+                if (!selectedSub.contains("/m/") || !selectedSub.contains(".")) {
                     i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
+                }
                 startActivity(i);
             }
             return true;
