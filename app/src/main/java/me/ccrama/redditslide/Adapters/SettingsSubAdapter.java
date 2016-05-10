@@ -62,10 +62,11 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
         convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
         convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
 
+        final String DELETE_SUB_SETTINGS_TITLE = (subreddit.contains("/m/")) ? subreddit : ("/r/" + subreddit);
         convertView.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, subreddit))
+                new AlertDialogWrapper.Builder(context).setTitle(context.getString(R.string.settings_delete_sub_settings, DELETE_SUB_SETTINGS_TITLE))
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

@@ -417,7 +417,7 @@
     <!-- Settings -->
     <string name="settings_reddit_prefs">Reddit preferences</string>
     <string name="settings_accent_title">Edit accent color</string>
-    <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/%1$s?</string>
+    <string name="settings_delete_sub_settings">Do you really want to delete settings for %1$s?</string>
     <string name="settings_layout_default">Post layout</string>
     <string name="settings_link_album">Internal album view</string>
     <string name="settings_link_gif">Internal GIF view</string>
