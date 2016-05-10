@@ -99,7 +99,59 @@ public class CreateMulti extends BaseActivityAnim {
         recyclerView = (RecyclerView) findViewById(R.id.subslist);
 
 
-        findViewById(R.id.delete).setVisibility(View.GONE); //todo make this work
+        findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialogWrapper.Builder(CreateMulti.this)
+                        .setTitle(getString(R.string.delete_multireddit_title) + title.getText().toString() + "?")
+                        .setMessage(R.string.cannot_be_undone)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new MaterialDialog.Builder(CreateMulti.this)
+                                        .title(R.string.deleting)
+                                        .progress(true, 100)
+                                        .cancelable(false)
+                                        .show();
+                                new AsyncTask<Void, Void, Void>() {
+
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        try {
+                                            new MultiRedditManager(Authentication.reddit).delete(old);
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    new UserSubscriptions.SyncMultireddits(CreateMulti.this).execute();
+                                                }
+                                            });
+
+                                        } catch (final Exception e) {
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    new AlertDialogWrapper.Builder(CreateMulti.this)
+                                                            .setTitle(R.string.err_title)
+                                                            .setMessage(e instanceof ApiException ? getString(R.string.misc_err) + ": " + ((ApiException) e).getExplanation() + "\n" + getString(R.string.misc_retry) : getString(R.string.misc_err))
+                                                            .setNeutralButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                    finish();
+                                                                }
+                                                            }).create().show();
+                                                }
+                                            });
+                                            e.printStackTrace();
+                                        }
+                                        return null;
+
+                                    }
+                                }.execute();
+                            }
+                        }).setNegativeButton(R.string.btn_cancel, null).show();
+
+            }
+        });
         findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,7 +219,7 @@ public class CreateMulti extends BaseActivityAnim {
 
         for (String s : all) {
             if (s != null && !s.isEmpty()) {
-                if (!s2.contains(s) && !s.equals("all") && !s.equals("frontpage") && !s.contains("+"))
+                if (!s2.contains(s) && !s.equals("all") && !s.equals("frontpage") && !s.contains("+")&& !s.contains(".")&& !s.contains("/m/"))
                     list.add(s);
             }
         }

@@ -732,6 +732,7 @@ public class MainActivity extends BaseActivity {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
         }
+
         findViewById(R.id.loader).setVisibility(View.GONE);
 
         invalidateOptionsMenu();
@@ -743,7 +744,6 @@ public class MainActivity extends BaseActivity {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
 
-            findViewById(R.id.loader).setVisibility(View.VISIBLE);
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             findViewById(R.id.sub_title).setVisibility(View.GONE);
             findViewById(R.id.subscribers).setVisibility(View.GONE);
@@ -2067,7 +2067,7 @@ public class MainActivity extends BaseActivity {
                 super.onDrawerOpened(drawerView);
                 int current = pager.getCurrentItem();
 
-                if (current == currentComment) {
+                if (current == currentComment && currentComment != 0) {
                     current -= 1;
                 }
                 doSubSidebar(usedArray.get(current));
@@ -2457,7 +2457,7 @@ public class MainActivity extends BaseActivity {
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")) {
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all")  &&  !subreddit.contains(".") &&!subreddit.contains("/m/") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override

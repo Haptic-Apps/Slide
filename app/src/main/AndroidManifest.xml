@@ -172,6 +172,22 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="http" />
+                <data
+                    android:host="*reddit.com"
+                    android:pathPattern=".*"
+                    android:scheme="https" />
+                <data
+                    android:host="*reddit.com"
+                    android:pathPattern=".*"
+                    android:scheme="http" />
+                <data
+                    android:host="redd.it"
+                    android:pathPattern=".*"
+                    android:scheme="https" />
+                <data
+                    android:host="redd.it"
+                    android:pathPattern=".*"
+                    android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:host="*reddit.com" />
                 <data android:host="redd.it" />
@@ -279,12 +295,12 @@
         <activity
             android:name=".Activities.SetupWidget"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/swipeable" >
+            android:theme="@style/swipeable"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="APPWIDGET_CONFIGURE"/>
+                <action android:name="APPWIDGET_CONFIGURE" />
             </intent-filter>
-            </activity>
+        </activity>
         <activity
             android:name=".Activities.CreateMulti"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
@@ -318,7 +334,8 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info" />
         </receiver>
-        <service android:name=".Widget.ListViewWidgetService"
+        <service
+            android:name=".Widget.ListViewWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
         <uses-library
             android:name="com.sec.android.app.multiwindow"

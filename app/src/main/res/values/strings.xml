@@ -848,4 +848,7 @@
     <string name="sidebar_friends">Friends</string>
     <string name="settings_manage_subscriptions">Manage your subscriptions</string>
     <string name="btn_add_domain">Add a domain</string>
+    <string name="delete_multireddit_title">Do you really want to delete /m/</string>
+    <string name="cannot_be_undone">This cannot be undone.</string>
+    <string name="deleting">Deleting...</string>
 </resources>
