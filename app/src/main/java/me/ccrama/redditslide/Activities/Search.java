@@ -282,8 +282,8 @@ public class Search extends BaseActivityAnim {
         final int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.07));
 
         mSwipeRefreshLayout.setProgressViewOffset(false,
-                headerOffset - Reddit.pxToDp(42, Search.this),
-                headerOffset + Reddit.pxToDp(42, Search.this));
+                headerOffset - Reddit.pxToDp(Constants.PTR_OFFSET_TOP, Search.this),
+                headerOffset + Reddit.pxToDp(Constants.PTR_OFFSET_BOTTOM, Search.this));
 
         mSwipeRefreshLayout.post(new Runnable() {
             @Override

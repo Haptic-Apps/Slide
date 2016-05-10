@@ -197,8 +197,8 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         final int headerOffset = Math.round((float) (Constants.SCREEN_HEIGHT * 0.13));
 
         refreshLayout.setProgressViewOffset(false,
-                headerOffset - Reddit.pxToDp(42, getContext()),
-                headerOffset + Reddit.pxToDp(42, getContext()));
+                headerOffset - Reddit.pxToDp(Constants.PTR_OFFSET_TOP, getContext()),
+                headerOffset + Reddit.pxToDp(Constants.PTR_OFFSET_BOTTOM, getContext()));
 
         refreshLayout.post(new Runnable() {
             @Override
@@ -226,8 +226,9 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     }
             );
 
-            if (fab != null)
+            if (fab != null) {
                 fab.show();
+            }
 
             rv.addOnScrollListener(new ToolbarScrollHideHandler((Toolbar) (getActivity()).findViewById(R.id.toolbar), getActivity().findViewById(R.id.header)) {
                 @Override
