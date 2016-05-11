@@ -126,7 +126,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
      */
     public static int pxToDp(int px, Context c) {
         final DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
-        return Math.round(px / (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+        return Math.round(px / (displayMetrics.ydpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     /**
@@ -136,7 +136,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
      */
     public static int dpToPx(int dp) {
         final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+        return Math.round(dp * (displayMetrics.ydpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
 
