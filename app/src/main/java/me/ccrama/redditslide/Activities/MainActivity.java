@@ -2706,6 +2706,9 @@ public class MainActivity extends BaseActivity {
         }
 
         Reddit.setDefaultErrorHandler(this);
+
+        sideArrayAdapter.updateHistory(UserSubscriptions.getHistory());
+
         if (datasetChanged && UserSubscriptions.hasSubs() && !usedArray.isEmpty()) {
             usedArray = new ArrayList<>(UserSubscriptions.getSubscriptions(this));
             adapter.notifyDataSetChanged();

@@ -161,6 +161,8 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                     ((MainActivity) getContext()).drawerLayout.closeDrawers();
+                    ((MainActivity) getContext()).e.setText("");
+
                 }
             });
         } else {
@@ -183,6 +185,15 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
     @Override
     public int getCount() {
         return fitems.size() + 1;
+    }
+
+    public void updateHistory(ArrayList<String> history) {
+        for(String s : history){
+            if(!objects.contains(s)){
+                objects.add(s);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     private class SubFilter extends Filter {
