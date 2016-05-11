@@ -31,6 +31,14 @@
             android:layout_alignParentBottom="true"
             android:gravity="right">
 
+            <ImageView
+                android:id="@+id/hq"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:padding="15dp"
+                android:theme="@style/Ripple.List"
+                android:tint="#e1e1e1"
+                app:srcCompat="@drawable/hd" />
 
             <ImageView
                 android:id="@+id/save"
@@ -65,11 +73,6 @@
             android:indeterminate="false"
             android:max="100"
             android:progress="0" />
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="48dp"/>
     </RelativeLayout>
 
     <LinearLayout

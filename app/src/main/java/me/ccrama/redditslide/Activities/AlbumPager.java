@@ -45,7 +45,6 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -72,6 +71,7 @@ import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
@@ -483,6 +483,14 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             final Image current = ((AlbumPager) getActivity()).images.get(i);
             final String url = current.getImageUrl();
+            boolean lq =false;
+            if(SettingValues.imgurLq && SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(getActivity()) && SettingValues.lowResMobile) )) {
+                String lqurl = url.substring(0, url.lastIndexOf(".")) + "m" + url.substring(url.lastIndexOf("."), url.length());
+                loadImage(rootView, this, lqurl);
+                lq = true;
+            } else {
+                loadImage(rootView, this, url);
+            }
 
             final String finalUrl = url;
             {
@@ -498,8 +506,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
                         @Override
                         public void onClick(View v2) {
-
-
                             try {
                                 ((Reddit) (getActivity()).getApplication()).getImageLoader()
                                         .loadImage(finalUrl, new SimpleImageLoadingListener() {
@@ -520,43 +526,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
 
             }
-            final SubsamplingScaleImageView image = (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
-            ImageView fakeImage = new ImageView(getActivity());
-            fakeImage.setLayoutParams(new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
-            fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            ((Reddit) getActivity().getApplication()).getImageLoader()
-                    .displayImage(url, new ImageViewAware(fakeImage), ImageLoaderUtils.options, new ImageLoadingListener() {
-                        private View mView;
-
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-                            mView = view;
-                        }
-
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                            Log.v("Slide", "LOADING FAILED");
-
-                        }
-
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            image.setImage(ImageSource.bitmap(loadedImage));
-                            (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
-                            Log.v("Slide", "LOADING CANCELLED");
-
-                        }
-                    }, new ImageLoadingProgressListener() {
-                        @Override
-                        public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                            ((ProgressBar) rootView.findViewById(R.id.progress)).setProgress(Math.round(100.0f * current / total));
-                        }
-                    });
-
             {
                 String title = "";
                 String description = "";
@@ -571,15 +540,24 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 }
                 if (title.isEmpty() && description.isEmpty()) {
                     rootView.findViewById(R.id.panel).setVisibility(View.GONE);
-                    SlidingUpPanelLayout.LayoutParams params = (SlidingUpPanelLayout.LayoutParams) (rootView.findViewById(R.id.margin)).getLayoutParams();
-                    params.setMargins(0, 0, 0, 0);
-                    rootView.findViewById(R.id.margin).setLayoutParams(params);
+                    (rootView.findViewById(R.id.margin)).setPadding(0,0,0,0);
                 } else if (title.isEmpty()) {
                     ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(description);
                 } else {
                     ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(title);
                     ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)).setTextHtml(description);
                 }
+            }
+            if(lq){
+                rootView.findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadImage(rootView, ImageFullNoSubmission.this, url);
+                        rootView.findViewById(R.id.hq).setVisibility(View.GONE);
+                    }
+                });
+            } else {
+                rootView.findViewById(R.id.hq).setVisibility(View.GONE);
             }
 
             return rootView;
@@ -593,6 +571,44 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         }
     }
 
+    private static void loadImage(final View rootView, Fragment f, String url){
+        final SubsamplingScaleImageView image = (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
+        ImageView fakeImage = new ImageView(f.getActivity());
+        fakeImage.setLayoutParams(new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
+        fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ((Reddit) f.getActivity().getApplication()).getImageLoader()
+                .displayImage(url, new ImageViewAware(fakeImage), ImageLoaderUtils.options, new ImageLoadingListener() {
+                    private View mView;
+
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                        mView = view;
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        Log.v("Slide", "LOADING FAILED");
+
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        image.setImage(ImageSource.bitmap(loadedImage));
+                        (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+                        Log.v("Slide", "LOADING CANCELLED");
+
+                    }
+                }, new ImageLoadingProgressListener() {
+                    @Override
+                    public void onProgressUpdate(String imageUri, View view, int current, int total) {
+                        ((ProgressBar) rootView.findViewById(R.id.progress)).setProgress(Math.round(100.0f * current / total));
+                    }
+                });
+    }
     private void shareImage(String finalUrl) {
         ((Reddit) getApplication()).getImageLoader()
                 .loadImage(finalUrl, new SimpleImageLoadingListener() {
