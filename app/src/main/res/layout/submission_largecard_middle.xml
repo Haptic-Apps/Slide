@@ -45,6 +45,7 @@
                 android:padding="8dp"
                 android:tag="tint"
                 android:tint="?attr/tint"
+                android:layout_marginLeft="-4dp"
                 app:srcCompat="@drawable/down" />
 
             <RelativeLayout

@@ -71,8 +71,8 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
     public static int getThemeFromId(int id, Context mContext) {
         return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_theme", 0);
     }
-    public static boolean getLargePreviews(int id, Context mContext) {
-        return mContext.getSharedPreferences("widget", 0).getBoolean(id + "_sub_pics", false);
+    public static int getViewType(int id, Context mContext) {
+        return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_view", 0);
     }
     public static void setSubFromid(int id, String sub, Context mContext) {
         mContext.getSharedPreferences("widget", 0).edit().putString(id + "_sub", sub).apply();
@@ -80,8 +80,8 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
     public static void setThemeToId(int id, int theme, Context mContext) {
         mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_theme", theme).apply();
     }
-    public static void setLargePreviews(int id, boolean checked, SetupWidget mContext) {
-        mContext.getSharedPreferences("widget", 0).edit().putBoolean(id + "_sub_pics", checked).apply();
+    public static void setViewType(int id, int checked, SetupWidget mContext) {
+        mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_view", checked).apply();
     }
     public static void setSorting(int id, int sorting, SetupWidget mContext) {
         mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_sort", sorting).apply();

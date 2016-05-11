@@ -5,9 +5,9 @@ import android.appwidget.AppWidgetManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -55,19 +55,22 @@ public class SetupWidget extends BaseActivity {
             appWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
     }
-
+    View header;
     public void doShortcut() {
 
         setContentView(R.layout.activity_setup_widget);
         setupAppBar(R.id.toolbar, "New widget", true, false);
+        header = getLayoutInflater().inflate(R.layout.widget_header, null);
 
         ListView list = (ListView)findViewById(R.id.subs);
         final ArrayList<String> sorted = UserSubscriptions.getSubscriptionsForShortcut(SetupWidget.this);
         final SubChooseAdapter adapter = new SubChooseAdapter(this, sorted, UserSubscriptions.getAllSubreddits(this));
+
+        list.addHeaderView(header);
         list.setAdapter(adapter);
 
-        (findViewById(R.id.sort)).clearFocus();
-        ((EditText)findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
+        (header.findViewById(R.id.sort)).clearFocus();
+        ((EditText)header.findViewById(R.id.sort)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
@@ -101,7 +104,7 @@ public class SetupWidget extends BaseActivity {
 
                 SubredditWidgetProvider.setSubFromid(appWidgetId, name, SetupWidget.this);
                 int theme = 0;
-                switch(((RadioGroup)findViewById(R.id.theme)).getCheckedRadioButtonId()){
+                switch(((RadioGroup)header.findViewById(R.id.theme)).getCheckedRadioButtonId()){
                     case R.id.dark:
                         theme = 1;
                         break;
@@ -109,9 +112,18 @@ public class SetupWidget extends BaseActivity {
                         theme = 2;
                         break;
                 }
+                int view = 0;
+                switch(((RadioGroup)header.findViewById(R.id.type)).getCheckedRadioButtonId()){
+                    case R.id.big:
+                        view = 1;
+                        break;
+                    case R.id.compact:
+                        view = 2;
+                        break;
+                }
                 SubredditWidgetProvider.setSorting(appWidgetId, i, SetupWidget.this);
                 SubredditWidgetProvider.setThemeToId(appWidgetId, theme, SetupWidget.this);
-                SubredditWidgetProvider.setLargePreviews(appWidgetId, ((SwitchCompat)findViewById(R.id.previews)).isChecked(), SetupWidget.this);
+                SubredditWidgetProvider.setViewType(appWidgetId, view, SetupWidget.this);
 
                 {
                     Intent intent = new Intent();

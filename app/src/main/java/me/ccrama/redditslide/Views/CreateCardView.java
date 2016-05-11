@@ -345,14 +345,14 @@ public class CreateCardView {
     public static void animateIn(View l) {
         l.setVisibility(View.VISIBLE);
 
-        ValueAnimator mAnimator = slideAnimator(0, Reddit.pxToDp(36, l.getContext()), l);
+        ValueAnimator mAnimator = slideAnimator(0, Reddit.dpToPx(36), l);
 
         mAnimator.start();
     }
 
     public static void animateOut(final View l) {
 
-        ValueAnimator mAnimator = slideAnimator(Reddit.pxToDp(36, l.getContext()), 0, l);
+        ValueAnimator mAnimator = slideAnimator(Reddit.dpToPx(36), 0, l);
         mAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {

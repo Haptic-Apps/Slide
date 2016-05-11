@@ -98,7 +98,7 @@ public class CommentOverflow extends LinearLayout {
                 scrollView.setScrollbarFadingEnabled(false);
                 TableLayout table = formatTable(block, subreddit);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
-                table.setPaddingRelative(0, 0, 0, Reddit.pxToDp(10, context));
+                table.setPaddingRelative(0, 0, 0, Reddit.dpToPx(10));
                 scrollView.addView(table);
                 addView(scrollView);
 
@@ -109,7 +109,7 @@ public class CommentOverflow extends LinearLayout {
                 newTextView.setTextHtml(block, subreddit);
                 setStyle(newTextView, subreddit);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
-                newTextView.setPaddingRelative(0, 0, 0, Reddit.pxToDp(10, context));
+                newTextView.setPaddingRelative(0, 0, 0, Reddit.dpToPx(10));
                 scrollView.addView(newTextView);
                 addView(scrollView);
 

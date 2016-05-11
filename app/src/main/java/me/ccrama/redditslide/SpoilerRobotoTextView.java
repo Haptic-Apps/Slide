@@ -466,6 +466,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                         text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i), storedSpoilerEnds.get(i) > text.toString().length() ? storedSpoilerEnds.get(i) - 1 : storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                     } catch (Exception ignored) {
                         //catch out of bounds
+                        ignored.printStackTrace();
                     }
                 }
             }

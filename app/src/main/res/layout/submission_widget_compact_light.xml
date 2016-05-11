@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    android:gravity="center"
+    android:layerType="hardware"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/card"
+        android:background="?android:selectableItemBackground">
+        <RelativeLayout
+            android:id="@+id/innerrelative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp">
+            <ImageView
+                android:id="@+id/thumbimage2"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="8dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop" />
+            <RelativeLayout
+                android:id="@+id/inside"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_below="@+id/bigpic"
+                android:layout_toLeftOf="@+id/secondMenu"
+                android:layout_toRightOf="@+id/thumbimage2">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:textColor="#424242"
+                    android:layout_marginStart="16dp"
+                    android:tag="tint"
+                    android:text="@string/example_title"/>
+            </RelativeLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>

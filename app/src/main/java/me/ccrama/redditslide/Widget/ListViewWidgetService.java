@@ -128,7 +128,7 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                 }
                 try {
                     records = new ArrayList<>(p.next());
-                } catch(Exception e){
+                } catch (Exception e) {
 
                 }
                 return null;
@@ -151,10 +151,21 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         // position will always range from 0 to getCount() - 1.
         // Construct a RemoteViews item based on the app widget item XML file, and set the
         // text based on the position.
-        int view = R.layout.submission_widget;
-        switch (SubredditWidgetProvider.getThemeFromId(id, mContext)) {
+        int view = R.layout.submission_widget_light;
+        switch (SubredditWidgetProvider.getViewType(id, mContext)) {
+            case 1:
+            case 0:
+                if (SubredditWidgetProvider.getThemeFromId(id, mContext) == 2)
+                    view = R.layout.submission_widget_light;
+                else
+                    view = R.layout.submission_widget;
+
+                break;
             case 2:
-                view = R.layout.submission_widget_light;
+                if (SubredditWidgetProvider.getThemeFromId(id, mContext) == 2)
+                    view = R.layout.submission_widget_compact_light;
+                else
+                    view = R.layout.submission_widget_compact;
                 break;
         }
         final RemoteViews rv = new RemoteViews(mContext.getPackageName(), view);
@@ -169,7 +180,7 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
             rv.setTextViewText(R.id.information, data.getAuthor() + " " + TimeUtils.getTimeAgo(data.getCreated().getTime(), mContext));
             rv.setTextViewText(R.id.subreddit, data.getSubredditName());
             rv.setTextColor(R.id.subreddit, Palette.getColor(data.getSubredditName()));
-            if (SubredditWidgetProvider.getLargePreviews(id, mContext)) {
+            if (SubredditWidgetProvider.getViewType(id, mContext) == 1) {
                 Thumbnails s = data.getThumbnails();
                 rv.setViewVisibility(R.id.thumbimage2, View.GONE);
                 if (s != null && s.getVariations() != null && s.getSource() != null) {
@@ -178,7 +189,8 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                 } else
                     rv.setViewVisibility(R.id.bigpic, View.GONE);
             } else {
-                rv.setViewVisibility(R.id.bigpic, View.GONE);
+                if (SubredditWidgetProvider.getViewType(id, mContext) != 2)
+                    rv.setViewVisibility(R.id.bigpic, View.GONE);
                 if (data.getThumbnailType() == Submission.ThumbnailType.URL) {
                     rv.setImageViewBitmap(R.id.thumbimage2, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(data.getThumbnail()));
                     rv.setViewVisibility(R.id.thumbimage2, View.VISIBLE);
@@ -192,7 +204,7 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
             activityIntent.putExtras(infos);
 
             rv.setOnClickFillInIntent(R.id.card, activityIntent);
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
         return rv;

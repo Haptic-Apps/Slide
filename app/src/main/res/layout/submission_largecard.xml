@@ -51,6 +51,7 @@
                 android:layout_alignParentRight="true"
                 android:padding="8dp"
                 android:tag="tint"
+                android:layout_marginLeft="-4dp"
                 android:tint="?attr/tint"
                 app:srcCompat="@drawable/down" />
 
