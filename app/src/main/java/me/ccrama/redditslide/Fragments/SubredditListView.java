@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class SubredditListView extends Fragment {
     public SubredditNames posts;
@@ -59,28 +61,6 @@ public class SubredditListView extends Fragment {
                 Constants.TAB_HEADER_VIEW_OFFSET + Constants.PTR_OFFSET_BOTTOM);
 
         v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
-
-        rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, getActivity().findViewById(R.id.header)) {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (!posts.loading && !posts.nomore) {
-
-                    visibleItemCount = rv.getLayoutManager().getChildCount();
-                    totalItemCount = rv.getLayoutManager().getItemCount();
-
-                    if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
-                        posts.loading = true;
-                        posts.loadMore(mSwipeRefreshLayout.getContext(), false, where);
-
-                    }
-                }
-
-            }
-        });
-
-
         doAdapter();
 
         return v;
@@ -108,6 +88,25 @@ public class SubredditListView extends Fragment {
                     }
                 }
         );
+        rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, getActivity().findViewById(R.id.header)) {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!posts.loading && !posts.nomore) {
+                    visibleItemCount = rv.getLayoutManager().getChildCount();
+                    totalItemCount = rv.getLayoutManager().getItemCount();
+
+                    pastVisiblesItems = ((LinearLayoutManager)rv.getLayoutManager()).findFirstVisibleItemPosition();
+                    if ((visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                        posts.loading = true;
+                        LogUtil.v("Loading more");
+                        posts.loadMore(mSwipeRefreshLayout.getContext(), false, where);
+                    }
+                }
+
+            }
+        });
     }
 
     @Override

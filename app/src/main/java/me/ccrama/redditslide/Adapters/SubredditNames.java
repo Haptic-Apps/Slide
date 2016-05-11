@@ -15,7 +15,9 @@ import java.util.List;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.SubredditListView;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 
 /**
  * This class is reponsible for loading a list of subreddits from an endpoint
@@ -75,6 +77,12 @@ public class SubredditNames {
             context = null;
 
             if (submissions != null && !submissions.isEmpty()) {
+                ArrayList<Subreddit> toRemove = new ArrayList<>();
+                for (Subreddit s : submissions) {
+                    if (!SettingValues.subredditFilters.isEmpty() && PostMatch.contains(s.getDisplayName().toLowerCase(), PostMatch.subreddits, true))
+                        toRemove.add(s);
+                }
+                submissions.removeAll(toRemove);
                 // new submissions found
                 int start = 0;
                 if (posts != null) {
@@ -103,9 +111,12 @@ public class SubredditNames {
         protected List<Subreddit> doInBackground(String... subredditPaginators) {
 
             List<Subreddit> things = new ArrayList<>();
+            if (PostMatch.subreddits == null)
+                PostMatch.subreddits = SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
 
             if (subredditPaginators[0].equalsIgnoreCase("trending")) {
                 List<String> trending = Authentication.reddit.getTrendingSubreddits();
+
                 for (String s : trending) {
                     things.add(Authentication.reddit.getSubreddit(s));
                 }
@@ -147,6 +158,7 @@ public class SubredditNames {
                 try {
                     if (paginator != null && paginator.hasNext()) {
                         things.addAll(paginator.next());
+
                     } else {
                         nomore = true;
                     }
@@ -159,7 +171,6 @@ public class SubredditNames {
 
                 }
             }
-
             return things;
         }
     }
