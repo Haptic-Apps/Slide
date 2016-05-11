@@ -28,13 +28,17 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
         this.opposite = opposite;
     }
 
-    int verticalOffset;
+    public int verticalOffset;
 
     boolean scrollingUp;
 
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+            if(reset){
+                verticalOffset = 0;
+                reset = false;
+            }
             if (scrollingUp) {
                 if (verticalOffset > tToolbar.getHeight()) {
                     toolbarAnimateHide();
@@ -62,8 +66,7 @@ public class ToolbarScrollHideHandler extends RecyclerView.OnScrollListener {
             }
         }
     }
-
-
+    public boolean reset;
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         verticalOffset += dy;

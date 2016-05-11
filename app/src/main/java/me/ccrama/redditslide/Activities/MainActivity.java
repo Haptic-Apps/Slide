@@ -523,6 +523,7 @@ public class MainActivity extends BaseActivity {
                             } else {
                                 ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
                             }
+                            ((SubmissionsView) adapter.getCurrentFragment()).resetScroll();
                         }
                     });
         } else {
@@ -546,6 +547,7 @@ public class MainActivity extends BaseActivity {
                     } else {
                         ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
                     }
+                    ((SubmissionsView) adapter.getCurrentFragment()).resetScroll();
                 }
             });
         }

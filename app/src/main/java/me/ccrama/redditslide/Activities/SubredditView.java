@@ -361,6 +361,7 @@ public class SubredditView extends BaseActivityAnim {
                 } else {
                     ((SubmissionsView) (adapter.getCurrentFragment())).rv.smoothScrollToPosition(0);
                 }
+                ((SubmissionsView) (adapter.getCurrentFragment())).resetScroll();
             }
         });
 

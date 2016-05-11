@@ -106,7 +106,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
          * So, we estimate the height of the header in dp.
          * If the view type is "single" (and therefore "commentPager"), we need a different offset
          */
-         final int HEADER_OFFSET = (SettingValues.single || getActivity() instanceof SubredditView)
+        final int HEADER_OFFSET = (SettingValues.single || getActivity() instanceof SubredditView)
                 ? Constants.SINGLE_HEADER_VIEW_OFFSET : Constants.TAB_HEADER_VIEW_OFFSET;
 
         mSwipeRefreshLayout.setProgressViewOffset(false,
@@ -195,7 +195,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         if (fab != null)
             fab.show();
 
-        final View header = getActivity().findViewById(R.id.header);
+        header = getActivity().findViewById(R.id.header);
 
         //TODO, have it so that if the user clicks anywhere in the rv to hide and cancel GoToSubreddit?
 //        final TextInputEditText GO_TO_SUB_FIELD = (TextInputEditText) getActivity().findViewById(R.id.toolbar_search);
@@ -219,79 +219,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 //            }
 //        });
 
-        rv.addOnScrollListener(new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, header) {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                if (!posts.loading && !posts.nomore && !posts.offline) {
-                    visibleItemCount = rv.getLayoutManager().getChildCount();
-                    totalItemCount = rv.getLayoutManager().getItemCount();
-
-                    int[] firstVisibleItems;
-                    firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(null);
-                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                        for (int firstVisibleItem : firstVisibleItems) {
-                            pastVisiblesItems = firstVisibleItem;
-                            if (SettingValues.scrollSeen && pastVisiblesItems > 0) {
-                                HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
-                            }
-                        }
-                    }
-
-                    if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
-                        posts.loading = true;
-                        posts.loadMore(mSwipeRefreshLayout.getContext(), SubmissionsView.this, false, posts.subreddit);
-                    }
-                }
-
-                /*
-                if(dy <= 0 && !down){
-                    (getActivity()).findViewById(R.id.header).animate().translationY(((BaseActivity)getActivity()).mToolbar.getTop()).setInterpolator(new AccelerateInterpolator()).start();
-                    down = true;
-                } else if(down){
-                    (getActivity()).findViewById(R.id.header).animate().translationY(((BaseActivity)getActivity()).mToolbar.getTop()).setInterpolator(new AccelerateInterpolator()).start();
-                    down = false;
-                }*///todo For future implementation instead of scrollFlags
-
-                if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    diff += dy;
-                } else {
-                    diff = 0;
-                }
-                if (fab != null) {
-                    if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
-                        if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
-                            fab.show();
-                    } else {
-                        fab.hide();
-                    }
-                }
-
-            }
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                switch (newState) {
-//                    case RecyclerView.SCROLL_STATE_IDLE:
-//                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
-//                        break;
-//                    case RecyclerView.SCROLL_STATE_DRAGGING:
-//                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
-//                        break;
-//                    case RecyclerView.SCROLL_STATE_SETTLING:
-//                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().pause();
-//                        break;
-//                }
-                super.onScrollStateChanged(recyclerView, newState);
-                //If the toolbar search is open, and the user scrolls in the Main view--close the search UI
-                if (getActivity() instanceof MainActivity && (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
-                        || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
-                        && ((MainActivity) getContext()).findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
-                    ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar).performClick();
-                }
-            }
-        });
+        resetScroll();
 
         Reddit.isLoading = false;
         if (MainActivity.shouldLoad == null || id == null || (MainActivity.shouldLoad != null && MainActivity.shouldLoad.equals(id)) || !(getActivity() instanceof MainActivity)) {
@@ -299,6 +227,10 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         }
         return v;
     }
+
+    View header;
+
+    ToolbarScrollHideHandler toolbarScroll;
 
     @NonNull
     private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
@@ -487,5 +419,86 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         }
         mSwipeRefreshLayout.setRefreshing(false);
         adapter.setError(true);
+    }
+
+    public void resetScroll() {
+        if (toolbarScroll == null) {
+            toolbarScroll = new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, header) {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    if (!posts.loading && !posts.nomore && !posts.offline) {
+                        visibleItemCount = rv.getLayoutManager().getChildCount();
+                        totalItemCount = rv.getLayoutManager().getItemCount();
+
+                        int[] firstVisibleItems;
+                        firstVisibleItems = ((CatchStaggeredGridLayoutManager) rv.getLayoutManager()).findFirstVisibleItemPositions(null);
+                        if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                            for (int firstVisibleItem : firstVisibleItems) {
+                                pastVisiblesItems = firstVisibleItem;
+                                if (SettingValues.scrollSeen && pastVisiblesItems > 0) {
+                                    HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
+                                }
+                            }
+                        }
+
+                        if ((visibleItemCount + pastVisiblesItems) + 5 >= totalItemCount) {
+                            posts.loading = true;
+                            posts.loadMore(mSwipeRefreshLayout.getContext(), SubmissionsView.this, false, posts.subreddit);
+                        }
+                    }
+
+                /*
+                if(dy <= 0 && !down){
+                    (getActivity()).findViewById(R.id.header).animate().translationY(((BaseActivity)getActivity()).mToolbar.getTop()).setInterpolator(new AccelerateInterpolator()).start();
+                    down = true;
+                } else if(down){
+                    (getActivity()).findViewById(R.id.header).animate().translationY(((BaseActivity)getActivity()).mToolbar.getTop()).setInterpolator(new AccelerateInterpolator()).start();
+                    down = false;
+                }*///todo For future implementation instead of scrollFlags
+
+                    if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) {
+                        diff += dy;
+                    } else {
+                        diff = 0;
+                    }
+                    if (fab != null) {
+                        if (dy <= 0 && fab.getId() != 0 && SettingValues.fab) {
+                            if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
+                                fab.show();
+                        } else {
+                            fab.hide();
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                switch (newState) {
+//                    case RecyclerView.SCROLL_STATE_IDLE:
+//                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
+//                        break;
+//                    case RecyclerView.SCROLL_STATE_DRAGGING:
+//                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().resume();
+//                        break;
+//                    case RecyclerView.SCROLL_STATE_SETTLING:
+//                        ((Reddit)getActivity().getApplicationContext()).getImageLoader().pause();
+//                        break;
+//                }
+                    super.onScrollStateChanged(recyclerView, newState);
+                    //If the toolbar search is open, and the user scrolls in the Main view--close the search UI
+                    if (getActivity() instanceof MainActivity && (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                            || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
+                            && ((MainActivity) getContext()).findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
+                        ((MainActivity) getContext()).findViewById(R.id.close_search_toolbar).performClick();
+                    }
+                }
+            };
+            rv.addOnScrollListener(toolbarScroll);
+        } else {
+            toolbarScroll.reset = true;
+        }
     }
 }

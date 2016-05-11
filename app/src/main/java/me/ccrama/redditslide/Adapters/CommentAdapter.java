@@ -595,6 +595,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 i++;
             }
         }
+        mPage.resetScroll();
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, boolean reset) {
@@ -643,6 +644,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 i++;
             }
         }
+        mPage.resetScroll();
+
     }
 
     @Override

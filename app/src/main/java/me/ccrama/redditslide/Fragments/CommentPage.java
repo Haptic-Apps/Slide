@@ -139,7 +139,7 @@ public class CommentPage extends Fragment {
 
     }
 
-    RecyclerView.OnScrollListener toolbarScroll;
+    ToolbarScrollHideHandler toolbarScroll;
     public Toolbar toolbar;
     public int headerHeight;
     public int shownHeaders = 0;
@@ -149,11 +149,13 @@ public class CommentPage extends Fragment {
         locked = s.isLocked();
         doTopBar();
     }
+
     public void doTopBarNotify(Submission submission, CommentAdapter adapter2) {
         doTopBar(submission);
-        if(adapter2 != null)
+        if (adapter2 != null)
             adapter2.notifyItemChanged(0);
     }
+
     public void doRefresh(boolean b) {
         if (b) {
             v.findViewById(R.id.progress).setVisibility(View.VISIBLE);
@@ -304,29 +306,7 @@ public class CommentPage extends Fragment {
         }
         if (fab != null)
             fab.show();
-        toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header), v.findViewById(R.id.progress), SettingValues.commentAutoHide ? v.findViewById(R.id.commentnav) : null) {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (SettingValues.fabComments) {
-                    if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING && !overrideFab) {
-                        diff += dy;
-                    } else if (!overrideFab) {
-                        diff = 0;
-                    }
-                    if (fab != null && !overrideFab) {
-                        if (dy <= 0 && fab.getId() != 0) {
-                            if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
-                                fab.show();
-                        } else {
-                            fab.hide();
-                        }
-                    }
-                }
-            }
-        };
-
-        rv.addOnScrollListener(toolbarScroll);
+        resetScroll();
         fastScroll = v.findViewById(R.id.commentnav);
         if (!SettingValues.fastscroll) {
             fastScroll.setVisibility(View.GONE);
@@ -621,6 +601,7 @@ public class CommentPage extends Fragment {
             @Override
             public void onClick(View v) {
                 ((LinearLayoutManager) rv.getLayoutManager()).scrollToPositionWithOffset(1, headerHeight);
+                resetScroll();
             }
         });
         addClickFunctionSubName(toolbar);
@@ -655,6 +636,7 @@ public class CommentPage extends Fragment {
     }
 
     public CommentSort commentSorting;
+
     private void addClickFunctionSubName(Toolbar toolbar) {
         TextView titleTv = null;
         for (int i = 0; i < toolbar.getChildCount(); i++) {
@@ -676,6 +658,7 @@ public class CommentPage extends Fragment {
             });
         }
     }
+
     public void doAdapter(boolean load) {
         commentSorting = SettingValues.getCommentSorting(subreddit);
         if (load)
@@ -831,6 +814,35 @@ public class CommentPage extends Fragment {
                 return 3;
         }
         return 0;
+    }
+
+    public void resetScroll() {
+        if (toolbarScroll == null) {
+            toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header), v.findViewById(R.id.progress), SettingValues.commentAutoHide ? v.findViewById(R.id.commentnav) : null) {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+                    if (SettingValues.fabComments) {
+                        if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING && !overrideFab) {
+                            diff += dy;
+                        } else if (!overrideFab) {
+                            diff = 0;
+                        }
+                        if (fab != null && !overrideFab) {
+                            if (dy <= 0 && fab.getId() != 0) {
+                                if (recyclerView.getScrollState() != RecyclerView.SCROLL_STATE_DRAGGING || diff < -fab.getHeight() * 2)
+                                    fab.show();
+                            } else {
+                                fab.hide();
+                            }
+                        }
+                    }
+                }
+            };
+            rv.addOnScrollListener(toolbarScroll);
+        } else {
+            toolbarScroll.reset = true;
+        }
     }
 
     public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
@@ -1079,7 +1091,7 @@ public class CommentPage extends Fragment {
     private void goDown() {
         ((View) toolbar.getParent()).setTranslationY(-((View) toolbar.getParent()).getHeight());
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (adapter != null &&adapter.users != null && !adapter.users.isEmpty()) {
+        if (adapter != null && adapter.users != null && !adapter.users.isEmpty()) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())
