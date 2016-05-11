@@ -28,5 +28,5 @@ public class Constants {
      * This is used whenever we call mSwipeRefreshLayout.setProgressViewOffset().
      */
     public static final int PTR_OFFSET_TOP = Reddit.dpToPx(40);
-    public static final int PTR_OFFSET_BOTTOM = Reddit.dpToPx(24);
+    public static final int PTR_OFFSET_BOTTOM = Reddit.dpToPx(18);
 }
