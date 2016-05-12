@@ -161,8 +161,11 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                     ((MainActivity) getContext()).drawerLayout.closeDrawers();
-                    ((MainActivity) getContext()).e.setText("");
 
+                    if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
+                            || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                        ((MainActivity) getContext()).drawerSearch.setText("");
+                    }
                 }
             });
         } else {

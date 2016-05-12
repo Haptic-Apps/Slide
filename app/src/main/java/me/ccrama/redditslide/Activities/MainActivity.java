@@ -156,7 +156,7 @@ public class MainActivity extends BaseActivity {
     public static Map<String, String> multiNameToSubsMap = new HashMap<>();
     public DrawerLayout drawerLayout;
     public View hea;
-    public EditText e;
+    public EditText drawerSearch;
     public View header;
     public String subToDo;
     public OverviewPagerAdapter adapter;
@@ -214,9 +214,9 @@ public class MainActivity extends BaseActivity {
             resetAdapter();
             setDrawerSubList();
         } else if (requestCode == 4 && resultCode != 4) { //what?
-            if (e != null) {
-                e.clearFocus();
-                e.setText("");
+            if (drawerSearch != null) {
+                drawerSearch.clearFocus();
+                drawerSearch.setText("");
                 drawerLayout.closeDrawers();
             }
         } else if (requestCode == TUTORIAL_RESULT) {
@@ -2069,7 +2069,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if(drawerLayout.isDrawerOpen(Gravity.END)) {
+                if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
                     int current = pager.getCurrentItem();
 
                     if (current == toOpenComments && toOpenComments != 0) {
@@ -2117,30 +2117,30 @@ public class MainActivity extends BaseActivity {
 
         if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
                 || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
-            e = ((EditText) headerMain.findViewById(R.id.sort));
-            e.setVisibility(View.VISIBLE);
+            drawerSearch = ((EditText) headerMain.findViewById(R.id.sort));
+            drawerSearch.setVisibility(View.VISIBLE);
 
             headerMain.findViewById(R.id.close_search_drawer).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    e.setText("");
+                    drawerSearch.setText("");
                 }
             });
 
-            e.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            drawerSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    drawerSubList.smoothScrollToPositionFromTop(1, e.getHeight(), 100);
+                    drawerSubList.smoothScrollToPositionFromTop(1, drawerSearch.getHeight(), 100);
                 }
             });
-            e.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            drawerSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
                     if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
                         //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
-                        if (sideArrayAdapter.fitems == null || sideArrayAdapter.openInSubView || !usedArray.contains(e.getText().toString().toLowerCase())) {
+                        if (sideArrayAdapter.fitems == null || sideArrayAdapter.openInSubView || !usedArray.contains(drawerSearch.getText().toString().toLowerCase())) {
                             Intent inte = new Intent(MainActivity.this, SubredditView.class);
-                            inte.putExtra(SubredditView.EXTRA_SUBREDDIT, e.getText().toString());
+                            inte.putExtra(SubredditView.EXTRA_SUBREDDIT, drawerSearch.getText().toString());
                             MainActivity.this.startActivity(inte);
                         } else {
                             if (commentPager && adapter instanceof OverviewPagerAdapterComment) {
@@ -2148,14 +2148,14 @@ public class MainActivity extends BaseActivity {
                                 toOpenComments = -1;
                                 ((MainActivity.OverviewPagerAdapterComment) adapter).size = (usedArray.size() + 1);
                                 adapter.notifyDataSetChanged();
-                                if (usedArray.contains(e.getText().toString().toLowerCase())) {
-                                    doPageSelectedComments(usedArray.indexOf(e.getText().toString().toLowerCase()));
+                                if (usedArray.contains(drawerSearch.getText().toString().toLowerCase())) {
+                                    doPageSelectedComments(usedArray.indexOf(drawerSearch.getText().toString().toLowerCase()));
                                 } else {
                                     doPageSelectedComments(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
                                 }
                             }
-                            if (usedArray.contains(e.getText().toString().toLowerCase())) {
-                                pager.setCurrentItem(usedArray.indexOf(e.getText().toString().toLowerCase()));
+                            if (usedArray.contains(drawerSearch.getText().toString().toLowerCase())) {
+                                pager.setCurrentItem(usedArray.indexOf(drawerSearch.getText().toString().toLowerCase()));
                             } else {
                                 pager.setCurrentItem(usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
                             }
@@ -2167,7 +2167,7 @@ public class MainActivity extends BaseActivity {
                             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         }
                         drawerLayout.closeDrawers();
-                        e.setText("");
+                        drawerSearch.setText("");
                     }
                     return false;
                 }
@@ -2176,7 +2176,7 @@ public class MainActivity extends BaseActivity {
             final View close = findViewById(R.id.close_search_drawer);
             close.setVisibility(View.GONE);
 
-            e.addTextChangedListener(new TextWatcher() {
+            drawerSearch.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
@@ -2199,9 +2199,9 @@ public class MainActivity extends BaseActivity {
                 }
             });
         } else {
-            if (e != null) {
-                e.setOnClickListener(null); //remove the touch listener on the drawer search field
-                e.setVisibility(View.GONE);
+            if (drawerSearch != null) {
+                drawerSearch.setOnClickListener(null); //remove the touch listener on the drawer search field
+                drawerSearch.setVisibility(View.GONE);
             }
         }
     }
