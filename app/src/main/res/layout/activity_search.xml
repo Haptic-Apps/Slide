@@ -27,18 +27,16 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/orange"
-        android:elevation="16dp"
+        android:background="@color/md_deep_orange_400"
         android:orientation="vertical"
-        android:theme="@style/Theme.AppCompat">
+        android:elevation="16dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:clipToPadding="false">
-        </android.support.v7.widget.Toolbar>
+            android:layout_height="56dp"
+            android:minHeight="56dp"
+            android:theme="@style/ActionBarCompat"/>
     </android.support.design.widget.AppBarLayout>
 </android.support.design.widget.CoordinatorLayout>
 
