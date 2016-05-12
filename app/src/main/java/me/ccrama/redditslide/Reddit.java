@@ -369,7 +369,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static String[] getSortingStringsSearch(Context c) {
-        return new String[]{
+        return new String[] {
                 c.getString(R.string.sorting_search_hour),
                 c.getString(R.string.sorting_search_day),
                 c.getString(R.string.sorting_search_week),
