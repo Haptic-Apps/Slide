@@ -224,11 +224,9 @@ public class PopulateSubmissionViewHolder {
         });
     }
 
-
     public static void openRedditContent(String url, Context c) {
         new OpenRedditLink(c, url);
     }
-
 
     public static void openImage(Activity contextActivity, Submission submission, HeaderImageLinkView baseView) {
         if (SettingValues.image) {
@@ -1320,7 +1318,6 @@ public class PopulateSubmissionViewHolder {
         holder.info.setText(SubmissionCache.getInfoLine(submission, mContext, baseSub));
     }
 
-
     public <T extends Contribution> void populateSubmissionViewHolder(final SubmissionViewHolder holder, final Submission submission, final Activity mContext, boolean fullscreen, final boolean full, final List<T> posts, final RecyclerView recyclerview, final boolean same, final boolean offline, final String baseSub, @Nullable final CommentAdapter adapter) {
         holder.itemView.findViewById(R.id.vote).setVisibility(View.GONE);
 
@@ -1334,13 +1331,11 @@ public class PopulateSubmissionViewHolder {
                 ((ImageView) holder.mod).setColorFilter(ContextCompat.getColor(mContext, R.color.md_red_300), PorterDuff.Mode.SRC_ATOP);
             } else {
                 ((ImageView) holder.mod).setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-
             }
             holder.mod.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showModBottomSheet(mContext, submission, posts, holder, recyclerview, reports, reports2);
-
                 }
             });
         } else {
@@ -1482,7 +1477,6 @@ public class PopulateSubmissionViewHolder {
             holder.save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... params) {
@@ -1531,8 +1525,6 @@ public class PopulateSubmissionViewHolder {
 
                         }
                     }.execute();
-
-
                 }
             });
         }
@@ -1543,10 +1535,12 @@ public class PopulateSubmissionViewHolder {
 
         ImageView thumbImage2 = ((ImageView) holder.thumbimage);
 
-        if (holder.leadImage.thumbImage2 == null)
+        if (holder.leadImage.thumbImage2 == null) {
             holder.leadImage.setThumbnail(thumbImage2);
-        if (full)
+        }
+        if (full) {
             holder.leadImage.setWrapArea(holder.itemView.findViewById(R.id.wraparea));
+        }
 
         final ContentType.Type type = ContentType.getContentType(submission);
 

@@ -87,6 +87,7 @@ import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.OpenRedditLink;
@@ -1167,7 +1168,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setLayoutParams(params);
         }
         if (firstHolder instanceof SpacerViewHolder) {
-            firstHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mPage.headerHeight));
+            //Make a space the size of the toolbar minus 1 so there isn't a gap
+            firstHolder.itemView.findViewById(R.id.height)
+                    .setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                            (Constants.SINGLE_HEADER_VIEW_OFFSET - Reddit.dpToPx(1))));
         }
     }
 
@@ -1709,13 +1713,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         public void onFocusChange(View v, boolean hasFocus) {
                             if (hasFocus) {
                                 mPage.fastScroll.setVisibility(View.GONE);
-                                if (mPage.fab != null)
+                                if (mPage.fab != null) {
                                     mPage.fab.setVisibility(View.GONE);
+                                }
                                 mPage.overrideFab = true;
                             } else if (SettingValues.fastscroll) {
                                 mPage.fastScroll.setVisibility(View.VISIBLE);
-                                if (mPage.fab != null)
+                                if (mPage.fab != null) {
                                     mPage.fab.setVisibility(View.VISIBLE);
+                                }
                                 mPage.overrideFab = false;
                             }
                         }

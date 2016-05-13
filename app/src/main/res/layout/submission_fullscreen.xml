@@ -21,9 +21,7 @@
         android:id="@+id/bod"
         android:orientation="vertical">
 
-
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -37,7 +35,6 @@
                 android:paddingEnd="16dp"
                 android:paddingTop="16dp">
 
-
                 <me.ccrama.redditslide.Views.TitleTextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
@@ -46,6 +43,7 @@
                     android:text="@string/example_title"
                     android:textColor="?attr/font"
                     android:textSize="?attr/font_cardtitle" />
+
                 <TextView
                     android:id="@+id/information"
                     android:layout_width="wrap_content"
@@ -69,7 +67,6 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:padding="8dp"
-
                 app:srcCompat="@drawable/more"
                 android:visibility="gone" />
 
@@ -78,13 +75,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?android:selectableItemBackground"
-
                 android:maxHeight="82dp"
                 android:orientation="horizontal"
                 android:paddingBottom="8dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-
                 android:paddingTop="8dp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
@@ -100,9 +95,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-
                     android:layout_gravity="center_vertical"
-
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
@@ -119,7 +112,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:alpha=".56"
-
                         android:text="@string/example_url"
                         android:textColor="?attr/font"
                         android:textSize="14sp" />
@@ -158,11 +150,13 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:gravity="center_vertical">
+
             <LinearLayout
                 android:id="@+id/vote"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal" />
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -177,8 +171,8 @@
                     android:layout_marginEnd="4dp"
                     app:srcCompat="@drawable/upvoted"
                     android:tint="?attr/tint"
-                    android:tag="tintactionbar"
-/>
+                    android:tag="tintactionbar" />
+
                 <TextView
                     android:id="@+id/score"
                     android:layout_width="wrap_content"
@@ -188,6 +182,7 @@
                     android:tag="tintactionbar"
                     android:text="400"
                     android:textSize="?attr/font_cardinfo" />
+
                 <TextView
                     android:id="@+id/percent"
                     android:layout_width="wrap_content"
@@ -204,12 +199,11 @@
                     android:layout_height="36dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="8dp"
-
                     android:tint="?attr/tint"
                     android:layout_marginEnd="4dp"
                     app:srcCompat="@drawable/commentchange"
-                    android:tag="tintactionbar"
-/>
+                    android:tag="tintactionbar" />
+
                 <TextView
                     android:id="@+id/comments"
                     android:layout_width="wrap_content"
@@ -220,7 +214,6 @@
                     android:text="420"
                     android:textSize="?attr/font_cardinfo" />
             </LinearLayout>
-
 
             <ImageView
                 android:id="@+id/more"
@@ -243,6 +236,7 @@
                 android:tag="tintactionbar"
                 app:srcCompat="@drawable/upvoted"
                 android:tint="?attr/tint" />
+
             <ImageView
                 android:id="@+id/save"
                 style="@style/Ripple.List"
@@ -315,7 +309,6 @@
                 android:backgroundTint="?attr/tint"
                 android:hint="@string/btn_reply"
                 android:imeOptions="actionDone|flagNoEnterAction"
-
                 android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                 android:minHeight="30dp"
                 android:textColor="?attr/font"
@@ -334,12 +327,12 @@
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground"
                     android:padding="4dp"
-
                     android:text="@string/btn_discard"
                     android:textAllCaps="true"
                     android:textColor="?attr/font"
                     android:textSize="14sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/preview"
                     android:layout_width="wrap_content"
@@ -353,6 +346,7 @@
                     android:textColor="?attr/font"
                     android:textSize="14sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/send"
                     android:layout_width="wrap_content"
@@ -360,11 +354,9 @@
                     android:layout_alignParentRight="true"
                     android:background="?android:selectableItemBackground"
                     android:padding="4dp"
-
                     android:text="@string/btn_submit"
                     android:textAllCaps="true"
                     android:textColor="?attr/font"
-
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </RelativeLayout>
