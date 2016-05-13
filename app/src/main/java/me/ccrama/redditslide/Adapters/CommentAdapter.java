@@ -946,7 +946,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             } else {
                 holder.childrenNumber.setVisibility(View.GONE);
-                holder.firstTextView.setVisibility(View.VISIBLE);
+                if(!holder.firstTextView.getText().toString().isEmpty())
+                    holder.firstTextView.setVisibility(View.VISIBLE);
                 holder.commentOverflow.setVisibility(View.VISIBLE);
             }
 
