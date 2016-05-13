@@ -1185,8 +1185,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int startIndex = 0;
         // the <div class="md"> case is when the body contains a table or code block first
         if (!blocks.get(0).equals("<div class=\"md\">")) {
-            firstTextView.setVisibility(View.VISIBLE);
-            firstTextView.setTextHtml(blocks.get(0) + " ", subredditName);
+            if(!blocks.get(0).isEmpty())
+            {
+                firstTextView.setVisibility(View.VISIBLE);
+                firstTextView.setTextHtml(blocks.get(0) + " ", subredditName);
+            }
+            else
+            {
+                firstTextView.setText("");
+                firstTextView.setVisibility(View.GONE);            
+            }
             startIndex = 1;
         } else {
             firstTextView.setText("");
