@@ -657,7 +657,7 @@ public class MainActivity extends BaseActivity {
                 int edge = mEdgeSize.getInt(draggerObj);
 
                 mEdgeSize.setInt(draggerObj, edge * 6);
-            } catch(Exception e){
+            } catch (Exception e) {
 
             }
             if (loader != null) {
@@ -747,6 +747,7 @@ public class MainActivity extends BaseActivity {
     }
 
     AsyncTask<View, Void, View> currentFlair;
+
     public void doSubSidebarNoLoad(final String subreddit) {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
@@ -2298,41 +2299,44 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        final String subreddit = usedArray.get(pager.getCurrentItem());
 
         /**
          * Hide the "Submit" and "Sidebar" menu items if the currently viewed sub is a multi,
          * domain, the frontpage, or /r/all. If the subreddit has a "." in it, we know it's a domain because
          * subreddits aren't allowed to have hard-stops in the name.
          */
-        if (subreddit.contains("/m/") || subreddit.contains(".") || subreddit.contains("+")
-                || subreddit.equals("frontpage") || subreddit.equals("all")) {
-            menu.findItem(R.id.submit).setVisible(false);
-            menu.findItem(R.id.sidebar).setVisible(false);
-        } else {
-            menu.findItem(R.id.submit).setVisible(true);
-            menu.findItem(R.id.sidebar).setVisible(true);
-        }
+        if (Authentication.didOnline) {
+            final String subreddit = usedArray.get(pager.getCurrentItem());
 
-        mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
-                final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
-                LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
-                final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                ArrayList<String> arrayList = new ArrayList<>();
-                arrayList.add(subreddit);
-                SettingsSubAdapter.showSubThemeEditor(arrayList, MainActivity.this, dialoglayout);
+            if (subreddit.contains("/m/") || subreddit.contains(".") || subreddit.contains("+")
+                    || subreddit.equals("frontpage") || subreddit.equals("all")) {
+                menu.findItem(R.id.submit).setVisible(false);
+                menu.findItem(R.id.sidebar).setVisible(false);
+            } else {
+                menu.findItem(R.id.submit).setVisible(true);
+                menu.findItem(R.id.sidebar).setVisible(true);
+            }
+
+            mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
+                    final Context contextThemeWrapper = new ContextThemeWrapper(MainActivity.this, style);
+                    LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
+                    final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
+                    ArrayList<String> arrayList = new ArrayList<>();
+                    arrayList.add(subreddit);
+                    SettingsSubAdapter.showSubThemeEditor(arrayList, MainActivity.this, dialoglayout);
                 /*
                 boolean old = SettingValues.isPicsEnabled(selectedSub);
                 SettingValues.setPicsEnabled(selectedSub, !item.isChecked());
                 item.setChecked(!item.isChecked());
                 reloadSubs();
                 invalidateOptionsMenu();*/
-                return false;
-            }
-        });
+                    return false;
+                }
+            });
+        }
         return true;
     }
 
@@ -2512,7 +2516,7 @@ public class MainActivity extends BaseActivity {
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all")  &&  !subreddit.contains(".") &&!subreddit.contains("/m/") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")) {
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.contains(".") && !subreddit.contains("/m/") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
@@ -2742,14 +2746,15 @@ public class MainActivity extends BaseActivity {
             new AsyncNotificationBadge().execute();
         }
 
-        if(pager != null && commentPager){
-            if(pager.getCurrentItem() == toOpenComments && toOpenComments >0){
+        if (pager != null && commentPager) {
+            if (pager.getCurrentItem() == toOpenComments && toOpenComments > 0) {
                 pager.setCurrentItem(toOpenComments - 1);
             }
         }
         Reddit.setDefaultErrorHandler(this);
 
-        sideArrayAdapter.updateHistory(UserSubscriptions.getHistory());
+        if (sideArrayAdapter != null)
+            sideArrayAdapter.updateHistory(UserSubscriptions.getHistory());
 
         if (datasetChanged && UserSubscriptions.hasSubs() && !usedArray.isEmpty()) {
             usedArray = new ArrayList<>(UserSubscriptions.getSubscriptions(this));
@@ -2887,8 +2892,8 @@ public class MainActivity extends BaseActivity {
      * onClicks for the views of the search bar.
      */
     private void setupSubredditSearchToolbar() {
-        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
-                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+        if ((SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) && usedArray != null && !usedArray.isEmpty()) {
             if (findViewById(R.id.drawer_divider) != null) {
                 if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
                     findViewById(R.id.drawer_divider).setVisibility(View.GONE);
