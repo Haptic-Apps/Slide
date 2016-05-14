@@ -179,11 +179,13 @@ public class GifUtils {
             if (s.contains("webm") && s.contains("imgur")) {
                 s = s.replace("webm", "mp4");
             }
-
             if (s.endsWith("v")) {
                 s = s.substring(0, s.length() - 1);
             } else if (s.contains("gfycat") && !s.contains("mp4")) {
                 s = s.substring(3, s.length());
+                if(s.contains("-size_restricted"))
+                    s = s.replace("-size_restricted", "");
+
             }
             if (s.contains(".gif") && !s.contains(".gifv") && s.contains("imgur.com")) {
                 s = s.replace(".gif", ".mp4");

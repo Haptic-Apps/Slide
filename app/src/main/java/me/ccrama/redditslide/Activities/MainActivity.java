@@ -32,6 +32,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.ViewDragHelper;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.CardView;
@@ -96,6 +97,7 @@ import org.ligi.snackengage.conditions.WithLimitedNumberOfTimes;
 import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.RateSnack;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -642,7 +644,22 @@ public class MainActivity extends BaseActivity {
                     }).show();
         } else {
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            try {
+                Field mDragger = drawerLayout.getClass().getDeclaredField(
+                        "mLeftDragger");//mRightDragger for right obviously
+                mDragger.setAccessible(true);
+                ViewDragHelper draggerObj = (ViewDragHelper) mDragger
+                        .get(drawerLayout);
 
+                Field mEdgeSize = draggerObj.getClass().getDeclaredField(
+                        "mEdgeSize");
+                mEdgeSize.setAccessible(true);
+                int edge = mEdgeSize.getInt(draggerObj);
+
+                mEdgeSize.setInt(draggerObj, edge * 6);
+            } catch(Exception e){
+
+            }
             if (loader != null) {
                 header.setVisibility(View.VISIBLE);
 
