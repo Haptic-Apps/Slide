@@ -568,6 +568,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         this.submission = submission;
         hidden = new ArrayList<>();
+        boolean overrideScroll = false;
+        if(users != null){
+            overrideScroll = true;
+        }
         users = dataSet.comments;
         if (users != null) {
             for (int i = 0; i < users.size(); i++) {
@@ -596,7 +600,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 i++;
             }
         }
-        mPage.resetScroll();
+        mPage.resetScroll(overrideScroll);
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, boolean reset) {
@@ -607,6 +611,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         this.submission = submission;
         hidden = new ArrayList<>();
+        boolean overrideScroll = false;
+        if(users != null){
+            overrideScroll = true;
+        }
         users = dataSet.comments;
         if (users != null) {
             for (int i = 0; i < users.size(); i++) {
@@ -616,7 +624,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         hiddenPersons = new ArrayList<>();
         toCollapse = new ArrayList<>();
-
         replie = new ArrayList<>();
 
 
@@ -645,8 +652,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 i++;
             }
         }
-        mPage.resetScroll();
-
+        mPage.resetScroll(overrideScroll);
     }
 
     @Override

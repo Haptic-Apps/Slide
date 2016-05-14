@@ -306,7 +306,7 @@ public class CommentPage extends Fragment {
         }
         if (fab != null)
             fab.show();
-        resetScroll();
+        resetScroll(false);
         fastScroll = v.findViewById(R.id.commentnav);
         if (!SettingValues.fastscroll) {
             fastScroll.setVisibility(View.GONE);
@@ -601,7 +601,7 @@ public class CommentPage extends Fragment {
             @Override
             public void onClick(View v) {
                 ((LinearLayoutManager) rv.getLayoutManager()).scrollToPositionWithOffset(1, headerHeight);
-                resetScroll();
+                resetScroll(false);
             }
         });
         addClickFunctionSubName(toolbar);
@@ -815,7 +815,7 @@ public class CommentPage extends Fragment {
         return 0;
     }
 
-    public void resetScroll() {
+    public void resetScroll(boolean override) {
         if (toolbarScroll == null) {
             toolbarScroll = new ToolbarScrollHideHandler(toolbar, v.findViewById(R.id.header), v.findViewById(R.id.progress), SettingValues.commentAutoHide ? v.findViewById(R.id.commentnav) : null) {
                 @Override
@@ -839,7 +839,7 @@ public class CommentPage extends Fragment {
                 }
             };
             rv.addOnScrollListener(toolbarScroll);
-        } else {
+        } else if(!override){
             toolbarScroll.reset = true;
         }
     }
