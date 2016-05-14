@@ -449,21 +449,21 @@
     </style>
 
     <style name="Theme.SEPIA" parent="swipestyle">
-        <item name="activity_background">#b1ad9b</item>
+        <item name="activity_background">#cac5ad</item>
         <item name="card_background">#e2dfd7</item>
         <item name="android:colorBackground">#e2dfd7</item>
         <item name="md_background_color">#e2dfd7</item>
-        <item name="list_background">#b1ad9b</item>
+        <item name="list_background">#cac5ad</item>
 
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Sepia</item>
-        <item name="font">#DE000000</item> <!-- 87% black -->
-        <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
-        <item name="android:textColorSecondary">#8A000000</item> <!-- 54% black -->
-        <item name="android:textColor">#DE000000</item> <!-- 87% black -->
-        <item name="tint">#8A000000</item> <!-- 54% black -->
+        <item name="font">#de3e3d36</item> <!-- 87% black -->
+        <item name="android:textColorPrimary">#DE3e3d36</item> <!-- 87% black -->
+        <item name="android:textColorSecondary">#8A3e3d36</item> <!-- 54% black -->
+        <item name="android:textColor">#DE3e3d36</item> <!-- 87% black -->
+        <item name="tint">#8A3e3d36</item> <!-- 54% black -->
         <item name="android:windowBackground">@null</item>
-        <item name="actionMenuTextColor">#DE000000</item>
-        <item name="android:actionMenuTextColor">#DE000000</item>
+        <item name="actionMenuTextColor">#DE3e3d36</item>
+        <item name="android:actionMenuTextColor">#DE3e3d36</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
 
         <item name="tp_selectionColor">?android:colorAccent</item>
@@ -541,9 +541,9 @@
     </style>
 
     <style name="BottomSheet.StyleDialog.Sepia" parent="BottomSheet.Dialog">
-        <item name="android:textColorPrimary">#DE000000</item>
-        <item name="android:textColorSecondary">#8A000000</item>
-        <item name="android:textColorHint">#8A000000</item>
+        <item name="android:textColorPrimary">#DE3e3d36</item>
+        <item name="android:textColorSecondary">#8A3e3d36</item>
+        <item name="android:textColorHint">#8A3e3d36</item>
         <item name="bs_dialogBackground">#b1ad9b</item>
         <item name="bs_dividerColor">#00000000</item>
         <item name="bs_listStyle">@style/BottomSheetLight.StyleList</item>

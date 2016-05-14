@@ -154,6 +154,7 @@
                     android:textColorHint="?attr/font" />
 
             </RelativeLayout>
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
