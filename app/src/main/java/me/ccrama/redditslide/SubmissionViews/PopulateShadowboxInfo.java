@@ -59,208 +59,211 @@ public class PopulateShadowboxInfo {
         TextView title = (TextView) rootView.findViewById(R.id.title);
         TextView desc = (TextView) rootView.findViewById(R.id.desc);
         String distingush = "";
-        if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
-            distingush = "[M]";
-        else if (s.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
-            distingush = "[A]";
+        if(s != null) {
+            if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR)
+                distingush = "[M]";
+            else if (s.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
+                distingush = "[A]";
 
-        title.setText(Html.fromHtml(s.getTitle()));
+            title.setText(Html.fromHtml(s.getTitle()));
 
-        String spacer = c.getString(R.string.submission_properties_seperator);
-        SpannableStringBuilder titleString = new SpannableStringBuilder();
+            String spacer = c.getString(R.string.submission_properties_seperator);
+            SpannableStringBuilder titleString = new SpannableStringBuilder();
 
-        SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + s.getSubredditName() + " ");
+            SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + s.getSubredditName() + " ");
 
-        String subname = s.getSubredditName().toLowerCase();
-        if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
-            subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        titleString.append(subreddit);
-        titleString.append(distingush);
-        titleString.append(spacer);
-
-        titleString.append(TimeUtils.getTimeAgo(s.getCreated().getTime(), c));
-
-        desc.setText(titleString);
-        ((TextView) rootView.findViewById(R.id.comments)).setText(String.format(Locale.getDefault(), "%d", s.getCommentCount()));
-        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
-
-        if (extras) {
-            final ImageView downvotebutton = (ImageView) rootView.findViewById(R.id.downvote);
-            final ImageView upvotebutton = (ImageView) rootView.findViewById(R.id.upvote);
-
-            if (s.isArchived() || s.isLocked()) {
-                downvotebutton.setVisibility(View.GONE);
-                upvotebutton.setVisibility(View.GONE);
-            } else if (Authentication.isLoggedIn && Authentication.didOnline) {
-                if (SettingValues.actionbarVisible && downvotebutton.getVisibility() != View.VISIBLE) {
-                    downvotebutton.setVisibility(View.VISIBLE);
-                    upvotebutton.setVisibility(View.VISIBLE);
-                }
-                switch (ActionStates.getVoteDirection(s)) {
-                    case UPVOTE: {
-                        ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
-                        upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
-                        ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
-                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : 1))));
-                        downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                        break;
-                    }
-                    case DOWNVOTE: {
-                        ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
-                        downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
-                        ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
-                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : -1))));
-                        upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                        break;
-                    }
-                    case NO_VOTE: {
-                        ((TextView) rootView.findViewById(R.id.score)).setTextColor(((TextView) rootView.findViewById(R.id.comments)).getCurrentTextColor());
-                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
-                        ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
-                        downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                        upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                        break;
-                    }
-                }
+            String subname = s.getSubredditName().toLowerCase();
+            if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
+                subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
-            if (Authentication.isLoggedIn && Authentication.didOnline) {
-                if (ActionStates.isSaved(s)) {
-                    ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
-                } else {
-                    ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
+            titleString.append(subreddit);
+            titleString.append(distingush);
+            titleString.append(spacer);
+
+            titleString.append(TimeUtils.getTimeAgo(s.getCreated().getTime(), c));
+
+            desc.setText(titleString);
+            ((TextView) rootView.findViewById(R.id.comments)).setText(String.format(Locale.getDefault(), "%d", s.getCommentCount()));
+            ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+
+            if (extras) {
+                final ImageView downvotebutton = (ImageView) rootView.findViewById(R.id.downvote);
+                final ImageView upvotebutton = (ImageView) rootView.findViewById(R.id.upvote);
+
+                if (s.isArchived() || s.isLocked()) {
+                    downvotebutton.setVisibility(View.GONE);
+                    upvotebutton.setVisibility(View.GONE);
+                } else if (Authentication.isLoggedIn && Authentication.didOnline) {
+                    if (SettingValues.actionbarVisible && downvotebutton.getVisibility() != View.VISIBLE) {
+                        downvotebutton.setVisibility(View.VISIBLE);
+                        upvotebutton.setVisibility(View.VISIBLE);
+                    }
+                    switch (ActionStates.getVoteDirection(s)) {
+                        case UPVOTE: {
+                            ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
+                            upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                            ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
+                            ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : 1))));
+                            downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            break;
+                        }
+                        case DOWNVOTE: {
+                            ((TextView) rootView.findViewById(R.id.score)).setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
+                            downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
+                            ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
+                            ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", (s.getScore() + ((s.getAuthor().equals(Authentication.name)) ? 0 : -1))));
+                            upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            break;
+                        }
+                        case NO_VOTE: {
+                            ((TextView) rootView.findViewById(R.id.score)).setTextColor(((TextView) rootView.findViewById(R.id.comments)).getCurrentTextColor());
+                            ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+                            ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
+                            downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                            break;
+                        }
+                    }
                 }
-                rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                if (Authentication.isLoggedIn && Authentication.didOnline) {
+                    if (ActionStates.isSaved(s)) {
+                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
+                    } else {
+                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                    }
+                    rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    try {
+                                        if (ActionStates.isSaved(s)) {
+                                            new AccountManager(Authentication.reddit).unsave(s);
+                                            ActionStates.setSaved(s, false);
+                                        } else {
+                                            new AccountManager(Authentication.reddit).save(s);
+                                            ActionStates.setSaved(s, true);
+                                        }
+                                    } catch (ApiException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+                                    return null;
+                                }
+
+                                @Override
+                                protected void onPostExecute(Void aVoid) {
+                                    ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+                                    if (ActionStates.isSaved(s)) {
+                                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
+                                        AnimateHelper.setFlashAnimation(rootView, rootView.findViewById(R.id.save), ContextCompat.getColor(c, R.color.md_amber_500));
+                                    } else {
+                                        ((ImageView) rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                    }
+
+                                }
+                            }.execute();
+
+
+                        }
+                    });
+                }
+
+                if (!Authentication.isLoggedIn || !Authentication.didOnline) {
+                    rootView.findViewById(R.id.save).setVisibility(View.GONE);
+                }
+                try {
+                    final TextView points = ((TextView) rootView.findViewById(R.id.score));
+                    final TextView comments = ((TextView) rootView.findViewById(R.id.comments));
+                    if (Authentication.isLoggedIn && Authentication.didOnline) {
+                        {
+
+                            downvotebutton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+                                    if (SettingValues.storeHistory) {
+                                        if (!s.isNsfw() || SettingValues.storeNSFWHistory) {
+                                            HasSeen.addSeen(s.getFullName());
+                                        }
+                                    }
+                                    if (ActionStates.getVoteDirection(s) != VoteDirection.DOWNVOTE) { //has not been downvoted
+                                        points.setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
+                                        downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
+                                        upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
+                                        AnimateHelper.setFlashAnimation(rootView, downvotebutton, ContextCompat.getColor(c, R.color.md_blue_500));
+                                        ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
+                                        final int downvoteScore = (s.getScore() == 0) ? 0 : s.getScore() - 1; //if a post is at 0 votes, keep it at 0 when downvoting
+                                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", downvoteScore));
+                                        new Vote(false, points, c).execute(s);
+                                        ActionStates.setVoteDirection(s, VoteDirection.DOWNVOTE);
+                                    } else {
+                                        points.setTextColor(comments.getCurrentTextColor());
+                                        new Vote(points, c).execute(s);
+                                        ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
+                                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+                                        ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
+                                        downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                    }
+                                }
+                            });
+                        }
+                        {
+                            upvotebutton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+
+                                    if (SettingValues.storeHistory) {
+                                        if (!s.isNsfw() || SettingValues.storeNSFWHistory) {
+                                            HasSeen.addSeen(s.getFullName());
+                                        }
+                                    }
+
+                                    if (ActionStates.getVoteDirection(s) != VoteDirection.UPVOTE) { //has not been upvoted
+                                        points.setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
+                                        upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
+                                        downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+
+                                        AnimateHelper.setFlashAnimation(rootView, upvotebutton, ContextCompat.getColor(c, R.color.md_orange_500));
+                                        ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
+                                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore() + 1));
+                                        new Vote(true, points, c).execute(s);
+                                        ActionStates.setVoteDirection(s, VoteDirection.UPVOTE);
+                                    } else {
+                                        points.setTextColor(comments.getCurrentTextColor());
+                                        new Vote(points, c).execute(s);
+                                        ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
+                                        ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
+                                        ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
+                                        upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        upvotebutton.setVisibility(View.GONE);
+                        downvotebutton.setVisibility(View.GONE);
+
+                    }
+                } catch (Exception ignored) {
+                    ignored.printStackTrace();
+                }
+                rootView.findViewById(R.id.menu).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
-                        new AsyncTask<Void, Void, Void>() {
-                            @Override
-                            protected Void doInBackground(Void... params) {
-                                try {
-                                    if (ActionStates.isSaved(s)) {
-                                        new AccountManager(Authentication.reddit).unsave(s);
-                                        ActionStates.setSaved(s, false);
-                                    } else {
-                                        new AccountManager(Authentication.reddit).save(s);
-                                        ActionStates.setSaved(s, true);
-                                    }
-                                } catch (ApiException e) {
-                                    e.printStackTrace();
-                                }
-
-
-                                return null;
-                            }
-                            @Override
-                            protected void onPostExecute(Void aVoid) {
-                                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-
-                                if (ActionStates.isSaved(s)) {
-                                    ((ImageView)  rootView.findViewById(R.id.save)).setColorFilter(ContextCompat.getColor(c, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
-                                    AnimateHelper.setFlashAnimation(rootView,  rootView.findViewById(R.id.save), ContextCompat.getColor(c, R.color.md_amber_500));
-                                } else {
-                                    ((ImageView)  rootView.findViewById(R.id.save)).setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                                }
-
-                            }
-                        }.execute();
-
-
+                        showBottomSheet(c, s, rootView);
                     }
                 });
             }
-
-            if (!Authentication.isLoggedIn || !Authentication.didOnline) {
-                rootView.findViewById(R.id.save).setVisibility(View.GONE);
-            }
-            try {
-                final TextView points = ((TextView) rootView.findViewById(R.id.score));
-                final TextView comments = ((TextView) rootView.findViewById(R.id.comments));
-                if (Authentication.isLoggedIn && Authentication.didOnline) {
-                    {
-
-                        downvotebutton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-
-                                if (SettingValues.storeHistory) {
-                                    if (!s.isNsfw() || SettingValues.storeNSFWHistory) {
-                                        HasSeen.addSeen(s.getFullName());
-                                    }
-                                }
-                                if (ActionStates.getVoteDirection(s) != VoteDirection.DOWNVOTE) { //has not been downvoted
-                                    points.setTextColor(ContextCompat.getColor(c, R.color.md_blue_500));
-                                    downvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
-                                    upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-
-                                    AnimateHelper.setFlashAnimation(rootView, downvotebutton, ContextCompat.getColor(c, R.color.md_blue_500));
-                                    ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
-                                    final int downvoteScore = (s.getScore() == 0) ? 0 : s.getScore() - 1; //if a post is at 0 votes, keep it at 0 when downvoting
-                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", downvoteScore));
-                                    new Vote(false, points, c).execute(s);
-                                    ActionStates.setVoteDirection(s, VoteDirection.DOWNVOTE);
-                                } else {
-                                    points.setTextColor(comments.getCurrentTextColor());
-                                    new Vote(points, c).execute(s);
-                                    ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
-                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
-                                    ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
-                                    downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                                }
-                            }
-                        });
-                    }
-                    {
-                        upvotebutton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-
-                                if (SettingValues.storeHistory) {
-                                    if (!s.isNsfw() || SettingValues.storeNSFWHistory) {
-                                        HasSeen.addSeen(s.getFullName());
-                                    }
-                                }
-
-                                if (ActionStates.getVoteDirection(s) != VoteDirection.UPVOTE) { //has not been upvoted
-                                    points.setTextColor(ContextCompat.getColor(c, R.color.md_orange_500));
-                                    upvotebutton.setColorFilter(ContextCompat.getColor(c, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
-                                    downvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-
-                                    AnimateHelper.setFlashAnimation(rootView, upvotebutton, ContextCompat.getColor(c, R.color.md_orange_500));
-                                    ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.BOLD);
-                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore() + 1));
-                                    new Vote(true, points, c).execute(s);
-                                    ActionStates.setVoteDirection(s, VoteDirection.UPVOTE);
-                                } else {
-                                    points.setTextColor(comments.getCurrentTextColor());
-                                    new Vote(points, c).execute(s);
-                                    ((TextView) rootView.findViewById(R.id.score)).setTypeface(null, Typeface.NORMAL);
-                                    ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
-                                    ActionStates.setVoteDirection(s, VoteDirection.NO_VOTE);
-                                    upvotebutton.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    upvotebutton.setVisibility(View.GONE);
-                    downvotebutton.setVisibility(View.GONE);
-
-                }
-            } catch (Exception ignored) {
-                ignored.printStackTrace();
-            }
-            rootView.findViewById(R.id.menu).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showBottomSheet(c, s, rootView);
-                }
-            });
         }
     }
 

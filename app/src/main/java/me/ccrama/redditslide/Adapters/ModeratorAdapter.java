@@ -88,9 +88,9 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             position -= 1;
         }
 
-        if (dataSet.posts.get(position).getFullName().contains("t1"))//IS COMMENT
+        if (dataSet.posts.get(position).getFullName().startsWith("t1"))//IS COMMENT
             return COMMENT;
-        if (dataSet.posts.get(position).getFullName().contains("t4"))//IS MESSAGE
+        if (dataSet.posts.get(position).getFullName().startsWith("t4"))//IS MESSAGE
             return MESSAGE;
         return POST;
     }
@@ -320,7 +320,7 @@ public class ModeratorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
 
 
-        } else if (!(firstHold instanceof SpacerViewHolder)) {
+        } else if (firstHold instanceof ProfileCommentViewHolder) {
             //IS COMMENT
             ProfileCommentViewHolder holder = (ProfileCommentViewHolder) firstHold;
             final Comment comment = (Comment) dataSet.posts.get(i);

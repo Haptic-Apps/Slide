@@ -22,7 +22,6 @@ import java.util.List;
 
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 2/1/2016.
@@ -84,9 +83,7 @@ public class AlbumUtils {
                 rawDat = rawDat.substring(0, rawDat.indexOf("?"));
             }
 
-            LogUtil.v(rawDat);
             hash = getHash(rawDat);
-            LogUtil.v(hash);
 
         }
 

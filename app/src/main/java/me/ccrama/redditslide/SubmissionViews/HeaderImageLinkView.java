@@ -164,7 +164,12 @@ public class HeaderImageLinkView extends RelativeLayout {
             }
 
             JsonNode thumbnail = submission.getDataNode().get("thumbnail");
-            Submission.ThumbnailType thumbnailType = submission.getThumbnailType();
+            Submission.ThumbnailType thumbnailType;
+            if(!submission.getDataNode().get("thumbnail").isNull()){
+                thumbnailType = submission.getThumbnailType();
+            } else {
+                thumbnailType = Submission.ThumbnailType.NONE;
+            }
 
             if (SettingValues.noImages) {
                 setVisibility(View.GONE);

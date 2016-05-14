@@ -250,7 +250,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                                               if (position == 0 && positionOffsetPixels == 0) {
                                                   finish();
                                               }
-                                              if (position == 0) {
+                                              if (position == 0 && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
                                                   if (((OverviewPagerAdapter) pager.getAdapter()).blankPage != null)
                                                       ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
                                                   ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));

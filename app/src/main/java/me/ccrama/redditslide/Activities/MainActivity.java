@@ -2834,7 +2834,7 @@ public class MainActivity extends BaseActivity {
                                     }).show();
                         }
                     });
-                } else if (Authentication.isLoggedIn) {
+                } else if (Authentication.isLoggedIn &&  headerMain.findViewById(R.id.friends) != null) {
                     headerMain.findViewById(R.id.friends).setVisibility(View.GONE);
                 }
             }

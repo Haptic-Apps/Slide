@@ -106,6 +106,7 @@ public class Inbox extends BaseActivityAnim {
 
     /**
      * Method to scroll the TabLayout to a specific index
+     *
      * @param tabPosition index to scroll to
      */
     private void scrollToTabAfterLayout(final int tabPosition) {
@@ -144,7 +145,7 @@ public class Inbox extends BaseActivityAnim {
         adapter = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(adapter);
 
-        if(getIntent() != null && getIntent().hasExtra(EXTRA_UNREAD)){
+        if (getIntent() != null && getIntent().hasExtra(EXTRA_UNREAD)) {
             pager.setCurrentItem(1);
         }
 
@@ -179,6 +180,8 @@ public class Inbox extends BaseActivityAnim {
             @Override
             protected Void doInBackground(Void... params) {
                 if (Authentication.me == null) {
+                    if (Authentication.reddit == null)
+                        new Authentication(getApplicationContext());
                     Authentication.me = Authentication.reddit.me();
                     Authentication.mod = Authentication.me.isMod();
                     Reddit.over18 = Authentication.me.isOver18();

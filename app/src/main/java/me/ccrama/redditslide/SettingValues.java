@@ -20,7 +20,7 @@ public class SettingValues {
     public static final String PREF_DAY_TIME = "day";
     public static final String PREF_NIGHT_TIME = "nightTime";
     public static final String PREF_AUTOHIDE_COMMENTS = "autohideComments";
-    public static final String PREF_NO_IMAGES = "autohideComments";
+    public static final String PREF_NO_IMAGES = "noImages";
     public static final String PREF_AUTOTHEME = "autotime";
     public static final String PREVIEWS_LEFT = "previewsLeft";
     public static final String PREF_COLOR_BACK = "colorBack";
