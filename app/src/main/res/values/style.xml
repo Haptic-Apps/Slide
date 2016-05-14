@@ -50,6 +50,10 @@
         <item name="colorAccent">@color/md_blue_grey_200</item>
     </style>
 
+    <style name="white_sepia" parent="Theme.SEPIA">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+    </style>
+
     <style name="teal_light" parent="Theme.LIGHT">
         <item name="colorAccent">@color/md_teal_A200</item>
     </style>
@@ -70,6 +74,10 @@
         <item name="colorAccent">@color/md_teal_A200</item>
     </style>
 
+    <style name="teal_sepia" parent="Theme.SEPIA">
+        <item name="colorAccent">@color/md_teal_A200</item>
+    </style>
+
     <style name="pink_amoled" parent="Theme.AMOLED">
         <item name="colorAccent">@color/md_pink_A200</item>
     </style>
@@ -79,6 +87,10 @@
     </style>
 
     <style name="pink_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_pink_A200</item>
+    </style>
+
+    <style name="pink_sepia" parent="Theme.SEPIA">
         <item name="colorAccent">@color/md_pink_A200</item>
     </style>
 
@@ -119,6 +131,42 @@
     </style>
 
     <style name="lime_dark" parent="Theme.DARK">
+        <item name="colorAccent">@color/md_lime_A700</item>
+    </style>
+
+    <style name="yellow_sepia" parent="Theme.SEPIA">
+        <item name="colorAccent">@color/md_yellow_A700</item>
+    </style>
+
+    <style name="amber_sepia" parent="Theme.SEPIA">
+        <item name="colorAccent">@color/md_amber_A700</item>
+    </style>
+
+    <style name="blue_sepia" parent="Theme.SEPIA">
+        <item name="colorAccent">@color/md_blue_A700</item>
+    </style>
+
+    <style name="lightblue_sepia" parent="Theme.SEPIA">
+        <item name="colorAccent">@color/md_light_blue_A700</item>
+    </style>
+
+    <style name="deeporange_sepia" parent="Theme.SEPIA">
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
+    </style>
+
+    <style name="cyan_sepia" parent="Theme.SEPIA">
+        <item name="colorAccent">@color/md_cyan_A700</item>
+    </style>
+
+    <style name="green_sepia" parent="Theme.SEPIA">
+        <item name="colorAccent">@color/md_green_A700</item>
+    </style>
+
+    <style name="indigo_sepia" parent="Theme.SEPIA">
+        <item name="colorAccent">@color/md_indigo_A700</item>
+    </style>
+
+    <style name="lime_sepia" parent="Theme.SEPIA">
         <item name="colorAccent">@color/md_lime_A700</item>
     </style>
 
@@ -400,6 +448,29 @@
         <item name="tp_backgroundColor">?attr/card_background</item>
     </style>
 
+    <style name="Theme.SEPIA" parent="swipestyle">
+        <item name="activity_background">#b1ad9b</item>
+        <item name="card_background">#e2dfd7</item>
+        <item name="android:colorBackground">#e2dfd7</item>
+        <item name="md_background_color">#e2dfd7</item>
+        <item name="list_background">#b1ad9b</item>
+
+        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Sepia</item>
+        <item name="font">#DE000000</item> <!-- 87% black -->
+        <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
+        <item name="android:textColorSecondary">#8A000000</item> <!-- 54% black -->
+        <item name="android:textColor">#DE000000</item> <!-- 87% black -->
+        <item name="tint">#8A000000</item> <!-- 54% black -->
+        <item name="android:windowBackground">@null</item>
+        <item name="actionMenuTextColor">#DE000000</item>
+        <item name="android:actionMenuTextColor">#DE000000</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
+    </style>
+
     <style name="Theme.AMOLED" parent="swipestyle">
         <item name="activity_background">#000000</item>
         <item name="card_background">#000000</item>
@@ -443,11 +514,11 @@
         <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
-    <style name="BottomSheetLight.StyleList" parent="BottomSheet.List" >
+    <style name="BottomSheetLight.StyleList" parent="BottomSheet.List">
         <item name="android:layoutAnimation">@null</item>
     </style>
 
-    <style name="BottomSheetDark.StyleList" parent="BottomSheet.List.Dark" >
+    <style name="BottomSheetDark.StyleList" parent="BottomSheet.List.Dark">
         <item name="android:layoutAnimation">@null</item>
     </style>
 
@@ -467,6 +538,15 @@
         <item name="bs_dialogBackground">#37474F</item>
         <item name="bs_dividerColor">#00000000</item>
         <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
+    </style>
+
+    <style name="BottomSheet.StyleDialog.Sepia" parent="BottomSheet.Dialog">
+        <item name="android:textColorPrimary">#DE000000</item>
+        <item name="android:textColorSecondary">#8A000000</item>
+        <item name="android:textColorHint">#8A000000</item>
+        <item name="bs_dialogBackground">#b1ad9b</item>
+        <item name="bs_dividerColor">#00000000</item>
+        <item name="bs_listStyle">@style/BottomSheetLight.StyleList</item>
     </style>
 
     <style name="BottomSheet.StyleDialog.Light" parent="BottomSheet.Dialog">

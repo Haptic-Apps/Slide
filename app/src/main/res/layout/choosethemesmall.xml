@@ -192,6 +192,35 @@
                             android:textSize="16sp" />
 
                     </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/sepia"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#b1ad9b"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp">
+
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            app:srcCompat="@drawable/theme"
+                            android:tint="#de393939" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/theme_sepia"
+
+                            android:textColor="#cd000000"
+
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

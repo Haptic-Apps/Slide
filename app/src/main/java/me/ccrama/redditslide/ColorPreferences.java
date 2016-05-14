@@ -474,8 +474,21 @@ public class ColorPreferences {
         light_indigo(R.style.indigo_LIGHT, "light_indigo", R.color.md_indigo_A700, 1),
         amoled_indigo(R.style.indigo_AMOLED, "amoled_indigo", R.color.md_indigo_A700, 2),
         blue_indigo(R.style.indigo_blue, "blue_indigo", R.color.md_indigo_A700, 3),
-        amoled_light_indigo(R.style.indigo_AMOLED_lighter, "amoled_light_indigo", R.color.md_indigo_A700, 4);
+        amoled_light_indigo(R.style.indigo_AMOLED_lighter, "amoled_light_indigo", R.color.md_indigo_A700, 4),
 
+
+        sepia_white(R.style.white_sepia, "sepia_white", R.color.md_blue_grey_200, 5),
+        sepia_pink(R.style.pink_sepia, "sepia_pink", R.color.md_pink_A200, 5),
+        sepia_deeporange(R.style.deeporange_sepia, "sepia_deeporange", R.color.md_deep_orange_A700, 5),
+        sepia_amber(R.style.amber_sepia, "sepia_amber", R.color.md_amber_A700, 5),
+        sepia_yellow(R.style.yellow_sepia, "sepia_yellow", R.color.md_yellow_A700, 5),
+        sepia_lime(R.style.lime_sepia, "sepia_lime", R.color.md_lime_A700, 5),
+        sepia_green(R.style.green_sepia, "sepia_green", R.color.md_green_A700, 5),
+        sepia_teal(R.style.teal_sepia, "sepia_teal", R.color.md_teal_A200, 5),
+        sepia_cyan(R.style.cyan_sepia, "sepia_cyan", R.color.md_cyan_A700, 5),
+        sepia_lightblue(R.style.lightblue_sepia, "sepia_lightblue", R.color.md_light_blue_A700, 5),
+        sepia_blue(R.style.blue_sepia, "sepia_blue", R.color.md_blue_A700, 5),
+        sepia_indigo(R.style.indigo_sepia, "sepia_indigo", R.color.md_indigo_A700, 5);
 
         private int baseId;
         private String title;

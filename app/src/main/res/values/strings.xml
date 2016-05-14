@@ -853,4 +853,5 @@
     <string name="deleting">Deleting...</string>
     <string name="results_in_slightly_higher_data_usage_but_some_cropped_images_will_be_full_sized">Results in slightly higher data usage, but some cropped images will be full sized</string>
     <string name="get_lq_imgur_images_through_imgur_api">Get LQ Imgur images through Imgur API</string>
+    <string name="theme_sepia">Sepia</string>
 </resources>

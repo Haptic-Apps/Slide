@@ -374,6 +374,31 @@ public class Tutorial extends AppCompatActivity {
                             }
                         }
                     });
+                    dialoglayout.findViewById(R.id.sepia).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 5) {
+                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
+                                    Reddit.themeBack = theme.getThemeType();
+
+                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    overridePendingTransition(0, 0);
+
+                                    finish();
+                                    overridePendingTransition(0, 0);
+
+                                    break;
+                                }
+                            }
+                        }
+                    });
                     dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
