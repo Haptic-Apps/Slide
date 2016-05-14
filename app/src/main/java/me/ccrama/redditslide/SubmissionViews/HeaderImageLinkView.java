@@ -107,7 +107,8 @@ public class HeaderImageLinkView extends RelativeLayout {
 
         if (type == ContentType.Type.SELF && SettingValues.hideSelftextLeadImage) {
             setVisibility(View.GONE);
-            wrapArea.setVisibility(View.GONE);
+            if (wrapArea != null)
+                wrapArea.setVisibility(View.GONE);
         } else {
             if (submission.getThumbnails() != null) {
 
@@ -165,7 +166,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             JsonNode thumbnail = submission.getDataNode().get("thumbnail");
             Submission.ThumbnailType thumbnailType;
-            if(!submission.getDataNode().get("thumbnail").isNull()){
+            if (!submission.getDataNode().get("thumbnail").isNull()) {
                 thumbnailType = submission.getThumbnailType();
             } else {
                 thumbnailType = Submission.ThumbnailType.NONE;
