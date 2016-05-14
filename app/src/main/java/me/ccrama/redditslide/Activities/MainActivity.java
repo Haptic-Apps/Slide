@@ -2747,7 +2747,8 @@ public class MainActivity extends BaseActivity {
         }
 
         if (pager != null && commentPager) {
-            if (pager.getCurrentItem() == toOpenComments && toOpenComments > 0) {
+            if (pager.getCurrentItem() != toOpenComments && shouldLoad != null) {
+                if(usedArray != null && usedArray.indexOf(shouldLoad) != pager.getCurrentItem())
                 pager.setCurrentItem(toOpenComments - 1);
             }
         }
