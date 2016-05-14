@@ -22,6 +22,7 @@ import java.util.List;
 
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 2/1/2016.
@@ -107,7 +108,11 @@ public class AlbumUtils {
                 final Image toDo = new Image();
                 toDo.setAnimated(data.getAnimated() || data.getLink().contains(".gif"));
                 toDo.setDescription(data.getDescription());
-                toDo.setHash(getHash(data.getLink()));
+                if(data.getAdditionalProperties().keySet().contains("mp4")){
+                    toDo.setHash(getHash(data.getAdditionalProperties().get("mp4").toString()));
+                } else {
+                    toDo.setHash(getHash(data.getLink()));
+                }
                 toDo.setTitle(data.getTitle());
                 toDo.setExt(data.getLink().substring(data.getLink().lastIndexOf("."), data.getLink().length()));
                 toDo.setHeight(data.getHeight());
@@ -184,6 +189,7 @@ public class AlbumUtils {
                                     if (el != null) {
                                         try {
                                             SingleImage single = new ObjectMapper().readValue(el.toString(), SingleAlbumImage.class).getData();
+                                            LogUtil.v(el.toString());
                                             jsons.add(convertToSingle(single));
                                         } catch (IOException e1) {
                                             e1.printStackTrace();

@@ -360,7 +360,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             final String url = ((AlbumPager) getActivity()).images.get(i).getImageUrl();
 
-            LogUtil.v(i+ " url is " + url);
             new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) rootView.findViewById(R.id.gif), loader, null, new Runnable() {
                 @Override
                 public void run() {
