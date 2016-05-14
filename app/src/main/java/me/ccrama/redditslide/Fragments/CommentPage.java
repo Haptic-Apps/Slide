@@ -786,7 +786,6 @@ public class CommentPage extends Fragment {
         mLayoutManager = new PreCachingLayoutManagerComments(getActivity());
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
