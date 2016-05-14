@@ -13,7 +13,8 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/standard_toolbar_height"
+        android:minHeight="@dimen/standard_toolbar_height"
         android:background="@color/md_blue_500"
         android:theme="@style/Theme.AppCompat" />
 </FrameLayout>

@@ -62,12 +62,12 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
 public class ReorderSubreddits extends BaseActivityAnim {
-    public static final String MULTI_REDDIT = "/m/";
-    String input;
 
-    ArrayList<String> subs;
-    CustomAdapter adapter;
-    RecyclerView recyclerView;
+    private ArrayList<String> subs;
+    private CustomAdapter adapter;
+    private RecyclerView recyclerView;
+    private String input;
+    public static final String MULTI_REDDIT = "/m/";
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

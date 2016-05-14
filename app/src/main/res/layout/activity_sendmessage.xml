@@ -3,22 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:background="?attr/activity_background"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/standard_toolbar_height"
+        android:minHeight="@dimen/standard_toolbar_height"
         android:background="@color/md_amber_500"
-        android:clipToPadding="false"
-        android:elevation="5dp"
+        android:elevation="8dp"
         android:paddingEnd="16dp"
         android:theme="@style/Theme.AppCompat"
         android:title="@string/editor_submit">
-
-
     </android.support.v7.widget.Toolbar>
 
     <android.support.v4.widget.NestedScrollView
@@ -50,20 +47,15 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
                 android:textColorHint="?attr/font">
 
                 <EditText
                     android:id="@+id/to"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:backgroundTint="?attr/tint"
                     android:hint="@string/mail_hint_recipient"
-
                     android:inputType="none"
-
                     android:maxLength="21"
                     android:maxLines="1"
                     android:textColor="?attr/font" />
@@ -72,7 +64,6 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:textColorHint="?attr/font">
 
                 <EditText
@@ -82,10 +73,8 @@
                     android:backgroundTint="?attr/tint"
                     android:hint="@string/mail_hint_subject"
                     android:maxLength="300"
-
                     android:maxLines="1"
                     android:textColor="?attr/font">
-
                     <requestFocus />
                 </EditText>
             </android.support.design.widget.TextInputLayout>

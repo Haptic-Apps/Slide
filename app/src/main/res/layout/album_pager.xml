@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#aa000000"
     android:orientation="vertical">
 
-
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/standard_toolbar_height"
+        android:minHeight="@dimen/standard_toolbar_height"
         android:background="#aa000000"
-        android:clipToPadding="false"
         android:theme="@style/Theme.AppCompat">
+
         <ImageView
             android:id="@+id/grid"
             android:layout_width="0dp"
             android:layout_height="0dp" />
-
     </android.support.v7.widget.Toolbar>
     <ProgressBar
         android:id="@+id/progress"
@@ -31,6 +27,7 @@
         android:layout_below="@+id/toolbar"
         android:max="100"
         android:progress="0" />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/images_horizontal"
         android:layout_width="match_parent"
@@ -41,5 +38,4 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_gravity="center_vertical" />
-
 </RelativeLayout>

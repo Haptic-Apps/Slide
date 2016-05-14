@@ -10,26 +10,21 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/standard_toolbar_height"
+        android:minHeight="@dimen/standard_toolbar_height"
         android:background="?attr/card_background"
-        android:clipToPadding="false"
+        android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        app:layout_scrollFlags="scroll|enterAlways"
-
-
-        >
+        app:layout_scrollFlags="scroll|enterAlways">
 
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="start|center_vertical"
-
             android:background="#00ffffff"
             android:paddingBottom="12dp"
-
             android:paddingTop="12dp"
             android:scaleType="fitCenter"
-
             app:srcCompat="@drawable/search"
             android:tint="?attr/tint" />
 
@@ -47,7 +42,6 @@
         android:id="@+id/vertical_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:cacheColorHint="@android:color/transparent"
         android:clipToPadding="false"
         android:divider="@null"

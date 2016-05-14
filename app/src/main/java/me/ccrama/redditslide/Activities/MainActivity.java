@@ -806,8 +806,9 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onSingleClick(View view) {
                         Intent inte = new Intent(MainActivity.this, Submit.class);
-                        if (!subreddit.contains("/m/"))
+                        if (!subreddit.contains("/m/")) {
                             inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                        }
                         MainActivity.this.startActivity(inte);
                     }
                 });
@@ -2287,7 +2288,7 @@ public class MainActivity extends BaseActivity {
          * domain, the frontpage, or /r/all. If the subreddit has a "." in it, we know it's a domain because
          * subreddits aren't allowed to have hard-stops in the name.
          */
-        if (subreddit.contains("/m/") || subreddit.contains(".")
+        if (subreddit.contains("/m/") || subreddit.contains(".") || subreddit.contains("+")
                 || subreddit.equals("frontpage") || subreddit.equals("all")) {
             menu.findItem(R.id.submit).setVisible(false);
             menu.findItem(R.id.sidebar).setVisible(false);

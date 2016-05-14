@@ -11,4 +11,7 @@
 
     <dimen name="app_minimumsize_h">598.0dip</dimen>
     <dimen name="overview_top_padding_single">56dp</dimen>
+
+    <!-- Material Design's dimension for a standard toolbar -->
+    <dimen name="standard_toolbar_height">56dp</dimen>
 </resources>

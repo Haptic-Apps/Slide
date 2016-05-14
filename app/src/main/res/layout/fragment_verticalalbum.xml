@@ -19,19 +19,16 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/standard_toolbar_height"
+            android:minHeight="@dimen/standard_toolbar_height"
             android:background="#00000000"
-            android:clipToPadding="false"
-            android:elevation="5dp"
-            android:theme="@style/Theme.AppCompat"
-
-            >
+            android:elevation="8dp"
+            android:theme="@style/Theme.AppCompat">
 
             <ImageView
                 android:id="@+id/grid"
                 android:layout_width="0dp"
                 android:layout_height="0dp" />
-
         </android.support.v7.widget.Toolbar>
 
         <ProgressBar

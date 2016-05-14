@@ -197,7 +197,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         //So, we estimate the height of the header in dp
         refreshLayout.setProgressViewOffset(false,
                 Constants.TAB_HEADER_VIEW_OFFSET - Constants.PTR_OFFSET_TOP,
-                Constants.TAB_HEADER_VIEW_OFFSET + Constants.PTR_OFFSET_BOTTOM + Reddit.dpToPx(6));
+                Constants.TAB_HEADER_VIEW_OFFSET + Constants.PTR_OFFSET_BOTTOM);
 
         refreshLayout.post(new Runnable() {
             @Override

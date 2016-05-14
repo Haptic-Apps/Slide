@@ -8,20 +8,18 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-
-        android:layout_height="56dp">
-
+        android:layout_height="@dimen/standard_toolbar_height"
+        android:minHeight="@dimen/standard_toolbar_height">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="@dimen/standard_toolbar_height"
+            android:minHeight="@dimen/standard_toolbar_height"
             android:clipToPadding="false"
-            android:elevation="5dp"
+            android:elevation="8dp"
             android:theme="@style/Theme.AppCompat"
             app:layout_scrollFlags="scroll|enterAlways">
-
-
         </android.support.v7.widget.Toolbar>
 
         <ProgressBar
@@ -43,5 +41,4 @@
         android:layout_width="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_height="match_parent" />
-
 </android.support.design.widget.CoordinatorLayout>

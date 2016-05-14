@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
     android:background="?attr/activity_background"
     android:orientation="vertical">
@@ -13,49 +12,20 @@
         android:layout_height="wrap_content"
         android:background="@color/md_light_blue_500"
         android:clipToPadding="false"
-        android:paddingEnd="16dp"
         android:theme="@style/Theme.AppCompat"
-        app:layout_scrollFlags="scroll|enterAlways"
-        >
+        app:layout_scrollFlags="scroll|enterAlways">
 
         <EditText
             android:id="@+id/name"
             android:layout_width="160dp"
             android:layout_height="match_parent"
-            android:tint="#fff"
+            android:tint="@color/white"
             android:hint="@string/multireddit_create_hint"
             android:inputType="textCapWords"
             android:maxLength="21"
-
             android:maxLines="1"
-            android:textColor="#fff"
-            android:textColorHint="#fff" />
-
-
-        <TextView
-            android:id="@+id/ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="16dp"
-            android:text="@string/btn_save"
-            android:textAllCaps="true"
-            android:textColor="#fff"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/delete"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="end|center_vertical"
-            android:background="?android:selectableItemBackground"
-            android:paddingBottom="12dp"
-            android:paddingTop="12dp"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/delete"
-            />
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
@@ -64,8 +34,6 @@
         android:layout_height="match_parent"
         android:layout_below="@id/toolbar"
         android:orientation="vertical">
-
-
     </android.support.v7.widget.RecyclerView>
 
     <include

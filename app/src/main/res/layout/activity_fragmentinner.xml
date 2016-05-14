@@ -10,7 +10,7 @@
         android:id="@+id/anchor"
         android:layout_width="1dp"
         android:layout_height="1dp"
-        android:layout_gravity="top|right"
+        android:layout_gravity="top|end"
         android:layout_marginEnd="3dp"
         android:layout_marginTop="4dp" />
 
@@ -31,8 +31,8 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
+            android:layout_height="@dimen/standard_toolbar_height"
+            android:minHeight="@dimen/standard_toolbar_height"
             android:theme="@style/ActionBarCompat" />
     </android.support.design.widget.AppBarLayout>
 </FrameLayout>

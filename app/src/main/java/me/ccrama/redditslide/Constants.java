@@ -12,7 +12,7 @@ public class Constants {
      * Use this for calculating the SwipeToRefresh (PTR) progresses indicator offset when using
      * "Tabs" view mode.
      */
-    public static final int TAB_HEADER_VIEW_OFFSET = Reddit.dpToPx(107);
+    public static final int TAB_HEADER_VIEW_OFFSET = Reddit.dpToPx(108);
 
     /**
      * This is the estimated height of the toolbar height in dp.

@@ -13,7 +13,8 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/standard_toolbar_height"
+            android:minHeight="@dimen/standard_toolbar_height"
             android:elevation="16dp"
             android:background="@color/md_light_blue_500"
             android:theme="@style/Theme.AppCompat">
@@ -36,16 +37,10 @@
                 android:layout_gravity="end|center_vertical"
                 android:background="?android:selectableItemBackground"
                 android:paddingBottom="8dp"
-
                 android:paddingTop="8dp"
                 android:scaleType="fitCenter"
-
                 android:tint="@color/white"
-
-                app:srcCompat="@drawable/color"
-
-                />
-
+                app:srcCompat="@drawable/color" />
         </android.support.v7.widget.Toolbar>
 
         <android.support.v7.widget.RecyclerView
@@ -54,7 +49,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical"/>
     </LinearLayout>
-
 
     <include
         layout="@layout/fab"

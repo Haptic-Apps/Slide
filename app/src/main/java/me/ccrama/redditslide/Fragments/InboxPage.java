@@ -13,7 +13,6 @@ import me.ccrama.redditslide.Adapters.InboxAdapter;
 import me.ccrama.redditslide.Adapters.InboxMessages;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -46,7 +45,7 @@ public class InboxPage extends Fragment {
         //So, we estimate the height of the header in dp
         mSwipeRefreshLayout.setProgressViewOffset(false,
                 Constants.TAB_HEADER_VIEW_OFFSET - Constants.PTR_OFFSET_TOP,
-                Constants.TAB_HEADER_VIEW_OFFSET + Constants.PTR_OFFSET_BOTTOM + Reddit.dpToPx(4));
+                Constants.TAB_HEADER_VIEW_OFFSET + Constants.PTR_OFFSET_BOTTOM);
 
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
