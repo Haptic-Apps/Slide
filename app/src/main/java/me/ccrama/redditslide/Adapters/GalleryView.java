@@ -62,6 +62,9 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             if (submission.getThumbnails() != null && submission.getThumbnails().getSource() != null) {
                 ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(submission.getThumbnails().getSource().getUrl(), holder.image, ImageGridAdapter.options);
+            } else {
+                ((Reddit) main.getApplicationContext()).getImageLoader().displayImage(submission.getUrl(), holder.image, ImageGridAdapter.options);
+
             }
             double h = 0;
             int height = 0;

@@ -76,6 +76,9 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
             if(s.getThumbnails() != null && s.getThumbnails().getSource() != null){
                 baseSubs.add(s);
             }
+            if(ContentType.getContentType(s) == ContentType.Type.IMAGE){
+                baseSubs.add(s);
+            }
             subredditPosts.getPosts().add(s);
         }
 
