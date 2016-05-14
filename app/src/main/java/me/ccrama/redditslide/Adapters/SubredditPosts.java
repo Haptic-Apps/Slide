@@ -41,7 +41,7 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * This class is reponsible for loading subreddit specific submissions
  * {@link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
  * asynchronously.
- * <p/>
+ * <p>
  * Created by ccrama on 9/17/2015.
  */
 public class SubredditPosts implements PostLoader {
@@ -299,7 +299,8 @@ public class SubredditPosts implements PostLoader {
             List<Submission> filteredSubmissions = getNextFiltered();
 
 
-            loadPhotos(filteredSubmissions);
+            if (!SettingValues.noImages)
+                loadPhotos(filteredSubmissions);
             HasSeen.setHasSeenSubmission(filteredSubmissions);
             LastComments.setCommentsSince(filteredSubmissions);
             SubmissionCache.cacheSubmissions(filteredSubmissions, context, subreddit);

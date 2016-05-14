@@ -98,17 +98,6 @@ public class SettingsComments extends BaseActivityAnim {
             });
         }
         {
-            SwitchCompat single = (SwitchCompat) findViewById(R.id.selftextcomment);
-            single.setChecked(SettingValues.hideSelftextLeadImage);
-            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.hideSelftextLeadImage = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SELFTEXT_IMAGE_COMMENT, isChecked).apply();
-                }
-            });
-        }
-        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.collapse);
             single.setChecked(SettingValues.collapseComments);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

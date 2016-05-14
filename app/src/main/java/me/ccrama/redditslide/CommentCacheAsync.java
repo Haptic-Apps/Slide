@@ -240,7 +240,8 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                         Submission s2 = SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
                         OfflineSubreddit.writeSubmission(n, s2, context);
                         newFullnames.add(s2.getFullName());
-                        loadPhotos(s, context);
+                        if (!SettingValues.noImages)
+                            loadPhotos(s, context);
                 /* todo maybe
                 switch (ContentType.getContentType(s)) {
                     case GIF:

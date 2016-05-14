@@ -20,6 +20,7 @@ public class SettingValues {
     public static final String PREF_DAY_TIME = "day";
     public static final String PREF_NIGHT_TIME = "nightTime";
     public static final String PREF_AUTOHIDE_COMMENTS = "autohideComments";
+    public static final String PREF_NO_IMAGES = "autohideComments";
     public static final String PREF_AUTOTHEME = "autotime";
     public static final String PREVIEWS_LEFT = "previewsLeft";
     public static final String PREF_COLOR_BACK = "colorBack";
@@ -109,6 +110,7 @@ public class SettingValues {
     public static boolean commentAutoHide;
     public static boolean fullCommentOverride;
     public static boolean lowResAlways;
+    public static boolean noImages;
     public static boolean lowResMobile;
     public static boolean blurCheck;
     public static boolean swipeAnywhere;
@@ -208,6 +210,7 @@ public class SettingValues {
         votesInfoLine = prefs.getBoolean(PREF_VOTES_INFO_LINE, false);
 
         imgurLq = prefs.getBoolean(PREF_IMGUR_LQ, true);
+        noImages = prefs.getBoolean(PREF_NO_IMAGES, false);
 
         lowResAlways = prefs.getBoolean(PREF_LOW_RES_ALWAYS, false);
         lowResMobile = prefs.getBoolean(PREF_LOW_RES_MOBILE, false);

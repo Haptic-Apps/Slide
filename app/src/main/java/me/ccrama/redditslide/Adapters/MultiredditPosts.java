@@ -36,7 +36,7 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * This class is reponsible for loading subreddit specific submissions
  * {@link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
  * asynchronously.
- * <p/>
+ * <p>
  * Created by ccrama on 9/17/2015.
  */
 public class MultiredditPosts implements PostLoader {
@@ -51,7 +51,7 @@ public class MultiredditPosts implements PostLoader {
     MultiredditAdapter adapter;
 
     public MultiredditPosts(String multireddit) {
-        this(multireddit ,"");
+        this(multireddit, "");
     }
 
     public MultiredditPosts(String multireddit, String profile) {
@@ -88,7 +88,7 @@ public class MultiredditPosts implements PostLoader {
                 int height = submission.getThumbnails().getSource().getHeight();
                 int width = submission.getThumbnails().getSource().getWidth();
 
-                 if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
+                if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (submission.getThumbnailType() != Submission.ThumbnailType.URL)) {
 
 
                 } else if (type == ContentType.Type.IMAGE) {
@@ -193,6 +193,7 @@ public class MultiredditPosts implements PostLoader {
     public List<Submission> getPosts() {
         return posts;
     }
+
     public MultiReddit multiReddit;
 
     @Override
@@ -330,7 +331,9 @@ public class MultiredditPosts implements PostLoader {
 
             HasSeen.setHasSeenSubmission(filteredSubmissions);
             SubmissionCache.cacheSubmissions(filteredSubmissions, context, paginator.getMultiReddit().getDisplayName());
-            loadPhotos(filteredSubmissions);
+
+            if (!SettingValues.noImages)
+                loadPhotos(filteredSubmissions);
 
             return things;
         }
