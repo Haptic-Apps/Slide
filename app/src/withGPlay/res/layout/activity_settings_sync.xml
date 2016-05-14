@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="18dp"
-    android:background="?attr/card_background">
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="?attr/activity_background"
+              android:orientation="vertical">
+			  
+    <include layout="@layout/settings_toolbar" />
+   <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/standard_toolbar_height"
-            android:minHeight="@dimen/standard_toolbar_height"
-            android:background="@color/md_light_blue_500"
-            android:theme="@style/Theme.AppCompat" />
 
         <TextView android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,3 +106,4 @@
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
+</LinearLayout>

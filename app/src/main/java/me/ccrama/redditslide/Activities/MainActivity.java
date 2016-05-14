@@ -2725,6 +2725,11 @@ public class MainActivity extends BaseActivity {
             new AsyncNotificationBadge().execute();
         }
 
+        if(pager != null && commentPager){
+            if(pager.getCurrentItem() == toOpenComments && toOpenComments >0){
+                pager.setCurrentItem(toOpenComments - 1);
+            }
+        }
         Reddit.setDefaultErrorHandler(this);
 
         sideArrayAdapter.updateHistory(UserSubscriptions.getHistory());

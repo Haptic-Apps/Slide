@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.NotificationCompat;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -160,9 +161,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                             new AsyncTask<Void, Void, Void>() {
                                 @Override
                                 protected Void doInBackground(Void... params) {
-                                    String url = actuallyLoaded;
+                                    String url = contentUrl;
                                     final String finalUrl1 = url;
-                                    final String finalUrl = actuallyLoaded;
+                                    final String finalUrl = contentUrl;
                                     try {
                                         ((Reddit) getApplication()).getImageLoader()
                                                 .loadImage(finalUrl, new SimpleImageLoadingListener() {
@@ -330,6 +331,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         final String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
         contentUrl = getIntent().getExtras().getString(EXTRA_URL);
 
+        if(contentUrl.contains("reddituploads.com")){
+            contentUrl = Html.fromHtml(contentUrl).toString();
+        }
         if (contentUrl != null && shouldTruncate(contentUrl)) {
             contentUrl = contentUrl.substring(0, contentUrl.lastIndexOf("."));
         }
