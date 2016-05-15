@@ -53,7 +53,7 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase();
             final String path = uri.getPath().toLowerCase();
 
-            return host.endsWith("imgur.com")
+            return (host.endsWith("imgur.com") || host.endsWith("bildgur.de"))
                     && (path.startsWith("/a/")
                     || path.startsWith("/gallery/")
                     || path.startsWith("/g/")
@@ -81,7 +81,7 @@ public class ContentType {
             final URI uri = new URI(url);
             final String host = uri.getHost().toLowerCase();
 
-            return host.endsWith("imgur.com")
+            return (host.endsWith("imgur.com") || host.endsWith("bildgur.de"))
                     && !isAlbum(uri)
                     && !isGif(uri)
                     && !isImage(uri);
@@ -136,6 +136,9 @@ public class ContentType {
                 return Type.ALBUM;
             }
             if (host.endsWith("imgur.com")) {
+                return Type.IMGUR;
+            }
+            if (host.endsWith("bildgur.de")) {
                 return Type.IMGUR;
             }
             if (isRedditLink(uri)) {
@@ -322,7 +325,7 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase();
             final String path = uri.getPath().toLowerCase();
 
-            return host.contains("imgur.com")
+            return (host.contains("imgur.com") || host.contains("bildgur.de"))
                     && (path.endsWith(".png")
                     || path.endsWith(".jpg")
                     || path.endsWith(".jpeg"));

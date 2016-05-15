@@ -545,6 +545,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     }
 
     public void doLoadImage(String contentUrl) {
+        if (contentUrl != null && contentUrl.contains("bildgur.de"))
+            contentUrl = contentUrl.replace("b.bildgur.de", "i.imgur.com");
         if (contentUrl != null && ContentType.isImgurLink(contentUrl)) {
             contentUrl = contentUrl + ".png";
         }
