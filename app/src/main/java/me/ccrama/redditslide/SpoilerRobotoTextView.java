@@ -183,12 +183,12 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     private String wrapAlternateSpoilers(String html) {
-        Pattern htmlSpoilerPattern = Pattern.compile("<a href=\"(/spoiler|/s|/sp)\">(.*?)</a>");
+        Pattern htmlSpoilerPattern = Pattern.compile("<a href=\"(/spoiler|#s|/s|/sp)\">(.*?)</a>");
         Matcher htmlSpoilerMatcher = htmlSpoilerPattern.matcher(html);
         while (htmlSpoilerMatcher.find()) {
             String newPiece = htmlSpoilerMatcher.group();
 
-            if (htmlSpoilerMatcher.group().contains("href=\"/s\"") || htmlSpoilerMatcher.group().contains("href=\"/sp")) {
+            if (htmlSpoilerMatcher.group().contains("href=\"/s\"") ||htmlSpoilerMatcher.group().contains("href=\"/#s\"")|| htmlSpoilerMatcher.group().contains("href=\"/sp")) {
                 String inner = "<a href=\"/spoiler\">spoiler&lt; [[s[ " + newPiece.substring(newPiece.indexOf(">") + 1, newPiece.indexOf("<", newPiece.indexOf(">"))) + "]s]]</a>";
                 html = html.replace(htmlSpoilerMatcher.group(), inner);
             }

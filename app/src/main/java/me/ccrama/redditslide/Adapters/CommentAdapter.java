@@ -2915,16 +2915,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             protected void onPostExecute(Void aVoid) {
                 Snackbar s;
                 if (ActionStates.isSaved(comment)) {
-                    s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_LONG);
+                    s = Snackbar.make(holder.itemView, "Comment saved", Snackbar.LENGTH_LONG);
                     s.setAction("CATEGORIZE", new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             categorizeComment(comment, mContext);
                         }
                     });
-                    AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
                 } else {
-                    s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
+                    s = Snackbar.make(holder.itemView, "Comment un-saved", Snackbar.LENGTH_SHORT);
                 }
                 View view = s.getView();
                 TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);

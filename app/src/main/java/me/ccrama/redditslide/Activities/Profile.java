@@ -150,8 +150,6 @@ public class Profile extends BaseActivityAnim {
                 getString(R.string.profile_gilded)});
 
         new getProfile().execute(name);
-        if (sortItem != null)
-            sortItem.setVisible(false);
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -194,6 +192,9 @@ public class Profile extends BaseActivityAnim {
 
         if (getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name)) {
             pager.setCurrentItem(6);
+            if(categoryItem != null) categoryItem.setVisible(true);
+            if(sortItem != null) sortItem.setVisible(true);
+
         }
         if (getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name)) {
             pager.setCurrentItem(1);
@@ -203,16 +204,17 @@ public class Profile extends BaseActivityAnim {
         }
         if (getIntent().hasExtra(EXTRA_HISTORY) && name.equals(Authentication.name)) {
             pager.setCurrentItem(8);
+            if(sortItem != null) sortItem.setVisible(true);
         }
         if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name)) {
             pager.setCurrentItem(4);
+            if(sortItem != null) sortItem.setVisible(true);
         }
         if (pager.getCurrentItem() == 6) {
             isSavedView = true;
         } else {
             isSavedView = false;
         }
-        pager.setCurrentItem(0);
         if (pager.getCurrentItem() != 0) {
             scrollToTabAfterLayout(pager.getCurrentItem());
         }
@@ -477,6 +479,7 @@ public class Profile extends BaseActivityAnim {
         //used to hide the sort item on certain Profile tabs
         sortItem = menu.findItem(R.id.sort);
         categoryItem = menu.findItem(R.id.category);
+        categoryItem.setVisible(false);
         return true;
     }
 
