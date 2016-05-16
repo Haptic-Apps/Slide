@@ -43,6 +43,7 @@ import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.MediaVideoView;
 
 /**
@@ -183,14 +184,14 @@ public class GifUtils {
                 s = s.substring(0, s.length() - 1);
             } else if (s.contains("gfycat") && !s.contains("mp4")) {
                 s = s.substring(3, s.length());
-                if(s.contains("-size_restricted"))
+                if (s.contains("-size_restricted"))
                     s = s.replace("-size_restricted", "");
 
             }
             if (s.contains(".gif") && !s.contains(".gifv") && s.contains("imgur.com")) {
                 s = s.replace(".gif", ".mp4");
             }
-            if(s.endsWith("/"))
+            if (s.endsWith("/"))
                 s = s.substring(0, s.length() - 1);
 
             return s;
@@ -221,7 +222,7 @@ public class GifUtils {
                     c.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if(progressBar != null)
+                            if (progressBar != null)
                                 progressBar.setIndeterminate(true);
                         }
                     });
@@ -257,13 +258,17 @@ public class GifUtils {
 
 
                                             } else {
-                                                obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
+                                                if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && result.getAsJsonObject("gfyItem").has("mobileUrl"))
+                                                    obj = result.getAsJsonObject("gfyItem").get("mobileUrl").getAsString();
+                                                else
+                                                    obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
+
 
                                             }
                                             c.runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    if(progressBar != null)
+                                                    if (progressBar != null)
                                                         progressBar.setIndeterminate(false);
                                                 }
                                             });
@@ -498,7 +503,7 @@ public class GifUtils {
                 InputStream is = ucon.getInputStream();
                 //todo  MediaView.fileLoc = f.getAbsolutePath();
                 LogUtil.v(url.toString());
-               GifCache.writeGif(url.toString(), new ContentLengthInputStream(new BufferedInputStream(is, 5 * 1024), ucon.getContentLength()), new IoUtils.CopyListener() {
+                GifCache.writeGif(url.toString(), new ContentLengthInputStream(new BufferedInputStream(is, 5 * 1024), ucon.getContentLength()), new IoUtils.CopyListener() {
                     @Override
                     public boolean onBytesCopied(int current, int total) {
                         final int percent = Math.round(100.0f * current / total);
@@ -545,7 +550,7 @@ public class GifUtils {
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder( (MediaView) a)
+                        new FolderChooserDialogCreate.Builder((MediaView) a)
                                 .chooseButton(R.string.btn_select)  // changes label of the choose button
                                 .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
                                 .show();

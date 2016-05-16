@@ -265,14 +265,17 @@ public class OfflineSubreddit {
     public void hide(int index) {
         hide(index, true);
     }
-
+    public void hideMulti(int index) {
+        if (submissions != null) {
+            submissions.remove(index);
+        }
+    }
     public void hide(int index, boolean save) {
         if (submissions != null) {
             savedSubmission = submissions.get(index);
             submissions.remove(index);
             savedIndex = index;
             writeToMemoryNoStorage();
-
         }
     }
 

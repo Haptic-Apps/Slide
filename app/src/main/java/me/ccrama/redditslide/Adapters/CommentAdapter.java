@@ -56,6 +56,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -1954,6 +1955,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             params.height = 0;
             v.setLayoutParams(params);
         } else {
+            v.removeAllViews();
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
             params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
             v.setLayoutParams(params);
@@ -2719,6 +2721,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (Authentication.me != null) {
                 try {
                     commentBack = comment[0];
+
                     return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
                 } catch (Exception e) {
                     if (e instanceof ApiException) {

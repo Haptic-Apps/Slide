@@ -1,11 +1,8 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.os.AsyncTask;
-import android.support.v4.widget.SwipeRefreshLayout;
-
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
-import net.dean.jraw.paginators.UserContributionPaginator;
+import net.dean.jraw.paginators.UserSavedPaginator;
 
 import java.util.ArrayList;
 
@@ -13,39 +10,29 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
-public class ContributionPosts extends GeneralPosts {
-    protected final String where;
-    protected final String subreddit;
-    public boolean loading;
-    private UserContributionPaginator paginator;
-    protected SwipeRefreshLayout refreshLayout;
-    protected ContributionAdapter adapter;
+public class ContributionPostsSaved extends ContributionPosts {
+    private final String category;
 
-    public ContributionPosts(String subreddit, String where) {
-        this.subreddit = subreddit;
-        this.where = where;
+    public ContributionPostsSaved(String subreddit, String where, String category) {
+        super(subreddit, where);
+        this.category = category;
     }
 
-    public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) {
-        this.adapter = a;
-        this.refreshLayout = layout;
-        loadMore(a, subreddit, true);
-    }
+    UserSavedPaginator paginator;
 
+    @Override
     public void loadMore(ContributionAdapter adapter, String subreddit, boolean reset) {
         new LoadData(reset).execute(subreddit);
     }
 
-    public class LoadData extends AsyncTask<String, Void, ArrayList<Contribution>> {
-        final boolean reset;
+    public class LoadData extends ContributionPosts.LoadData {
 
         public LoadData(boolean reset) {
-            this.reset = reset;
+            super(reset);
         }
 
         @Override
@@ -108,11 +95,11 @@ public class ContributionPosts extends GeneralPosts {
             ArrayList<Contribution> newData = new ArrayList<>();
             try {
                 if (reset || paginator == null) {
-                    paginator = new UserContributionPaginator(Authentication.reddit, where, subreddit);
-
-                    LogUtil.v("Sorting is " + Reddit.getSorting(subreddit).name());
+                    paginator = new UserSavedPaginator(Authentication.reddit, where, subreddit);
                     paginator.setSorting(Reddit.getSorting(subreddit));
                     paginator.setTimePeriod(Reddit.getTime(subreddit));
+                    if(category != null)
+                        paginator.setCategory(category);
                 }
 
                 if (!paginator.hasNext()) {

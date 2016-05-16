@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -43,6 +44,7 @@ import net.dean.jraw.models.Trophy;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -78,6 +80,7 @@ public class Profile extends BaseActivityAnim {
     private TabLayout tabs;
     private String[] usedArray;
     public boolean isSavedView;
+
     private void scrollToTabAfterLayout(final int tabIndex) {
         //from http://stackoverflow.com/a/34780589/3697225
         if (tabs != null) {
@@ -95,6 +98,7 @@ public class Profile extends BaseActivityAnim {
             }
         }
     }
+
     public static boolean isValidUsername(String user) {
         /* https://github.com/reddit/reddit/blob/master/r2/r2/lib/validator/validator.py#L261 */
         return user.matches("^[a-zA-Z0-9_-]{3,20}$");
@@ -102,6 +106,7 @@ public class Profile extends BaseActivityAnim {
 
     private boolean friend;
     private MenuItem sortItem;
+    private MenuItem categoryItem;
     public static Sorting profSort;
     public static TimePeriod profTime;
 
@@ -145,6 +150,8 @@ public class Profile extends BaseActivityAnim {
                 getString(R.string.profile_gilded)});
 
         new getProfile().execute(name);
+        if (sortItem != null)
+            sortItem.setVisible(false);
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -154,7 +161,7 @@ public class Profile extends BaseActivityAnim {
 
             @Override
             public void onPageSelected(int position) {
-                if(position == 6){
+                if (position == 6) {
                     isSavedView = true;
                 } else {
                     isSavedView = false;
@@ -168,6 +175,13 @@ public class Profile extends BaseActivityAnim {
                         sortItem.setVisible(true);
                     } else {
                         sortItem.setVisible(false);
+                    }
+                }
+                if (categoryItem != null) {
+                    if (position == 6) {
+                        categoryItem.setVisible(true);
+                    } else {
+                        categoryItem.setVisible(false);
                     }
                 }
             }
@@ -193,12 +207,13 @@ public class Profile extends BaseActivityAnim {
         if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name)) {
             pager.setCurrentItem(4);
         }
-        if(pager.getCurrentItem() == 6){
+        if (pager.getCurrentItem() == 6) {
             isSavedView = true;
         } else {
             isSavedView = false;
         }
-        if(pager.getCurrentItem() != 0){
+        pager.setCurrentItem(0);
+        if (pager.getCurrentItem() != 0) {
             scrollToTabAfterLayout(pager.getCurrentItem());
         }
     }
@@ -358,9 +373,9 @@ public class Profile extends BaseActivityAnim {
         PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
         final String[] base = Reddit.getSortingStrings(getBaseContext(), profSort, profTime, true);
         for (String s : base) {
-          MenuItem m =  popup.getMenu().add(s);
-            if(s.startsWith("» ")){
-                SpannableString spanString = new SpannableString(s.replace("» ",""));
+            MenuItem m = popup.getMenu().add(s);
+            if (s.startsWith("» ")) {
+                SpannableString spanString = new SpannableString(s.replace("» ", ""));
                 spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(Profile.this).getColor(" ")), 0, spanString.length(), 0);
                 spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
                 m.setTitle(spanString);
@@ -452,13 +467,16 @@ public class Profile extends BaseActivityAnim {
         popup.show();
     }
 
+    public String category;
+    public String subreddit;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_profile, menu);
-
         //used to hide the sort item on certain Profile tabs
         sortItem = menu.findItem(R.id.sort);
+        categoryItem = menu.findItem(R.id.category);
         return true;
     }
 
@@ -468,8 +486,63 @@ public class Profile extends BaseActivityAnim {
             case (android.R.id.home):
                 onBackPressed();
                 break;
+            case (R.id.category):
+                new AsyncTask<Void, Void, List<String>>() {
+                    Dialog d;
+
+                    @Override
+                    public void onPreExecute() {
+                        d = new MaterialDialog.Builder(Profile.this).progress(true, 100).title("Loading categories").show();
+                    }
+
+                    @Override
+                    protected List<String> doInBackground(Void... params) {
+                        try {
+                            List<String> categories = new ArrayList<>(new AccountManager(Authentication.reddit).getSavedCategories());
+                            categories.add(0, "No category");
+                            return categories;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            //sub probably has no flairs?
+                        }
+
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onPostExecute(final List<String> data) {
+                        try {
+                            new MaterialDialog.Builder(Profile.this).items(data)
+                                    .title("Select category")
+                                    .itemsCallback(new MaterialDialog.ListCallback() {
+                                        @Override
+                                        public void onSelection(MaterialDialog dialog, final View itemView, int which, CharSequence text) {
+                                            final String t = data.get(which);
+                                            if (which == 0)
+                                                category = null;
+                                            else
+                                                category = t;
+                                            int current = pager.getCurrentItem();
+                                            ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
+                                            pager.setAdapter(adapter);
+                                            pager.setOffscreenPageLimit(1);
+
+                                            tabs.setupWithViewPager(pager);
+                                            pager.setCurrentItem(current);
+                                        }
+                                    }).show();
+                            if (d != null) {
+                                d.dismiss();
+                            }
+                        } catch (Exception ignored) {
+
+                        }
+                    }
+                }.execute();
+                break;
             case (R.id.info):
-                if(account != null && trophyCase != null) {
+                if (account != null && trophyCase != null) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.colorprofile, null);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Profile.this);
@@ -627,14 +700,14 @@ public class Profile extends BaseActivityAnim {
                     }
 
                     dialoglayout.findViewById(R.id.multi_body).setOnClickListener(
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent inte = new Intent(Profile.this, MultiredditOverview.class);
-                                inte.putExtra(EXTRA_PROFILE, name);
-                                Profile.this.startActivity(inte);
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent inte = new Intent(Profile.this, MultiredditOverview.class);
+                                    inte.putExtra(EXTRA_PROFILE, name);
+                                    Profile.this.startActivity(inte);
+                                }
                             }
-                        }
                     );
 
                     final View body = dialoglayout.findViewById(R.id.body2);
@@ -755,7 +828,7 @@ public class Profile extends BaseActivityAnim {
                     builder.setView(dialoglayout);
                     builder.show();
                 }
-            return true;
+                return true;
 
             case (R.id.sort):
                 openPopup();

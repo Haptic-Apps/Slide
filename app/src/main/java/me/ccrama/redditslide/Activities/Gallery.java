@@ -66,24 +66,23 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
-        long offline = getIntent().getLongExtra("offline",0L);
+        long offline = getIntent().getLongExtra("offline", 0L);
 
         final OfflineSubreddit submissions = OfflineSubreddit.getSubreddit(subreddit, offline, !Authentication.didOnline, this);
 
         baseSubs = new ArrayList<>();
 
-        for(Submission s : submissions.submissions){
-            if(s.getThumbnails() != null && s.getThumbnails().getSource() != null){
+        for (Submission s : submissions.submissions) {
+            if (s.getThumbnails() != null && s.getThumbnails().getSource() != null) {
                 baseSubs.add(s);
-            }
-            if(ContentType.getContentType(s) == ContentType.Type.IMAGE){
+            } else if (ContentType.getContentType(s) == ContentType.Type.IMAGE) {
                 baseSubs.add(s);
             }
             subredditPosts.getPosts().add(s);
         }
 
         rv = (RecyclerView) findViewById(R.id.content_view);
-        recyclerAdapter = new GalleryView(this, baseSubs ,subreddit);
+        recyclerAdapter = new GalleryView(this, baseSubs, subreddit);
         RecyclerView.LayoutManager layoutManager = createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(recyclerAdapter);
@@ -117,11 +116,13 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         });*/
 
     }
+
     GalleryView recyclerAdapter;
     public int pastVisiblesItems;
     public int visibleItemCount;
     public int totalItemCount;
     RecyclerView rv;
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -140,8 +141,8 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
             @Override
             public void run() {
                 int startSize = baseSubs.size();
-                for(Submission s : submissions){
-                    if(!baseSubs.contains(s) && s.getThumbnails() != null && s.getThumbnails().getSource() != null){
+                for (Submission s : submissions) {
+                    if (!baseSubs.contains(s) && s.getThumbnails() != null && s.getThumbnails().getSource() != null) {
                         baseSubs.add(s);
                     }
                 }
@@ -167,6 +168,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
     @Override
     public void updateError() {
     }
+
     @NonNull
     private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
         return new CatchStaggeredGridLayoutManager(numColumns, CatchStaggeredGridLayoutManager.VERTICAL);
@@ -183,6 +185,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
         }
         return numColumns;
     }
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {
@@ -211,8 +214,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                 case LINK:
                 case VID_ME:
                 case STREAMABLE:
-                case VIDEO:
-                {
+                case VIDEO: {
                     f = new MediaFragment();
                     Bundle args = new Bundle();
                     Submission submission = baseSubs.get(i);
@@ -283,7 +285,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
 
         @Override
         public int getCount() {
-            return baseSubs.size() ;
+            return baseSubs.size();
         }
 
 

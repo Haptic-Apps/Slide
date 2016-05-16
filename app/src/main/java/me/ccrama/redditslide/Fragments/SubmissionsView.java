@@ -297,8 +297,8 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         if (adapter.dataSet.posts != null) {
 
             List<Submission> originalDataSetPosts = adapter.dataSet.posts;
-
             OfflineSubreddit o = OfflineSubreddit.getSubreddit(id.toLowerCase(), false, getActivity());
+
             for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
                 try {
                     if (HasSeen.getSeen(adapter.dataSet.posts.get(i))) {
@@ -306,7 +306,6 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                             Hidden.setHidden(adapter.dataSet.posts.get(i));
                         }
                         o.clearPost(adapter.dataSet.posts.get(i));
-
                         adapter.dataSet.posts.remove(i);
                         if (adapter.dataSet.posts.isEmpty()) {
                             adapter.notifyDataSetChanged();
@@ -319,7 +318,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
-            o.writeToMemory(getActivity());
+            o.writeToMemoryNoStorage();
             rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
             return originalDataSetPosts;
         }

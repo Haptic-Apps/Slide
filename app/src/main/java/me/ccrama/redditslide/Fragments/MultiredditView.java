@@ -287,7 +287,6 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                             Hidden.setHidden(posts.posts.get(i));
                         }
                         o.clearPost(posts.posts.get(i));
-
                         posts.posts.remove(i);
                         if (posts.posts.isEmpty()) {
                             adapter.notifyDataSetChanged();
@@ -300,7 +299,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
-            o.writeToMemory(getActivity());
+            o.writeToMemoryNoStorage();
             rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
             return originalDataSetPosts;
         }

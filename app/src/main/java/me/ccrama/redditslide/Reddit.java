@@ -121,8 +121,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     /**
      * Converts px to dp
+     *
      * @param px to convert to dp
-     * @param c context of view
+     * @param c  context of view
      * @return dp
      */
     public static int pxToDp(int px, Context c) {
@@ -132,6 +133,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     /**
      * Converts dp to px
+     *
      * @param dp to convert to px
      * @return px
      */
@@ -345,7 +347,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                     break;
             }
         }
-        current[pos] = (arrows?"» ":"") + current[pos]  +"";
+        current[pos] = (arrows ? "» " : "") + current[pos] + "";
         return current;
     }
 
@@ -370,7 +372,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static String[] getSortingStringsSearch(Context c) {
-        return new String[] {
+        return new String[]{
                 c.getString(R.string.sorting_search_hour),
                 c.getString(R.string.sorting_search_day),
                 c.getString(R.string.sorting_search_week),
@@ -399,7 +401,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @Override
     public void onActivityResumed(Activity activity) {
-        if (NetworkUtil.isConnected(activity) && authentication != null && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance().getTimeInMillis()) {
+        if (authentication != null && Authentication.didOnline && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance().getTimeInMillis()) {
             authentication.updateToken(activity);
         } else if (NetworkUtil.isConnected(activity) && authentication == null) {
             authentication = new Authentication(this);
@@ -582,7 +584,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         colors = getSharedPreferences("COLOR", 0);
         tags = getSharedPreferences("TAGS", 0);
         KVStore.init(this, "SEEN");
-        if(SettingValues.overrideLanguage) {
+        if (SettingValues.overrideLanguage) {
             Locale locale = new Locale("en_US");
             Locale.setDefault(locale);
             Configuration config = new Configuration();

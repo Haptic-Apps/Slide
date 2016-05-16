@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
 import me.ccrama.redditslide.Adapters.ContributionPosts;
+import me.ccrama.redditslide.Adapters.ContributionPostsSaved;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
@@ -60,7 +62,11 @@ public class ContributionsView extends Fragment {
             }
         });
 
-        posts = new ContributionPosts(id, where);
+        if (where.equals("saved") && getActivity() instanceof Profile)
+            posts = new ContributionPostsSaved(id, where, ((Profile) getActivity()).category);
+        else
+            posts = new ContributionPosts(id, where);
+
         //noinspection StringEquality
         if (where == "hidden") adapter = new ContributionAdapter(getActivity(), posts, rv, true);
         else adapter = new ContributionAdapter(getActivity(), posts, rv);
@@ -73,7 +79,6 @@ public class ContributionsView extends Fragment {
                     @Override
                     public void onRefresh() {
                         posts.loadMore(adapter, id, true);
-
                         //TODO catch errors
                     }
                 }

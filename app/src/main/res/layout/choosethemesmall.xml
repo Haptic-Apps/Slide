@@ -23,12 +23,12 @@
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
-                    android:textColor="#fff"
-
                     android:layout_height="wrap_content"
+
                     android:background="@color/md_light_green_500"
                     android:padding="24dp"
                     android:text="@string/theme_base"
+                    android:textColor="#fff"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -41,70 +41,6 @@
                     android:background="?attr/card_background"
                     android:orientation="vertical"
                     android:padding="24dp">
-
-                    <LinearLayout
-                        android:id="@+id/dark"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-
-                        android:background="#424242"
-
-
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
-
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"
-                            android:padding="12dp"
-                            app:srcCompat="@drawable/theme"
-                            android:tint="#ffffff" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-
-                            android:text="@string/theme_dark"
-
-                            android:textColor="#ffffff"
-
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/black"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:background="#0e0e0e"
-                        android:gravity="center_vertical"
-
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp">
-
-                        <ImageView
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:alpha=".86"
-                            android:padding="12dp"
-                            app:srcCompat="@drawable/theme"
-                            android:tint="#ffffff" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-
-                            android:layout_height="wrap_content"
-
-                            android:text="@string/theme_black"
-
-                            android:textColor="#ffffff"
-
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/light"
@@ -121,8 +57,8 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/theme"
-                            android:tint="#de393939" />
+                            android:tint="#de393939"
+                            app:srcCompat="@drawable/theme" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -133,6 +69,32 @@
 
                             android:textColor="#cd000000"
 
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/sepia"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="#cac5ad"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp">
+
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:tint="#8A3e3d36"
+                            app:srcCompat="@drawable/theme" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/theme_sepia"
+                            android:textColor="#DE3e3d36"
                             android:textSize="16sp" />
 
                     </LinearLayout>
@@ -152,8 +114,8 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/theme"
-                            android:tint="#ffffff" />
+                            android:tint="#ffffff"
+                            app:srcCompat="@drawable/theme" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -167,6 +129,40 @@
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/dark"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+
+                        android:background="#424242"
+
+
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingEnd="16dp">
+
+                        <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:alpha=".86"
+                            android:padding="12dp"
+                            android:tint="#ffffff"
+                            app:srcCompat="@drawable/theme" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/theme_dark"
+
+                            android:textColor="#ffffff"
+
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/blacklighter"
                         android:layout_width="match_parent"
@@ -181,8 +177,8 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/theme"
-                            android:tint="#ffffff" />
+                            android:tint="#ffffff"
+                            app:srcCompat="@drawable/theme" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -192,12 +188,14 @@
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
                     <LinearLayout
-                        android:id="@+id/sepia"
+                        android:id="@+id/black"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:background="#cac5ad"
+                        android:background="#0e0e0e"
                         android:gravity="center_vertical"
+
                         android:orientation="horizontal"
                         android:paddingEnd="16dp">
 
@@ -206,17 +204,22 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/theme"
-                            android:tint="#8A3e3d36" />
+                            android:tint="#ffffff"
+                            app:srcCompat="@drawable/theme" />
 
                         <TextView
                             android:layout_width="wrap_content"
+
                             android:layout_height="wrap_content"
-                            android:text="@string/theme_sepia"
-                            android:textColor="#DE3e3d36"
+
+                            android:text="@string/theme_black"
+
+                            android:textColor="#ffffff"
+
                             android:textSize="16sp" />
 
                     </LinearLayout>
+
 
                 </LinearLayout>
 

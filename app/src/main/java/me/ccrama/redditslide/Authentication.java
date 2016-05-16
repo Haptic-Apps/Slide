@@ -242,9 +242,11 @@ public class Authentication {
 
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);
                         authentication.edit().putLong("expires", authData.getExpirationDate().getTime()).apply();
+                        authentication.edit().putString("backedCreds", authData.getDataNode().toString()).apply();
                         reddit.authenticate(authData);
                         Authentication.name = "LOGGEDOUT";
                         Reddit.notFirst = true;
+                        didOnline = true;
 
                         return null;
 
