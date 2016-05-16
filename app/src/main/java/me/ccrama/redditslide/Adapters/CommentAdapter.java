@@ -56,7 +56,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -100,6 +99,7 @@ import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
+import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
@@ -1955,7 +1955,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             params.height = 0;
             v.setLayoutParams(params);
         } else {
-            v.removeAllViews();
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
             params.height = RelativeLayout.LayoutParams.WRAP_CONTENT;
             v.setLayoutParams(params);
@@ -2721,7 +2720,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (Authentication.me != null) {
                 try {
                     commentBack = comment[0];
-
                     return new AccountManager(Authentication.reddit).reply(sub, comment[0]);
                 } catch (Exception e) {
                     if (e instanceof ApiException) {
@@ -2799,33 +2797,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                break;
 
                                case 3:
-                                   if (ActionStates.isSaved(n)) {
-                                       new AsyncTask<Void, Void, Void>() {
-                                           @Override
-                                           protected Void doInBackground(Void... params) {
-                                               try {
-                                                   ActionStates.setSaved(n, false);
-                                                   new AccountManager(Authentication.reddit).unsave(n);
-                                               } catch (ApiException e) {
-                                                   e.printStackTrace();
-                                               }
-                                               return null;
-                                           }
-                                       }.execute();
-                                   } else {
-                                       new AsyncTask<Void, Void, Void>() {
-                                           @Override
-                                           protected Void doInBackground(Void... params) {
-                                               try {
-                                                   ActionStates.setSaved(n, true);
-                                                   new AccountManager(Authentication.reddit).save(n);
-                                               } catch (ApiException e) {
-                                                   e.printStackTrace();
-                                               }
-                                               return null;
-                                           }
-                                       }.execute();
-                                   }
+                                   saveComment(n, mContext, holder);
                                    break;
                                case 23: {
                                    String s = "https://reddit.com" + submission.getPermalink() +
@@ -2917,5 +2889,180 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                    }
         );
         b.show();
+    }
+
+    private void saveComment(final Comment comment, final Context mContext, final CommentViewHolder holder) {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    if (ActionStates.isSaved(comment)) {
+                        new AccountManager(Authentication.reddit).unsave(comment);
+                        ActionStates.setSaved(comment, false);
+                    } else {
+                        new AccountManager(Authentication.reddit).save(comment);
+                        ActionStates.setSaved(comment, true);
+                    }
+
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                Snackbar s;
+                if (ActionStates.isSaved(comment)) {
+                    s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_LONG);
+                    s.setAction("CATEGORIZE", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            categorizeComment(comment, mContext);
+                        }
+                    });
+                    AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
+                } else {
+                    s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
+                }
+                View view = s.getView();
+                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.WHITE);
+                s.show();
+            }
+        }.execute();
+    }
+
+    private void categorizeComment(final Comment comment, final Context mContext) {
+        new AsyncTask<Void, Void, List<String>>() {
+
+            Dialog d;
+
+            @Override
+            public void onPreExecute(){
+                d  = new MaterialDialog.Builder(mContext).progress(true, 100).title("Loading categories").show();
+            }
+
+            @Override
+            protected List<String> doInBackground(Void... params) {
+                try {
+                    List<String> categories = new ArrayList<String>(new AccountManager(Authentication.reddit).getSavedCategories());
+                    categories.add("New category");
+                    return categories;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    //sub probably has no flairs?
+                }
+
+
+                return null;
+            }
+
+            @Override
+            public void onPostExecute(final List<String> data) {
+                try {
+                    new MaterialDialog.Builder(mContext).items(data)
+                            .title("Select flair")
+                            .itemsCallback(new MaterialDialog.ListCallback() {
+                                @Override
+                                public void onSelection(MaterialDialog dialog, final View itemView, int which, CharSequence text) {
+                                    final String t = data.get(which);
+                                    if (which == data.size()-1) {
+                                        new MaterialDialog.Builder(mContext).title("Set category name")
+                                                .input("Category name", null, false, new MaterialDialog.InputCallback() {
+                                                    @Override
+                                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                                    }
+                                                }).positiveText("Set")
+                                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                    @Override
+                                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                        final String flair = dialog.getInputEditText().getText().toString();
+                                                        new AsyncTask<Void, Void, Boolean>() {
+                                                            @Override
+                                                            protected Boolean doInBackground(Void... params) {
+                                                                try {
+                                                                    new AccountManager(Authentication.reddit).save(comment, flair);
+                                                                    return true;
+                                                                } catch (ApiException e) {
+                                                                    e.printStackTrace();
+                                                                    return false;
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            protected void onPostExecute(Boolean done) {
+                                                                Snackbar s;
+                                                                if (done) {
+                                                                    if (itemView != null) {
+                                                                        s = Snackbar.make(itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
+                                                                        View view = s.getView();
+                                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                        tv.setTextColor(Color.WHITE);
+                                                                        s.show();
+                                                                    }
+                                                                } else {
+                                                                    if (itemView != null) {
+                                                                        s = Snackbar.make(itemView, "Error setting category" , Snackbar.LENGTH_SHORT);
+                                                                        View view = s.getView();
+                                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                        tv.setTextColor(Color.WHITE);
+                                                                        s.show();
+                                                                    }
+                                                                }
+
+                                                            }
+                                                        }.execute();
+                                                    }
+                                                }).negativeText(R.string.btn_cancel)
+                                                .show();
+                                    } else {
+                                        new AsyncTask<Void, Void, Boolean>() {
+                                            @Override
+                                            protected Boolean doInBackground(Void... params) {
+                                                try {
+                                                    new AccountManager(Authentication.reddit).save(comment, t);
+                                                    return true;
+                                                } catch (ApiException e) {
+                                                    e.printStackTrace();
+                                                    return false;
+                                                }
+                                            }
+
+                                            @Override
+                                            protected void onPostExecute(Boolean done) {
+                                                Snackbar s;
+                                                if (done) {
+                                                    if (itemView != null) {
+                                                        s = Snackbar.make(itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
+                                                        View view = s.getView();
+                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                        tv.setTextColor(Color.WHITE);
+                                                        s.show();
+                                                    }
+                                                } else {
+                                                    if (itemView != null) {
+                                                        s = Snackbar.make(itemView, "Error setting category" , Snackbar.LENGTH_SHORT);
+                                                        View view = s.getView();
+                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                        tv.setTextColor(Color.WHITE);
+                                                        s.show();
+                                                    }
+                                                }
+                                            }
+                                        }.execute();
+                                    }
+                                }
+                            }).show();
+                    if(d !=null){
+                        d.dismiss();
+                    }
+                } catch (Exception ignored) {
+
+                }
+            }
+        }.execute();
     }
 }
