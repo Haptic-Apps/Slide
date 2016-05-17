@@ -43,7 +43,7 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-
+        <receiver android:name=".Activities.MakeExternal"/>
         <activity
             android:name=".Activities.SettingsSynccit"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"

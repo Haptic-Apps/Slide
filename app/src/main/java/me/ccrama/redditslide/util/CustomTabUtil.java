@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.util;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.support.customtabs.CustomTabsSession;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import me.ccrama.redditslide.Activities.MakeExternal;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -47,6 +49,11 @@ public class CustomTabUtil {
     }
 
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
+
+        Intent inte = new Intent(contextActivity, MakeExternal.class);
+        inte.putExtra("url", url);
+        PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, inte, 0);
+
         if (SettingValues.web && SettingValues.customtabs) {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
                     .setToolbarColor(color)
@@ -54,6 +61,7 @@ public class CustomTabUtil {
                     .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
                     .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
                     .addDefaultShareMenuItem()
+                    .addMenuItem(contextActivity.getString(R.string.open_links_externally), pendingIntent)
                     .setCloseButtonIcon(drawableToBitmap(ContextCompat.getDrawable(contextActivity, R.drawable.ic_arrow_back_white_24dp)));
             try {
                 String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);

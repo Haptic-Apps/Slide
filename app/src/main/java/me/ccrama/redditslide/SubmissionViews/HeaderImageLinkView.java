@@ -105,7 +105,9 @@ public class HeaderImageLinkView extends RelativeLayout {
         String url = "";
         boolean forceThumb = false;
 
-        if (type == ContentType.Type.SELF && SettingValues.hideSelftextLeadImage) {
+        boolean loadLq = ((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways);
+
+        if (loadLq && type == ContentType.Type.SELF && SettingValues.hideSelftextLeadImage) {
             setVisibility(View.GONE);
             if (wrapArea != null)
                 wrapArea.setVisibility(View.GONE);
@@ -206,7 +208,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
             } else if (type == ContentType.Type.IMAGE && !thumbnail.isNull() && !thumbnail.asText().isEmpty()) {
-                if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null && submission.getThumbnails().getVariations().length > 0) {
+                if (loadLq && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null && submission.getThumbnails().getVariations().length > 0) {
 
                     if (SettingValues.imgurLq && ContentType.isImgurImage(submission.getUrl())) {
                         url = submission.getUrl();
@@ -261,7 +263,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 }
             } else if (submission.getThumbnails() != null) {
 
-                if (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails().getVariations().length != 0) {
+                if (loadLq && submission.getThumbnails().getVariations().length != 0) {
                     if (SettingValues.imgurLq && ContentType.isImgurImage(submission.getUrl())) {
                         url = submission.getUrl();
                         url = url.substring(0, url.lastIndexOf(".")) + "m" + url.substring(url.lastIndexOf("."), url.length());

@@ -185,6 +185,21 @@ public class ContentType {
         return basicType;
     }
 
+    public static boolean displayImage(Type t) {
+        switch (t) {
+
+            case ALBUM:
+            case DEVIANTART:
+            case IMAGE:
+            case IMGUR:
+            case SELF:
+                return true;
+            default:
+                return false;
+
+        }
+    }
+
     public static boolean fullImage(Type t) {
         switch (t) {
 
@@ -210,7 +225,6 @@ public class ContentType {
 
         }
     }
-
     /**
      * Returns a string identifier for a submission e.g. Link, GIF, NSFW Image
      *

@@ -56,6 +56,15 @@ public class Website extends BaseActivityAnim {
     }
 
     @Override
+    public void onBackPressed(){
+        if(v.canGoBack()){
+            v.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
 
@@ -67,6 +76,11 @@ public class Website extends BaseActivityAnim {
                 return true;
             case R.id.back:
                 v.goBack();
+                return true;
+            case R.id.external:
+                Intent inte = new Intent(this, MakeExternal.class);
+                inte.putExtra("url", v.getUrl());
+                startActivity(inte);
                 return true;
             case R.id.chrome:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getUrl()));

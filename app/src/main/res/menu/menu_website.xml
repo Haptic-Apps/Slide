@@ -20,7 +20,9 @@
     <item android:id="@+id/share"
         android:title="@string/submission_link_share"
         app:showAsAction="never"/>
-
+    <item android:id="@+id/external"
+        android:title="@string/open_links_externally"
+        app:showAsAction="never"/>
 
 
 </menu>
