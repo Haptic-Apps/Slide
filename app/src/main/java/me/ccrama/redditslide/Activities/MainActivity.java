@@ -2664,13 +2664,13 @@ public class MainActivity extends BaseActivity {
 
     public void filterContent(final String subreddit) {
         final boolean[] chosen = new boolean[]{
-                PostMatch.isGif(subreddit.toLowerCase()),
-                PostMatch.isAlbums(subreddit.toLowerCase()),
                 PostMatch.isImage(subreddit.toLowerCase()),
-                PostMatch.isNsfw(subreddit.toLowerCase()),
-                PostMatch.isSelftext(subreddit.toLowerCase()),
+                PostMatch.isAlbums(subreddit.toLowerCase()),
+                PostMatch.isGif(subreddit.toLowerCase()),
+                PostMatch.isVideo(subreddit.toLowerCase()),
                 PostMatch.isUrls(subreddit.toLowerCase()),
-                PostMatch.isVideo(subreddit.toLowerCase())
+                PostMatch.isSelftext(subreddit.toLowerCase()),
+                PostMatch.isNsfw(subreddit.toLowerCase())
         };
 
         final String currentSubredditName = usedArray.get(Reddit.currentPosition);
@@ -2691,13 +2691,13 @@ public class MainActivity extends BaseActivity {
                 .setTitle(filterTitle)
                 .alwaysCallMultiChoiceCallback()
                 .setMultiChoiceItems(new String[]{
-                        getString(R.string.type_gifs),
-                        getString(R.string.type_albums),
                         getString(R.string.image_downloads),
-                        getString(R.string.type_nsfw_content),
-                        getString(R.string.type_selftext),
+                        getString(R.string.type_albums),
+                        getString(R.string.type_gifs),
+                        getString(R.string.type_videos),
                         getString(R.string.type_links),
-                        getString(R.string.type_videos)
+                        getString(R.string.type_selftext),
+                        getString(R.string.type_nsfw_content)
                 }, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -2707,7 +2707,6 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                LogUtil.v(chosen[0] + " " + chosen[1] + " " + chosen[2] + " " + chosen[3] + " " + chosen[4] + " " + chosen[5]);
                 PostMatch.setChosen(chosen, subreddit);
                 reloadSubs();
             }

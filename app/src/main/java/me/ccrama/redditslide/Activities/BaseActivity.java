@@ -101,6 +101,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
                 shouldInterceptAlways = true;
             }
         }
+
     }
 
     @Override

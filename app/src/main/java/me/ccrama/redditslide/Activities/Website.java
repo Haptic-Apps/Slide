@@ -80,7 +80,7 @@ public class Website extends BaseActivityAnim {
             case R.id.external:
                 Intent inte = new Intent(this, MakeExternal.class);
                 inte.putExtra("url", v.getUrl());
-                startActivity(inte);
+                sendBroadcast(inte);
                 return true;
             case R.id.chrome:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getUrl()));

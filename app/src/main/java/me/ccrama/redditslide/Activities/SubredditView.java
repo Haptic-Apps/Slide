@@ -398,14 +398,14 @@ public class SubredditView extends BaseActivityAnim {
 
 
     public void filterContent(final String subreddit) {
-        final boolean[] chosen = new boolean[] {
-                PostMatch.isGif(subreddit),
-                PostMatch.isAlbums(subreddit),
-                PostMatch.isImage(subreddit),
-                PostMatch.isNsfw(subreddit),
-                PostMatch.isSelftext(subreddit),
-                PostMatch.isUrls(subreddit),
-                PostMatch.isVideo(subreddit)
+        final boolean[] chosen = new boolean[]{
+                PostMatch.isImage(subreddit.toLowerCase()),
+                PostMatch.isAlbums(subreddit.toLowerCase()),
+                PostMatch.isGif(subreddit.toLowerCase()),
+                PostMatch.isVideo(subreddit.toLowerCase()),
+                PostMatch.isUrls(subreddit.toLowerCase()),
+                PostMatch.isSelftext(subreddit.toLowerCase()),
+                PostMatch.isNsfw(subreddit.toLowerCase())
         };
 
         final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
@@ -415,13 +415,13 @@ public class SubredditView extends BaseActivityAnim {
                 .setTitle(FILTER_TITLE)
                 .alwaysCallMultiChoiceCallback()
                 .setMultiChoiceItems(new String[]{
-                        getString(R.string.type_gifs),
-                        getString(R.string.type_albums),
                         getString(R.string.image_downloads),
-                        getString(R.string.type_nsfw_content),
-                        getString(R.string.type_selftext),
+                        getString(R.string.type_albums),
+                        getString(R.string.type_gifs),
+                        getString(R.string.type_videos),
                         getString(R.string.type_links),
-                        getString(R.string.type_videos)}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                        getString(R.string.type_selftext),
+                        getString(R.string.type_nsfw_content)}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         chosen[which] = isChecked;

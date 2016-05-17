@@ -25,7 +25,7 @@ public class PostMatch {
      * Checks if a domain should be filtered or not: returns true if the target domain ends with the
      * comparison domain and if supplied, target path begins with the comparison path
      *
-     * @param target URL to check
+     * @param target  URL to check
      * @param strings The URLs to check against
      * @return If the target is covered by any strings
      * @throws MalformedURLException
@@ -52,10 +52,12 @@ public class PostMatch {
                         && domain.getPath().startsWith(comparison.getPath())) {
                     return true;
                 }
-            } catch (MalformedURLException ignored) {}
+            } catch (MalformedURLException ignored) {
+            }
         }
         return false;
     }
+
     public static boolean openExternal(String url) {
         if (externalDomain == null) {
             externalDomain = SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+");
@@ -216,13 +218,13 @@ public class PostMatch {
     public static void setChosen(boolean[] values, String subreddit) {
         subreddit = subreddit.toLowerCase();
         SharedPreferences.Editor e = filters.edit();
-        e.putBoolean(subreddit + "_gifsFilter", values[0]);
+        e.putBoolean(subreddit + "_gifsFilter", values[2]);
         e.putBoolean(subreddit + "_albumsFilter", values[1]);
-        e.putBoolean(subreddit + "_imagesFilter", values[2]);
-        e.putBoolean(subreddit + "_nsfwFilter", values[3]);
-        e.putBoolean(subreddit + "_selftextFilter", values[4]);
-        e.putBoolean(subreddit + "_urlsFilter", values[5]);
-        e.putBoolean(subreddit + "_videoFilter", values[6]);
+        e.putBoolean(subreddit + "_imagesFilter", values[0]);
+        e.putBoolean(subreddit + "_nsfwFilter", values[6]);
+        e.putBoolean(subreddit + "_selftextFilter", values[5]);
+        e.putBoolean(subreddit + "_urlsFilter", values[4]);
+        e.putBoolean(subreddit + "_videoFilter", values[3]);
         e.apply();
     }
 
@@ -249,6 +251,7 @@ public class PostMatch {
     public static boolean isUrls(String baseSubreddit) {
         return filters.getBoolean(baseSubreddit + "_urlsFilter", false);
     }
+
     public static boolean isVideo(String baseSubreddit) {
         return filters.getBoolean(baseSubreddit + "_videoFilter", false);
     }

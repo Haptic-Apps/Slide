@@ -106,6 +106,17 @@ public class GifUtils {
         }
 
         @Override
+        public void onCancelled(){
+            super.onCancelled();
+            if(stream != null)
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
+
+        @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
@@ -491,55 +502,56 @@ public class GifUtils {
 
             return null;
         }
+        ContentLengthInputStream stream;
 
-    }
-
-    public static void writeGif(final URL url, final ProgressBar progressBar, final Activity c, final AsyncLoadGif afterDone) {
-        try {
-            if (!GifCache.fileExists(url)) {
-                URLConnection ucon = url.openConnection();
-                ucon.setReadTimeout(5000);
-                ucon.setConnectTimeout(10000);
-                InputStream is = ucon.getInputStream();
-                //todo  MediaView.fileLoc = f.getAbsolutePath();
-                LogUtil.v(url.toString());
-                GifCache.writeGif(url.toString(), new ContentLengthInputStream(new BufferedInputStream(is, 5 * 1024), ucon.getContentLength()), new IoUtils.CopyListener() {
-                    @Override
-                    public boolean onBytesCopied(int current, int total) {
-                        final int percent = Math.round(100.0f * current / total);
-
-
-                        if (progressBar != null) {
-                            c.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressBar.setProgress(percent);
-                                    if (percent == 100) {
-                                        progressBar.setVisibility(View.GONE);
-                                        afterDone.showGif(url);
-                                    }
-                                }
-                            });
-                        }
-                        if (percent == 100) {
-                            MediaView.didLoadGif = true;
-                        }
-                        return true;
-                    }
-                });
-            } else {
-                if (progressBar != null) {
-                    c.runOnUiThread(new Runnable() {
+        public void writeGif(final URL url, final ProgressBar progressBar, final Activity c, final AsyncLoadGif afterDone) {
+            try {
+                if (!GifCache.fileExists(url)) {
+                    URLConnection ucon = url.openConnection();
+                    ucon.setReadTimeout(5000);
+                    ucon.setConnectTimeout(10000);
+                    InputStream is = ucon.getInputStream();
+                    //todo  MediaView.fileLoc = f.getAbsolutePath();
+                    LogUtil.v(url.toString());
+                    stream = new ContentLengthInputStream(new BufferedInputStream(is, 5 * 1024), ucon.getContentLength());
+                    GifCache.writeGif(url.toString(), stream, new IoUtils.CopyListener() {
                         @Override
-                        public void run() {
-                            progressBar.setVisibility(View.GONE);
-                            afterDone.showGif(url);
+                        public boolean onBytesCopied(int current, int total) {
+                            final int percent = Math.round(100.0f * current / total);
+
+
+                            if (progressBar != null) {
+                                c.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressBar.setProgress(percent);
+                                        if (percent == 100) {
+                                            progressBar.setVisibility(View.GONE);
+                                            afterDone.showGif(url);
+                                        }
+                                    }
+                                });
+                            }
+                            if (percent == 100) {
+                                MediaView.didLoadGif = true;
+                            }
+                            return true;
                         }
                     });
+                } else {
+                    if (progressBar != null) {
+                        c.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressBar.setVisibility(View.GONE);
+                                afterDone.showGif(url);
+                            }
+                        });
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
