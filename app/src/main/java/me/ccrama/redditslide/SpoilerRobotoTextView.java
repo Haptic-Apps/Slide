@@ -170,7 +170,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             //TODO, change the color depending on the base theme
             int barColor = ContextCompat.getColor(getContext(), R.color.md_blue_600);
 
-            final int BAR_WIDTH = 5;
+            final int BAR_WIDTH = 4;
             final int GAP = 5;
 
             spannable.setSpan(new CustomQuoteSpan(
