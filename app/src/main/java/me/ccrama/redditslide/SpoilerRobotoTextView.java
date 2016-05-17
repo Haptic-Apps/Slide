@@ -16,6 +16,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -24,6 +25,7 @@ import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
+import android.text.style.QuoteSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
@@ -49,6 +51,7 @@ import java.util.regex.Pattern;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
 import me.ccrama.redditslide.util.CustomTabUtil;
@@ -122,6 +125,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         String text = wrapAlternateSpoilers(saveEmotesFromDestruction(baseText.toString().trim()));
         SpannableStringBuilder builder = (SpannableStringBuilder) Html.fromHtml(text);
 
+        replaceQuoteSpans(builder); //replace the <blockquote> blue line with something more colorful
+
         if (text.contains("<a")) {
             setEmoteSpans(builder); //for emote enabled subreddits
         }
@@ -129,7 +134,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             setCodeFont(builder);
             setSpoilerStyle(builder, subreddit);
         }
-
         if (text.contains("[[d[")) {
             setStrikethrough(builder);
         }
@@ -147,6 +151,35 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         builder = removeNewlines(builder);
 
         super.setText(builder, BufferType.SPANNABLE);
+    }
+
+
+    /**
+     * Replaces the blue line produced by <blockquote>s with something more visible
+     * @param spannable parsed comment text #fromHtml
+     */
+    private void replaceQuoteSpans(Spannable spannable) {
+        QuoteSpan[] quoteSpans = spannable.getSpans(0, spannable.length(), QuoteSpan.class);
+
+        for (QuoteSpan quoteSpan : quoteSpans) {
+            final int start = spannable.getSpanStart(quoteSpan);
+            final int end = spannable.getSpanEnd(quoteSpan);
+            final int flags = spannable.getSpanFlags(quoteSpan);
+
+            spannable.removeSpan(quoteSpan);
+            //TODO, change the color depending on the base theme
+            int barColor = ContextCompat.getColor(getContext(), R.color.md_blue_600);
+
+            final int BAR_WIDTH = 5;
+            final int GAP = 5;
+
+            spannable.setSpan(new CustomQuoteSpan(
+                            Color.TRANSPARENT, //background color
+                            barColor, //bar color
+                            BAR_WIDTH, //bar width
+                            GAP), //bar + text gap
+                    start, end, flags);
+        }
     }
 
     private String wrapAlternateSpoilers(String html) {

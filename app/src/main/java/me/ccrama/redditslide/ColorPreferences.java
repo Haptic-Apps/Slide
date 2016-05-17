@@ -9,8 +9,8 @@ import android.support.v4.content.ContextCompat;
  * Created by ccrama on 7/9/2015.
  */
 public class ColorPreferences {
-    public final static String FONT_STYLE = "THEME";
 
+    public final static String FONT_STYLE = "THEME";
     private final Context context;
 
     public ColorPreferences(Context context) {
@@ -300,7 +300,7 @@ public class ColorPreferences {
     }
 
     public void setFontStyle(Theme style) {
-        edit().putString(FONT_STYLE, style.name()).commit();
+        edit().putString(FONT_STYLE, style.name()).apply();
     }
 
     public int getThemeOverview() {
