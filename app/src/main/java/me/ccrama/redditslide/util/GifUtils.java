@@ -468,16 +468,28 @@ public class GifUtils {
                                                                                                      c.runOnUiThread(new Runnable() {
                                                                                                          @Override
                                                                                                          public void run() {
-                                                                                                             new AlertDialogWrapper.Builder(c)
+                                                                                                             AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(c)
                                                                                                                      .setTitle(R.string.gif_err_title)
-                                                                                                                     .setMessage(R.string.gif_err_msg)
+                                                                                                                     .setMessage("Converting the gif through Gfycat did not work.")
                                                                                                                      .setCancelable(false)
-                                                                                                                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                                                                                     .setPositiveButton("Open in web", new DialogInterface.OnClickListener() {
+                                                                                                                         @Override
+                                                                                                                         public void onClick(DialogInterface dialog, int which) {
+                                                                                                                             Intent i = new Intent(c, Website.class);
+                                                                                                                             i.putExtra(Website.EXTRA_URL, url);
+                                                                                                                             c.startActivity(i);
+                                                                                                                             if(closeIfNull)
+                                                                                                                                 c.finish();
+                                                                                                                         }
+                                                                                                                     });
+                                                                                                             if(closeIfNull)
+                                                                                                                     b.setNegativeButton(R.string.btn_close, new DialogInterface.OnClickListener() {
                                                                                                                          @Override
                                                                                                                          public void onClick(DialogInterface dialog, int which) {
                                                                                                                              c.finish();
                                                                                                                          }
-                                                                                                                     }).create().show();
+                                                                                                                     });
+                                                                                                             b.create().show();
                                                                                                          }
                                                                                                      });
                                                                                              }
