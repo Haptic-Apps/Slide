@@ -32,6 +32,9 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class Search extends BaseActivityAnim {
+
+    //todo NFC support
+
     public static final String EXTRA_TERM = "term";
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multi";

@@ -117,6 +117,9 @@ public class Profile extends BaseActivityAnim {
         super.onCreate(savedInstance);
 
         name = getIntent().getExtras().getString(EXTRA_PROFILE, "");
+
+        setShareUrl("https://reddit.com/u/" + name);
+
         applyColorTheme();
         setContentView(R.layout.activity_profile);
         setupUserAppBar(R.id.toolbar, name, true, name);

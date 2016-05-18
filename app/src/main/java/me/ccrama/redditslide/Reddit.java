@@ -34,7 +34,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.ref.WeakReference;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -43,7 +42,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import me.ccrama.redditslide.Activities.Internet;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
@@ -508,10 +506,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                     } else {
                         appRestart.edit().putString("startScreen", "a").apply(); //Force reload of data after crash incase state was not saved
 
-                        if (t instanceof UnknownHostException) {
-                            Intent i = new Intent(c, Internet.class);
-                            c.startActivity(i);
-                        } else {
+
                             try {
 
                                 SharedPreferences prefs = c.getSharedPreferences(
@@ -520,7 +515,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
                             } catch (Throwable ignored) {
                             }
-                        }
+
 
                         androidHandler.uncaughtException(thread, t);
                     }

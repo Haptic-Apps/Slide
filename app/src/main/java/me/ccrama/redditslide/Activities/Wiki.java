@@ -45,6 +45,9 @@ public class Wiki extends BaseActivityAnim {
         super.onCreate(savedInstance);
 
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
+
+        setShareUrl("https://reddit.com/r/" + subreddit + "/wiki/");
+
         applyColorTheme(subreddit);
         setContentView(R.layout.activity_slidetabs);
         setupSubredditAppBar(R.id.toolbar, "/r/" + subreddit + " wiki", true, subreddit);

@@ -84,6 +84,7 @@ import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import me.ccrama.redditslide.ActionStates;
+import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
@@ -597,6 +598,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         mPage.resetScroll(true);
+        if(mContext instanceof BaseActivity){
+            ((BaseActivity)mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
+        }
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, boolean reset) {
@@ -645,6 +649,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         mPage.resetScroll(true);
+        if(mContext instanceof BaseActivity){
+            ((BaseActivity)mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
+        }
     }
 
     @Override
@@ -1438,6 +1445,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (currentlySelected != null && currentlySelected != holder) {
             doUnHighlighted(currentlySelected, currentBaseNode, true);
         }
+
+        if(mContext instanceof BaseActivity){
+            ((BaseActivity)mContext).setShareUrl("https://reddit.com" + submission.getPermalink() + n.getFullName() + "?context=3");
+        }
+
         // If a comment is hidden and (Swap long press == true), then a single click will un-hide the comment
         // and expand to show all children comments
         if (SettingValues.swap && holder.firstTextView.getVisibility() == View.GONE && !isReplying) {
@@ -2011,10 +2023,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
                                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                             }
+                            if(mContext instanceof BaseActivity){
+                                ((BaseActivity)mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
+                            }
                         }
                     }).setNegativeButton(R.string.btn_no, null)
                     .show();
         } else {
+            if(mContext instanceof BaseActivity){
+                ((BaseActivity)mContext).setShareUrl("https://freddit.com" + submission.getPermalink());
+            }
             currentlySelected = null;
             currentSelectedItem = "";
             if (animate) {

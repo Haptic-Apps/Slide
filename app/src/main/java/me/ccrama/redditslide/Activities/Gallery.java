@@ -56,6 +56,11 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
             subredditPosts = new SubredditPosts(subreddit, Gallery.this);
         }
         subreddit = multireddit == null ? subreddit : ("multi" + multireddit);
+
+        if(multireddit == null){
+            setShareUrl("https://reddit.com/r/" + subreddit);
+        }
+
         applyDarkColorTheme(subreddit);
         super.onCreate(savedInstance);
         setContentView(R.layout.gallery);

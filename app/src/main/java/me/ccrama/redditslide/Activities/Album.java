@@ -334,6 +334,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             recyclerView.setLayoutManager(mLayoutManager);
             ((Album) getActivity()).url = getActivity().getIntent().getExtras().getString(EXTRA_URL, "");
 
+            ((BaseActivity) getActivity()).setShareUrl(((Album) getActivity()).url);
+
             new LoadIntoRecycler(((Album) getActivity()).url, getActivity()).execute();
             ((Album) getActivity()).mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
             ((Album) getActivity()).mToolbar.setTitle(R.string.type_album);
@@ -355,7 +357,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             }
 
             @Override
-            public void onError(){
+            public void onError() {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -378,7 +380,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                                             getActivity().finish();
                                         }
                                     }).show();
-                        } catch(Exception e){
+                        } catch (Exception e) {
 
                         }
                     }

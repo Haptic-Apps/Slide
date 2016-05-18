@@ -157,7 +157,10 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
         mToolbar.setPopupTheme(new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE));
 
-        new LoadIntoPager(getIntent().getExtras().getString("url", ""), this).execute();
+        String url = getIntent().getExtras().getString("url", "");
+        setShareUrl(url);
+        new LoadIntoPager(url, this).execute();
+
         if (!Reddit.appRestart.contains("tutorialSwipe")) {
             startActivityForResult(new Intent(this, SwipeTutorial.class), 3);
         }

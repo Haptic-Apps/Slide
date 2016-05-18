@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
@@ -242,6 +243,9 @@ public class SubredditPosts implements PostLoader {
                 currentid = 0;
                 OfflineSubreddit.currentid = currentid;
 
+                if(c instanceof BaseActivity){
+                    ((BaseActivity)c).setShareUrl("https://reddit.com/r/" + subreddit);
+                }
 
             } else if (submissions != null) {
                 // end of submissions

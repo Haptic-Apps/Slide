@@ -332,6 +332,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         final String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
         contentUrl = getIntent().getExtras().getString(EXTRA_URL);
 
+        setShareUrl(contentUrl);
+
         if (contentUrl.contains("reddituploads.com")) {
             contentUrl = Html.fromHtml(contentUrl).toString();
         }

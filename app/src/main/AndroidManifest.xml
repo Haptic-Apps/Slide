@@ -3,6 +3,7 @@
     package="me.ccrama.redditslide">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NFC" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.android.vending.BILLING" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -63,10 +64,6 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />
         <activity
-            android:name=".Activities.Internet"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
-        <activity
             android:name=".Activities.SettingsViewType"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />
@@ -83,10 +80,6 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />
         <activity
-            android:name=".Activities.FullscreenImage"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
-        <activity
             android:name=".Activities.ModQueue"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />
@@ -96,10 +89,6 @@
             android:theme="@style/swipeable" />
         <activity
             android:name=".Activities.AlbumPager"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
-        <activity
-            android:name=".Activities.Imgur"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />
         <activity
@@ -167,7 +156,8 @@
             android:label="View content">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
-
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
