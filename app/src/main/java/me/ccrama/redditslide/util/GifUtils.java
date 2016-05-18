@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.JsonObject;
@@ -35,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Activities.MediaView;
@@ -73,16 +75,7 @@ public class GifUtils {
         public boolean autostart;
         public Runnable doOnClick;
 
-        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable View gifSave, @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart) {
-            this.c = c;
-            this.video = video;
-            this.progressBar = p;
-            this.closeIfNull = closeIfNull;
-            this.placeholder = placeholder;
-            this.gifSave = gifSave;
-            this.hideControls = hideControls;
-            this.autostart = autostart;
-        }
+        public TextView size;
 
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave, @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart) {
             this.c = c;
@@ -95,6 +88,17 @@ public class GifUtils {
             this.autostart = autostart;
         }
 
+        public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @Nullable Runnable gifSave, @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart, TextView size) {
+            this.c = c;
+            this.video = video;
+            this.progressBar = p;
+            this.closeIfNull = closeIfNull;
+            this.placeholder = placeholder;
+            this.doOnClick = gifSave;
+            this.hideControls = hideControls;
+            this.autostart = autostart;
+            this.size = size;
+        }
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video, @Nullable ProgressBar p, @Nullable View placeholder, @NotNull boolean closeIfNull, @NotNull boolean hideControls, boolean autostart) {
             this.c = c;
             this.video = video;
@@ -503,16 +507,29 @@ public class GifUtils {
             return null;
         }
         ContentLengthInputStream stream;
-
+        public static String readableFileSize(long size) {
+            if(size <= 0) return "0";
+            final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
+            int digitGroups = (int) (Math.log10(size)/Math.log10(1024));
+            return new DecimalFormat("#,##0.#").format(size/Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+        }
         public void writeGif(final URL url, final ProgressBar progressBar, final Activity c, final AsyncLoadGif afterDone) {
             try {
                 if (!GifCache.fileExists(url)) {
-                    URLConnection ucon = url.openConnection();
+                    final URLConnection ucon = url.openConnection();
                     ucon.setReadTimeout(5000);
                     ucon.setConnectTimeout(10000);
                     InputStream is = ucon.getInputStream();
                     //todo  MediaView.fileLoc = f.getAbsolutePath();
                     LogUtil.v(url.toString());
+                    if(size != null){
+                        c.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                size.setText(readableFileSize(ucon.getContentLength()));
+                            }
+                        });
+                    }
                     stream = new ContentLengthInputStream(new BufferedInputStream(is, 5 * 1024), ucon.getContentLength());
                     GifCache.writeGif(url.toString(), stream, new IoUtils.CopyListener() {
                         @Override
@@ -528,6 +545,8 @@ public class GifUtils {
                                         if (percent == 100) {
                                             progressBar.setVisibility(View.GONE);
                                             afterDone.showGif(url);
+                                            if(size != null)
+                                                size.setVisibility(View.GONE);
                                         }
                                     }
                                 });

@@ -44,18 +44,27 @@
         android:layout_height="match_parent"
         android:layout_alignParentTop="true" />
    
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/gifheader"
         android:gravity="right|bottom"
         android:weightSum="6">
+        <TextView
+            android:layout_width="wrap_content"
+            android:paddingLeft="16dp"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/size"
+            android:textSize="12sp"
+            android:layout_height="match_parent" />
         <ImageView
             android:id="@+id/hq"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:theme="@style/Ripple.List"
+            android:layout_toLeftOf="@+id/save"
             android:padding="15dp"
             app:srcCompat="@drawable/hd"
             android:tint="#e1e1e1" />
@@ -63,6 +72,7 @@
             android:id="@+id/save"
             android:layout_width="56dp"
             android:layout_height="56dp"
+            android:layout_toLeftOf="@+id/more"
             android:theme="@style/Ripple.List"
             android:padding="15dp"
             app:srcCompat="@drawable/save"
@@ -77,11 +87,12 @@
             android:paddingStart="11dp"
             android:paddingEnd="11dp"
             android:paddingTop="15dp"
+            android:layout_alignParentRight="true"
             android:paddingBottom="15dp"
             app:srcCompat="@drawable/more"
             android:tint="#e1e1e1" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/progress"
