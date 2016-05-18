@@ -124,7 +124,5 @@ dependencies {
         transitive = true;
     }
     compile 'com.github.ccrama:commonmark-java:07b304b575'
-    compile 'com.atlassian.commonmark:commonmark-ext-gfm-tables:0.5.0'
-    compile 'com.atlassian.commonmark:commonmark-ext-gfm-strikethrough:0.5.0'
     compile 'org.jetbrains:annotations-java5:15.0'
 }
