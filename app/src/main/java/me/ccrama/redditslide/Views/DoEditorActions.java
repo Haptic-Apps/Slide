@@ -26,8 +26,13 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.github.rjeschke.txtmark.Processor;
 
+import org.commonmark.Extension;
+import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
+import org.commonmark.ext.gfm.tables.TablesExtension;
+import org.commonmark.html.HtmlRenderer;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +45,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -247,7 +253,11 @@ public class DoEditorActions {
         baseView.findViewById(R.id.preview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String html = Processor.process(editText.getText().toString());
+                List<Extension> extensions = Arrays.asList(TablesExtension.create(), StrikethroughExtension.create());
+                Parser parser = Parser.builder().extensions(extensions).build();
+                HtmlRenderer renderer = HtmlRenderer.builder().extensions(extensions).build();
+                Node document = parser.parse(editText.getText().toString());
+                String html = renderer.render(document);
                 LayoutInflater inflater = a.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
                 final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);

@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -65,8 +64,6 @@ public class Shortcut extends BaseActivity {
 
         setContentView(R.layout.activity_setup_widget);
         setupAppBar(R.id.toolbar, "New shortcut", true, false);
-
-        findViewById(R.id.tohide).setVisibility(View.GONE);
         ListView list = (ListView)findViewById(R.id.subs);
         final ArrayList<String> sorted = UserSubscriptions.getSubscriptionsForShortcut(Shortcut.this);
         final SubChooseAdapter adapter = new SubChooseAdapter(this, sorted, UserSubscriptions.getAllSubreddits(this));
