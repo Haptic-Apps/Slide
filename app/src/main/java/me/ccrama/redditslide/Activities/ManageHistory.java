@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.util.TypedValue;
@@ -127,7 +128,8 @@ public class ManageHistory extends BaseActivityAnim {
                 final TimePickerDialog d = new TimePickerDialog(ManageHistory.this);
                 d.hour(Reddit.cachedData.getInt("hour", 0));
                 d.minute(Reddit.cachedData.getInt("minute", 0));
-                d.applyStyle(new ColorPreferences(ManageHistory.this).getFontStyle().getBaseId());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    d.applyStyle(new ColorPreferences(ManageHistory.this).getFontStyle().getBaseId());
                 d.positiveAction("SET");
                 TypedValue typedValue = new TypedValue();
                 Resources.Theme theme = getTheme();

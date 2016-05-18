@@ -99,7 +99,6 @@ import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
-import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Views.CommentOverflow;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.PreCachingLayoutManagerComments;
@@ -838,6 +837,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         holder.content.setText(titleString);
     }
 
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder firstHolder, int old) {
         int pos = old != 0 ? old - 1 : old;
@@ -847,8 +847,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int nextPos = pos - 1;
 
             nextPos = getRealPosition(nextPos);
-            final int finalPos = nextPos;
-            final int finalPos1 = pos;
 
 
             if (pos > toShiftTo) {
@@ -857,6 +855,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (pos < shiftFrom) {
                 shifted = 0;
             }
+
             final CommentNode baseNode = users.get(nextPos).comment;
             final Comment comment = baseNode.getComment();
 
@@ -895,7 +894,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (SettingValues.swap) {
                         doOnClick(holder, comment, baseNode);
                     } else {
-                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                        doLongClick(holder, comment, baseNode);
                     }
                     return true;
                 }
@@ -918,7 +917,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         if (SettingValues.swap) {
                             doOnClick(holder, comment, baseNode);
                         } else {
-                            doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                            doLongClick(holder, comment, baseNode);
                         }
                     return true;
                 }
@@ -958,7 +957,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (!currentlyEditingId.equals(comment.getFullName()))
 
                         if (SettingValues.swap) {
-                            doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                            doLongClick(holder, comment, baseNode);
                         } else {
                             doOnClick(holder, comment, baseNode);
                         }
@@ -970,7 +969,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onSingleClick(View v) {
                     SpoilerRobotoTextView SpoilerRobotoTextView = (SpoilerRobotoTextView) v;
                     if (SettingValues.swap) {
-                        doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                        doLongClick(holder, comment, baseNode);
                     } else if (!SpoilerRobotoTextView.isSpoilerClicked()) {
                         doOnClick(holder, comment, baseNode);
                     } else if (SpoilerRobotoTextView.isSpoilerClicked()) {
@@ -1014,7 +1013,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             if (currentSelectedItem != null && comment.getFullName().contains(currentSelectedItem) && !currentSelectedItem.isEmpty() && !currentlyEditingId.equals(comment.getFullName())) {
-                doHighlighted(holder, comment, baseNode, finalPos, finalPos1, false);
+                doHighlighted(holder, comment, baseNode, false);
             } else if (!currentlyEditingId.equals(comment.getFullName())) {
                 doUnHighlighted(holder, baseNode, false);
             }
@@ -1026,7 +1025,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (currentlyEditingId.equals(comment.getFullName())) {
                 doUnHighlighted(holder, baseNode, false);
-                doHighlightedStuff(holder, comment, baseNode, finalPos, finalPos1, true, false);
+                doHighlightedStuff(holder, comment, baseNode, true, false);
             }
 
         } else if (firstHolder instanceof SubmissionViewHolder && submission != null) {
@@ -1435,7 +1434,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     CommentNode currentBaseNode;
 
-    public void doHighlightedStuff(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1, boolean isReplying, boolean animate) {
+    public void doHighlightedStuff(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, boolean isReplying, boolean animate) {
         if (currentlySelected != null && currentlySelected != holder) {
             doUnHighlighted(currentlySelected, currentBaseNode, true);
         }
@@ -1583,11 +1582,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    final String text = e.getText().toString();
                                     new AsyncTask<Void, Void, Void>() {
                                         @Override
                                         protected Void doInBackground(Void... params) {
                                             try {
-                                                new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(), e.getText().toString());
+                                                new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(), text);
                                                 currentSelectedItem = baseNode.getComment().getFullName();
                                                 dataSet.loadMoreReply(CommentAdapter.this);
                                                 d.dismiss();
@@ -1818,7 +1818,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                         dataSet.refreshLayout.setRefreshing(true);
                         String text = currentlyEditing.getText().toString();
-                        new ReplyTaskComment(n, finalPos, finalPos1, baseNode, holder).execute(text);
+                        new ReplyTaskComment(n, baseNode, holder).execute(text);
                         currentlyEditing = null;
                         editingPosition = -1;
 
@@ -1933,16 +1933,16 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, final int finalPos, final int finalPos1, boolean animate) {
+    public void doHighlighted(final CommentViewHolder holder, final Comment n, final CommentNode baseNode, boolean animate) {
         if (mAnimator != null && mAnimator.isRunning()) {
             holder.itemView.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1, false, true);
+                    doHighlightedStuff(holder, n, baseNode, false, true);
                 }
             }, mAnimator.getDuration());
         } else {
-            doHighlightedStuff(holder, n, baseNode, finalPos, finalPos1, false, animate);
+            doHighlightedStuff(holder, n, baseNode, false, animate);
         }
     }
 
@@ -2041,7 +2041,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    public void doLongClick(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode, final int finalPos, final int finalPos1) {
+    public void doLongClick(final CommentViewHolder holder, final Comment comment, final CommentNode baseNode) {
         if (currentlyEditing != null && !currentlyEditing.getText().toString().isEmpty()) {
             new AlertDialogWrapper.Builder(mContext)
                     .setTitle(R.string.discard_comment_title)
@@ -2050,7 +2050,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            doLongClick(holder, comment, baseNode, finalPos, finalPos1);
+                            doLongClick(holder, comment, baseNode);
                             currentlyEditing = null;
                             editingPosition = -1;
                             if (SettingValues.fastscroll) {
@@ -2074,7 +2074,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (currentSelectedItem != null && currentSelectedItem.contains(comment.getFullName())) {
                 doUnHighlighted(holder, comment, baseNode, true);
             } else {
-                doHighlighted(holder, comment, baseNode, finalPos, finalPos1, true);
+                doHighlighted(holder, comment, baseNode, true);
             }
         }
     }
@@ -2606,7 +2606,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (data != -1) {
                 listView.setItemAnimator(new ScaleInLeftAnimator());
 
-                notifyItemRangeInserted(holderPos + 1, data);
+                notifyItemInserted(holderPos + 1);
 
                 currentPos = holderPos + 1;
                 toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
@@ -2633,17 +2633,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         protected Integer doInBackground(String... params) {
 
-            ArrayList<CommentObject> finalData = new ArrayList<>();
             int i = 0;
 
             if (params.length > 0) {
                 try {
                     node.insertComment(Authentication.reddit, "t1_" + params[0]);
-
                     for (CommentNode n : node.walkTree()) {
                         if (n.getComment().getFullName().contains(params[0])) {
-                            CommentObject obj = new CommentItem(n);
-                            finalData.add(obj);
+                            users.add(position, new CommentItem(n));
                             i++;
                         }
                     }
@@ -2654,7 +2651,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
 
                 shifted += i;
-                users.addAll(position - 1, finalData);
 
                 for (int i2 = 0; i2 < users.size(); i2++) {
                     keys.put(users.get(i2).getName(), i2);
@@ -2666,16 +2662,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class ReplyTaskComment extends AsyncTask<String, Void, String> {
         public Contribution sub;
-        int finalPos;
-        int finalPos1;
         CommentNode node;
         CommentViewHolder holder;
         boolean isSubmission;
 
-        public ReplyTaskComment(Contribution n, int finalPos, int finalPos1, CommentNode node, CommentViewHolder holder) {
+        public ReplyTaskComment(Contribution n, CommentNode node, CommentViewHolder holder) {
             sub = n;
-            this.finalPos = finalPos;
-            this.finalPos1 = finalPos1;
             this.holder = holder;
             this.node = node;
         }
@@ -2707,7 +2699,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (isSubmission) {
                     new AsyncForceLoadChild(1, 1, submission.getComments()).execute(s);
                 } else {
-                    new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition()), holder.getAdapterPosition(), node).execute(s);
+                    new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition() - 1), holder.getAdapterPosition(), node).execute(s);
                 }
             }
         }
@@ -2939,8 +2931,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Dialog d;
 
             @Override
-            public void onPreExecute(){
-                d  = new MaterialDialog.Builder(mContext).progress(true, 100).title("Loading categories").show();
+            public void onPreExecute() {
+                d = new MaterialDialog.Builder(mContext).progress(true, 100).title("Loading categories").show();
             }
 
             @Override
@@ -2967,7 +2959,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 @Override
                                 public void onSelection(MaterialDialog dialog, final View itemView, int which, CharSequence text) {
                                     final String t = data.get(which);
-                                    if (which == data.size()-1) {
+                                    if (which == data.size() - 1) {
                                         new MaterialDialog.Builder(mContext).title("Set category name")
                                                 .input("Category name", null, false, new MaterialDialog.InputCallback() {
                                                     @Override
@@ -3004,7 +2996,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                                     }
                                                                 } else {
                                                                     if (itemView != null) {
-                                                                        s = Snackbar.make(itemView, "Error setting category" , Snackbar.LENGTH_SHORT);
+                                                                        s = Snackbar.make(itemView, "Error setting category", Snackbar.LENGTH_SHORT);
                                                                         View view = s.getView();
                                                                         TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                                                         tv.setTextColor(Color.WHITE);
@@ -3043,7 +3035,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                     }
                                                 } else {
                                                     if (itemView != null) {
-                                                        s = Snackbar.make(itemView, "Error setting category" , Snackbar.LENGTH_SHORT);
+                                                        s = Snackbar.make(itemView, "Error setting category", Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
                                                         TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                                         tv.setTextColor(Color.WHITE);
@@ -3055,7 +3047,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     }
                                 }
                             }).show();
-                    if(d !=null){
+                    if (d != null) {
                         d.dismiss();
                     }
                 } catch (Exception ignored) {
