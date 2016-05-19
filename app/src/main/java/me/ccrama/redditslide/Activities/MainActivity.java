@@ -172,7 +172,6 @@ public class MainActivity extends BaseActivity {
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
     public String selectedSub; //currently selected subreddit
     private int headerHeight; //height of the header
-    public static int currentTheme; //current base theme of Slide
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -630,7 +629,7 @@ public class MainActivity extends BaseActivity {
          * int for the current base theme selected.
          * 0 = Dark, 1 = Light, 2 = AMOLED, 3 = Dark blue, 4 = AMOLED with contrast, 5 = Sepia
          */
-        currentTheme = new ColorPreferences(this).getFontStyle().getThemeType();
+        SettingValues.currentTheme = new ColorPreferences(this).getFontStyle().getThemeType();
     }
 
     public Runnable runAfterLoad;

@@ -21,6 +21,7 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
@@ -126,12 +127,14 @@ public class Sendmessage extends BaseActivity {
         protected Void doInBackground(Void... voids) {
             if (reply) {
                 try {
+                    LogUtil.v("XXX");
                     new net.dean.jraw.managers.AccountManager(Authentication.reddit).reply(previousMessage, bodytext);
                 } catch (ApiException e) {
                     e.printStackTrace();
                 }
             } else {
                 try {
+                    LogUtil.v("YYY");
                     new InboxManager(Authentication.reddit).compose(totext, subjecttext, bodytext);
                 } catch (ApiException e) {
                     e.printStackTrace();

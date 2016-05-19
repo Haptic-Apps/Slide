@@ -84,7 +84,6 @@ import java.util.TreeMap;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.BaseActivity;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
@@ -1776,7 +1775,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         expand(baseView, true);
 
                         //If the base theme is Light or Sepia, tint the Editor actions to be white
-                        if (MainActivity.currentTheme == 1 || MainActivity.currentTheme == 5) {
+                        if (SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5) {
                             ((ImageView) replyArea.findViewById(R.id.savedraft))
                                     .setColorFilter(Color.WHITE);
                             ((ImageView) replyArea.findViewById(R.id.draft))
@@ -1799,7 +1798,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     .setColorFilter(Color.WHITE);
 
                             replyLine.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-                            LogUtil.v("Tinted editor items");
                         }
 
                         replyArea.setVisibility(View.VISIBLE);
