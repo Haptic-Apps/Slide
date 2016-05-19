@@ -87,7 +87,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:031a97ccc5'
+    compile 'com.github.ccrama:JRAW:54057f050f'
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.8@aar') {
         transitive = true
     }

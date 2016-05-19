@@ -151,6 +151,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         subreddit = baseSubreddit;
         multireddit = getIntent().getExtras().getString(EXTRA_MULTIREDDIT);
         profile = getIntent().getExtras().getString(EXTRA_PROFILE, "");
+        currentPosts = new ArrayList<>();
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit, profile);
         } else {

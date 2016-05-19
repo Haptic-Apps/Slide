@@ -667,7 +667,7 @@ public class CommentPage extends Fragment {
             loaded = true;
         if (!single && getActivity() instanceof CommentsScreen && ((CommentsScreen) getActivity()).subredditPosts != null && Authentication.didOnline) {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
-            Submission s = ((CommentsScreen) getActivity()).subredditPosts.getPosts().get(page);
+            Submission s = ((CommentsScreen) getActivity()).currentPosts.get(page);
             if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
                 commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
             } else if (s != null) {
