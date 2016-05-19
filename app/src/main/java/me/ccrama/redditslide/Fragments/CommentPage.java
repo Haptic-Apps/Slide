@@ -282,10 +282,12 @@ public class CommentPage extends Fragment {
 
                     final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
 
-                    //Tint the replyLine appropriately
+                    //Tint the replyLine appropriately if the base theme is Light or Sepia
                     if (MainActivity.currentTheme == 1 || MainActivity.currentTheme == 5) {
-                        e.setHintTextColor(ContextCompat.getColor(getContext(), R.color.md_grey_500));
-                        e.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+                        final int TINT = ContextCompat.getColor(getContext(), R.color.md_grey_600);
+
+                        e.setHintTextColor(TINT);
+                        e.getBackground().setColorFilter(TINT, PorterDuff.Mode.SRC_IN);
                     }
 
                     DoEditorActions.doActions(e, dialoglayout, getActivity().getSupportFragmentManager(), getActivity());
