@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -288,12 +289,21 @@ public class DoEditorActions {
                                 final EditText titleBox = (EditText) dialog.findViewById(R.id.title_box);
                                 final EditText descriptionBox = (EditText) dialog.findViewById(R.id.description_box);
                                 dialog.dismiss();
+
                                 String s = "[" + descriptionBox.getText().toString() + "](" + titleBox.getText().toString() + ")";
                                 int start = Math.max(editText.getSelectionStart(), 0);
                                 int end = Math.max(editText.getSelectionEnd(), 0);
                                 editText.getText().insert(Math.max(start, end), s);
                             }
                         }).build();
+
+                //Tint the hint text if the base theme is Sepia
+                if (MainActivity.currentTheme == 5) {
+                    ((EditText) dialog.findViewById(R.id.title_box))
+                            .setHintTextColor(ContextCompat.getColor(dialog.getContext(), R.color.md_grey_500));
+                    ((EditText) dialog.findViewById(R.id.description_box))
+                            .setHintTextColor(ContextCompat.getColor(dialog.getContext(), R.color.md_grey_500));
+                }
                 dialog.show();
             }
         });

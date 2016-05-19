@@ -8,11 +8,13 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
@@ -279,6 +281,13 @@ public class CommentPage extends Fragment {
                     final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
 
                     final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+
+                    //Tint the replyLine appropriately
+                    if (MainActivity.currentTheme == 1 || MainActivity.currentTheme == 5) {
+                        e.setHintTextColor(ContextCompat.getColor(getContext(), R.color.md_grey_500));
+                        e.getBackground().setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_IN);
+                    }
+
                     DoEditorActions.doActions(e, dialoglayout, getActivity().getSupportFragmentManager(), getActivity());
 
                     builder.setView(dialoglayout);

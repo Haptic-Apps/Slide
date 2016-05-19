@@ -85,6 +85,7 @@ import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
 import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.BaseActivity;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
@@ -1774,6 +1775,34 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onSingleClick(View v) {
                         expand(baseView, true);
+
+                        //If the base theme is Light or Sepia, tint the Editor actions to be white
+                        if (MainActivity.currentTheme == 1 || MainActivity.currentTheme == 5) {
+                            ((ImageView) replyArea.findViewById(R.id.savedraft))
+                                    .setColorFilter(Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.draft))
+                                    .setColorFilter(Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.imagerep))
+                                    .setColorFilter(Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.link))
+                                    .setColorFilter(Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.bold))
+                                    .setColorFilter(Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.italics))
+                                    .setColorFilter(Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.bulletlist))
+                                    .setColorFilter(Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.numlist))
+                                    .setColorFilter(Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.quote))
+                                    .setColorFilter(Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.size))
+                                    .setColorFilter(Color.WHITE);
+
+                            replyLine.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+                            LogUtil.v("Tinted editor items");
+                        }
+
                         replyArea.setVisibility(View.VISIBLE);
                         menu.setVisibility(View.GONE);
                         DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext);
@@ -1812,7 +1841,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                         });
                         editingPosition = holder.getAdapterPosition();
-
                     }
                 });
                 send.setOnClickListener(new OnSingleClickListener() {
@@ -1840,7 +1868,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
                             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                         }
-
                     }
                 });
                 discard.setOnClickListener(new OnSingleClickListener() {
