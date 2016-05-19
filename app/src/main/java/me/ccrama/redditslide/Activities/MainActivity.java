@@ -3357,7 +3357,7 @@ public class MainActivity extends BaseActivity {
 
                             if (header.getTranslationY() == 0)
                                 header.animate()
-                                        .translationY(-header.getHeight())
+                                        .translationY(-header.getHeight() * 1.5f)
                                         .setInterpolator(new LinearInterpolator())
                                         .setDuration(180);
                             pager.setSwipeLeftOnly(true);
