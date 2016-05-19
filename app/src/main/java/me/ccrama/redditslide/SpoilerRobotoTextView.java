@@ -50,6 +50,7 @@ import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
+import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -167,8 +168,11 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             final int flags = spannable.getSpanFlags(quoteSpan);
 
             spannable.removeSpan(quoteSpan);
-            //TODO, change the color depending on the base theme
-            int barColor = ContextCompat.getColor(getContext(), R.color.md_blue_600);
+
+            //If the theme is Light or Sepia, use a darker blue; otherwise, use a lighter blue
+            final int barColor = (MainActivity.currentTheme == 1 || MainActivity.currentTheme == 5)
+                            ? ContextCompat.getColor(getContext(), R.color.md_blue_600)
+                            : ContextCompat.getColor(getContext(), R.color.md_blue_400);
 
             final int BAR_WIDTH = 4;
             final int GAP = 5;

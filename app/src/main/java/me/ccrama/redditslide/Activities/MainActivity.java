@@ -172,6 +172,7 @@ public class MainActivity extends BaseActivity {
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
     public String selectedSub; //currently selected subreddit
     private int headerHeight; //height of the header
+    public static int currentTheme; //current base theme of Slide
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -339,7 +340,6 @@ public class MainActivity extends BaseActivity {
             } else {
 
                 // No explanation needed, we can request the permission.
-
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         1);
@@ -352,8 +352,9 @@ public class MainActivity extends BaseActivity {
         boolean first = false;
         if (Reddit.colors != null && !Reddit.colors.contains("Tutorial")) {
             first = true;
-            if (Reddit.appRestart == null)
+            if (Reddit.appRestart == null) {
                 Reddit.appRestart = getSharedPreferences("appRestart", 0);
+            }
 
             Reddit.appRestart.edit().putBoolean("firststart52", true).apply();
             Intent i = new Intent(this, Tutorial.class);
@@ -446,7 +447,6 @@ public class MainActivity extends BaseActivity {
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
         setSupportActionBar(mToolbar);
 
-
         if (getIntent() != null && getIntent().hasExtra(EXTRA_PAGE_TO))
             toGoto = getIntent().getIntExtra(EXTRA_PAGE_TO, 0);
 
@@ -486,7 +486,6 @@ public class MainActivity extends BaseActivity {
 
         sidebarBody = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
         sidebarOverflow = (CommentOverflow) findViewById(R.id.commentOverflow);
-
 
         if (!Reddit.appRestart.getBoolean("isRestarting", false) && Reddit.colors.contains("Tutorial")) {
             LogUtil.v("Starting main " + Authentication.name);
@@ -626,6 +625,12 @@ public class MainActivity extends BaseActivity {
                 || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
             setupSubredditSearchToolbar();
         }
+
+        /**
+         * int for the current base theme selected.
+         * 0 = Dark, 1 = Light, 2 = AMOLED, 3 = Dark blue, 4 = AMOLED with contrast, 5 = Sepia
+         */
+        currentTheme = new ColorPreferences(this).getFontStyle().getThemeType();
     }
 
     public Runnable runAfterLoad;
@@ -2734,7 +2739,6 @@ public class MainActivity extends BaseActivity {
 
 
     }
-
 
     public static boolean checkedPopups;
 
