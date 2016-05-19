@@ -521,11 +521,11 @@ public class Profile extends BaseActivityAnim {
                             return categories;
                         } catch (Exception e) {
                             e.printStackTrace();
-                            //sub probably has no flairs?
+                            //probably has no categories?
+                            return new ArrayList<String>() {{
+                                add(0, "No category");
+                            }};
                         }
-
-
-                        return null;
                     }
 
                     @Override

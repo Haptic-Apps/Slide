@@ -2753,7 +2753,7 @@ public class MainActivity extends BaseActivity {
 
         if (pager != null && commentPager) {
             if (pager.getCurrentItem() != toOpenComments && shouldLoad != null) {
-                if (usedArray != null && usedArray.indexOf(shouldLoad.contains("+") ? multiNameToSubsMap.get(shouldLoad) : shouldLoad) != pager.getCurrentItem())
+                if (usedArray != null && usedArray.indexOf(shouldLoad.contains("/m/") ? multiNameToSubsMap.get(shouldLoad) : shouldLoad) != pager.getCurrentItem())
                     pager.setCurrentItem(toOpenComments - 1);
             }
         }

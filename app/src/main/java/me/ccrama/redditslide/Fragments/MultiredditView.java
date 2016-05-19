@@ -15,11 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.mikepenz.itemanimators.AlphaInAnimator;
+import com.mikepenz.itemanimators.SlideUpAlphaAnimator;
 
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
@@ -28,8 +29,6 @@ import net.dean.jraw.models.Submission;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import me.ccrama.redditslide.Activities.Submit;
 import me.ccrama.redditslide.Adapters.MultiredditAdapter;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
@@ -211,7 +210,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
             adapter = new MultiredditAdapter(getActivity(), posts, rv, refreshLayout, this);
             rv.setAdapter(adapter);
-            rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
+            rv.setItemAnimator(new SlideUpAlphaAnimator());
             posts.loadMore(getActivity(), this, true, adapter);
 
             refreshLayout.setOnRefreshListener(
@@ -291,7 +290,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                         if (posts.posts.isEmpty()) {
                             adapter.notifyDataSetChanged();
                         } else {
-                            rv.setItemAnimator(new FadeInAnimator());
+                            rv.setItemAnimator(new AlphaInAnimator());
                             adapter.notifyItemRemoved(i + 1);
                         }
                     }
@@ -300,7 +299,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                 }
             }
             o.writeToMemoryNoStorage();
-            rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
+            rv.setItemAnimator(new SlideUpAlphaAnimator());
             return originalDataSetPosts;
         }
 

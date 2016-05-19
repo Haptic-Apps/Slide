@@ -99,7 +99,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.github.rey5137:material:1.2.1'
-    compile 'jp.wasabeef:recyclerview-animators:2.0.0'
     withGPlayCompile 'com.google.android.gms:play-services-drive:8.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.4.1'
@@ -125,4 +124,5 @@ dependencies {
     }
     compile 'com.github.ccrama:commonmark-java:07b304b575'
     compile 'org.jetbrains:annotations-java5:15.0'
+    compile "com.mikepenz:itemanimators:0.2.4@aar"
 }

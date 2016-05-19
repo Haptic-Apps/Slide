@@ -17,17 +17,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.mikepenz.itemanimators.AlphaInAnimator;
+import com.mikepenz.itemanimators.SlideUpAlphaAnimator;
 
 import net.dean.jraw.models.Submission;
 
 import java.util.List;
 
-import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Submit;
@@ -95,7 +94,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             v.findViewById(R.id.back).setBackground(null);
         }
         rv.setLayoutManager(mLayoutManager);
-        rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
+        rv.setItemAnimator(new SlideUpAlphaAnimator());
         rv.getLayoutManager().scrollToPosition(0);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
@@ -310,7 +309,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         if (adapter.dataSet.posts.isEmpty()) {
                             adapter.notifyDataSetChanged();
                         } else {
-                            rv.setItemAnimator(new FadeInAnimator());
+                            rv.setItemAnimator(new AlphaInAnimator());
                             adapter.notifyItemRemoved(i + 1);
                         }
                     }
@@ -319,7 +318,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             }
             o.writeToMemoryNoStorage();
-            rv.setItemAnimator(new SlideInUpAnimator(new AccelerateDecelerateInterpolator()));
+            rv.setItemAnimator(new SlideUpAlphaAnimator());
             return originalDataSetPosts;
         }
 

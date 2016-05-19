@@ -56,6 +56,8 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.mikepenz.itemanimators.AlphaInAnimator;
+import com.mikepenz.itemanimators.SlideRightAlphaAnimator;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
@@ -80,9 +82,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 
-import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import jp.wasabeef.recyclerview.animators.FadeInDownAnimator;
-import jp.wasabeef.recyclerview.animators.ScaleInLeftAnimator;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -599,8 +598,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         mPage.resetScroll(true);
-        if(mContext instanceof BaseActivity){
-            ((BaseActivity)mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
+        if (mContext instanceof BaseActivity) {
+            ((BaseActivity) mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
         }
     }
 
@@ -650,8 +649,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         mPage.resetScroll(true);
-        if(mContext instanceof BaseActivity){
-            ((BaseActivity)mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
+        if (mContext instanceof BaseActivity) {
+            ((BaseActivity) mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
         }
     }
 
@@ -1447,8 +1446,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             doUnHighlighted(currentlySelected, currentBaseNode, true);
         }
 
-        if(mContext instanceof BaseActivity){
-            ((BaseActivity)mContext).setShareUrl("https://reddit.com" + submission.getPermalink() + n.getFullName() + "?context=3");
+        if (mContext instanceof BaseActivity) {
+            ((BaseActivity) mContext).setShareUrl("https://reddit.com" + submission.getPermalink() + n.getFullName() + "?context=3");
         }
 
         // If a comment is hidden and (Swap long press == true), then a single click will un-hide the comment
@@ -2050,15 +2049,15 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
                                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                             }
-                            if(mContext instanceof BaseActivity){
-                                ((BaseActivity)mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
+                            if (mContext instanceof BaseActivity) {
+                                ((BaseActivity) mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
                             }
                         }
                     }).setNegativeButton(R.string.btn_no, null)
                     .show();
         } else {
-            if(mContext instanceof BaseActivity){
-                ((BaseActivity)mContext).setShareUrl("https://freddit.com" + submission.getPermalink());
+            if (mContext instanceof BaseActivity) {
+                ((BaseActivity) mContext).setShareUrl("https://freddit.com" + submission.getPermalink());
             }
             currentlySelected = null;
             currentSelectedItem = "";
@@ -2323,8 +2322,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             listView.setItemAnimator(null);
             notifyItemRangeInserted(i, counter);
         } else {
-            listView.setItemAnimator(new ScaleInLeftAnimator());
-            listView.setItemAnimator(new FadeInAnimator());
+            listView.setItemAnimator(new AlphaInAnimator());
             notifyItemRangeInserted(i, counter);
         }
     }
@@ -2336,7 +2334,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             listView.setItemAnimator(null);
             notifyDataSetChanged();
         } else {
-            listView.setItemAnimator(new FadeInDownAnimator());
+            listView.setItemAnimator(new AlphaInAnimator());
             notifyDataSetChanged();
         }
 
@@ -2349,7 +2347,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             listView.setItemAnimator(null);
             notifyItemRangeRemoved(i, counter);
         } else {
-            listView.setItemAnimator(new FadeInDownAnimator());
+            listView.setItemAnimator(new AlphaInAnimator());
             notifyItemRangeRemoved(i, counter);
         }
 
@@ -2476,7 +2474,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onPostExecute(Integer data) {
             if (data != null) {
-                listView.setItemAnimator(new ScaleInLeftAnimator());
+                listView.setItemAnimator(new SlideRightAlphaAnimator());
                 notifyItemRangeInserted(holderPos, data);
                 currentPos = holderPos;
                 toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
@@ -2649,7 +2647,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onPostExecute(Integer data) {
             if (data != -1) {
-                listView.setItemAnimator(new ScaleInLeftAnimator());
+                listView.setItemAnimator(new SlideRightAlphaAnimator());
 
                 notifyItemInserted(holderPos + 1);
 
@@ -2988,11 +2986,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     return categories;
                 } catch (Exception e) {
                     e.printStackTrace();
-                    //sub probably has no flairs?
+                    return new ArrayList<String>() {{
+                        add("New category");
+                    }};
                 }
-
-
-                return null;
             }
 
             @Override

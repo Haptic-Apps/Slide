@@ -355,17 +355,21 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     public String shareUrl;
 
     public void setShareUrl(String url) {
-        if (url != null) {
-            shareUrl = url;
-            mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
-            if (mNfcAdapter != null) {
-                // Register callback to set NDEF message
-                mNfcAdapter.setNdefPushMessageCallback(this, this);
-                // Register callback to listen for message-sent success
-                mNfcAdapter.setOnNdefPushCompleteCallback(this, this);
-            } else {
-                Log.i("LinkDetails", "NFC is not available on this device");
+        try {
+            if (url != null) {
+                shareUrl = url;
+                mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+                if (mNfcAdapter != null) {
+                    // Register callback to set NDEF message
+                    mNfcAdapter.setNdefPushMessageCallback(this, this);
+                    // Register callback to listen for message-sent success
+                    mNfcAdapter.setOnNdefPushCompleteCallback(this, this);
+                } else {
+                    Log.i("LinkDetails", "NFC is not available on this device");
+                }
             }
+        } catch(Exception e){
+
         }
     }
 
