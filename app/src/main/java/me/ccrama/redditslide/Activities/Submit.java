@@ -24,6 +24,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -48,6 +49,7 @@ import java.net.URL;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -75,6 +77,22 @@ public class Submit extends BaseActivity {
     private String URL;
 
     AsyncTask<Void, Void, String> tchange;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            String text = ((EditText) findViewById(R.id.bodytext)).getText().toString();
+            if (!text.isEmpty()) {
+                Drafts.addDraft(text);
+                Toast.makeText(getApplicationContext(), R.string.msg_save_draft, Toast.LENGTH_LONG).show();
+            }
+        } catch(Exception e){
+
+        }
+    }
+
+    boolean sent;
 
     public void onCreate(Bundle savedInstanceState) {
         disableSwipeBackLayout();
@@ -275,6 +293,7 @@ public class Submit extends BaseActivity {
             @Override
             public void onClick(View view) {
                 ((FloatingActionButton) findViewById(R.id.send)).hide();
+                sent = true;
                 new AsyncDo().execute();
             }
         });
@@ -294,6 +313,7 @@ public class Submit extends BaseActivity {
             }
         });
     }
+
 
     public void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
@@ -387,22 +407,24 @@ public class Submit extends BaseActivity {
                                         public void onClick(View d) {
                                             trying = ((EditText) dialoglayout.findViewById(R.id.entry)).getText().toString();
                                             dialog.dismiss();
+                                            final String text = ((EditText) findViewById(R.id.bodytext)).getText().toString();
                                             new AsyncTask<Void, Void, Boolean>() {
                                                 @Override
                                                 protected Boolean doInBackground(Void... params) {
                                                     try {
-                                                        Submission s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(((EditText) findViewById(R.id.bodytext)).getText().toString(), ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()), c, trying);
+                                                        Submission s = new AccountManager(Authentication.reddit).submit(new AccountManager.SubmissionBuilder(text, ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString(), ((EditText) findViewById(R.id.titletext)).getText().toString()), c, trying);
                                                         new AccountManager(Authentication.reddit).sendRepliesToInbox(s, inboxReplies.isChecked());
                                                         new OpenRedditLink(Submit.this, "reddit.com/r/" + ((AutoCompleteTextView) findViewById(R.id.subreddittext)).getText().toString() + "/comments/" + s.getFullName().substring(3, s.getFullName().length()));
                                                         Submit.this.finish();
 
                                                     } catch (ApiException e) {
+                                                        Drafts.addDraft(text);
                                                         runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
                                                                 new AlertDialogWrapper.Builder(Submit.this)
                                                                         .setTitle(R.string.err_title)
-                                                                        .setMessage(R.string.misc_retry)
+                                                                        .setMessage(R.string.misc_retry_draft)
                                                                         .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                                                             @Override
                                                                             public void onClick(DialogInterface dialogInterface, int i) {

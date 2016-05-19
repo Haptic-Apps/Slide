@@ -165,7 +165,7 @@ public class Inbox extends BaseActivityAnim {
                         .setDuration(180);
                 if (position == 3) {
                     findViewById(R.id.read).setVisibility(View.GONE);
-                } else {
+                } else if(findViewById(R.id.read) != null){
                     findViewById(R.id.read).setVisibility(View.VISIBLE);
                 }
             }

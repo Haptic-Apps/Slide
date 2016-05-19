@@ -52,7 +52,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 14) {
+        if (requestCode == 14 && comments != null) {
             comments.notifyDataSetChanged();
         }
     }
@@ -201,33 +201,39 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         protected String doInBackground(String... params) {
             try {
                 Submission s = Authentication.reddit.getSubmission(params[0]);
-                HasSeen.addSeen(s.getFullName());
-                LastComments.setComments(s);
+                if (SettingValues.storeHistory) {
+                    if (SettingValues.storeNSFWHistory && s.isNsfw() || !s.isNsfw())
+                        HasSeen.addSeen(s.getFullName());
+                    LastComments.setComments(s);
+                }
                 locked = s.isLocked();
                 archived = s.isArchived();
                 return s.getSubredditName();
 
             } catch (Exception e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        new AlertDialogWrapper.Builder(CommentsScreenSingle.this)
-                                .setTitle(R.string.submission_not_found)
-                                .setMessage(R.string.submission_not_found_msg)
-                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                finish();
-                            }
-                        }).show();
-                    }
-                });
+                try {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialogWrapper.Builder(CommentsScreenSingle.this)
+                                    .setTitle(R.string.submission_not_found)
+                                    .setMessage(R.string.submission_not_found_msg)
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    finish();
+                                }
+                            }).show();
+                        }
+                    });
+                } catch (Exception ignored) {
 
+                }
                 return null;
             }
 
@@ -270,11 +276,14 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
                 args.putString("id", name);
                 args.putString("context", context);
-                if (context != null && !context.isEmpty() && !context.equals(Reddit.EMPTY_STRING)) {
-                    HasSeen.addSeen("t1_" + context);
-                } else {
-                    HasSeen.addSeen(name);
+                if (SettingValues.storeHistory) {
+                    if (context != null && !context.isEmpty() && !context.equals(Reddit.EMPTY_STRING)) {
+                        HasSeen.addSeen("t1_" + context);
+                    } else {
+                        HasSeen.addSeen(name);
+                    }
                 }
+
                 args.putBoolean("archived", archived);
                 args.putBoolean("locked", locked);
                 args.putString("subreddit", subreddit);

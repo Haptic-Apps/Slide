@@ -293,6 +293,7 @@
     <string name="misc_err">Error</string>
     <string name="misc_none">None</string>
     <string name="misc_retry">Would you like to try again?</string>
+    <string name="misc_retry_draft">Would you like to try again? \nA draft of your submission has been saved</string>
     <string name="misc_score_hidden">score hidden</string>
     <string name="misc_nsfw">NSFW</string>
     <string name="misc_subscribed">Subscribed</string>

@@ -72,8 +72,11 @@ public class SubmissionCache {
         SpannableStringBuilder titleString = new SpannableStringBuilder();
 
         SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + submission.getSubredditName() + " ");
-
-        String subname = submission.getSubredditName().toLowerCase();
+        String subname;
+        if (submission.getSubredditName() != null)
+            subname = submission.getSubredditName().toLowerCase();
+        else
+            subname = "";
         if (baseSub == null || baseSub.isEmpty()) baseSub = subname;
         if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor()) || (baseSub.equals("nomatching") && (SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor()))) {
             boolean secondary = (baseSub.equalsIgnoreCase("frontpage") || (baseSub.equalsIgnoreCase("all")) || (baseSub.equalsIgnoreCase("friends")) || (baseSub.equalsIgnoreCase("mod")) || baseSub.contains(".") || baseSub.contains("+"));
@@ -275,7 +278,7 @@ public class SubmissionCache {
             titleString.append(" ");
             titleString.append(pinned);
         }
-        if (submission.getSubmissionFlair().getText() != null && !submission.getSubmissionFlair().getText().isEmpty() || flairOverride != null || ( submission.getSubmissionFlair().getCssClass() != null)) {
+        if (submission.getSubmissionFlair().getText() != null && !submission.getSubmissionFlair().getText().isEmpty() || flairOverride != null || (submission.getSubmissionFlair().getCssClass() != null)) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, false);
@@ -285,7 +288,7 @@ public class SubmissionCache {
             String flairString;
             if (flairOverride != null) {
                 flairString = flairOverride;
-            } else if((submission.getSubmissionFlair().getText() == null || submission.getSubmissionFlair().getText().isEmpty()) && submission.getSubmissionFlair().getCssClass() != null) {
+            } else if ((submission.getSubmissionFlair().getText() == null || submission.getSubmissionFlair().getText().isEmpty()) && submission.getSubmissionFlair().getCssClass() != null) {
                 flairString = submission.getSubmissionFlair().getCssClass();
             } else {
                 flairString = submission.getSubmissionFlair().getText();

@@ -33,7 +33,6 @@ public class CreateCardView {
             case LARGE:
                 if (SettingValues.middleImage) {
                     v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard_middle, viewGroup, false);
-
                 } else {
                     v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_largecard, viewGroup, false);
                 }
