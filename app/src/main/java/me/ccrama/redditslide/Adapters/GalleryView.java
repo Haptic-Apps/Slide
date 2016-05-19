@@ -121,6 +121,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     Intent i2 = new Intent(main, CommentsScreen.class);
                     i2.putExtra(CommentsScreen.EXTRA_PAGE, main.subredditPosts.getPosts().indexOf(submission));
                     i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, subreddit);
+                    i2.putExtra("fullname", submission.getFullName());
                     main.startActivity(i2);
                 }
             });

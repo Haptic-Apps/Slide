@@ -169,6 +169,18 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         }
 
 
+        if(getIntent().hasExtra("fullname")){
+            String fullname = getIntent().getStringExtra("fullname");
+            for(int i = 0; i < currentPosts.size(); i++){
+                if(currentPosts.get(i).getFullName().equals(fullname)){
+                    if(i != firstPage)
+                        firstPage = i;
+                    break;
+                }
+            }
+        }
+
+
 
         if (currentPosts.isEmpty() || currentPosts.get(firstPage) == null || firstPage < 0) {
             LogUtil.v("Closing");
