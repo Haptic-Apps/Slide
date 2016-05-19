@@ -2318,8 +2318,10 @@ public class MainActivity extends BaseActivity {
                 menu.findItem(R.id.submit).setVisible(false);
                 menu.findItem(R.id.sidebar).setVisible(false);
             } else {
-                menu.findItem(R.id.submit).setVisible(true);
-                menu.findItem(R.id.sidebar).setVisible(true);
+                if (menu.findItem(R.id.submit) != null)
+                    menu.findItem(R.id.submit).setVisible(true);
+                if (menu.findItem(R.id.sidebar) != null)
+                    menu.findItem(R.id.sidebar).setVisible(true);
             }
 
             mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -2751,8 +2753,8 @@ public class MainActivity extends BaseActivity {
 
         if (pager != null && commentPager) {
             if (pager.getCurrentItem() != toOpenComments && shouldLoad != null) {
-                if(usedArray != null && usedArray.indexOf(shouldLoad.contains("+")?multiNameToSubsMap.get(shouldLoad):shouldLoad) != pager.getCurrentItem())
-                pager.setCurrentItem(toOpenComments - 1);
+                if (usedArray != null && usedArray.indexOf(shouldLoad.contains("+") ? multiNameToSubsMap.get(shouldLoad) : shouldLoad) != pager.getCurrentItem())
+                    pager.setCurrentItem(toOpenComments - 1);
             }
         }
         Reddit.setDefaultErrorHandler(this);
@@ -2838,7 +2840,7 @@ public class MainActivity extends BaseActivity {
                                     }).show();
                         }
                     });
-                } else if (Authentication.isLoggedIn &&  headerMain.findViewById(R.id.friends) != null) {
+                } else if (Authentication.isLoggedIn && headerMain.findViewById(R.id.friends) != null) {
                     headerMain.findViewById(R.id.friends).setVisibility(View.GONE);
                 }
             }
@@ -3548,7 +3550,7 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (Authentication.mod) {
+            if (Authentication.mod && Authentication.didOnline) {
                 headerMain.findViewById(R.id.mod).setVisibility(View.VISIBLE);
                 headerMain.findViewById(R.id.mod).setOnClickListener(new OnSingleClickListener() {
                     @Override

@@ -52,7 +52,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 14) {
+        if (requestCode == 14 && comments != null) {
             comments.notifyDataSetChanged();
         }
     }
@@ -208,26 +208,29 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                 return s.getSubredditName();
 
             } catch (Exception e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        new AlertDialogWrapper.Builder(CommentsScreenSingle.this)
-                                .setTitle(R.string.submission_not_found)
-                                .setMessage(R.string.submission_not_found_msg)
-                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                finish();
-                            }
-                        }).show();
-                    }
-                });
+                try {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            new AlertDialogWrapper.Builder(CommentsScreenSingle.this)
+                                    .setTitle(R.string.submission_not_found)
+                                    .setMessage(R.string.submission_not_found_msg)
+                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    finish();
+                                }
+                            }).show();
+                        }
+                    });
+                } catch (Exception ignored) {
 
+                }
                 return null;
             }
 

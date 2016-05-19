@@ -151,7 +151,7 @@ public class AlbumUtils {
                                             onError();
 
 
-                                    } catch (IOException e1) {
+                                    } catch (Exception e1) {
                                         e1.printStackTrace();
                                     }
                                 }

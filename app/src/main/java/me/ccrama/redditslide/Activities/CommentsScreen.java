@@ -51,6 +51,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     public static final String EXTRA_PAGE = "page";
     public static final String EXTRA_SUBREDDIT = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
+    
+    public ArrayList<Submission> currentPosts;
 
     public PostLoader subredditPosts;
     int firstPage;
@@ -151,28 +153,27 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         profile = getIntent().getExtras().getString(EXTRA_PROFILE, "");
         if (multireddit != null) {
             subredditPosts = new MultiredditPosts(multireddit, profile);
-            ((MultiredditPosts) subredditPosts).skipOne = true;
-
         } else {
             baseSubreddit = subreddit.toLowerCase();
             subredditPosts = new SubredditPosts(baseSubreddit, CommentsScreen.this);
         }
 
-        if (firstPage == RecyclerView.NO_POSITION) {
+        if (firstPage == RecyclerView.NO_POSITION || firstPage < 0) {
             firstPage = 0;
             //IS SINGLE POST
         } else {
-
             OfflineSubreddit o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid, !Authentication.didOnline, CommentsScreen.this);
             subredditPosts.getPosts().addAll(o.submissions);
-
+            currentPosts.addAll(subredditPosts.getPosts());
         }
 
-        if (subredditPosts.getPosts().isEmpty() || subredditPosts.getPosts().get(firstPage) == null || firstPage < 0) {
+
+
+        if (currentPosts.isEmpty() || currentPosts.get(firstPage) == null || firstPage < 0) {
             LogUtil.v("Closing");
             finish();
         } else {
-            updateSubredditAndSubmission(subredditPosts.getPosts().get(firstPage));
+            updateSubredditAndSubmission(currentPosts.get(firstPage));
 
             final ViewPager pager = (ViewPager) findViewById(R.id.content_view);
 
@@ -198,11 +199,11 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
                                               @Override
                                               public void onPageSelected(int position) {
-                                                  if (position != firstPage && position < subredditPosts.getPosts().size()) {
+                                                  if (position != firstPage && position < currentPosts.size()) {
                                                       position = position - 1;
-                                                      updateSubredditAndSubmission(subredditPosts.getPosts().get(position));
+                                                      updateSubredditAndSubmission(currentPosts.get(position));
 
-                                                      if (subredditPosts.getPosts().size() - 2 <= position && subredditPosts.hasMore()) {
+                                                      if (currentPosts.size() - 2 <= position && subredditPosts.hasMore()) {
                                                           subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
                                                       }
 
@@ -252,6 +253,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
         LastComments.setCommentsSince(submissions);
+        currentPosts.addAll(submissions);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -318,12 +320,12 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 i = i - 1;
                 Fragment f = new CommentPage();
                 Bundle args = new Bundle();
-                String name = subredditPosts.getPosts().get(i).getFullName();
+                String name = currentPosts.get(i).getFullName();
                 args.putString("id", name.substring(3, name.length()));
-                args.putBoolean("archived", subredditPosts.getPosts().get(i).isArchived());
-                args.putBoolean("locked", subredditPosts.getPosts().get(i).isLocked());
+                args.putBoolean("archived", currentPosts.get(i).isArchived());
+                args.putBoolean("locked", currentPosts.get(i).isLocked());
                 args.putInt("page", i);
-                args.putString("subreddit", subredditPosts.getPosts().get(i).getSubredditName());
+                args.putString("subreddit", currentPosts.get(i).getSubredditName());
                 args.putString("baseSubreddit", multireddit == null ? baseSubreddit : "multi" + multireddit);
 
                 f.setArguments(args);
@@ -335,7 +337,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         @Override
         public int getCount() {
 
-            return subredditPosts.getPosts().size() + 1;
+            return currentPosts.size() + 1;
         }
 
     }
