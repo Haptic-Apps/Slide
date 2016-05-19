@@ -201,8 +201,11 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         protected String doInBackground(String... params) {
             try {
                 Submission s = Authentication.reddit.getSubmission(params[0]);
-                HasSeen.addSeen(s.getFullName());
-                LastComments.setComments(s);
+                if (SettingValues.storeHistory) {
+                    if (SettingValues.storeNSFWHistory && s.isNsfw() || !s.isNsfw())
+                        HasSeen.addSeen(s.getFullName());
+                    LastComments.setComments(s);
+                }
                 locked = s.isLocked();
                 archived = s.isArchived();
                 return s.getSubredditName();
@@ -273,11 +276,14 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
                 args.putString("id", name);
                 args.putString("context", context);
-                if (context != null && !context.isEmpty() && !context.equals(Reddit.EMPTY_STRING)) {
-                    HasSeen.addSeen("t1_" + context);
-                } else {
-                    HasSeen.addSeen(name);
+                if (SettingValues.storeHistory) {
+                    if (context != null && !context.isEmpty() && !context.equals(Reddit.EMPTY_STRING)) {
+                        HasSeen.addSeen("t1_" + context);
+                    } else {
+                        HasSeen.addSeen(name);
+                    }
                 }
+
                 args.putBoolean("archived", archived);
                 args.putBoolean("locked", locked);
                 args.putString("subreddit", subreddit);

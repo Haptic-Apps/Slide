@@ -184,7 +184,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        ContentType.Type type = ContentType.getContentType(submission);
                                                                        if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                                                                            //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
-                                                                       } else {
+                                                                       } else if(SettingValues.storeHistory) {
                                                                            HasSeen.addSeen(submission.getFullName());
                                                                        }
                                                                        ((MainActivity.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();
@@ -217,7 +217,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                                        ContentType.Type type = ContentType.getContentType(submission);
                                                                        if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                                                                            //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
-                                                                       } else {
+                                                                       } else if(SettingValues.storeHistory){
                                                                            HasSeen.addSeen(submission.getFullName());
                                                                        }
                                                                        ((SubredditView.OverviewPagerAdapterComment) (a).adapter).storedFragment = (a).adapter.getCurrentFragment();

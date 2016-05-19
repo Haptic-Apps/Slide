@@ -195,9 +195,6 @@ public class Profile extends BaseActivityAnim {
 
         if (getIntent().hasExtra(EXTRA_SAVED) && name.equals(Authentication.name)) {
             pager.setCurrentItem(6);
-            if(categoryItem != null) categoryItem.setVisible(true);
-            if(sortItem != null) sortItem.setVisible(true);
-
         }
         if (getIntent().hasExtra(EXTRA_COMMENT) && name.equals(Authentication.name)) {
             pager.setCurrentItem(1);
@@ -207,11 +204,9 @@ public class Profile extends BaseActivityAnim {
         }
         if (getIntent().hasExtra(EXTRA_HISTORY) && name.equals(Authentication.name)) {
             pager.setCurrentItem(8);
-            if(sortItem != null) sortItem.setVisible(true);
         }
         if (getIntent().hasExtra(EXTRA_UPVOTE) && name.equals(Authentication.name)) {
             pager.setCurrentItem(4);
-            if(sortItem != null) sortItem.setVisible(true);
         }
         if (pager.getCurrentItem() == 6) {
             isSavedView = true;
@@ -483,6 +478,23 @@ public class Profile extends BaseActivityAnim {
         sortItem = menu.findItem(R.id.sort);
         categoryItem = menu.findItem(R.id.category);
         categoryItem.setVisible(false);
+        sortItem.setVisible(false);
+
+        int position = pager == null ? 0 : pager.getCurrentItem();
+        if (sortItem != null) {
+            if (position < 3) {
+                sortItem.setVisible(true);
+            } else {
+                sortItem.setVisible(false);
+            }
+        }
+        if (categoryItem != null) {
+            if (position == 6) {
+                categoryItem.setVisible(true);
+            } else {
+                categoryItem.setVisible(false);
+            }
+        }
         return true;
     }
 
