@@ -178,7 +178,7 @@ public class Profile extends BaseActivityAnim {
                         sortItem.setVisible(false);
                     }
                 }
-                if (categoryItem != null) {
+                if (categoryItem != null && Authentication.me != null && Authentication.me.hasGold()) {
                     if (position == 6) {
                         categoryItem.setVisible(true);
                     } else {
@@ -488,7 +488,7 @@ public class Profile extends BaseActivityAnim {
                 sortItem.setVisible(false);
             }
         }
-        if (categoryItem != null) {
+        if (categoryItem != null && Authentication.me != null && Authentication.me.hasGold()) {
             if (position == 6) {
                 categoryItem.setVisible(true);
             } else {

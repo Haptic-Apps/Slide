@@ -2951,12 +2951,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Snackbar s;
                 if (ActionStates.isSaved(comment)) {
                     s = Snackbar.make(holder.itemView, "Comment saved", Snackbar.LENGTH_LONG);
-                    s.setAction("CATEGORIZE", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            categorizeComment(comment, mContext);
-                        }
-                    });
+                    if(Authentication.me.hasGold()) {
+                        s.setAction("CATEGORIZE", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                categorizeComment(comment, mContext);
+                            }
+                        });
+                    }
                 } else {
                     s = Snackbar.make(holder.itemView, "Comment un-saved", Snackbar.LENGTH_SHORT);
                 }

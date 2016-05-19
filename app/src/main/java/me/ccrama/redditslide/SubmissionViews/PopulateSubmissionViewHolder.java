@@ -93,7 +93,6 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.CustomTabUtil;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -485,7 +484,7 @@ public class PopulateSubmissionViewHolder {
 
                                             @Override
                                             protected void onPostExecute(Void aVoid) {
-                                                if(holder.itemView != null) {
+                                                if (holder.itemView != null) {
                                                     Snackbar s = Snackbar.make(holder.itemView, R.string.msg_report_sent, Snackbar.LENGTH_SHORT);
                                                     View view = s.getView();
                                                     TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -547,12 +546,14 @@ public class PopulateSubmissionViewHolder {
                 if (ActionStates.isSaved(submission)) {
                     ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
                     s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_LONG);
-                    s.setAction("CATEGORIZE", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            categorizeSaved(submission, holder.itemView, mContext);
-                        }
-                    });
+                    if (Authentication.me.hasGold()) {
+                        s.setAction("CATEGORIZE", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                categorizeSaved(submission, holder.itemView, mContext);
+                            }
+                        });
+                    }
                     AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
                 } else {
                     s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
@@ -572,8 +573,8 @@ public class PopulateSubmissionViewHolder {
             Dialog d;
 
             @Override
-            public void onPreExecute(){
-                d  = new MaterialDialog.Builder(mContext).progress(true, 100).title("Loading categories").show();
+            public void onPreExecute() {
+                d = new MaterialDialog.Builder(mContext).progress(true, 100).title("Loading categories").show();
             }
 
             @Override
@@ -594,101 +595,101 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onPostExecute(final List<String> data) {
                 try {
-                        new MaterialDialog.Builder(mContext).items(data)
-                                .title("Select flair")
-                                .itemsCallback(new MaterialDialog.ListCallback() {
-                                    @Override
-                                    public void onSelection(MaterialDialog dialog, final View itemView, int which, CharSequence text) {
-                                        final String t = data.get(which);
-                                        if (which == data.size()-1) {
-                                            new MaterialDialog.Builder(mContext).title("Set category name")
-                                                    .input("Category name", null, false, new MaterialDialog.InputCallback() {
-                                                        @Override
-                                                        public void onInput(MaterialDialog dialog, CharSequence input) {
+                    new MaterialDialog.Builder(mContext).items(data)
+                            .title("Select flair")
+                            .itemsCallback(new MaterialDialog.ListCallback() {
+                                @Override
+                                public void onSelection(MaterialDialog dialog, final View itemView, int which, CharSequence text) {
+                                    final String t = data.get(which);
+                                    if (which == data.size() - 1) {
+                                        new MaterialDialog.Builder(mContext).title("Set category name")
+                                                .input("Category name", null, false, new MaterialDialog.InputCallback() {
+                                                    @Override
+                                                    public void onInput(MaterialDialog dialog, CharSequence input) {
 
-                                                        }
-                                                    }).positiveText("Set")
-                                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                                        @Override
-                                                        public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                            final String flair = dialog.getInputEditText().getText().toString();
-                                                            new AsyncTask<Void, Void, Boolean>() {
-                                                                @Override
-                                                                protected Boolean doInBackground(Void... params) {
-                                                                    try {
-                                                                        new AccountManager(Authentication.reddit).save(submission, flair);
-                                                                        return true;
-                                                                    } catch (ApiException e) {
-                                                                        e.printStackTrace();
-                                                                        return false;
+                                                    }
+                                                }).positiveText("Set")
+                                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                    @Override
+                                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                        final String flair = dialog.getInputEditText().getText().toString();
+                                                        new AsyncTask<Void, Void, Boolean>() {
+                                                            @Override
+                                                            protected Boolean doInBackground(Void... params) {
+                                                                try {
+                                                                    new AccountManager(Authentication.reddit).save(submission, flair);
+                                                                    return true;
+                                                                } catch (ApiException e) {
+                                                                    e.printStackTrace();
+                                                                    return false;
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            protected void onPostExecute(Boolean done) {
+                                                                Snackbar s;
+                                                                if (done) {
+                                                                    if (itemView != null) {
+                                                                        s = Snackbar.make(itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
+                                                                        View view = s.getView();
+                                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                        tv.setTextColor(Color.WHITE);
+                                                                        s.show();
+                                                                    }
+                                                                } else {
+                                                                    if (itemView != null) {
+                                                                        s = Snackbar.make(itemView, "Error setting category", Snackbar.LENGTH_SHORT);
+                                                                        View view = s.getView();
+                                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                        tv.setTextColor(Color.WHITE);
+                                                                        s.show();
                                                                     }
                                                                 }
 
-                                                                @Override
-                                                                protected void onPostExecute(Boolean done) {
-                                                                    Snackbar s;
-                                                                    if (done) {
-                                                                        if (itemView != null) {
-                                                                            s = Snackbar.make(itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
-                                                                            View view = s.getView();
-                                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                                            tv.setTextColor(Color.WHITE);
-                                                                            s.show();
-                                                                        }
-                                                                    } else {
-                                                                        if (itemView != null) {
-                                                                            s = Snackbar.make(itemView, "Error setting category" , Snackbar.LENGTH_SHORT);
-                                                                            View view = s.getView();
-                                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                                            tv.setTextColor(Color.WHITE);
-                                                                            s.show();
-                                                                        }
-                                                                    }
+                                                            }
+                                                        }.execute();
+                                                    }
+                                                }).negativeText(R.string.btn_cancel)
+                                                .show();
+                                    } else {
+                                        new AsyncTask<Void, Void, Boolean>() {
+                                            @Override
+                                            protected Boolean doInBackground(Void... params) {
+                                                try {
+                                                    new AccountManager(Authentication.reddit).save(submission, t);
+                                                    return true;
+                                                } catch (ApiException e) {
+                                                    e.printStackTrace();
+                                                    return false;
+                                                }
+                                            }
 
-                                                                }
-                                                            }.execute();
-                                                        }
-                                                    }).negativeText(R.string.btn_cancel)
-                                                    .show();
-                                        } else {
-                                            new AsyncTask<Void, Void, Boolean>() {
-                                                @Override
-                                                protected Boolean doInBackground(Void... params) {
-                                                    try {
-                                                        new AccountManager(Authentication.reddit).save(submission, t);
-                                                        return true;
-                                                    } catch (ApiException e) {
-                                                        e.printStackTrace();
-                                                        return false;
+                                            @Override
+                                            protected void onPostExecute(Boolean done) {
+                                                Snackbar s;
+                                                if (done) {
+                                                    if (itemView != null) {
+                                                        s = Snackbar.make(itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
+                                                        View view = s.getView();
+                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                        tv.setTextColor(Color.WHITE);
+                                                        s.show();
+                                                    }
+                                                } else {
+                                                    if (itemView != null) {
+                                                        s = Snackbar.make(itemView, "Error setting category", Snackbar.LENGTH_SHORT);
+                                                        View view = s.getView();
+                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                        tv.setTextColor(Color.WHITE);
+                                                        s.show();
                                                     }
                                                 }
-
-                                                @Override
-                                                protected void onPostExecute(Boolean done) {
-                                                    Snackbar s;
-                                                    if (done) {
-                                                        if (itemView != null) {
-                                                            s = Snackbar.make(itemView, R.string.submission_info_saved, Snackbar.LENGTH_SHORT);
-                                                            View view = s.getView();
-                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                            tv.setTextColor(Color.WHITE);
-                                                            s.show();
-                                                        }
-                                                    } else {
-                                                        if (itemView != null) {
-                                                            s = Snackbar.make(itemView, "Error setting category" , Snackbar.LENGTH_SHORT);
-                                                            View view = s.getView();
-                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                            tv.setTextColor(Color.WHITE);
-                                                            s.show();
-                                                        }
-                                                    }
-                                                }
-                                            }.execute();
-                                        }
+                                            }
+                                        }.execute();
                                     }
-                                }).show();
-                    if(d !=null){
+                                }
+                            }).show();
+                    if (d != null) {
                         d.dismiss();
                     }
                 } catch (Exception ignored) {
