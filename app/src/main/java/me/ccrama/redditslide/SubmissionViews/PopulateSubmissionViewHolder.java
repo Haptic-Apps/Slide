@@ -585,11 +585,11 @@ public class PopulateSubmissionViewHolder {
                     return categories;
                 } catch (Exception e) {
                     e.printStackTrace();
+                    return new ArrayList<String>() {{
+                        add("New category");
+                    }};
                     //sub probably has no flairs?
                 }
-
-
-                return null;
             }
 
             @Override
@@ -1902,11 +1902,12 @@ public class PopulateSubmissionViewHolder {
                                             dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
+                                                    final String text = e.getText().toString();
                                                     new AsyncTask<Void, Void, Void>() {
                                                         @Override
                                                         protected Void doInBackground(Void... params) {
                                                             try {
-                                                                new AccountManager(Authentication.reddit).updateContribution(submission, e.getText().toString());
+                                                                new AccountManager(Authentication.reddit).updateContribution(submission, text);
                                                                 if (adapter != null)
                                                                     adapter.dataSet.reloadSubmission(adapter);
                                                                 d.dismiss();
