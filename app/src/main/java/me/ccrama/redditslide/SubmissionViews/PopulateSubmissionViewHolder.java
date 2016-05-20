@@ -510,7 +510,7 @@ public class PopulateSubmissionViewHolder {
                     break;
                     case 25:
                         ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("Selftext", submission.getSelftext());
+                        ClipData clip = ClipData.newPlainText("Selftext", Html.fromHtml(submission.getSelftext()));
                         clipboard.setPrimaryClip(clip);
                         Toast.makeText(mContext, "Selftext copied", Toast.LENGTH_SHORT).show();
                         break;
