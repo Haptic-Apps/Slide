@@ -29,11 +29,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
                 <LinearLayout
                     android:id="@+id/body"
                     android:layout_width="match_parent"
@@ -119,8 +114,6 @@
 
 
                 </LinearLayout>
-
-            </RelativeLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

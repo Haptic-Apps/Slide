@@ -17,25 +17,17 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <LinearLayout
+        <me.ccrama.redditslide.Views.TitleTextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical"
             android:paddingBottom="8dp"
             android:paddingStart="16dp"
-            android:paddingTop="16dp">
-
-            <me.ccrama.redditslide.Views.TitleTextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/example_domain"
-                android:textColor="#ffffff"
-                android:textSize="?attr/font_cardtitle" />
-
-        </LinearLayout>
-
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:text="@string/example_domain"
+            android:textColor="#ffffff"
+            android:textSize="?attr/font_cardtitle"/>
 
         <ScrollView
             android:layout_width="match_parent"

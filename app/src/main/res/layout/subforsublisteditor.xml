@@ -1,68 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="48dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:selectableItemBackground"
+    android:paddingStart="16dp">
 
-    <RelativeLayout
+    <View
+        android:id="@+id/color"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:adjustViewBounds="true"
+        android:background="@drawable/circle"/>
+
+    <TextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="?android:selectableItemBackground"
-        android:orientation="horizontal"
+        android:layout_toLeftOf="@+id/remove"
+        android:layout_toRightOf="@+id/color"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:text="Android"
+        android:textColor="?attr/font"
+        android:textSize="16sp"/>
 
-        android:paddingStart="16dp">
+    <ImageView
+        android:id="@+id/remove"
+        style="@style/Ripple.List"
+        app:srcCompat="@drawable/delete"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/edit"
+        android:padding="12dp"
+        android:tint="?attr/tint"/>
 
-        <View
-            android:id="@+id/color"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginTop="8dp"
-            android:adjustViewBounds="true"
-
-            android:background="@drawable/circle" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:gravity="center_vertical"
-            android:text="Android"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:layout_toRightOf="@+id/color"
-            android:layout_toLeftOf="@+id/remove"
-            android:textColor="?attr/font"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:id="@+id/remove"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/edit"
-            style="@style/Ripple.List"
-
-            android:padding="12dp"
-            app:srcCompat="@drawable/delete"
-            android:tint="?attr/tint" />
-
-        <ImageView
-            android:id="@+id/edit"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-
-            style="@style/Ripple.List"
-            android:padding="12dp"
-            app:srcCompat="@drawable/edit"
-
-            android:tint="?attr/tint" />
-
-
-    </RelativeLayout>
-</LinearLayout>
+    <ImageView
+        android:id="@+id/edit"
+        style="@style/Ripple.List"
+        app:srcCompat="@drawable/edit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="12dp"
+        android:tint="?attr/tint"/>
+</RelativeLayout>
