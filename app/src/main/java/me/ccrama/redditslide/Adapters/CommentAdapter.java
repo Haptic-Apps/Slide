@@ -2263,7 +2263,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     }
                     toCollapse.add(comment.getFullName());
-                    if (holder.firstTextView.getVisibility() == View.VISIBLE && SettingValues.collapseComments) {
+                    if ((holder.firstTextView.getVisibility() == View.VISIBLE ||holder.commentOverflow.getVisibility() == View.VISIBLE )&& SettingValues.collapseComments) {
                         holder.firstTextView.setVisibility(View.GONE);
                         holder.commentOverflow.setVisibility(View.GONE);
                     } else if (SettingValues.collapseComments) {
