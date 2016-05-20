@@ -54,6 +54,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
