@@ -9,39 +9,20 @@
     sothree:umanoOverlay="true"
     sothree:umanoPanelHeight="56dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <FrameLayout
         android:layout_width="match_parent"
-
         android:layout_height="match_parent"
-        android:background="#000000"
-        android:gravity="center"
+        android:background="#000000">
 
-        android:orientation="vertical">
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#000000"
-
-            android:orientation="vertical">
-
-
-            <me.ccrama.redditslide.Views.TitleTextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:padding="16dp"
-                android:text="@string/example_domain"
-                android:textColor="#ffffff"
-                android:textSize="24sp" />
-
-
-        </RelativeLayout>
-
-    </LinearLayout>
+        <me.ccrama.redditslide.Views.TitleTextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="@string/example_domain"
+            android:textColor="#ffffff"
+            android:textSize="24sp"/>
+    </FrameLayout>
 
     <RelativeLayout
         android:id="@+id/base"

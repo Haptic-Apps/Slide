@@ -21,40 +21,34 @@
         android:id="@+id/bod"
         android:orientation="vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="20dp">
 
-            <LinearLayout
+            <me.ccrama.redditslide.Views.TitleTextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="16dp">
+                android:paddingBottom="4dp"
+                android:text="@string/example_title"
+                android:textColor="?attr/font"
+                android:textSize="?attr/font_cardtitle"/>
 
-                <me.ccrama.redditslide.Views.TitleTextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
-                    android:text="@string/example_title"
-                    android:textColor="?attr/font"
-                    android:textSize="?attr/font_cardtitle" />
-
-                <TextView
-                    android:id="@+id/information"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="2dp"
-                    android:tag="tintsecond"
-                    android:text="@string/example_time"
-                    android:textSize="?attr/font_cardinfo" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/information"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:gravity="center_vertical"
+                android:paddingBottom="2dp"
+                android:tag="tintsecond"
+                android:text="@string/example_time"
+                android:textSize="?attr/font_cardinfo"/>
         </LinearLayout>
 
         <LinearLayout
