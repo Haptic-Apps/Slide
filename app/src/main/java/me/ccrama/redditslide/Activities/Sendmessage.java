@@ -133,7 +133,7 @@ public class Sendmessage extends BaseActivity {
                     e.printStackTrace();
 
                     //Display a Toast with an error if the user doesn't exist
-                    if (e.getReason().equals("USER_DOESNT_EXIST")) {
+                    if (e.getReason().equals("USER_DOESNT_EXIST") || e.getReason().equals("NO_USER")) {
                         messageSentStatus = getString(R.string.msg_send_user_dne);
                     }
 

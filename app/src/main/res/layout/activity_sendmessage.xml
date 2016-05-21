@@ -57,10 +57,12 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tint"
                     android:hint="@string/mail_hint_recipient"
-                    android:inputType="none"
+                    android:inputType="textFilter"
                     android:maxLength="21"
                     android:maxLines="1"
-                    android:textColor="?attr/font" />
+                    android:imeOptions="flagNavigateNext"
+                    android:textColor="?attr/font"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"/>
                 <requestFocus />
             </android.support.design.widget.TextInputLayout>
 
