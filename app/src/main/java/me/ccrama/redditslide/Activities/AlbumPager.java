@@ -30,6 +30,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -135,7 +136,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 3) {
@@ -148,6 +148,9 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         super.onCreate(savedInstanceState);
         getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE), true);
         setContentView(R.layout.album_pager);
+
+        //Keep the screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.type_album);
@@ -166,7 +169,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         }
 
     }
-
 
     public class LoadIntoPager extends AlbumUtils.GetAlbumWithCallback {
 
@@ -610,6 +612,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     }
                 });
     }
+
     private void shareImage(String finalUrl) {
         ((Reddit) getApplication()).getImageLoader()
                 .loadImage(finalUrl, new SimpleImageLoadingListener() {
@@ -619,7 +622,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     }
                 });
     }
-
 
     private void saveImageGallery(final Bitmap bitmap, String URL) {
         if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
@@ -771,7 +773,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
     }
 
-
     private void showShareDialog(final String url) {
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -795,7 +796,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         builder.setView(dialoglayout);
         builder.show();
     }
-
 
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
