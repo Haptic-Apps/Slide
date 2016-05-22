@@ -317,6 +317,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                     //Let the loop reset itself
                 }
             }
+            adapter.notifyItemRangeChanged(0, adapter.dataSet.posts.size());
             o.writeToMemoryNoStorage();
             rv.setItemAnimator(new SlideUpAlphaAnimator());
             return originalDataSetPosts;
