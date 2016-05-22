@@ -78,6 +78,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.lusfold.androidkeyvaluestore.core.KVManger;
 
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.FlairTemplate;
@@ -1231,6 +1232,21 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    private void changeSubscription(Subreddit subreddit, boolean isChecked){
+        if (isChecked) {
+            UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
+        } else {
+            UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
+            pager.setCurrentItem(pager.getCurrentItem() - 1);
+            restartTheme();
+        }
+        Snackbar s = Snackbar.make(mToolbar, isChecked ?
+                getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
+        View view = s.getView();
+        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+        tv.setTextColor(Color.WHITE);
+        s.show();
+    }
     public void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
@@ -1253,33 +1269,44 @@ public class MainActivity extends BaseActivity {
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-                    new AsyncTask<Void, Void, Void>() {
+                    new AsyncTask<Void, Void, Boolean>() {
                         @Override
-                        public void onPostExecute(Void voids) {
-                            if (isChecked) {
-                                UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
-                            } else {
-                                UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
-                                pager.setCurrentItem(pager.getCurrentItem() - 1);
-                                restartTheme();
+                        public void onPostExecute(Boolean success) {
+                            if (!success) { // If subreddit was removed from account or not
+
+                                new AlertDialogWrapper.Builder(MainActivity.this).setTitle(R.string.force_change_subscription)
+                                        .setMessage(R.string.force_change_subscription_desc)
+                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                changeSubscription(subreddit, isChecked); // Force remove the subscription
+                                            }
+                                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                }).setCancelable(false)
+                                        .show();
+                            } else{
+                                changeSubscription(subreddit, isChecked);
                             }
-                            Snackbar s = Snackbar.make(mToolbar, isChecked ?
-                                    getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
-                            View view = s.getView();
-                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                            tv.setTextColor(Color.WHITE);
-                            s.show();
+
                         }
 
                         @Override
-                        protected Void doInBackground(Void... params) {
-                            if (isChecked) {
-                                new AccountManager(Authentication.reddit).subscribe(subreddit);
-                            } else {
-                                new AccountManager(Authentication.reddit).unsubscribe(subreddit);
+                        protected Boolean doInBackground(Void... params) {
+                            try {
+                                if (isChecked) {
+                                        new AccountManager(Authentication.reddit).subscribe(subreddit);
+                                } else {
+                                        new AccountManager(Authentication.reddit).unsubscribe(subreddit);
+                                    }
 
+                            } catch (NetworkException e) {
+                                return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
                             }
-                            return null;
+                            return true;
                         }
                     }.execute();
 
