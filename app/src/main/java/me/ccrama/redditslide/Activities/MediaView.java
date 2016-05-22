@@ -23,6 +23,7 @@ import android.support.v7.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -315,7 +316,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public void onCreate(Bundle savedInstanceState) {
         overrideRedditSwipeAnywhere();
         super.onCreate(savedInstanceState);
-
         getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(""), true);
 
         if (savedInstanceState != null && savedInstanceState.containsKey("position"))
@@ -328,6 +328,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             }
         };
         setContentView(R.layout.activity_media);
+
+        //Keep the screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         final String firstUrl = getIntent().getExtras().getString(EXTRA_DISPLAY_URL, "");
         contentUrl = getIntent().getExtras().getString(EXTRA_URL);
@@ -822,7 +825,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             }
         });
     }
-
 
     public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
         MediaScannerConnection.scanFile(MediaView.this, new String[]{localAbsoluteFilePath.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
