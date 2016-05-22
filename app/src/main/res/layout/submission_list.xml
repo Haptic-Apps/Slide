@@ -5,12 +5,15 @@
     android:id="@+id/card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="2dp"
+    android:layout_marginBottom="1dp"
+    android:layout_marginEnd="-4dp"
     android:gravity="center"
     android:layerType="hardware"
     android:orientation="vertical"
     cardview:cardBackgroundColor="?attr/card_background"
-    cardview:cardCornerRadius="0dp">
+    cardview:cardCornerRadius="0dp"
+    cardview:cardElevation="0dp"
+    cardview:cardMaxElevation="0dp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -28,15 +31,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/headerimage"
-            android:paddingTop="8dp">
+            android:paddingTop="18dp">
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/thumbimage2"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="18dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/chameleon"
