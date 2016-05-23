@@ -78,7 +78,7 @@
 
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/thumbimage2"
-                    android:layout_width="70dp"
+                    android:layout_width="100dp"
                     android:layout_height="70dp"
                     android:layout_marginEnd="8dp"
                     android:adjustViewBounds="true"
