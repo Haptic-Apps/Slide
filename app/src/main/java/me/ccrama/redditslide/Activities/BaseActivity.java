@@ -65,16 +65,21 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
     }
 
     public boolean shouldInterceptAlways = false;
-		public void applyOverrideLanguage(){
-			if (SettingValues.overrideLanguage) {
-					Locale locale = new Locale("en", "US");
-					Locale.setDefault(locale);
-					Configuration config = new Configuration();
-					config.locale = locale;
-					getBaseContext().getResources().updateConfiguration(config,
-									getBaseContext().getResources().getDisplayMetrics());
-			}
-		}
+
+    /**
+     * Force English locale if setting is checked
+     *
+     */
+    public void applyOverrideLanguage(){
+        if (SettingValues.overrideLanguage) {
+                Locale locale = new Locale("en", "US");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                getBaseContext().getResources().updateConfiguration(config,
+                                getBaseContext().getResources().getDisplayMetrics());
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 				applyOverrideLanguage();
