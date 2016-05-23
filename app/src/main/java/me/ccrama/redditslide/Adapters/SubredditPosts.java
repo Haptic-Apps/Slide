@@ -19,6 +19,7 @@ import net.dean.jraw.paginators.SubredditPaginator;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -234,9 +235,7 @@ public class SubredditPosts implements PostLoader {
                     ids[i] = s.getId();
                     i++;
                 }
-                if (!SettingValues.synccitName.isEmpty() && !offline) {
-                    new MySynccitReadTask().execute(ids);
-                }
+
                 // update online
 
                 displayer.updateSuccess(posts, start);
@@ -245,6 +244,17 @@ public class SubredditPosts implements PostLoader {
 
                 if(c instanceof BaseActivity){
                     ((BaseActivity)c).setShareUrl("https://reddit.com/r/" + subreddit);
+                }
+
+                if (!SettingValues.synccitName.isEmpty() && !offline) {
+                    try {
+                        new MySynccitReadTask().execute(ids).get();
+                        displayer.updateViews();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             } else if (submissions != null) {

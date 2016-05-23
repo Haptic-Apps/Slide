@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/card_background"
-    android:padding="16dp">
+    android:padding="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,8 +17,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:textColor="?attr/font"
-            android:textSize="?attr/font_commentbody"/>
+            android:text="What the fuck did you just say to me you little bitch?"
+            android:textSize="14sp"/>
 
         <me.ccrama.redditslide.Views.CommentOverflow
             android:id="@+id/commentOverflow"

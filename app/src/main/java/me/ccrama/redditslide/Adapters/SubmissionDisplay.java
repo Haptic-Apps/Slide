@@ -32,4 +32,6 @@ public interface SubmissionDisplay {
      * Called when the update was done online but failed (e.g. network connection).
      */
     void updateError();
+
+    void updateViews();
 }

@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -43,6 +44,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
+import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
@@ -99,6 +101,19 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
         mSwipeRefreshLayout.setColorSchemeColors(Palette.getColors(id, getContext()));
+
+        /**
+         * If using List view mode, we need to remove the start margin from the SwipeRefreshLayout.
+         * (There is a 4dp marginStart for the card views; we need to remove this for the full-width list style).
+         * Additionally, in submission_list.xml, a marginEnd of -4dp that is set to fill the view.
+         * To recap: the below code solves the issue of the marginStart; the submission_list solves
+         * the issue of the marginEnd.
+         */
+        if (!CreateCardView.isMiddle() && !CreateCardView.isCard()) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            params.setMarginStart(0);
+            mSwipeRefreshLayout.setLayoutParams(params);
+        }
 
         /**
          * If we use 'findViewById(R.id.header).getMeasuredHeight()', 0 is always returned.
@@ -418,6 +433,15 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         }
         mSwipeRefreshLayout.setRefreshing(false);
         adapter.setError(true);
+    }
+
+    @Override
+    public void updateViews() {
+        try {
+            adapter.notifyItemRangeChanged(0, adapter.dataSet.getPosts().size());
+        } catch(Exception e){
+
+        }
     }
 
     public void resetScroll() {

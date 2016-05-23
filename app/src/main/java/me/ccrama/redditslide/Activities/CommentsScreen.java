@@ -300,6 +300,11 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     public void updateError() {
     }
 
+    @Override
+    public void updateViews() {
+
+    }
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private CommentPage mCurrentFragment;
         public BlankFragment blankPage;

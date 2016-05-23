@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="2dp">
+    android:padding="4dp">
 
     <ImageView
         android:id="@+id/image"
@@ -12,24 +12,29 @@
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/chameleon"/>
-    <ImageView
-        android:id="@+id/type"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:padding="15dp"
-        android:layout_centerInParent="true"
-        android:theme="@style/Ripple.List"
-        android:tint="#e1e1e1"
-        app:srcCompat="@drawable/album_grid" />
-    <ImageView
-        android:id="@+id/comments"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:padding="15dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:theme="@style/Ripple.List"
-        android:tint="#e1e1e1"
-        app:srcCompat="@drawable/commentchange" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_alignBottom="@id/image">
+
+        <ImageView
+            android:id="@+id/type"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            android:tint="#e1e1e1"
+            app:srcCompat="@drawable/album_grid"/>
+
+        <ImageView
+            android:id="@+id/comments"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            android:tint="#e1e1e1"
+            app:srcCompat="@drawable/commentchange"
+            android:background="?android:selectableItemBackground"/>
+    </LinearLayout>
 </RelativeLayout>

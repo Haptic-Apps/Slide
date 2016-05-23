@@ -31,12 +31,12 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/thumbimage2"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
+                android:layout_width="@dimen/thumbnail_width"
+                android:layout_height="@dimen/thumbnail_height"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="18dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/chameleon"
@@ -166,6 +166,7 @@
                 android:tag="tintactionbar"
                 android:text="420"
                 android:textSize="?attr/font_cardinfo" />
+
             <ImageView
                 android:id="@+id/edit"
                 style="@style/Ripple.List"
@@ -177,6 +178,7 @@
                 android:tag="tintactionbar"
                 android:tint="?attr/tint"
                 app:srcCompat="@drawable/edit" />
+
             <ImageView
                 android:id="@+id/save"
                 style="@style/Ripple.List"
@@ -188,7 +190,6 @@
                 android:tag="tintactionbar"
                 android:tint="?attr/tint"
                 app:srcCompat="@drawable/iconstarfilled" />
-
 
             <ImageView
                 android:id="@+id/mod"

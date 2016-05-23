@@ -174,6 +174,11 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
     public void updateError() {
     }
 
+    @Override
+    public void updateViews() {
+        recyclerAdapter.notifyDataSetChanged();
+    }
+
     @NonNull
     private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
         return new CatchStaggeredGridLayoutManager(numColumns, CatchStaggeredGridLayoutManager.VERTICAL);

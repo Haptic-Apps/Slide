@@ -26,6 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -51,7 +52,6 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
-
 
 /**
  * Created by ccrama on 3/5/2015.
@@ -239,6 +239,9 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE), true);
         setContentView(R.layout.album);
 
+        //Keep the screen on
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
         final ViewPager pager = (ViewPager) findViewById(R.id.images);
 
         album = new OverviewPagerAdapter(getSupportFragmentManager());
@@ -343,7 +346,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             ((Album) getActivity()).setSupportActionBar(((Album) getActivity()).mToolbar);
             ((Album) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-            ((Album) getActivity()).mToolbar.setPopupTheme(new ColorPreferences(((Album) getActivity())).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE));
+            ((Album) getActivity()).mToolbar.setPopupTheme(new ColorPreferences(getActivity()).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE));
             return rootView;
         }
 
