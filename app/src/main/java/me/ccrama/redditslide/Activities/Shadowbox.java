@@ -133,6 +133,11 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public void updateError() {
     }
 
+    @Override
+    public void updateViews() {
+
+    }
+
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
         public OverviewPagerAdapter(FragmentManager fm) {

@@ -435,6 +435,15 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         adapter.setError(true);
     }
 
+    @Override
+    public void updateViews() {
+        try {
+            adapter.notifyItemRangeChanged(0, adapter.dataSet.getPosts().size());
+        } catch(Exception e){
+
+        }
+    }
+
     public void resetScroll() {
         if (toolbarScroll == null) {
             toolbarScroll = new ToolbarScrollHideHandler(((BaseActivity) getActivity()).mToolbar, header) {

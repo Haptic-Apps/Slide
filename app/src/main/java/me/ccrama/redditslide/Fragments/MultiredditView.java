@@ -358,4 +358,13 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
     public void updateError() {
 
     }
+
+    @Override
+    public void updateViews() {
+        try {
+            adapter.notifyItemRangeChanged(0, adapter.dataSet.getPosts().size());
+        } catch(Exception e){
+
+        }
+    }
 }
