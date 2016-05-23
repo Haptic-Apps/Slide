@@ -54,6 +54,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -298,7 +299,7 @@ public class DoEditorActions {
                         }).build();
 
                 //Tint the hint text if the base theme is Sepia
-                if (MainActivity.currentTheme == 5) {
+                if (SettingValues.currentTheme == 5) {
                     ((EditText) dialog.findViewById(R.id.title_box))
                             .setHintTextColor(ContextCompat.getColor(dialog.getContext(), R.color.md_grey_600));
                     ((EditText) dialog.findViewById(R.id.description_box))

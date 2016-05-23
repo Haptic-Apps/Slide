@@ -34,10 +34,11 @@
 
             <TextView
                 android:id="@+id/oldMSG"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:paddingTop="16dp"
+                android:background="?android:selectableItemBackground"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:text="@string/mail_theirs"
                 android:textAllCaps="true"
                 android:textColor="?attr/font"
@@ -47,6 +48,7 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:textColorHint="?attr/font">
 
                 <EditText
@@ -55,10 +57,13 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tint"
                     android:hint="@string/mail_hint_recipient"
-                    android:inputType="none"
+                    android:inputType="textFilter"
                     android:maxLength="21"
                     android:maxLines="1"
-                    android:textColor="?attr/font" />
+                    android:imeOptions="flagNavigateNext"
+                    android:textColor="?attr/font"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-"/>
+                <requestFocus />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -75,7 +80,6 @@
                     android:maxLength="300"
                     android:maxLines="1"
                     android:textColor="?attr/font">
-                    <requestFocus />
                 </EditText>
             </android.support.design.widget.TextInputLayout>
 
@@ -108,9 +112,9 @@
                 android:id="@+id/preview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:background="?android:selectableItemBackground"
-                android:padding="6dp"
+                android:padding="8dp"
                 android:text="@string/btn_preview"
                 android:textAllCaps="true"
                 android:textColor="?attr/font"
@@ -124,9 +128,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/activity_vertical_margin"
         android:tint="@color/white"
         app:fabSize="normal"
         app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"

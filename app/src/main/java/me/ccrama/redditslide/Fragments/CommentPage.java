@@ -283,7 +283,7 @@ public class CommentPage extends Fragment {
                     final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
 
                     //Tint the replyLine appropriately if the base theme is Light or Sepia
-                    if (MainActivity.currentTheme == 1 || MainActivity.currentTheme == 5) {
+                    if (SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5) {
                         final int TINT = ContextCompat.getColor(getContext(), R.color.md_grey_600);
 
                         e.setHintTextColor(TINT);

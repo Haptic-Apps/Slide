@@ -167,6 +167,7 @@ public class SettingValues {
     public static boolean cardText;
     public static boolean alwaysZoom;
     public static boolean imgurLq = true;
+    public static int currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;

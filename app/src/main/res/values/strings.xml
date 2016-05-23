@@ -746,6 +746,9 @@
     <string name="dialog_no_drafts">No drafts yet</string>
     <string name="dialog_no_drafts_msg">You can add a draft by clicking the \'save\' icon in the editor bar!</string>
     <string name="msg_save_draft">Message saved as a draft</string>
+    <string name="msg_sent_success">Message sent</string>
+    <string name="msg_sent_failure">Message failed to send</string>
+    <string name="msg_send_user_dne">That user doesn\'t exist</string>
     <string name="content_removed">[removed]</string>
     <string name="guest">Guest</string>
     <string name="err_comment_post_nosave_message">\nPlease try again in a minute</string>
@@ -856,4 +859,10 @@
     <string name="get_lq_imgur_images_through_imgur_api">Get LQ Imgur images through Imgur API</string>
     <string name="theme_sepia">Sepia</string>
     <string name="open_links_externally">Always open this host externally</string>
+
+    <!-- Strings for alert dialogs -->
+    <string name="force_change_subscription">Could not change subscription</string>
+    <string name="force_change_subscription_desc">Would you still like to change it locally?</string>
+
+
 </resources>

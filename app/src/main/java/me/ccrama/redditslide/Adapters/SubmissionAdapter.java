@@ -108,7 +108,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.nomoreposts, viewGroup, false);
             return new SubmissionFooterViewHolder(v);
         } else {
-            View v = CreateCardView.CreateView(viewGroup, custom, subreddit);
+            View v = CreateCardView.CreateView(viewGroup);
             return new SubmissionViewHolder(v);
         }
     }

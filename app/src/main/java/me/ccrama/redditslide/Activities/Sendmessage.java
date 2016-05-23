@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
@@ -21,7 +22,6 @@ import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.Palette;
-
 
 /**
  * Created by ccrama on 3/5/2015.
@@ -39,6 +39,9 @@ public class Sendmessage extends BaseActivity {
     private String subjecttext;
     private String totext;
     private EditText body;
+
+    private String messageSentStatus; //the String to show in the Toast for when the message is sent
+    private boolean messageSent = true; //whether or not the message was sent successfully
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -59,14 +62,19 @@ public class Sendmessage extends BaseActivity {
             name = getIntent().getExtras().getString(EXTRA_NAME, "");
             to.setText(name);
             to.setInputType(InputType.TYPE_NULL);
+
             if (reply) {
                 b.setTitle(getString(R.string.mail_reply_to, name));
                 previousMessage = DataShare.sharedMessage;
                 subject.setText(getString(R.string.mail_re, previousMessage.getSubject()));
-
                 subject.setInputType(InputType.TYPE_NULL);
 
+                //Disable if replying to another user, as they are already set
+                to.setEnabled(false);
+                subject.setEnabled(false);
+
                 body.requestFocus();
+
                 oldMSG.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -74,20 +82,16 @@ public class Sendmessage extends BaseActivity {
                         b.setTitle(getString(R.string.mail_author_wrote, name));
                         b.setMessage(previousMessage.getBody());
                         b.create().show();
-
                     }
                 });
-
             } else {
                 b.setTitle(getString(R.string.mail_send_to, name));
                 oldMSG.setVisibility(View.GONE);
             }
-
         } else {
             name = "";
             oldMSG.setVisibility(View.GONE);
             b.setTitle(R.string.mail_send);
-
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -98,7 +102,6 @@ public class Sendmessage extends BaseActivity {
         setupUserAppBar(R.id.toolbar, null, true, name);
         setRecentBar(b.getTitle().toString(), Palette.getDefaultColor());
 
-
         findViewById(R.id.send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,39 +110,57 @@ public class Sendmessage extends BaseActivity {
                 subjecttext = subject.getText().toString();
 
                 new AsyncDo().execute();
-                findViewById(R.id.send).setVisibility(View.GONE);
             }
         });
         DoEditorActions.doActions(((EditText) findViewById(R.id.body)), findViewById(R.id.area), getSupportFragmentManager(), Sendmessage.this);
-
-
     }
 
     private class AsyncDo extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        public void onPostExecute(Void voids) {
-            finish();
-        }
-
         @Override
         protected Void doInBackground(Void... voids) {
             if (reply) {
                 try {
                     new net.dean.jraw.managers.AccountManager(Authentication.reddit).reply(previousMessage, bodytext);
                 } catch (ApiException e) {
+                    messageSent = false;
                     e.printStackTrace();
                 }
             } else {
                 try {
                     new InboxManager(Authentication.reddit).compose(totext, subjecttext, bodytext);
                 } catch (ApiException e) {
+                    messageSent = false;
                     e.printStackTrace();
+
+                    //Display a Toast with an error if the user doesn't exist
+                    if (e.getReason().equals("USER_DOESNT_EXIST") || e.getReason().equals("NO_USER")) {
+                        messageSentStatus = getString(R.string.msg_send_user_dne);
+                    }
+
                     //todo show captcha
                 }
             }
             return null;
         }
-    }
 
+        @Override
+        public void onPostExecute(Void voids) {
+            //If the error wasn't that the user doesn't exist, show a generic failure message
+            if (messageSentStatus == null) {
+                messageSentStatus = getString(R.string.msg_sent_failure);
+            }
+
+            final String MESSAGE_SENT = (messageSent)
+                    ? getString(R.string.msg_sent_success) : messageSentStatus;
+
+            Toast.makeText(Sendmessage.this, MESSAGE_SENT, Toast.LENGTH_SHORT).show();
+
+            //Only finish() this Activity if the message sent successfully
+            if (messageSent) {
+                finish();
+            } else {
+                messageSent = true;
+            }
+        }
+    }
 }

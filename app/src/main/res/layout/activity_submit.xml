@@ -224,7 +224,6 @@
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="100dp"
         android:layout_marginStart="16dp"
-        android:background="?android:selectableItemBackground"
         android:backgroundTint="?attr/tint"
         android:button="@null"
         android:buttonTint="?attr/tint"

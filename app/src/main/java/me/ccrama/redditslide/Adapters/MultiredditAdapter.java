@@ -99,7 +99,7 @@ public class MultiredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.nomoreposts, viewGroup, false);
             return new SubmissionFooterViewHolder(v);
         } else {
-            View v = CreateCardView.CreateView(viewGroup, false, "multi" + dataSet.multiReddit.getDisplayName());
+            View v = CreateCardView.CreateView(viewGroup);
             return new SubmissionViewHolder(v);
         }
     }

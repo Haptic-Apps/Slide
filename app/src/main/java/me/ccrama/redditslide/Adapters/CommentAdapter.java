@@ -84,7 +84,6 @@ import java.util.TreeMap;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.BaseActivity;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
@@ -1166,7 +1165,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else if (progress.getVisibility() == View.GONE) {
                         progress.setVisibility(View.VISIBLE);
                         holder.content.setText(R.string.comment_loading_more);
-                        new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 2), holder.getAdapterPosition(), holder, finalNextPos).execute(baseNode);
+                        currentLoading = new AsyncLoadMore(getRealPosition(holder.getAdapterPosition() - 2), holder.getAdapterPosition(), holder, finalNextPos, baseNode.comment.getComment().getFullName());
+                        currentLoading.execute(baseNode);
                     }
                 }
             });
@@ -1182,6 +1182,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             (Constants.SINGLE_HEADER_VIEW_OFFSET - Reddit.dpToPx(1) + mPage.shownHeaders)));
         }
     }
+
+    AsyncLoadMore currentLoading;
 
     public void setViews(String rawHTML, String subredditName, final SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
@@ -1776,7 +1778,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         expand(baseView, true);
 
                         //If the base theme is Light or Sepia, tint the Editor actions to be white
-                        if (MainActivity.currentTheme == 1 || MainActivity.currentTheme == 5) {
+                        if (SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5) {
                             ((ImageView) replyArea.findViewById(R.id.savedraft))
                                     .setColorFilter(Color.WHITE);
                             ((ImageView) replyArea.findViewById(R.id.draft))
@@ -1799,7 +1801,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     .setColorFilter(Color.WHITE);
 
                             replyLine.getBackground().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-                            LogUtil.v("Tinted editor items");
                         }
 
                         replyArea.setVisibility(View.VISIBLE);
@@ -2265,7 +2266,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     }
                     toCollapse.add(comment.getFullName());
-                    if (holder.firstTextView.getVisibility() == View.VISIBLE && SettingValues.collapseComments) {
+                    if ((holder.firstTextView.getVisibility() == View.VISIBLE ||holder.commentOverflow.getVisibility() == View.VISIBLE )&& SettingValues.collapseComments) {
                         holder.firstTextView.setVisibility(View.GONE);
                         holder.commentOverflow.setVisibility(View.GONE);
                     } else if (SettingValues.collapseComments) {
@@ -2414,6 +2415,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     hidden.add(fullname);
                 }
                 if (ignored.hasMoreComments()) {
+                    if(currentLoading != null && currentLoading.fullname.equals(fullname)){
+                        currentLoading.cancel(true);
+                    }
                     fullname = fullname + "more";
 
                     if (!hidden.contains(fullname)) {
@@ -2463,16 +2467,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public int holderPos;
         public int position;
         public int dataPos;
+        public String fullname;
 
-        public AsyncLoadMore(int position, int holderPos, MoreCommentViewHolder holder, int dataPos) {
+        public AsyncLoadMore(int position, int holderPos, MoreCommentViewHolder holder, int dataPos, String fullname) {
             this.holderPos = holderPos;
             this.holder = holder;
             this.position = position;
             this.dataPos = dataPos;
+            this.fullname = fullname;
         }
 
         @Override
         public void onPostExecute(Integer data) {
+            currentLoading = null;
             if (data != null) {
                 listView.setItemAnimator(new SlideRightAlphaAnimator());
                 notifyItemRangeInserted(holderPos, data);
@@ -2951,12 +2958,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Snackbar s;
                 if (ActionStates.isSaved(comment)) {
                     s = Snackbar.make(holder.itemView, "Comment saved", Snackbar.LENGTH_LONG);
-                    s.setAction("CATEGORIZE", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            categorizeComment(comment, mContext);
-                        }
-                    });
+                    if(Authentication.me.hasGold()) {
+                        s.setAction("CATEGORIZE", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                categorizeComment(comment, mContext);
+                            }
+                        });
+                    }
                 } else {
                     s = Snackbar.make(holder.itemView, "Comment un-saved", Snackbar.LENGTH_SHORT);
                 }

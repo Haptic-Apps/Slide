@@ -36,11 +36,11 @@ public class EditCardsLayout extends BaseActivityAnim {
 
         final LinearLayout layout = (LinearLayout) findViewById(R.id.card);
         layout.removeAllViews();
-        layout.addView(CreateCardView.CreateView(layout, false, ""));
+        layout.addView(CreateCardView.CreateView(layout));
 
         //View type//
         //Cards or List//
-        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard(false) ? (CreateCardView.isMiddle(false) ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : getString(R.string.mode_list));
+        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard() ? (CreateCardView.isMiddle() ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : getString(R.string.mode_list));
 
         findViewById(R.id.view).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,18 +53,18 @@ public class EditCardsLayout extends BaseActivityAnim {
                         switch (item.getItemId()) {
                             case R.id.center:
                                 layout.removeAllViews();
-                                layout.addView(CreateCardView.setMiddleCard(true, layout, false, ""));
+                                layout.addView(CreateCardView.setMiddleCard(true, layout));
                                 break;
                             case R.id.card:
                                 layout.removeAllViews();
-                                layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout, false, ""));
+                                layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LARGE, layout));
                                 break;
                             case R.id.list:
                                 layout.removeAllViews();
-                                layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LIST, layout, false, ""));
+                                layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LIST, layout));
                                 break;
                         }
-                        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard(false) ? (CreateCardView.isMiddle(false) ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : getString(R.string.mode_list));
+                        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard() ? (CreateCardView.isMiddle() ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : getString(R.string.mode_list));
                         return true;
                     }
                 });

@@ -180,8 +180,9 @@ public class Inbox extends BaseActivityAnim {
             @Override
             protected Void doInBackground(Void... params) {
                 if (Authentication.me == null) {
-                    if (Authentication.reddit == null)
+                    if (Authentication.reddit == null) {
                         new Authentication(getApplicationContext());
+                    }
                     Authentication.me = Authentication.reddit.me();
                     Authentication.mod = Authentication.me.isMod();
                     Reddit.over18 = Authentication.me.isOver18();
