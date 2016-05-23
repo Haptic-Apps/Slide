@@ -121,7 +121,7 @@ public class ContentType {
             if (!scheme.equals("http") && !scheme.equals("https")) {
                 return Type.EXTERNAL;
             }
-            if (Reddit.videoPlugin && ((host.contains("youtu.be") || host.contains("youtube.co"))) && !url.contains("/user/")) {
+            if (Reddit.videoPlugin && ((host.equals("youtu.be") || host.startsWith("youtube.co"))) && !url.contains("/user/")) {
                 return Type.VIDEO;
             } else if (PostMatch.openExternal(url)) {
                 return Type.EXTERNAL;

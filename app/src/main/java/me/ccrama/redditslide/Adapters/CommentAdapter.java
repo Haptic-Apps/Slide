@@ -2747,7 +2747,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             } else {
                 if (isSubmission) {
-                    new AsyncForceLoadChild(1, 0, submission.getComments()).execute(s);
+                    new AsyncForceLoadChild(0, 0, submission.getComments()).execute(s);
                 } else {
                     new AsyncForceLoadChild(getRealPosition(holder.getAdapterPosition() - 1), holder.getAdapterPosition(), node).execute(s);
                 }
