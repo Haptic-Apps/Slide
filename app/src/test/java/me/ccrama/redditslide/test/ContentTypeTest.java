@@ -10,7 +10,9 @@ import me.ccrama.redditslide.SettingValues;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 
 public class ContentTypeTest {
@@ -18,6 +20,20 @@ public class ContentTypeTest {
     @BeforeClass
     public static void setUp() {
         SettingValues.alwaysExternal = "twitter.com,github.com,t.co,example.com/path";
+    }
+
+    @Test
+    public void comparesHosts() {
+        assertTrue(ContentType.hostContains("www.example.com", "example.com"));
+        assertTrue(ContentType.hostContains("www.example.com", "www.example.com"));
+        assertTrue(ContentType.hostContains("www.example.com", "no-match", "example.com"));
+        assertTrue(ContentType.hostContains("www.example.com", "", null, "example.com"));
+        assertTrue(ContentType.hostContains("www.example.com", "example.com", "no-match"));
+
+        assertFalse(ContentType.hostContains("www.example.com", "www.example.com.au"));
+        assertFalse(ContentType.hostContains("www.example.com", "www.example"));
+        assertFalse(ContentType.hostContains("www.example.com", "notexample.com"));
+        assertFalse(ContentType.hostContains("www.example.com", ""));
     }
 
     @Test
@@ -103,6 +119,8 @@ public class ContentTypeTest {
         Reddit.videoPlugin = true;
         assertThat(ContentType.getContentType("https://www.youtube.com/watch?v=lX_pF03vCSU"), is(Type.VIDEO));
         assertThat(ContentType.getContentType("https://youtu.be/lX_pF03vCSU"), is(Type.VIDEO));
+
+        assertThat(ContentType.getContentType("https://www.gifyoutube.com/"), is(not(Type.VIDEO)));
 
         Reddit.videoPlugin = false;
         assertThat(ContentType.getContentType("https://www.youtube.com/watch?v=lX_pF03vCSU"), is(not(Type.VIDEO)));

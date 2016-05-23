@@ -34,7 +34,7 @@ public class PostMatch {
         URL domain = new URL(target);
         for (String s : strings) {
             if (!s.contains("/")) {
-                if (domain.getHost().endsWith(s)) {
+                if (ContentType.hostContains(domain.getHost(), s)) {
                     return true;
                 } else {
                     continue;
@@ -48,7 +48,7 @@ public class PostMatch {
             try {
                 URL comparison = new URL(s.toLowerCase());
 
-                if (domain.getHost().endsWith(comparison.getHost())
+                if (ContentType.hostContains(domain.getHost(), comparison.getHost())
                         && domain.getPath().startsWith(comparison.getPath())) {
                     return true;
                 }
