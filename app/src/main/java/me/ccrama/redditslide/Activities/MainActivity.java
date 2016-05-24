@@ -2405,6 +2405,9 @@ public class MainActivity extends BaseActivity {
             if (SettingValues.tabletUI) {
                 menu.findItem(R.id.share).setVisible(false);
             }
+            if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_DISMISS) {
+                menu.findItem(R.id.hide_posts).setVisible(false);
+            }
         } else {
             inflater.inflate(R.menu.menu_subreddit_overview_offline, menu);
         }
@@ -2604,6 +2607,9 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.save:
                 saveOffline(((SubmissionsView) adapter.getCurrentFragment()).posts.posts, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                return true;
+            case R.id.hide_posts:
+                ((SubmissionsView) adapter.getCurrentFragment()).clearSeenPosts(false);
                 return true;
             case R.id.share:
                 Reddit.defaultShareText("Slide for Reddit", "https://play.google.com/store/apps/details?id=me.ccrama.redditslide", MainActivity.this);
