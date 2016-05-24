@@ -43,7 +43,7 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * This class is reponsible for loading subreddit specific submissions
  * {@link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
  * asynchronously.
- * <p>
+ * <p/>
  * Created by ccrama on 9/17/2015.
  */
 public class SubredditPosts implements PostLoader {
@@ -242,19 +242,12 @@ public class SubredditPosts implements PostLoader {
                 currentid = 0;
                 OfflineSubreddit.currentid = currentid;
 
-                if(c instanceof BaseActivity){
-                    ((BaseActivity)c).setShareUrl("https://reddit.com/r/" + subreddit);
+                if (c instanceof BaseActivity) {
+                    ((BaseActivity) c).setShareUrl("https://reddit.com/r/" + subreddit);
                 }
 
                 if (!SettingValues.synccitName.isEmpty() && !offline) {
-                    try {
-                        new MySynccitReadTask().execute(ids).get();
-                        displayer.updateViews();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
+                    new MySynccitReadTask(displayer).execute(ids);
                 }
 
             } else if (submissions != null) {
@@ -313,7 +306,7 @@ public class SubredditPosts implements PostLoader {
             List<Submission> filteredSubmissions = getNextFiltered();
 
 
-            if (!SettingValues.noImages &&  ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways))
+            if (!SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways))
                 loadPhotos(filteredSubmissions);
             HasSeen.setHasSeenSubmission(filteredSubmissions);
             LastComments.setCommentsSince(filteredSubmissions);
