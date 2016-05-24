@@ -247,6 +247,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        applyOverrideLanguage(); // Re-apply the language override if selected
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             changed = true;
@@ -312,16 +313,24 @@ public class MainActivity extends BaseActivity {
 
     MaterialDialog d;
 
+    /**
+     * Force English locale if setting is checked
+     *
+     */
+    public void applyOverrideLanguage(){
+        if (SettingValues.overrideLanguage) {
+                Locale locale = new Locale("en", "US");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                getBaseContext().getResources().updateConfiguration(config,
+                                getBaseContext().getResources().getDisplayMetrics());
+        }
+    }
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        if (Reddit.overrideLanguage) {
-            Locale locale = new Locale("en", "US");
-            Locale.setDefault(locale);
-            Configuration config = new Configuration();
-            config.locale = locale;
-            getBaseContext().getResources().updateConfiguration(config,
-                    getBaseContext().getResources().getDisplayMetrics());
-        }
+        applyOverrideLanguage();
 
         disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
