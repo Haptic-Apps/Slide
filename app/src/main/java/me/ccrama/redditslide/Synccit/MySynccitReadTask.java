@@ -19,7 +19,9 @@ public class MySynccitReadTask extends SynccitReadTask {
         super(MY_DEV_NAME);
         this.displayer = displayer;
     }
-
+    public MySynccitReadTask() {
+        super(MY_DEV_NAME);
+    }
     @Override
     protected void onVisited(HashSet<String> visitedThreadIds) {
         SynccitRead.visitedIds.addAll(visitedThreadIds);

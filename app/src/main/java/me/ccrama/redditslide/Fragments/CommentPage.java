@@ -721,6 +721,7 @@ public class CommentPage extends Fragment {
                 e.printStackTrace();
             }
             if (s != null && s.getComments() != null) {
+                doRefresh(false);
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
                 if (adapter == null) {
 
