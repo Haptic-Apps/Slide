@@ -67,6 +67,7 @@
                         android:padding="8dp"
                         app:sl_maxValue="96"
                         app:sl_minValue="1"
+                        app:sl_alwaysFillThumb="true"
                         app:sl_secondaryColor="?attr/tint"
                         app:sl_stepValue="15"/>
 
