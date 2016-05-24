@@ -5,6 +5,7 @@ import com.lusfold.androidkeyvaluestore.core.KVManger;
 
 import net.dean.jraw.models.Submission;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,11 +21,15 @@ public class LastComments {
             commentsSince = new HashMap<>();
         }
         KVManger m = KVStore.getInstance();
-        for (Submission s : submissions) {
-            String fullname = s.getFullName();
-            if (!m.getByContains("comments" + fullname).isEmpty()) {
-                commentsSince.put(fullname, Integer.valueOf(m.get("comments" + fullname)));
+        try {
+            for (Submission s : submissions) {
+                String fullname = s.getFullName();
+                if (!m.getByContains("comments" + fullname).isEmpty()) {
+                    commentsSince.put(fullname, Integer.valueOf(m.get("comments" + fullname)));
+                }
             }
+        } catch(ConcurrentModificationException ignored){
+
         }
     }
 

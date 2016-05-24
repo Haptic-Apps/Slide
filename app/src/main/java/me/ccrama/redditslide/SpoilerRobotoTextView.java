@@ -139,7 +139,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             setStrikethrough(builder);
         }
 
-        if (!subreddit.isEmpty()) {
+        if (subreddit != null && !subreddit.isEmpty()) {
             setMovementMethod(new TextViewLinkHandler(this, subreddit, builder));
             setFocusable(false);
             setClickable(false);

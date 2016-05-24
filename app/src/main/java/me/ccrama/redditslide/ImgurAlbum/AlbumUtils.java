@@ -144,6 +144,10 @@ public class AlbumUtils {
                                 @Override
                                 public void onCompleted(Exception e, JsonObject obj) {
                                     try {
+                                        if(obj == null) {
+                                            onError();
+                                            return;
+                                        }
                                         SingleImage single = new ObjectMapper().readValue(obj.toString(), SingleAlbumImage.class).getData();
                                         if (single.getLink() != null)
                                             doWithDataSingle(single);

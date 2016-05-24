@@ -254,7 +254,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                                     dialog.dismiss();
                                 }
                             });
-                    if (SettingValues.previews > 0 && ((MultiredditView) adapter.getCurrentFragment()).posts != null && ((MultiredditView) adapter.getCurrentFragment()).posts.posts != null && !((MultiredditView) adapter.getCurrentFragment()).posts.posts.isEmpty()) {
+                    if (SettingValues.previews > 0 && adapter != null && ((MultiredditView) adapter.getCurrentFragment()).posts != null && ((MultiredditView) adapter.getCurrentFragment()).posts.posts != null && !((MultiredditView) adapter.getCurrentFragment()).posts.posts.isEmpty()) {
                         b.setNeutralButton("Preview (" + SettingValues.previews + ")", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

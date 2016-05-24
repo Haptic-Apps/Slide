@@ -2323,7 +2323,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             listView.setItemAnimator(null);
             notifyItemRangeInserted(i, counter);
         } else {
+            try{
             listView.setItemAnimator(new AlphaInAnimator());
+            } catch (Exception e) {
+            }
             notifyItemRangeInserted(i, counter);
         }
     }

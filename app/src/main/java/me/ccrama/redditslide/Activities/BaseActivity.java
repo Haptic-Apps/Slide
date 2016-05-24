@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.ActivityManager;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
@@ -407,7 +408,6 @@ public class BaseActivity extends AppCompatActivity implements SwipeBackActivity
 
             BitmapDrawable drawable = ((BitmapDrawable) ContextCompat.getDrawable(this,
                     title.equalsIgnoreCase("androidcirclejerk") ? R.drawable.matiasduarte : R.drawable.ic_launcher));
-
             setTaskDescription(new ActivityManager.TaskDescription(title, drawable.getBitmap(), color));
         }
     }

@@ -255,6 +255,7 @@ public class MediaFragment extends Fragment {
                 break;
         }
     }
+
     MediaVideoView videoView;
 
     public boolean isGif;
@@ -391,8 +392,7 @@ public class MediaFragment extends Fragment {
         }
 
     }
-    
-    
+
 
     public void doLoadGif(final String dat) {
         isGif = true;
@@ -635,7 +635,9 @@ public class MediaFragment extends Fragment {
                             @Override
                             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
                                 imageShown = true;
-                                File f = ((Reddit) getActivity().getApplicationContext()).getImageLoader().getDiscCache().get(url);
+                                File f = null;
+                                if (getActivity() != null)
+                                    f = ((Reddit) getActivity().getApplicationContext()).getImageLoader().getDiscCache().get(url);
                                 if (f != null && f.exists()) {
                                     i.setImage(ImageSource.uri(f.getAbsolutePath()));
                                 } else {
