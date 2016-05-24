@@ -5,6 +5,7 @@ import com.lusfold.androidkeyvaluestore.core.KVManger;
 
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.VoteDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class HasSeen {
         if (hasSeen == null) {
             hasSeen = new ArrayList<>();
         }
-        if (s.getDataNode().has("visited") && s.getDataNode().get("visited").asBoolean()) {
+        if (s.getDataNode().has("visited") && s.getDataNode().get("visited").asBoolean() || s.getVote() != VoteDirection.NO_VOTE) {
             return true;
         }
         String fullname = s.getFullName();
