@@ -859,6 +859,7 @@
     <string name="get_lq_imgur_images_through_imgur_api">Get LQ Imgur images through Imgur API</string>
     <string name="theme_sepia">Sepia</string>
     <string name="open_links_externally">Always open this host externally</string>
+    <string name="hide_read_posts">Hide read posts</string>
 
     <!-- Strings for alert dialogs -->
     <string name="force_change_subscription">Could not change subscription</string>

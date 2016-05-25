@@ -307,7 +307,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         );
     }
 
-    private List<Submission> clearSeenPosts(boolean forever) {
+    public List<Submission> clearSeenPosts(boolean forever) {
         if (adapter.dataSet.posts != null) {
 
             List<Submission> originalDataSetPosts = adapter.dataSet.posts;
