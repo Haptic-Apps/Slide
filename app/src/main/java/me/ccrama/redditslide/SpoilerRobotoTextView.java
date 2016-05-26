@@ -66,17 +66,18 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     private List<Integer> storedSpoilerEnds = new ArrayList<>();
 
     public SpoilerRobotoTextView(Context context) {
-
         super(context);
-
+        setLineSpacing(0,1.1f);
     }
 
     public SpoilerRobotoTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        setLineSpacing(0,1.1f);
     }
 
     public SpoilerRobotoTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        setLineSpacing(0,1.1f);
     }
 
     public boolean isSpoilerClicked() {

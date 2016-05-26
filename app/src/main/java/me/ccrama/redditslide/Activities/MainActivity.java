@@ -1343,7 +1343,7 @@ public class MainActivity extends BaseActivity {
         } else {
             findViewById(R.id.subimage).setVisibility(View.GONE);
         }
-        ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers, subreddit.getSubscriberCount()));
+        ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
     }

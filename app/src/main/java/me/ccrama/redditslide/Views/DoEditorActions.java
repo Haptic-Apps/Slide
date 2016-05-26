@@ -93,6 +93,20 @@ public class DoEditorActions {
                 }
             }
         });
+        baseView.findViewById(R.id.strike).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editText.hasSelection()) {
+                    wrapString("~~", editText); //If the user has text selected, wrap that text in the symbols
+                } else {
+                    //If the user doesn't have text selected, put the symbols around the cursor's position
+                    int pos = editText.getSelectionStart();
+                    editText.getText().insert(pos, "~~");
+                    editText.getText().insert(pos + 1, "~~");
+                    editText.setSelection(pos + 2); //put the cursor between the symbols
+                }
+            }
+        });
         baseView.findViewById(R.id.savedraft).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -119,5 +119,16 @@
             android:tint="?attr/tint"
             android:background="?attr/selectableItemBackground"
             app:srcCompat="@drawable/fontsizedarker" />
+
+        <ImageButton
+            android:id="@+id/strike"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:cropToPadding="true"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            android:background="?attr/selectableItemBackground"
+            app:srcCompat="@drawable/strike" />
     </LinearLayout>
 </HorizontalScrollView>
