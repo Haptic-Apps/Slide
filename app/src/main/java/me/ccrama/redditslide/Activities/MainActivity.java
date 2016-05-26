@@ -315,16 +315,15 @@ public class MainActivity extends BaseActivity {
 
     /**
      * Force English locale if setting is checked
-     *
      */
-    public void applyOverrideLanguage(){
+    public void applyOverrideLanguage() {
         if (SettingValues.overrideLanguage) {
-                Locale locale = new Locale("en", "US");
-                Locale.setDefault(locale);
-                Configuration config = new Configuration();
-                config.locale = locale;
-                getBaseContext().getResources().updateConfiguration(config,
-                                getBaseContext().getResources().getDisplayMetrics());
+            Locale locale = new Locale("en", "US");
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
         }
     }
 
@@ -649,7 +648,7 @@ public class MainActivity extends BaseActivity {
         multiNameToSubsMap = subs;
     }
 
-    public void setToolbarClick(){
+    public void setToolbarClick() {
         if (mTabLayout != null) {
             mTabLayout.setOnTabSelectedListener(
                     new TabLayout.ViewPagerOnTabSelectedListener(pager) {
@@ -1174,6 +1173,9 @@ public class MainActivity extends BaseActivity {
             if (toGoto == -1) {
                 toGoto = 0;
             }
+            if(toGoto >= usedArray.size()){
+                toGoto -=1;
+            }
             shouldLoad = usedArray.get(toGoto);
             selectedSub = (usedArray.get(toGoto));
             themeSystemBars(usedArray.get(toGoto));
@@ -1249,7 +1251,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void changeSubscription(Subreddit subreddit, boolean isChecked){
+    private void changeSubscription(Subreddit subreddit, boolean isChecked) {
         if (isChecked) {
             UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(), MainActivity.this);
         } else {
@@ -1264,6 +1266,7 @@ public class MainActivity extends BaseActivity {
         tv.setTextColor(Color.WHITE);
         s.show();
     }
+
     public void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
@@ -1305,7 +1308,7 @@ public class MainActivity extends BaseActivity {
                                     }
                                 }).setCancelable(false)
                                         .show();
-                            } else{
+                            } else {
                                 changeSubscription(subreddit, isChecked);
                             }
 
@@ -1315,10 +1318,10 @@ public class MainActivity extends BaseActivity {
                         protected Boolean doInBackground(Void... params) {
                             try {
                                 if (isChecked) {
-                                        new AccountManager(Authentication.reddit).subscribe(subreddit);
+                                    new AccountManager(Authentication.reddit).subscribe(subreddit);
                                 } else {
-                                        new AccountManager(Authentication.reddit).unsubscribe(subreddit);
-                                    }
+                                    new AccountManager(Authentication.reddit).unsubscribe(subreddit);
+                                }
 
                             } catch (NetworkException e) {
                                 return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
@@ -2142,7 +2145,15 @@ public class MainActivity extends BaseActivity {
                     if (current == toOpenComments && toOpenComments != 0) {
                         current -= 1;
                     }
-                    doSubSidebar(usedArray.get(current));
+                    if (usedArray.get(current).equals("random")) {
+                        if (adapter != null && adapter.getCurrentFragment() != null && ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet.subredditRandom != null) {
+                            String sub = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet.subredditRandom;
+                            doSubSidebarNoLoad(sub);
+                            doSubSidebar(sub);
+                        }
+                    } else {
+                        doSubSidebar(usedArray.get(current));
+                    }
                 }
             }
         };

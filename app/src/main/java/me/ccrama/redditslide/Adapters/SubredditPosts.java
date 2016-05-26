@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutionException;
 
 import me.ccrama.redditslide.Activities.BaseActivity;
 import me.ccrama.redditslide.Activities.MainActivity;
+import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.ContentType;
@@ -49,6 +50,7 @@ import me.ccrama.redditslide.util.NetworkUtil;
 public class SubredditPosts implements PostLoader {
     public List<Submission> posts;
     public String subreddit;
+    public String subredditRandom;
     public boolean nomore = false;
     public boolean stillShow;
     public boolean offline;
@@ -246,6 +248,14 @@ public class SubredditPosts implements PostLoader {
                     ((BaseActivity) c).setShareUrl("https://reddit.com/r/" + subreddit);
                 }
 
+                if(subreddit.equals("random")){
+                    subredditRandom = submissions.get(0).getSubredditName();
+                }
+
+                if(c instanceof SubredditView && subreddit.equals("random")){
+                    ((SubredditView)c).subreddit = subredditRandom;
+                    ((SubredditView)c).executeAsyncSubreddit(subredditRandom);
+                }
                 if (!SettingValues.synccitName.isEmpty() && !offline) {
                     new MySynccitReadTask(displayer).execute(ids);
                 }

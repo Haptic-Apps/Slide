@@ -893,8 +893,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     break;
             }
 
-
-            holder.firstTextView.setOnLongClickListener(new View.OnLongClickListener() {
+            View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     if (SettingValues.swap) {
@@ -904,7 +903,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                     return true;
                 }
-            });
+            };
+
+            holder.firstTextView.setOnLongClickListener(onLongClickListener);
+            holder.commentOverflow.setOnLongClickListener(onLongClickListener);
 
             int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
             if (type >= 0) {
@@ -956,19 +958,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     holder.firstTextView.setVisibility(View.GONE);
                 holder.commentOverflow.setVisibility(View.VISIBLE);
             }
-
-            holder.itemView.setOnClickListener(new OnSingleClickListener() {
+            OnSingleClickListener singleClick = new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {
                     if (!currentlyEditingId.equals(comment.getFullName()))
-
                         if (SettingValues.swap) {
                             doLongClick(holder, comment, baseNode);
                         } else {
                             doOnClick(holder, comment, baseNode);
                         }
                 }
-            });
+            };
+            holder.itemView.setOnClickListener(singleClick);
+            holder.commentOverflow.setOnClickListener(singleClick);
 
             holder.firstTextView.setOnClickListener(new OnSingleClickListener() {
                 @Override
@@ -981,10 +983,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else if (SpoilerRobotoTextView.isSpoilerClicked()) {
                         SpoilerRobotoTextView.resetSpoilerClicked();
                     }
-
                 }
             });
-
             {
                 holder.dot.setVisibility(View.VISIBLE);
 

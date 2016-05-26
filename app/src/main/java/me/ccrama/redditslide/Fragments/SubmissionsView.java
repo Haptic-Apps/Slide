@@ -437,10 +437,16 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateViews() {
-        try {
-            adapter.notifyItemRangeChanged(0, adapter.dataSet.getPosts().size());
-        } catch(Exception e){
-
+        if (adapter.dataSet.posts != null) {
+            for (int i = adapter.dataSet.posts.size(); i > -1; i--) {
+                try {
+                    if (HasSeen.getSeen(adapter.dataSet.posts.get(i))) {
+                        adapter.notifyItemChanged(i + 1);
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    //Let the loop reset itself
+                }
+            }
         }
     }
 

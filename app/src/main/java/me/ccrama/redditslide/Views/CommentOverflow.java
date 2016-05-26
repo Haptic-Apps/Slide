@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -22,6 +23,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Class that provides methods to help bind submissions with
@@ -82,7 +84,7 @@ public class CommentOverflow extends LinearLayout {
         textColor = typedValue.data;
         TypedValue fontSizeTypedValue = new TypedValue();
         theme.resolveAttribute(R.attr.font_commentbody, fontSizeTypedValue, true);
-        TypedArray a = context.obtainStyledAttributes(null, new int[]{R.attr.font_commentbody},R.attr.font_commentbody, new FontPreferences(context).getCommentFontStyle().getResId());
+        TypedArray a = context.obtainStyledAttributes(null, new int[]{R.attr.font_commentbody}, R.attr.font_commentbody, new FontPreferences(context).getCommentFontStyle().getResId());
         fontSize = a.getDimensionPixelSize(0, -1);
         a.recycle();
         removeAllViews();
@@ -123,6 +125,12 @@ public class CommentOverflow extends LinearLayout {
         }
     }
 
+    /*todo: possibly fix tapping issues, better method required (this disables scrolling the HorizontalScrollView)
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        super.dispatchTouchEvent(event);
+        return false;
+    }*/
     private TableLayout formatTable(String text, String subreddit) {
         TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
 
@@ -192,8 +200,8 @@ public class CommentOverflow extends LinearLayout {
     private void setStyle(SpoilerRobotoTextView textView, String subreddit) {
         textView.setTextColor(textColor);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize);
-        if(typeface != null)
-        textView.setTypeface(typeface);
+        if (typeface != null)
+            textView.setTypeface(typeface);
         textView.setLinkTextColor(colorPreferences.getColor(subreddit));
     }
 }

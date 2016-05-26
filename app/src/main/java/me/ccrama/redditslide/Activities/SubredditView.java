@@ -84,6 +84,7 @@ import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 public class SubredditView extends BaseActivityAnim {
@@ -91,7 +92,7 @@ public class SubredditView extends BaseActivityAnim {
     public static final String EXTRA_SUBREDDIT = "subreddit";
 
     private DrawerLayout drawerLayout;
-    private String subreddit;
+    public String subreddit;
     public Submission openingComments;
     public int currentComment;
 
@@ -341,7 +342,6 @@ public class SubredditView extends BaseActivityAnim {
         }
         pager.setAdapter(adapter);
         pager.setCurrentItem(1);
-        doSubSidebar(subreddit);
         mToolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -365,11 +365,13 @@ public class SubredditView extends BaseActivityAnim {
                 ((SubmissionsView) (adapter.getCurrentFragment())).resetScroll();
             }
         });
-
+        if(!subreddit.equals("random"))
+            executeAsyncSubreddit(subreddit);
     }
 
     public boolean singleMode;
     public boolean commentPager;
+    public boolean loaded;
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -442,9 +444,9 @@ public class SubredditView extends BaseActivityAnim {
         PopupMenu popup = new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
         final String[] base = Reddit.getSortingStrings(getBaseContext(), subreddit, true);
         for (String s : base) {
-            MenuItem m =  popup.getMenu().add(s);
-            if(s.startsWith("» ")){
-                SpannableString spanString = new SpannableString(s.replace("» ",""));
+            MenuItem m = popup.getMenu().add(s);
+            if (s.startsWith("» ")) {
+                SpannableString spanString = new SpannableString(s.replace("» ", ""));
                 spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(SubredditView.this).getColor(subreddit)), 0, spanString.length(), 0);
                 spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
                 m.setTitle(spanString);
@@ -578,7 +580,8 @@ public class SubredditView extends BaseActivityAnim {
             commentOverflow.removeAllViews();
         }
     }
-    private void changeSubscription(Subreddit subreddit, boolean isChecked){
+
+    private void changeSubscription(Subreddit subreddit, boolean isChecked) {
         if (isChecked) {
             UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(), SubredditView.this);
         } else {
@@ -593,105 +596,20 @@ public class SubredditView extends BaseActivityAnim {
         tv.setTextColor(Color.WHITE);
         s.show();
     }
-    private void doSubOnlyStuff(final Subreddit subreddit) {
+
+
+    public void doSubSidebarNoLoad(final String subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
-        if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
-            findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
-            final String text = subreddit.getDataNode().get("description_html").asText();
-            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
-            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
-            setViews(text, subreddit.getDisplayName(), body, overflow);
-        } else {
-            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
-        }
-        {
-            final CheckBox c = ((CheckBox) findViewById(R.id.subscribed));
-            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    //reset check adapter
-                }
-            });
-            c.setChecked(UserSubscriptions.isSubscriber(subreddit.getDisplayName().toLowerCase(), this));
-            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-                    new AsyncTask<Void, Void, Boolean>() {
-                        @Override
-                        public void onPostExecute(Boolean success) {
-                            if (!success) { // If subreddit was removed from account or not
+        invalidateOptionsMenu();
 
-                                new AlertDialogWrapper.Builder(SubredditView.this).setTitle(R.string.force_change_subscription)
-                                        .setMessage(R.string.force_change_subscription_desc)
-                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                changeSubscription(subreddit, isChecked); // Force remove the subscription
-                                            }
-                                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                    }
-                                }).setCancelable(false)
-                                        .show();
-                            } else{
-                                changeSubscription(subreddit, isChecked);
-                            }
-
-                        }
-
-
-                        @Override
-                        protected Boolean doInBackground(Void... params) {
-                            try {
-                                if (isChecked) {
-                                    new AccountManager(Authentication.reddit).subscribe(subreddit);
-                                } else {
-                                    new AccountManager(Authentication.reddit).unsubscribe(subreddit);
-                                }
-
-                            } catch (NetworkException e) {
-                                return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
-                            }
-                            return true;
-
-                        }
-                    }.execute();
-
-                }
-            });
-        }
-        if (!subreddit.getPublicDescription().isEmpty()) {
-            findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
-            setViews(subreddit.getDataNode().get("public_description_html").asText(), subreddit.getDisplayName().toLowerCase(), ((SpoilerRobotoTextView) findViewById(R.id.sub_title)), (CommentOverflow) findViewById(R.id.sub_title_overflow));
-        } else {
-            findViewById(R.id.sub_title).setVisibility(View.GONE);
-        }
-        if (subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode().get("icon_img").asText().isEmpty()) {
-            ((Reddit) getApplication()).getImageLoader().displayImage(subreddit.getDataNode().get("icon_img").asText(), (ImageView) findViewById(R.id.subimage));
-        } else {
-            findViewById(R.id.subimage).setVisibility(View.GONE);
-        }
-
-        ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
-        findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
-
-    }
-
-    public void doSubSidebar(final String subreddit) {
         if (!subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("frontpage") &&
-                !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") && !subreddit.equalsIgnoreCase("random") &&
-                !subreddit.contains("+")) {
+                !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") &&
+                !subreddit.contains("+") && !subreddit.contains(".") && !subreddit.contains("/m/")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
-            invalidateOptionsMenu();
 
-            AsyncGetSubreddit mAsyncGetSubreddit = new AsyncGetSubreddit();
-            mAsyncGetSubreddit.execute(subreddit);
-            findViewById(R.id.loader).setVisibility(View.VISIBLE);
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             findViewById(R.id.sub_title).setVisibility(View.GONE);
             findViewById(R.id.subscribers).setVisibility(View.GONE);
@@ -707,276 +625,289 @@ public class SubredditView extends BaseActivityAnim {
             ((TextView) findViewById(R.id.mods_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.flair_text)).setTextColor(subColor);
 
+        } else {
+            if (drawerLayout != null) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+            }
+        }
+    }
+
+    public void doSubSidebar(final String subreddit) {
+        findViewById(R.id.loader).setVisibility(View.VISIBLE);
+
+        invalidateOptionsMenu();
+
+        if (!subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("random") &&
+                !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") &&
+                !subreddit.contains("+") && !subreddit.contains(".") && !subreddit.contains("/m/")) {
+            if (drawerLayout != null) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+            }
+            loaded = true;
+
             final View dialoglayout = findViewById(R.id.sidebarsub);
             {
                 CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
                 View submit = (dialoglayout.findViewById(R.id.submit));
+
                 if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                     pinned.setVisibility(View.GONE);
                     findViewById(R.id.subscribed).setVisibility(View.GONE);
                     submit.setVisibility(View.GONE);
                 }
-                if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_POST)
+                if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_POST) {
                     submit.setVisibility(View.GONE);
+                }
 
                 pinned.setVisibility(View.GONE);
 
-
-                submit.setOnClickListener(new View.OnClickListener() {
+                submit.setOnClickListener(new OnSingleClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onSingleClick(View view) {
                         Intent inte = new Intent(SubredditView.this, Submit.class);
-                        inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                        if (!subreddit.contains("/m/")) {
+                            inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                        }
                         SubredditView.this.startActivity(inte);
                     }
                 });
             }
 
-
-            if (subreddit.equalsIgnoreCase("frontpage") || subreddit.equalsIgnoreCase("all") ||
-                    subreddit.equalsIgnoreCase("mod") || subreddit.equalsIgnoreCase("friends") ||
-                    subreddit.contains("+")) {
-                dialoglayout.findViewById(R.id.wiki).setVisibility(View.GONE);
-                dialoglayout.findViewById(R.id.sidebar_text).setVisibility(View.GONE);
-                dialoglayout.findViewById(R.id.mods).setVisibility(View.GONE);
-
-
-            } else {
-                dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(SubredditView.this, Wiki.class);
-                        i.putExtra(Wiki.EXTRA_SUBREDDIT, subreddit);
-                        startActivity(i);
-                    }
-                });
-                dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent i = new Intent(SubredditView.this, Submit.class);
-                        i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
-                        startActivity(i);
-                    }
-                });
-                dialoglayout.findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit);
-                        final Context contextThemeWrapper = new ContextThemeWrapper(SubredditView.this, style);
-                        LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
-                        final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                        ArrayList<String> arrayList = new ArrayList<>();
-                        arrayList.add(subreddit);
-                        SettingsSubAdapter.showSubThemeEditor(arrayList, SubredditView.this, dialoglayout);
-                    }
-                });
-
-                dialoglayout.findViewById(R.id.mods).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final Dialog d = new MaterialDialog.Builder(SubredditView.this).title("Finding moderators")
-                                .cancelable(true)
-                                .content(R.string.misc_please_wait)
-                                .progress(true, 100)
-                                .show();
-                        new AsyncTask<Void, Void, Void>() {
-                            ArrayList<UserRecord> mods;
-
-                            @Override
-                            protected Void doInBackground(Void... params) {
-                                mods = new ArrayList<>();
-                                UserRecordPaginator paginator = new UserRecordPaginator(Authentication.reddit, subreddit, "moderators");
-                                paginator.setSorting(Sorting.HOT);
-                                paginator.setTimePeriod(TimePeriod.ALL);
-                                while (paginator.hasNext()) {
-                                    mods.addAll(paginator.next());
-                                }
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(Void aVoid) {
-                                final ArrayList<String> names = new ArrayList<>();
-                                for (UserRecord rec : mods) {
-                                    names.add(rec.getFullName());
-                                }
-                                d.dismiss();
-                                new MaterialDialog.Builder(SubredditView.this).title("/r/" + subreddit + " mods")
-                                        .items(names)
-                                        .itemsCallback(new MaterialDialog.ListCallback() {
-                                            @Override
-                                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                                Intent i = new Intent(SubredditView.this, Profile.class);
-                                                i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
-                                                startActivity(i);
-                                            }
-                                        }).show();
-                            }
-                        }.execute();
-                    }
-                });
-                dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
-                if (Authentication.didOnline && Authentication.isLoggedIn) {
-                    new AsyncTask<View, Void, View>() {
-                        List<FlairTemplate> flairs;
-                        ArrayList<String> flairText;
-                        String current;
-                        AccountManager m;
-
-                        @Override
-                        protected View doInBackground(View... params) {
-                            try {
-                                m = new AccountManager(Authentication.reddit);
-                                JsonNode node = m.getFlairChoicesRootNode(subreddit, null);
-                                flairs = m.getFlairChoices(subreddit, node);
-
-                                FlairTemplate currentF = m.getCurrentFlair(subreddit, node);
-                                if (currentF != null) {
-                                    if (currentF.getText().isEmpty()) {
-                                        current = ("[" + currentF.getCssClass() + "]");
-                                    } else {
-                                        current = (currentF.getText());
-                                    }
-                                }
-                                flairText = new ArrayList<>();
-                                for (FlairTemplate temp : flairs) {
-                                    if (temp.getText().isEmpty()) {
-                                        flairText.add("[" + temp.getCssClass() + "]");
-                                    } else {
-                                        flairText.add(temp.getText());
-                                    }
-                                }
-                            } catch (Exception e1) {
-                                e1.printStackTrace();
-                            }
-                            return params[0];
-                        }
-
-                        @Override
-                        protected void onPostExecute(View flair) {
-                            if (flairs != null && !flairs.isEmpty() && flairText != null && !flairText.isEmpty()) {
-                                flair.setVisibility(View.VISIBLE);
-                                if (current != null) {
-                                    ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
-                                }
-                                flair.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        new MaterialDialog.Builder(SubredditView.this).items(flairText)
-                                                .title("Select flair")
-                                                .itemsCallback(new MaterialDialog.ListCallback() {
-                                                    @Override
-                                                    public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                                        final FlairTemplate t = flairs.get(which);
-                                                        if (t.isTextEditable()) {
-                                                            new MaterialDialog.Builder(SubredditView.this).title("Set flair text")
-                                                                    .input("Flair text", t.getText(), true, new MaterialDialog.InputCallback() {
-                                                                        @Override
-                                                                        public void onInput(MaterialDialog dialog, CharSequence input) {
-
-                                                                        }
-                                                                    }).positiveText("Set")
-                                                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                                                        @Override
-                                                                        public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                                            final String flair = dialog.getInputEditText().getText().toString();
-                                                                            new AsyncTask<Void, Void, Boolean>() {
-                                                                                @Override
-                                                                                protected Boolean doInBackground(Void... params) {
-                                                                                    try {
-                                                                                        new ModerationManager(Authentication.reddit).setFlair(subreddit, t, flair, Authentication.name);
-                                                                                        FlairTemplate currentF = m.getCurrentFlair(subreddit);
-                                                                                        if (currentF.getText().isEmpty()) {
-                                                                                            current = ("[" + currentF.getCssClass() + "]");
-                                                                                        } else {
-                                                                                            current = (currentF.getText());
-                                                                                        }
-                                                                                        return true;
-                                                                                    } catch (Exception e) {
-                                                                                        e.printStackTrace();
-                                                                                        return false;
-                                                                                    }
-                                                                                }
-
-                                                                                @Override
-                                                                                protected void onPostExecute(Boolean done) {
-                                                                                    Snackbar s;
-                                                                                    if (done) {
-                                                                                        if (current != null) {
-                                                                                            ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
-                                                                                        }
-                                                                                        s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
-                                                                                    } else {
-                                                                                        s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
-                                                                                    }
-                                                                                    if (s != null) {
-                                                                                        View view = s.getView();
-                                                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                                                        tv.setTextColor(Color.WHITE);
-                                                                                        s.show();
-                                                                                    }
-                                                                                }
-                                                                            }.execute();
-                                                                        }
-                                                                    }).negativeText(R.string.btn_cancel)
-                                                                    .show();
-                                                        } else {
-                                                            new AsyncTask<Void, Void, Boolean>() {
-                                                                @Override
-                                                                protected Boolean doInBackground(Void... params) {
-                                                                    try {
-                                                                        new ModerationManager(Authentication.reddit).setFlair(subreddit, t, null, Authentication.name);
-                                                                        FlairTemplate currentF = m.getCurrentFlair(subreddit);
-                                                                        if (currentF.getText().isEmpty()) {
-                                                                            current = ("[" + currentF.getCssClass() + "]");
-                                                                        } else {
-                                                                            current = (currentF.getText());
-                                                                        }
-                                                                        return true;
-                                                                    } catch (Exception e) {
-                                                                        e.printStackTrace();
-                                                                        return false;
-                                                                    }
-                                                                }
-
-                                                                @Override
-                                                                protected void onPostExecute(Boolean done) {
-                                                                    Snackbar s;
-                                                                    if (done) {
-                                                                        if (current != null) {
-                                                                            ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
-                                                                        }
-                                                                        s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
-                                                                    } else {
-                                                                        s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
-                                                                    }
-                                                                    if (s != null) {
-                                                                        View view = s.getView();
-                                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                                        tv.setTextColor(Color.WHITE);
-                                                                        s.show();
-                                                                    }
-                                                                }
-                                                            }.execute();
-                                                        }
-                                                    }
-                                                }).show();
-                                    }
-                                });
-                            }
-                        }
-                    }.execute(dialoglayout.findViewById(R.id.flair));
+            dialoglayout.findViewById(R.id.wiki).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(SubredditView.this, Wiki.class);
+                    i.putExtra(Wiki.EXTRA_SUBREDDIT, subreddit);
+                    startActivity(i);
                 }
+            });
+            dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(SubredditView.this, Submit.class);
+                    if (!subreddit.contains("/m/") || !subreddit.contains(".")) {
+                        i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                    }
+                    startActivity(i);
+                }
+            });
+            dialoglayout.findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit);
+
+                    final Context contextThemeWrapper = new ContextThemeWrapper(SubredditView.this, style);
+                    LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
+
+                    final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
+
+                    ArrayList<String> arrayList = new ArrayList<>();
+                    arrayList.add(subreddit);
+                    SettingsSubAdapter.showSubThemeEditor(arrayList, SubredditView.this, dialoglayout);
+                }
+            });
+            dialoglayout.findViewById(R.id.mods).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Dialog d = new MaterialDialog.Builder(SubredditView.this).title("Finding moderators")
+                            .cancelable(true)
+                            .content(R.string.misc_please_wait)
+                            .progress(true, 100)
+                            .show();
+                    new AsyncTask<Void, Void, Void>() {
+                        ArrayList<UserRecord> mods;
+
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            mods = new ArrayList<>();
+                            UserRecordPaginator paginator = new UserRecordPaginator(Authentication.reddit, subreddit, "moderators");
+                            paginator.setSorting(Sorting.HOT);
+                            paginator.setTimePeriod(TimePeriod.ALL);
+                            while (paginator.hasNext()) {
+                                mods.addAll(paginator.next());
+                            }
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            final ArrayList<String> names = new ArrayList<>();
+                            for (UserRecord rec : mods) {
+                                names.add(rec.getFullName());
+                            }
+                            d.dismiss();
+                            new MaterialDialog.Builder(SubredditView.this).title("/r/" + subreddit + " mods")
+                                    .items(names)
+                                    .itemsCallback(new MaterialDialog.ListCallback() {
+                                        @Override
+                                        public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                            Intent i = new Intent(SubredditView.this, Profile.class);
+                                            i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
+                                            startActivity(i);
+                                        }
+                                    }).show();
+                        }
+                    }.execute();
+                }
+            });
+            dialoglayout.findViewById(R.id.flair).setVisibility(View.GONE);
+            if (Authentication.didOnline && Authentication.isLoggedIn) {
+                new AsyncTask<View, Void, View>() {
+                    List<FlairTemplate> flairs;
+                    ArrayList<String> flairText;
+                    String current;
+                    AccountManager m;
+
+                    @Override
+                    protected View doInBackground(View... params) {
+                        try {
+                            m = new AccountManager(Authentication.reddit);
+                            JsonNode node = m.getFlairChoicesRootNode(subreddit, null);
+                            flairs = m.getFlairChoices(subreddit, node);
+
+                            FlairTemplate currentF = m.getCurrentFlair(subreddit, node);
+                            if (currentF != null) {
+                                if (currentF.getText().isEmpty()) {
+                                    current = ("[" + currentF.getCssClass() + "]");
+                                } else {
+                                    current = (currentF.getText());
+                                }
+                            }
+                            flairText = new ArrayList<>();
+                            for (FlairTemplate temp : flairs) {
+                                if (temp.getText().isEmpty()) {
+                                    flairText.add("[" + temp.getCssClass() + "]");
+                                } else {
+                                    flairText.add(temp.getText());
+                                }
+                            }
+                        } catch (Exception e1) {
+                            e1.printStackTrace();
+                        }
+                        return params[0];
+                    }
+
+                    @Override
+                    protected void onPostExecute(View flair) {
+                        if (flairs != null && !flairs.isEmpty() && flairText != null && !flairText.isEmpty()) {
+                            flair.setVisibility(View.VISIBLE);
+                            if (current != null) {
+                                ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                            }
+                            flair.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    new MaterialDialog.Builder(SubredditView.this).items(flairText)
+                                            .title("Select flair")
+                                            .itemsCallback(new MaterialDialog.ListCallback() {
+                                                @Override
+                                                public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                                    final FlairTemplate t = flairs.get(which);
+                                                    if (t.isTextEditable()) {
+                                                        new MaterialDialog.Builder(SubredditView.this).title("Set flair text")
+                                                                .input("Flair text", t.getText(), true, new MaterialDialog.InputCallback() {
+                                                                    @Override
+                                                                    public void onInput(MaterialDialog dialog, CharSequence input) {
+
+                                                                    }
+                                                                }).positiveText("Set")
+                                                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                                    @Override
+                                                                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                                                                        final String flair = dialog.getInputEditText().getText().toString();
+                                                                        new AsyncTask<Void, Void, Boolean>() {
+                                                                            @Override
+                                                                            protected Boolean doInBackground(Void... params) {
+                                                                                try {
+                                                                                    new ModerationManager(Authentication.reddit).setFlair(subreddit, t, flair, Authentication.name);
+                                                                                    FlairTemplate currentF = m.getCurrentFlair(subreddit);
+                                                                                    if (currentF.getText().isEmpty()) {
+                                                                                        current = ("[" + currentF.getCssClass() + "]");
+                                                                                    } else {
+                                                                                        current = (currentF.getText());
+                                                                                    }
+                                                                                    return true;
+                                                                                } catch (Exception e) {
+                                                                                    e.printStackTrace();
+                                                                                    return false;
+                                                                                }
+                                                                            }
+
+                                                                            @Override
+                                                                            protected void onPostExecute(Boolean done) {
+                                                                                Snackbar s;
+                                                                                if (done) {
+                                                                                    if (current != null) {
+                                                                                        ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                                                                    }
+                                                                                    s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                                } else {
+                                                                                    s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                                }
+                                                                                if (s != null) {
+                                                                                    View view = s.getView();
+                                                                                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                                    tv.setTextColor(Color.WHITE);
+                                                                                    s.show();
+                                                                                }
+                                                                            }
+                                                                        }.execute();
+                                                                    }
+                                                                }).negativeText(R.string.btn_cancel)
+                                                                .show();
+                                                    } else {
+                                                        new AsyncTask<Void, Void, Boolean>() {
+                                                            @Override
+                                                            protected Boolean doInBackground(Void... params) {
+                                                                try {
+                                                                    new ModerationManager(Authentication.reddit).setFlair(subreddit, t, null, Authentication.name);
+                                                                    FlairTemplate currentF = m.getCurrentFlair(subreddit);
+                                                                    if (currentF.getText().isEmpty()) {
+                                                                        current = ("[" + currentF.getCssClass() + "]");
+                                                                    } else {
+                                                                        current = (currentF.getText());
+                                                                    }
+                                                                    return true;
+                                                                } catch (Exception e) {
+                                                                    e.printStackTrace();
+                                                                    return false;
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            protected void onPostExecute(Boolean done) {
+                                                                Snackbar s;
+                                                                if (done) {
+                                                                    if (current != null) {
+                                                                        ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                                                    }
+                                                                    s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                } else {
+                                                                    s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                }
+                                                                if (s != null) {
+                                                                    View view = s.getView();
+                                                                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                    tv.setTextColor(Color.WHITE);
+                                                                    s.show();
+                                                                }
+                                                            }
+                                                        }.execute();
+                                                    }
+                                                }
+                                            }).show();
+                                }
+                            });
+                        }
+                    }
+                }.execute(dialoglayout.findViewById(R.id.flair));
             }
         } else {
-            //Hide info button on frontpage and all
-            invalidateOptionsMenu();
-
-            if (drawerLayout != null)
+            if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+            }
         }
     }
-
 
     private class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
 
@@ -1106,7 +1037,9 @@ public class SubredditView extends BaseActivityAnim {
 
 
     Subreddit sub;
-
+    public void executeAsyncSubreddit(String sub){
+        new AsyncGetSubreddit().execute(sub);
+    }
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
@@ -1114,7 +1047,9 @@ public class SubredditView extends BaseActivityAnim {
 
             if (subreddit != null) {
                 sub = subreddit;
-                doSubOnlyStuff(subreddit);
+                doSubSidebarNoLoad(sub.getDisplayName());
+                doSubSidebar(sub.getDisplayName());
+                SubredditView.this.subreddit = sub.getDisplayName();
 
                 if (subreddit.isNsfw() && SettingValues.storeHistory && SettingValues.storeNSFWHistory)
                     UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
