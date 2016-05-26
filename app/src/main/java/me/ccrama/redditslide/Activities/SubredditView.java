@@ -256,6 +256,92 @@ public class SubredditView extends BaseActivityAnim {
                 return false;
         }
     }
+    private void doSubOnlyStuff(final Subreddit subreddit) {
+        findViewById(R.id.loader).setVisibility(View.GONE);
+        if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
+            findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
+
+            final String text = subreddit.getDataNode().get("description_html").asText();
+            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
+            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
+            setViews(text, subreddit.getDisplayName(), body, overflow);
+        } else {
+            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+        }
+        {
+            final CheckBox c = ((CheckBox) findViewById(R.id.subscribed));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    //reset check adapter
+                }
+            });
+            c.setChecked(UserSubscriptions.isSubscriber(subreddit.getDisplayName().toLowerCase(), this));
+            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+                    new AsyncTask<Void, Void, Boolean>() {
+                        @Override
+                        public void onPostExecute(Boolean success) {
+                            if (!success) { // If subreddit was removed from account or not
+
+                                new AlertDialogWrapper.Builder(SubredditView.this).setTitle(R.string.force_change_subscription)
+                                        .setMessage(R.string.force_change_subscription_desc)
+                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                changeSubscription(subreddit, isChecked); // Force remove the subscription
+                                            }
+                                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                }).setCancelable(false)
+                                        .show();
+                            } else{
+                                changeSubscription(subreddit, isChecked);
+                            }
+
+                        }
+
+
+                        @Override
+                        protected Boolean doInBackground(Void... params) {
+                            try {
+                                if (isChecked) {
+                                    new AccountManager(Authentication.reddit).subscribe(subreddit);
+                                } else {
+                                    new AccountManager(Authentication.reddit).unsubscribe(subreddit);
+                                }
+
+                            } catch (NetworkException e) {
+                                return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
+                            }
+                            return true;
+
+                        }
+                    }.execute();
+
+                }
+            });
+        }
+        if (!subreddit.getPublicDescription().isEmpty()) {
+            findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
+            setViews(subreddit.getDataNode().get("public_description_html").asText(), subreddit.getDisplayName().toLowerCase(), ((SpoilerRobotoTextView) findViewById(R.id.sub_title)), (CommentOverflow) findViewById(R.id.sub_title_overflow));
+        } else {
+            findViewById(R.id.sub_title).setVisibility(View.GONE);
+        }
+        if (subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode().get("icon_img").asText().isEmpty()) {
+            ((Reddit) getApplication()).getImageLoader().displayImage(subreddit.getDataNode().get("icon_img").asText(), (ImageView) findViewById(R.id.subimage));
+        } else {
+            findViewById(R.id.subimage).setVisibility(View.GONE);
+        }
+
+        ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
+        findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
+
+    }
 
     public int getCurrentPage() {
         int position = 0;
@@ -598,14 +684,14 @@ public class SubredditView extends BaseActivityAnim {
     }
 
 
-    public void doSubSidebarNoLoad(final String subreddit) {
+    public void doSubSidebarNoLoad(final String subOverride) {
         findViewById(R.id.loader).setVisibility(View.GONE);
 
         invalidateOptionsMenu();
 
-        if (!subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("frontpage") &&
-                !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") &&
-                !subreddit.contains("+") && !subreddit.contains(".") && !subreddit.contains("/m/")) {
+        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") &&
+                !subOverride.equalsIgnoreCase("friends") && !subOverride.equalsIgnoreCase("mod") &&
+                !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains("/m/")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
@@ -614,11 +700,11 @@ public class SubredditView extends BaseActivityAnim {
             findViewById(R.id.sub_title).setVisibility(View.GONE);
             findViewById(R.id.subscribers).setVisibility(View.GONE);
 
-            findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subreddit));
-            ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
+            findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subOverride));
+            ((TextView) findViewById(R.id.sub_infotitle)).setText(subOverride);
 
-            //Sidebar buttons should use subreddit's accent color
-            int subColor = new ColorPreferences(this).getColor(subreddit);
+            //Sidebar buttons should use subOverride's accent color
+            int subColor = new ColorPreferences(this).getColor(subOverride);
             ((TextView) findViewById(R.id.theme_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.wiki_text)).setTextColor(subColor);
             ((TextView) findViewById(R.id.post_text)).setTextColor(subColor);
@@ -632,14 +718,14 @@ public class SubredditView extends BaseActivityAnim {
         }
     }
 
-    public void doSubSidebar(final String subreddit) {
+    public void doSubSidebar(final String subOverride) {
         findViewById(R.id.loader).setVisibility(View.VISIBLE);
 
         invalidateOptionsMenu();
 
-        if (!subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("random") &&
-                !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod") &&
-                !subreddit.contains("+") && !subreddit.contains(".") && !subreddit.contains("/m/")) {
+        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") && !subOverride.equalsIgnoreCase("random") &&
+                !subOverride.equalsIgnoreCase("friends") && !subOverride.equalsIgnoreCase("mod") &&
+                !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains("/m/")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
@@ -665,8 +751,8 @@ public class SubredditView extends BaseActivityAnim {
                     @Override
                     public void onSingleClick(View view) {
                         Intent inte = new Intent(SubredditView.this, Submit.class);
-                        if (!subreddit.contains("/m/")) {
-                            inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                        if (!subOverride.contains("/m/")) {
+                            inte.putExtra(Submit.EXTRA_SUBREDDIT, subOverride);
                         }
                         SubredditView.this.startActivity(inte);
                     }
@@ -677,7 +763,7 @@ public class SubredditView extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(SubredditView.this, Wiki.class);
-                    i.putExtra(Wiki.EXTRA_SUBREDDIT, subreddit);
+                    i.putExtra(Wiki.EXTRA_SUBREDDIT, subOverride);
                     startActivity(i);
                 }
             });
@@ -685,8 +771,8 @@ public class SubredditView extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(SubredditView.this, Submit.class);
-                    if (!subreddit.contains("/m/") || !subreddit.contains(".")) {
-                        i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                    if (!subOverride.contains("/m/") || !subOverride.contains(".")) {
+                        i.putExtra(Submit.EXTRA_SUBREDDIT, subOverride);
                     }
                     startActivity(i);
                 }
@@ -694,7 +780,7 @@ public class SubredditView extends BaseActivityAnim {
             dialoglayout.findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit);
+                    int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(subOverride);
 
                     final Context contextThemeWrapper = new ContextThemeWrapper(SubredditView.this, style);
                     LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
@@ -702,7 +788,7 @@ public class SubredditView extends BaseActivityAnim {
                     final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
 
                     ArrayList<String> arrayList = new ArrayList<>();
-                    arrayList.add(subreddit);
+                    arrayList.add(subOverride);
                     SettingsSubAdapter.showSubThemeEditor(arrayList, SubredditView.this, dialoglayout);
                 }
             });
@@ -720,7 +806,7 @@ public class SubredditView extends BaseActivityAnim {
                         @Override
                         protected Void doInBackground(Void... params) {
                             mods = new ArrayList<>();
-                            UserRecordPaginator paginator = new UserRecordPaginator(Authentication.reddit, subreddit, "moderators");
+                            UserRecordPaginator paginator = new UserRecordPaginator(Authentication.reddit, subOverride, "moderators");
                             paginator.setSorting(Sorting.HOT);
                             paginator.setTimePeriod(TimePeriod.ALL);
                             while (paginator.hasNext()) {
@@ -736,7 +822,7 @@ public class SubredditView extends BaseActivityAnim {
                                 names.add(rec.getFullName());
                             }
                             d.dismiss();
-                            new MaterialDialog.Builder(SubredditView.this).title("/r/" + subreddit + " mods")
+                            new MaterialDialog.Builder(SubredditView.this).title("/r/" + subOverride + " mods")
                                     .items(names)
                                     .itemsCallback(new MaterialDialog.ListCallback() {
                                         @Override
@@ -762,10 +848,10 @@ public class SubredditView extends BaseActivityAnim {
                     protected View doInBackground(View... params) {
                         try {
                             m = new AccountManager(Authentication.reddit);
-                            JsonNode node = m.getFlairChoicesRootNode(subreddit, null);
-                            flairs = m.getFlairChoices(subreddit, node);
+                            JsonNode node = m.getFlairChoicesRootNode(subOverride, null);
+                            flairs = m.getFlairChoices(subOverride, node);
 
-                            FlairTemplate currentF = m.getCurrentFlair(subreddit, node);
+                            FlairTemplate currentF = m.getCurrentFlair(subOverride, node);
                             if (currentF != null) {
                                 if (currentF.getText().isEmpty()) {
                                     current = ("[" + currentF.getCssClass() + "]");
@@ -819,8 +905,8 @@ public class SubredditView extends BaseActivityAnim {
                                                                             @Override
                                                                             protected Boolean doInBackground(Void... params) {
                                                                                 try {
-                                                                                    new ModerationManager(Authentication.reddit).setFlair(subreddit, t, flair, Authentication.name);
-                                                                                    FlairTemplate currentF = m.getCurrentFlair(subreddit);
+                                                                                    new ModerationManager(Authentication.reddit).setFlair(subOverride, t, flair, Authentication.name);
+                                                                                    FlairTemplate currentF = m.getCurrentFlair(subOverride);
                                                                                     if (currentF.getText().isEmpty()) {
                                                                                         current = ("[" + currentF.getCssClass() + "]");
                                                                                     } else {
@@ -860,8 +946,8 @@ public class SubredditView extends BaseActivityAnim {
                                                             @Override
                                                             protected Boolean doInBackground(Void... params) {
                                                                 try {
-                                                                    new ModerationManager(Authentication.reddit).setFlair(subreddit, t, null, Authentication.name);
-                                                                    FlairTemplate currentF = m.getCurrentFlair(subreddit);
+                                                                    new ModerationManager(Authentication.reddit).setFlair(subOverride, t, null, Authentication.name);
+                                                                    FlairTemplate currentF = m.getCurrentFlair(subOverride);
                                                                     if (currentF.getText().isEmpty()) {
                                                                         current = ("[" + currentF.getCssClass() + "]");
                                                                     } else {
@@ -909,29 +995,7 @@ public class SubredditView extends BaseActivityAnim {
         }
     }
 
-    private class ShowPopupSidebar extends AsyncTask<String, Void, Void> {
 
-        @Override
-        protected Void doInBackground(String... params) {
-            final String text = Authentication.reddit.getSubreddit(params[0]).getDataNode().get("description_html").asText();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    LayoutInflater inflater = getLayoutInflater();
-                    final View dialoglayout = inflater.inflate(R.layout.justtext, null);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SubredditView.this);
-                    final SpoilerRobotoTextView body = (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.body);
-                    final CommentOverflow overflow = (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow);
-                    setViews(text, subreddit, body, overflow);
-
-                    builder.setView(dialoglayout).show();
-
-                }
-            });
-            return null;
-        }
-    }
 
     View header;
 
@@ -1049,6 +1113,7 @@ public class SubredditView extends BaseActivityAnim {
                 sub = subreddit;
                 doSubSidebarNoLoad(sub.getDisplayName());
                 doSubSidebar(sub.getDisplayName());
+                doSubOnlyStuff(sub);
                 SubredditView.this.subreddit = sub.getDisplayName();
 
                 if (subreddit.isNsfw() && SettingValues.storeHistory && SettingValues.storeNSFWHistory)
