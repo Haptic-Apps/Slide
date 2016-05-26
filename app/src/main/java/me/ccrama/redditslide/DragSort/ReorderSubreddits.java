@@ -127,7 +127,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 }.execute();
                 return true;
             case R.id.alphabetize:
-                subs = UserSubscriptions.sort(subs);
+                subs = UserSubscriptions.sortNoExtras(subs);
                 adapter = new CustomAdapter(subs);
                 //  adapter.setHasStableIds(true);
                 recyclerView.setAdapter(adapter);
