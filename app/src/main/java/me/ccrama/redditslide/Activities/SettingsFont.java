@@ -19,6 +19,8 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 public class SettingsFont extends BaseActivityAnim {
     private static String getFontName(int resource) {
         switch (resource) {
+            case R.string.font_size_huge:
+                return "Huge";
             case R.string.font_size_larger:
                 return "Larger";
             case R.string.font_size_large:
@@ -49,6 +51,7 @@ public class SettingsFont extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsFont.this, v);
+                popup.getMenu().add(0, R.string.font_size_huge, 0, R.string.font_size_huge);
                 popup.getMenu().add(0, R.string.font_size_larger, 0, R.string.font_size_larger);
                 popup.getMenu().add(0, R.string.font_size_large, 0, R.string.font_size_large);
                 popup.getMenu().add(0, R.string.font_size_medium, 0, R.string.font_size_medium);
@@ -76,6 +79,7 @@ public class SettingsFont extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 PopupMenu popup = new PopupMenu(SettingsFont.this, v);
+                popup.getMenu().add(0, R.string.font_size_huge, 0, R.string.font_size_huge);
                 popup.getMenu().add(0, R.string.font_size_larger, 0, R.string.font_size_larger);
                 popup.getMenu().add(0, R.string.font_size_large, 0, R.string.font_size_large);
                 popup.getMenu().add(0, R.string.font_size_medium, 0, R.string.font_size_medium);
