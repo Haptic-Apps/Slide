@@ -85,7 +85,7 @@ public class PopulateShadowboxInfo {
             titleString.append(TimeUtils.getTimeAgo(s.getCreated().getTime(), c));
 
             desc.setText(titleString);
-            ((TextView) rootView.findViewById(R.id.comments)).setText(String.format(Locale.getDefault(), "%d", s.getCommentCount()));
+            ((TextView) rootView.findViewById(R.id.comments)).setText(s.getLocalizedCommentCount());
             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
 
             if (extras) {

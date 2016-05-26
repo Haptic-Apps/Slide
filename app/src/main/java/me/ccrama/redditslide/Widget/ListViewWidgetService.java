@@ -176,7 +176,7 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
 
             rv.setTextViewText(R.id.title, Html.fromHtml(data.getTitle()));
             rv.setTextViewText(R.id.score, data.getScore() + "");
-            rv.setTextViewText(R.id.comments, data.getCommentCount() + "");
+            rv.setTextViewText(R.id.comments, data.getLocalizedCommentCount() + "");
             rv.setTextViewText(R.id.information, data.getAuthor() + " " + TimeUtils.getTimeAgo(data.getCreated().getTime(), mContext));
             rv.setTextViewText(R.id.subreddit, data.getSubredditName());
             rv.setTextColor(R.id.subreddit, Palette.getColor(data.getSubredditName()));

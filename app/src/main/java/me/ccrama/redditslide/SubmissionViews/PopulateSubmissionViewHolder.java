@@ -55,6 +55,7 @@ import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -1502,9 +1503,9 @@ public class PopulateSubmissionViewHolder {
         //Use this to offset the submission score
         int submissionScore = submission.getScore();
 
-        final int commentCount = submission.getCommentCount();
+        final String commentCount = submission.getLocalizedCommentCount();
         final int more = LastComments.commentsSince(submission);
-        holder.comments.setText(String.format(Locale.getDefault(), "%d %s", commentCount, ((more > 0 && SettingValues.commentLastVisit) ? "(+" + more + ")" : "")));
+        holder.comments.setText(String.format(Locale.getDefault(), "%s %s", commentCount, ((more > 0 && SettingValues.commentLastVisit) ? "(+" + NumberFormat.getInstance().format(more) + ")" : "")));
         String scoreRatio = (SettingValues.upvotePercentage && full && submission.getUpvoteRatio() != null) ? "(" + (int) (submission.getUpvoteRatio() * 100) + "%)" : "";
         holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
 
