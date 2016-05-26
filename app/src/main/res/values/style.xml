@@ -392,6 +392,17 @@
         <item name="font_commentbody">18sp</item>
     </style>
 
+    <style name="FontStyle.HugePost">
+        <item name="font_cardtitle">28sp</item>
+        <item name="font_cardinfo">20sp</item>
+    </style>
+
+    <style name="FontStyle.HugeComment">
+        <item name="font_commenttitle">20sp</item>
+        <item name="font_commentinfo">20sp</item>
+        <item name="font_commentbody">22sp</item>
+    </style>
+
     <style name="Theme.LIGHT" parent="swipestylelight">
         <item name="activity_background">#dedede</item>
         <item name="card_background">#FFFFFF</item>
