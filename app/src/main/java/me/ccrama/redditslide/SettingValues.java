@@ -172,7 +172,7 @@ public class SettingValues {
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
         defaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("defaultCardViewNew", "LARGE").toUpperCase());
-        middleImage = settings.getBoolean("middleImage", false);
+        middleImage = settings.getBoolean("middleCard", false);
 
         bigPicCropped = settings.getBoolean("bigPicCropped", true);
         bigPicEnabled = settings.getBoolean("bigPicEnabled", true);
