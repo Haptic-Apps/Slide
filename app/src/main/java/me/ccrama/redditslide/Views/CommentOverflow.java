@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -23,7 +22,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Class that provides methods to help bind submissions with
@@ -100,7 +98,7 @@ public class CommentOverflow extends LinearLayout {
                 scrollView.setScrollbarFadingEnabled(false);
                 TableLayout table = formatTable(block, subreddit);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
-                table.setPaddingRelative(0, 0, 0, Reddit.dpToPx(10));
+                table.setPaddingRelative(0, 0, 0, Reddit.dpToPxVertical(10));
                 scrollView.addView(table);
                 addView(scrollView);
 
@@ -111,7 +109,7 @@ public class CommentOverflow extends LinearLayout {
                 newTextView.setTextHtml(block, subreddit);
                 setStyle(newTextView, subreddit);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
-                newTextView.setPaddingRelative(0, 0, 0, Reddit.dpToPx(10));
+                newTextView.setPaddingRelative(0, 0, 0, Reddit.dpToPxVertical(10));
                 scrollView.addView(newTextView);
                 addView(scrollView);
 

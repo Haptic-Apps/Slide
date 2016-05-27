@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import me.ccrama.redditslide.R;
@@ -33,6 +34,7 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
     public final View save;
     public final TextView flairText;
     public final SpoilerRobotoTextView body;
+    public final RelativeLayout innerRelative;
 
     public SubmissionViewHolder(View v) {
         super(v);
@@ -56,6 +58,6 @@ public class SubmissionViewHolder extends RecyclerView.ViewHolder {
         comments = (TextView) v.findViewById(R.id.comments);
         firstTextView = (SpoilerRobotoTextView) v.findViewById(R.id.firstTextView);
         commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
-
+        innerRelative = (RelativeLayout) v.findViewById(R.id.innerrelative);
     }
 }

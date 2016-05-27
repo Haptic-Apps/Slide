@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,6 +64,7 @@ import java.util.Map;
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
+import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
@@ -1629,6 +1631,22 @@ public class PopulateSubmissionViewHolder {
         }
 
         ImageView thumbImage2 = ((ImageView) holder.thumbimage);
+
+        /**
+         * If the user wants small thumbnails, revert the list style to the "old" list view.
+         * The "old" thumbnails were (65dp x 65dp).
+         * Adjusts the paddingTop of the innerrelative, and adjusts the margins on the thumbnail.
+         * Don't do it on the CommentsScreen though, because then we get Force Closes. :(
+         */
+        if (!SettingValues.bigThumbnails && !(mContext instanceof CommentsScreen)) {
+            thumbImage2.getLayoutParams().height = Reddit.dpToPxGeneral(65);
+            thumbImage2.getLayoutParams().width = Reddit.dpToPxGeneral(65);
+
+            final int EIGHT_DP = Reddit.dpToPxGeneral(8);
+            ((RelativeLayout.LayoutParams) thumbImage2.getLayoutParams())
+                    .setMargins(EIGHT_DP, 0, EIGHT_DP, EIGHT_DP);
+            holder.innerRelative.setPadding(0, EIGHT_DP, 0, 0);
+        }
 
         if (holder.leadImage.thumbImage2 == null) {
             holder.leadImage.setThumbnail(thumbImage2);

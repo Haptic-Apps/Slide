@@ -40,7 +40,6 @@ public class CreateCardView {
             case LIST:
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_list, viewGroup, false);
                 break;
-
         }
 
         doHideObjects(v);
@@ -177,45 +176,40 @@ public class CreateCardView {
     public static View setCardViewType(CardEnum cardEnum, ViewGroup parent) {
         SettingValues.prefs.edit().putBoolean("middleCard", false).apply();
         SettingValues.middleImage = false;
+
         SettingValues.prefs.edit().putString("defaultCardViewNew", cardEnum.name()).apply();
         SettingValues.defaultCardView = cardEnum;
+
         return CreateView(parent);
     }
 
-
     public static View setBigPicEnabled(Boolean b, ViewGroup parent) {
-
-
         SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
-
         SettingValues.bigPicEnabled = b;
+
         SettingValues.prefs.edit().putBoolean("bigPicCropped", false).apply();
-
         SettingValues.bigPicCropped = false;
+
         return CreateView(parent);
-
-
     }
 
     public static View setBigPicCropped(Boolean b, ViewGroup parent) {
-
         SettingValues.prefs.edit().putBoolean("bigPicEnabled", b).apply();
-
         SettingValues.bigPicEnabled = b;
 
         SettingValues.prefs.edit().putBoolean("bigPicCropped", b).apply();
-
         SettingValues.bigPicCropped = b;
+
         return CreateView(parent);
-
-
     }
 
     public static View setMiddleCard(boolean b, ViewGroup parent) {
         SettingValues.prefs.edit().putString("defaultCardViewNew", CardEnum.LARGE.name()).apply();
         SettingValues.defaultCardView = CardEnum.LARGE;
+
         SettingValues.prefs.edit().putBoolean("middleCard", b).apply();
         SettingValues.middleImage = b;
+
         return CreateView(parent);
     }
 
@@ -267,14 +261,14 @@ public class CreateCardView {
     public static void animateIn(View l) {
         l.setVisibility(View.VISIBLE);
 
-        ValueAnimator mAnimator = slideAnimator(0, Reddit.dpToPx(36), l);
+        ValueAnimator mAnimator = slideAnimator(0, Reddit.dpToPxVertical(36), l);
 
         mAnimator.start();
     }
 
     public static void animateOut(final View l) {
 
-        ValueAnimator mAnimator = slideAnimator(Reddit.dpToPx(36), 0, l);
+        ValueAnimator mAnimator = slideAnimator(Reddit.dpToPxVertical(36), 0, l);
         mAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -438,7 +432,6 @@ public class CreateCardView {
 
     }
 
-
     public enum CardEnum {
         LARGE("Big Card"),
         LIST("List");
@@ -452,6 +445,4 @@ public class CreateCardView {
             return displayName;
         }
     }
-
-
 }

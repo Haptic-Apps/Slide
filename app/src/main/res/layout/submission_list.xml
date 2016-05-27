@@ -11,7 +11,7 @@
     android:layerType="hardware"
     android:orientation="vertical"
     cardview:cardBackgroundColor="?attr/card_background"
-    cardview:cardCornerRadius=".25dp"
+    cardview:cardCornerRadius="0.25dp"
     cardview:cardElevation="0dp"
     cardview:cardMaxElevation="0dp">
 
@@ -35,8 +35,8 @@
 
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/thumbimage2"
-                android:layout_width="@dimen/thumbnail_width"
-                android:layout_height="@dimen/thumbnail_height"
+                android:layout_width="@dimen/big_thumbnail_width"
+                android:layout_height="@dimen/big_thumbnail_height"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="8dp"

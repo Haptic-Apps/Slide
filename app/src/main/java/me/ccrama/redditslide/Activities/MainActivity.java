@@ -2821,8 +2821,9 @@ public class MainActivity extends BaseActivity {
         }
         Reddit.setDefaultErrorHandler(this);
 
-        if (sideArrayAdapter != null)
+        if (sideArrayAdapter != null) {
             sideArrayAdapter.updateHistory(UserSubscriptions.getHistory());
+        }
 
         if (datasetChanged && UserSubscriptions.hasSubs() && !usedArray.isEmpty()) {
             usedArray = new ArrayList<>(UserSubscriptions.getSubscriptions(this));
@@ -2836,7 +2837,8 @@ public class MainActivity extends BaseActivity {
             setToolbarClick();
         }
         //Only refresh the view if a Setting was altered
-        if (Settings.changed || SettingsTheme.changed || (NetworkUtil.isConnected(this) && usedArray != null && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())) {
+        if (Settings.changed || SettingsTheme.changed || (NetworkUtil.isConnected(this) && usedArray != null
+                && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())) {
 
             int current = pager.getCurrentItem();
             if (commentPager && current == currentComment) {
@@ -2875,7 +2877,6 @@ public class MainActivity extends BaseActivity {
                 }
                 SettingsGeneral.searchChanged = false;
             }
-
             SettingsTheme.changed = false;
             Settings.changed = false;
         }

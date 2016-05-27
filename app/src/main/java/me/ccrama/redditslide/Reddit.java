@@ -130,16 +130,24 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     /**
-     * Converts dp to px
-     *
+     * Converts dp to px, uses vertical density
      * @param dp to convert to px
      * @return px
      */
-    public static int dpToPx(int dp) {
+    public static int dpToPxVertical(int dp) {
         final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         return Math.round(dp * (displayMetrics.ydpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
+    /**
+     * Converts dp to px, uses general density
+     * @param dp to convert to px
+     * @return px
+     */
+    public static int dpToPxGeneral(int dp) {
+        final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
 
     public static void defaultShareText(String title, String url, Context c) {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
