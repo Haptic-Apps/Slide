@@ -11,7 +11,7 @@
     android:layerType="hardware"
     android:orientation="vertical"
     cardview:cardBackgroundColor="?attr/card_background"
-    cardview:cardCornerRadius="0dp"
+    cardview:cardCornerRadius=".25dp"
     cardview:cardElevation="0dp"
     cardview:cardMaxElevation="0dp">
 

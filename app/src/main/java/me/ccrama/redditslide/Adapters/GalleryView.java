@@ -193,7 +193,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ContentType.Type type = ContentType.getContentType(submission);
