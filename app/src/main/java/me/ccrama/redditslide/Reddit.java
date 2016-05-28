@@ -92,7 +92,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static int themeBack;
     public static SharedPreferences cachedData;
     public static final boolean noGapps = true; //for testing
-    public static boolean over18;
+    public static boolean over18 = true;
     public static boolean overrideLanguage;
     public static boolean isRestarting;
     public static AutoCacheScheduler autoCache;

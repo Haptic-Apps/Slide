@@ -18,11 +18,11 @@ import java.util.HashMap;
 public class ContentType {
     /**
      * Checks if {@code host} is contains by any of the provided {@code bases}
-     *
+     * <p/>
      * For example "www.youtube.com" contains "youtube.com" but not "notyoutube.com" or
      * "youtube.co.uk"
      *
-     * @param host A hostname from e.g. {@link URI#getHost()}
+     * @param host  A hostname from e.g. {@link URI#getHost()}
      * @param bases Any number of hostnames to compare against {@code host}
      * @return If {@code host} contains any of {@code bases}
      */
@@ -192,6 +192,9 @@ public class ContentType {
      * @see #getContentType(String)
      */
     public static Type getContentType(Submission submission) {
+        if (submission == null)
+            return Type.SELF; //hopefully shouldn't be null, but catch it in case
+
         final String url = submission.getUrl();
         final Type basicType = getContentType(url);
 
@@ -248,6 +251,7 @@ public class ContentType {
 
         }
     }
+
     /**
      * Returns a string identifier for a submission e.g. Link, GIF, NSFW Image
      *

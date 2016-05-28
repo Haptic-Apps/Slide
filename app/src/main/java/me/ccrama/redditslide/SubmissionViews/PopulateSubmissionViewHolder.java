@@ -543,26 +543,32 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected void onPostExecute(Void aVoid) {
                 Snackbar s;
-                if (ActionStates.isSaved(submission)) {
-                    ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
-                    s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_LONG);
-                    if (Authentication.me.hasGold()) {
-                        s.setAction("CATEGORIZE", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                categorizeSaved(submission, holder.itemView, mContext);
-                            }
-                        });
+                try {
+                    if (ActionStates.isSaved(submission)) {
+
+                        ((ImageView) holder.save).setColorFilter(ContextCompat.getColor(mContext, R.color.md_amber_500), PorterDuff.Mode.SRC_ATOP);
+                        s = Snackbar.make(holder.itemView, R.string.submission_info_saved, Snackbar.LENGTH_LONG);
+                        if (Authentication.me.hasGold()) {
+                            s.setAction("CATEGORIZE", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    categorizeSaved(submission, holder.itemView, mContext);
+                                }
+                            });
+                        }
+
+                        AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
+                    } else {
+                        s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
+                        ((ImageView) holder.save).setColorFilter(((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none"))) || full) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                     }
-                    AnimateHelper.setFlashAnimation(holder.itemView, holder.save, ContextCompat.getColor(mContext, R.color.md_amber_500));
-                } else {
-                    s = Snackbar.make(holder.itemView, R.string.submission_info_unsaved, Snackbar.LENGTH_SHORT);
-                    ((ImageView) holder.save).setColorFilter(((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none"))) || full) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                    View view = s.getView();
+                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+                } catch(Exception ignored){
+
                 }
-                View view = s.getView();
-                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                tv.setTextColor(Color.WHITE);
-                s.show();
             }
         }.execute();
     }
