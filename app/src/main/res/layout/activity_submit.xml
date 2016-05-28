@@ -77,9 +77,12 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tint"
                     android:hint="@string/editor_hint_subreddit"
+                    android:inputType="textFilter"
                     android:maxLength="21"
                     android:maxLines="1"
-                    android:textColor="?attr/font" />
+                    android:imeOptions="flagNavigateNext"
+                    android:textColor="?attr/font"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -93,6 +96,7 @@
                     android:backgroundTint="?attr/tint"
                     android:hint="@string/editor_title"
                     android:inputType="text|textCapSentences"
+                    android:maxLines="1"
                     android:maxLength="300" />
             </android.support.design.widget.TextInputLayout>
 
@@ -239,7 +243,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/activity_vertical_margin"
         app:elevation="6dp"
         app:fabSize="normal"
         app:layout_behavior="me.ccrama.slideforreddit.AutoHideFAB"
