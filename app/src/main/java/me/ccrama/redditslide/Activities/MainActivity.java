@@ -655,51 +655,39 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onTabReselected(TabLayout.Tab tab) {
                             super.onTabReselected(tab);
-                            int[] firstVisibleItems;
-                            int pastVisiblesItems = 0;
-                            firstVisibleItems = ((CatchStaggeredGridLayoutManager) (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())).findFirstVisibleItemPositions(null);
-                            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                                for (int firstVisibleItem : firstVisibleItems) {
-                                    pastVisiblesItems = firstVisibleItem;
-                                }
-                            }
-                            if (pastVisiblesItems > 8) {
-                                ((SubmissionsView) adapter.getCurrentFragment()).rv.scrollToPosition(0);
-                                header.animate()
-                                        .translationY(header.getHeight())
-                                        .setInterpolator(new LinearInterpolator())
-                                        .setDuration(0);
-                            } else {
-                                ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
-                            }
-                            ((SubmissionsView) adapter.getCurrentFragment()).resetScroll();
+                            scrollToTop();
                         }
                     });
         } else {
+            LogUtil.v("notnull");
             mToolbar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int[] firstVisibleItems;
-                    int pastVisiblesItems = 0;
-                    firstVisibleItems = ((CatchStaggeredGridLayoutManager) (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())).findFirstVisibleItemPositions(null);
-                    if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                        for (int firstVisibleItem : firstVisibleItems) {
-                            pastVisiblesItems = firstVisibleItem;
-                        }
-                    }
-                    if (pastVisiblesItems > 8) {
-                        ((SubmissionsView) adapter.getCurrentFragment()).rv.scrollToPosition(0);
-                        header.animate()
-                                .translationY(header.getHeight())
-                                .setInterpolator(new LinearInterpolator())
-                                .setDuration(0);
-                    } else {
-                        ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
-                    }
-                    ((SubmissionsView) adapter.getCurrentFragment()).resetScroll();
+                    scrollToTop();
                 }
             });
         }
+    }
+
+    public void scrollToTop() {
+        int[] firstVisibleItems;
+        int pastVisiblesItems = 0;
+        firstVisibleItems = ((CatchStaggeredGridLayoutManager) (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())).findFirstVisibleItemPositions(null);
+        if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+            for (int firstVisibleItem : firstVisibleItems) {
+                pastVisiblesItems = firstVisibleItem;
+            }
+        }
+        if (pastVisiblesItems > 8) {
+            ((SubmissionsView) adapter.getCurrentFragment()).rv.scrollToPosition(0);
+            header.animate()
+                    .translationY(header.getHeight())
+                    .setInterpolator(new LinearInterpolator())
+                    .setDuration(0);
+        } else {
+            ((SubmissionsView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
+        }
+        ((SubmissionsView) adapter.getCurrentFragment()).resetScroll();
     }
 
     public void doForcePrefs() {
@@ -1112,11 +1100,12 @@ public class MainActivity extends BaseActivity {
             scrollToTabAfterLayout(current);
         }
 
-        setToolbarClick();
 
         if (SettingValues.single) {
             getSupportActionBar().setTitle(shouldLoad);
         }
+
+        setToolbarClick();
 
         if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
                 || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
@@ -1198,11 +1187,11 @@ public class MainActivity extends BaseActivity {
                     mTabLayout.setupWithViewPager(pager);
                     scrollToTabAfterLayout(toGoto);
                 }
-                setToolbarClick();
             } else {
                 getSupportActionBar().setTitle(usedArray.get(toGoto));
                 pager.setCurrentItem(toGoto);
             }
+            setToolbarClick();
 
             setRecentBar(usedArray.get(toGoto));
             doSubSidebarNoLoad(usedArray.get(toGoto));
@@ -2861,7 +2850,6 @@ public class MainActivity extends BaseActivity {
                 mTabLayout.setupWithViewPager(pager);
                 scrollToTabAfterLayout(current);
             }
-            setToolbarClick();
             reloadSubs();
             //If the user changed a Setting regarding the app's theme, restartTheme()
             if (SettingsTheme.changed || (usedArray != null && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())) {
@@ -2886,6 +2874,7 @@ public class MainActivity extends BaseActivity {
             }
             SettingsTheme.changed = false;
             Settings.changed = false;
+            setToolbarClick();
         }
     }
 
