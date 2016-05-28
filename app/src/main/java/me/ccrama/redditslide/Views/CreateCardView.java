@@ -55,12 +55,13 @@ public class CreateCardView {
          * Adjusts the paddingTop of the innerrelative, and adjusts the margins on the thumbnail.
          */
         if (!SettingValues.bigThumbnails) {
-            thumbImage.getLayoutParams().height = Reddit.dpToPxVertical(70);
-            thumbImage.getLayoutParams().width = Reddit.dpToPxVertical(70);
+            final int SQUARE_THUMBNAIL_SIZE = Reddit.dpToPxGeneral(70);
+            thumbImage.getLayoutParams().height = SQUARE_THUMBNAIL_SIZE;
+            thumbImage.getLayoutParams().width = SQUARE_THUMBNAIL_SIZE;
 
-            final int EIGHT_DP = Reddit.dpToPxVertical(8);
+            final int EIGHT_DP = Reddit.dpToPxGeneral(8);
             ((RelativeLayout.LayoutParams) thumbImage.getLayoutParams())
-                    .setMargins(EIGHT_DP, 0, EIGHT_DP, EIGHT_DP);
+                    .setMargins(EIGHT_DP * 2, 0, EIGHT_DP, EIGHT_DP);
             v.findViewById(R.id.innerrelative).setPadding(0, EIGHT_DP, 0, 0);
         }
 
