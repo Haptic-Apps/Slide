@@ -577,6 +577,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
     private static void loadImage(final View rootView, Fragment f, String url) {
         final SubsamplingScaleImageView image = (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
+        image.setMinimumDpi(70);
+        image.setMinimumTileDpi(240);
         ImageView fakeImage = new ImageView(f.getActivity());
         fakeImage.setLayoutParams(new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
         fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
