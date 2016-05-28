@@ -868,6 +868,10 @@
     <!-- Strings for alert dialogs -->
     <string name="force_change_subscription">Could not change subscription</string>
     <string name="force_change_subscription_desc">Would you still like to change it locally?</string>
+    <string name="low_quality_images_in_image_viewer">Low quality images in image viewer</string>
+    <string name="load_high_quality_image_every_time">Otherwise, load high quality image every time</string>
+    <string name="load_lower_quality_imgur">If enabled, will attempt to load an even lower quality Imgur image</string>
+    <string name="load_medium_quality_imgur_images">Load medium quality Imgur images</string>
 
 
 </resources>

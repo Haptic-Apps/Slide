@@ -486,9 +486,10 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             final Image current = ((AlbumPager) getActivity()).images.get(i);
             final String url = current.getImageUrl();
-            boolean lq =false;
-            if(SettingValues.imgurLq && SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(getActivity()) && SettingValues.lowResMobile) )) {
-                String lqurl = url.substring(0, url.lastIndexOf(".")) + "m" + url.substring(url.lastIndexOf("."), url.length());
+            boolean lq = false;
+            if (SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(getActivity()) && SettingValues.lowResMobile))) {
+                String lqurl = url.substring(0, url.lastIndexOf(".")) + (SettingValues.imgurLq ? "m" : "h") + url.substring(url.lastIndexOf("."), url.length());
+
                 loadImage(rootView, this, lqurl);
                 lq = true;
             } else {
@@ -543,7 +544,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 }
                 if (title.isEmpty() && description.isEmpty()) {
                     rootView.findViewById(R.id.panel).setVisibility(View.GONE);
-                    (rootView.findViewById(R.id.margin)).setPadding(0,0,0,0);
+                    (rootView.findViewById(R.id.margin)).setPadding(0, 0, 0, 0);
                 } else if (title.isEmpty()) {
                     ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTextHtml(description);
                 } else {
@@ -551,7 +552,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)).setTextHtml(description);
                 }
             }
-            if(lq){
+            if (lq) {
                 rootView.findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -574,7 +575,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         }
     }
 
-    private static void loadImage(final View rootView, Fragment f, String url){
+    private static void loadImage(final View rootView, Fragment f, String url) {
         final SubsamplingScaleImageView image = (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
         ImageView fakeImage = new ImageView(f.getActivity());
         fakeImage.setLayoutParams(new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
