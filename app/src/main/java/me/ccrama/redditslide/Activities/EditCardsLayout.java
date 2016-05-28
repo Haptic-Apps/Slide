@@ -141,8 +141,18 @@ public class EditCardsLayout extends BaseActivityAnim {
             });
         }
         //Pic modes//
+        final TextView CURRENT_PICTURE = (TextView) findViewById(R.id.picture_current);
+        assert CURRENT_PICTURE != null; //it won't be
 
-        ((TextView) findViewById(R.id.picture_current)).setText(SettingValues.bigPicEnabled ? (SettingValues.bigPicCropped ? getString(R.string.mode_cropped) : getString(R.string.mode_bigpic)) : getString(R.string.mode_thumbnail));
+        if (SettingValues.bigPicEnabled) {
+            CURRENT_PICTURE.setText(R.string.mode_bigpic);
+        } else if (SettingValues.bigPicCropped) {
+            CURRENT_PICTURE.setText(R.string.mode_cropped);
+        } else if (SettingValues.bigThumbnails) {
+            CURRENT_PICTURE.setText(R.string.mode_big_thumbnails);
+        } else {
+            CURRENT_PICTURE.setText(R.string.mode_small_thumbnails);
+        }
 
         findViewById(R.id.picture).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +165,7 @@ public class EditCardsLayout extends BaseActivityAnim {
                         switch (item.getItemId()) {
                             case R.id.bigpic:
                                 layout.removeAllViews();
+                                SettingValues.bigThumbnails = true;
                                 layout.addView(CreateCardView.setBigPicEnabled(true, layout));
                             {
                                 SharedPreferences.Editor e = SettingValues.prefs.edit();
@@ -168,10 +179,26 @@ public class EditCardsLayout extends BaseActivityAnim {
                             break;
                             case R.id.cropped:
                                 layout.removeAllViews();
+                                SettingValues.bigThumbnails = true;
                                 layout.addView(CreateCardView.setBigPicCropped(true, layout));
                                 break;
-                            case R.id.thumbnail:
+                            case R.id.small_thumbnails:
                                 layout.removeAllViews();
+                                SettingValues.bigThumbnails = false;
+                                layout.addView(CreateCardView.setBigPicEnabled(false, layout));
+                            {
+                                SharedPreferences.Editor e = SettingValues.prefs.edit();
+                                for (Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()) {
+                                    if (map.getKey().startsWith("picsenabled")) {
+                                        e.remove(map.getKey()); //reset all overridden values
+                                    }
+                                }
+                                e.apply();
+                            }
+                            break;
+                            case R.id.big_thumbnails:
+                                layout.removeAllViews();
+                                SettingValues.bigThumbnails = true;
                                 layout.addView(CreateCardView.setBigPicEnabled(false, layout));
                             {
                                 SharedPreferences.Editor e = SettingValues.prefs.edit();
@@ -184,11 +211,19 @@ public class EditCardsLayout extends BaseActivityAnim {
                             }
                             break;
                         }
-                        ((TextView) findViewById(R.id.picture_current)).setText(SettingValues.bigPicEnabled ? (SettingValues.bigPicCropped ? getString(R.string.mode_cropped) : getString(R.string.mode_bigpic)) : getString(R.string.mode_thumbnail));
+
+                        if (SettingValues.bigPicEnabled) {
+                            CURRENT_PICTURE.setText(R.string.mode_bigpic);
+                        } else if (SettingValues.bigPicCropped) {
+                            CURRENT_PICTURE.setText(R.string.mode_cropped);
+                        } else if (SettingValues.bigThumbnails) {
+                            CURRENT_PICTURE.setText(R.string.mode_big_thumbnails);
+                        } else {
+                            CURRENT_PICTURE.setText(R.string.mode_small_thumbnails);
+                        }
                         return true;
                     }
                 });
-
                 popup.show();
             }
         });

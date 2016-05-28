@@ -15,6 +15,11 @@
     <!-- Material Design's dimension for a standard toolbar -->
     <dimen name="standard_toolbar_height">56dp</dimen>
 
-    <dimen name="thumbnail_width">100dp</dimen>
-    <dimen name="thumbnail_height">70dp</dimen>
+    <!-- Big thumbnails -->
+    <dimen name="big_thumbnail_width">100dp</dimen>
+    <dimen name="big_thumbnail_height">70dp</dimen>
+
+    <!-- Small thumbnails -->
+    <dimen name="small_thumbnail_width">65dp</dimen>
+    <dimen name="small_thumbnail_height">65dp</dimen>
 </resources>

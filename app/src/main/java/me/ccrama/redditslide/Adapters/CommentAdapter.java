@@ -1179,7 +1179,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //Make a space the size of the toolbar minus 1 so there isn't a gap
             firstHolder.itemView.findViewById(R.id.height)
                     .setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                            (Constants.SINGLE_HEADER_VIEW_OFFSET - Reddit.dpToPx(1) + mPage.shownHeaders)));
+                            (Constants.SINGLE_HEADER_VIEW_OFFSET - Reddit.dpToPxVertical(1) + mPage.shownHeaders)));
         }
     }
 
