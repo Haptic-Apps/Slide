@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.os.Build;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.CardView;
 import android.util.TypedValue;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -40,6 +40,11 @@ public class CreateCardView {
                 break;
             case LIST:
                 v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_list, viewGroup, false);
+
+                //if the radius is set to 0 on KitKat--it crashes.
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ((CardView) v.findViewById(R.id.card)).setRadius(0f);
+                }
                 break;
         }
 
