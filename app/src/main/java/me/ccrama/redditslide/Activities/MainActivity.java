@@ -842,7 +842,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onSingleClick(View view) {
                         Intent inte = new Intent(MainActivity.this, Submit.class);
-                        if (!subreddit.contains("/m/")) {
+                        if (!subreddit.contains("/m/") && canSubmit) {
                             inte.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                         }
                         MainActivity.this.startActivity(inte);
@@ -862,7 +862,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(MainActivity.this, Submit.class);
-                    if (!subreddit.contains("/m/") || !subreddit.contains(".")) {
+                    if ((!subreddit.contains("/m/") || !subreddit.contains(".")) && canSubmit) {
                         i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                     }
                     startActivity(i);
@@ -1173,8 +1173,8 @@ public class MainActivity extends BaseActivity {
             if (toGoto == -1) {
                 toGoto = 0;
             }
-            if(toGoto >= usedArray.size()){
-                toGoto -=1;
+            if (toGoto >= usedArray.size()) {
+                toGoto -= 1;
             }
             shouldLoad = usedArray.get(toGoto);
             selectedSub = (usedArray.get(toGoto));
@@ -1269,6 +1269,8 @@ public class MainActivity extends BaseActivity {
 
     public void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
+        if (subreddit.getSubredditType() != null)
+            canSubmit = !subreddit.getSubredditType().equals("RESTRICTED");
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
             findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
@@ -1487,6 +1489,8 @@ public class MainActivity extends BaseActivity {
         return animator;
     }
 
+    public boolean canSubmit;
+
     private void collapse(final LinearLayout v) {
         int finalHeight = v.getHeight();
 
@@ -1663,7 +1667,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onSingleClick(View view) {
                     Intent inte = new Intent(MainActivity.this, Submit.class);
-                    if (!selectedSub.contains("/m/") || !selectedSub.contains(".")) {
+                    if ((!selectedSub.contains("/m/") || !selectedSub.contains(".")) && canSubmit) {
                         inte.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
                     }
                     MainActivity.this.startActivity(inte);
@@ -2357,10 +2361,13 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    Menu menu;
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
+        this.menu = menu;
         /**
          * Hide the "Submit" and "Sidebar" menu items if the currently viewed sub is a multi,
          * domain, the frontpage, or /r/all. If the subreddit has a "." in it, we know it's a domain because
@@ -2627,7 +2634,7 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.submit: {
                 Intent i = new Intent(this, Submit.class);
-                if (!selectedSub.contains("/m/") || !selectedSub.contains(".")) {
+                if ((!selectedSub.contains("/m/") || !selectedSub.contains(".")) && canSubmit) {
                     i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
                 }
                 startActivity(i);

@@ -34,6 +34,7 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.CaptchaHelper;
 import net.dean.jraw.models.Captcha;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.models.Subreddit;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +77,7 @@ public class Submit extends BaseActivity {
     private SwitchCompat inboxReplies;
     private String URL;
 
-    AsyncTask<Void, Void, String> tchange;
+    AsyncTask<Void, Void, Subreddit> tchange;
 
     @Override
     public void onDestroy() {
@@ -154,11 +155,11 @@ public class Submit extends BaseActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 findViewById(R.id.submittext).setVisibility(View.GONE);
                 if (!hasFocus) {
-                    tchange = new AsyncTask<Void, Void, String>() {
+                    tchange = new AsyncTask<Void, Void, Subreddit>() {
                         @Override
-                        protected String doInBackground(Void... params) {
+                        protected Subreddit doInBackground(Void... params) {
                             try {
-                                return Authentication.reddit.getSubreddit(subredditText.getText().toString()).getDataNode().get("submit_text_html").asText();
+                                return Authentication.reddit.getSubreddit(subredditText.getText().toString());
                             } catch (Exception ignored) {
 
                             }
@@ -166,10 +167,18 @@ public class Submit extends BaseActivity {
                         }
 
                         @Override
-                        protected void onPostExecute(String s) {
-                            if (s != null && !s.isEmpty() && !s.equals("null")) {
+                        protected void onPostExecute(Subreddit s) {
+
+                            String text = s.getDataNode().get("submit_text_html").asText();
+                            if (text != null && !text.isEmpty() &&  !text.equals("null")) {
                                 findViewById(R.id.submittext).setVisibility(View.VISIBLE);
-                                setViews(s, subredditText.getText().toString(), (SpoilerRobotoTextView) findViewById(R.id.submittext), (CommentOverflow) findViewById(R.id.commentOverflow));
+                                setViews(text, subredditText.getText().toString(), (SpoilerRobotoTextView) findViewById(R.id.submittext), (CommentOverflow) findViewById(R.id.commentOverflow));
+                            }
+                            if(s.getSubredditType().equals("RESTRICTED")){
+                                subredditText.setText("");
+                                new AlertDialogWrapper.Builder(Submit.this).setTitle("This subreddit is restricted")
+                                        .setMessage("You are not allowed to post here. Please choose another subreddit")
+                                        .setPositiveButton(R.string.btn_ok, null).show();
                             }
                         }
                     };

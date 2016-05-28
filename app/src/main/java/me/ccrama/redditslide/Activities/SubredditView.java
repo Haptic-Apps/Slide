@@ -90,7 +90,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class SubredditView extends BaseActivityAnim {
 
     public static final String EXTRA_SUBREDDIT = "subreddit";
-
+    public boolean canSubmit = true;
     private DrawerLayout drawerLayout;
     public String subreddit;
     public Submission openingComments;
@@ -140,7 +140,8 @@ public class SubredditView extends BaseActivityAnim {
                 return true;
             case R.id.submit:
                 Intent i = new Intent(this, Submit.class);
-                i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                if (canSubmit)
+                    i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                 startActivity(i);
                 return true;
             case R.id.action_refresh:
@@ -256,8 +257,11 @@ public class SubredditView extends BaseActivityAnim {
                 return false;
         }
     }
+
     private void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
+        if (subreddit.getSubredditType() != null)
+            canSubmit = !subreddit.getSubredditType().equals("RESTRICTED");
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
             findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
@@ -299,7 +303,7 @@ public class SubredditView extends BaseActivityAnim {
                                     }
                                 }).setCancelable(false)
                                         .show();
-                            } else{
+                            } else {
                                 changeSubscription(subreddit, isChecked);
                             }
 
@@ -451,7 +455,7 @@ public class SubredditView extends BaseActivityAnim {
                 ((SubmissionsView) (adapter.getCurrentFragment())).resetScroll();
             }
         });
-        if(!subreddit.equals("random"))
+        if (!subreddit.equals("random"))
             executeAsyncSubreddit(subreddit);
     }
 
@@ -751,7 +755,7 @@ public class SubredditView extends BaseActivityAnim {
                     @Override
                     public void onSingleClick(View view) {
                         Intent inte = new Intent(SubredditView.this, Submit.class);
-                        if (!subOverride.contains("/m/")) {
+                        if (!subOverride.contains("/m/") && canSubmit) {
                             inte.putExtra(Submit.EXTRA_SUBREDDIT, subOverride);
                         }
                         SubredditView.this.startActivity(inte);
@@ -771,7 +775,7 @@ public class SubredditView extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(SubredditView.this, Submit.class);
-                    if (!subOverride.contains("/m/") || !subOverride.contains(".")) {
+                    if ((!subOverride.contains("/m/") || !subOverride.contains(".")) && canSubmit) {
                         i.putExtra(Submit.EXTRA_SUBREDDIT, subOverride);
                     }
                     startActivity(i);
@@ -996,7 +1000,6 @@ public class SubredditView extends BaseActivityAnim {
     }
 
 
-
     View header;
 
     public int adjustAlpha(float factor) {
@@ -1101,9 +1104,11 @@ public class SubredditView extends BaseActivityAnim {
 
 
     Subreddit sub;
-    public void executeAsyncSubreddit(String sub){
+
+    public void executeAsyncSubreddit(String sub) {
         new AsyncGetSubreddit().execute(sub);
     }
+
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
 
         @Override
