@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -43,6 +44,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
+import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
@@ -180,6 +182,19 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
             v.findViewById(R.id.post_floating_action_button).setVisibility(View.GONE);
         }
         refreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.activity_main_swipe_refresh_layout);
+
+        /**
+         * If using List view mode, we need to remove the start margin from the SwipeRefreshLayout.
+         * (There is a 4dp marginStart for the card views; we need to remove this for the full-width list style).
+         * Additionally, in submission_list.xml, a marginEnd of -4dp that is set to fill the view.
+         * To recap: the below code solves the issue of the marginStart; the submission_list solves
+         * the issue of the marginEnd.
+         */
+        if (SettingValues.defaultCardView == CreateCardView.CardEnum.LIST) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            params.setMarginStart(0);
+            refreshLayout.setLayoutParams(params);
+        }
 
         List<MultiReddit> multireddits;
         if (profile.isEmpty()) {
