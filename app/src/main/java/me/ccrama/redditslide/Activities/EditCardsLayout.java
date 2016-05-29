@@ -144,10 +144,10 @@ public class EditCardsLayout extends BaseActivityAnim {
         final TextView CURRENT_PICTURE = (TextView) findViewById(R.id.picture_current);
         assert CURRENT_PICTURE != null; //it won't be
 
-        if (SettingValues.bigPicEnabled) {
-            CURRENT_PICTURE.setText(R.string.mode_bigpic);
-        } else if (SettingValues.bigPicCropped) {
+        if (SettingValues.bigPicCropped) {
             CURRENT_PICTURE.setText(R.string.mode_cropped);
+        } else if (SettingValues.bigPicEnabled) {
+            CURRENT_PICTURE.setText(R.string.mode_bigpic);
         } else {
             CURRENT_PICTURE.setText(R.string.mode_thumbnail);
         }
@@ -193,10 +193,10 @@ public class EditCardsLayout extends BaseActivityAnim {
                             break;
                         }
 
-                        if (SettingValues.bigPicEnabled) {
-                            CURRENT_PICTURE.setText(R.string.mode_bigpic);
-                        } else if (SettingValues.bigPicCropped) {
+                        if (SettingValues.bigPicCropped) {
                             CURRENT_PICTURE.setText(R.string.mode_cropped);
+                        } else if (SettingValues.bigPicEnabled) {
+                            CURRENT_PICTURE.setText(R.string.mode_bigpic);
                         } else {
                             CURRENT_PICTURE.setText(R.string.mode_thumbnail);
                         }
