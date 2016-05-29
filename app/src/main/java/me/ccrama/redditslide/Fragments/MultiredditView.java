@@ -192,7 +192,12 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
          */
         if (SettingValues.defaultCardView == CreateCardView.CardEnum.LIST) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.setMarginStart(0);
+            //Workaround for random 4dp at end of view--just add a margin to both sides to even it out :(
+            if (getNumColumns(getResources().getConfiguration().orientation) >= 2) {
+                params.setMarginStart(Reddit.dpToPxGeneral(4));
+            } else {
+                params.setMarginStart(0);
+            }
             refreshLayout.setLayoutParams(params);
         }
 

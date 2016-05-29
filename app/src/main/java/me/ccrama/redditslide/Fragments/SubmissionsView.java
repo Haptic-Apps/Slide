@@ -111,7 +111,12 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
          */
         if (SettingValues.defaultCardView == CreateCardView.CardEnum.LIST) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            params.setMarginStart(0);
+            //Workaround for random 4dp at end of view--just add a margin to both sides to even it out :(
+            if (getNumColumns(getResources().getConfiguration().orientation) >= 2) {
+                params.setMarginStart(Reddit.dpToPxGeneral(4));
+            } else {
+                params.setMarginStart(0);
+            }
             mSwipeRefreshLayout.setLayoutParams(params);
         }
 
@@ -251,7 +256,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         return new CatchStaggeredGridLayoutManager(numColumns, CatchStaggeredGridLayoutManager.VERTICAL);
     }
 
-    private int getNumColumns(final int orientation) {
+    public static int getNumColumns(final int orientation) {
         final int numColumns;
         if (orientation == Configuration.ORIENTATION_LANDSCAPE && SettingValues.tabletUI) {
             numColumns = Reddit.dpWidth;

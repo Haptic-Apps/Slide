@@ -3,11 +3,13 @@ package me.ccrama.redditslide.Views;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -46,6 +49,12 @@ public class CreateCardView {
                     ((CardView) v.findViewById(R.id.card)).setRadius(0f);
                 }
                 break;
+        }
+
+        if (SubmissionsView.getNumColumns(Resources.getSystem().getConfiguration().orientation) >= 2) {
+            StaggeredGridLayoutManager.LayoutParams cvlp = (StaggeredGridLayoutManager.LayoutParams) (v.findViewById(R.id.card)).getLayoutParams();
+            cvlp.setMarginEnd(0);
+            (v.findViewById(R.id.card)).setLayoutParams(cvlp);
         }
 
         View thumbImage = v.findViewById(R.id.thumbimage2);
