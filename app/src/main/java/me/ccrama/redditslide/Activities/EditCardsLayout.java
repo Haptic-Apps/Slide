@@ -148,10 +148,8 @@ public class EditCardsLayout extends BaseActivityAnim {
             CURRENT_PICTURE.setText(R.string.mode_bigpic);
         } else if (SettingValues.bigPicCropped) {
             CURRENT_PICTURE.setText(R.string.mode_cropped);
-        } else if (SettingValues.bigThumbnails) {
-            CURRENT_PICTURE.setText(R.string.mode_big_thumbnails);
         } else {
-            CURRENT_PICTURE.setText(R.string.mode_small_thumbnails);
+            CURRENT_PICTURE.setText(R.string.mode_thumbnail);
         }
 
         findViewById(R.id.picture).setOnClickListener(new View.OnClickListener() {
@@ -165,7 +163,6 @@ public class EditCardsLayout extends BaseActivityAnim {
                         switch (item.getItemId()) {
                             case R.id.bigpic:
                                 layout.removeAllViews();
-                                SettingValues.bigThumbnails = true;
                                 layout.addView(CreateCardView.setBigPicEnabled(true, layout));
                             {
                                 SharedPreferences.Editor e = SettingValues.prefs.edit();
@@ -179,26 +176,10 @@ public class EditCardsLayout extends BaseActivityAnim {
                             break;
                             case R.id.cropped:
                                 layout.removeAllViews();
-                                SettingValues.bigThumbnails = true;
                                 layout.addView(CreateCardView.setBigPicCropped(true, layout));
                                 break;
-                            case R.id.small_thumbnails:
+                            case R.id.thumbnail:
                                 layout.removeAllViews();
-                                SettingValues.bigThumbnails = false;
-                                layout.addView(CreateCardView.setBigPicEnabled(false, layout));
-                            {
-                                SharedPreferences.Editor e = SettingValues.prefs.edit();
-                                for (Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()) {
-                                    if (map.getKey().startsWith("picsenabled")) {
-                                        e.remove(map.getKey()); //reset all overridden values
-                                    }
-                                }
-                                e.apply();
-                            }
-                            break;
-                            case R.id.big_thumbnails:
-                                layout.removeAllViews();
-                                SettingValues.bigThumbnails = true;
                                 layout.addView(CreateCardView.setBigPicEnabled(false, layout));
                             {
                                 SharedPreferences.Editor e = SettingValues.prefs.edit();
@@ -216,10 +197,8 @@ public class EditCardsLayout extends BaseActivityAnim {
                             CURRENT_PICTURE.setText(R.string.mode_bigpic);
                         } else if (SettingValues.bigPicCropped) {
                             CURRENT_PICTURE.setText(R.string.mode_cropped);
-                        } else if (SettingValues.bigThumbnails) {
-                            CURRENT_PICTURE.setText(R.string.mode_big_thumbnails);
                         } else {
-                            CURRENT_PICTURE.setText(R.string.mode_small_thumbnails);
+                            CURRENT_PICTURE.setText(R.string.mode_thumbnail);
                         }
                         return true;
                     }
@@ -228,10 +207,35 @@ public class EditCardsLayout extends BaseActivityAnim {
             }
         });
 
+        final SwitchCompat bigThumbnails = (SwitchCompat) findViewById(R.id.bigThumbnails);
+        assert bigThumbnails != null; //def won't be null
+
+        bigThumbnails.setChecked(SettingValues.bigThumbnails);
+        bigThumbnails.setOnCheckedChangeListener(new SwitchCompat.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                layout.removeAllViews();
+                SettingValues.bigThumbnails = isChecked;
+
+                if (SettingValues.bigThumbnails) {
+                    layout.addView(CreateCardView.setBigPicEnabled(false, layout));
+                    {
+                        SharedPreferences.Editor e = SettingValues.prefs.edit();
+                        for (Map.Entry<String, ?> map : SettingValues.prefs.getAll().entrySet()) {
+                            if (map.getKey().startsWith("picsenabled")) {
+                                e.remove(map.getKey()); //reset all overridden values
+                            }
+                        }
+                        e.apply();
+                    }
+                } else {
+                    layout.addView(CreateCardView.setBigPicEnabled(false, layout));
+                }
+            }
+        });
+
 
         //Actionbar//
-
-
         ((TextView) findViewById(R.id.actionbar_current)).setText(!SettingValues.actionbarVisible ? (SettingValues.actionbarTap ? getString(R.string.tap_actionbar) : getString(R.string.press_actionbar)) : getString(R.string.always_actionbar));
 
         findViewById(R.id.actionbar).setOnClickListener(new View.OnClickListener() {
@@ -304,7 +308,6 @@ public class EditCardsLayout extends BaseActivityAnim {
         });
 
         //Smaller tags//
-
         final SwitchCompat smallTag = (SwitchCompat) findViewById(R.id.tagsetting);
 
         smallTag.setChecked(SettingValues.smallTag);
