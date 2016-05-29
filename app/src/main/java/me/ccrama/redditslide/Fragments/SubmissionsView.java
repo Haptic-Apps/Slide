@@ -109,7 +109,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
          * To recap: the below code solves the issue of the marginStart; the submission_list solves
          * the issue of the marginEnd.
          */
-        if (!CreateCardView.isMiddle() && !CreateCardView.isCard()) {
+        if (SettingValues.defaultCardView == CreateCardView.CardEnum.LIST) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             params.setMarginStart(0);
             mSwipeRefreshLayout.setLayoutParams(params);

@@ -617,13 +617,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         int widthDp = this.getResources().getConfiguration().screenWidthDp;
         int heightDp = this.getResources().getConfiguration().screenHeightDp;
 
-        int fina;
-        if (widthDp > heightDp) {
-            fina = widthDp;
-        } else {
-            fina = heightDp;
-        }
-        fina = ((fina + 99) / 100) * 100;
+        int fina = (widthDp > heightDp) ? widthDp : heightDp;
+        fina += 99;
 
         themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
 
@@ -632,18 +627,17 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         } else {
             dpWidth = fina / 300;
         }
+
         if (colors.contains("notificationOverride")) {
             notificationTime = colors.getInt("notificationOverride", 360);
         } else {
             notificationTime = 360;
         }
-        int defaultDPWidth = fina / 300;
 
         SettingValues.tabletUI = isPackageInstalled(this);
         videoPlugin = isVideoPluginInstalled(this);
 
         GifCache.init(this);
-
     }
 
     public static void setSorting(String s, Sorting sort) {
