@@ -128,7 +128,7 @@
                     android:id="@+id/preview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
+                    android:layout_gravity="start"
                     android:background="?android:selectableItemBackground"
                     android:padding="6dp"
                     android:text="@string/btn_preview"
