@@ -61,7 +61,7 @@ public class CreateCardView {
 
             final int EIGHT_DP = Reddit.dpToPxGeneral(8);
             ((RelativeLayout.LayoutParams) thumbImage.getLayoutParams())
-                    .setMargins(EIGHT_DP * 2, 0, EIGHT_DP, EIGHT_DP);
+                    .setMargins(EIGHT_DP * 2, EIGHT_DP, EIGHT_DP, EIGHT_DP);
             v.findViewById(R.id.innerrelative).setPadding(0, EIGHT_DP, 0, 0);
         }
 

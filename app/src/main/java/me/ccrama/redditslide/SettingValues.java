@@ -251,7 +251,7 @@ public class SettingValues {
 
         cropImage = prefs.getBoolean(PREF_CROP_IMAGE, true);
         switchThumb = prefs.getBoolean(PREF_SWITCH_THUMB, true);
-        bigThumbnails = prefs.getBoolean(PREF_BIG_THUMBS, true);
+        bigThumbnails = prefs.getBoolean(PREF_BIG_THUMBS, false);
 
         swipeAnywhere = true; //override this always now
         album = prefs.getBoolean(PREF_ALBUM, true);
