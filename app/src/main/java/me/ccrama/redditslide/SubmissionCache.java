@@ -241,7 +241,7 @@ public class SubmissionCache {
         }
         if (SettingValues.votesInfoLine) {
             titleString.append("\n ");
-            SpannableStringBuilder s = new SpannableStringBuilder(submission.getScore() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.points, submission.getScore())) + spacer + submission.getCommentCount() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.comments, submission.getCommentCount())));
+            SpannableStringBuilder s = new SpannableStringBuilder(submission.getScore() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.points, submission.getScore())) + spacer + submission.getLocalizedCommentCount() + String.format(Locale.getDefault(), " %s", mContext.getResources().getQuantityString(R.plurals.comments, submission.getCommentCount())));
             s.setSpan(new StyleSpan(Typeface.BOLD), 0, s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(s);
         }
