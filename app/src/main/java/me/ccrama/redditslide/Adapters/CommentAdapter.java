@@ -2320,16 +2320,20 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void unhideAll(CommentNode n, int i) {
-        int counter = unhideNumber(n, 0);
-        if (SettingValues.collapseComments) {
-            listView.setItemAnimator(null);
-            notifyItemRangeInserted(i, counter);
-        } else {
-            try{
-            listView.setItemAnimator(new AlphaInAnimator());
-            } catch (Exception e) {
+        try {
+            int counter = unhideNumber(n, 0);
+            if (SettingValues.collapseComments) {
+                listView.setItemAnimator(null);
+                notifyItemRangeInserted(i, counter);
+            } else {
+                try {
+                    listView.setItemAnimator(new AlphaInAnimator());
+                } catch (Exception e) {
+                }
+                notifyItemRangeInserted(i, counter);
             }
-            notifyItemRangeInserted(i, counter);
+        } catch(Exception e){
+
         }
     }
 

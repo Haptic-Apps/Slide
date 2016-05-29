@@ -627,8 +627,6 @@ public class SubredditView extends BaseActivityAnim {
             }
         });
         popup.show();
-
-
     }
 
     private void reloadSubs() {

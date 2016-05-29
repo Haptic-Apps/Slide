@@ -109,15 +109,20 @@ public class GifUtils {
             this.autostart = autostart;
         }
 
-        @Override
-        public void onCancelled(){
-            super.onCancelled();
+        public void cancel(){
+            LogUtil.v("cancelling");
             if(stream != null)
                 try {
                     stream.close();
+                    is.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+        }
+        @Override
+        public void onCancelled(){
+            super.onCancelled();
+            cancel();
         }
 
         @Override
@@ -519,6 +524,8 @@ public class GifUtils {
             return null;
         }
         ContentLengthInputStream stream;
+        URLConnection ucon;
+        InputStream is;
         public static String readableFileSize(long size) {
             if(size <= 0) return "0";
             final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
@@ -528,12 +535,11 @@ public class GifUtils {
         public void writeGif(final URL url, final ProgressBar progressBar, final Activity c, final AsyncLoadGif afterDone) {
             try {
                 if (!GifCache.fileExists(url)) {
-                    final URLConnection ucon = url.openConnection();
+                    ucon = url.openConnection();
                     ucon.setReadTimeout(5000);
                     ucon.setConnectTimeout(10000);
-                    InputStream is = ucon.getInputStream();
+                    is = ucon.getInputStream();
                     //todo  MediaView.fileLoc = f.getAbsolutePath();
-                    LogUtil.v(url.toString());
                     if(size != null){
                         c.runOnUiThread(new Runnable() {
                             @Override

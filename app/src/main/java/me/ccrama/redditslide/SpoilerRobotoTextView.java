@@ -56,6 +56,7 @@ import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
 import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 1/11/2016.
@@ -320,6 +321,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     new OpenRedditLink(activity, url);
                     break;
                 case LINK:
+                    LogUtil.v("Opening link");
                     CustomTabUtil.openUrl(url, Palette.getColor(subreddit), activity);
                     break;
                 case SELF:

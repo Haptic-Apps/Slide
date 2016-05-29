@@ -647,12 +647,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static void setSorting(String s, Sorting sort) {
-        sorting.put(s, sort);
+        sorting.put(s.toLowerCase(), sort);
     }
 
     public static final Map<String, Sorting> sorting = new HashMap<>();
 
     public static Sorting getSorting(String subreddit) {
+        subreddit = subreddit.toLowerCase();
         if (sorting.containsKey(subreddit)) {
             return sorting.get(subreddit);
         } else {
@@ -661,12 +662,13 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static void setTime(String s, TimePeriod sort) {
-        times.put(s, sort);
+        times.put(s.toLowerCase(), sort);
     }
 
     public static final Map<String, TimePeriod> times = new HashMap<>();
 
     public static TimePeriod getTime(String subreddit) {
+        subreddit = subreddit.toLowerCase();
         if (times.containsKey(subreddit)) {
             return times.get(subreddit);
         } else {

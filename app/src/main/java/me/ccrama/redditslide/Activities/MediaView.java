@@ -396,9 +396,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... params) {
-                            String url = actuallyLoaded;
+                            String url = contentUrl;
                             final String finalUrl1 = url;
-                            final String finalUrl = actuallyLoaded;
+                            final String finalUrl = contentUrl;
                             try {
                                 ((Reddit) getApplication()).getImageLoader()
                                         .loadImage(finalUrl, new SimpleImageLoadingListener() {

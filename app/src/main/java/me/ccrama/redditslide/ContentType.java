@@ -180,6 +180,8 @@ public class ContentType {
             return Type.LINK;
 
         } catch (URISyntaxException | NullPointerException e) {
+            if (e.getMessage().contains("Illegal character in fragment")) //a valid link but something un-encoded in the URL
+                return Type.LINK;
             return Type.NONE;
         }
     }
