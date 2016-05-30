@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Notification;
@@ -19,10 +20,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -298,6 +301,120 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
     }
 
+    public void hideOnLongClick() {
+        (findViewById(R.id.gifheader)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (findViewById(R.id.gifheader).getVisibility() == View.GONE) {
+                    animateIn(findViewById(R.id.gifheader));
+                    fadeOut(findViewById(R.id.black));
+                    getWindow().getDecorView().setSystemUiVisibility(0);
+                } else {
+                    animateOut(findViewById(R.id.gifheader));
+                    fadeIn(findViewById(R.id.black));
+                    getWindow().getDecorView().setSystemUiVisibility(
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                                    | View.SYSTEM_UI_FLAG_IMMERSIVE);
+                }
+            }
+        });
+        findViewById(R.id.submission_image).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v2) {
+                if (findViewById(R.id.gifheader).getVisibility() == View.GONE) {
+                    animateIn(findViewById(R.id.gifheader));
+                    fadeOut(findViewById(R.id.black));
+                } else {
+                    MediaView.this.finish();
+                }
+            }
+        });
+    }
+
+    public static void animateIn(View l) {
+        l.setVisibility(View.VISIBLE);
+
+        ValueAnimator mAnimator = slideAnimator(0, Reddit.dpToPxVertical(56), l);
+
+        mAnimator.start();
+    }
+
+    public static void fadeIn(View l) {
+        ValueAnimator mAnimator = fadeAnimator(0.66f, 1, l);
+        mAnimator.start();
+    }
+
+    private static ValueAnimator fadeAnimator(float start, float end, final View v) {
+        ValueAnimator animator = ValueAnimator.ofFloat(start, end);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                //Update Height
+                float value = (Float) valueAnimator.getAnimatedValue();
+                v.setAlpha(value);
+            }
+        });
+        return animator;
+    }
+
+    private static ValueAnimator slideAnimator(int start, int end, final View v) {
+        ValueAnimator animator = ValueAnimator.ofInt(start, end);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                //Update Height
+                int value = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                layoutParams.height = value;
+                v.setLayoutParams(layoutParams);
+            }
+        });
+        return animator;
+    }
+
+    public static void animateOut(final View l) {
+
+        ValueAnimator mAnimator = slideAnimator(Reddit.dpToPxVertical(36), 0, l);
+        mAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                l.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        mAnimator.start();
+
+
+    }
+
+    public static void fadeOut(final View l) {
+        ValueAnimator mAnimator = fadeAnimator(1, .66f, l);
+        mAnimator.start();
+    }
+
     String contentUrl;
 
     public static boolean shouldTruncate(String url) {
@@ -421,6 +538,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 }
             }
         });
+
+        hideOnLongClick();
     }
 
     public void doLoad(final String contentUrl) {
@@ -470,15 +589,23 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         isGif = true;
         findViewById(R.id.hq).setVisibility(View.GONE);
         videoView = (MediaVideoView) findViewById(R.id.gif);
+        findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(findViewById(R.id.gifheader).getVisibility() == View.GONE){
+                    animateIn(findViewById(R.id.gifheader));
+                    fadeOut(findViewById(R.id.black));
+                }
+            }
+        });
         videoView.clearFocus();
         videoView.setZOrderOnTop(true);
         findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) findViewById(R.id.gifprogress);
         findViewById(R.id.progress).setVisibility(View.GONE);
-        gif = new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), doOnClick, true, false, true, ((TextView)findViewById(R.id.size)));
+        gif = new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), doOnClick, true, false, true, ((TextView) findViewById(R.id.size)));
         gif.execute(dat);
-
         findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -787,14 +914,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                             }
                         });
             }
-
-            findViewById(R.id.submission_image).setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v2) {
-                    MediaView.this.finish();
-                }
-            });
         }
     }
 

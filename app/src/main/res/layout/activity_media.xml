@@ -4,9 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="#aa000000"
     android:orientation="vertical">
-
+<View
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:alpha=".66"
+    android:id="@+id/black"
+    />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
