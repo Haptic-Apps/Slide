@@ -87,7 +87,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:cd2681e9c2'
+    compile 'com.github.ccrama:JRAW:fb4a8b7a75'
     compile('com.github.afollestad.material-dialogs:commons:0.8.5.8@aar') {
         transitive = true
     }
@@ -124,5 +124,5 @@ dependencies {
     }
     compile 'com.github.ccrama:commonmark-java:07b304b575'
     compile 'org.jetbrains:annotations-java5:15.0'
-    compile "com.mikepenz:itemanimators:0.2.4@aar"
+    compile 'com.mikepenz:itemanimators:0.2.4@aar'
 }
