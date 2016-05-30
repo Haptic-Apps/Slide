@@ -140,11 +140,11 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     /**
-     * Converts dp to px, uses general density
+     * Converts dp to px, uses horizontal density
      * @param dp to convert to px
      * @return px
      */
-    public static int dpToPxGeneral(int dp) {
+    public static int dpToPxHorizontal(int dp) {
         final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }

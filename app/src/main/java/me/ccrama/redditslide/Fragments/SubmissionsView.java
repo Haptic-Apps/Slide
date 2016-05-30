@@ -113,7 +113,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             //Workaround for random 4dp at end of view--just add a margin to both sides to even it out :(
             if (getNumColumns(getResources().getConfiguration().orientation) >= 2) {
-                params.setMarginStart(Reddit.dpToPxGeneral(4));
+                params.setMarginStart(Reddit.dpToPxHorizontal(4));
             } else {
                 params.setMarginStart(0);
             }
