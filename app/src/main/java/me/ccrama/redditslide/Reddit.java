@@ -146,7 +146,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
      */
     public static int dpToPxGeneral(int dp) {
         final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     public static void defaultShareText(String title, String url, Context c) {

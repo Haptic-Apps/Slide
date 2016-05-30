@@ -308,7 +308,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 if (findViewById(R.id.gifheader).getVisibility() == View.GONE) {
                     animateIn(findViewById(R.id.gifheader));
                     fadeOut(findViewById(R.id.black));
-                    getWindow().getDecorView().setSystemUiVisibility(0);
+                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
                 } else {
                     animateOut(findViewById(R.id.gifheader));
                     fadeIn(findViewById(R.id.black));
