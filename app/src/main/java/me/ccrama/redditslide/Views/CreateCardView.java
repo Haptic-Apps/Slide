@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import me.ccrama.redditslide.Activities.EditCardsLayout;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -51,7 +52,9 @@ public class CreateCardView {
                 break;
         }
 
-        if (SubmissionsView.getNumColumns(Resources.getSystem().getConfiguration().orientation) >= 2) {
+        if (SubmissionsView.getNumColumns(Resources.getSystem().getConfiguration().orientation) >= 2
+                && !(v.getContext() instanceof EditCardsLayout)
+                && SettingValues.defaultCardView == CardEnum.LIST) {
             StaggeredGridLayoutManager.LayoutParams cvlp = (StaggeredGridLayoutManager.LayoutParams) (v.findViewById(R.id.card)).getLayoutParams();
             cvlp.setMarginEnd(0);
             (v.findViewById(R.id.card)).setLayoutParams(cvlp);
