@@ -261,8 +261,10 @@ public class CommentPage extends Fragment {
         rv = (RecyclerView) v.findViewById(R.id.vertical_content);
         rv.setLayoutManager(mLayoutManager);
         rv.getLayoutManager().scrollToPosition(0);
+
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         toolbar.setPopupTheme(new ColorPreferences(getActivity()).getFontStyle().getBaseId());
+
         if (!SettingValues.fabComments) {
             v.findViewById(R.id.comment_floating_action_button).setVisibility(View.GONE);
         } else {
