@@ -197,12 +197,9 @@ public class GifUtils {
 
 
         public String formatUrl(String s) {
-            if (s.contains("webm") && s.contains("imgur")) {
-                s = s.replace("webm", "mp4");
-            }
             if (s.endsWith("v")) {
                 s = s.substring(0, s.length() - 1);
-            } else if (s.contains("gfycat") && !s.contains("mp4")) {
+            } else if (s.contains("gfycat") && (!s.contains("mp4") && !s.contains("webm"))) {
                 s = s.substring(3, s.length());
                 if (s.contains("-size_restricted"))
                     s = s.replace("-size_restricted", "");
@@ -218,7 +215,7 @@ public class GifUtils {
         }
 
         public VideoType getVideoType(String url) {
-            if (url.contains(".mp4"))
+            if (url.contains(".mp4") || url.contains("webm"))
                 return VideoType.DIRECT;
             if (url.contains("gfycat") && !url.contains("mp4"))
                 return VideoType.GFYCAT;
