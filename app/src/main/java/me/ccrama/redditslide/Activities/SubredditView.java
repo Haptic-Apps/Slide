@@ -207,7 +207,7 @@ public class SubredditView extends BaseActivityAnim {
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod")) {
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random") && !subreddit.equals("myrandom") && !subreddit.equals("nsfwrandom") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
@@ -455,7 +455,7 @@ public class SubredditView extends BaseActivityAnim {
                 ((SubmissionsView) (adapter.getCurrentFragment())).resetScroll();
             }
         });
-        if (!subreddit.equals("random"))
+        if (!subreddit.equals("random") && !subreddit.equals("myrandom") && !subreddit.equals("nsfwrandom"))
             executeAsyncSubreddit(subreddit);
     }
 
@@ -725,7 +725,7 @@ public class SubredditView extends BaseActivityAnim {
 
         invalidateOptionsMenu();
 
-        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") && !subOverride.equalsIgnoreCase("random") &&
+        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") && !subOverride.equalsIgnoreCase("random")&& !subOverride.equalsIgnoreCase("myrandom")&& !subOverride.equalsIgnoreCase("nsfwrandom") &&
                 !subOverride.equalsIgnoreCase("friends") && !subOverride.equalsIgnoreCase("mod") &&
                 !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains("/m/")) {
             if (drawerLayout != null) {

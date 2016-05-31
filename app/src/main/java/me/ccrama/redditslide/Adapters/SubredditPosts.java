@@ -248,11 +248,11 @@ public class SubredditPosts implements PostLoader {
                     ((BaseActivity) c).setShareUrl("https://reddit.com/r/" + subreddit);
                 }
 
-                if(subreddit.equals("random")){
+                if(subreddit.equals("random") || subreddit.equals("myrandom") || subreddit.equals("nsfwrandom")){
                     subredditRandom = submissions.get(0).getSubredditName();
                 }
 
-                if(c instanceof SubredditView && subreddit.equals("random")){
+                if(c instanceof SubredditView && (subreddit.equals("random") || subreddit.equals("myrandom") || subreddit.equals("nsfwrandom"))){
                     ((SubredditView)c).subreddit = subredditRandom;
                     ((SubredditView)c).executeAsyncSubreddit(subredditRandom);
                 }

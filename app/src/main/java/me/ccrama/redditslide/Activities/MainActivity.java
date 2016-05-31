@@ -2138,7 +2138,8 @@ public class MainActivity extends BaseActivity {
                     if (current == toOpenComments && toOpenComments != 0) {
                         current -= 1;
                     }
-                    if (usedArray.get(current).equals("random")) {
+                    String compare = usedArray.get(current);
+                    if (compare.equals("random") || compare.equals("myrandom") || compare.equals("nsfwrandom")) {
                         if (adapter != null && adapter.getCurrentFragment() != null && ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet.subredditRandom != null) {
                             String sub = ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet.subredditRandom;
                             doSubSidebarNoLoad(sub);
@@ -2578,7 +2579,7 @@ public class MainActivity extends BaseActivity {
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.contains(".") && !subreddit.contains("/m/") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")) {
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.contains(".") && !subreddit.contains("/m/") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")&& !subreddit.equalsIgnoreCase("myrandom")&& !subreddit.equalsIgnoreCase("nsfwrandom")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
