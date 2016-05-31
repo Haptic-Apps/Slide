@@ -124,7 +124,7 @@ public class SettingsHandling extends BaseActivityAnim implements
 
         ((LinearLayout) findViewById(R.id.domainlist)).removeAllViews();
         for (String s : SettingValues.alwaysExternal.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
-            if (!s.isEmpty()) {
+            if (!s.isEmpty() && (Reddit.videoPlugin && (!s.contains("youtube.co")&&!s.contains("youtu.be")) || !Reddit.videoPlugin)) {
                 s = s.trim();
                 final String finalS = s;
                 domains.add(finalS);

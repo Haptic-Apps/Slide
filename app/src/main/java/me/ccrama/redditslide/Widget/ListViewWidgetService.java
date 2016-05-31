@@ -18,14 +18,21 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 
+import org.apache.http.auth.AUTH;
+
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by carlo_000 on 5/4/2016.
@@ -57,6 +64,40 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
+                if(Authentication.reddit == null){
+                        new Authentication(mContext.getApplicationContext());
+                    Authentication.me = Authentication.reddit.me();
+                    Authentication.mod = Authentication.me.isMod();
+                    Reddit.over18 = Authentication.me.isOver18();
+
+                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod).apply();
+                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18).apply();
+
+                    if (Reddit.notificationTime != -1) {
+                        Reddit.notifications = new NotificationJobScheduler(mContext);
+                        Reddit.notifications.start(mContext.getApplicationContext());
+                    }
+
+                    if (Reddit.cachedData.contains("toCache")) {
+                        Reddit.autoCache = new AutoCacheScheduler(mContext);
+                        Reddit.autoCache.start(mContext.getApplicationContext());
+                    }
+
+                    final String name = Authentication.me.getFullName();
+                    Authentication.name = name;
+                    LogUtil.v("AUTHENTICATED");
+
+                    if (Authentication.reddit.isAuthenticated()) {
+                        final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                        if (accounts.contains(name)) { //convert to new system
+                            accounts.remove(name);
+                            accounts.add(name + ":" + Authentication.refresh);
+                            Authentication.authentication.edit().putStringSet("accounts", accounts).apply(); //force commit
+                        }
+                        Authentication.isLoggedIn = true;
+                        Reddit.notFirst = true;
+                    }
+                }
                 String sub = SubredditWidgetProvider.getSubFromId(id, mContext);
                 Paginator p;
                 if (sub.equals("frontpage")) {
