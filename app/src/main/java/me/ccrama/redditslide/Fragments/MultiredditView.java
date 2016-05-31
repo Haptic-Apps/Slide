@@ -185,19 +185,14 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
         /**
          * If using List view mode, we need to remove the start margin from the SwipeRefreshLayout.
-         * (There is a 4dp marginStart for the card views; we need to remove this for the full-width list style).
-         * Additionally, in submission_list.xml, a marginEnd of -4dp that is set to fill the view.
-         * To recap: the below code solves the issue of the marginStart; the submission_list solves
-         * the issue of the marginEnd.
+         * The scrollbar style of "outsideInset" creates a 4dp padding around it. To counter this,
+         * change the scrollbar style to "insideOverlay" when list view is enabled.
+         * To recap: this removes the margins from the start/end so list view is full-width.
          */
         if (SettingValues.defaultCardView == CreateCardView.CardEnum.LIST) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            //Workaround for random 4dp at end of view--just add a margin to both sides to even it out :(
-            if (getNumColumns(getResources().getConfiguration().orientation) >= 2) {
-                params.setMarginStart(Reddit.dpToPxHorizontal(4));
-            } else {
-                params.setMarginStart(0);
-            }
+            params.setMarginStart(0);
+            rv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
             refreshLayout.setLayoutParams(params);
         }
 
