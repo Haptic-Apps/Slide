@@ -284,48 +284,52 @@ public class MultiredditOverview extends BaseActivityAnim {
     }
 
     private void buildDialog(boolean wasException) {
-        AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(MultiredditOverview.this).setCancelable(false)
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+        try {
+            AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(MultiredditOverview.this).setCancelable(false)
+                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            finish();
+                        }
+                    });
+            if (wasException) {
+                b.setTitle(R.string.err_title)
+                        .setMessage(R.string.err_loading_content)
+                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+            } else if (profile.isEmpty()) {
+                b.setTitle(R.string.multireddit_err_title)
+                        .setMessage(R.string.multireddit_err_msg)
+                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
+                                startActivity(i);
+                            }
+                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onDismiss(DialogInterface dialog) {
+                    public void onClick(DialogInterface dialog, int which) {
                         finish();
                     }
                 });
-        if (wasException) {
-            b.setTitle(R.string.err_title)
-                    .setMessage(R.string.err_loading_content)
-                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    });
-        } else if (profile.isEmpty()) {
-            b.setTitle(R.string.multireddit_err_title)
-                    .setMessage(R.string.multireddit_err_msg)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                            startActivity(i);
-                        }
-                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-        } else {
-            b.setTitle(R.string.public_multireddit_err_title)
-                    .setMessage(R.string.public_multireddit_err_msg)
-                    .setNegativeButton(R.string.btn_go_back, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    });
+            } else {
+                b.setTitle(R.string.public_multireddit_err_title)
+                        .setMessage(R.string.public_multireddit_err_msg)
+                        .setNegativeButton(R.string.btn_go_back, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+            }
+            b.show();
+        } catch(Exception e){
+            
         }
-        b.show();
     }
 
     private List<MultiReddit> getMultireddits() {

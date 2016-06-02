@@ -682,7 +682,9 @@ public class CommentPage extends Fragment {
             comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
             Submission s = ((CommentsScreen) getActivity()).currentPosts.get(page);
             if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
-                commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
+                String sorting = s.getDataNode().get("suggested_sort").asText().toUpperCase();
+                sorting = sorting.replace("İ", "I");
+                commentSorting = CommentSort.valueOf(sorting);
             } else if (s != null) {
                 commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
             }
@@ -697,7 +699,9 @@ public class CommentPage extends Fragment {
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout);
                 Submission s = ((MainActivity) getActivity()).openingComments;
                 if (s != null && s.getDataNode().has("suggested_sort") && !s.getDataNode().get("suggested_sort").asText().equalsIgnoreCase("null")) {
-                    commentSorting = CommentSort.valueOf(s.getDataNode().get("suggested_sort").asText().toUpperCase());
+                    String sorting = s.getDataNode().get("suggested_sort").asText().toUpperCase();
+                    sorting = sorting.replace("İ", "I");
+                    commentSorting = CommentSort.valueOf(sorting);
                 } else if (s != null) {
                     commentSorting = SettingValues.getCommentSorting(s.getSubredditName());
                 }

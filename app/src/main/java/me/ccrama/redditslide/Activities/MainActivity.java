@@ -2368,8 +2368,10 @@ public class MainActivity extends BaseActivity {
 
             if (subreddit.contains("/m/") || subreddit.contains(".") || subreddit.contains("+")
                     || subreddit.equals("frontpage") || subreddit.equals("all")) {
-                menu.findItem(R.id.submit).setVisible(false);
-                menu.findItem(R.id.sidebar).setVisible(false);
+                if (menu.findItem(R.id.submit) != null)
+                    menu.findItem(R.id.submit).setVisible(false);
+                if (menu.findItem(R.id.sidebar) != null)
+                    menu.findItem(R.id.sidebar).setVisible(false);
             } else {
                 if (menu.findItem(R.id.submit) != null)
                     menu.findItem(R.id.submit).setVisible(true);
@@ -2377,7 +2379,7 @@ public class MainActivity extends BaseActivity {
                     menu.findItem(R.id.sidebar).setVisible(true);
             }
 
-            mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            menu.findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
@@ -2579,7 +2581,7 @@ public class MainActivity extends BaseActivity {
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.contains(".") && !subreddit.contains("/m/") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")&& !subreddit.equalsIgnoreCase("myrandom")&& !subreddit.equalsIgnoreCase("nsfwrandom")) {
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.contains(".") && !subreddit.contains("/m/") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random") && !subreddit.equalsIgnoreCase("myrandom") && !subreddit.equalsIgnoreCase("nsfwrandom")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override

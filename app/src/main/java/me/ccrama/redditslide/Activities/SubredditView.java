@@ -260,8 +260,8 @@ public class SubredditView extends BaseActivityAnim {
 
     private void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
-        if (subreddit.getSubredditType() != null)
-            canSubmit = !subreddit.getSubredditType().equals("RESTRICTED");
+        if (subreddit.getDataNode().has("subreddit_type") && !subreddit.getDataNode().get("subreddit_type").isNull())
+            canSubmit = !subreddit.getDataNode().get("subreddit_type").asText().toUpperCase().equals("RESTRICTED");
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
             findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 

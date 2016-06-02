@@ -135,7 +135,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3200));
                             } else {
                                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                                backdrop.setMaxHeight(3200);
                             }
                         }
 
@@ -159,7 +158,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                             backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3200));
                         } else {
                             backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                            backdrop.setMaxHeight(3200);
                         }
                     }
                 } else {
