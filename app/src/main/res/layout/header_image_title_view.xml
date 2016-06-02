@@ -7,7 +7,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <MaxHeightImageView
+    <me.ccrama.redditslide.Views.MaxHeightImageView
         android:id="@+id/leadimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
