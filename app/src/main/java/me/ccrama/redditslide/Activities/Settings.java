@@ -283,11 +283,10 @@ public class Settings extends BaseActivity {
                     });
                 } else {
                     new AlertDialogWrapper.Builder(Settings.this)
-
                             .setTitle(R.string.general_pro)
                             .setMessage(R.string.general_pro_msg)
                             .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                public void onSingleClick(DialogInterface dialog, int whichButton) {
+                                public void onClick(DialogInterface dialog, int whichButton) {
                                     try {
                                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
                                     } catch (android.content.ActivityNotFoundException anfe) {
@@ -295,7 +294,7 @@ public class Settings extends BaseActivity {
                                     }
                                 }
                             }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                        public void onSingleClick(DialogInterface dialog, int whichButton) {
+                        public void onClick(DialogInterface dialog, int whichButton) {
 
                         }
                     }).show();
