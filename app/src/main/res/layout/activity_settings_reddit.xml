@@ -42,7 +42,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -64,7 +63,7 @@
                     android:id="@+id/nsfwcontent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
@@ -85,7 +84,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -108,7 +106,7 @@
                     android:id="@+id/nsfwrpev"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"

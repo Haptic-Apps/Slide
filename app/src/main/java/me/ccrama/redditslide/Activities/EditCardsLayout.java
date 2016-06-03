@@ -333,6 +333,4 @@ public class EditCardsLayout extends BaseActivityAnim {
 
 
     }
-
-
 }

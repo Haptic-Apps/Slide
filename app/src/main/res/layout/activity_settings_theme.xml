@@ -28,7 +28,6 @@
                 android:orientation="vertical"
                 cardview:cardBackgroundColor="?attr/card_background"
                 cardview:cardCornerRadius="2dp">
-
             </android.support.v7.widget.CardView>
 
             <android.support.design.widget.FloatingActionButton
@@ -176,7 +175,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -206,14 +204,13 @@
                     android:id="@+id/tint_everywhere"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
 
             <View
@@ -228,7 +225,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -250,14 +246,13 @@
                     android:id="@+id/color_navigation_bar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
