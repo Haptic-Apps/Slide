@@ -151,6 +151,7 @@ public class MainActivity extends BaseActivity {
     static final int INBOX_RESULT = 66;
     static final int RESET_ADAPTER_RESULT = 3;
     static final int SETTINGS_RESULT = 2;
+    public static final int DRAWER_EDGE_FACTOR = 4;
     public static Loader loader;
     public static boolean datasetChanged;
     public boolean singleMode;
@@ -609,7 +610,7 @@ public class MainActivity extends BaseActivity {
         } else {
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
             try {
-                Field mDragger = drawerLayout.getClass().getDeclaredField(
+                Field mDragger = drawerLayout.getClass().getSuperclass().getDeclaredField(
                         "mLeftDragger");//mRightDragger for right obviously
                 mDragger.setAccessible(true);
                 ViewDragHelper draggerObj = (ViewDragHelper) mDragger
@@ -620,9 +621,9 @@ public class MainActivity extends BaseActivity {
                 mEdgeSize.setAccessible(true);
                 int edge = mEdgeSize.getInt(draggerObj);
 
-                mEdgeSize.setInt(draggerObj, edge * 6);
+                mEdgeSize.setInt(draggerObj, edge * DRAWER_EDGE_FACTOR);
             } catch (Exception e) {
-
+                LogUtil.e(e + ": Exception thrown while changing navdrawer edge size");
             }
             if (loader != null) {
                 header.setVisibility(View.VISIBLE);
