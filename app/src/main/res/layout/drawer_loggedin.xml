@@ -191,7 +191,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/activity_background"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         android:weightSum="5">
 
         <TextView
