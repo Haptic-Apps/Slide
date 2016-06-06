@@ -13,7 +13,7 @@
 
         <TextView
             style="@style/TextAppearance.AppCompat.Body2"
-            android:id="@+id/miscHeader"
+            android:id="@+id/browserHeader"
             android:text="@string/settings_section_browser"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
