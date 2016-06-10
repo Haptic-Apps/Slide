@@ -109,7 +109,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <Button
+                    <android.support.v7.widget.AppCompatButton
                         android:id="@+id/cancel"
                         style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
@@ -118,22 +118,22 @@
                         android:padding="8dp"
                         android:text="@string/btn_cancel" />
 
-                    <Button
+                    <android.support.v7.widget.AppCompatButton
                         android:id="@+id/reset"
                         style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
-                        android:layout_toRightOf="@+id/cancel"
+                        android:layout_toEndOf="@+id/cancel"
                         android:padding="8dp"
                         android:text="@string/btn_reset" />
 
-                    <Button
+                    <android.support.v7.widget.AppCompatButton
                         android:id="@+id/ok"
                         style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_margin="8dp"
                         android:padding="8dp"
                         android:text="@string/btn_save" />
