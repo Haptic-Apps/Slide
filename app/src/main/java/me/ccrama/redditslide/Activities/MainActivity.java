@@ -2427,7 +2427,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         final String subreddit = usedArray.get(Reddit.currentPosition);
 
         switch (item.getItemId()) {
@@ -2626,9 +2625,9 @@ public class MainActivity extends BaseActivity {
                 Reddit.defaultShareText("Slide for Reddit", "https://play.google.com/store/apps/details?id=me.ccrama.redditslide", MainActivity.this);
                 return true;
             case R.id.submit: {
-                Intent i = new Intent(this, Submit.class);
-                if ((!selectedSub.contains("/m/") || !selectedSub.contains(".")) && canSubmit) {
-                    i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
+                Intent i = new Intent(MainActivity.this, Submit.class);
+                if ((!subreddit.contains("/m/") || !subreddit.contains(".")) && canSubmit) {
+                    i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                 }
                 startActivity(i);
             }
