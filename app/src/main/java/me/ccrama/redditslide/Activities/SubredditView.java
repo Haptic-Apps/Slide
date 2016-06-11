@@ -23,7 +23,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -1100,7 +1099,6 @@ public class SubredditView extends BaseActivityAnim {
 
     }
 
-
     Subreddit sub;
 
     public void executeAsyncSubreddit(String sub) {
@@ -1219,7 +1217,6 @@ public class SubredditView extends BaseActivityAnim {
 
                         blankPage.doOffset(positionOffset);
                         pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
-
                     } else if (positionOffset == 0) {
                         if (position == 1) {
                             doPageSelectedComments(position);
@@ -1231,19 +1228,18 @@ public class SubredditView extends BaseActivityAnim {
                             //mAsyncGetSubreddit.cancel(true);
                             //}
 
-                            if (header.getTranslationY() == 0)
+                            if (header.getTranslationY() == 0) {
                                 header.animate()
                                         .translationY(-header.getHeight())
                                         .setInterpolator(new LinearInterpolator())
                                         .setDuration(180);
+                            }
 
                             pager.setSwipeLeftOnly(true);
                             themeSystemBars(openingComments.getSubredditName().toLowerCase());
                             setRecentBar(openingComments.getSubredditName().toLowerCase());
-
                         }
                     }
-
                 }
 
                 @Override
