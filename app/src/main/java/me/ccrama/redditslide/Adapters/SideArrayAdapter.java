@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -215,7 +217,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                 final ArrayList<String> nlist = new ArrayList<>();
 
                 for (String sub : list) {
-                    if (sub.contains(prefix))
+                    if (StringUtils.containsIgnoreCase(sub, prefix))
                         nlist.add(sub);
                     if (sub.equals(prefix))
                         openInSubView = false;
