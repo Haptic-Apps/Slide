@@ -15,6 +15,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
@@ -261,6 +262,11 @@ public class CommentPage extends Fragment {
         rv = (RecyclerView) v.findViewById(R.id.vertical_content);
         rv.setLayoutManager(mLayoutManager);
         rv.getLayoutManager().scrollToPosition(0);
+
+        if (SettingValues.commentPager && SettingValues.single) {
+            MainActivity.setDrawerEdge(0,
+                    (DrawerLayout) (getActivity()).findViewById(R.id.drawer_layout));
+        }
 
         toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         toolbar.setPopupTheme(new ColorPreferences(getActivity()).getFontStyle().getBaseId());

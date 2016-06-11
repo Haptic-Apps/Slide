@@ -115,6 +115,7 @@ import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.CommentCacheAsync;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
@@ -151,7 +152,6 @@ public class MainActivity extends BaseActivity {
     static final int INBOX_RESULT = 66;
     static final int RESET_ADAPTER_RESULT = 3;
     static final int SETTINGS_RESULT = 2;
-    public static final int DRAWER_EDGE_FACTOR = 4;
     public static Loader loader;
     public static boolean datasetChanged;
     public boolean singleMode;
@@ -609,22 +609,8 @@ public class MainActivity extends BaseActivity {
                     }).show();
         } else {
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            try {
-                Field mDragger = drawerLayout.getClass().getSuperclass().getDeclaredField(
-                        "mLeftDragger");//mRightDragger for right obviously
-                mDragger.setAccessible(true);
-                ViewDragHelper draggerObj = (ViewDragHelper) mDragger
-                        .get(drawerLayout);
+            setDrawerEdge(Constants.DRAWER_SWIPE_EDGE, drawerLayout);
 
-                Field mEdgeSize = draggerObj.getClass().getDeclaredField(
-                        "mEdgeSize");
-                mEdgeSize.setAccessible(true);
-                int edge = mEdgeSize.getInt(draggerObj);
-
-                mEdgeSize.setInt(draggerObj, edge * DRAWER_EDGE_FACTOR);
-            } catch (Exception e) {
-                LogUtil.e(e + ": Exception thrown while changing navdrawer edge size");
-            }
             if (loader != null) {
                 header.setVisibility(View.VISIBLE);
 
@@ -642,6 +628,28 @@ public class MainActivity extends BaseActivity {
                 setDataSet(subs);
                 doDrawer();
             }
+        }
+    }
+
+    /**
+     * Set the drawer edge (i.e. how sensitive the drawer is)
+     * @param edgeSize larger the value, the more sensitive the drawer swipe is
+     * @param drawerLayout to set the edge for
+     */
+    public static void setDrawerEdge(int edgeSize, DrawerLayout drawerLayout) {
+        try {
+            Field mDragger = drawerLayout.getClass().getSuperclass()
+                    .getDeclaredField("mLeftDragger"); //mRightDragger for right obviously
+            mDragger.setAccessible(true);
+            ViewDragHelper draggerObj = (ViewDragHelper) mDragger.get(drawerLayout);
+
+            Field mEdgeSize = draggerObj.getClass().getDeclaredField("mEdgeSize");
+            mEdgeSize.setAccessible(true);
+            final int edge = mEdgeSize.getInt(draggerObj);
+
+            mEdgeSize.setInt(draggerObj, edge * edgeSize);
+        } catch (Exception e) {
+            LogUtil.e(e + ": Exception thrown while changing navdrawer edge size");
         }
     }
 
@@ -2818,6 +2826,7 @@ public class MainActivity extends BaseActivity {
                     pager.setCurrentItem(toOpenComments - 1);
             }
         }
+
         Reddit.setDefaultErrorHandler(this);
 
         if (sideArrayAdapter != null) {
