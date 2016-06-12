@@ -32,7 +32,7 @@ public class Constants {
 
     /**
      * Drawer swipe edge (navdrawer). The higher the value, the more sensitive the navdrawer
-     * swipe area becomes.
+     * swipe area becomes. This is a percentage of the screen width.
      */
-    public static final int DRAWER_SWIPE_EDGE = 2;
+    public static final float DRAWER_SWIPE_EDGE = 0.1f;
 }

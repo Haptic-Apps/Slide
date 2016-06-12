@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
@@ -13,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -208,22 +210,28 @@ public class MainActivity extends BaseActivity {
 
     /**
      * Set the drawer edge (i.e. how sensitive the drawer is)
+     * Based on a given screen width percentage.
      *
-     * @param edgeSize     larger the value, the more sensitive the drawer swipe is
-     * @param drawerLayout to set the edge for
+     * @param displayWidthPercentage larger the value, the more sensitive the drawer swipe is;
+     *                               percentage of screen width
+     * @param drawerLayout           drawerLayout to adjust the swipe edge
      */
-    public static void setDrawerEdge(int edgeSize, DrawerLayout drawerLayout) {
+    public static void setDrawerEdge(Activity activity, final float displayWidthPercentage,
+                                     DrawerLayout drawerLayout) {
         try {
             Field mDragger = drawerLayout.getClass().getSuperclass()
-                    .getDeclaredField("mLeftDragger"); //mRightDragger for right obviously
+                    .getDeclaredField("mLeftDragger");
             mDragger.setAccessible(true);
-            ViewDragHelper draggerObj = (ViewDragHelper) mDragger.get(drawerLayout);
 
-            Field mEdgeSize = draggerObj.getClass().getDeclaredField("mEdgeSize");
+            ViewDragHelper leftDragger = (ViewDragHelper) mDragger.get(drawerLayout);
+            Field mEdgeSize = leftDragger.getClass().getDeclaredField("mEdgeSize");
             mEdgeSize.setAccessible(true);
-            final int edge = mEdgeSize.getInt(draggerObj);
+            final int currentEdgeSize = mEdgeSize.getInt(leftDragger);
 
-            mEdgeSize.setInt(draggerObj, edge * edgeSize);
+            Point displaySize = new Point();
+            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
+            mEdgeSize.setInt(leftDragger,
+                    Math.max(currentEdgeSize, (int) (displaySize.x * displayWidthPercentage)));
         } catch (Exception e) {
             LogUtil.e(e + ": Exception thrown while changing navdrawer edge size");
         }
@@ -659,7 +667,7 @@ public class MainActivity extends BaseActivity {
                     }).show();
         } else {
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            setDrawerEdge(Constants.DRAWER_SWIPE_EDGE, drawerLayout);
+            setDrawerEdge(this, Constants.DRAWER_SWIPE_EDGE, drawerLayout);
 
             if (loader != null) {
                 header.setVisibility(View.VISIBLE);
@@ -3243,6 +3251,7 @@ public class MainActivity extends BaseActivity {
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
+
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -3261,8 +3270,6 @@ public class MainActivity extends BaseActivity {
                                 p.doMainActivityOffline(p.displayer);
                             }
                         }
-
-
                     }
                 }
 
