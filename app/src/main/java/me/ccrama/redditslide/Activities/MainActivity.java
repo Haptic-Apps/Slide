@@ -1667,17 +1667,6 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
-
-            header.findViewById(R.id.submit).setOnClickListener(new OnSingleClickListener() {
-                @Override
-                public void onSingleClick(View view) {
-                    Intent inte = new Intent(MainActivity.this, Submit.class);
-                    if ((!selectedSub.contains("/m/") || !selectedSub.contains(".")) && canSubmit) {
-                        inte.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
-                    }
-                    MainActivity.this.startActivity(inte);
-                }
-            });
             //update notification badge
 
             final LinearLayout profStuff = (LinearLayout) header.findViewById(R.id.accountsarea);

@@ -185,7 +185,6 @@
             app:srcCompat="@drawable/down" />
     </RelativeLayout>
 
-
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/expand_profile"
         android:layout_width="match_parent"
@@ -196,17 +195,6 @@
         android:weightSum="5">
 
         <TextView
-            android:id="@+id/submit"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="24dp"
-            android:text="@string/btn_submit"
-            android:textSize="14sp" />
-
-        <TextView
             android:id="@+id/saved"
             android:layout_width="match_parent"
             android:layout_height="42dp"
@@ -215,28 +203,6 @@
             android:orientation="horizontal"
             android:paddingStart="24dp"
             android:text="@string/profile_saved"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/upvoted"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="24dp"
-            android:text="@string/profile_upvoted"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/submitted"
-            android:layout_width="match_parent"
-            android:layout_height="42dp"
-            android:background="?android:selectableItemBackground"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="24dp"
-            android:text="@string/profile_submitted"
             android:textSize="14sp" />
 
         <TextView
@@ -251,6 +217,28 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/submitted"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="24dp"
+            android:text="@string/profile_submitted"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/upvoted"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="?android:selectableItemBackground"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="24dp"
+            android:text="@string/profile_upvoted"
+            android:textSize="14sp" />
+
+        <TextView
             android:id="@+id/history"
             android:layout_width="match_parent"
             android:layout_height="42dp"
@@ -260,6 +248,7 @@
             android:paddingStart="24dp"
             android:text="@string/profile_history"
             android:textSize="14sp" />
+
         <TextView
             android:id="@+id/friends"
             android:layout_width="match_parent"
