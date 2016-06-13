@@ -7,8 +7,7 @@ width="200"
 Slide is an open source, ad free Reddit browser for Android. It is based around
 the [Java Reddit API Wrapper](https://github.com/thatJavaNerd/JRAW).
 
-Slide is available on the Google Play Store and F-Droid.
-
+Slide is available on the Google Play Store and F-Droid.  
 <a href="https://play.google.com/store/apps/details?id=me.ccrama.redditslide">
     <img alt="Get it on Google Play"
         height="80"
@@ -18,8 +17,7 @@ Slide is available on the Google Play Store and F-Droid.
     <img alt="Get it on F-Droid"
         height="80"
         src="https://f-droid.org/badge/get-it-on.png" />
-</a>
-
+</a>  
 There is an active community for Slide on the
 [/r/slideforreddit](https://www.reddit.com/r/slideforreddit/) subreddit,
 which anybody is welcome to join.
