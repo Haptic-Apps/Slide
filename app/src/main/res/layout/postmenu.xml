@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <me.ccrama.redditslide.Views.LayerlessCardView
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="?attr/card_background"
@@ -19,14 +19,14 @@
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:textColor="#fff"
 
+                android:layout_height="wrap_content"
                 android:background="@color/md_light_green_500"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:padding="24dp"
                 android:text="Post title here"
-                android:textColor="#fff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -41,8 +41,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="20dp"
-                    android:paddingEnd="20dp"
                     android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
 
                     android:paddingTop="8dp">
 
@@ -65,8 +65,8 @@
 
                             android:padding="12dp"
 
-                            android:tint="?attr/tint"
-                            app:srcCompat="@drawable/profile" />
+                            app:srcCompat="@drawable/profile"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:id="@+id/userpopup"
@@ -100,8 +100,8 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:tint="?attr/tint"
-                            app:srcCompat="@drawable/sub" />
+                            app:srcCompat="@drawable/sub"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:id="@+id/subpopup"
@@ -134,9 +134,9 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
+                            app:srcCompat="@drawable/iconstarfilled"
 
-                            app:srcCompat="@drawable/iconstarfilled" />
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:id="@+id/savedtext"
@@ -170,8 +170,8 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:tint="?attr/tint"
-                            app:srcCompat="@drawable/openexternal" />
+                            app:srcCompat="@drawable/openexternal"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -202,8 +202,8 @@
                             android:alpha=".86"
                             android:padding="12dp"
 
-                            android:tint="?attr/tint"
-                            app:srcCompat="@drawable/report" />
+                            app:srcCompat="@drawable/report"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -234,8 +234,8 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
-                            app:srcCompat="@drawable/infonew" />
+                            app:srcCompat="@drawable/infonew"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -261,8 +261,8 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
-                            app:srcCompat="@drawable/share" />
+                            app:srcCompat="@drawable/share"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -292,8 +292,8 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
-                            app:srcCompat="@drawable/hide" />
+                            app:srcCompat="@drawable/hide"
+                            android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -312,36 +312,36 @@
                         android:layout_height="48dp"
                         android:background="?android:selectableItemBackground"
                         android:gravity="center_vertical"
-                        android:orientation="horizontal"
                         android:visibility="gone"
+                        android:orientation="horizontal"
                      >
 
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
-                            app:srcCompat="@drawable/commentchange" />
+                            app:srcCompat="@drawable/commentchange"
+                            android:tint="?attr/tint" />
 
 
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
-                            app:srcCompat="@drawable/downvote" />
+                            app:srcCompat="@drawable/downvote"
+                            android:tint="?attr/tint" />
                         <ImageView
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            android:tint="?attr/tint"
-                            app:srcCompat="@drawable/upvoted" />
+                            app:srcCompat="@drawable/upvoted"
+                            android:tint="?attr/tint" />
 
                     </LinearLayout>
 
@@ -349,5 +349,5 @@
 
             </RelativeLayout>
         </LinearLayout>
-    </me.ccrama.redditslide.Views.LayerlessCardView>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

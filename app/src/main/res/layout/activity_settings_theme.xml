@@ -18,16 +18,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <me.ccrama.redditslide.Views.LayerlessCardView xmlns:android="http://schemas.android.com/apk/res/android"
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/card"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
                 android:orientation="vertical"
                 cardview:cardBackgroundColor="?attr/card_background"
-                cardview:cardCornerRadius="2dp"></me.ccrama.redditslide.Views.LayerlessCardView>
+                cardview:cardCornerRadius="2dp">
+            </android.support.v7.widget.CardView>
 
             <android.support.design.widget.FloatingActionButton
                 android:layout_width="wrap_content"
@@ -38,14 +39,14 @@
                 app:srcCompat="@drawable/more" />
 
             <TextView
-                android:id="@+id/appThemeHeader"
                 style="@style/TextAppearance.AppCompat.Body2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingEnd="16dp"
+                android:id="@+id/appThemeHeader"
+                android:text="@string/app_theme"
                 android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:paddingTop="16dp"
-                android:text="@string/app_theme" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/main"
@@ -120,14 +121,14 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/tintingHeader"
                 style="@style/TextAppearance.AppCompat.Body2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingEnd="16dp"
+                android:id="@+id/tintingHeader"
+                android:text="@string/tinting"
                 android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:paddingTop="16dp"
-                android:text="@string/tinting" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:id="@+id/dotint"
@@ -177,10 +178,10 @@
                 android:paddingStart="16dp">
 
                 <LinearLayout
+                    android:layout_marginEnd="42dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="42dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -203,11 +204,11 @@
                     android:id="@+id/tint_everywhere"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:paddingEnd="16dp"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </RelativeLayout>
@@ -227,10 +228,10 @@
                 android:paddingStart="16dp">
 
                 <LinearLayout
+                    android:layout_marginEnd="42dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="42dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -245,11 +246,11 @@
                     android:id="@+id/color_navigation_bar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
-                    android:paddingEnd="16dp"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </RelativeLayout>
