@@ -14,7 +14,7 @@ Slide is available on the Google Play Store and F-Droid.
         height="60"
         src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" />
 </a>
-[![Get it on F-Droid](https://f-droid.org/wiki/images/0/06/F-Droid-button_get-it-on.png)](https://f-droid.org/app/me.ccrama.redditslide)
+[![Get it on F-Droid](https://f-droid.org/badge/get-it-on.png)](https://f-droid.org/app/me.ccrama.redditslide)
 
 There is an active community for Slide on the
 [/r/slideforreddit](https://www.reddit.com/r/slideforreddit/) subreddit,
