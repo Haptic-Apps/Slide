@@ -5,7 +5,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <me.ccrama.redditslide.Views.LayerlessCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="?attr/card_background"
@@ -19,10 +19,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/font"
-
                 android:padding="24dp"
+
                 android:text="@string/navigate_comments_since"
+                android:textColor="?attr/font"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
@@ -37,8 +37,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="20dp"
-                    android:paddingStart="20dp"
                     android:paddingEnd="20dp"
+                    android:paddingStart="20dp"
                     android:paddingTop="8dp">
 
                     <com.rey.material.widget.Slider
@@ -52,16 +52,16 @@
                         app:sl_secondaryColor="?attr/tint"
                         app:sl_stepValue="15"/>
                     <TextView
+                        android:id="@+id/time_string"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:textColor="?attr/font"
                         android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:id="@+id/time_string"
-                        android:layout_height="wrap_content" />
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </RelativeLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </me.ccrama.redditslide.Views.LayerlessCardView>
 </LinearLayout>

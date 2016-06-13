@@ -1,12 +1,12 @@
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<me.ccrama.redditslide.Views.LayerlessCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/top"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
     android:layout_marginEnd="4dp"
     android:layout_marginStart="24dp"
     android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
     android:background="#424242"
     android:clipChildren="false"
     android:orientation="vertical"
@@ -70,10 +70,10 @@
 
         <me.ccrama.redditslide.SpoilerRobotoTextView
             android:id="@+id/content"
-            android:paddingBottom="4dp"
-            android:text="This is some test content."
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="4dp"
+            android:text="This is some test content."
             android:textColor="?attr/font"
             android:textSize="?attr/font_commentbody" />
 
@@ -82,8 +82,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:paddingStart="8dp"
             android:visibility="invisible" />
     </LinearLayout>
-</android.support.v7.widget.CardView>
+</me.ccrama.redditslide.Views.LayerlessCardView>

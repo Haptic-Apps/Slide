@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <me.ccrama.redditslide.Views.LayerlessCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="?attr/card_background"
@@ -37,15 +37,15 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="20dp"
-                    android:paddingStart="20dp"
                     android:paddingEnd="20dp"
+                    android:paddingStart="20dp"
                     android:paddingTop="20dp">
 
                     <TextView
+                        android:id="@+id/progressnumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/multi_column_landscape"
-                        android:id="@+id/progressnumber"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -54,8 +54,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="8dp"
-                        android:max="5" />
+                        android:max="5"
+                        android:padding="8dp" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/dualcolumns"
@@ -87,5 +87,5 @@
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </me.ccrama.redditslide.Views.LayerlessCardView>
 </LinearLayout>

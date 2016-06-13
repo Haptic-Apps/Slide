@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <me.ccrama.redditslide.Views.LayerlessCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="?attr/card_background"
@@ -19,14 +19,14 @@
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
-                android:textColor="#fff"
-
                 android:layout_height="wrap_content"
+
                 android:background="@color/md_light_green_500"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:padding="24dp"
                 android:text="@string/captcha_title"
+                android:textColor="#fff"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -76,5 +76,5 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </me.ccrama.redditslide.Views.LayerlessCardView>
 </LinearLayout>
