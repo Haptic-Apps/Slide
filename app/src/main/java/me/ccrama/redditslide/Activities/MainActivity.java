@@ -816,6 +816,7 @@ public class MainActivity extends BaseActivity {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             findViewById(R.id.sub_title).setVisibility(View.GONE);
             findViewById(R.id.subscribers).setVisibility(View.GONE);
+            findViewById(R.id.active_users).setVisibility(View.GONE);
 
             findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subreddit));
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
@@ -1380,6 +1381,8 @@ public class MainActivity extends BaseActivity {
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
+        ((TextView) findViewById(R.id.active_users)).setText(getString(R.string.subreddit_active_users_string, subreddit.getAccountsActive()));
+        findViewById(R.id.active_users).setVisibility(View.VISIBLE);
     }
 
     public void openPopup() {

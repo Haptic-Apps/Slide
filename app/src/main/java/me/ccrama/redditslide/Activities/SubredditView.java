@@ -341,10 +341,11 @@ public class SubredditView extends BaseActivityAnim {
         } else {
             findViewById(R.id.subimage).setVisibility(View.GONE);
         }
-
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
+        ((TextView) findViewById(R.id.active_users)).setText(getString(R.string.subreddit_active_users_string, subreddit.getAccountsActive()));
+        findViewById(R.id.active_users).setVisibility(View.VISIBLE);
     }
 
     public int getCurrentPage() {
@@ -701,6 +702,7 @@ public class SubredditView extends BaseActivityAnim {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             findViewById(R.id.sub_title).setVisibility(View.GONE);
             findViewById(R.id.subscribers).setVisibility(View.GONE);
+            findViewById(R.id.active_users).setVisibility(View.GONE);
 
             findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subOverride));
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subOverride);

@@ -32,13 +32,13 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/sub_infotitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@+id/subimage"
+                    android:layout_toStartOf="@+id/subimage"
                     android:paddingStart="16dp"
                     android:text="/r/Android"
                     android:textColor="@color/white"
@@ -50,17 +50,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/sub_infotitle"
-                    android:layout_toLeftOf="@+id/subimage"
+                    android:layout_toStartOf="@+id/subimage"
                     android:paddingStart="16dp"
-                    android:text="A sub for 2 years"
+                    android:text="65,892 subscribers"
                     android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/active_users"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/subscribers"
+                    android:layout_toStartOf="@+id/subimage"
+                    android:paddingStart="16dp"
+                    android:text="12,345 here now"
+                    android:textColor="@color/white"
+                    android:textStyle="italic"
                     android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/subimage"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true" />
             </RelativeLayout>
 
@@ -147,138 +159,138 @@
                 android:paddingStart="16dp">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/theme"
-                    android:background="?android:selectableItemBackground"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground">
 
                     <ImageView
                         android:layout_width="48dp"
-                        app:srcCompat="@drawable/theme"
+                        android:layout_height="48dp"
                         android:padding="12dp"
                         android:tint="?attr/tint"
-                        android:layout_height="48dp" />
+                        app:srcCompat="@drawable/theme" />
 
                     <TextView
                         android:id="@+id/theme_text"
                         android:layout_width="wrap_content"
-                        android:paddingStart="52dp"
                         android:layout_height="match_parent"
-                        android:textStyle="bold"
+                        android:height="48dp"
                         android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="52dp"
                         android:text="@string/subreddit_theme"
                         android:textAllCaps="true"
-                        android:height="48dp"
                         android:textColor="?attr/colorAccent"
-                        android:gravity="center_vertical" />
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/wiki"
-                    android:background="?android:selectableItemBackground"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground">
 
                     <ImageView
                         android:layout_width="48dp"
-                        app:srcCompat="@drawable/wiki"
+                        android:layout_height="48dp"
                         android:padding="12dp"
                         android:tint="?attr/tint"
-                        android:layout_height="48dp" />
+                        app:srcCompat="@drawable/wiki" />
 
                     <TextView
                         android:id="@+id/wiki_text"
                         android:layout_width="wrap_content"
-                        android:paddingStart="52dp"
                         android:layout_height="match_parent"
-                        android:textStyle="bold"
+                        android:height="48dp"
                         android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="52dp"
                         android:text="@string/sidebar_wiki"
                         android:textAllCaps="true"
-                        android:height="48dp"
                         android:textColor="?attr/colorAccent"
-                        android:gravity="center_vertical" />
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/submit"
-                    android:background="?android:selectableItemBackground"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground">
 
                     <ImageView
                         android:layout_width="48dp"
-                        app:srcCompat="@drawable/send"
-                        android:tint="?attr/tint"
+                        android:layout_height="48dp"
                         android:padding="12dp"
-                        android:layout_height="48dp" />
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/send" />
 
                     <TextView
                         android:id="@+id/post_text"
                         android:layout_width="wrap_content"
-                        android:paddingStart="52dp"
                         android:layout_height="match_parent"
-                        android:textStyle="bold"
+                        android:height="48dp"
                         android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="52dp"
                         android:text="@string/editor_submit"
                         android:textAllCaps="true"
-                        android:height="48dp"
                         android:textColor="?attr/colorAccent"
-                        android:gravity="center_vertical" />
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/mods"
-                    android:background="?android:selectableItemBackground"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground">
 
                     <ImageView
                         android:layout_width="48dp"
-                        app:srcCompat="@drawable/mod"
+                        android:layout_height="48dp"
                         android:padding="12dp"
                         android:tint="?attr/tint"
-                        android:layout_height="48dp" />
+                        app:srcCompat="@drawable/mod" />
 
                     <TextView
                         android:id="@+id/mods_text"
                         android:layout_width="wrap_content"
-                        android:paddingStart="52dp"
-                        android:textStyle="bold"
                         android:layout_height="match_parent"
+                        android:height="48dp"
                         android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="52dp"
                         android:text="@string/sidebar_mods"
                         android:textAllCaps="true"
-                        android:height="48dp"
                         android:textColor="?attr/colorAccent"
-                        android:gravity="center_vertical" />
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
                     android:id="@+id/flair"
-                    android:background="?android:selectableItemBackground"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground">
 
                     <ImageView
                         android:layout_width="48dp"
-                        app:srcCompat="@drawable/fontsizedarker"
+                        android:layout_height="48dp"
                         android:padding="12dp"
                         android:tint="?attr/tint"
-                        android:layout_height="48dp" />
+                        app:srcCompat="@drawable/fontsizedarker" />
 
                     <TextView
                         android:id="@+id/flair_text"
                         android:layout_width="wrap_content"
-                        android:paddingStart="52dp"
-                        android:textStyle="bold"
                         android:layout_height="match_parent"
                         android:drawablePadding="16dp"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:paddingStart="52dp"
                         android:text="@string/sidebar_edit_flair"
                         android:textAllCaps="true"
-                        android:minHeight="48dp"
                         android:textColor="?attr/colorAccent"
-                        android:gravity="center_vertical" />
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <View
@@ -304,8 +316,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:paddingStart="8dp"
             android:visibility="gone" />
     </LinearLayout>
 </ScrollView>
