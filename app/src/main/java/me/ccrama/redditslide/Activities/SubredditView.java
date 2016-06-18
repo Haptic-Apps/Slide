@@ -456,7 +456,7 @@ public class SubredditView extends BaseActivityAnim {
                 ((SubmissionsView) (adapter.getCurrentFragment())).resetScroll();
             }
         });
-        if (!subreddit.equals("random") && !subreddit.equals("myrandom") && !subreddit.equals("nsfwrandom"))
+        if (!subreddit.equals("random") && !subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.equals("friends") && !subreddit.equals("mod") && !subreddit.equals("myrandom") && !subreddit.equals("nsfwrandom"))
             executeAsyncSubreddit(subreddit);
     }
 
@@ -727,7 +727,7 @@ public class SubredditView extends BaseActivityAnim {
 
         invalidateOptionsMenu();
 
-        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") && !subOverride.equalsIgnoreCase("random")&& !subOverride.equalsIgnoreCase("myrandom")&& !subOverride.equalsIgnoreCase("nsfwrandom") &&
+        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") && !subOverride.equalsIgnoreCase("random") && !subOverride.equalsIgnoreCase("myrandom") && !subOverride.equalsIgnoreCase("nsfwrandom") &&
                 !subOverride.equalsIgnoreCase("friends") && !subOverride.equalsIgnoreCase("mod") &&
                 !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains("/m/")) {
             if (drawerLayout != null) {
