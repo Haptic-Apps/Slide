@@ -954,6 +954,15 @@ public class MainActivity extends BaseActivity {
                                             i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
                                             startActivity(i);
                                         }
+                                    })
+                                    .positiveText(R.string.btn_message)
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            Intent i = new Intent(MainActivity.this, Sendmessage.class);
+                                            i.putExtra(Sendmessage.EXTRA_NAME, "/r/" + subreddit);
+                                            startActivity(i);
+                                        }
                                     }).show();
                         }
                     }.execute();

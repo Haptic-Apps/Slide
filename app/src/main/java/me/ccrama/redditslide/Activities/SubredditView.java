@@ -835,6 +835,15 @@ public class SubredditView extends BaseActivityAnim {
                                             i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
                                             startActivity(i);
                                         }
+                                    })
+                                    .positiveText(R.string.btn_message)
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            Intent i = new Intent(SubredditView.this, Sendmessage.class);
+                                            i.putExtra(Sendmessage.EXTRA_NAME, "/r/" + subOverride);
+                                            startActivity(i);
+                                        }
                                     }).show();
                         }
                     }.execute();

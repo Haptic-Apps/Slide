@@ -337,6 +337,7 @@
     <string name="btn_cache">Cache comments</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_time">Time period</string>
+    <string name="btn_message">Message</string>
 
 
     <!-- Backup -->
