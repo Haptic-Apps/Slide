@@ -489,7 +489,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             boolean lq = false;
             if (SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(getActivity()) && SettingValues.lowResMobile))) {
                 String lqurl = url.substring(0, url.lastIndexOf(".")) + (SettingValues.imgurLq ? "m" : "h") + url.substring(url.lastIndexOf("."), url.length());
-
                 loadImage(rootView, this, lqurl);
                 lq = true;
             } else {
