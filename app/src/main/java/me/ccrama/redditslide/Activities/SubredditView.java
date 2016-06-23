@@ -456,7 +456,10 @@ public class SubredditView extends BaseActivityAnim {
                 ((SubmissionsView) (adapter.getCurrentFragment())).resetScroll();
             }
         });
-        if (!subreddit.equals("random") && !subreddit.equals("all") && !subreddit.equals("frontpage") && !subreddit.equals("friends") && !subreddit.equals("mod") && !subreddit.equals("myrandom") && !subreddit.equals("nsfwrandom"))
+        if (!subreddit.equals("random") && !subreddit.equals("all")
+                && !subreddit.equals("frontpage") && !subreddit.equals("friends")
+                && !subreddit.equals("mod") && !subreddit.equals("myrandom")
+                && !subreddit.equals("nsfwrandom") && !subreddit.contains("+"))
             executeAsyncSubreddit(subreddit);
     }
 

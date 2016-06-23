@@ -50,7 +50,7 @@
                         android:visibility="gone"
                         android:imeOptions="actionSearch"
                         android:singleLine="true"
-                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.+"
                         android:theme="@style/SearchEditTextTheme"
                         style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
