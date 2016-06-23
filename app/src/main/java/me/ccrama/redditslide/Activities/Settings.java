@@ -24,6 +24,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.OnSingleClickListener;
 
 
 /**
@@ -70,7 +71,6 @@ public class Settings extends BaseActivity {
 
         SettingValues.prefs.registerOnSharedPreferenceChangeListener(prefsListener);
 
-
         mScrollView.post(new Runnable() {
 
             @Override
@@ -95,9 +95,9 @@ public class Settings extends BaseActivity {
         View pro = findViewById(R.id.pro);
         if (SettingValues.tabletUI) pro.setVisibility(View.GONE);
         else {
-            pro.setOnClickListener(new View.OnClickListener() {
+            pro.setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onSingleClick(View v) {
                     try {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
                     } catch (android.content.ActivityNotFoundException anfe) {
@@ -107,113 +107,116 @@ public class Settings extends BaseActivity {
             });
         }
 
-        findViewById(R.id.general).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.general).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsGeneral.class);
                 startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
 
-        findViewById(R.id.history).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.history).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsHistory.class);
                 startActivity(i);
             }
         });
 
-        findViewById(R.id.about).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.about).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsAbout.class);
                 startActivity(i);
             }
         });
 
-
-        findViewById(R.id.datasave).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.datasave).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsData.class);
                 startActivity(i);
             }
         });
 
-        findViewById(R.id.subtheme).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.subtheme).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsSubreddit.class);
                 startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
 
-
-        findViewById(R.id.filter).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.filter).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
 
                 Intent i = new Intent(Settings.this, SettingsFilter.class);
                 startActivity(i);
             }
         });
-        findViewById(R.id.synccit).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.synccit).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
 
                 Intent i = new Intent(Settings.this, SettingsSynccit.class);
                 startActivity(i);
             }
         });
 
-        findViewById(R.id.reorder).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.reorder).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                 Intent inte = new Intent(Settings.this, ReorderSubreddits.class);
                 Settings.this.startActivity(inte);
             }
         });
 
-        findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.theme).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
 
                 Intent i = new Intent(Settings.this, SettingsTheme.class);
                 startActivityForResult(i, RESTART_SETTINGS_RESULT);
             }
         });
-        findViewById(R.id.handling).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.handling).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsHandling.class);
                 startActivity(i);
             }
         });
-        findViewById(R.id.layout).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.layout).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, EditCardsLayout.class);
                 startActivity(i);
             }
         });
-        findViewById(R.id.backup).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.backup).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsBackup.class);
                 startActivity(i);
             }
         });
 
-        findViewById(R.id.font).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.font).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(Settings.this, SettingsFont.class);
                 startActivity(i);
             }
         });
-        findViewById(R.id.tablet).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.tablet).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onSingleClick(View view) {
                   /*  Intent inte = new Intent(Overview.this, Overview.class);
                     inte.putExtra("type", UpdateSubreddits.COLLECTIONS);
                     Overview.this.startActivity(inte);*/
@@ -280,7 +283,6 @@ public class Settings extends BaseActivity {
                     });
                 } else {
                     new AlertDialogWrapper.Builder(Settings.this)
-
                             .setTitle(R.string.general_pro)
                             .setMessage(R.string.general_pro_msg)
                             .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
@@ -300,25 +302,26 @@ public class Settings extends BaseActivity {
             }
         });
 
-        findViewById(R.id.support).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.support).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent inte = new Intent(Settings.this, DonateView.class);
                 Settings.this.startActivity(inte);
             }
         });
-        findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
+
+        findViewById(R.id.comments).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent inte = new Intent(Settings.this, SettingsComments.class);
                 Settings.this.startActivity(inte);
             }
         });
 
         if (Authentication.isLoggedIn) {
-            findViewById(R.id.reddit_settings).setOnClickListener(new View.OnClickListener() {
+            findViewById(R.id.reddit_settings).setOnClickListener(new OnSingleClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onSingleClick(View v) {
                     Intent i = new Intent(Settings.this, SettingsReddit.class);
                     startActivity(i);
                 }
@@ -327,7 +330,6 @@ public class Settings extends BaseActivity {
             findViewById(R.id.reddit_settings).setEnabled(false);
             findViewById(R.id.reddit_settings).setAlpha(0.25f);
         }
-
     }
 
     @Override

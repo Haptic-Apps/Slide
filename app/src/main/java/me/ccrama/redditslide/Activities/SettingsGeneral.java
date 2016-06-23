@@ -34,6 +34,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.OnSingleClickListener;
 
 
 /**
@@ -144,7 +145,6 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
         setContentView(R.layout.activity_settings_general);
         setupAppBar(R.id.toolbar, R.string.settings_title_general, true, true);
 
-
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.forcelanguage);
 
@@ -155,7 +155,6 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                     SettingsTheme.changed = true;
                     SettingValues.overrideLanguage = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE, isChecked).apply();
-
                 }
             });
         }
@@ -181,19 +180,17 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.expandedToolbar = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_EXPANDED_TOOLBAR, isChecked).apply();
-
                 }
             });
         }
 
-        findViewById(R.id.viewtype).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.viewtype).setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 Intent i = new Intent(SettingsGeneral.this, SettingsViewType.class);
                 startActivity(i);
             }
         });
-
 
         //FAB multi choice//
         ((TextView) findViewById(R.id.fab_current)).setText(SettingValues.fab ? (SettingValues.fabType == R.integer.FAB_DISMISS ? getString(R.string.fab_hide) : getString(R.string.fab_create)) : getString(R.string.fab_disabled));
@@ -285,7 +282,6 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
         });
 
 
-
         {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.exitcheck);
 
@@ -295,7 +291,6 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     SettingValues.exit = isChecked;
                     SettingValues.prefs.edit().putBoolean(SettingValues.PREF_EXIT, isChecked).apply();
-
                 }
             });
         }

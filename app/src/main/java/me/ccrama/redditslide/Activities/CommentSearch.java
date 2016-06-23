@@ -20,10 +20,9 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 
 /**
  * Created by ccrama on 9/17/2015.
- *
+ * <p/>
  * This activity takes the shared comment data and allows for searching through the text of the
  * CommentNodes.
- *
  */
 public class CommentSearch extends BaseActivityAnim {
 
@@ -42,11 +41,13 @@ public class CommentSearch extends BaseActivityAnim {
         rv.setLayoutManager(mLayoutManager);
         ArrayList<CommentNode> comments = new ArrayList<>();
         List<CommentObject> commentsOld = DataShare.sharedComments;
-        for (CommentObject o : commentsOld) {
-            if(o instanceof CommentItem)
-            comments.add(o.comment);
-
-        }
+        if (commentsOld != null && !commentsOld.isEmpty())
+            for (CommentObject o : commentsOld) {
+                if (o instanceof CommentItem)
+                    comments.add(o.comment);
+            }
+        else
+            finish();
         final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments, rv, DataShare.subAuthor);
         rv.setAdapter(adapter);
         search.addTextChangedListener(new TextWatcher() {

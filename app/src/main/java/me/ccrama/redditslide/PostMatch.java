@@ -210,7 +210,7 @@ public class PostMatch {
 
         domainc = !SettingValues.domainFilters.isEmpty() && contains(domain.toLowerCase(), domains, false);
 
-        subredditc = !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(), subreddits, true);
+        subredditc = subreddit != null && !subreddit.isEmpty() && !SettingValues.subredditFilters.isEmpty() && contains(subreddit.toLowerCase(), subreddits, true);
 
         return (titlec || bodyc || domainc || subredditc);
     }

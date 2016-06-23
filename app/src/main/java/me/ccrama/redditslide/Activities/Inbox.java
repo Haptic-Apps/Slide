@@ -89,13 +89,17 @@ public class Inbox extends BaseActivityAnim {
                         if (changed) { //restart the fragment
                             adapter.notifyDataSetChanged();
 
-                            final int CURRENT_TAB = tabs.getSelectedTabPosition();
-                            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-                            pager.setAdapter(adapter);
-                            tabs.setupWithViewPager(pager);
+                            try {
+                                final int CURRENT_TAB = tabs.getSelectedTabPosition();
+                                adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+                                pager.setAdapter(adapter);
+                                tabs.setupWithViewPager(pager);
 
-                            scrollToTabAfterLayout(CURRENT_TAB);
-                            pager.setCurrentItem(CURRENT_TAB);
+                                scrollToTabAfterLayout(CURRENT_TAB);
+                                pager.setCurrentItem(CURRENT_TAB);
+                            } catch(Exception e){
+                                
+                            }
                         }
                     }
                 }.execute();
@@ -163,7 +167,7 @@ public class Inbox extends BaseActivityAnim {
                         .translationY(0)
                         .setInterpolator(new LinearInterpolator())
                         .setDuration(180);
-                if (position == 3) {
+                if (position == 3 && findViewById(R.id.read) != null) {
                     findViewById(R.id.read).setVisibility(View.GONE);
                 } else if(findViewById(R.id.read) != null){
                     findViewById(R.id.read).setVisibility(View.VISIBLE);

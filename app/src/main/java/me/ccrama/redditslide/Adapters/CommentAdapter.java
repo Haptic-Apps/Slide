@@ -2268,7 +2268,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     }
                     toCollapse.add(comment.getFullName());
-                    if ((holder.firstTextView.getVisibility() == View.VISIBLE ||holder.commentOverflow.getVisibility() == View.VISIBLE )&& SettingValues.collapseComments) {
+                    if ((holder.firstTextView.getVisibility() == View.VISIBLE || holder.commentOverflow.getVisibility() == View.VISIBLE) && SettingValues.collapseComments) {
                         holder.firstTextView.setVisibility(View.GONE);
                         holder.commentOverflow.setVisibility(View.GONE);
                     } else if (SettingValues.collapseComments) {
@@ -2332,7 +2332,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 notifyItemRangeInserted(i, counter);
             }
-        } catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
@@ -2424,7 +2424,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     hidden.add(fullname);
                 }
                 if (ignored.hasMoreComments()) {
-                    if(currentLoading != null && currentLoading.fullname.equals(fullname)){
+                    if (currentLoading != null && currentLoading.fullname.equals(fullname)) {
                         currentLoading.cancel(true);
                     }
                     fullname = fullname + "more";
@@ -2462,7 +2462,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private int getHiddenCountUpTo(int location) {
         int count = 0;
-        for (int i = 0; i <= location; i++) {
+        for (int i = 0; (i <= location && i < users.size()); i++) {
             if (users.size() > i && hidden.contains(users.get(i).getName())) {
                 count++;
             }
@@ -2967,7 +2967,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Snackbar s;
                 if (ActionStates.isSaved(comment)) {
                     s = Snackbar.make(holder.itemView, "Comment saved", Snackbar.LENGTH_LONG);
-                    if(Authentication.me.hasGold()) {
+                    if (Authentication.me.hasGold()) {
                         s.setAction("CATEGORIZE", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

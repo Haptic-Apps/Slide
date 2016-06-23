@@ -451,8 +451,8 @@ public class Profile extends BaseActivityAnim {
                         break;
                 }
 
-                Reddit.sorting.put(name, profSort);
-                Reddit.times.put(name, profTime);
+                Reddit.sorting.put(name.toLowerCase(), profSort);
+                Reddit.times.put(name.toLowerCase(), profTime);
 
                 int current = pager.getCurrentItem();
                 ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());

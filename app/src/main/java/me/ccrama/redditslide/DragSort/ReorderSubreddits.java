@@ -564,7 +564,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                     protected Void doInBackground(Void... params) {
                                         AccountManager m = new AccountManager(Authentication.reddit);
                                         for (String s : chosen) {
-                                            m.unsubscribe(s);
+                                            m.unsubscribe(Authentication.reddit.getSubreddit(s));
                                         }
                                         return null;
                                     }
@@ -684,7 +684,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                             @Override
                                                             protected Void doInBackground(Void... params) {
                                                                 AccountManager m = new AccountManager(Authentication.reddit);
-                                                                m.unsubscribe(sub);
+                                                                m.unsubscribe(Authentication.reddit.getSubreddit(sub));
                                                                 return null;
                                                             }
                                                         }.execute();

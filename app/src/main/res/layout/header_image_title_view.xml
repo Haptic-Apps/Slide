@@ -7,11 +7,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <ImageView
+    <me.ccrama.redditslide.Views.MaxHeightImageView
         android:id="@+id/leadimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
+        android:maxHeight="3200px"
         android:scaleType="centerCrop"
         android:src="@drawable/chameleon" />
 

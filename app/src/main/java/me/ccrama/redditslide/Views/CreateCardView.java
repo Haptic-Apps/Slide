@@ -48,14 +48,6 @@ public class CreateCardView {
                 break;
         }
 
-//        if (SubmissionsView.getNumColumns(Resources.getSystem().getConfiguration().orientation) >= 2
-//                && !(v.getContext() instanceof EditCardsLayout)
-//                && SettingValues.defaultCardView == CardEnum.LIST) {
-//            StaggeredGridLayoutManager.LayoutParams cvlp = (StaggeredGridLayoutManager.LayoutParams) (v.findViewById(R.id.card)).getLayoutParams();
-//            cvlp.setMarginEnd(0);
-//            (v.findViewById(R.id.card)).setLayoutParams(cvlp);
-//        }
-
         View thumbImage = v.findViewById(R.id.thumbimage2);
         /**
          * If the user wants small thumbnails, revert the list style to the "old" list view.

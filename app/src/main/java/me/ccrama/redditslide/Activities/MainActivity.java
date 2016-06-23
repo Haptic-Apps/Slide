@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Activities;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
@@ -13,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -115,6 +117,7 @@ import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.CommentCacheAsync;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
@@ -153,10 +156,14 @@ public class MainActivity extends BaseActivity {
     static final int SETTINGS_RESULT = 2;
     public static Loader loader;
     public static boolean datasetChanged;
+    public static Map<String, String> multiNameToSubsMap = new HashMap<>();
+    public static boolean checkedPopups;
+    public static String shouldLoad;
+    public final long ANIMATE_DURATION = 250; //duration of animations
+    private final long ANIMATE_DURATION_OFFSET = 45; //offset for smoothing out the exit animations
     public boolean singleMode;
     public ToggleSwipeViewPager pager;
     public List<String> usedArray;
-    public static Map<String, String> multiNameToSubsMap = new HashMap<>();
     public DrawerLayout drawerLayout;
     public View hea;
     public EditText drawerSearch;
@@ -167,12 +174,82 @@ public class MainActivity extends BaseActivity {
     public boolean first = true;
     public TabLayout mTabLayout;
     public ListView drawerSubList;
+    public String selectedSub; //currently selected subreddit
+    public Runnable doImage;
+    public Intent data;
+    public boolean commentPager = false;
+    public Runnable runAfterLoad;
+    public boolean canSubmit;
+    //if the view mode is set to Subreddit Tabs, save the title ("Slide" or "Slide (debug)")
+    public String tabViewModeTitle;
+    public int currentComment;
+    public Submission openingComments;
+    public int toOpenComments = -1;
     boolean changed;
     String term;
     View headerMain;
+    MaterialDialog d;
+    AsyncTask<View, Void, View> currentFlair;
+    SpoilerRobotoTextView sidebarBody;
+    CommentOverflow sidebarOverflow;
+    View accountsArea;
+    SideArrayAdapter sideArrayAdapter;
+    Menu menu;
+    AsyncTask caching;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
-    public String selectedSub; //currently selected subreddit
     private int headerHeight; //height of the header
+
+    public static String abbreviate(final String str, final int maxWidth) {
+        if (str.length() <= maxWidth) {
+            return str;
+        }
+
+        final String abrevMarker = "...";
+        return str.substring(0, maxWidth - 3) + abrevMarker;
+    }
+
+    /**
+     * Set the drawer edge (i.e. how sensitive the drawer is)
+     * Based on a given screen width percentage.
+     *
+     * @param displayWidthPercentage larger the value, the more sensitive the drawer swipe is;
+     *                               percentage of screen width
+     * @param drawerLayout           drawerLayout to adjust the swipe edge
+     */
+    public static void setDrawerEdge(Activity activity, final float displayWidthPercentage,
+                                     DrawerLayout drawerLayout) {
+        try {
+            Field mDragger = drawerLayout.getClass().getSuperclass()
+                    .getDeclaredField("mLeftDragger");
+            mDragger.setAccessible(true);
+
+            ViewDragHelper leftDragger = (ViewDragHelper) mDragger.get(drawerLayout);
+            Field mEdgeSize = leftDragger.getClass().getDeclaredField("mEdgeSize");
+            mEdgeSize.setAccessible(true);
+            final int currentEdgeSize = mEdgeSize.getInt(leftDragger);
+
+            Point displaySize = new Point();
+            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
+            mEdgeSize.setInt(leftDragger,
+                    Math.max(currentEdgeSize, (int) (displaySize.x * displayWidthPercentage)));
+        } catch (Exception e) {
+            LogUtil.e(e + ": Exception thrown while changing navdrawer edge size");
+        }
+    }
+
+    private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
+        ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                //Update Height
+                v.setScaleY((Float) valueAnimator.getAnimatedValue());
+            }
+        });
+        return animator;
+    }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -242,9 +319,6 @@ public class MainActivity extends BaseActivity {
         }*/
     }
 
-    public Runnable doImage;
-    public Intent data;
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         applyOverrideLanguage(); // Re-apply the language override if selected
@@ -299,19 +373,6 @@ public class MainActivity extends BaseActivity {
             // permissions this app might request
         }
     }
-
-    public static String abbreviate(final String str, final int maxWidth) {
-        if (str.length() <= maxWidth) {
-            return str;
-        }
-
-        final String abrevMarker = "...";
-        return str.substring(0, maxWidth - 3) + abrevMarker;
-    }
-
-    public boolean commentPager = false;
-
-    MaterialDialog d;
 
     /**
      * Force English locale if setting is checked
@@ -592,8 +653,6 @@ public class MainActivity extends BaseActivity {
         SettingValues.currentTheme = new ColorPreferences(this).getFontStyle().getThemeType();
     }
 
-    public Runnable runAfterLoad;
-
     public void updateSubs(ArrayList<String> subs) {
         if (subs.isEmpty() && !NetworkUtil.isConnected(this)) {
             d = new MaterialDialog.Builder(MainActivity.this)
@@ -608,22 +667,8 @@ public class MainActivity extends BaseActivity {
                     }).show();
         } else {
             drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            try {
-                Field mDragger = drawerLayout.getClass().getDeclaredField(
-                        "mLeftDragger");//mRightDragger for right obviously
-                mDragger.setAccessible(true);
-                ViewDragHelper draggerObj = (ViewDragHelper) mDragger
-                        .get(drawerLayout);
+            setDrawerEdge(this, Constants.DRAWER_SWIPE_EDGE, drawerLayout);
 
-                Field mEdgeSize = draggerObj.getClass().getDeclaredField(
-                        "mEdgeSize");
-                mEdgeSize.setAccessible(true);
-                int edge = mEdgeSize.getInt(draggerObj);
-
-                mEdgeSize.setInt(draggerObj, edge * 6);
-            } catch (Exception e) {
-
-            }
             if (loader != null) {
                 header.setVisibility(View.VISIBLE);
 
@@ -752,8 +797,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    AsyncTask<View, Void, View> currentFlair;
-
     public void doSubSidebarNoLoad(final String subreddit) {
         if (mAsyncGetSubreddit != null) {
             mAsyncGetSubreddit.cancel(true);
@@ -773,6 +816,7 @@ public class MainActivity extends BaseActivity {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             findViewById(R.id.sub_title).setVisibility(View.GONE);
             findViewById(R.id.subscribers).setVisibility(View.GONE);
+            findViewById(R.id.active_users).setVisibility(View.GONE);
 
             findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subreddit));
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subreddit);
@@ -908,6 +952,15 @@ public class MainActivity extends BaseActivity {
                                         public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                                             Intent i = new Intent(MainActivity.this, Profile.class);
                                             i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
+                                            startActivity(i);
+                                        }
+                                    })
+                                    .positiveText(R.string.btn_message)
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            Intent i = new Intent(MainActivity.this, Sendmessage.class);
+                                            i.putExtra(Sendmessage.EXTRA_NAME, "/r/" + subreddit);
                                             startActivity(i);
                                         }
                                     }).show();
@@ -1200,9 +1253,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    SpoilerRobotoTextView sidebarBody;
-    CommentOverflow sidebarOverflow;
-
     private void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
@@ -1340,6 +1390,8 @@ public class MainActivity extends BaseActivity {
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
+        ((TextView) findViewById(R.id.active_users)).setText(getString(R.string.subreddit_active_users_string, subreddit.getAccountsActive()));
+        findViewById(R.id.active_users).setVisibility(View.VISIBLE);
     }
 
     public void openPopup() {
@@ -1478,8 +1530,6 @@ public class MainActivity extends BaseActivity {
         return animator;
     }
 
-    public boolean canSubmit;
-
     private void collapse(final LinearLayout v) {
         int finalHeight = v.getHeight();
 
@@ -1508,20 +1558,6 @@ public class MainActivity extends BaseActivity {
             }
         });
         mAnimator.start();
-    }
-
-    private static ValueAnimator flipAnimator(boolean isFlipped, final View v) {
-        ValueAnimator animator = ValueAnimator.ofFloat(isFlipped ? -1f : 1f, isFlipped ? 1f : -1f);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                v.setScaleY((Float) valueAnimator.getAnimatedValue());
-            }
-        });
-        return animator;
     }
 
     public void doDrawer() {
@@ -1648,17 +1684,6 @@ public class MainActivity extends BaseActivity {
                     Intent inte = new Intent(MainActivity.this, Profile.class);
                     inte.putExtra(Profile.EXTRA_PROFILE, Authentication.name);
                     inte.putExtra(Profile.EXTRA_UPVOTE, true);
-                    MainActivity.this.startActivity(inte);
-                }
-            });
-
-            header.findViewById(R.id.submit).setOnClickListener(new OnSingleClickListener() {
-                @Override
-                public void onSingleClick(View view) {
-                    Intent inte = new Intent(MainActivity.this, Submit.class);
-                    if ((!selectedSub.contains("/m/") || !selectedSub.contains(".")) && canSubmit) {
-                        inte.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
-                    }
                     MainActivity.this.startActivity(inte);
                 }
             });
@@ -2178,9 +2203,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    View accountsArea;
-    SideArrayAdapter sideArrayAdapter;
-
     public void setDrawerSubList() {
         ArrayList<String> copy = new ArrayList<>(usedArray);
 
@@ -2351,8 +2373,6 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    Menu menu;
-
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
@@ -2368,8 +2388,10 @@ public class MainActivity extends BaseActivity {
 
             if (subreddit.contains("/m/") || subreddit.contains(".") || subreddit.contains("+")
                     || subreddit.equals("frontpage") || subreddit.equals("all")) {
-                menu.findItem(R.id.submit).setVisible(false);
-                menu.findItem(R.id.sidebar).setVisible(false);
+                if (menu.findItem(R.id.submit) != null)
+                    menu.findItem(R.id.submit).setVisible(false);
+                if (menu.findItem(R.id.sidebar) != null)
+                    menu.findItem(R.id.sidebar).setVisible(false);
             } else {
                 if (menu.findItem(R.id.submit) != null)
                     menu.findItem(R.id.submit).setVisible(true);
@@ -2377,7 +2399,7 @@ public class MainActivity extends BaseActivity {
                     menu.findItem(R.id.sidebar).setVisible(true);
             }
 
-            mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            menu.findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     int style = new ColorPreferences(MainActivity.this).getThemeSubreddit(subreddit);
@@ -2424,7 +2446,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         final String subreddit = usedArray.get(Reddit.currentPosition);
 
         switch (item.getItemId()) {
@@ -2579,7 +2600,7 @@ public class MainActivity extends BaseActivity {
                         });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.contains(".") && !subreddit.contains("/m/") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random")&& !subreddit.equalsIgnoreCase("myrandom")&& !subreddit.equalsIgnoreCase("nsfwrandom")) {
+                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.contains(".") && !subreddit.contains("/m/") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("random") && !subreddit.equalsIgnoreCase("myrandom") && !subreddit.equalsIgnoreCase("nsfwrandom")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
@@ -2623,9 +2644,9 @@ public class MainActivity extends BaseActivity {
                 Reddit.defaultShareText("Slide for Reddit", "https://play.google.com/store/apps/details?id=me.ccrama.redditslide", MainActivity.this);
                 return true;
             case R.id.submit: {
-                Intent i = new Intent(this, Submit.class);
-                if ((!selectedSub.contains("/m/") || !selectedSub.contains(".")) && canSubmit) {
-                    i.putExtra(Submit.EXTRA_SUBREDDIT, selectedSub);
+                Intent i = new Intent(MainActivity.this, Submit.class);
+                if ((!subreddit.contains("/m/") || !subreddit.contains(".")) && canSubmit) {
+                    i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                 }
                 startActivity(i);
             }
@@ -2779,8 +2800,6 @@ public class MainActivity extends BaseActivity {
         }).setNegativeButton(R.string.btn_cancel, null).show();
     }
 
-    AsyncTask caching;
-
     public void saveOffline(final List<Submission> submissions, final String subreddit) {
         final boolean[] chosen = new boolean[2];
         new AlertDialogWrapper.Builder(this)
@@ -2801,8 +2820,6 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public static boolean checkedPopups;
-
     @Override
     public void onResume() {
         super.onResume();
@@ -2816,6 +2833,7 @@ public class MainActivity extends BaseActivity {
                     pager.setCurrentItem(toOpenComments - 1);
             }
         }
+
         Reddit.setDefaultErrorHandler(this);
 
         if (sideArrayAdapter != null) {
@@ -2909,25 +2927,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
-
-        @Override
-        public void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null)
-                doSubOnlyStuff(subreddit);
-        }
-
-        @Override
-        protected Subreddit doInBackground(String... params) {
-            try {
-                return Authentication.reddit.getSubreddit(params[0]);
-            } catch (Exception e) {
-                return null;
-            }
-
-        }
-    }
-
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         if (pager != null && SettingValues.commentPager && pager.getCurrentItem() == toOpenComments && SettingValues.commentVolumeNav && pager.getAdapter() instanceof OverviewPagerAdapterComment) {
@@ -2948,11 +2947,6 @@ public class MainActivity extends BaseActivity {
         return super.dispatchKeyEvent(event);
 
     }
-
-    //if the view mode is set to Subreddit Tabs, save the title ("Slide" or "Slide (debug)")
-    public String tabViewModeTitle;
-    public final long ANIMATE_DURATION = 250; //duration of animations
-    private final long ANIMATE_DURATION_OFFSET = 45; //offset for smoothing out the exit animations
 
     /**
      * If the user has the Subreddit Search method set to "long press on toolbar title",
@@ -3186,18 +3180,90 @@ public class MainActivity extends BaseActivity {
         }, ANIMATION_DURATION + ANIMATE_DURATION_OFFSET);
     }
 
-    public static String shouldLoad;
+    public void doPageSelectedComments(int position) {
+
+        pager.setSwipeLeftOnly(false);
+
+        header.animate()
+                .translationY(0)
+                .setInterpolator(new LinearInterpolator())
+                .setDuration(180);
+
+
+        Reddit.currentPosition = position;
+        if (position + 1 != currentComment) {
+            doSubSidebarNoLoad(usedArray.get(position));
+        }
+        SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
+        if (page != null && page.adapter != null) {
+            SubredditPosts p = page.adapter.dataSet;
+            if (p.offline && p.cached != null) {
+                Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (hea != null) {
+            hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+            if (accountsArea != null)
+                accountsArea.setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
+        }
+        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
+
+        themeSystemBars(usedArray.get(position));
+        setRecentBar(usedArray.get(position));
+
+        if (SettingValues.single) {
+            getSupportActionBar().setTitle(usedArray.get(position));
+        } else {
+            mTabLayout.setSelectedTabIndicatorColor(
+                    new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
+        }
+
+        selectedSub = usedArray.get(position);
+    }
+
+    public int getCurrentPage() {
+        int position = 0;
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            position = ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition() - 1;
+        } else if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
+            int[] firstVisibleItems = null;
+            firstVisibleItems = ((CatchStaggeredGridLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPositions(firstVisibleItems);
+            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                position = firstVisibleItems[0] - 1;
+            }
+        } else {
+            position = ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition() - 1;
+        }
+        return position;
+    }
+
+    public class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
+
+        @Override
+        public void onPostExecute(Subreddit subreddit) {
+            if (subreddit != null)
+                doSubOnlyStuff(subreddit);
+        }
+
+        @Override
+        protected Subreddit doInBackground(String... params) {
+            try {
+                return Authentication.reddit.getSubreddit(params[0]);
+            } catch (Exception e) {
+                return null;
+            }
+
+        }
+    }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
 
-        @Override
-        public Parcelable saveState() {
-            return null;
-        }
-
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
+
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
@@ -3216,8 +3282,6 @@ public class MainActivity extends BaseActivity {
                                 p.doMainActivityOffline(p.displayer);
                             }
                         }
-
-
                     }
                 }
 
@@ -3270,6 +3334,10 @@ public class MainActivity extends BaseActivity {
             }
         }
 
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
 
         public Fragment getCurrentFragment() {
             return mCurrentFragment;
@@ -3342,62 +3410,11 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    public int currentComment;
-    public Submission openingComments;
-    public int toOpenComments = -1;
-
-    public void doPageSelectedComments(int position) {
-
-        pager.setSwipeLeftOnly(false);
-
-        header.animate()
-                .translationY(0)
-                .setInterpolator(new LinearInterpolator())
-                .setDuration(180);
-
-
-        Reddit.currentPosition = position;
-        if (position + 1 != currentComment) {
-            doSubSidebarNoLoad(usedArray.get(position));
-        }
-        SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
-        if (page != null && page.adapter != null) {
-            SubredditPosts p = page.adapter.dataSet;
-            if (p.offline && p.cached != null) {
-                Toast.makeText(MainActivity.this, getString(R.string.offline_last_update, TimeUtils.getTimeAgo(p.cached.time, MainActivity.this)), Toast.LENGTH_LONG).show();
-            }
-        }
-
-        if (hea != null) {
-            hea.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-            if (accountsArea != null)
-                accountsArea.setBackgroundColor(Palette.getDarkerColor(usedArray.get(position)));
-        }
-        header.setBackgroundColor(Palette.getColor(usedArray.get(position)));
-
-        themeSystemBars(usedArray.get(position));
-        setRecentBar(usedArray.get(position));
-
-        if (SettingValues.single) {
-            getSupportActionBar().setTitle(usedArray.get(position));
-        } else {
-            mTabLayout.setSelectedTabIndicatorColor(
-                    new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
-        }
-
-        selectedSub = usedArray.get(position);
-    }
-
     public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
+        public int size = usedArray.size();
+        public Fragment storedFragment;
         private SubmissionsView mCurrentFragment;
         private CommentPage mCurrentComments;
-
-        public int size = usedArray.size();
-
-        @Override
-        public Parcelable saveState() {
-            return null;
-        }
 
         public OverviewPagerAdapterComment(FragmentManager fm) {
             super(fm);
@@ -3447,11 +3464,14 @@ public class MainActivity extends BaseActivity {
             }
         }
 
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
 
         public Fragment getCurrentFragment() {
             return mCurrentFragment;
         }
-
 
         @Override
         public void doSetPrimary(Object object, int position) {
@@ -3473,8 +3493,6 @@ public class MainActivity extends BaseActivity {
             }
 
         }
-
-        public Fragment storedFragment;
 
         @Override
         public int getItemPosition(Object object) {
@@ -3539,23 +3557,6 @@ public class MainActivity extends BaseActivity {
 
 
         }
-    }
-
-    public int getCurrentPage() {
-        int position = 0;
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            position = ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition() - 1;
-        } else if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
-            int[] firstVisibleItems = null;
-            firstVisibleItems = ((CatchStaggeredGridLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPositions(firstVisibleItems);
-            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                position = firstVisibleItems[0] - 1;
-            }
-        } else {
-            position = ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition() - 1;
-        }
-        return position;
     }
 
     public class AsyncNotificationBadge extends AsyncTask<Void, Void, Void> {

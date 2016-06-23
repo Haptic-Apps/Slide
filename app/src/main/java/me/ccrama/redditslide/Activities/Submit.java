@@ -170,16 +170,20 @@ public class Submit extends BaseActivity {
                         @Override
                         protected void onPostExecute(Subreddit s) {
 
-                            String text = s.getDataNode().get("submit_text_html").asText();
-                            if (text != null && !text.isEmpty() &&  !text.equals("null")) {
-                                findViewById(R.id.submittext).setVisibility(View.VISIBLE);
-                                setViews(text, subredditText.getText().toString(), (SpoilerRobotoTextView) findViewById(R.id.submittext), (CommentOverflow) findViewById(R.id.commentOverflow));
-                            }
-                            if (s.getSubredditType().equals("RESTRICTED")) {
-                                subredditText.setText("");
-                                new AlertDialogWrapper.Builder(Submit.this).setTitle("This subreddit is restricted")
-                                        .setMessage("You are not allowed to post here. Please choose another subreddit")
-                                        .setPositiveButton(R.string.btn_ok, null).show();
+                            if(s != null) {
+                                String text = s.getDataNode().get("submit_text_html").asText();
+                                if (text != null && !text.isEmpty() && !text.equals("null")) {
+                                    findViewById(R.id.submittext).setVisibility(View.VISIBLE);
+                                    setViews(text, subredditText.getText().toString(), (SpoilerRobotoTextView) findViewById(R.id.submittext), (CommentOverflow) findViewById(R.id.commentOverflow));
+                                }
+                                if (s.getSubredditType().equals("RESTRICTED")) {
+                                    subredditText.setText("");
+                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("This subreddit is restricted")
+                                            .setMessage("You are not allowed to post here. Please choose another subreddit")
+                                            .setPositiveButton(R.string.btn_ok, null).show();
+                                }
+                            } else {
+                                findViewById(R.id.submittext).setVisibility(View.GONE);
                             }
                         }
                     };

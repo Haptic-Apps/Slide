@@ -135,7 +135,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3200));
                             } else {
                                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                                backdrop.setMaxHeight(3200);
                             }
                         }
 
@@ -159,7 +158,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                             backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3200));
                         } else {
                             backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-                            backdrop.setMaxHeight(3200);
                         }
                     }
                 } else {
@@ -178,12 +176,12 @@ public class HeaderImageLinkView extends RelativeLayout {
 
             if (SettingValues.noImages) {
                 setVisibility(View.GONE);
-                if (!full) {
+                if (!full && !submission.isSelfPost()) {
                     thumbImage2.setVisibility(View.VISIBLE);
                 } else {
+                    if(full)
                     wrapArea.setVisibility(View.VISIBLE);
                 }
-
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
             } else if (submission.isNsfw() && submission.getThumbnailType() == Submission.ThumbnailType.NSFW) {
                 setVisibility(View.GONE);

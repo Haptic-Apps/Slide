@@ -260,8 +260,8 @@ public class SubredditView extends BaseActivityAnim {
 
     private void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
-        if (subreddit.getSubredditType() != null)
-            canSubmit = !subreddit.getSubredditType().equals("RESTRICTED");
+        if (subreddit.getDataNode().has("subreddit_type") && !subreddit.getDataNode().get("subreddit_type").isNull())
+            canSubmit = !subreddit.getDataNode().get("subreddit_type").asText().toUpperCase().equals("RESTRICTED");
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
             findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
@@ -341,10 +341,11 @@ public class SubredditView extends BaseActivityAnim {
         } else {
             findViewById(R.id.subimage).setVisibility(View.GONE);
         }
-
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
+        ((TextView) findViewById(R.id.active_users)).setText(getString(R.string.subreddit_active_users_string, subreddit.getAccountsActive()));
+        findViewById(R.id.active_users).setVisibility(View.VISIBLE);
     }
 
     public int getCurrentPage() {
@@ -455,7 +456,10 @@ public class SubredditView extends BaseActivityAnim {
                 ((SubmissionsView) (adapter.getCurrentFragment())).resetScroll();
             }
         });
-        if (!subreddit.equals("random") && !subreddit.equals("myrandom") && !subreddit.equals("nsfwrandom"))
+        if (!subreddit.equals("random") && !subreddit.equals("all")
+                && !subreddit.equals("frontpage") && !subreddit.equals("friends")
+                && !subreddit.equals("mod") && !subreddit.equals("myrandom")
+                && !subreddit.equals("nsfwrandom") && !subreddit.contains("+"))
             executeAsyncSubreddit(subreddit);
     }
 
@@ -701,6 +705,7 @@ public class SubredditView extends BaseActivityAnim {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             findViewById(R.id.sub_title).setVisibility(View.GONE);
             findViewById(R.id.subscribers).setVisibility(View.GONE);
+            findViewById(R.id.active_users).setVisibility(View.GONE);
 
             findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subOverride));
             ((TextView) findViewById(R.id.sub_infotitle)).setText(subOverride);
@@ -725,7 +730,7 @@ public class SubredditView extends BaseActivityAnim {
 
         invalidateOptionsMenu();
 
-        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") && !subOverride.equalsIgnoreCase("random")&& !subOverride.equalsIgnoreCase("myrandom")&& !subOverride.equalsIgnoreCase("nsfwrandom") &&
+        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") && !subOverride.equalsIgnoreCase("random") && !subOverride.equalsIgnoreCase("myrandom") && !subOverride.equalsIgnoreCase("nsfwrandom") &&
                 !subOverride.equalsIgnoreCase("friends") && !subOverride.equalsIgnoreCase("mod") &&
                 !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains("/m/")) {
             if (drawerLayout != null) {
@@ -831,6 +836,15 @@ public class SubredditView extends BaseActivityAnim {
                                         public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                                             Intent i = new Intent(SubredditView.this, Profile.class);
                                             i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
+                                            startActivity(i);
+                                        }
+                                    })
+                                    .positiveText(R.string.btn_message)
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            Intent i = new Intent(SubredditView.this, Sendmessage.class);
+                                            i.putExtra(Sendmessage.EXTRA_NAME, "/r/" + subOverride);
                                             startActivity(i);
                                         }
                                     }).show();

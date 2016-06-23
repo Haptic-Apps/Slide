@@ -337,6 +337,7 @@
     <string name="btn_cache">Cache comments</string>
     <string name="btn_delete">Delete</string>
     <string name="btn_time">Time period</string>
+    <string name="btn_message">Message</string>
 
 
     <!-- Backup -->
@@ -394,6 +395,7 @@
     <!-- Subreddits -->
     <string name="subreddit_subscribers">%1$d subscribers</string>
     <string name="subreddit_subscribers_string">%1$s subscribers</string>
+    <string name="subreddit_active_users_string">%1$d here now</string>
     <string name="subreddit_err_msg">The subreddit %1$s could not be found. Perhaps it\'s spelled wrong?</string>
     <string name="subreddit_err_msg_new">The subreddit %1$s could not be found. Perhaps it\'s spelled wrong, or you do not have access to this subreddit.</string>
     <string name="subreddit_err">Subreddit not found</string>
@@ -483,6 +485,14 @@
     <string name="settings_section_general">General</string>
     <string name="settings_section_appearance">Appearance</string>
     <string name="settings_section_other">Other</string>
+    <string name="settings_section_browser">Browser</string>
+    <string name="settings_section_internal_viewers">Internal viewers</string>
+    <string name="settings_section_custom_domains">Custom domains</string>
+    <string name="settings_section_save_history">Save history</string>
+    <string name="settings_section_clear_history">Clear history</string>
+    <string name="settings_section_data_saving_mode">Data saving mode</string>
+    <string name="settings_section_image_quality">Image quality</string>
+    <string name="settings_section_hide_images">Hide images</string>
 
     <!-- Setting subheaders -->
     <string name="sorting">Sorting</string>
@@ -725,6 +735,8 @@
     <string name="settings_links_force_external">Force external browser</string>
     <string name="settings_links_force_external_desc">Choose domains that will always open externally</string>
     <string name="settings_layout_show_domain">Show domain in info line</string>
+    <string name="settings_layout_show_content_type">Show content type in info line</string>
+    <string name="settings_layout_show_votes_comments">Show votes/comments in info line</string>
     <string name="submit_replies_to_inbox">Send replies to inbox</string>
     <string name="settings_data">Data saving</string>
     <string name="settings_card_show_selftext">Show first paragraph of selftext</string>
@@ -868,6 +880,7 @@
     <!-- Strings for alert dialogs -->
     <string name="force_change_subscription">Could not change subscription</string>
     <string name="force_change_subscription_desc">Would you still like to change it locally?</string>
+    <string name="never_load_images">Don\'t load any images</string>
     <string name="low_quality_images_in_image_viewer">Low quality images in image viewer</string>
     <string name="load_high_quality_image_every_time">Otherwise, load high quality image every time</string>
     <string name="load_lower_quality_imgur">If enabled, will attempt to load an even lower quality Imgur image</string>

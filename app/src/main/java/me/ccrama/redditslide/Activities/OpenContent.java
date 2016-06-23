@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -21,12 +23,17 @@ public class OpenContent extends Activity {
         super.onCreate(savedInstance);
         Intent intent = getIntent();
         Uri data = intent.getData();
+        Bundle extras = intent.getExtras();
         String url;
 
-        if (data == null) {
-            url = getIntent().getExtras().getString(EXTRA_URL, "");
-        } else {
+        if (data != null) {
             url = data.toString();
+        } else if (extras != null) {
+            url = extras.getString(EXTRA_URL, "");
+        } else {
+            Toast.makeText(OpenContent.this, R.string.err_invalid_url, Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
         url = url.toLowerCase();
 
