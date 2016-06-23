@@ -29,4 +29,10 @@ public class Constants {
      */
     public static final int PTR_OFFSET_TOP = Reddit.dpToPxVertical(40);
     public static final int PTR_OFFSET_BOTTOM = Reddit.dpToPxVertical(18);
+
+    /**
+     * Drawer swipe edge (navdrawer). The higher the value, the more sensitive the navdrawer
+     * swipe area becomes. This is a percentage of the screen width.
+     */
+    public static final float DRAWER_SWIPE_EDGE = 0.1f;
 }

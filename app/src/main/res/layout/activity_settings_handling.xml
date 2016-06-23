@@ -11,6 +11,16 @@
 
         <include layout="@layout/settings_toolbar" />
 
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:id="@+id/browserHeader"
+            android:text="@string/settings_section_browser"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -49,11 +59,15 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <View
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:id="@+id/internalViewersHeader"
+                android:text="@string/settings_section_internal_viewers"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:alpha=".25"
-                android:background="?attr/tint" />
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -61,7 +75,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -83,7 +96,7 @@
                     android:id="@+id/gif"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
@@ -104,7 +117,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -126,7 +138,7 @@
                     android:id="@+id/image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
@@ -147,7 +159,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -169,7 +180,7 @@
                     android:id="@+id/album"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
@@ -215,11 +226,15 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-            <View
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:id="@+id/customDomainsHeader"
+                android:text="@string/settings_section_custom_domains"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:alpha=".25"
-                android:background="?attr/tint" />
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:id="@+id/custom_handling"

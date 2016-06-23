@@ -247,6 +247,7 @@ public class Authentication {
                         Authentication.name = "LOGGEDOUT";
                         Reddit.notFirst = true;
                         didOnline = true;
+                        authedOnce = true;
 
                         return null;
 

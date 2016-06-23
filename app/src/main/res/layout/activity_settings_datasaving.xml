@@ -11,10 +11,21 @@
 
         <include layout="@layout/settings_toolbar" />
 
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:id="@+id/dataSavingModeHeader"
+            android:text="@string/settings_section_data_saving_mode"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:id="@+id/datasavetype"
                 android:layout_width="match_parent"
@@ -49,11 +60,15 @@
                 </LinearLayout>
             </RelativeLayout>
 
-            <View
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:id="@+id/imageQualityHeader"
+                android:text="@string/settings_section_image_quality"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:alpha=".25"
-                android:background="?attr/tint" />
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -61,7 +76,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -74,7 +88,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Don't load any images"
+                        android:text="@string/never_load_images"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
 
@@ -84,21 +98,20 @@
                     android:id="@+id/noload"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.25dp"
                 android:alpha=".25"
                 android:background="?attr/tint" />
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -106,7 +119,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -138,7 +150,7 @@
                     android:id="@+id/imagelq"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
@@ -159,7 +171,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -189,20 +200,24 @@
                     android:id="@+id/imgurlq"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
-            <View
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:id="@+id/hideImagesHeader"
+                android:text="@string/settings_section_hide_images"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
                 android:layout_width="match_parent"
-                android:background="?attr/tint"
-                android:alpha=".25"
-                android:layout_height="0.25dp"/>
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -210,7 +225,6 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:background="?android:selectableItemBackground"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -232,7 +246,7 @@
                     android:id="@+id/selftextcomment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
@@ -240,7 +254,6 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
             </RelativeLayout>
-
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

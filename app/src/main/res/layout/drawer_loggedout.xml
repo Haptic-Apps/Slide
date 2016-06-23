@@ -255,7 +255,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="10dp"
             android:backgroundTint="?attr/tint"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.+"
             android:hint="@string/drawer_search"
             android:imeOptions="actionSearch"
             android:visibility="gone"

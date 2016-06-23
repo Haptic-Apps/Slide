@@ -271,14 +271,16 @@
                 android:layout_alignTop="@+id/body"
                 android:background="?attr/card_background"
                 android:orientation="vertical"
-                android:padding="24dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/picker"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     app:orientation="horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     app:selectedColorIndex="0" />
 
                 <uz.shift.colorpicker.LineColorPicker xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -286,23 +288,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_below="@+id/picker"
-                    android:layout_marginTop="8dp"
                     app:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     app:selectedColorIndex="5" />
 
-                <TextView
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/ok"
-                    android:layout_width="match_parent"
+                    style="?attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_below="@+id/picker2"
-                    android:background="?android:selectableItemBackground"
-                    android:gravity="end|bottom"
-                    android:padding="16dp"
-                    android:text="@string/btn_ok"
-                    android:textColor="?attr/font"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:layout_margin="8dp"
+                    android:padding="8dp"
+                    android:text="@string/btn_ok" />
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>

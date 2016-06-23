@@ -11,6 +11,16 @@
 
         <include layout="@layout/settings_toolbar" />
 
+        <TextView
+            style="@style/TextAppearance.AppCompat.Body2"
+            android:id="@+id/saveHistoryHeader"
+            android:text="@string/settings_section_save_history"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -22,7 +32,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -38,15 +47,13 @@
                         android:text="@string/settings_store_history"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
-
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/storehistory"
                     android:layout_width="match_parent"
-
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
@@ -54,7 +61,6 @@
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
 
             <View
@@ -69,7 +75,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -85,22 +90,19 @@
                         android:text="@string/settings_store_nsfw_history"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
-
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/storensfw"
                     android:layout_width="match_parent"
-
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
 
             <View
@@ -115,7 +117,6 @@
                 android:background="?android:selectableItemBackground"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingEnd="16dp"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -131,29 +132,30 @@
                         android:text="@string/settings_general_scroll_read"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
-
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/scrollseen"
                     android:layout_width="match_parent"
-
                     android:layout_height="match_parent"
-                    android:background="?android:selectableItemBackground"
+                    android:paddingEnd="16dp"
                     android:backgroundTint="?attr/tint"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:hapticFeedbackEnabled="true"
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font" />
-
             </RelativeLayout>
 
-            <View
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body2"
+                android:id="@+id/clearHistoryHeader"
+                android:text="@string/settings_section_clear_history"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:alpha=".25"
-                android:background="?attr/tint" />
+                android:layout_height="wrap_content" />
 
             <RelativeLayout
                 android:id="@+id/clearposts"
