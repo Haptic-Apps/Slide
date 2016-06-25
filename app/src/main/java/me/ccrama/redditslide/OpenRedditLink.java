@@ -1,5 +1,6 @@
 package me.ccrama.redditslide;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,8 @@ import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Activities.Wiki;
+import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 public class OpenRedditLink {
@@ -213,9 +216,13 @@ public class OpenRedditLink {
                 break;
             }
             case OTHER: {
-                Intent i = new Intent(context, Website.class);
-                i.putExtra(Website.EXTRA_URL, oldUrl);
-                context.startActivity(i);
+                if (context instanceof Activity) {
+                    CustomTabUtil.openUrl(url, Palette.getStatusBarColor(), (Activity) context);
+                } else {
+                    Intent i = new Intent(context, Website.class);
+                    i.putExtra(Website.EXTRA_URL, oldUrl);
+                    context.startActivity(i);
+                }
                 break;
             }
         }

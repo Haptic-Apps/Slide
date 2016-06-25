@@ -50,9 +50,9 @@ public class CustomTabUtil {
 
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
 
-        Intent inte = new Intent(contextActivity, MakeExternal.class);
-        inte.putExtra("url", url);
-        PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, inte, 0);
+        Intent intent = new Intent(contextActivity, MakeExternal.class);
+        intent.putExtra(Website.EXTRA_URL, url);
+        PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
 
         if (SettingValues.web && SettingValues.customtabs) {
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
