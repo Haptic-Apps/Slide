@@ -16,6 +16,7 @@
 
 package me.ccrama.redditslide.Activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.os.AsyncTask;
@@ -31,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -336,7 +338,6 @@ public class CreateMulti extends BaseActivityAnim {
                 if (delete) {
                     Log.v(LogUtil.getTag(), "Deleting");
                     new MultiRedditManager(Authentication.reddit).delete(old);
-
                 } else {
                     if (old != null && !old.isEmpty() && !old.replace(" ", "").equals(multiName)) {
                         Log.v(LogUtil.getTag(), "Renaming");
@@ -352,6 +353,16 @@ public class CreateMulti extends BaseActivityAnim {
                         }
                     });
                 }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Context context = getApplicationContext();
+                        CharSequence text = "Successfully saved";
+                        int duration = Toast.LENGTH_SHORT;
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
+                });
             } catch (final NetworkException | ApiException e) {
                 runOnUiThread(new Runnable() {
                     @Override
