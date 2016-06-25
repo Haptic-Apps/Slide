@@ -19,7 +19,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:textColor="?attr/font"
-            android:text="What the fuck did you just say to me you little bitch?"
+            android:text="Nothing to see here"
             android:textSize="14sp"/>
 
         <me.ccrama.redditslide.Views.CommentOverflow
