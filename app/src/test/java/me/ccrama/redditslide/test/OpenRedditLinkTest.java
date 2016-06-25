@@ -72,6 +72,7 @@ public class OpenRedditLinkTest {
     @Test
     public void detectsOther() {
         assertThat(getType(formatURL("https://www.reddit.com/live/wbjbjba8zrl6")), is(RedditLinkType.OTHER));
+        assertThat(getType(formatURL("https://www.reddit.com/r/pics/about/moderators")), is(RedditLinkType.OTHER));
     }
 
     @Test

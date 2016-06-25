@@ -359,12 +359,9 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com(?:/r/[a-z0-9-_.]+)?/(?:wiki|help).*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
             return RedditLinkType.WIKI;
-        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/w.*")) {
-            // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
-            return RedditLinkType.WIKI;
-        }else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/about.*")) {
-            // Wiki link. Format: reddit.com/r/$subreddit/about/$page [optional]
-            return RedditLinkType.WIKI;
+        } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/about.*")) {
+            // Unhandled link. Format: reddit.com/r/$subreddit/about/$page [optional]
+            return RedditLinkType.OTHER;
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+/search.*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/search?q= [optional]
             return RedditLinkType.SEARCH;
@@ -380,7 +377,7 @@ public class OpenRedditLink {
         } else if (url.matches("(?i)reddit\\.com/r/[a-z0-9-_.]+.*")) {
             // Subreddit. Format: reddit.com/r/$subreddit/$sort [optional]
             return RedditLinkType.SUBREDDIT;
-        } else if (url.matches("(?i)reddit\\.com/u(ser)?/[a-z0-9-_]+.*")) {
+        } else if (url.matches("(?i)reddit\\.com/u(?:ser)?/[a-z0-9-_]+.*")) {
             // User. Format: reddit.com/u [or user]/$username/$page [optional]
             return RedditLinkType.USER;
         } else {
