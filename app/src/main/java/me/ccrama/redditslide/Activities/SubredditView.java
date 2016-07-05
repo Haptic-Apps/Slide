@@ -613,19 +613,22 @@ public class SubredditView extends BaseActivityAnim {
                         Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.WEEK);
                         reloadSubs();
+                        break;
                     case 12:
                         Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.MONTH);
                         reloadSubs();
+                        break;
                     case 13:
                         Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.YEAR);
                         reloadSubs();
+                        break;
                     case 14:
                         Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.ALL);
                         reloadSubs();
-
+                        break;
                 }
                 return true;
             }
