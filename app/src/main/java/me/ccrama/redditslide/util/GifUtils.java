@@ -551,6 +551,9 @@ public class GifUtils {
                         public boolean onBytesCopied(int current, int total) {
                             final int percent = Math.round(100.0f * current / total);
 
+                            if(isCancelled()){
+                                return false;
+                            }
 
                             if (progressBar != null) {
                                 c.runOnUiThread(new Runnable() {

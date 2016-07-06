@@ -485,6 +485,9 @@ public class CreateMulti extends BaseActivityAnim {
                     new SaveMulti().execute();
                 }
                 return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return false;
         }

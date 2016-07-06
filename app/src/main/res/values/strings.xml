@@ -395,7 +395,7 @@
     <!-- Subreddits -->
     <string name="subreddit_subscribers">%1$d subscribers</string>
     <string name="subreddit_subscribers_string">%1$s subscribers</string>
-    <string name="subreddit_active_users_string">%1$d here now</string>
+    <string name="subreddit_active_users_string_new">%1$s here now</string>
     <string name="subreddit_err_msg">The subreddit %1$s could not be found. Perhaps it\'s spelled wrong?</string>
     <string name="subreddit_err_msg_new">The subreddit %1$s could not be found. Perhaps it\'s spelled wrong, or you do not have access to this subreddit.</string>
     <string name="subreddit_err">Subreddit not found</string>

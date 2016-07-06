@@ -1,25 +1,38 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.ApiException;
+import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.managers.CaptchaHelper;
 import net.dean.jraw.managers.InboxManager;
+import net.dean.jraw.models.Captcha;
 import net.dean.jraw.models.PrivateMessage;
+import net.dean.jraw.models.Submission;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.Drafts;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -115,9 +128,69 @@ public class Sendmessage extends BaseActivity {
         DoEditorActions.doActions(((EditText) findViewById(R.id.body)), findViewById(R.id.area), getSupportFragmentManager(), Sendmessage.this);
     }
 
+
     private class AsyncDo extends AsyncTask<Void, Void, Void> {
+        String trying;
+
         @Override
         protected Void doInBackground(Void... voids) {
+            if (new CaptchaHelper(Authentication.reddit).isNecessary()) {
+                //display capacha
+                final Captcha c;
+                try {
+                    c = new CaptchaHelper(Authentication.reddit).getNew();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            LayoutInflater inflater = getLayoutInflater();
+
+                            final View dialoglayout = inflater.inflate(R.layout.capatcha, null);
+                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Sendmessage.this);
+
+                            ((Reddit) getApplication()).getImageLoader().displayImage(c.getImageUrl().toString(),
+                                    (ImageView) dialoglayout.findViewById(R.id.cap));
+
+                            final Dialog dialog = builder.setView(dialoglayout).create();
+                            dialog.show();
+                            dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    ((FloatingActionButton) findViewById(R.id.send)).show();
+                                }
+                            });
+                            dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View d) {
+                                    trying = ((EditText) dialoglayout.findViewById(R.id.entry)).getText().toString();
+                                    dialog.dismiss();
+                                    final String text = ((EditText) findViewById(R.id.bodytext)).getText().toString();
+                                    new AsyncTask<Void, Void, Boolean>() {
+                                        @Override
+                                        protected Boolean doInBackground(Void... params) {
+                                            sendMessage(c, trying);
+                                            return true;
+                                        }
+
+
+                                    }.execute();
+                                }
+                            });
+                        }
+                    });
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    //todo fail
+                    sendMessage(null, null);
+                }
+            } else {
+                sendMessage(null, null);
+            }
+
+            return null;
+        }
+
+        public void sendMessage(Captcha captcha, String captchaAttempt) {
             if (reply) {
                 try {
                     new net.dean.jraw.managers.AccountManager(Authentication.reddit).reply(previousMessage, bodytext);
@@ -127,7 +200,11 @@ public class Sendmessage extends BaseActivity {
                 }
             } else {
                 try {
-                    new InboxManager(Authentication.reddit).compose(totext, subjecttext, bodytext);
+                    if (captcha != null)
+                        new InboxManager(Authentication.reddit).compose(totext, subjecttext, bodytext, captcha, captchaAttempt);
+                    else
+                        new InboxManager(Authentication.reddit).compose(totext, subjecttext, bodytext);
+
                 } catch (ApiException e) {
                     messageSent = false;
                     e.printStackTrace();
@@ -135,12 +212,13 @@ public class Sendmessage extends BaseActivity {
                     //Display a Toast with an error if the user doesn't exist
                     if (e.getReason().equals("USER_DOESNT_EXIST") || e.getReason().equals("NO_USER")) {
                         messageSentStatus = getString(R.string.msg_send_user_dne);
+                    } else if (e.getReason().toLowerCase().contains("captcha")) {
+                        messageSentStatus = "Captcha incorrect, please try again.";
                     }
 
                     //todo show captcha
                 }
             }
-            return null;
         }
 
         @Override

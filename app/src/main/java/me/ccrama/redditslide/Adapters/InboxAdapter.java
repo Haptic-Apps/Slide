@@ -37,6 +37,7 @@ import net.dean.jraw.models.PrivateMessage;
 
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.Inbox;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Sendmessage;
 import me.ccrama.redditslide.Authentication;
@@ -90,7 +91,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (position == dataSet.posts.size()  && !dataSet.posts.isEmpty() && !dataSet.nomore) {
             return 5;
         }
-        if (!dataSet.posts.get(position).getSubject().toLowerCase().contains("re:"))//IS COMMENT
+        if (dataSet.posts.get(position).getSubject().toLowerCase().contains("re:") && dataSet.where.equalsIgnoreCase("messages"))//IS COMMENT IN MESSAGES
             return TOP_LEVEL;
 
         return 2;

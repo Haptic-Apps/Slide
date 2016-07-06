@@ -93,6 +93,7 @@ import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
 
+import org.apache.http.auth.AUTH;
 import org.ligi.snackengage.SnackEngage;
 import org.ligi.snackengage.conditions.AfterNumberOfOpportunities;
 import org.ligi.snackengage.conditions.NeverAgainWhenClickedOnce;
@@ -633,7 +634,7 @@ public class MainActivity extends BaseActivity {
                             new AfterNumberOfOpportunities(10), new WithLimitedNumberOfTimes(2))
                             .overrideActionText(getString(R.string.misc_rate_msg))
                             .overrideTitleText(getString(R.string.misc_rate_title))
-                            .withDuration(BaseSnack.DURATION_INDEFINITE))
+                            .withDuration(BaseSnack.DURATION_LONG))
                     /*.withSnack(new CustomSnack(new Intent(MainActivity.this, SettingsReddit.class), "Thumbnails are disabled", "Change", "THUMBNAIL_INFO")
                             .withConditions(new AfterNumberOfOpportunities(2),
                                     new WithLimitedNumberOfTimes(2), new NeverAgainWhenClickedOnce())
@@ -1326,7 +1327,7 @@ public class MainActivity extends BaseActivity {
                     //reset check adapter
                 }
             });
-            c.setChecked(usedArray.contains(subreddit.getDisplayName().toLowerCase()));
+            c.setChecked((!Authentication.isLoggedIn && usedArray.contains(subreddit.getDisplayName().toLowerCase())) || subreddit.isUserSubscriber());
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
@@ -1390,7 +1391,7 @@ public class MainActivity extends BaseActivity {
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
-        ((TextView) findViewById(R.id.active_users)).setText(getString(R.string.subreddit_active_users_string, subreddit.getLocalizedAccountsActive()));
+        ((TextView) findViewById(R.id.active_users)).setText(getString(R.string.subreddit_active_users_string_new, subreddit.getLocalizedAccountsActive()));
         findViewById(R.id.active_users).setVisibility(View.VISIBLE);
     }
 

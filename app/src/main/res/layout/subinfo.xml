@@ -52,7 +52,6 @@
                     android:layout_below="@+id/sub_infotitle"
                     android:layout_toStartOf="@+id/subimage"
                     android:paddingStart="16dp"
-                    android:text="65,892 subscribers"
                     android:textColor="@color/white"
                     android:textSize="14sp" />
 
@@ -63,7 +62,6 @@
                     android:layout_below="@id/subscribers"
                     android:layout_toStartOf="@+id/subimage"
                     android:paddingStart="16dp"
-                    android:text="12,345 here now"
                     android:textColor="@color/white"
                     android:textStyle="italic"
                     android:textSize="14sp" />
@@ -81,7 +79,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:text="Android news, reviews, tips, and discussions about rooting, tutorials, and apps. Generic discussion about phones/tablets is allowed, but technical-support and carrier-related issues should be asked in their respective subreddits!"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -115,6 +112,7 @@
                     android:layout_marginTop="8dp"
                     android:background="?android:selectableItemBackground"
                     android:backgroundTint="?attr/tint"
+                    android:visibility="gone"
                     android:button="@null"
                     android:buttonTint="?attr/tint"
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
@@ -268,6 +266,7 @@
 
                 <RelativeLayout
                     android:id="@+id/flair"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?android:selectableItemBackground">

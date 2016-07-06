@@ -280,7 +280,7 @@ public class SubredditView extends BaseActivityAnim {
                     //reset check adapter
                 }
             });
-            c.setChecked(UserSubscriptions.isSubscriber(subreddit.getDisplayName().toLowerCase(), this));
+            c.setChecked((!Authentication.isLoggedIn && UserSubscriptions.isSubscriber(subreddit.getDisplayName().toLowerCase(), this)) || subreddit.isUserSubscriber());
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
@@ -344,7 +344,7 @@ public class SubredditView extends BaseActivityAnim {
         ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
-        ((TextView) findViewById(R.id.active_users)).setText(getString(R.string.subreddit_active_users_string, subreddit.getLocalizedAccountsActive()));
+        ((TextView) findViewById(R.id.active_users)).setText(getString(R.string.subreddit_active_users_string_new, subreddit.getLocalizedAccountsActive()));
         findViewById(R.id.active_users).setVisibility(View.VISIBLE);
     }
 

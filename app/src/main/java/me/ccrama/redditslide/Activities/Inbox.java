@@ -97,8 +97,8 @@ public class Inbox extends BaseActivityAnim {
 
                                 scrollToTabAfterLayout(CURRENT_TAB);
                                 pager.setCurrentItem(CURRENT_TAB);
-                            } catch(Exception e){
-                                
+                            } catch (Exception e) {
+
                             }
                         }
                     }
@@ -169,7 +169,7 @@ public class Inbox extends BaseActivityAnim {
                         .setDuration(180);
                 if (position == 3 && findViewById(R.id.read) != null) {
                     findViewById(R.id.read).setVisibility(View.GONE);
-                } else if(findViewById(R.id.read) != null){
+                } else if (findViewById(R.id.read) != null) {
                     findViewById(R.id.read).setVisibility(View.VISIBLE);
                 }
             }
