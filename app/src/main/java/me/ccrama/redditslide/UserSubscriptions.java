@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.MultiReddit;
+import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.models.Subreddit;
 import net.dean.jraw.models.UserRecord;
 import net.dean.jraw.paginators.ImportantUserPaginator;
@@ -24,6 +25,7 @@ import java.util.Map;
 import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
+import me.ccrama.redditslide.DragSort.ReorderSubreddits;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -129,12 +131,7 @@ public class UserSubscriptions {
 
         @Override
         public Boolean doInBackground(Void... params) {
-            try {
-                multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
-                return null;
-            } catch (ApiException e) {
-                e.printStackTrace();
-            }
+            syncMultiReddits(c);
             return null;
         }
     }
@@ -231,6 +228,25 @@ public class UserSubscriptions {
         } else {
             toReturn.addAll(defaultSubs);
             return toReturn;
+        }
+    }
+
+    public static void syncMultiReddits(Context c) {
+        try {
+            multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
+            for (MultiReddit multiReddit : multireddits) {
+                if (MainActivity.multiNameToSubsMap.containsKey(ReorderSubreddits.MULTI_REDDIT+ multiReddit.getDisplayName())) {
+                    StringBuilder concatenatedSubs = new StringBuilder();
+                    for (MultiSubreddit subreddit : multiReddit.getSubreddits()) {
+                        concatenatedSubs.append(subreddit.getDisplayName());
+                        concatenatedSubs.append("+");
+                    }
+                    MainActivity.multiNameToSubsMap.put(ReorderSubreddits.MULTI_REDDIT+ multiReddit.getDisplayName(), concatenatedSubs.toString());
+                    UserSubscriptions.setSubNameToProperties(ReorderSubreddits.MULTI_REDDIT + multiReddit.getDisplayName(), concatenatedSubs.toString());
+                }
+            }
+        } catch (ApiException e) {
+            e.printStackTrace();
         }
     }
 

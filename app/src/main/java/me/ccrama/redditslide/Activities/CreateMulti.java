@@ -346,15 +346,6 @@ public class CreateMulti extends BaseActivityAnim {
                     }
                     Log.v(LogUtil.getTag(), "Create or Update, Name: " + multiName);
                     new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, multiName).subreddits(subs).build());
-                    if (MainActivity.multiNameToSubsMap.containsKey(ReorderSubreddits.MULTI_REDDIT+ multiName)) {
-                        StringBuilder concatenatedSubs = new StringBuilder();
-                        for (String s : subs) {
-                            concatenatedSubs.append(s);
-                            concatenatedSubs.append("+");
-                        }
-                        MainActivity.multiNameToSubsMap.put(ReorderSubreddits.MULTI_REDDIT+ multiName, concatenatedSubs.toString());
-                        UserSubscriptions.setSubNameToProperties(ReorderSubreddits.MULTI_REDDIT + multiName, concatenatedSubs.toString());
-                    }
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

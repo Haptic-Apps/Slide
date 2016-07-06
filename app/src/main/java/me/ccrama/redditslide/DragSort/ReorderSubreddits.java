@@ -94,6 +94,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     @Override
                     protected ArrayList<String> doInBackground(Void... params) {
                         ArrayList<String> newSubs = new ArrayList<>(UserSubscriptions.syncSubreddits(ReorderSubreddits.this));
+                        UserSubscriptions.syncMultiReddits(ReorderSubreddits.this);
                         return newSubs;
                     }
 
