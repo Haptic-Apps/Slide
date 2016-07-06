@@ -92,9 +92,9 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return 5;
         }
         if (dataSet.posts.get(position).getSubject().toLowerCase().contains("re:") && dataSet.where.equalsIgnoreCase("messages"))//IS COMMENT IN MESSAGES
-            return TOP_LEVEL;
+            return 2;
 
-        return 2;
+        return TOP_LEVEL;
     }
 
     @Override

@@ -466,7 +466,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                         if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                             for (int firstVisibleItem : firstVisibleItems) {
                                 pastVisiblesItems = firstVisibleItem;
-                                if (SettingValues.scrollSeen && pastVisiblesItems > 0) {
+                                if (SettingValues.scrollSeen && pastVisiblesItems > 0 && SettingValues.storeHistory) {
                                     HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                                 }
                             }

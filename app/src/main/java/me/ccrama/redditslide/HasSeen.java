@@ -50,7 +50,6 @@ public class HasSeen {
             if (!m.getByContains(fullname).isEmpty()) {
                 hasSeen.add(fullname);
             }
-
         }
     }
 

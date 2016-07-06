@@ -260,7 +260,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             if (post.isNsfw() && !SettingValues.storeNSFWHistory) {
             } else HasSeen.addSeen(post.getFullName());
             LastComments.setComments(post);
-
         }
     }
 
