@@ -51,14 +51,4 @@ public class TitleTextView extends SpoilerRobotoTextView {
             }
         }
     }
-    @Override
-    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        super.onSizeChanged(w, h, oldw, oldh);
-
-        // set fitting lines to prevent cut text
-        int fittingLines = h / this.getLineHeight();
-        if (fittingLines > 0) {
-            this.setLines(fittingLines);
-        }
-    }
 }
