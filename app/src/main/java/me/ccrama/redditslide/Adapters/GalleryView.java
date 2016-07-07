@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Adapters;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -210,7 +209,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 }
                                 break;
                             case IMGUR:
-                                PopulateSubmissionViewHolder.openImage(main, submission, null);
+                                PopulateSubmissionViewHolder.openImage(main, submission, null, holder.getAdapterPosition());
                                 break;
                             case EMBEDDED:
                                 if (SettingValues.video) {
@@ -250,10 +249,10 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 break;
                             case DEVIANTART:
                             case IMAGE:
-                                PopulateSubmissionViewHolder.openImage(main, submission, null);
+                                PopulateSubmissionViewHolder.openImage(main, submission, null, holder.getAdapterPosition());
                                 break;
                             case GIF:
-                                PopulateSubmissionViewHolder.openGif(main, submission);
+                                PopulateSubmissionViewHolder.openGif(main, submission,  holder.getAdapterPosition());
                                 break;
                             case NONE:
                             case SELF:
