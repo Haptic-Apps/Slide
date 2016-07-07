@@ -78,7 +78,7 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:theme="@style/Ripple.List"
-            android:layout_toLeftOf="@+id/hq"
+            android:layout_alignParentLeft="true"
             android:padding="15dp"
             app:srcCompat="@drawable/commentchange"
             android:tint="#e1e1e1" />
