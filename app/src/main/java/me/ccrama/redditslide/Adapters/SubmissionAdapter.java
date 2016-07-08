@@ -44,7 +44,7 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
-    private final RecyclerView listView;
+    private static RecyclerView listView;
     private final String subreddit;
     public Activity context;
     private final boolean custom;
@@ -54,6 +54,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int NO_MORE = 3;
     private final int SPACER = 6;
     SubmissionDisplay displayer;
+    private SubmissionViewHolder holder;
 
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView, String subreddit, SubmissionDisplay displayer) {
         this.subreddit = subreddit.toLowerCase();
@@ -160,7 +161,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         int i = pos != 0 ? pos - 1 : pos;
 
         if (holder2 instanceof SubmissionViewHolder) {
-            final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
+            holder = (SubmissionViewHolder) holder2;
 
             final Submission submission = dataSet.posts.get(i);
             CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage") || subreddit.equals("mod") || subreddit.equals("friends") || (subreddit.equals("all")) || subreddit.contains(".") || subreddit.contains("+")));
@@ -405,5 +406,9 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         } catch (IndexOutOfBoundsException e) {
             fixSliding(position - 1);
         }
+    }
+
+    public static void performClick(int adapterPosition) {
+        listView.findViewHolderForAdapterPosition(adapterPosition).itemView.performClick();
     }
 }

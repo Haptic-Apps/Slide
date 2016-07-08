@@ -57,6 +57,7 @@ import java.util.List;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapter;
+import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.ImageLoaderUtils;
@@ -85,6 +86,8 @@ import me.ccrama.redditslide.util.SubmissionParser;
  */
 public class AlbumPager extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
 
+    private static int adapterPosition;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -96,7 +99,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             SettingValues.albumSwipe = false;
             SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, false).apply();
             Intent i = new Intent(AlbumPager.this, Album.class);
-            i.putExtra("url", getIntent().getExtras().getString("url", ""));
+            i.putExtras(getIntent());
             startActivity(i);
             finish();
         }
@@ -159,6 +162,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setPopupTheme(new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE));
+        adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
 
         String url = getIntent().getExtras().getString("url", "");
         setShareUrl(url);
@@ -563,6 +567,17 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 rootView.findViewById(R.id.hq).setVisibility(View.GONE);
             }
 
+            if (adapterPosition >0 ) {
+                rootView.findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getActivity().finish();
+                        SubmissionAdapter.performClick(adapterPosition);
+                    }
+                });
+            } else {
+                rootView.findViewById(R.id.comments).setVisibility(View.GONE);
+            }
             return rootView;
         }
 
