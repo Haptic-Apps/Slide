@@ -60,8 +60,8 @@
             android:layout_width="wrap_content"
             android:paddingLeft="16dp"
             android:gravity="center"
-            android:layout_alignParentLeft="true"
             android:id="@+id/size"
+            android:layout_toRightOf="@+id/comments"
             android:textSize="12sp"
             android:layout_height="match_parent" />
         <ImageView
@@ -72,6 +72,15 @@
             android:layout_toLeftOf="@+id/save"
             android:padding="15dp"
             app:srcCompat="@drawable/hd"
+            android:tint="#e1e1e1" />
+        <ImageView
+            android:id="@+id/comments"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:theme="@style/Ripple.List"
+            android:layout_alignParentLeft="true"
+            android:padding="15dp"
+            app:srcCompat="@drawable/commentchange"
             android:tint="#e1e1e1" />
         <ImageView
             android:id="@+id/save"

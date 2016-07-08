@@ -58,6 +58,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.UUID;
 
+import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
@@ -81,6 +82,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public static String fileLoc;
     public float previous;
     public static final String EXTRA_URL = "url";
+    public static final String ADAPTER_POSITION = "adapter_position";
     public static final String EXTRA_DISPLAY_URL = "displayUrl";
     public static final String EXTRA_LQ = "lq";
     public static final String EXTRA_SHARE_URL = "urlShare";
@@ -456,6 +458,20 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             contentUrl = contentUrl.substring(0, contentUrl.lastIndexOf("."));
         }
         actuallyLoaded = contentUrl;
+        if (getIntent().hasExtra(ADAPTER_POSITION)) {
+            final int commentUrl = getIntent().getExtras().getInt(ADAPTER_POSITION);
+            findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    imageShown = false;
+                    finish();
+                    SubmissionAdapter.performClick(commentUrl);
+                }
+            });
+        } else {
+            findViewById(R.id.comments).setVisibility(View.GONE);
+        }
+
         if (getIntent().hasExtra(EXTRA_LQ)) {
             String lqUrl = getIntent().getStringExtra(EXTRA_DISPLAY_URL);
             displayImage(lqUrl);
