@@ -129,7 +129,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         if (!isGif)
             b.sheet(3, image, "Share image");
         b.sheet(4, save, "Save " + (isGif ? "MP4" : "image"));
-        if (isGif && !contentUrl.contains(".mp4") && !contentUrl.contains("streamable.com") && !contentUrl.contains("vid.me")) {
+        if (isGif && !contentUrl.contains(".mp4") && !contentUrl.contains("streamable.com")&& !contentUrl.contains("gfycat.com") && !contentUrl.contains("vid.me")) {
             String type = contentUrl.substring(contentUrl.lastIndexOf(".") + 1, contentUrl.length()).toUpperCase();
             try {
                 if (type.equals("GIFV") && new URL(contentUrl).getHost().equals("i.imgur.com")) {
