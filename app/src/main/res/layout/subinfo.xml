@@ -133,29 +133,30 @@
                         android:layout_height="match_parent"
                         android:layout_marginBottom="8dp"
                         android:layout_marginTop="8dp"
+                        android:layout_toStartOf="@id/collection"
                         android:background="?android:selectableItemBackground"
                         android:backgroundTint="?attr/tint"
                         android:button="@null"
                         android:buttonTint="?attr/tint"
-                        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                        android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
                         android:drawableTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
                         android:text="@string/misc_subscribed"
-                        android:layout_toLeftOf="@id/collection"
                         android:textAllCaps="true"
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font" />
 
                     <ImageView
-                        android:layout_width="36dp"
-                        android:layout_centerVertical="true"
-                        android:padding="4dp"
-                        android:layout_alignParentRight="true"
-                        android:theme="@style/Ripple.List"
-                        android:layout_height="36dp"
                         android:id="@+id/collection"
-                        android:layout_marginLeft="20dp"
-                        android:src="@drawable/collection" />
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="20dp"
+                        android:padding="4dp"
+                        android:src="@drawable/collection"
+                        android:theme="@style/Ripple.List"
+                        android:tint="?attr/tint" />
                 </RelativeLayout>
 
                 <View
