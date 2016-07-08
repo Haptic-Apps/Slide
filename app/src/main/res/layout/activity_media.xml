@@ -60,8 +60,8 @@
             android:layout_width="wrap_content"
             android:paddingLeft="16dp"
             android:gravity="center"
-            android:layout_alignParentLeft="true"
             android:id="@+id/size"
+            android:layout_toRightOf="@+id/comments"
             android:textSize="12sp"
             android:layout_height="match_parent" />
         <ImageView
