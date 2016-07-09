@@ -22,5 +22,9 @@
         android:id="@+id/external"
         android:title="@string/open_externally"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/comments"
+        android:title="@string/btn_open_comments"
+        app:showAsAction="never" />
 
 </menu>

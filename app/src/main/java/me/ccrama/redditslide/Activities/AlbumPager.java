@@ -109,6 +109,13 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         if (id == R.id.external) {
             Reddit.defaultShare(getIntent().getExtras().getString("url", ""), this);
         }
+
+        if (id == R.id.comments) {
+            int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
+            finish();
+            SubmissionAdapter.performClick(adapterPosition);
+        }
+
         if (id == R.id.download) {
             final MaterialDialog d = new MaterialDialog.Builder(AlbumPager.this)
                     .title("Saving album")
@@ -280,6 +287,10 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.album_pager, menu);
+        adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
+        if (adapterPosition < 0) {
+            menu.findItem(R.id.comments).setVisible(false);
+        }
 
         //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
         //   else menu.findItem(R.id.action_info).setVisible(false);
