@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.AlbumView;
+import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
@@ -82,12 +83,19 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             SettingValues.albumSwipe = true;
             SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, true).apply();
             Intent i = new Intent(Album.this, AlbumPager.class);
+            int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
+            i.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
             i.putExtra("url", url);
             startActivity(i);
             finish();
         }
         if (id == R.id.grid) {
             mToolbar.findViewById(R.id.grid).callOnClick();
+        }
+        if (id == R.id.comments) {
+            int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
+            finish();
+            SubmissionAdapter.performClick(adapterPosition);
         }
         if (id == R.id.external) {
             Reddit.defaultShare(url, this);
