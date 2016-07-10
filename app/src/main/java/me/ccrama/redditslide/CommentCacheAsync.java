@@ -256,7 +256,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                 }*/
                     } catch (Exception ignored) {
                     }
-                    count++;
+                    count = count + 50 / submissions.size();
                     if (modal) {
                         dialog.setProgress(count);
                     } else {
