@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.AlbumView;
+import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
@@ -62,6 +63,7 @@ import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 public class Album extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL = "url";
     private List<Image> images;
+    private int adapterPosition;
 
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
@@ -82,12 +84,18 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             SettingValues.albumSwipe = true;
             SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, true).apply();
             Intent i = new Intent(Album.this, AlbumPager.class);
+            int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
+            i.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
             i.putExtra("url", url);
             startActivity(i);
             finish();
         }
         if (id == R.id.grid) {
             mToolbar.findViewById(R.id.grid).callOnClick();
+        }
+        if (id == R.id.comments) {
+            finish();
+            SubmissionAdapter.performClick(adapterPosition);
         }
         if (id == R.id.external) {
             Reddit.defaultShare(url, this);
@@ -224,7 +232,10 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.album_vertical, menu);
-
+        adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
+        if (adapterPosition < 0) {
+            menu.findItem(R.id.comments).setVisible(false);
+        }
         //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
         //   else menu.findItem(R.id.action_info).setVisible(false);
 
