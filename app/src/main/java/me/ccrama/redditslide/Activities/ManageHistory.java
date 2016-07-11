@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.google.common.collect.ImmutableList;
 import com.rey.material.app.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
@@ -27,6 +28,7 @@ import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -73,6 +75,28 @@ public class ManageHistory extends BaseActivityAnim {
         }
         updateBackup();
         updateFilters();
+        final List<String> commentDepths = ImmutableList.of("2", "4", "6", "8", "10");
+        final String[] commentDepthArray = new String[commentDepths.size()];
+
+
+
+        findViewById(R.id.comments_depth).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String commentDepth = SettingValues.prefs.getString(SettingValues.COMMENT_DEPTH, "2");
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(ManageHistory.this);
+                builder.setTitle(R.string.comments_depth);
+                builder.setSingleChoiceItems(
+                        commentDepths.toArray(commentDepthArray), commentDepths.indexOf(commentDepth), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SettingValues.prefs.edit().putString(SettingValues.COMMENT_DEPTH, commentDepths.get(which)).apply();
+                            }
+                        });
+                builder.show();
+
+            }
+        });
 
         findViewById(R.id.autocache).setOnClickListener(new View.OnClickListener() {
             @Override

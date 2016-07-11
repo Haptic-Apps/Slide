@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.NotificationCompat;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -174,6 +175,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
         for (final String fSub : subs) {
             final String sub;
             final String name = fSub;
+            CommentSort sortType = SettingValues.getCommentSorting(name);
 
             if (multiNameToSubsMap.containsKey(fSub)) {
                 sub = multiNameToSubsMap.get(fSub);
@@ -234,9 +236,11 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                     if (dialog != null)
                         dialog.setMaxProgress(submissions.size());
                 }
+                int commentDepth = Integer.valueOf(SettingValues.prefs.getString(SettingValues.COMMENT_DEPTH, "5"));
+                Log.v("CommentCacheAsync", "comment depth " + commentDepth);
                 for (final Submission s : submissions) {
                     try {
-                        JsonNode n = getSubmission(new SubmissionRequest.Builder(s.getId()).sort(CommentSort.CONFIDENCE).build());
+                        JsonNode n = getSubmission(new SubmissionRequest.Builder(s.getId()).limit(50).depth(commentDepth).sort(sortType).build());
                         Submission s2 = SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
                         OfflineSubreddit.writeSubmission(n, s2, context);
                         newFullnames.add(s2.getFullName());
@@ -256,7 +260,7 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                 }*/
                     } catch (Exception ignored) {
                     }
-                    count = count + 50 / submissions.size();
+                    count = count + Math.round(50f / submissions.size());
                     if (modal) {
                         dialog.setProgress(count);
                     } else {

@@ -92,6 +92,42 @@
                     android:textColorHint="?attr/font" />
 
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:background="?attr/tint"
+                android:alpha=".25"
+                android:layout_height="0.25dp"/>
+
+            <RelativeLayout
+                android:id="@+id/comments_depth"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:background="?android:selectableItemBackground"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp">
+
+                <LinearLayout
+                    android:layout_marginEnd="42dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/comments_depth"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
             <View
                 android:layout_width="match_parent"
                 android:background="?attr/tint"
