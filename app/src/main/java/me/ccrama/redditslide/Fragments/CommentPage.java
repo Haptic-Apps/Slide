@@ -713,6 +713,7 @@ public class CommentPage extends Fragment {
                 }
             } else {
                 Submission s = ((MainActivity) getActivity()).openingComments;
+                doRefresh(false);
                 comments = new SubmissionComments(fullname, this, mSwipeRefreshLayout, s);
                 if (adapter == null) {
                     adapter = new CommentAdapter(this, comments, rv, s, getFragmentManager());
