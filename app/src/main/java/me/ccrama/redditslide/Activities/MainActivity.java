@@ -670,7 +670,7 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                             Reddit.appRestart.edit().remove("forceoffline").apply();
-                            ((Reddit) getApplication()).forceRestart(MainActivity.this);
+                            Reddit.forceRestart(MainActivity.this);
                         }
                     }).show();
         } else {
@@ -2142,7 +2142,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void onSingleClick(View view) {
                     Reddit.appRestart.edit().remove("forceoffline").apply();
-                    ((Reddit) getApplication()).forceRestart(MainActivity.this);
+                    Reddit.forceRestart(MainActivity.this);
                 }
             });
 
