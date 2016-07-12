@@ -130,7 +130,7 @@ public class PopulateSubmissionViewHolder {
                                 if (SettingValues.video) {
                                     Intent myIntent = new Intent(contextActivity, MediaView.class);
                                     myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
-                                    addAdaptorPosition(myIntent, submission,  holder.getAdapterPosition());
+                                    addAdaptorPosition(myIntent, submission, holder.getAdapterPosition());
                                     contextActivity.startActivity(myIntent);
                                 } else {
                                     Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -575,7 +575,7 @@ public class PopulateSubmissionViewHolder {
                     TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
-                } catch(Exception ignored){
+                } catch (Exception ignored) {
 
                 }
             }
@@ -783,6 +783,7 @@ public class PopulateSubmissionViewHolder {
         final Drawable flair = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_format_quote_white_48dp, null);
         final Drawable remove = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.close, null);
         final Drawable remove_reason = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.reportreason, null);
+        final Drawable ban = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ban, null);
 
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -794,6 +795,7 @@ public class PopulateSubmissionViewHolder {
         flair.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove_reason.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -814,6 +816,9 @@ public class PopulateSubmissionViewHolder {
             b.sheet(1, approve, res.getString(R.string.mod_btn_approved, whoApproved));
         }
 
+        b.sheet(6, remove, mContext.getString(R.string.mod_btn_remove))
+                .sheet(7, remove_reason, res.getString(R.string.mod_btn_remove_reason));
+
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
         b.sheet(20, flair, res.getString(R.string.mod_btn_submission_flair));
 
@@ -833,9 +838,8 @@ public class PopulateSubmissionViewHolder {
 
         final String finalWhoApproved = whoApproved;
         final boolean finalApproved = approved;
-        b.sheet(6, remove, mContext.getString(R.string.mod_btn_remove))
-                .sheet(7, remove_reason, res.getString(R.string.mod_btn_remove_reason))
-                .sheet(8, profile, res.getString(R.string.mod_btn_author))
+        b.sheet(8, profile, res.getString(R.string.mod_btn_author))
+                .sheet(23, ban, "Ban user" )
                 .listener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -1315,6 +1319,15 @@ public class PopulateSubmissionViewHolder {
                                 Intent i = new Intent(mContext, Profile.class);
                                 i.putExtra(Profile.EXTRA_PROFILE, submission.getAuthor());
                                 mContext.startActivity(i);
+                                break;
+                            case 23:
+                                new AsyncTask<Void, Void, Void>() {
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                       //todo this new ModerationManager(Authentication.reddit).
+                                        return null;
+                                    }
+                                }.execute();
                                 break;
                             case 20:
                                 new AsyncTask<Void, Void, ArrayList<String>>() {

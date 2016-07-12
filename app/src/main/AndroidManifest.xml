@@ -17,7 +17,6 @@
         android:icon="@mipmap/ic_launcher"
         android:installLocation="auto"
         android:label="@string/app_name"
-        android:largeHeap="true"
         android:theme="@style/yellow_dark">
         <activity
             android:name=".Activities.Slide"
