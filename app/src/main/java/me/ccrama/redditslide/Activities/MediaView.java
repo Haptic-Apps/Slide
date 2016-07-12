@@ -82,7 +82,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public static String fileLoc;
     public float previous;
     public static final String EXTRA_URL = "url";
-    public static final String ADAPTER_POSITION = "adapter_position";
+    public static final String SUBMISSION_URL = "submission";
     public static final String EXTRA_DISPLAY_URL = "displayUrl";
     public static final String EXTRA_LQ = "lq";
     public static final String EXTRA_SHARE_URL = "urlShare";
@@ -462,14 +462,12 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             contentUrl = contentUrl.substring(0, contentUrl.lastIndexOf("."));
         }
         actuallyLoaded = contentUrl;
-        if (getIntent().hasExtra(ADAPTER_POSITION)) {
-            final int commentUrl = getIntent().getExtras().getInt(ADAPTER_POSITION);
+        if (getIntent().hasExtra(SUBMISSION_URL)) {
             findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    imageShown = false;
                     finish();
-                    SubmissionAdapter.performClick(commentUrl);
+                    SubmissionAdapter.setOpen(MediaView.this, getIntent().getStringExtra(SUBMISSION_URL));
                 }
             });
         } else {

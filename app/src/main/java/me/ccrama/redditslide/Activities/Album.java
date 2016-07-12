@@ -84,8 +84,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             SettingValues.albumSwipe = true;
             SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, true).apply();
             Intent i = new Intent(Album.this, AlbumPager.class);
-            int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
-            i.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
+            if (getIntent().hasExtra(MediaView.SUBMISSION_URL))
+                i.putExtra(MediaView.SUBMISSION_URL, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             i.putExtra("url", url);
             startActivity(i);
             finish();
@@ -94,8 +94,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             mToolbar.findViewById(R.id.grid).callOnClick();
         }
         if (id == R.id.comments) {
+            SubmissionAdapter.setOpen(this, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             finish();
-            SubmissionAdapter.performClick(adapterPosition);
         }
         if (id == R.id.external) {
             Reddit.defaultShare(url, this);
@@ -232,8 +232,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.album_vertical, menu);
-        adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
-        if (adapterPosition < 0) {
+        if (!getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
             menu.findItem(R.id.comments).setVisible(false);
         }
         //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
@@ -405,7 +404,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             @Override
             public void doWithData(final List<Image> jsonElements) {
                 super.doWithData(jsonElements);
-                if(getActivity() != null) {
+                if (getActivity() != null) {
                     getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
                     ((Album) getActivity()).images = new ArrayList<>(jsonElements);
                     AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images, getActivity().findViewById(R.id.toolbar).getHeight());

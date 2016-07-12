@@ -434,7 +434,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case R.id.open_link:
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Html.fromHtml(url).toString()));
                                     getContext().startActivity(browserIntent);
                                     break;
                                 case R.id.share_link:

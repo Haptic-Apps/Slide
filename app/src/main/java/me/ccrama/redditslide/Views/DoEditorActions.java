@@ -251,6 +251,7 @@ public class DoEditorActions {
         baseView.findViewById(R.id.quote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 insertBefore("> ", editText);
             }
         });

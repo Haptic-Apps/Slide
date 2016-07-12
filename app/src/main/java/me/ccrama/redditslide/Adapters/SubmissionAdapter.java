@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -27,12 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.ActionStates;
+import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
+import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -44,7 +47,7 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
 
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
-    private static RecyclerView listView;
+    private final RecyclerView listView;
     private final String subreddit;
     public Activity context;
     private final boolean custom;
@@ -58,7 +61,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView, String subreddit, SubmissionDisplay displayer) {
         this.subreddit = subreddit.toLowerCase();
-        SubmissionAdapter.listView = listView;
+        this.listView = listView;
         this.dataSet = dataSet;
         this.context = context;
         this.seen = new ArrayList<>();
@@ -328,6 +331,10 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
+    public static void setOpen(Activity activity, String url) {
+        new OpenRedditLink(activity, url);
+    }
+
     public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
         public SubmissionFooterViewHolder(View itemView) {
             super(itemView);
@@ -408,7 +415,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public static void performClick(int adapterPosition) {
+    public void performClick(int adapterPosition) {
         listView.findViewHolderForAdapterPosition(adapterPosition).itemView.performClick();
     }
 }

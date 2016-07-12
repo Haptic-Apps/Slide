@@ -209,7 +209,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 }
                                 break;
                             case IMGUR:
-                                PopulateSubmissionViewHolder.openImage(main, submission, null, holder.getAdapterPosition());
+                                PopulateSubmissionViewHolder.openImage(main, submission, null);
                                 break;
                             case EMBEDDED:
                                 if (SettingValues.video) {
@@ -249,10 +249,10 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 break;
                             case DEVIANTART:
                             case IMAGE:
-                                PopulateSubmissionViewHolder.openImage(main, submission, null, holder.getAdapterPosition());
+                                PopulateSubmissionViewHolder.openImage(main, submission, null);
                                 break;
                             case GIF:
-                                PopulateSubmissionViewHolder.openGif(main, submission,  holder.getAdapterPosition());
+                                PopulateSubmissionViewHolder.openGif(main, submission);
                                 break;
                             case NONE:
                             case SELF:

@@ -563,10 +563,10 @@ public class CommentPage extends Fragment {
                                         }
                                         break;
                                     case IMAGE:
-                                        PopulateSubmissionViewHolder.openImage(getActivity(), adapter.submission, null, -1);
+                                        PopulateSubmissionViewHolder.openImage(getActivity(), adapter.submission, null);
                                         break;
                                     case GIF:
-                                        PopulateSubmissionViewHolder.openGif(getActivity(), adapter.submission, -1);
+                                        PopulateSubmissionViewHolder.openGif(getActivity(), adapter.submission);
                                         break;
                                     case VIDEO:
                                         if (Reddit.videoPlugin) {

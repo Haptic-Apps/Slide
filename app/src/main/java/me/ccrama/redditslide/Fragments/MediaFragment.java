@@ -352,7 +352,7 @@ public class MediaFragment extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openImage(contextActivity, submission, null, -1);
+                        PopulateSubmissionViewHolder.openImage(contextActivity, submission, null);
 
                     }
                 });
@@ -361,7 +361,7 @@ public class MediaFragment extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openGif(contextActivity, submission, -1);
+                        PopulateSubmissionViewHolder.openGif(contextActivity, submission);
 
                     }
                 });

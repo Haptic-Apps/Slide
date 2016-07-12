@@ -86,8 +86,6 @@ import me.ccrama.redditslide.util.SubmissionParser;
  */
 public class AlbumPager extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
 
-    private static int adapterPosition;
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -99,6 +97,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             SettingValues.albumSwipe = false;
             SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, false).apply();
             Intent i = new Intent(AlbumPager.this, Album.class);
+            if (getIntent().hasExtra(MediaView.SUBMISSION_URL))
+                i.putExtra(MediaView.SUBMISSION_URL, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             i.putExtras(getIntent());
             startActivity(i);
             finish();
@@ -111,9 +111,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         }
 
         if (id == R.id.comments) {
-            int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
             finish();
-            SubmissionAdapter.performClick(adapterPosition);
+            SubmissionAdapter.setOpen(this, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
         }
 
         if (id == R.id.download) {
@@ -169,7 +168,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setPopupTheme(new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE));
-        adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
 
         String url = getIntent().getExtras().getString("url", "");
         setShareUrl(url);
@@ -287,8 +285,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.album_pager, menu);
-        adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
-        if (adapterPosition < 0) {
+        if (!getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
             menu.findItem(R.id.comments).setVisible(false);
         }
 
@@ -578,12 +575,12 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 rootView.findViewById(R.id.hq).setVisibility(View.GONE);
             }
 
-            if (adapterPosition >0 ) {
+            if (getActivity().getIntent().hasExtra(MediaView.SUBMISSION_URL) ) {
                 rootView.findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         getActivity().finish();
-                        SubmissionAdapter.performClick(adapterPosition);
+                        SubmissionAdapter.setOpen(getActivity(), getActivity().getIntent().getStringExtra(MediaView.SUBMISSION_URL));
                     }
                 });
             } else {
