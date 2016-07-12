@@ -67,7 +67,7 @@ public class UserSubscriptions {
         Map<String, ?> multiNameToSubsObject = multiNameToSubs.getAll();
 
         for (Map.Entry<String, ?> entry : multiNameToSubsObject.entrySet()) {
-            multiNameToSubsMap.put(entry.getValue().toString(), entry.getKey().toString());
+            multiNameToSubsMap.put(entry.getValue().toString(), entry.getKey());
         }
 
         return multiNameToSubsMap;

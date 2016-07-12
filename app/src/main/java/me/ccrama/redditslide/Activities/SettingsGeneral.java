@@ -469,7 +469,7 @@ public class SettingsGeneral extends BaseActivityAnim implements FolderChooserDi
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
-            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
+            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
             Toast.makeText(this, getString(R.string.settings_set_image_location, folder.getAbsolutePath()), Toast.LENGTH_LONG).show();
             ((TextView) findViewById(R.id.location)).setText(folder.getAbsolutePath());
         }
