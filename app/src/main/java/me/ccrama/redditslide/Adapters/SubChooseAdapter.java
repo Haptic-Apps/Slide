@@ -126,7 +126,7 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                     Intent intent = new Intent();
                     intent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
                     intent.putExtra(Intent.EXTRA_SHORTCUT_NAME, "/r/" + subreddit);
-                    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bm2.createScaledBitmap(bm2, p, p, false));
+                    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON, Bitmap.createScaledBitmap(bm2, p, p, false));
                     ((Shortcut)getContext()).setResult(Activity.RESULT_OK, intent);
 
                     ((Shortcut)getContext()).finish();

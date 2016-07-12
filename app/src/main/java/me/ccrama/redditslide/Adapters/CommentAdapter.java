@@ -2594,7 +2594,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                             }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            ((Reddit) mContext.getApplicationContext()).authentication.updateToken((mContext));
+                                            Reddit.authentication.updateToken((mContext));
                                         }
                                     }).show();
                                 } catch (Exception ignored) {
