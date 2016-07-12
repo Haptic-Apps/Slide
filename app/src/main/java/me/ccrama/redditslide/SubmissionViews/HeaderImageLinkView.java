@@ -174,7 +174,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 thumbnailType = Submission.ThumbnailType.NONE;
             }
 
-            if (SettingValues.noImages) {
+            if (SettingValues.noImages&& loadLq) {
                 setVisibility(View.GONE);
                 if (!full && !submission.isSelfPost()) {
                     thumbImage2.setVisibility(View.VISIBLE);

@@ -777,43 +777,49 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
                 previous = i.scale;
                 final float base = i.scale;
-                i.setOnZoomChangedListener(new SubsamplingScaleImageView.OnZoomChangedListener() {
+                i.postDelayed(new Runnable() {
                     @Override
-                    public void onZoomLevelChanged(float zoom) {
-                        if (zoom > previous && !hidden && zoom > base) {
-                            hidden = true;
-                            final View base = findViewById(R.id.gifheader);
+                    public void run() {
+                        i.setOnZoomChangedListener(new SubsamplingScaleImageView.OnZoomChangedListener() {
+                            @Override
+                            public void onZoomLevelChanged(float zoom) {
+                                if (zoom > previous && !hidden && zoom > base) {
+                                    hidden = true;
+                                    final View base = findViewById(R.id.gifheader);
 
-                            ValueAnimator va = ValueAnimator.ofFloat(1.0f, 0.2f);
-                            int mDuration = 250; //in millis
-                            va.setDuration(mDuration);
-                            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                public void onAnimationUpdate(ValueAnimator animation) {
-                                    Float value = (Float) animation.getAnimatedValue();
-                                    base.setAlpha(value);
-                                }
-                            });
-                            va.start();
-                            //hide
-                        } else if (zoom <= previous && hidden) {
-                            hidden = false;
-                            final View base = findViewById(R.id.gifheader);
+                                    ValueAnimator va = ValueAnimator.ofFloat(1.0f, 0.2f);
+                                    int mDuration = 250; //in millis
+                                    va.setDuration(mDuration);
+                                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                        public void onAnimationUpdate(ValueAnimator animation) {
+                                            Float value = (Float) animation.getAnimatedValue();
+                                            base.setAlpha(value);
+                                        }
+                                    });
+                                    va.start();
+                                    //hide
+                                } else if (zoom <= previous && hidden) {
+                                    hidden = false;
+                                    final View base = findViewById(R.id.gifheader);
 
-                            ValueAnimator va = ValueAnimator.ofFloat(0.2f, 1.0f);
-                            int mDuration = 250; //in millis
-                            va.setDuration(mDuration);
-                            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                public void onAnimationUpdate(ValueAnimator animation) {
-                                    Float value = (Float) animation.getAnimatedValue();
-                                    base.setAlpha(value);
+                                    ValueAnimator va = ValueAnimator.ofFloat(0.2f, 1.0f);
+                                    int mDuration = 250; //in millis
+                                    va.setDuration(mDuration);
+                                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                                        public void onAnimationUpdate(ValueAnimator animation) {
+                                            Float value = (Float) animation.getAnimatedValue();
+                                            base.setAlpha(value);
+                                        }
+                                    });
+                                    va.start();
+                                    //unhide
                                 }
-                            });
-                            va.start();
-                            //unhide
-                        }
-                        previous = zoom;
+                                previous = zoom;
+                            }
+                        });
                     }
-                });
+                }, 2000);
+
             } else {
                 ((Reddit) getApplication()).getImageLoader()
                         .displayImage(url, new ImageViewAware(fakeImage), new DisplayImageOptions.Builder()
