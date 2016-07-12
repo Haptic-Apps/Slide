@@ -196,8 +196,8 @@ public class Login extends BaseActivityAnim {
                     editor.putStringSet("tokens", tokens);
                     editor.putString("lasttoken", refreshToken);
                     editor.remove("backedCreds");
-                    Reddit.appRestart.edit().remove("back").commit();
-                    editor.commit();
+                    Reddit.appRestart.edit().remove("back").apply();
+                    editor.apply();
                 } else {
                     Log.e(LogUtil.getTag(), "Passed in OAuthData was null");
                 }

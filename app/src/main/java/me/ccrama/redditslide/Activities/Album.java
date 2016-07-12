@@ -68,7 +68,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
-            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath().toString()).apply();
+            Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
             Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
         }
     }

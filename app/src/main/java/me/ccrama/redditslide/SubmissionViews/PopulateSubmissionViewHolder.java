@@ -1680,7 +1680,7 @@ public class PopulateSubmissionViewHolder {
 
         doInfoLine(holder, submission, mContext, baseSub, full);
 
-        if (!full && SettingValues.isSelftextEnabled(baseSub) && submission.isSelfPost() && !submission.getSelftext().isEmpty() && !submission.isNsfw() && !submission.getDataNode().get("selftext_html").asText().toString().trim().isEmpty()) {
+        if (!full && SettingValues.isSelftextEnabled(baseSub) && submission.isSelfPost() && !submission.getSelftext().isEmpty() && !submission.isNsfw() && !submission.getDataNode().get("selftext_html").asText().trim().isEmpty()) {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
             int typef = new FontPreferences(mContext).getFontTypeComment().getTypeface();

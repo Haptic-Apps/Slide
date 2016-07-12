@@ -304,7 +304,8 @@ public class OpenRedditLink {
         }
         if (!targetIntents.isEmpty()) {
             Intent chooserIntent = Intent.createChooser(targetIntents.remove(0), c.getString(R.string.misc_link_chooser));
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetIntents.toArray(new Parcelable[]{}));
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+                    targetIntents.toArray(new Parcelable[targetIntents.size()]));
             c.startActivity(chooserIntent);
         } else
             Reddit.defaultShare(url, c);
