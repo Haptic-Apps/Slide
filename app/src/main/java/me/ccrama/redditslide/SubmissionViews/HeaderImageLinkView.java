@@ -128,7 +128,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                             if (h > 3200) {
                                 backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3200));
                             } else {
-                                backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) h));
+                                backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                             }
                         } else {
                             if (height > 3200) {
@@ -151,7 +151,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         if (h > 3200) {
                             backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, 3200));
                         } else {
-                            backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, (int) h));
+                            backdrop.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
                         }
                     } else {
                         if (height > 3200) {
