@@ -2960,7 +2960,7 @@ public class MainActivity extends BaseActivity {
             }
             reloadSubs();
             //If the user changed a Setting regarding the app's theme, restartTheme()
-            if (SettingsTheme.changed || (usedArray != null && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())) {
+            if (SettingsTheme.changed /* todo maybe later || (usedArray != null && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())*/) {
                 restartTheme();
             }
 
