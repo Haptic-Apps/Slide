@@ -413,7 +413,13 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public void performClick(int adapterPosition) {
         if (listView != null) {
-            listView.findViewHolderForAdapterPosition(adapterPosition).itemView.performClick();
+            RecyclerView.ViewHolder holder = listView.findViewHolderForAdapterPosition(adapterPosition);
+            if (holder != null) {
+                View view = holder.itemView;
+                if (view != null) {
+                    view.performClick();
+                }
+            }
         }
     }
 }
