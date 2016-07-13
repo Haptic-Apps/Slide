@@ -49,6 +49,8 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
+    private static int adaptorPosition;
+    private static int currentPosition;
     public SubredditPosts posts;
     public RecyclerView rv;
     public SubmissionAdapter adapter;
@@ -352,6 +354,22 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null && adaptorPosition >0 && currentPosition == adaptorPosition) {
+            adapter.performClick(adaptorPosition);
+            adaptorPosition = -1;
+        }
+    }
+
+
+    public static void datachanged(int adaptorPosition2) {
+        adaptorPosition = adaptorPosition2;
+        //forced = true;
+        //posts.loadMore(mSwipeRefreshLayout.getContext(), this, true, id);
+    }
+
     private void refresh() {
         posts.forced = true;
         forced = true;
@@ -529,5 +547,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         } else {
             toolbarScroll.reset = true;
         }
+    }
+
+    public static void currentPosition(int adapterPosition) {
+        currentPosition = adapterPosition;
     }
 }

@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -28,14 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.ccrama.redditslide.ActionStates;
-import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.HasSeen;
-import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -57,7 +54,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int NO_MORE = 3;
     private final int SPACER = 6;
     SubmissionDisplay displayer;
-    private SubmissionViewHolder holder;
 
     public SubmissionAdapter(Activity context, SubredditPosts dataSet, RecyclerView listView, String subreddit, SubmissionDisplay displayer) {
         this.subreddit = subreddit.toLowerCase();
@@ -164,7 +160,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         int i = pos != 0 ? pos - 1 : pos;
 
         if (holder2 instanceof SubmissionViewHolder) {
-            holder = (SubmissionViewHolder) holder2;
+            final SubmissionViewHolder holder = (SubmissionViewHolder) holder2;
 
             final Submission submission = dataSet.posts.get(i);
             CreateCardView.colorCard(submission.getSubredditName().toLowerCase(), holder.itemView, subreddit, (subreddit.equals("frontpage") || subreddit.equals("mod") || subreddit.equals("friends") || (subreddit.equals("all")) || subreddit.contains(".") || subreddit.contains("+")));
@@ -332,7 +328,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public static void setOpen(Activity activity, String url) {
-        new OpenRedditLink(activity, url);
+        //new OpenRedditLink(activity, url);
     }
 
     public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
@@ -416,6 +412,8 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void performClick(int adapterPosition) {
-        listView.findViewHolderForAdapterPosition(adapterPosition).itemView.performClick();
+        if (listView != null) {
+            listView.findViewHolderForAdapterPosition(adapterPosition).itemView.performClick();
+        }
     }
 }

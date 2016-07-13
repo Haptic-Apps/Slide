@@ -62,6 +62,7 @@ import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
@@ -82,6 +83,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public static String fileLoc;
     public float previous;
     public static final String EXTRA_URL = "url";
+    public static final String ADAPTER_POSITION = "adapter_position";
     public static final String SUBMISSION_URL = "submission";
     public static final String EXTRA_DISPLAY_URL = "displayUrl";
     public static final String EXTRA_LQ = "lq";
@@ -463,11 +465,13 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         }
         actuallyLoaded = contentUrl;
         if (getIntent().hasExtra(SUBMISSION_URL)) {
+            final int commentUrl = getIntent().getExtras().getInt(ADAPTER_POSITION);
             findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
                     SubmissionAdapter.setOpen(MediaView.this, getIntent().getStringExtra(SUBMISSION_URL));
+                    SubmissionsView.datachanged(commentUrl);
                 }
             });
         } else {
