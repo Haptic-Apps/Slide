@@ -35,4 +35,7 @@ public class Constants {
      * swipe area becomes. This is a percentage of the screen width.
      */
     public static final float DRAWER_SWIPE_EDGE = 0.1f;
+
+    /** The client ID to use when making requests to the Imgur Mashape API */
+    public static final String IMGUR_MASHAPE_CLIENT_ID = "bef87913eb202e9";
 }
