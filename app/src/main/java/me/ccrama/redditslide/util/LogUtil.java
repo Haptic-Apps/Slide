@@ -55,4 +55,8 @@ public class LogUtil {
     public static void e(String message) {
         Log.e(getTag(), message);
     }
+
+    public static void e(Throwable tr, String message) {
+        Log.e(getTag(), message, tr);
+    }
 }
