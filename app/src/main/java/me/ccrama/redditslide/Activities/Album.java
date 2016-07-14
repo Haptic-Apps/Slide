@@ -46,6 +46,7 @@ import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
@@ -84,6 +85,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             SettingValues.albumSwipe = true;
             SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, true).apply();
             Intent i = new Intent(Album.this, AlbumPager.class);
+            int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
+            i.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
             if (getIntent().hasExtra(MediaView.SUBMISSION_URL))
                 i.putExtra(MediaView.SUBMISSION_URL, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             i.putExtra("url", url);
@@ -95,6 +98,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         }
         if (id == R.id.comments) {
             SubmissionAdapter.setOpen(this, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
+            SubmissionsView.datachanged(adapterPosition);
             finish();
         }
         if (id == R.id.external) {
@@ -232,7 +236,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.album_vertical, menu);
-        if (!getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
+        adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
+        if (adapterPosition < 0) {
             menu.findItem(R.id.comments).setVisible(false);
         }
         //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
