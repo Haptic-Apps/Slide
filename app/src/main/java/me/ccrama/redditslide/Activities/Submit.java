@@ -50,6 +50,7 @@ import java.net.URL;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -682,7 +683,7 @@ public class Submit extends BaseActivity {
                 conn.setDoInput(true);
                 conn.setRequestMethod("POST");
                 conn.addRequestProperty("X-Mashape-Key", SecretConstants.getImgurApiKey(Submit.this));
-                conn.addRequestProperty("Authorization", "Client-ID " + "bef87913eb202e9");
+                conn.addRequestProperty("Authorization", "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID);
                 conn.setRequestMethod("POST");
                 conn.setRequestProperty("Content-Type",
                         "application/x-www-form-urlencoded");
