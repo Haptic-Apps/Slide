@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
 public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
 
     private final RecyclerView listView;
-    private final String subreddit;
+    public final String subreddit;
     public Activity context;
     private final boolean custom;
     public SubredditPosts dataSet;
@@ -412,11 +413,15 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void performClick(int adapterPosition) {
+        Log.v("test40", "a");
         if (listView != null) {
-            RecyclerView.ViewHolder holder = listView.findViewHolderForAdapterPosition(adapterPosition);
+            Log.v("test40", "b");
+            RecyclerView.ViewHolder holder = listView.findViewHolderForLayoutPosition(adapterPosition);
             if (holder != null) {
+                Log.v("test40", "c");
                 View view = holder.itemView;
                 if (view != null) {
+                    Log.v("test40", "d");
                     view.performClick();
                 }
             }

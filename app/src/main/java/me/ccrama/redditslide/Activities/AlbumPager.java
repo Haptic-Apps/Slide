@@ -57,7 +57,6 @@ import java.util.List;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapter;
-import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
@@ -117,7 +116,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
             finish();
             SubmissionsView.datachanged(adapterPosition);
-            SubmissionAdapter.setOpen(this, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
+            //getIntent().getStringExtra(MediaView.SUBMISSION_SUBREDDIT));
+            //SubmissionAdapter.setOpen(this, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
         }
 
         if (id == R.id.download) {
@@ -585,7 +585,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     public void onClick(View v) {
                         getActivity().finish();
                         SubmissionsView.datachanged(adapterPosition);
-                        SubmissionAdapter.setOpen(getActivity(), getActivity().getIntent().getStringExtra(MediaView.SUBMISSION_URL));
+                        //, getActivity().getIntent().getStringExtra(MediaView.SUBMISSION_SUBREDDIT));
+                        //SubmissionAdapter.setOpen(getActivity(), getActivity().getIntent().getStringExtra(MediaView.SUBMISSION_URL));
                     }
                 });
             } else {
