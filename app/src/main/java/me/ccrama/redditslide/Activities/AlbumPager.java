@@ -296,10 +296,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         if (adapterPosition < 0) {
             menu.findItem(R.id.comments).setVisible(false);
         }
-
-        //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
-        //   else menu.findItem(R.id.action_info).setVisible(false);
-
         return true;
     }
 
