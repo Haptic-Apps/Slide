@@ -367,7 +367,7 @@ public class SubredditView extends BaseActivityAnim {
                     //reset check adapter
                 }
             });
-            c.setChecked((!Authentication.isLoggedIn && UserSubscriptions.isSubscriber(subreddit.getDisplayName().toLowerCase(), this)) || subreddit.isUserSubscriber());
+            c.setChecked((Authentication.isLoggedIn && UserSubscriptions.isSubscriber(subreddit.getDisplayName().toLowerCase(), this)) || subreddit.isUserSubscriber());
             c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
