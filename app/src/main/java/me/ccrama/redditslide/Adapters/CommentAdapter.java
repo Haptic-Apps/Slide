@@ -952,10 +952,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             } else {
                 holder.childrenNumber.setVisibility(View.GONE);
-                if (!holder.firstTextView.getText().toString().isEmpty())
-                    holder.firstTextView.setVisibility(View.VISIBLE);
-                else
-                    holder.firstTextView.setVisibility(View.GONE);
                 holder.commentOverflow.setVisibility(View.VISIBLE);
             }
             OnSingleClickListener singleClick = new OnSingleClickListener() {
@@ -1200,7 +1196,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             startIndex = 1;
         } else {
             firstTextView.setText("");
-            firstTextView.setVisibility(View.GONE);
         }
 
         if (blocks.size() > 1) {
@@ -1464,10 +1459,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             hideChildrenObject(holder.childrenNumber);
-            if (!holder.firstTextView.getText().toString().isEmpty())
-                holder.firstTextView.setVisibility(View.VISIBLE);
-            else
-                holder.firstTextView.setVisibility(View.GONE);
             holder.commentOverflow.setVisibility(View.VISIBLE);
 
 
