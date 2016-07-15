@@ -386,7 +386,7 @@ public class MediaFragment extends Fragment {
     }
 
     public void doLoadDeviantArt(String url) {
-        final String apiUrl = "http://backend.deviantart.com/oembed?url=" + contentUrl;
+        final String apiUrl = "http://backend.deviantart.com/oembed?url=" + url;
         LogUtil.v(apiUrl);
         new AsyncTask<Void, Void, JsonObject>() {
             @Override

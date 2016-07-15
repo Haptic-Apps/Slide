@@ -18,6 +18,7 @@ import okhttp3.ResponseBody;
 
 /**
  * A class that helps with HTTP requests and response parsing.
+ *
  * Created by Fernando Barillas on 7/13/16.
  */
 public class HttpUtil {
