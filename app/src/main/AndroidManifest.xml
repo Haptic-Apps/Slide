@@ -311,6 +311,8 @@
                  android:resource="@xml/subreddit_widget" />
          </receiver> !-->
         <service
+        android:name=".Notifications.ImageDownloadNotificationService" />
+        <service
             android:name=".Adapters.MarkAsReadService"
             android:exported="false" />
         <receiver android:name=".Widget.SubredditWidgetProvider">

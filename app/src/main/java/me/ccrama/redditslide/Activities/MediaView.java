@@ -63,6 +63,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
@@ -133,7 +134,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         if (!isGif)
             b.sheet(3, image, "Share image");
         b.sheet(4, save, "Save " + (isGif ? "MP4" : "image"));
-        if (isGif && !contentUrl.contains(".mp4") && !contentUrl.contains("streamable.com")&& !contentUrl.contains("gfycat.com") && !contentUrl.contains("vid.me")) {
+        if (isGif && !contentUrl.contains(".mp4") && !contentUrl.contains("streamable.com") && !contentUrl.contains("gfycat.com") && !contentUrl.contains("vid.me")) {
             String type = contentUrl.substring(contentUrl.lastIndexOf(".") + 1, contentUrl.length()).toUpperCase();
             try {
                 if (type.equals("GIFV") && new URL(contentUrl).getHost().equals("i.imgur.com")) {
@@ -175,29 +176,19 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         b.show();
     }
 
-    public void doImageSave(){
-        if (!isGif) {
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    String url = actuallyLoaded;
-                    final String finalUrl1 = url;
-                    final String finalUrl = actuallyLoaded;
-                    try {
-                        ((Reddit) getApplication()).getImageLoader()
-                                .loadImage(finalUrl, new SimpleImageLoadingListener() {
-                                    @Override
-                                    public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-                                        saveImageGallery(loadedImage, finalUrl1);
-                                    }
-                                });
-                    } catch (Exception e) {
-                        Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
-                    }
-                    return null;
-                }
-            }.execute();
+    public void doImageSave() {
 
+
+        if (!isGif) {
+            if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
+                showFirstDialog();
+            } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
+                showErrorDialog();
+            } else {
+                Intent i = new Intent(this, ImageDownloadNotificationService.class);
+                i.putExtra("actuallyLoaded", actuallyLoaded);
+                startService(i);
+            }
         } else {
             doOnClick.run();
         }
@@ -526,7 +517,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              doImageSave();
+                doImageSave();
             }
         });
 
@@ -583,7 +574,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(findViewById(R.id.gifheader).getVisibility() == View.GONE){
+                if (findViewById(R.id.gifheader).getVisibility() == View.GONE) {
                     animateIn(findViewById(R.id.gifheader));
                     fadeOut(findViewById(R.id.black));
                 }
@@ -942,29 +933,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         });
     }
 
-    public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
-        MediaScannerConnection.scanFile(MediaView.this, new String[]{localAbsoluteFilePath.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
-            public void onScanCompleted(String path, Uri uri) {
-
-                final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath), "image/*");
-                PendingIntent contentIntent = PendingIntent.getActivity(MediaView.this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-                Notification notif = new NotificationCompat.Builder(MediaView.this)
-                        .setContentTitle(getString(R.string.info_photo_saved))
-                        .setSmallIcon(R.drawable.savecontent)
-                        .setLargeIcon(loadedImage)
-                        .setContentIntent(contentIntent)
-                        .setStyle(new NotificationCompat.BigPictureStyle()
-                                .bigPicture(loadedImage)).build();
-
-                NotificationManager mNotificationManager =
-                        (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-                mNotificationManager.notify(1, notif);
-                loadedImage.recycle();
-            }
-        });
-    }
 
     public void showErrorDialog() {
         runOnUiThread(new Runnable() {
@@ -999,35 +967,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 });
     }
 
-    private void saveImageGallery(final Bitmap bitmap, String URL) {
-        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
-            showFirstDialog();
-        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
-            showErrorDialog();
-        } else {
-            File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".png");
-
-            FileOutputStream out = null;
-            try {
-                f.createNewFile();
-                out = new FileOutputStream(f);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            } catch (Exception e) {
-                e.printStackTrace();
-                showErrorDialog();
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                        showNotifPhoto(f, bitmap);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showErrorDialog();
-                }
-            }
-        }
-    }
 
     private void shareImage(final Bitmap bitmap) {
         if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
