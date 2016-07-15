@@ -52,6 +52,9 @@ public class ImageDownloadNotificationService extends Service {
      */
     private void handleIntent(Intent intent) {
         actuallyLoaded = intent.getStringExtra("actuallyLoaded");
+        if(actuallyLoaded.contains("imgur.com") && (!actuallyLoaded.contains(".png") || !actuallyLoaded.contains(".jpg"))){
+            actuallyLoaded = actuallyLoaded + ".png";
+        }
         new PollTask().execute();
     }
 
@@ -99,7 +102,7 @@ public class ImageDownloadNotificationService extends Service {
                         }, new ImageLoadingProgressListener() {
                             @Override
                             public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                                mBuilder.setProgress(100, current / total, false);
+                                mBuilder.setProgress(100, (current / total) * 100, false);
                                 mNotifyManager.notify(id, mBuilder.build());
                             }
                         });

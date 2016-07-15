@@ -186,7 +186,12 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 showErrorDialog();
             } else {
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
-                i.putExtra("actuallyLoaded", actuallyLoaded);
+
+                if(findViewById(R.id.hq).getVisibility() == View.VISIBLE) {
+                    i.putExtra("actuallyLoaded", contentUrl);
+                } else {
+                    i.putExtra("actuallyLoaded", actuallyLoaded);
+                }
                 startService(i);
             }
         } else {
