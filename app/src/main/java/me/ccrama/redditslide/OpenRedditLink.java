@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreenSingle;
+import me.ccrama.redditslide.Activities.LiveThread;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SubredditView;
@@ -55,6 +56,12 @@ public class OpenRedditLink {
                 context.startActivity(i);
                 break;
             }
+            case LIVE:{
+                Intent i = new Intent(context, LiveThread.class);
+                i.putExtra(LiveThread.EXTRA_LIVEURL, parts[2]);
+                context.startActivity(i);
+            }
+            break;
             case WIKI: {
                 Intent i = new Intent(context, Wiki.class);
                 i.putExtra(Wiki.EXTRA_SUBREDDIT, parts[2]);
@@ -364,6 +371,8 @@ public class OpenRedditLink {
         if (url.matches("(?i)redd\\.it/\\w+")) {
             // Redd.it link. Format: redd.it/post_id
             return RedditLinkType.SHORTENED;
+        } else if (url.matches("(?i)reddit\\.com/live/.*")) {
+            return RedditLinkType.LIVE;
         } else if (url.matches("(?i)reddit\\.com(?:/r/[a-z0-9-_.]+)?/(?:wiki|help).*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
             return RedditLinkType.WIKI;
@@ -403,6 +412,7 @@ public class OpenRedditLink {
         SUBREDDIT,
         USER,
         SEARCH,
+        LIVE,
         OTHER
     }
 

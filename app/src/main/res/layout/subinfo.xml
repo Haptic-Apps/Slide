@@ -92,6 +92,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/sub_stuff"
             android:orientation="vertical">
 
             <LinearLayout
