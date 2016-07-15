@@ -17,9 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -55,8 +54,10 @@ import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.CustomTabUtil;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.HttpUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import okhttp3.OkHttpClient;
 
 
 /**
@@ -64,12 +65,23 @@ import me.ccrama.redditslide.util.NetworkUtil;
  */
 public class MediaFragment extends Fragment {
 
-
-    ViewGroup rootView;
-    boolean imageShown;
+    public String firstUrl;
+    public String contentUrl;
+    public String sub;
+    public String actuallyLoaded;
+    public int i;
+    private ViewGroup rootView;
+    private MediaVideoView videoView;
+    private boolean imageShown;
     private float previous;
     private boolean hidden;
-    Submission s;
+    private int stopPosition;
+    public boolean isGif;
+    private GifUtils.AsyncLoadGif gif;
+    private Submission s;
+    private OkHttpClient client;
+    private Gson gson;
+    private String mashapeKey;
 
     @Override
     public void onDestroy() {
@@ -85,7 +97,6 @@ public class MediaFragment extends Fragment {
             videoView.seekTo(0);
             videoView.start();
         }
-
     }
 
     @Override
@@ -96,8 +107,6 @@ public class MediaFragment extends Fragment {
             videoView.start();
         }
     }
-
-    int stopPosition;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -198,11 +207,6 @@ public class MediaFragment extends Fragment {
         return rootView;
     }
 
-    public String firstUrl;
-    public String contentUrl;
-    public String sub;
-    public int i;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -215,32 +219,16 @@ public class MediaFragment extends Fragment {
         else
             getActivity().finish();
         contentUrl = bundle.getString("contentUrl");
+
+        client = new OkHttpClient();
+        gson = new Gson();
+        mashapeKey = SecretConstants.getImgurApiKey(getContext());
     }
 
     public void doLoad(final String contentUrl) {
         switch (ContentType.getContentType(contentUrl)) {
             case DEVIANTART:
-                if (!imageShown) {
-                    Ion.with(this).load("http://backend.deviantart.com/oembed?url=" + contentUrl).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            if (result != null && !result.isJsonNull() && (result.has("fullsize_url") || result.has("url"))) {
-
-                                String url;
-                                if (result.has("fullsize_url")) {
-                                    url = result.get("fullsize_url").getAsString();
-                                } else {
-                                    url = result.get("url").getAsString();
-                                }
-                                doLoadImage(url);
-                            } else {
-                                Intent i = new Intent(getActivity(), Website.class);
-                                i.putExtra(Website.EXTRA_URL, contentUrl);
-                                getActivity().startActivity(i);
-                            }
-                        }
-                    });
-                }
+                doLoadDeviantArt(contentUrl);
                 break;
             case IMAGE:
                 doLoadImage(contentUrl);
@@ -256,14 +244,7 @@ public class MediaFragment extends Fragment {
         }
     }
 
-    MediaVideoView videoView;
-
-    public boolean isGif;
-    GifUtils.AsyncLoadGif gif;
-
-
     private static void addClickFunctions(final View base, final View clickingArea, ContentType.Type type, final Activity contextActivity, final Submission submission) {
-
         switch (type) {
             case VID_ME:
             case STREAMABLE:
@@ -391,7 +372,6 @@ public class MediaFragment extends Fragment {
 
     }
 
-
     public void doLoadGif(final String dat) {
         isGif = true;
         videoView = (MediaVideoView) rootView.findViewById(R.id.gif);
@@ -405,83 +385,142 @@ public class MediaFragment extends Fragment {
         gif.execute(dat);
     }
 
-    public void doLoadImgur(String url) {
+    public void doLoadDeviantArt(String url) {
+        final String apiUrl = "http://backend.deviantart.com/oembed?url=" + contentUrl;
+        LogUtil.v(apiUrl);
+        new AsyncTask<Void, Void, JsonObject>() {
+            @Override
+            protected JsonObject doInBackground(Void... params) {
+                return HttpUtil.getJsonObject(client, gson, apiUrl);
+            }
 
-        final String finalUrl = url;
-        final String finalUrl1 = url;
+            @Override
+            protected void onPostExecute(JsonObject result) {
+                LogUtil.v("doLoad onPostExecute() called with: " + "result = [" + result + "]");
+                if (result != null && !result.isJsonNull() && (result.has("fullsize_url")
+                        || result.has("url"))) {
+
+                    String url;
+                    if (result.has("fullsize_url")) {
+                        url = result.get("fullsize_url").getAsString();
+                    } else {
+                        url = result.get("url").getAsString();
+                    }
+                    doLoadImage(url);
+                } else {
+                    Intent i = new Intent(getActivity(), Website.class);
+                    i.putExtra(Website.EXTRA_URL, contentUrl);
+                    getActivity().startActivity(i);
+                }
+            }
+        }.execute();
+    }
+
+    public void doLoadImgur(String url) {
         if (url.endsWith("/")) {
             url = url.substring(0, url.length() - 1);
         }
+        final String finalUrl = url;
         String hash = url.substring(url.lastIndexOf("/"), url.length());
 
         if (NetworkUtil.isConnected(getActivity())) {
 
-            if (hash.startsWith("/"))
-                hash = hash.substring(1, hash.length());
-            LogUtil.v("Loading" + "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json");
-            Ion.with(this).load("https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json")
-                    .addHeader("X-Mashape-Key", SecretConstants.getImgurApiKey(getActivity())).addHeader("Authorization", "Client-ID " + "bef87913eb202e9")
-                    .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
-                                                    @Override
-                                                    public void onCompleted(Exception e, JsonObject obj) {
+            if (hash.startsWith("/")) hash = hash.substring(1, hash.length());
+            final String apiUrl = "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json";
+            LogUtil.v(apiUrl);
 
-                                                        if (obj != null && !obj.isJsonNull() && obj.has("error")) {
-                                                            LogUtil.v("Error loading content");
-                                                            (getActivity()).finish();
-                                                        } else {
-                                                            try {
-                                                                if (obj != null && !obj.isJsonNull() && obj.has("image")) {
-                                                                    String type = obj.get("image").getAsJsonObject().get("image").getAsJsonObject().get("type").getAsString();
-                                                                    String urls = obj.get("image").getAsJsonObject().get("links").getAsJsonObject().get("original").getAsString();
+            new AsyncTask<Void, Void, JsonObject>() {
+                @Override
+                protected JsonObject doInBackground(Void... params) {
+                    return HttpUtil.getImgurMashapeJsonObject(client, gson, apiUrl, mashapeKey);
+                }
 
-                                                                    if (type.contains("gif")) {
-                                                                        doLoadGif(urls);
-                                                                    } else if (!imageShown) { //only load if there is no image
-                                                                        doLoadImage(urls);
-                                                                    }
-                                                                } else if (obj.has("data")) {
-                                                                    String type = obj.get("data").getAsJsonObject().get("type").getAsString();
-                                                                    String urls = obj.get("data").getAsJsonObject().get("link").getAsString();
-                                                                    String mp4 = "";
-                                                                    if (obj.get("data").getAsJsonObject().has("mp4")) {
-                                                                        mp4 = obj.get("data").getAsJsonObject().get("mp4").getAsString();
-                                                                    }
+                @Override
+                protected void onPostExecute(JsonObject result) {
+                    if (result != null && !result.isJsonNull() && result.has("error")) {
+                        LogUtil.v("Error loading content");
+                        (getActivity()).finish();
+                    } else {
+                        try {
+                            if (result != null && !result.isJsonNull() && result.has("image")) {
+                                String type = result.get("image")
+                                        .getAsJsonObject()
+                                        .get("image")
+                                        .getAsJsonObject()
+                                        .get("type")
+                                        .getAsString();
+                                String urls = result.get("image")
+                                        .getAsJsonObject()
+                                        .get("links")
+                                        .getAsJsonObject()
+                                        .get("original")
+                                        .getAsString();
 
-                                                                    if (type.contains("gif")) {
-                                                                        doLoadGif(((mp4 == null || mp4.isEmpty()) ? urls : mp4));
-                                                                    } else if (!imageShown) { //only load if there is no image
-                                                                        doLoadImage(urls);
-                                                                    }
-                                                                } else {
-                                                                    if (!imageShown)
-                                                                        doLoadImage(finalUrl1);
-                                                                }
-                                                            } catch (Exception e2) {
-                                                                e2.printStackTrace();
-                                                                Intent i = new Intent(getActivity(), Website.class);
-                                                                i.putExtra(Website.EXTRA_URL, finalUrl);
-                                                                getActivity().startActivity(i);
-                                                            }
-                                                        }
-                                                    }
-                                                }
-            );
+                                if (type.contains("gif")) {
+                                    doLoadGif(urls);
+                                } else if (!imageShown) { //only load if there is no image
+                                    doLoadImage(urls);
+                                }
+                            } else if (result != null && result.has("data")) {
+                                String type = result.get("data")
+                                        .getAsJsonObject()
+                                        .get("type")
+                                        .getAsString();
+                                String urls = result.get("data")
+                                        .getAsJsonObject()
+                                        .get("link")
+                                        .getAsString();
+                                String mp4 = "";
+                                if (result.get("data").getAsJsonObject().has("mp4")) {
+                                    mp4 = result.get("data")
+                                            .getAsJsonObject()
+                                            .get("mp4")
+                                            .getAsString();
+                                }
+
+                                if (type.contains("gif")) {
+                                    doLoadGif(((mp4 == null || mp4.isEmpty()) ? urls : mp4));
+                                } else if (!imageShown) { //only load if there is no image
+                                    doLoadImage(urls);
+                                }
+                            } else {
+                                if (!imageShown) doLoadImage(finalUrl);
+                            }
+                        } catch (Exception e) {
+                            LogUtil.e(e, "Error loading Imgur image finalUrl = ["
+                                    + finalUrl
+                                    + "], apiUrl = ["
+                                    + apiUrl
+                                    + "]");
+                            Intent i = new Intent(getActivity(), Website.class);
+                            i.putExtra(Website.EXTRA_URL, finalUrl);
+                            getActivity().startActivity(i);
+                        }
+                    }
+                }
+            }.execute();
         }
     }
 
     public void doLoadImage(String contentUrl) {
-        if (contentUrl != null && contentUrl.contains("bildgur.de"))
+        if (contentUrl != null && contentUrl.contains("bildgur.de")) {
             contentUrl = contentUrl.replace("b.bildgur.de", "i.imgur.com");
+        }
         if (contentUrl != null && ContentType.isImgurLink(contentUrl)) {
             contentUrl = contentUrl + ".png";
         }
 
         rootView.findViewById(R.id.gifprogress).setVisibility(View.GONE);
 
-        if (contentUrl != null && contentUrl.contains("m.imgur.com"))
+        if (contentUrl != null && contentUrl.contains("m.imgur.com")) {
             contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
+        }
 
-        if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.startsWith("https://i.reddituploads.com") && !contentUrl.contains("imgur.com"))) { //we can assume redditmedia and imgur links are to direct images and not websites
+        if ((contentUrl != null
+                && !contentUrl.startsWith("https://i.redditmedia.com")
+                && !contentUrl.startsWith("https://i.reddituploads.com")
+                && !contentUrl.contains(
+                "imgur.com"))) { //we can assume redditmedia and imgur links are to direct images and not websites
             rootView.findViewById(R.id.progress).setVisibility(View.VISIBLE);
             ((ProgressBar) rootView.findViewById(R.id.progress)).setIndeterminate(true);
 
@@ -496,10 +535,14 @@ public class MediaFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (!imageShown && type != null && !type.isEmpty() && type.startsWith("image/")) {
+                                if (!imageShown
+                                        && type != null
+                                        && !type.isEmpty()
+                                        && type.startsWith("image/")) {
                                     //is image
                                     if (type.contains("gif")) {
-                                        doLoadGif(finalUrl2.replace(".jpg", ".gif").replace(".png", ".gif"));
+                                        doLoadGif(finalUrl2.replace(".jpg", ".gif")
+                                                .replace(".png", ".gif"));
                                     } else if (!imageShown) {
                                         displayImage(finalUrl2);
                                     }
@@ -513,7 +556,7 @@ public class MediaFragment extends Fragment {
                         });
 
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        LogUtil.e(e, "Error loading image finalUrl2 = [" + finalUrl2 + "]");
                     }
                     return null;
                 }
@@ -531,8 +574,6 @@ public class MediaFragment extends Fragment {
 
         actuallyLoaded = contentUrl;
     }
-
-    public String actuallyLoaded;
 
     public void displayImage(final String url) {
         if (!imageShown) {
