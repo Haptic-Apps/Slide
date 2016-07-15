@@ -1,28 +1,24 @@
 package me.ccrama.redditslide.ImgurAlbum;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.jetbrains.annotations.NotNull;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.util.HttpUtil;
@@ -67,7 +63,7 @@ public class AlbumUtils {
 
         private OkHttpClient client;
         private Gson gson;
-        private Map<String, String> imgurHeadersMap;
+        private String mashapeKey;
 
         public void onError() {
 
@@ -93,11 +89,7 @@ public class AlbumUtils {
             hash = getHash(rawDat);
             client = new OkHttpClient();
             gson = new Gson();
-
-            // The headers to send to the imgur mashape API
-            imgurHeadersMap = new HashMap<>();
-            imgurHeadersMap.put("X-Mashape-Key", SecretConstants.getImgurApiKey(baseActivity));
-            imgurHeadersMap.put("Authorization", "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID);
+            mashapeKey = SecretConstants.getImgurApiKey(baseActivity);
         }
 
         public void doWithData(List<Image> data) {
@@ -155,7 +147,7 @@ public class AlbumUtils {
                 } else {
                     String apiUrl = "https://imgur-apiv3.p.mashape.com/3/image/" + hash + ".json";
                     LogUtil.v(apiUrl);
-                    JsonObject result = HttpUtil.getJsonObject(client, gson, apiUrl, imgurHeadersMap);
+                    JsonObject result = HttpUtil.getImgurMashapeJsonObject(client, gson, apiUrl, mashapeKey);
                     try {
                         if (result == null) {
                             onError();
@@ -196,7 +188,7 @@ public class AlbumUtils {
                     count++;
                     String apiUrl = "https://imgur-apiv3.p.mashape.com/3/image/" + s + ".json";
                     LogUtil.v(apiUrl);
-                    JsonObject result = HttpUtil.getJsonObject(client, gson, apiUrl, imgurHeadersMap);
+                    JsonObject result = HttpUtil.getImgurMashapeJsonObject(client, gson, apiUrl, mashapeKey);
                     target[pos] = result;
                     done += 1;
                     if (done == target.length) {
