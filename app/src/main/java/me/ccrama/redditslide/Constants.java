@@ -4,8 +4,8 @@ package me.ccrama.redditslide;
  * Constants used throughout the app
  */
 public class Constants {
-    // Maximum posts to request from Reddit
     public static final int PAGINATOR_POST_LIMIT = 25;
+    /** Maximum posts to request from Reddit **/
 
     /**
      * This is the estimated height of the Tabs view mode in dp.
