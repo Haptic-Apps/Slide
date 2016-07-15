@@ -42,7 +42,6 @@ import java.util.List;
 import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.AlbumView;
-import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
@@ -97,8 +96,9 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             mToolbar.findViewById(R.id.grid).callOnClick();
         }
         if (id == R.id.comments) {
-            SubmissionAdapter.setOpen(this, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
+            //SubmissionAdapter.setOpen(this, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
             SubmissionsView.datachanged(adapterPosition);
+                    //, getIntent().getStringExtra(MediaView.SUBMISSION_SUBREDDIT)) ;
             finish();
         }
         if (id == R.id.external) {
