@@ -210,7 +210,6 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 break;
                             case IMGUR:
                                 PopulateSubmissionViewHolder.openImage(main, submission, null, holder.getAdapterPosition());
-                                //PopulateSubmissionViewHolder.openImage(main, submission, null);
                                 break;
                             case EMBEDDED:
                                 if (SettingValues.video) {

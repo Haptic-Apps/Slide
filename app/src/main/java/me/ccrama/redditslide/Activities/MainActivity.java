@@ -3363,10 +3363,6 @@ public class MainActivity extends BaseActivity {
 
                         SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
                         if (page != null && page.adapter != null) {
-                            Log.v("test2", page.id);
-                            Log.v("test2", page.adapter.subreddit);
-                            Log.v("test2", page.posts.toString());
-                            Log.v("test2", page.adapter.toString());
                             SubredditPosts p = page.adapter.dataSet;
                             if (p.offline) {
                                 p.doMainActivityOffline(p.displayer);
@@ -3386,9 +3382,6 @@ public class MainActivity extends BaseActivity {
                             accountsArea.setBackgroundColor(Palette.getDarkerColor(selectedSub));
                     }
                     header.setBackgroundColor(Palette.getColor(selectedSub));
-                    SubmissionsView page = (SubmissionsView) adapter.getCurrentFragment();
-                    Log.v("test10", "ppppr");
-                    //page.onResume();
 
                     themeSystemBars(selectedSub);
                     setRecentBar(selectedSub);

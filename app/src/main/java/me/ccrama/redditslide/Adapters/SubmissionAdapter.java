@@ -328,9 +328,6 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public static void setOpen(Activity activity, String url) {
-        //new OpenRedditLink(activity, url);
-    }
 
     public class SubmissionFooterViewHolder extends RecyclerView.ViewHolder {
         public SubmissionFooterViewHolder(View itemView) {
@@ -404,24 +401,12 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
 
-    static void fixSliding(int position) {
-        try {
-            Reddit.lastposition.add(position, 0);
-        } catch (IndexOutOfBoundsException e) {
-            fixSliding(position - 1);
-        }
-    }
-
     public void performClick(int adapterPosition) {
-        Log.v("test40", "a");
         if (listView != null) {
-            Log.v("test40", "b");
             RecyclerView.ViewHolder holder = listView.findViewHolderForLayoutPosition(adapterPosition);
             if (holder != null) {
-                Log.v("test40", "c");
                 View view = holder.itemView;
                 if (view != null) {
-                    Log.v("test40", "d");
                     view.performClick();
                 }
             }

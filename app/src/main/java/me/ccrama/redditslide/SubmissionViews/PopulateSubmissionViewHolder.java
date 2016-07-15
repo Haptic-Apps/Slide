@@ -102,14 +102,8 @@ import me.ccrama.redditslide.util.SubmissionParser;
  * Created by ccrama on 9/19/2015.
  */
 public class PopulateSubmissionViewHolder {
-    //private static volatile String id;
-
-//    public PopulateSubmissionViewHolder(String id) {
-//        this.id = id;
-//    }
 
     public PopulateSubmissionViewHolder() {
-       // this.id = "nan";
     }
 
     public static int getStyleAttribColorValue(final Context context, final int attribResId, final int defaultValue) {
@@ -269,11 +263,9 @@ public class PopulateSubmissionViewHolder {
     private static void addAdaptorPosition(Intent myIntent, Submission submission, int adapterPosition) {
         if (submission.getComments() == null && adapterPosition != -1) {
             myIntent.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
-            //myIntent.putExtra(MediaView.SUBMISSION_SUBREDDIT, submission.getSubredditName());
             myIntent.putExtra(MediaView.SUBMISSION_URL, submission.getPermalink());
         }
         SubmissionsView.currentPosition(adapterPosition);
-        //SubmissionsView.currentSubReddit(submission.getSubredditName());
         SubmissionsView.currentSubmission(submission);
 
     }

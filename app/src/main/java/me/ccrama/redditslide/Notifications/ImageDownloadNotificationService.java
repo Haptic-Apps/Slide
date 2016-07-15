@@ -15,7 +15,6 @@ import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 
-import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
@@ -36,23 +35,14 @@ public class ImageDownloadNotificationService extends Service {
 
     String actuallyLoaded;
 
-    /**
-     * Simply return null, since our Service will not be communicating with
-     * any other components. It just does its work silently.
-     */
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
-    /**
-     * This is where we initialize. We call this when onStart/onStartCommand is
-     * called by the system. We won't do anything with the intent here, and you
-     * probably won't, either.
-     */
     private void handleIntent(Intent intent) {
         actuallyLoaded = intent.getStringExtra("actuallyLoaded");
-        if(actuallyLoaded.contains("imgur.com") && (!actuallyLoaded.contains(".png") || !actuallyLoaded.contains(".jpg"))){
+        if (actuallyLoaded.contains("imgur.com") && (!actuallyLoaded.contains(".png") || !actuallyLoaded.contains(".jpg"))) {
             actuallyLoaded = actuallyLoaded + ".png";
         }
         new PollTask().execute();
@@ -166,32 +156,15 @@ public class ImageDownloadNotificationService extends Service {
 
     }
 
-    /**
-     * This is deprecated, but you have to implement it if you're planning on
-     * supporting devices with an API level lower than 5 (Android 2.0).
-     */
+
     @Override
     public void onStart(Intent intent, int startId) {
         handleIntent(intent);
     }
 
-    /**
-     * This is called on 2.0+ (API level 5 or higher). Returning
-     * START_NOT_STICKY tells the system to not restart the service if it is
-     * killed because of poor resource (memory/cpu) conditions.
-     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         handleIntent(intent);
         return START_NOT_STICKY;
-    }
-
-    /**
-     * In onDestroy() we release our wake lock. This ensures that whenever the
-     * Service stops (killed for resources, stopSelf() called, etc.), the wake
-     * lock will be released.
-     */
-    public void onDestroy() {
-        super.onDestroy();
     }
 }

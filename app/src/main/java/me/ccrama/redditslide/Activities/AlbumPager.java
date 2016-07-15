@@ -585,8 +585,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     public void onClick(View v) {
                         getActivity().finish();
                         SubmissionsView.datachanged(adapterPosition);
-                        //, getActivity().getIntent().getStringExtra(MediaView.SUBMISSION_SUBREDDIT));
-                        //SubmissionAdapter.setOpen(getActivity(), getActivity().getIntent().getStringExtra(MediaView.SUBMISSION_URL));
                     }
                 });
             } else {

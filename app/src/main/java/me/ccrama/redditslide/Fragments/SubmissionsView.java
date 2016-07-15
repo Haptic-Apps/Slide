@@ -52,8 +52,6 @@ import me.ccrama.redditslide.handler.ToolbarScrollHideHandler;
 public class SubmissionsView extends Fragment implements SubmissionDisplay {
     private static int adaptorPosition;
     private static int currentPosition;
-    //private static String subRedditName;
-    //private static String currentsubRedditName;
     public SubredditPosts posts;
     public RecyclerView rv;
     public SubmissionAdapter adapter;
@@ -361,32 +359,17 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     @Override
     public void onResume() {
         super.onResume();
-        //Log.v("test3", currentsubRedditName+subRedditName+currentPosition+adaptorPosition+id+adapter);
-        //Log.v()
-        if (adapter != null && adaptorPosition >0 && currentPosition == adaptorPosition
-                //&& currentsubRedditName.equals(subRedditName)
-        ) {
-            Log.v("test4", currentSubmission.toString());
-            Log.v("test4", adapter.dataSet.getPosts().toString());
-            if (adapter.dataSet.getPosts().get(adaptorPosition-1) == currentSubmission) {
-                Log.v("test3", "yes" + currentSubmission);
+        if (adapter != null && adaptorPosition > 0 && currentPosition == adaptorPosition) {
+            if (adapter.dataSet.getPosts().get(adaptorPosition - 1) == currentSubmission) {
                 adapter.performClick(adaptorPosition);
                 adaptorPosition = -1;
-                //subRedditName = "nnnn";
-            } else {
-                Log.v("test3", "no");
             }
         }
     }
 
 
-    //public static void datachanged(int adaptorPosition2, String subRedditName2) {
     public static void datachanged(int adaptorPosition2) {
-        //Log.v("test3", "going back" + adaptorPosition2 + subRedditName2);
         adaptorPosition = adaptorPosition2;
-        //subRedditName = subRedditName2;
-        //forced = true;
-        //posts.loadMore(mSwipeRefreshLayout.getContext(), this, true, id);
     }
 
     private void refresh() {
@@ -569,29 +552,10 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     }
 
     public static void currentPosition(int adapterPosition) {
-        Log.v("test3", "clicking +" + adapterPosition);
         currentPosition = adapterPosition;
     }
 
     public static void currentSubmission(Submission current) {
-        Log.v("test3", "clicking +" + current);
         currentSubmission = current;
-    }
-
-//    public static void currentSubReddit(String subRedditName) {
-//        Log.v("test3", "clicking +" + subRedditName);
-//        //currentsubRedditName = subRedditName;
-//    }
-
-    public void performClick(int adapterPosition) {
-        if (rv != null) {
-            RecyclerView.ViewHolder holder = rv.findViewHolderForAdapterPosition(adapterPosition);
-            if (holder != null) {
-                View view = holder.itemView;
-                if (view != null) {
-                    view.performClick();
-                }
-            }
-        }
     }
 }
