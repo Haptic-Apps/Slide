@@ -371,7 +371,7 @@ public class OpenRedditLink {
         if (url.matches("(?i)redd\\.it/\\w+")) {
             // Redd.it link. Format: redd.it/post_id
             return RedditLinkType.SHORTENED;
-        } else if (url.matches("(?i)reddit\\.com/live/.*")) {
+        } else if (url.matches("(?i)reddit\\.com/live/[^/]*")) {
             return RedditLinkType.LIVE;
         } else if (url.matches("(?i)reddit\\.com(?:/r/[a-z0-9-_.]+)?/(?:wiki|help).*")) {
             // Wiki link. Format: reddit.com/r/$subreddit/wiki/$page [optional]
