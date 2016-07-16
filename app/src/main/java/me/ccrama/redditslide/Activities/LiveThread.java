@@ -168,10 +168,6 @@ public class LiveThread extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        overrideSwipeFromAnywhere();
-        if (SettingValues.commentPager && SettingValues.single) {
-            disableSwipeBackLayout();
-        }
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().getDecorView().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
@@ -307,19 +303,12 @@ public class LiveThread extends BaseActivityAnim {
                                 if (s.contains("\"type\": \"update\"")) {
                                     try {
                                         LiveUpdate u = new LiveUpdate(o.readTree(s).get("payload").get("data"));
-                                        LogUtil.v("Got and " + u.getBody());
                                         updates.add(0, u);
                                         runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
                                                 adapter.notifyItemInserted(0);
                                                 baseRecycler.smoothScrollToPosition(0);
-                                                baseRecycler.postDelayed(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        adapter.notifyDataSetChanged();
-                                                    }
-                                                }, 10000);
                                             }
                                         });
                                     } catch (IOException e) {
@@ -329,10 +318,8 @@ public class LiveThread extends BaseActivityAnim {
                                     String node = updates.get(0).getDataNode().toString();
                                     LogUtil.v("Getting");
                                     try {
-                                        node = node.replace("\"embeds\":[]", "\"embeds\":[]" + o.readTree(s).get("payload").get("media_embeds").toString());
-                                        LogUtil.v("Node is " + node);
+                                        node = node.replace("\"embeds\":[]", "\"embeds\":" + o.readTree(s).get("payload").get("media_embeds").toString());
                                         LiveUpdate u = new LiveUpdate(o.readTree(node));
-                                        LogUtil.v("Got and " + u.getBody());
                                         updates.set(0, u);
                                         runOnUiThread(new Runnable() {
                                             @Override
@@ -444,7 +431,7 @@ public class LiveThread extends BaseActivityAnim {
         }
 
         @Override
-        public void onBindViewHolder(PaginatorAdapter.ItemHolder holder, int position) {
+        public void onBindViewHolder(final PaginatorAdapter.ItemHolder holder, int position) {
             final LiveUpdate u = updates.get(position);
 
             holder.title.setText("/u/" + u.getAuthor() + " " + TimeUtils.getTimeAgo(u.getCreated().getTime(), LiveThread.this));
@@ -483,6 +470,12 @@ public class LiveThread extends BaseActivityAnim {
                 if (ContentType.hostContains(host, "imgur.com")) {
                     LogUtil.v("Imgur");
                     holder.imageArea.setVisibility(View.VISIBLE);
+                    holder.imageArea.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.go.callOnClick();
+                        }
+                    });
                     ((Reddit) getApplicationContext()).getImageLoader().displayImage(url, holder.imageArea);
                 } else if (ContentType.hostContains(host, "twitter.com")) {
                     LogUtil.v("Twitter");
@@ -557,6 +550,9 @@ public class LiveThread extends BaseActivityAnim {
                 twitterArea = (WebView) itemView.findViewById(R.id.twitter_area);
                 twitterArea.setWebChromeClient(new WebChromeClient());
                 twitterArea.getSettings().setJavaScriptEnabled(true);
+                twitterArea.setBackgroundColor(Color.TRANSPARENT);
+                twitterArea.setLayerType(WebView.LAYER_TYPE_SOFTWARE, null);
+
             }
 
         }
