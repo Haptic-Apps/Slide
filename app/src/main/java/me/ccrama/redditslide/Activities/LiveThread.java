@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -42,6 +43,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.CheckBox;
@@ -56,12 +58,10 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.koushikdutta.async.ByteBufferList;
-import com.koushikdutta.async.DataEmitter;
-import com.koushikdutta.async.callback.DataCallback;
-import com.koushikdutta.async.http.AsyncHttpClient;
-import com.koushikdutta.async.http.WebSocket;
-import com.koushikdutta.async.http.socketio.StringCallback;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.neovisionaries.ws.client.WebSocketException;
 import com.neovisionaries.ws.client.WebSocketFactory;
 import com.neovisionaries.ws.client.WebSocketFrame;
@@ -87,7 +87,10 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,13 +99,19 @@ import java.util.Map;
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.ImgurAlbum.AlbumImage;
+import me.ccrama.redditslide.ImgurAlbum.Image;
+import me.ccrama.redditslide.ImgurAlbum.SingleAlbumImage;
+import me.ccrama.redditslide.ImgurAlbum.SingleImage;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.TimeUtils;
@@ -113,9 +122,12 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.SidebarLayout;
 import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.HttpUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
+import me.ccrama.redditslide.util.TwitterObject;
+import okhttp3.OkHttpClient;
 
 public class LiveThread extends BaseActivityAnim {
 
@@ -129,9 +141,18 @@ public class LiveThread extends BaseActivityAnim {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            case R.id.info:
+                ((DrawerLayout) findViewById(R.id.drawer_layout)).openDrawer(Gravity.RIGHT);
+                return true;
             default:
                 return false;
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.settings_info, menu);
+        return true;
     }
 
     public RecyclerView baseRecycler;
@@ -308,7 +329,7 @@ public class LiveThread extends BaseActivityAnim {
                                     String node = updates.get(0).getDataNode().toString();
                                     LogUtil.v("Getting");
                                     try {
-                                        node = node.replace("\"embeds\":[]" ,"\"embeds\":[]" + o.readTree(s).get("payload").get("media_embeds").toString());
+                                        node = node.replace("\"embeds\":[]", "\"embeds\":[]" + o.readTree(s).get("payload").get("media_embeds").toString());
                                         LogUtil.v("Node is " + node);
                                         LiveUpdate u = new LiveUpdate(o.readTree(node));
                                         LogUtil.v("Got and " + u.getBody());
@@ -433,22 +454,85 @@ public class LiveThread extends BaseActivityAnim {
                 holder.info.setVisibility(View.VISIBLE);
                 holder.info.setTextHtml(Html.fromHtml(u.getDataNode().get("body_html").asText()), "NO SUBREDDIT");
             }
-
+            holder.title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(LiveThread.this, Profile.class);
+                    i.putExtra(Profile.EXTRA_PROFILE, u.getAuthor());
+                    startActivity(i);
+                }
+            });
+            holder.imageArea.setVisibility(View.GONE);
+            holder.twitterArea.setVisibility(View.GONE);
+            holder.twitterArea.stopLoading();
             if (u.getEmbeds().size() == 0) {
                 holder.go.setVisibility(View.GONE);
             } else {
+                final String url = u.getEmbeds().get(0).getUrl();
                 holder.go.setVisibility(View.VISIBLE);
                 holder.go.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(LiveThread.this, Website.class);
-                        i.putExtra(Website.EXTRA_URL, u.getEmbeds().get(0).getUrl());
+                        i.putExtra(Website.EXTRA_URL, url);
                         startActivity(i);
                     }
                 });
+                final String host = URI.create(url).getHost().toLowerCase();
+
+                if (ContentType.hostContains(host, "imgur.com")) {
+                    LogUtil.v("Imgur");
+                    holder.imageArea.setVisibility(View.VISIBLE);
+                    ((Reddit) getApplicationContext()).getImageLoader().displayImage(url, holder.imageArea);
+                } else if (ContentType.hostContains(host, "twitter.com")) {
+                    LogUtil.v("Twitter");
+
+                    holder.twitterArea.setVisibility(View.VISIBLE);
+                    new LoadTwitter(holder.twitterArea, url).execute();
+                }
             }
 
         }
+
+        public class LoadTwitter extends AsyncTask<String, Void, Void> {
+
+            private OkHttpClient client;
+            private Gson gson;
+            String url;
+            private WebView view;
+            TwitterObject twitter;
+
+            public LoadTwitter(@NotNull WebView view, @NotNull String url) {
+                this.view = view;
+                this.url = url;
+                client = new OkHttpClient();
+                gson = new Gson();
+            }
+
+            public void parseJson() {
+                try {
+                    JsonObject result = HttpUtil.getJsonObject(client, gson, "https://publish.twitter.com/oembed?url=" + url, null);
+                   LogUtil.v("Got " + Html.fromHtml(result.toString()));
+                    twitter = new ObjectMapper().readValue(result.toString(), TwitterObject.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected Void doInBackground(final String... sub) {
+                parseJson();
+                return null;
+            }
+
+            @Override
+            public void onPostExecute(Void aVoid) {
+                view.loadData(twitter.getHtml().toString().replace("//platform.twitter", "https://platform.twitter"), "text/html", "UTF-8");
+            }
+
+
+        }
+
 
         @Override
         public int getItemCount() {
@@ -459,6 +543,8 @@ public class LiveThread extends BaseActivityAnim {
 
             TextView title;
             SpoilerRobotoTextView info;
+            ImageView imageArea;
+            WebView twitterArea;
             View go;
 
 
@@ -467,6 +553,10 @@ public class LiveThread extends BaseActivityAnim {
                 title = (TextView) itemView.findViewById(R.id.title);
                 info = (SpoilerRobotoTextView) itemView.findViewById(R.id.body);
                 go = itemView.findViewById(R.id.go);
+                imageArea = (ImageView) itemView.findViewById(R.id.image_area);
+                twitterArea = (WebView) itemView.findViewById(R.id.twitter_area);
+                twitterArea.setWebChromeClient(new WebChromeClient());
+                twitterArea.getSettings().setJavaScriptEnabled(true);
             }
 
         }
@@ -479,9 +569,9 @@ public class LiveThread extends BaseActivityAnim {
 
         dialoglayout.findViewById(R.id.sub_stuff).setVisibility(View.GONE);
 
-        ((TextView)dialoglayout.findViewById(R.id.sub_infotitle)).setText((thread.getState()?"LIVE: " :"")+ thread.getTitle());
-        ((TextView)dialoglayout.findViewById(R.id.active_users)).setText(thread.getLocalizedViewerCount() + " viewing");
-        ((TextView)dialoglayout.findViewById(R.id.active_users)).setText(thread.getLocalizedViewerCount());
+        ((TextView) dialoglayout.findViewById(R.id.sub_infotitle)).setText((thread.getState() ? "LIVE: " : "") + thread.getTitle());
+        ((TextView) dialoglayout.findViewById(R.id.active_users)).setText(thread.getLocalizedViewerCount() + " viewing");
+        ((TextView) dialoglayout.findViewById(R.id.active_users)).setText(thread.getLocalizedViewerCount());
 
         {
             final String text = thread.getDataNode().get("resources_html").asText();
@@ -496,6 +586,7 @@ public class LiveThread extends BaseActivityAnim {
             setViews(text, "none", body, overflow);
         }
     }
+
     private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;

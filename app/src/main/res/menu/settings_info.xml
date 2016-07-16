@@ -5,7 +5,7 @@
     tools:ignore="UnusedResources">
     <item
         android:id="@+id/info"
-        android:title="@string/FAQ"
+        android:title="Info"
         app:showAsAction="always"
         android:icon="@drawable/infonew" />
 </menu>
