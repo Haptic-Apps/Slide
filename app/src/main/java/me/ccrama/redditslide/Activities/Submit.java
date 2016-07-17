@@ -269,7 +269,7 @@ public class Submit extends BaseActivity {
             }
         });
 
-        DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)), findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this);
+        DoEditorActions.doActions(((EditText) findViewById(R.id.bodytext)), findViewById(R.id.selftext), getSupportFragmentManager(), Submit.this, null);
         if (intent.hasExtra(Intent.EXTRA_TEXT) && !intent.getExtras().getString(Intent.EXTRA_TEXT, "").isEmpty()) {
             String data = intent.getStringExtra(Intent.EXTRA_TEXT);
             if (data.contains("\n")) {

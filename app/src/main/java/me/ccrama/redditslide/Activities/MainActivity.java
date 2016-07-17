@@ -2926,7 +2926,7 @@ public class MainActivity extends BaseActivity {
             sideArrayAdapter.updateHistory(UserSubscriptions.getHistory());
         }
 
-        if (datasetChanged && UserSubscriptions.hasSubs() && !usedArray.isEmpty()) {
+     /* remove   if (datasetChanged && UserSubscriptions.hasSubs() && !usedArray.isEmpty()) {
             usedArray = new ArrayList<>(UserSubscriptions.getSubscriptions(this));
             adapter.notifyDataSetChanged();
             sideArrayAdapter.notifyDataSetChanged();
@@ -2936,10 +2936,9 @@ public class MainActivity extends BaseActivity {
                 scrollToTabAfterLayout(pager.getCurrentItem());
             }
             setToolbarClick();
-        }
+        }*/
         //Only refresh the view if a Setting was altered
-        if (Settings.changed || SettingsTheme.changed || (NetworkUtil.isConnected(this) && usedArray != null
-                && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())) {
+        if (Settings.changed || SettingsTheme.changed) {
 
             int current = pager.getCurrentItem();
             if (commentPager && current == currentComment) {

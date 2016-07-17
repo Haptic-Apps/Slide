@@ -124,6 +124,8 @@ public class Website extends BaseActivityAnim {
         v.getSettings().setBuiltInZoomControls(true);
         v.getSettings().setDisplayZoomControls(false);
         v.getSettings().setJavaScriptEnabled(true);
+        v.getSettings().setUseWideViewPort(true);
+        v.getSettings().setLoadWithOverviewMode(true);
         v.loadUrl(url);
 
 

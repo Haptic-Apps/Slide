@@ -125,7 +125,7 @@ public class Sendmessage extends BaseActivity {
                 new AsyncDo().execute();
             }
         });
-        DoEditorActions.doActions(((EditText) findViewById(R.id.body)), findViewById(R.id.area), getSupportFragmentManager(), Sendmessage.this);
+        DoEditorActions.doActions(((EditText) findViewById(R.id.body)), findViewById(R.id.area), getSupportFragmentManager(), Sendmessage.this, previousMessage==null?null:previousMessage.getBody());
     }
 
 

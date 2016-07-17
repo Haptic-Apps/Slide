@@ -1922,7 +1922,7 @@ public class PopulateSubmissionViewHolder {
                                             final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
                                             e.setText(StringEscapeUtils.unescapeHtml4(submission.getSelftext()));
 
-                                            DoEditorActions.doActions(e, dialoglayout, ((AppCompatActivity) mContext).getSupportFragmentManager(), (Activity) mContext);
+                                            DoEditorActions.doActions(e, dialoglayout, ((AppCompatActivity) mContext).getSupportFragmentManager(), (Activity) mContext, null);
 
                                             builder.setView(dialoglayout);
                                             final Dialog d = builder.create();

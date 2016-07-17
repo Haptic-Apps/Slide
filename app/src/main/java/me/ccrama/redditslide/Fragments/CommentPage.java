@@ -293,7 +293,7 @@ public class CommentPage extends Fragment {
                         e.getBackground().setColorFilter(TINT, PorterDuff.Mode.SRC_IN);
                     }
 
-                    DoEditorActions.doActions(e, dialoglayout, getActivity().getSupportFragmentManager(), getActivity());
+                    DoEditorActions.doActions(e, dialoglayout, getActivity().getSupportFragmentManager(), getActivity(), adapter.submission.isSelfPost()?adapter.submission.getSelftext():null );
 
                     builder.setView(dialoglayout);
                     final Dialog d = builder.create();

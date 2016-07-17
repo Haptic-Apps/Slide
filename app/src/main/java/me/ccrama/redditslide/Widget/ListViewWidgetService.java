@@ -28,6 +28,7 @@ import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
@@ -168,7 +169,13 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                         break;
                 }
                 try {
-                    records = new ArrayList<>(p.next());
+                    ArrayList<Submission> s = new ArrayList<>(p.next());
+                    records = new ArrayList<>();
+                    for(Submission subm : s){
+                        if(!PostMatch.doesMatch(subm)){
+                            records.add(subm);
+                        }
+                    }
                 } catch (Exception e) {
 
                 }

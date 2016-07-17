@@ -184,7 +184,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                 if (submission.isSelfPost() && full) wrapArea.setVisibility(View.GONE);
                 else {
                     thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
-
                 }
             } else if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (!thumbnail.isNull() && (thumbnailType != Submission.ThumbnailType.URL)) || thumbnail.asText().isEmpty() && !submission.isSelfPost()) {
 

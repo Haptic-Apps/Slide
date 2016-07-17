@@ -1042,7 +1042,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
                             if (replyArea.getVisibility() == View.GONE) {
                                 expand(replyArea, true, true);
-                                DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm, (Activity) mContext);
+                                DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm, (Activity) mContext, submission.isSelfPost()?submission.getSelftext():null);
 
                                 currentlyEditing = ((EditText) firstHolder.itemView.findViewById(R.id.replyLine));
                                 currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -1571,7 +1571,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
                             e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
 
-                            DoEditorActions.doActions(e, dialoglayout, fm, (Activity) mContext);
+                            DoEditorActions.doActions(e, dialoglayout, fm, (Activity) mContext, baseNode.getComment().getBody());
 
                             builder.setView(dialoglayout);
                             final Dialog d = builder.create();
@@ -1723,7 +1723,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     baseView.setLayoutParams(params2);
                     replyArea.setVisibility(View.VISIBLE);
                     menu.setVisibility(View.GONE);
-                    DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext);
+                    DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext, baseNode.getComment().getBody());
                     currentlyEditing = replyLine;
                     currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
@@ -1798,7 +1798,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                         replyArea.setVisibility(View.VISIBLE);
                         menu.setVisibility(View.GONE);
-                        DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext);
+                        DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext, baseNode.getComment().getBody());
                         currentlyEditing = replyLine;
                         currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
