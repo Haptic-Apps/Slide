@@ -56,6 +56,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
+import com.lusfold.androidkeyvaluestore.KVStore;
 import com.mikepenz.itemanimators.AlphaInAnimator;
 import com.mikepenz.itemanimators.SlideRightAlphaAnimator;
 
@@ -857,6 +858,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 fullname = fullname.substring(3, fullname.length());
             }
             HasSeen.seenTimes.put(fullname, System.currentTimeMillis());
+            KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
         }
     }
 
