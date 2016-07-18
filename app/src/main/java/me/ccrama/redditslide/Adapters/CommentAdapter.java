@@ -90,6 +90,7 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.Fragments.CommentPage;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -142,6 +143,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<String> replie;
     private String backedText = "";
     private String currentlyEditingId = "";
+
+    long lastSeen;
 
     public <T extends Contribution> void showModBottomSheet(final Context mContext, final CommentNode baseNode, final Comment comment, final CommentViewHolder holder, final Map<String, Integer> reports, final Map<String, String> reports2) {
 
@@ -600,6 +603,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (mContext instanceof BaseActivity) {
             ((BaseActivity) mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
         }
+        doTimes();
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, boolean reset) {
@@ -651,6 +655,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (mContext instanceof BaseActivity) {
             ((BaseActivity) mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
         }
+        doTimes();
     }
 
     @Override
@@ -841,6 +846,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             titleString.append(" ");
         }
         holder.content.setText(titleString);
+    }
+
+    public void doTimes() {
+        if (submission != null) {
+            lastSeen = HasSeen.getSeenTime(submission);
+            String fullname = submission.getFullName();
+            if (fullname.contains("t3_")) {
+                fullname = fullname.substring(3, fullname.length());
+            }
+            HasSeen.seenTimes.put(fullname, System.currentTimeMillis());
+        }
     }
 
 
@@ -1042,7 +1058,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             final View replyArea = firstHolder.itemView.findViewById(R.id.innerSend);
                             if (replyArea.getVisibility() == View.GONE) {
                                 expand(replyArea, true, true);
-                                DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm, (Activity) mContext, submission.isSelfPost()?submission.getSelftext():null);
+                                DoEditorActions.doActions(((EditText) firstHolder.itemView.findViewById(R.id.replyLine)), firstHolder.itemView, fm, (Activity) mContext, submission.isSelfPost() ? submission.getSelftext() : null);
 
                                 currentlyEditing = ((EditText) firstHolder.itemView.findViewById(R.id.replyLine));
                                 currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -2000,10 +2016,17 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             resetMenu(holder.menuArea, true);
         }
 
-        TypedValue typedValue = new TypedValue();
-        Resources.Theme theme = mContext.getTheme();
-        theme.resolveAttribute(R.attr.card_background, typedValue, true);
-        int color = typedValue.data;
+        int color;
+
+        if (lastSeen < baseNode.getComment().getCreated().getTime()) {
+            color = Palette.getColor(baseNode.getComment().getSubredditName());
+            color = Color.argb(20, Color.red(color), Color.green(color), Color.blue(color));
+        } else {
+            TypedValue typedValue = new TypedValue();
+            Resources.Theme theme = mContext.getTheme();
+            theme.resolveAttribute(R.attr.card_background, typedValue, true);
+            color = typedValue.data;
+        }
         int dwidth = (int) (3 * Resources.getSystem().getDisplayMetrics().density);
         int width = 0;
 

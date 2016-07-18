@@ -224,11 +224,11 @@ public class GifUtils {
                 return VideoType.STREAMABLE;
             return VideoType.OTHER;
         }
+        OkHttpClient client = new OkHttpClient();
 
         @Override
         protected Void doInBackground(String... sub) {
             MediaView.didLoadGif = false;
-            OkHttpClient client = new OkHttpClient();
             Gson gson = new Gson();
             final String url = formatUrl(sub[0]);
             VideoType videoType = getVideoType(url);
