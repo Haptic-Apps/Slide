@@ -391,7 +391,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         Activity activity = null;
-        Context context = getContext();
+        final Context context = getContext();
         if (context instanceof Activity) {
             activity = (Activity) context;
         } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
@@ -438,9 +438,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case R.id.open_link:
-                            Uri webpage = Uri.parse(url);
-                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                            getContext().startActivity(Intent.createChooser(intent, "Open externally"));
+                            CustomTabUtil.openExternally(url, context);
                             break;
                         case R.id.share_link:
                             Reddit.defaultShareText("", url, finalActivity);

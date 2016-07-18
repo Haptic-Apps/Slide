@@ -468,8 +468,7 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                     case 7:
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
-                        mContext.startActivity(browserIntent);
+                        CustomTabUtil.openExternally(submission.getUrl(), mContext);
                         break;
                     case 4:
                         Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(), submission.getUrl(), mContext);

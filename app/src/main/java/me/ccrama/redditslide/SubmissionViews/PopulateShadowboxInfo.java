@@ -50,6 +50,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
+import me.ccrama.redditslide.util.CustomTabUtil;
 
 /**
  * Created by carlo_000 on 2/27/2016.
@@ -324,9 +325,7 @@ public class PopulateShadowboxInfo {
                             }
                             break;
                             case 7:
-                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
-                                mContext.startActivity(browserIntent);
-                                break;
+                                CustomTabUtil.openExternally(submission.getUrl(), mContext);
                             case 4:
                                 Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);
                                 break;

@@ -170,8 +170,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case R.id.open_link:
-                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
-                                        main.startActivity(browserIntent);
+                                        CustomTabUtil.openExternally(submission.getUrl(), main);
                                         break;
                                     case R.id.share_link:
                                         Reddit.defaultShareText("", submission.getUrl(), main);
