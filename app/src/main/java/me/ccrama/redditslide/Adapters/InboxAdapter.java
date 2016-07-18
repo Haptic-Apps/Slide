@@ -37,7 +37,6 @@ import net.dean.jraw.models.PrivateMessage;
 
 import java.util.List;
 
-import me.ccrama.redditslide.Activities.Inbox;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Sendmessage;
 import me.ccrama.redditslide.Authentication;

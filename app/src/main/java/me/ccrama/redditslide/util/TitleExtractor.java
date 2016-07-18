@@ -31,7 +31,7 @@ public class TitleExtractor {
     public static String getPageTitle(String url) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url(CustomTabUtil.formatURL(url).toString())
+                .url(LinkUtil.formatURL(url).toString())
                 .addHeader("Accept", "text/html")
                 .build();
         Response response = client.newCall(request).execute();

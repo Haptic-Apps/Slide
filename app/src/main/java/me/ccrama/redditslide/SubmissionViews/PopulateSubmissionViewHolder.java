@@ -16,7 +16,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -96,7 +95,7 @@ import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
-import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -162,7 +161,7 @@ public class PopulateSubmissionViewHolder {
                                 openRedditContent(submission.getUrl(), contextActivity);
                                 break;
                             case LINK:
-                                CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
+                                LinkUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                                 break;
                             case SELF:
                                 if (holder != null) {
@@ -471,8 +470,7 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                     case 7:
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
-                        mContext.startActivity(browserIntent);
+                        LinkUtil.openExternally(submission.getUrl(), mContext, true);
                         break;
                     case 4:
                         Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(), submission.getUrl(), mContext);

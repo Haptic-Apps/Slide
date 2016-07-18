@@ -47,7 +47,7 @@ import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.GifCache;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
@@ -160,7 +160,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static void defaultShare(String url, Context c) {
-        Uri webpage = CustomTabUtil.formatURL(url);
+        Uri webpage = LinkUtil.formatURL(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
         if (intent.resolveActivity(c.getPackageManager()) != null) {
             c.startActivity(intent);

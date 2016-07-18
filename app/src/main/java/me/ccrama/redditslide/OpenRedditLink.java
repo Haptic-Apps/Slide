@@ -3,15 +3,9 @@ package me.ccrama.redditslide;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
-import android.os.Parcelable;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import me.ccrama.redditslide.Activities.CommentsScreenSingle;
 import me.ccrama.redditslide.Activities.LiveThread;
@@ -21,7 +15,7 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 public class OpenRedditLink {
@@ -33,7 +27,7 @@ public class OpenRedditLink {
         LogUtil.v("Link is " + url);
         url = formatRedditUrl(url);
         if (url.isEmpty()) {
-            customIntentChooser(oldUrl, context);
+            LinkUtil.openExternally(oldUrl, context, false);
             return;
         } else if (url.startsWith("np")) {
             np = true;
@@ -224,7 +218,7 @@ public class OpenRedditLink {
             }
             case OTHER: {
                 if (context instanceof Activity) {
-                    CustomTabUtil.openUrl(url, Palette.getStatusBarColor(), (Activity) context);
+                    LinkUtil.openUrl(url, Palette.getStatusBarColor(), (Activity) context);
                 } else {
                     Intent i = new Intent(context, Website.class);
                     i.putExtra(Website.EXTRA_URL, oldUrl);
@@ -241,7 +235,7 @@ public class OpenRedditLink {
 
         url = formatRedditUrl(url);
         if (url.isEmpty()) {
-            customIntentChooser(oldUrl, context);
+            LinkUtil.openExternally(oldUrl, context, false);
             return;
         } else if (url.startsWith("np")) {
             np = true;
@@ -281,41 +275,6 @@ public class OpenRedditLink {
         i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, id);
         i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, submission);
         c.startActivity(i);
-    }
-
-    /**
-     * Show an intent chooser ("Open link with...") and exclude this app from the chooser.
-     * Source: http://stackoverflow.com/a/23268821/4026792
-     *
-     * @param url The url as a String
-     * @param c   Context for opening the intent
-     */
-    public static void customIntentChooser(String url, Context c) {
-        String packageNameToIgnore = BuildConfig.APPLICATION_ID;
-        Uri uri = Uri.parse(url);
-
-        Intent intent = new Intent();
-        intent.setAction(android.content.Intent.ACTION_VIEW);
-        intent.setData(uri);
-        PackageManager packageManager = c.getPackageManager();
-        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
-        ArrayList<Intent> targetIntents = new ArrayList<>();
-        for (ResolveInfo currentInfo : activities) {
-            String packageName = currentInfo.activityInfo.packageName;
-            if (!packageNameToIgnore.equals(packageName)) {
-                Intent targetIntent = new Intent(android.content.Intent.ACTION_VIEW);
-                targetIntent.setData(uri);
-                targetIntent.setPackage(packageName);
-                targetIntents.add(targetIntent);
-            }
-        }
-        if (!targetIntents.isEmpty()) {
-            Intent chooserIntent = Intent.createChooser(targetIntents.remove(0), c.getString(R.string.misc_link_chooser));
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
-                    targetIntents.toArray(new Parcelable[targetIntents.size()]));
-            c.startActivity(chooserIntent);
-        } else
-            Reddit.defaultShare(url, c);
     }
 
     /**

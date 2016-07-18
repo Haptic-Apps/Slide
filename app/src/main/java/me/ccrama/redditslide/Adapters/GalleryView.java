@@ -9,7 +9,6 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.HapticFeedbackConstants;
@@ -40,7 +39,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 
 public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Gallery main;
@@ -170,8 +169,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case R.id.open_link:
-                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(submission.getUrl()));
-                                        main.startActivity(browserIntent);
+                                        LinkUtil.openExternally(submission.getUrl(), main, true);
                                         break;
                                     case R.id.share_link:
                                         Reddit.defaultShareText("", submission.getUrl(), main);
@@ -227,7 +225,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(), main);
                                 break;
                             case LINK:
-                                CustomTabUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), main);
+                                LinkUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()), main);
                                 break;
                             case ALBUM:
                                 if (SettingValues.album) {

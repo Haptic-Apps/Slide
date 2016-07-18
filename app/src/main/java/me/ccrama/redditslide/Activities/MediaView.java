@@ -71,6 +71,7 @@ import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import okhttp3.OkHttpClient;
@@ -138,11 +139,11 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         BottomSheet.Builder b = new BottomSheet.Builder(this)
                 .title(contentUrl);
 
-        b.sheet(2, external, "Open externally");
-        b.sheet(5, share, "Share link");
+        b.sheet(2, external, getString(R.string.submission_link_extern));
+        b.sheet(5, share, getString(R.string.submission_link_share));
 
         if (!isGif)
-            b.sheet(3, image, "Share image");
+            b.sheet(3, image, getString(R.string.share_image));
         b.sheet(4, save, "Save " + (isGif ? "MP4" : "image"));
         if (isGif && !contentUrl.contains(".mp4") && !contentUrl.contains("streamable.com") && !contentUrl.contains("gfycat.com") && !contentUrl.contains("vid.me")) {
             String type = contentUrl.substring(contentUrl.lastIndexOf(".") + 1, contentUrl.length()).toUpperCase();
@@ -161,7 +162,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case (2): {
-                        Reddit.defaultShare(contentUrl, MediaView.this);
+                        LinkUtil.openExternally(contentUrl, MediaView.this, true);
                         break;
                     }
                     case (3): {

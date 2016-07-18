@@ -14,7 +14,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -50,12 +49,11 @@ import java.util.regex.Pattern;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
-import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -322,7 +320,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     break;
                 case LINK:
                     LogUtil.v("Opening link");
-                    CustomTabUtil.openUrl(url, Palette.getColor(subreddit), activity);
+                    LinkUtil.openUrl(url, Palette.getColor(subreddit), activity);
                     break;
                 case SELF:
                     break;
@@ -391,7 +389,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
         Activity activity = null;
-        Context context = getContext();
+        final Context context = getContext();
         if (context instanceof Activity) {
             activity = (Activity) context;
         } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
@@ -438,9 +436,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case R.id.open_link:
-                            Uri webpage = Uri.parse(url);
-                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                            getContext().startActivity(Intent.createChooser(intent, "Open externally"));
+                            LinkUtil.openExternally(url, context, false);
                             break;
                         case R.id.share_link:
                             Reddit.defaultShareText("", url, finalActivity);

@@ -52,7 +52,7 @@ import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -294,7 +294,7 @@ public class MediaFragment extends Fragment {
 
                     @Override
                     public void onClick(View v2) {
-                        CustomTabUtil.openUrl(
+                        LinkUtil.openUrl(
                                 submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
                     }
                 });

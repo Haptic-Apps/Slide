@@ -3,7 +3,9 @@ package me.ccrama.redditslide.util;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
@@ -17,21 +19,23 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.util.Log;
 
 import me.ccrama.redditslide.Activities.MakeExternal;
 import me.ccrama.redditslide.Activities.Website;
+import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
-public class CustomTabUtil {
+public class LinkUtil {
 
     private static CustomTabsSession mCustomTabsSession;
     private static CustomTabsClient mClient;
     private static CustomTabsServiceConnection mConnection;
 
-    private CustomTabUtil() {
+    private LinkUtil() {
     }
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
@@ -104,6 +108,43 @@ public class CustomTabUtil {
         return uri.normalizeScheme();
     }
 
+    /**
+     * Opens the {@code url} externally or shows an application chooser if it is set to open in this
+     * application
+     * @param url URL to open
+     * @param context Current context
+     * @param encoded If the URL is HTML encoded (e.g. includes {@code &amp;amp;})
+     */
+    public static void openExternally(String url, Context context, Boolean encoded) {
+        if (encoded) url = Html.fromHtml(url).toString();
+        Uri uri = formatURL(url);
+        openExternally(uri, context);
+    }
+
+    /**
+     * Opens the {@code uri} externally or shows an application chooser if it is set to open in this
+     * application
+     * @param uri URI to open
+     * @param context Current context
+     */
+    public static void openExternally(Uri uri, Context context) {
+        final String id = BuildConfig.APPLICATION_ID;
+        final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        final PackageManager packageManager = context.getPackageManager();
+        final String resolvedName = intent.resolveActivity(packageManager).getPackageName();
+
+        if (resolvedName == null)
+            return;
+
+        if (resolvedName.matches(id)) {
+            context.startActivity(
+                    Intent.createChooser(intent, context.getString(R.string.misc_link_chooser))
+            );
+            return;
+        }
+
+        context.startActivity(intent);
+    }
 
     public static CustomTabsSession getSession() {
         if (mClient == null) {

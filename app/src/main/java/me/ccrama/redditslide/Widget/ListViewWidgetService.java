@@ -18,8 +18,6 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 
-import org.apache.http.auth.AUTH;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
