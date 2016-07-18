@@ -24,7 +24,6 @@ import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
 import net.dean.jraw.models.LoggedInAccount;
-import net.dean.jraw.models.Subreddit;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,15 +33,13 @@ import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.UserSubscriptions;
-import me.ccrama.redditslide.Visuals.GetClosestColor;
-import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
 
 /**
  * Created by ccrama on 5/27/2015.
  */
-public class Login extends BaseActivityAnim {
+public class Reauthenticate extends BaseActivityAnim {
     private static final String CLIENT_ID = "KI2Nl9A_ouG9Qw";
     private static final String REDIRECT_URL = "http://www.ccrama.me";
     Dialog d;
@@ -53,7 +50,7 @@ public class Login extends BaseActivityAnim {
         super.onCreate(savedInstance);
         applyColorTheme("");
         setContentView(R.layout.activity_login);
-        setupAppBar(R.id.toolbar, R.string.title_login, true, true);
+        setupAppBar(R.id.toolbar, "Re-authenticate", true, true);
 
         String[] scopes = {"identity", "modcontributors", "modconfig", "modothers", "modwiki", "creddits", "livemanage", "account", "privatemessages", "modflair", "modlog", "report", "modposts", "modwiki", "read", "vote", "edit", "submit", "subscribe", "save", "wikiread", "flair", "history", "mysubreddits"};
         final OAuthHelper oAuthHelper = Authentication.reddit.getOAuthHelper();
@@ -84,74 +81,12 @@ public class Login extends BaseActivityAnim {
                     webView.stopLoading();
                     new UserChallengeTask(oAuthHelper, credentials).execute(url);
                     webView.setVisibility(View.GONE);
+                    webView.clearCache(true);
+                    webView.clearHistory();
                 }
             }
         });
     }
-
-    private void doSubStrings(ArrayList<Subreddit> subs) {
-        subNames = new ArrayList<>();
-        for (Subreddit s : subs) {
-            subNames.add(s.getDisplayName().toLowerCase());
-        }
-        subNames = UserSubscriptions.sort(subNames);
-        if (!subNames.contains("slideforreddit")) {
-            new AlertDialogWrapper.Builder(Login.this).setTitle(R.string.login_subscribe_rslideforreddit)
-                    .setMessage(R.string.login_subscribe_rslideforreddit_desc)
-                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            subNames.add(2, "slideforreddit");
-                            UserSubscriptions.setSubscriptions(subNames);
-                            Reddit.forceRestart(Login.this, true);
-                        }
-                    }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    UserSubscriptions.setSubscriptions(subNames);
-                    Reddit.forceRestart(Login.this, true);
-                }
-            }).setCancelable(false)
-                    .show();
-        } else {
-            UserSubscriptions.setSubscriptions(subNames);
-            Reddit.forceRestart(Login.this, true);
-        }
-
-    }
-
-    public void doLastStuff(final ArrayList<Subreddit> subs) {
-
-        d.dismiss();
-        new AlertDialogWrapper.Builder(Login.this).setTitle(R.string.login_sync_colors)
-                .setMessage(R.string.login_sync_colors_desc)
-                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        for (Subreddit s : subs) {
-                            if (s.getDataNode().has("key_color") && !s.getDataNode().get("key_color").asText().isEmpty() && Palette.getColor(s.getDisplayName().toLowerCase()) == Palette.getDefaultColor()) {
-                                Palette.setColor(s.getDisplayName().toLowerCase(), GetClosestColor.getClosestColor(s.getDataNode().get("key_color").asText(), Login.this));
-                            }
-
-                        }
-                        doSubStrings(subs);
-                    }
-                })
-                .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        doSubStrings(subs);
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        doSubStrings(subs);
-                    }
-                }).create().show();
-    }
-
 
     private final class UserChallengeTask extends AsyncTask<String, Void, OAuthData> {
         private final OAuthHelper mOAuthHelper;
@@ -167,7 +102,7 @@ public class Login extends BaseActivityAnim {
         @Override
         protected void onPreExecute() {
             //Show a dialog to indicate progress
-            MaterialDialog.Builder builder = new MaterialDialog.Builder(Login.this)
+            MaterialDialog.Builder builder = new MaterialDialog.Builder(Reauthenticate.this)
                     .title(R.string.login_authenticating)
                     .progress(true, 0)
                     .content(R.string.misc_please_wait)
@@ -187,6 +122,16 @@ public class Login extends BaseActivityAnim {
                     SharedPreferences.Editor editor = Authentication.authentication.edit();
                     Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
                     LoggedInAccount me = Authentication.reddit.me();
+                    String toRemove = "";
+                    for (String s : accounts) {
+                        if (s.contains(me.getFullName())) {
+                            toRemove = s;
+                        }
+                    }
+
+                    if (!toRemove.isEmpty())
+                        accounts.remove(toRemove);
+
                     accounts.add(me.getFullName() + ":" + refreshToken);
                     Authentication.name = me.getFullName();
                     editor.putStringSet("accounts", accounts);
@@ -214,34 +159,20 @@ public class Login extends BaseActivityAnim {
             //Dismiss old progress dialog
             mMaterialDialog.dismiss();
 
-            if (oAuthData != null) {
-                Reddit.appRestart.edit().putBoolean("firststarting", true).apply();
-
-                UserSubscriptions.switchAccounts();
-                d = new MaterialDialog.Builder(Login.this).cancelable(false)
-                        .title(R.string.login_starting)
-                        .progress(true, 0)
-                        .content(R.string.login_starting_desc)
-                        .build();
-                d.show();
-
-                UserSubscriptions.syncSubredditsGetObjectAsync(Login.this);
-            } else {
-                //Show a dialog if data is null
-                MaterialDialog.Builder builder = new MaterialDialog.Builder(Login.this)
-                        .title(R.string.err_authentication)
-                        .content(R.string.login_failed_err_decline)
-                        .neutralText(R.string.btn_ok)
-                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@Nullable MaterialDialog dialog, @Nullable DialogAction which) {
-                                Reddit.forceRestart(Login.this, true);
-                                finish();
-
-                            }
-                        });
-                builder.show();
-            }
+            new AlertDialogWrapper.Builder(Reauthenticate.this)
+                    .setTitle("Re-authentication complete!")
+                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).setCancelable(false)
+                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+                            finish();
+                        }
+                    }).show();
         }
     }
 

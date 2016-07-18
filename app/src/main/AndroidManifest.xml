@@ -270,6 +270,10 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />
         <activity
+            android:name=".Activities.Reauthenticate"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+            android:theme="@style/swipeable" />
+        <activity
             android:name=".Activities.SettingsData"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />
