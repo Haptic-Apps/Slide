@@ -143,6 +143,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     ArrayList<String> replie;
     private String backedText = "";
     private String currentlyEditingId = "";
+    public SubmissionViewHolder submissionViewHolder;
 
     long lastSeen;
 
@@ -1047,6 +1048,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
         } else if (firstHolder instanceof SubmissionViewHolder && submission != null) {
+            submissionViewHolder = (SubmissionViewHolder) firstHolder;
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder((SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true, null, null, false, false, null, this);
             if (Authentication.isLoggedIn && Authentication.didOnline) {
                 if (submission.isArchived() || submission.isLocked())
