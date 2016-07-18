@@ -436,7 +436,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case R.id.open_link:
-                            LinkUtil.openExternally(url, context);
+                            LinkUtil.openExternally(url, context, false);
                             break;
                         case R.id.share_link:
                             Reddit.defaultShareText("", url, finalActivity);

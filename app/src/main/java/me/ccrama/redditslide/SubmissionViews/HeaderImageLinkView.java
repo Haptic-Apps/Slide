@@ -423,7 +423,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case R.id.open_link:
-                                    LinkUtil.openExternally(Html.fromHtml(url).toString(), getContext());
+                                    LinkUtil.openExternally(url, getContext(), true);
                                     break;
                                 case R.id.share_link:
                                     Reddit.defaultShareText("", url, activity);

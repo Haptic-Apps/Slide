@@ -19,6 +19,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.util.Log;
 
 import me.ccrama.redditslide.Activities.MakeExternal;
@@ -112,8 +113,10 @@ public class LinkUtil {
      * application
      * @param url URL to open
      * @param context Current context
+     * @param encoded If the URL is HTML encoded (e.g. includes {@code &amp;amp;})
      */
-    public static void openExternally(String url, Context context) {
+    public static void openExternally(String url, Context context, Boolean encoded) {
+        if (encoded) url = Html.fromHtml(url).toString();
         Uri uri = formatURL(url);
         openExternally(uri, context);
     }

@@ -27,7 +27,7 @@ public class OpenRedditLink {
         LogUtil.v("Link is " + url);
         url = formatRedditUrl(url);
         if (url.isEmpty()) {
-            LinkUtil.openExternally(oldUrl, context);
+            LinkUtil.openExternally(oldUrl, context, false);
             return;
         } else if (url.startsWith("np")) {
             np = true;
@@ -235,7 +235,7 @@ public class OpenRedditLink {
 
         url = formatRedditUrl(url);
         if (url.isEmpty()) {
-            LinkUtil.openExternally(oldUrl, context);
+            LinkUtil.openExternally(oldUrl, context, false);
             return;
         } else if (url.startsWith("np")) {
             np = true;

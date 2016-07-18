@@ -169,7 +169,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case R.id.open_link:
-                                        LinkUtil.openExternally(submission.getUrl(), main);
+                                        LinkUtil.openExternally(submission.getUrl(), main, true);
                                         break;
                                     case R.id.share_link:
                                         Reddit.defaultShareText("", submission.getUrl(), main);

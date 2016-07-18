@@ -467,7 +467,7 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                     case 7:
-                        LinkUtil.openExternally(submission.getUrl(), mContext);
+                        LinkUtil.openExternally(submission.getUrl(), mContext, true);
                         break;
                     case 4:
                         Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(), submission.getUrl(), mContext);

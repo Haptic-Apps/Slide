@@ -72,6 +72,7 @@ import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -434,17 +435,17 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         BottomSheet.Builder b = new BottomSheet.Builder(this)
                 .title(contentUrl);
 
-        b.sheet(2, external, "Open externally");
-        b.sheet(5, share, "Share link");
+        b.sheet(2, external, getString(R.string.submission_link_extern));
+        b.sheet(5, share, getString(R.string.submission_link_share));
         if (!isGif)
-            b.sheet(3, image, "Share image");
+            b.sheet(3, image, getString(R.string.share_image));
         b.sheet(4, save, "Save image");
         b.listener(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case (2): {
-                        Reddit.defaultShare(contentUrl, AlbumPager.this);
+                        LinkUtil.openExternally(contentUrl, AlbumPager.this, false);
                     }
                     break;
                     case (3): {
@@ -457,15 +458,12 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                     break;
                     case (4): {
                         if (!isGif) {
-                            String url = contentUrl;
-                            final String finalUrl1 = url;
-                            final String finalUrl = contentUrl;
                             try {
                                 ((Reddit) getApplication()).getImageLoader()
-                                        .loadImage(finalUrl, new SimpleImageLoadingListener() {
+                                        .loadImage(contentUrl, new SimpleImageLoadingListener() {
                                             @Override
                                             public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-                                                saveImageGallery(loadedImage, finalUrl1);
+                                                saveImageGallery(loadedImage, contentUrl);
                                             }
 
                                         });
