@@ -257,7 +257,7 @@ public class DoEditorActions {
             @Override
             public void onClick(View v) {
 
-                if(oldComment != null){
+                if (oldComment != null) {
                     final TextView showText = new TextView(a);
                     showText.setText(oldComment);
                     showText.setTextIsSelectable(true);
@@ -288,15 +288,19 @@ public class DoEditorActions {
                     showText.setPadding(sixteen, 0, sixteen, 0);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
                     builder.setView(showText)
-                            .setTitle("Select text to quote")
+                            .setTitle(R.string.editor_actions_quote_comment)
                             .setCancelable(true)
-                            .setPositiveButton("SELECT", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(a.getString(R.string.btn_select), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     String selected = showText.getText().toString().substring(showText.getSelectionStart(), showText.getSelectionEnd());
-                                    insertBefore("> " + selected + "\n", editText);
+                                    if (selected.equals("")) {
+                                        insertBefore("> ", editText);
+                                    } else {
+                                        insertBefore("> " + selected + "\n\n", editText);
+                                    }
                                 }
-                            }).setNegativeButton("CANCEL", null)
+                            }).setNegativeButton(a.getString(R.string.btn_cancel), null)
                             .show();
                 } else {
                     insertBefore("> ", editText);
@@ -399,6 +403,36 @@ public class DoEditorActions {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.JPEG, 100, baos); // Not sure whether this should be jpeg or png, try both and see which works best
         return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+    }
+
+    private static void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0), subredditName);
+            firstTextView.setLinkTextColor(new ColorPreferences(firstTextView.getContext()).getColor(subredditName));
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subredditName);
+            } else {
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+            }
+        } else {
+            commentOverflow.removeAllViews();
+        }
     }
 
     private static class UploadImgur extends AsyncTask<Bitmap, Void, JSONObject> {
@@ -516,36 +550,6 @@ public class DoEditorActions {
             }
 
             return null;
-        }
-    }
-
-    private static void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
-        if (rawHTML.isEmpty()) {
-            return;
-        }
-
-        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
-
-        int startIndex = 0;
-        // the <div class="md"> case is when the body contains a table or code block first
-        if (!blocks.get(0).equals("<div class=\"md\">")) {
-            firstTextView.setVisibility(View.VISIBLE);
-            firstTextView.setTextHtml(blocks.get(0), subredditName);
-            firstTextView.setLinkTextColor(new ColorPreferences(firstTextView.getContext()).getColor(subredditName));
-            startIndex = 1;
-        } else {
-            firstTextView.setText("");
-            firstTextView.setVisibility(View.GONE);
-        }
-
-        if (blocks.size() > 1) {
-            if (startIndex == 0) {
-                commentOverflow.setViews(blocks, subredditName);
-            } else {
-                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
-            }
-        } else {
-            commentOverflow.removeAllViews();
         }
     }
 }

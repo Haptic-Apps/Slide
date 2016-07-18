@@ -765,6 +765,7 @@
     <string name="msg_sent_success">Message sent</string>
     <string name="msg_sent_failure">Message failed to send</string>
     <string name="msg_send_user_dne">That user doesn\'t exist</string>
+    <string name="editor_actions_quote_comment">Select text to quote</string>
     <string name="content_removed">[removed]</string>
     <string name="guest">Guest</string>
     <string name="err_comment_post_nosave_message">\nPlease try again in a minute</string>
