@@ -851,7 +851,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void doTimes() {
-        if (submission != null) {
+        if (submission != null && SettingValues.commentLastVisit) {
             lastSeen = HasSeen.getSeenTime(submission);
             String fullname = submission.getFullName();
             if (fullname.contains("t3_")) {
@@ -2022,7 +2022,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         int color;
 
-        if (lastSeen < baseNode.getComment().getCreated().getTime()) {
+        if (lastSeen < baseNode.getComment().getCreated().getTime() && SettingValues.commentLastVisit) {
             color = Palette.getColor(baseNode.getComment().getSubredditName());
             color = Color.argb(20, Color.red(color), Color.green(color), Color.blue(color));
         } else {
