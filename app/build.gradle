@@ -126,5 +126,6 @@ android {
         compile 'org.jetbrains:annotations-java5:15.0'
         compile 'com.mikepenz:itemanimators:0.2.4@aar'
         compile 'com.neovisionaries:nv-websocket-client:1.28'
+        compile 'com.github.ccrama:PeekAndPop:09adee29f1'
     }
 }

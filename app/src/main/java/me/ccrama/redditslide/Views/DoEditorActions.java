@@ -18,7 +18,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -258,6 +261,29 @@ public class DoEditorActions {
                     final TextView showText = new TextView(a);
                     showText.setText(oldComment);
                     showText.setTextIsSelectable(true);
+                    showText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+                        @Override
+                        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                            menu.clear();
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onDestroyActionMode(ActionMode mode) {
+
+                        }
+                    });
                     int sixteen = Reddit.dpToPxVertical(16);
                     showText.setPadding(sixteen, 0, sixteen, 0);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);

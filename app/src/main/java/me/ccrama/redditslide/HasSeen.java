@@ -54,7 +54,9 @@ public class HasSeen {
             }
             if (!m.getByContains(fullname).isEmpty()) {
                 hasSeen.add(fullname);
-                seenTimes.put(fullname, Long.valueOf(m.get(fullname)));
+                String value = m.get(fullname);
+                if (value != null)
+                    seenTimes.put(fullname, Long.valueOf(value));
             }
         }
     }
@@ -83,7 +85,7 @@ public class HasSeen {
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3, fullname.length());
         }
-        return seenTimes.containsKey(fullname)?seenTimes.get(fullname):System.currentTimeMillis();
+        return seenTimes.containsKey(fullname) ? seenTimes.get(fullname) : System.currentTimeMillis();
     }
 
     public static void addSeen(String fullname) {

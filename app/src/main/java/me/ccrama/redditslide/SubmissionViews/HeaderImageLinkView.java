@@ -96,7 +96,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             .displayer(new FadeInBitmapDisplayer(250))
             .build();
 
-    public void doImageAndText(Submission submission, boolean full, String baseSub) {
+    public void doImageAndText(final Submission submission, boolean full, String baseSub) {
 
         boolean fullImage = ContentType.fullImage(type);
 
@@ -356,8 +356,78 @@ public class HeaderImageLinkView extends RelativeLayout {
                 info.setText(submission.getDomain());
 
         }
-    }
+        /* todo possibly: "3d touch" images
+        if (activity == null) {
+            Context context = getContext();
+            if (context instanceof Activity) {
+                activity = (Activity) context;
+            } else if (context instanceof android.support.v7.view.ContextThemeWrapper) {
+                activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) context).getBaseContext();
+            } else if (context instanceof ContextWrapper) {
+                Context context1 = ((ContextWrapper) context).getBaseContext();
+                if (context1 instanceof Activity) {
+                    activity = (Activity) context1;
+                } else if (context1 instanceof ContextWrapper) {
+                    Context context2 = ((ContextWrapper) context1).getBaseContext();
+                    if (context2 instanceof Activity) {
+                        activity = (Activity) context2;
+                    } else if (context2 instanceof ContextWrapper) {
+                        activity = (Activity) ((android.support.v7.view.ContextThemeWrapper) context2).getBaseContext();
+                    }
+                }
+            } else {
+                throw new RuntimeException("Could not find activity from context:" + context);
+            }
+        }
 
+        final PeekAndPop peekAndPop = new PeekAndPop.Builder((activity))
+                .peekLayout(R.layout.peek_media)
+                .longClickViews(this)
+                .cancelIfMove(true)
+                .build();
+
+        peekAndPop.addHoldAndReleaseView(R.id.comments);
+
+        peekAndPop.setOnHoldAndReleaseListener(new PeekAndPop.OnHoldAndReleaseListener() {
+            @Override
+            public void onHold(View view, int i) {
+
+            }
+
+            @Override
+            public void onLeave(View view, int i) {
+
+            }
+
+            @Override
+            public void onRelease(View view, int i) {
+                if(i == R.id.comments){
+                    ((View)getParent()).callOnClick();
+                }
+            }
+        });
+
+        peekAndPop.setOnGeneralActionListener(new PeekAndPop.OnGeneralActionListener() {
+            @Override
+            public void onPeek(View view, int i) {
+                new PopMediaView().doPop(peekAndPop.getPeekView(), submission.getUrl(), activity);
+            }
+
+            @Override
+            public void onPop(View view, int i) {
+            }
+
+            @Override
+            public void onDismiss(View view, int i){
+                ((MediaVideoView) peekAndPop.getPeekView().findViewById(R.id.gif)).setVisibility(GONE);
+                ((MediaVideoView) peekAndPop.getPeekView().findViewById(R.id.gif)).setVisibility(VISIBLE);
+                ((MediaVideoView) peekAndPop.getPeekView().findViewById(R.id.gif)).stopPlayback();
+                (peekAndPop.getPeekView().findViewById(R.id.gifarea)).setVisibility(View.GONE);
+
+            }
+        });
+*/
+    }
 
     private String getDomainName(String url) throws URISyntaxException {
         URI uri = new URI(url);
