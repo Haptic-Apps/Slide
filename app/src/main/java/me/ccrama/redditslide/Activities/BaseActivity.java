@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Activities;
 
 import android.app.ActivityManager;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;

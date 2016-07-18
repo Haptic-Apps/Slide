@@ -15,7 +15,7 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Activities.Wiki;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 public class OpenRedditLink {
@@ -27,7 +27,7 @@ public class OpenRedditLink {
         LogUtil.v("Link is " + url);
         url = formatRedditUrl(url);
         if (url.isEmpty()) {
-            CustomTabUtil.openExternally(oldUrl, context);
+            LinkUtil.openExternally(oldUrl, context);
             return;
         } else if (url.startsWith("np")) {
             np = true;
@@ -218,7 +218,7 @@ public class OpenRedditLink {
             }
             case OTHER: {
                 if (context instanceof Activity) {
-                    CustomTabUtil.openUrl(url, Palette.getStatusBarColor(), (Activity) context);
+                    LinkUtil.openUrl(url, Palette.getStatusBarColor(), (Activity) context);
                 } else {
                     Intent i = new Intent(context, Website.class);
                     i.putExtra(Website.EXTRA_URL, oldUrl);
@@ -235,7 +235,7 @@ public class OpenRedditLink {
 
         url = formatRedditUrl(url);
         if (url.isEmpty()) {
-            CustomTabUtil.openExternally(oldUrl, context);
+            LinkUtil.openExternally(oldUrl, context);
             return;
         } else if (url.startsWith("np")) {
             np = true;

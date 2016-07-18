@@ -13,7 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsCallback;
 import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
@@ -29,13 +28,13 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 
-public class CustomTabUtil {
+public class LinkUtil {
 
     private static CustomTabsSession mCustomTabsSession;
     private static CustomTabsClient mClient;
     private static CustomTabsServiceConnection mConnection;
 
-    private CustomTabUtil() {
+    private LinkUtil() {
     }
 
     public static Bitmap drawableToBitmap(Drawable drawable) {

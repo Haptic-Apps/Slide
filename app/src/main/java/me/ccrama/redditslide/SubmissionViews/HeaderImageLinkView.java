@@ -5,13 +5,11 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -37,7 +35,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.TransparentTagTextView;
-import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -425,7 +423,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case R.id.open_link:
-                                    CustomTabUtil.openExternally(Html.fromHtml(url).toString(), getContext());
+                                    LinkUtil.openExternally(Html.fromHtml(url).toString(), getContext());
                                     break;
                                 case R.id.share_link:
                                     Reddit.defaultShareText("", url, activity);

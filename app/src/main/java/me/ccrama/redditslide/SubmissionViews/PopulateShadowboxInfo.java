@@ -11,7 +11,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -50,7 +49,7 @@ import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.AnimateHelper;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
-import me.ccrama.redditslide.util.CustomTabUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 
 /**
  * Created by carlo_000 on 2/27/2016.
@@ -325,7 +324,7 @@ public class PopulateShadowboxInfo {
                             }
                             break;
                             case 7:
-                                CustomTabUtil.openExternally(submission.getUrl(), mContext);
+                                LinkUtil.openExternally(submission.getUrl(), mContext);
                             case 4:
                                 Reddit.defaultShareText(submission.getTitle(), submission.getUrl(), mContext);
                                 break;
