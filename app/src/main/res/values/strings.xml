@@ -102,7 +102,7 @@
 
 
     <!-- User profile -->
-    <string name="profile_karma_link">Link karma</string>
+    <string name="profile_karma_link">Post karma</string>
     <string name="profile_karma_comment">Comment karma</string>
     <string name="profile_message">Private message</string>
     <string name="profile_saved">Saved</string>
