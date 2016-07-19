@@ -565,49 +565,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     }
 
-    public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, int oldSize) {
-
-        this.mContext = mContext;
-        this.listView = listView;
-        this.dataSet = dataSet;
-
-        this.submission = submission;
-        hidden = new ArrayList<>();
-        users = dataSet.comments;
-        if (users != null) {
-            for (int i = 0; i < users.size(); i++) {
-                keys.put(users.get(i).getName(), i);
-            }
-        }
-        hiddenPersons = new ArrayList<>();
-        toCollapse = new ArrayList<>();
-
-        replie = new ArrayList<>();
-
-
-        isSame = false;
-        notifyDataSetChanged();
-        if (currentSelectedItem != null && !currentSelectedItem.isEmpty()) {
-            int i = 1;
-
-            for (CommentObject n : users) {
-
-                if (n.getName().contains(currentSelectedItem) && !(n instanceof MoreChildItem)) {
-                    CommentPage.TopSnappedSmoothScroller scroller = new CommentPage.TopSnappedSmoothScroller(mContext, (PreCachingLayoutManagerComments) listView.getLayoutManager());
-                    scroller.setTargetPosition(i);
-                    (listView.getLayoutManager()).startSmoothScroll(scroller);
-                    break;
-                }
-                i++;
-            }
-        }
-        mPage.resetScroll(true);
-        if (mContext instanceof BaseActivity) {
-            ((BaseActivity) mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
-        }
-        doTimes();
-    }
-
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, boolean reset) {
 
         this.mContext = mContext;
@@ -641,7 +598,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         isSame = false;
-
 
         if (currentSelectedItem != null && !currentSelectedItem.isEmpty() && users != null && !users.isEmpty()) {
             int i = 2;
@@ -851,7 +807,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void doTimes() {
-        if (submission != null && SettingValues.commentLastVisit) {
+        if (submission != null && SettingValues.commentLastVisit && !dataSet.single) {
             lastSeen = HasSeen.getSeenTime(submission);
             String fullname = submission.getFullName();
             if (fullname.contains("t3_")) {
@@ -2022,7 +1978,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         int color;
 
-        if (lastSeen < baseNode.getComment().getCreated().getTime() && SettingValues.commentLastVisit) {
+        Comment c = baseNode.getComment();
+        if (lastSeen < c.getCreated().getTime() && !dataSet.single && SettingValues.commentLastVisit && !Authentication.reddit.equals(c.getAuthor())) {
             color = Palette.getColor(baseNode.getComment().getSubredditName());
             color = Color.argb(20, Color.red(color), Color.green(color), Color.blue(color));
         } else {

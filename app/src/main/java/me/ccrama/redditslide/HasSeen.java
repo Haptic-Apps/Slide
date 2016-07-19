@@ -55,8 +55,12 @@ public class HasSeen {
             if (!m.getByContains(fullname).isEmpty()) {
                 hasSeen.add(fullname);
                 String value = m.get(fullname);
-                if (value != null)
-                    seenTimes.put(fullname, Long.valueOf(value));
+                try {
+                    if (value != null)
+                        seenTimes.put(fullname, Long.valueOf(value));
+                } catch (Exception ignored) {
+                }
+
             }
         }
     }

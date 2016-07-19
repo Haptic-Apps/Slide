@@ -33,6 +33,8 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * Created by ccrama on 9/17/2015.
  */
 public class SubmissionComments {
+
+    public boolean single;
     public final SwipeRefreshLayout refreshLayout;
     private final String fullName;
     private final CommentPage page;
@@ -214,8 +216,10 @@ public class SubmissionComments {
         protected ArrayList<CommentObject> doInBackground(String... subredditPaginators) {
             SubmissionRequest.Builder builder;
             if (context == null) {
+                single = false;
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting);
             } else {
+                single = true;
                 builder = new SubmissionRequest.Builder(fullName).sort(defaultSorting).focus(context).context(5);
             }
             try {
