@@ -1225,7 +1225,7 @@ public class SubredditView extends BaseActivityAnim {
                     UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
 
                 // Over 18 interstitial for signed out users or those who haven't enabled NSFW content
-                if (subreddit.isNsfw() && !Reddit.over18) {
+                if (subreddit.isNsfw() && (!Reddit.over18 || !Authentication.isLoggedIn)) {
                     new AlertDialogWrapper.Builder(SubredditView.this)
                             .setTitle(getString(R.string.over18_title, subreddit.getDisplayName()))
                             .setMessage(getString(R.string.over18_desc) + "\n\n"

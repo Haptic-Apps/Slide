@@ -226,7 +226,6 @@ public class Authentication {
                         refresh = oAuthHelper.getRefreshToken();
 
                         Authentication.isLoggedIn = true;
-                        authedOnce = true;
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -247,8 +246,6 @@ public class Authentication {
                         Authentication.name = "LOGGEDOUT";
                         Reddit.notFirst = true;
                         didOnline = true;
-                        authedOnce = true;
-
                         return null;
 
                     } catch (Exception e) {
@@ -282,6 +279,7 @@ public class Authentication {
 
 
                 }
+                authedOnce = true;
 
             } catch (Exception e) {
                 //TODO fail

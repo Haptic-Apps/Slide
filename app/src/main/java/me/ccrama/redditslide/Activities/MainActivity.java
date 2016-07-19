@@ -126,6 +126,7 @@ import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -2417,7 +2418,12 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public static boolean isRestart;
+    public static int restartPage;
+
     public void restartTheme() {
+        isRestart = true;
+        restartPage = getCurrentPage();
         Intent intent = this.getIntent();
         int page = pager.getCurrentItem();
         if (currentComment == page) page -= 1;

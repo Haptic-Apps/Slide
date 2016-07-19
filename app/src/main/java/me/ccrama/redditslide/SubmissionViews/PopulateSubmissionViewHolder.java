@@ -913,11 +913,15 @@ public class PopulateSubmissionViewHolder {
                                                             dialog.dismiss();
                                                         }
 
-                                                        Snackbar s = Snackbar.make(holder.itemView, R.string.mod_approved, Snackbar.LENGTH_LONG);
-                                                        View view = s.getView();
-                                                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                        tv.setTextColor(Color.WHITE);
-                                                        s.show();
+                                                        try {
+                                                            Snackbar s = Snackbar.make(holder.itemView, R.string.mod_approved, Snackbar.LENGTH_LONG);
+                                                            View view = s.getView();
+                                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                            tv.setTextColor(Color.WHITE);
+                                                            s.show();
+                                                        } catch(Exception ignored){
+
+                                                        }
 
                                                     } else {
                                                         new AlertDialogWrapper.Builder(mContext)

@@ -2717,17 +2717,25 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 if (commentBack != null && !commentBack.isEmpty()) {
                     Drafts.addDraft(commentBack);
-                    new AlertDialogWrapper.Builder(mContext)
-                            .setTitle(R.string.err_comment_post)
-                            .setMessage(((why == null) ? "" : mContext.getString(R.string.err_comment_post_reason) + why) + mContext.getString(R.string.err_comment_post_message))
-                            .setPositiveButton(R.string.btn_ok, null)
-                            .show();
+                    try {
+                        new AlertDialogWrapper.Builder(mContext)
+                                .setTitle(R.string.err_comment_post)
+                                .setMessage(((why == null) ? "" : mContext.getString(R.string.err_comment_post_reason) + why) + mContext.getString(R.string.err_comment_post_message))
+                                .setPositiveButton(R.string.btn_ok, null)
+                                .show();
+                    } catch(Exception ignored){
+
+                    }
                 } else {
+                    try{
                     new AlertDialogWrapper.Builder(mContext)
                             .setTitle(R.string.err_comment_post)
                             .setMessage(((why == null) ? "" : mContext.getString(R.string.err_comment_post_reason) + why) + mContext.getString(R.string.err_comment_post_nosave_message))
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
+                    } catch(Exception ignored){
+
+                    }
                 }
             } else {
                 if (isSubmission) {

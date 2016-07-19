@@ -267,12 +267,13 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
     }
 
     public void doAdapter() {
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
-        });
+        if (!MainActivity.isRestart)
+            mSwipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                }
+            });
 
         posts = new SubredditPosts(id, getContext());
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
@@ -414,6 +415,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 }
             });
 
+            if(MainActivity.isRestart) {
+                MainActivity.isRestart = false;
+                posts.offline = false;
+                rv.getLayoutManager().scrollToPosition(MainActivity.restartPage + 1);
+            }
         }
     }
 

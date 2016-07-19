@@ -92,8 +92,10 @@ public class ImageDownloadNotificationService extends Service {
                         }, new ImageLoadingProgressListener() {
                             @Override
                             public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                                mBuilder.setProgress(100, (current / total) * 100, false);
-                                mNotifyManager.notify(id, mBuilder.build());
+                                if ((current / total * 100)%10 == 0) {
+                                    mBuilder.setProgress(total, current, false);
+                                    mNotifyManager.notify(id, mBuilder.build());
+                                }
                             }
                         });
             } catch (Exception e) {
