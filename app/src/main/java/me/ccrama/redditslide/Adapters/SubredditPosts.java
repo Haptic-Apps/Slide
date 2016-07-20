@@ -321,7 +321,7 @@ public class SubredditPosts implements PostLoader {
             List<Submission> filteredSubmissions = getNextFiltered();
 
 
-            if (!SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways))
+            if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways)))
                 loadPhotos(filteredSubmissions);
             HasSeen.setHasSeenSubmission(filteredSubmissions);
             LastComments.setCommentsSince(filteredSubmissions);

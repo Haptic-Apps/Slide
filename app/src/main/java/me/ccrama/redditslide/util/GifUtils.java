@@ -264,7 +264,7 @@ public class GifUtils {
 
 
                         } else {
-                            if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && result.getAsJsonObject("gfyItem").has("mobileUrl"))
+                            if (result.getAsJsonObject("gfyItem").has("mobileUrl"))
                                 obj = result.getAsJsonObject("gfyItem").get("mobileUrl").getAsString();
                             else
                                 obj = result.getAsJsonObject("gfyItem").get("mp4Url").getAsString();
@@ -312,10 +312,10 @@ public class GifUtils {
                                 });
                             }
                         } else {
-                            if (result.getAsJsonObject().get("files").getAsJsonObject().has("mp4"))
-                                obj = "https:" + result.getAsJsonObject().get("files").getAsJsonObject().get("mp4").getAsJsonObject().get("url").getAsString();
-                            else
+                            if (result.getAsJsonObject().get("files").getAsJsonObject().has("mp4-mobile"))
                                 obj = "https:" + result.getAsJsonObject().get("files").getAsJsonObject().get("mp4-mobile").getAsJsonObject().get("url").getAsString();
+                            else
+                                obj = "https:" + result.getAsJsonObject().get("files").getAsJsonObject().get("mp4").getAsJsonObject().get("url").getAsString();
 
                         }
                         final URL finalUrl = new URL(obj);

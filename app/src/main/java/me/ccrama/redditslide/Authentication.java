@@ -117,7 +117,7 @@ public class Authentication {
                                 finalData = oAuthHelper.refreshToken(credentials, authentication.getString("backedCreds", "")); //does a request
                             } else {
                                 finalData = oAuthHelper.refreshToken(credentials); //does a request
-                                authentication.edit().putLong("expires", finalData.getExpirationDate().getTime()).apply();
+                                authentication.edit().putLong("expires", Calendar.getInstance().getTimeInMillis() + 3000000).apply();
                             }
                             authentication.edit().putString("backedCreds", finalData.getDataNode().toString()).apply();
                             reddit.authenticate(finalData);
@@ -144,7 +144,7 @@ public class Authentication {
                         try {
 
                             authData = reddit.getOAuthHelper().easyAuth(fcreds);
-                            authentication.edit().putLong("expires", authData.getExpirationDate().getTime()).apply();
+                            authentication.edit().putLong("expires", Calendar.getInstance().getTimeInMillis() + 3000000).apply();
                             authentication.edit().putString("backedCreds", authData.getDataNode().toString()).apply();
                             Authentication.name = "LOGGEDOUT";
                             mod = false;
@@ -219,7 +219,7 @@ public class Authentication {
                             finalData = oAuthHelper.refreshToken(credentials, authentication.getString("backedCreds", "")); //does a request
                         } else {
                             finalData = oAuthHelper.refreshToken(credentials); //does a request
-                            authentication.edit().putLong("expires", finalData.getExpirationDate().getTime()).apply();
+                            authentication.edit().putLong("expires", Calendar.getInstance().getTimeInMillis() + 3000000).apply();
                         }
                         authentication.edit().putString("backedCreds", finalData.getDataNode().toString()).apply();
                         reddit.authenticate(finalData);
@@ -240,7 +240,7 @@ public class Authentication {
                     try {
 
                         authData = reddit.getOAuthHelper().easyAuth(fcreds);
-                        authentication.edit().putLong("expires", authData.getExpirationDate().getTime()).apply();
+                        authentication.edit().putLong("expires", Calendar.getInstance().getTimeInMillis() + 3000000).apply();
                         authentication.edit().putString("backedCreds", authData.getDataNode().toString()).apply();
                         reddit.authenticate(authData);
                         Authentication.name = "LOGGEDOUT";

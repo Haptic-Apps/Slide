@@ -47,7 +47,7 @@ public class ImageLoaderUtils {
         DiskCache discCache;
         File dir = getCacheDirectory(context);
         int threadPoolSize;
-        discCacheSize *= 512;
+        discCacheSize *= 100;
         threadPoolSize = 7;
         if (discCacheSize > 0) {
             try {

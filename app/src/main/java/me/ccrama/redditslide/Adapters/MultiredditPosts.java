@@ -332,7 +332,7 @@ public class MultiredditPosts implements PostLoader {
             HasSeen.setHasSeenSubmission(filteredSubmissions);
             SubmissionCache.cacheSubmissions(filteredSubmissions, context, paginator.getMultiReddit().getDisplayName());
 
-            if (!SettingValues.noImages &&  ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways))
+            if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways)))
                 loadPhotos(filteredSubmissions);
 
             return things;

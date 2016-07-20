@@ -31,6 +31,7 @@ public class GifCache {
             ((LruDiskCache) discCache).setBufferSize(5 * 1024);
 
         } catch (IOException e) {
+            e.printStackTrace();
             discCache = new UnlimitedDiskCache(dir);
         }
     }

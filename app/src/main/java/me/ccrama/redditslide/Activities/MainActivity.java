@@ -3316,6 +3316,9 @@ public class MainActivity extends BaseActivity {
     public int getCurrentPage() {
         int position = 0;
         int currentOrientation = getResources().getConfiguration().orientation;
+        if(adapter.getCurrentFragment() == null){
+            return 0;
+        }
         if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             position = ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition() - 1;
         } else if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
