@@ -42,7 +42,7 @@ android {
         prod {
             // The actual minSdkVersion for the application.
             dimension "api"
-            minSdkVersion 14
+            minSdkVersion 15
         }
         withGPlay {
             dimension "gplay"
