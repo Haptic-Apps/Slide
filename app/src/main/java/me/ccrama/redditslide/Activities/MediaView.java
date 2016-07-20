@@ -20,6 +20,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.NotificationCompat;
 import android.text.Html;
@@ -81,32 +82,123 @@ import okhttp3.OkHttpClient;
  * Created by ccrama on 3/5/2015.
  */
 public class MediaView extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
-    public static final String EXTRA_URL         = "url";
-    public static final String ADAPTER_POSITION  = "adapter_position";
-    public static final String SUBMISSION_URL    = "submission";
+    public static final String EXTRA_URL = "url";
+    public static final String ADAPTER_POSITION = "adapter_position";
+    public static final String SUBMISSION_URL = "submission";
     public static final String EXTRA_DISPLAY_URL = "displayUrl";
-    public static final String EXTRA_LQ          = "lq";
-    public static final String EXTRA_SHARE_URL   = "urlShare";
+    public static final String EXTRA_LQ = "lq";
+    public static final String EXTRA_SHARE_URL = "urlShare";
 
-    public static String   fileLoc;
+    public static String fileLoc;
     public static Runnable doOnClick;
-    public static boolean  didLoadGif;
+    public static boolean didLoadGif;
 
-    public float   previous;
+    public float previous;
     public boolean hidden;
     public boolean imageShown;
-    public String  actuallyLoaded;
+    public String actuallyLoaded;
     public boolean isGif;
 
-    private NotificationManager        mNotifyManager;
+    private NotificationManager mNotifyManager;
     private NotificationCompat.Builder mBuilder;
-    private int                        stopPosition;
-    private GifUtils.AsyncLoadGif      gif;
-    private String                     contentUrl;
-    private MediaVideoView             videoView;
-    private OkHttpClient               client;
-    private Gson                       gson;
-    private String                     mashapeKey;
+    private int stopPosition;
+    private GifUtils.AsyncLoadGif gif;
+    private String contentUrl;
+    private MediaVideoView videoView;
+    private OkHttpClient client;
+    private Gson gson;
+    private String mashapeKey;
+
+    public static void animateIn(View l) {
+        l.setVisibility(View.VISIBLE);
+
+        ValueAnimator mAnimator = slideAnimator(0, Reddit.dpToPxVertical(56), l);
+
+        mAnimator.start();
+    }
+
+    public static void fadeIn(View l) {
+        ValueAnimator mAnimator = fadeAnimator(0.66f, 1, l);
+        mAnimator.start();
+    }
+
+    private static ValueAnimator fadeAnimator(float start, float end, final View v) {
+        ValueAnimator animator = ValueAnimator.ofFloat(start, end);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                //Update Height
+                float value = (Float) valueAnimator.getAnimatedValue();
+                v.setAlpha(value);
+            }
+        });
+        return animator;
+    }
+
+    private static ValueAnimator slideAnimator(int start, int end, final View v) {
+        ValueAnimator animator = ValueAnimator.ofInt(start, end);
+        animator.setInterpolator(new FastOutSlowInInterpolator());
+
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                //Update Height
+                int value = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                layoutParams.height = value;
+                v.setLayoutParams(layoutParams);
+            }
+        });
+        return animator;
+    }
+
+    public static void animateOut(final View l) {
+        ValueAnimator mAnimator = slideAnimator(Reddit.dpToPxVertical(36), 0, l);
+        mAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                l.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        mAnimator.start();
+
+
+    }
+
+    public static void fadeOut(final View l) {
+        ValueAnimator mAnimator = fadeAnimator(1, .66f, l);
+        mAnimator.start();
+    }
+
+    public static boolean shouldTruncate(String url) {
+        try {
+            final URI uri = new URI(url);
+            final String path = uri.getPath();
+
+            return !ContentType.isGif(uri)
+                    && !ContentType.isImage(uri)
+                    && path.contains(".");
+        } catch (URISyntaxException e) {
+            return false;
+        }
+    }
 
     @Override
     public void onResume() {
@@ -196,7 +288,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             } else {
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
 
-                if(findViewById(R.id.hq).getVisibility() == View.VISIBLE) {
+                if (findViewById(R.id.hq).getVisibility() == View.VISIBLE) {
                     i.putExtra("actuallyLoaded", contentUrl);
                 } else {
                     i.putExtra("actuallyLoaded", actuallyLoaded);
@@ -334,97 +426,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 }
             }
         });
-    }
-
-    public static void animateIn(View l) {
-        l.setVisibility(View.VISIBLE);
-
-        ValueAnimator mAnimator = slideAnimator(0, Reddit.dpToPxVertical(56), l);
-
-        mAnimator.start();
-    }
-
-    public static void fadeIn(View l) {
-        ValueAnimator mAnimator = fadeAnimator(0.66f, 1, l);
-        mAnimator.start();
-    }
-
-    private static ValueAnimator fadeAnimator(float start, float end, final View v) {
-        ValueAnimator animator = ValueAnimator.ofFloat(start, end);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                float value = (Float) valueAnimator.getAnimatedValue();
-                v.setAlpha(value);
-            }
-        });
-        return animator;
-    }
-
-    private static ValueAnimator slideAnimator(int start, int end, final View v) {
-        ValueAnimator animator = ValueAnimator.ofInt(start, end);
-        animator.setInterpolator(new FastOutSlowInInterpolator());
-
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                //Update Height
-                int value = (Integer) valueAnimator.getAnimatedValue();
-                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
-                layoutParams.height = value;
-                v.setLayoutParams(layoutParams);
-            }
-        });
-        return animator;
-    }
-
-    public static void animateOut(final View l) {
-        ValueAnimator mAnimator = slideAnimator(Reddit.dpToPxVertical(36), 0, l);
-        mAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                l.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-        mAnimator.start();
-
-
-    }
-
-    public static void fadeOut(final View l) {
-        ValueAnimator mAnimator = fadeAnimator(1, .66f, l);
-        mAnimator.start();
-    }
-
-    public static boolean shouldTruncate(String url) {
-        try {
-            final URI uri = new URI(url);
-            final String path = uri.getPath();
-
-            return !ContentType.isGif(uri)
-                    && !ContentType.isImage(uri)
-                    && path.contains(".");
-        } catch (URISyntaxException e) {
-            return false;
-        }
     }
 
     @Override
@@ -754,7 +755,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             displayImage(contentUrl);
         }
 
-
         actuallyLoaded = contentUrl;
     }
 
@@ -963,7 +963,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         });
     }
 
-
     public void showErrorDialog() {
         runOnUiThread(new Runnable() {
             @Override
@@ -984,7 +983,6 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         .show();
             }
         });
-
     }
 
     private void shareImage(String finalUrl) {
@@ -997,49 +995,67 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 });
     }
 
-
+    /**
+     * Converts an image to a PNG, stores it to the cache, then shares it.
+     * Saves the image to /cache/shared_image for easy deletion.
+     * If the /cache/shared_image folder already exists, we clear it's contents as to avoid
+     * increasing the cache size unnecessarily.
+     *
+     * @param bitmap image to share
+     */
     private void shareImage(final Bitmap bitmap) {
-        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
-            showFirstDialog();
-        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
-            showErrorDialog();
+        File image; //image to share
+
+        //check to see if the cache/shared_images directory is present
+        final File imagesDir = new File(this.getCacheDir().toString() + File.separator + "shared_image");
+        if (!imagesDir.exists()) {
+            imagesDir.mkdir(); //create the folder if it doesn't exist
         } else {
-            File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".png");
+            deleteFilesInDir(imagesDir);
+        }
 
+        try {
+            //creates a file in the cache; filename will be prefixed with "img" and end with ".png"
+            image = File.createTempFile("img", ".png", imagesDir);
             FileOutputStream out = null;
+
             try {
-                f.createNewFile();
-                out = new FileOutputStream(f);
+                //convert image to png
+                out = new FileOutputStream(image);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            } catch (Exception e) {
-                e.printStackTrace();
-                showErrorDialog();
             } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                        if (!f.getAbsolutePath().isEmpty()) {
-                            Intent mediaScanIntent = new Intent(
-                                    Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                            Uri contentUri = Uri.parse("file://" + f.getAbsolutePath());
-                            mediaScanIntent.setData(contentUri);
-                            MediaView.this.sendBroadcast(mediaScanIntent);
+                if (out != null) {
+                    out.close();
 
-                            Uri bmpUri = Uri.fromFile(f);
-                            final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
-                            shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                            shareImageIntent.setType("image/png");
-                            startActivity(Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
-                        } else {
-                            showErrorDialog();
-                        }
+                    Uri contentUri = FileProvider.getUriForFile(this, this.getLocalClassName(), image);
 
+                    if (contentUri != null) {
+                        final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
+                        shareImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //temp permission for receiving app to read this file
+                        shareImageIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                        shareImageIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+
+                        //Select a share option
+                        startActivity(Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
+                    } else {
+                        Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showErrorDialog();
                 }
             }
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+            Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Deletes all files in a folder
+     *
+     * @param dir to clear contents
+     */
+    private void deleteFilesInDir(File dir) {
+        for (File child : dir.listFiles()) {
+            child.delete();
         }
     }
 

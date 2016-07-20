@@ -18,6 +18,18 @@
         android:installLocation="auto"
         android:label="@string/app_name"
         android:theme="@style/yellow_dark">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="me.ccrama.redditslide.Activities.MediaView"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
         <activity
             android:name=".Activities.Slide"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
@@ -43,7 +55,8 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".Activities.MakeExternal"/>
+        <receiver android:name=".Activities.MakeExternal" />
+
         <activity
             android:name=".Activities.SettingsSynccit"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
@@ -156,6 +169,7 @@
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -318,11 +332,11 @@
              <meta-data android:name="android.appwidget.provider"
                  android:resource="@xml/subreddit_widget" />
          </receiver> !-->
-        <service
-        android:name=".Notifications.ImageDownloadNotificationService" />
+        <service android:name=".Notifications.ImageDownloadNotificationService" />
         <service
             android:name=".Adapters.MarkAsReadService"
             android:exported="false" />
+
         <receiver android:name=".Widget.SubredditWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
