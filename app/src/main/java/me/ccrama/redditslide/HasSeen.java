@@ -33,7 +33,7 @@ public class HasSeen {
                 if (fullname.contains("t3_")) {
                     fullname = fullname.substring(3, fullname.length());
                 }
-                if (!m.getByContains(fullname).isEmpty()) {
+                if (!m.getByContains(fullname).isEmpty() && m.get(fullname) != null) {
                     hasSeen.add(fullname);
                     seenTimes.put(fullname, Long.valueOf(m.get(fullname)));
                 }
