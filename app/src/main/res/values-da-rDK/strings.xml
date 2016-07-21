@@ -72,7 +72,6 @@
   <string name="sidebar_wiki">Subreddit-wiki</string>
   <string name="sidebar_mods">Subreddit-moderatorer</string>
   <!-- User profile -->
-  <string name="profile_karma_link">Linkkarma</string>
   <string name="profile_karma_comment">Kommentarkarma</string>
   <string name="profile_message">Privat besked</string>
   <string name="profile_saved">Gemt</string>
@@ -265,5 +264,7 @@
   <string name="mode_card">Kort</string>
   <string name="content_deleted">[slettet]</string>
   <string name="open_externally">Åbn eksternt</string>
+  <string name="err_something_wrong">Ups! Noget gik galt</string>
   <string name="btn_new">Nye</string>
+  <!-- Strings for alert dialogs -->
 </resources>

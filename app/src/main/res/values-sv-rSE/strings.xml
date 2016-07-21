@@ -66,7 +66,6 @@
   <string name="drawer_offline_retry">Försök gå in i online-läge</string>
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
-  <string name="profile_karma_link">länk karma</string>
   <string name="profile_karma_comment">kommentars karma</string>
   <string name="profile_message">Privat meddelande</string>
   <string name="profile_saved">sparad</string>
@@ -262,7 +261,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit-inställningar</string>
   <string name="settings_accent_title">Redigera accentfärg</string>
-  <string name="settings_delete_sub_settings">Vill du verkligen ta bort inställningarna för /r/%1$s</string>
   <string name="settings_layout_default">Inläggslayout</string>
   <string name="settings_link_album">Intern album visning</string>
   <string name="settings_link_gif">Intern GIF visning</string>
@@ -361,5 +359,7 @@
   <string name="btn_report">Rapportera</string>
   <string name="content_deleted">[borttagen]</string>
   <string name="open_externally">Öppna externt</string>
+  <string name="err_something_wrong">Hoppsan, något gick fel.</string>
   <string name="btn_new">Nya</string>
+  <!-- Strings for alert dialogs -->
 </resources>

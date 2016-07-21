@@ -84,7 +84,6 @@
   <string name="sidebar_wiki">Subredditwiki</string>
   <string name="sidebar_mods">Subredditmoderators</string>
   <!-- User profile -->
-  <string name="profile_karma_link">Linkkarma</string>
   <string name="profile_karma_comment">Reactiekarma</string>
   <string name="profile_message">Privébericht</string>
   <string name="profile_saved">Opgeslagen</string>
@@ -112,6 +111,7 @@
   <string name="profile_tag_user_existing">User getagd als %s</string>
   <string name="profile_btn_tag">Tag</string>
   <string name="profile_btn_untag">Verwijder tag</string>
+  <string name="profile_info">Profielinformatie</string>
   <!-- Comment text options -->
   <string name="comment_gild">Reactie vergulden</string>
   <string name="comment_share">Reactie delen</string>
@@ -204,6 +204,7 @@
   <string name="type_nsfw_album">NSFW-album</string>
   <string name="type_img">Afbeelding</string>
   <string name="type_vid">Video</string>
+  <string name="type_videos">Video\'s</string>
   <string name="type_nsfw_video">NSFW-video</string>
   <string name="type_emb">Ingesloten</string>
   <string name="type_nsfw_emb">NSFW-ingesloten</string>
@@ -352,7 +353,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit-voorkeuren</string>
   <string name="settings_accent_title">Accentkleur aanpassen</string>
-  <string name="settings_delete_sub_settings">Wil je echt de instellingen voor /r/%1$s verwijderen?</string>
   <string name="settings_layout_default">Postlay-out</string>
   <string name="settings_link_album">Interne albumweergave</string>
   <string name="settings_link_gif">Interne GIF-weergave</string>
@@ -367,6 +367,7 @@
   <string name="settings_store_history">Geschiedenis bewaren</string>
   <string name="settings_store_nsfw_history">NSFW-geschiedenis geschiedenis bewaren</string>
   <string name="settings_confirm_exit">\"Sluiten bevestigen\"-melding</string>
+  <string name="settings_commentnav">Navigeer door bovenliggende reacties</string>
   <string name="share_link">Link delen</string>
   <string name="posts_hidden_forever">Berichten voor altijd verborgen</string>
   <string name="share_image">Afbeelding delen</string>
@@ -411,6 +412,7 @@
   <string name="settings_section_general">Algemeen</string>
   <string name="settings_section_appearance">Uiterlijk</string>
   <string name="settings_section_other">Overig</string>
+  <string name="settings_section_save_history">Geschiedenis bewaren</string>
   <!-- Setting subheaders -->
   <string name="sorting">Sortering</string>
   <string name="display">Weergave</string>
@@ -552,13 +554,13 @@
   <string name="fab_disabled">Uitgeschakeld</string>
   <string name="handling_internal_browser">Gebruik de geïntegreerde browser</string>
   <string name="handling_external_browser">Gebruik de externe browser</string>
+  <string name="settings_commentnav_description">Gebruik een navigatiebalk met navigatiepijlen</string>
   <string name="settings_comment_collapse">Reacties volledig inklappen</string>
   <string name="settings_comment_collapse_description">Reactie-animaties ook uitschakelen</string>
   <string name="settings_comment_collapse_default">Onderliggende reacties standaard inklappen</string>
   <string name="mode_list">Lijst</string>
   <string name="mode_centered">Kaart met gecentreerde afbeelding</string>
   <string name="mode_card">Kaart</string>
-  <string name="mode_thumbnail">Alleen miniatuur</string>
   <string name="mode_cropped">Grote bijgesneden afbeelding</string>
   <string name="mode_bigpic">Grote afbeelding</string>
   <string name="settings_general_swipeanywhere_description">Veeg overal in de weergave om af te sluiten</string>
@@ -648,7 +650,7 @@
   <string name="msg_save_draft">Bericht opgeslagen als concept</string>
   <string name="content_removed">[verwijderd]</string>
   <string name="guest">Gast</string>
-  <string name="err_comment_post_nosave_message">\nProbeer het nogmaals over een minuut.</string>
+  <string name="err_comment_post_nosave_message">\nProbeer het over een minuut nogmaals</string>
   <string name="album_slide_view">Horizontaal album</string>
   <string name="album_grid">Gridalbum</string>
   <string name="open_externally">Extern openen</string>
@@ -677,6 +679,34 @@
   <string name="upvote_percentage">Toon omhoogstem-percentage</string>
   <string name="btn_set">INSTELLEN</string>
   <string name="view_subreddits">Bekijk subreddits</string>
+  <string name="settings_about_changelog_post">Bekijk wijzigingen</string>
+  <string name="autocache_subreddits">Autocache subreddits</string>
+  <string name="autocache_time">Autocache tijd</string>
+  <string name="cache_subreddits_now">Cache subreddits nu</string>
+  <string name="clear_saved_subreddits">Wis alle opgeslagen subreddits</string>
+  <string name="settings_section_content">Inhoud</string>
+  <string name="download_the_slide_video_player_plugin">Download de Slide Videospeler-plugin</string>
+  <string name="settings_reddit_description">Deze instellingen wijzigen wat de Reddit API terugkeert naar Slide.\n\nOm miniaturen te zien in alle subreddits, wijzig de Miniatuurmodus naar \"Altijd laten zien\"\n\nOm alle NSFW inhoud te zien, schakel \"Verberg NSFW foto\'s\" uit en zet \"Ik ben ouder dan 18\" aan</string>
+  <string name="settings_description_synccit">Synccit laat toe je submissie-geschiedenis te synchroniseren tussen verschillende toestellen en je browser</string>
+  <string name="btn_suggest_title">Stel titel voor</string>
+  <string name="navigate_comments_since">Reacties nieuwer dan...</string>
+  <string name="err_connection_failed_msg">Verbinding met Reddit is mislukt. Controleer de internetverbinding en probeer nogmaals of ga in offlinemodus.</string>
+  <string name="btn_offline">Ga offline.</string>
+  <string name="err_could_not_find_content_msg">Reddit kon de opgevraagde inhoud niet vinden</string>
+  <string name="err_refused_request_msg">Reddit weigerde het verzoek. Wil je probeer nogmaals te verbinden met Reddit?</string>
+  <string name="discard_comment_title">Reactie annuleren?</string>
+  <string name="comment_discard_msg">Weet je zeker dat je de reactie wil annuleren?</string>
+  <string name="backup_complete">Back-up voltooid.</string>
+  <string name="err_something_wrong">Oh oh, er is iets misgegaan</string>
+  <string name="set_save_location">Selecteer opslaglocatie voor afbeelding</string>
+  <string name="account_suspended">Dit account is geschorst</string>
+  <string name="title_not_found">Titel niet gevonden</string>
+  <string name="remove_comment">Dit commentaar echt verwijderen?</string>
+  <string name="comment_removed">Commentaar verwijderd</string>
+  <string name="create_or_import_multi">Wilt u een nieuwe collectie maken of importeren van een multireddit?</string>
   <string name="btn_add_subreddit">Subreddit toevoegen</string>
+  <string name="btn_add_collection">Een verzameling toevoegen</string>
   <string name="btn_new">Nieuw</string>
+  <string name="btn_import_multi">Multireddit importeren</string>
+  <!-- Strings for alert dialogs -->
 </resources>

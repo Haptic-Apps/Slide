@@ -32,12 +32,20 @@
   <string name="theme_card">Kaart</string>
   <!-- Font settings -->
   <string name="font_size">Lettergrootte</string>
+  <string name="font_size_larger">Groter</string>
+  <string name="font_size_large">Groot</string>
+  <string name="font_size_medium">Medium</string>
+  <string name="font_size_small">Klein</string>
+  <string name="font_size_smaller">Kleiner</string>
+  <string name="font_size_tiny">Piepklein</string>
   <!-- For editing the submission card layout -->
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Multi-kolom</string>
   <string name="multi_column_landscape">Landskap</string>
   <string name="multi_column_portrait">Dubbel kolomme in portret mode</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">Jy</string>
+  <string name="drawer_support">Gaan Pro</string>
   <string name="drawer_goto_profile">Gaan na profiel</string>
   <string name="drawer_add_account">Voeg rekening by</string>
   <string name="drawer_hello">Hallo,</string>
@@ -45,12 +53,16 @@
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
   <string name="profile_message">Privaat boodskap</string>
+  <string name="profile_upvoted">Opgestem</string>
   <string name="profile_err_title">Gebruiker nie gevind nie</string>
   <string name="profile_overview">Oorsig</string>
   <string name="profile_comments">Kommentaar</string>
+  <string name="profile_downvoted">Afgestem</string>
   <string name="profile_hidden">Versteek</string>
   <string name="profile_friend">Vriend</string>
+  <string name="profile_add_friend">Voeg vriend by</string>
   <string name="profile_remove_friend">Verwyder Vriend</string>
+  <string name="profile_history">Geskiedenis</string>
   <!-- Comment text options -->
   <!-- Welcome view (first time setup) -->
   <!-- Sorting options -->
@@ -89,6 +101,7 @@
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
+  <string name="settings_title_pro">Gaan Pro</string>
   <string name="settings_title_multi_column">Multi-kolom</string>
   <string name="settings_title_comments">Kommentaar</string>
   <!-- Setting subheaders -->
@@ -106,4 +119,5 @@
   <string name="submission_share_permalink">Deel artikel</string>
   <string name="mode_card">Kaart</string>
   <string name="btn_new">Nuwe</string>
+  <!-- Strings for alert dialogs -->
 </resources>

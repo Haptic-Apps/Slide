@@ -54,7 +54,6 @@
   <string name="drawer_moderation">Moderació</string>
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
-  <string name="profile_karma_link">karma d\'enllaç</string>
   <string name="profile_karma_comment">karma de comentari</string>
   <string name="profile_message">Missatge privat</string>
   <string name="profile_err_title">Usuari no trobat</string>
@@ -218,5 +217,7 @@
   <string name="mode_card">Targeta</string>
   <string name="btn_report">Informar</string>
   <string name="open_externally">Obrir externament</string>
+  <string name="err_something_wrong">Caram, quelcom ha fallat.</string>
   <string name="btn_new">Nou</string>
+  <!-- Strings for alert dialogs -->
 </resources>

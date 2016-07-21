@@ -77,7 +77,6 @@
   <string name="drawer_offline">Slide 现正在离线模式</string>
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
-  <string name="profile_karma_link">链接 karma</string>
   <string name="profile_karma_comment">评论 karma</string>
   <string name="profile_message">私人信息</string>
   <string name="profile_saved">已保存</string>
@@ -264,7 +263,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit 首选项</string>
   <string name="settings_accent_title">修改强调色</string>
-  <string name="settings_delete_sub_settings">你真的想删除 /r/%1$s 的设置吗？</string>
   <string name="settings_layout_default">帖子布局</string>
   <string name="settings_link_album">内置专辑查看</string>
   <string name="settings_link_gif">内置动图查看</string>
@@ -367,6 +365,8 @@
   <string name="subreddit_name_tint">板块名称</string>
   <string name="content_deleted">[deleted]</string>
   <string name="open_externally">外部打开</string>
+  <string name="err_something_wrong">噢，出问题了。</string>
   <string name="btn_add_subreddit">添加板块</string>
   <string name="btn_new">新的</string>
+  <!-- Strings for alert dialogs -->
 </resources>

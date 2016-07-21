@@ -182,5 +182,7 @@
   <string name="submission_share_permalink">Bagikan post</string>
   <string name="mode_card">Kartu</string>
   <string name="content_deleted">[deleted]</string>
+  <string name="err_something_wrong">Uh oh, ada sesuatu yang tidak beres.</string>
   <string name="btn_new">Baru</string>
+  <!-- Strings for alert dialogs -->
 </resources>

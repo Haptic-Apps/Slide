@@ -84,7 +84,6 @@
   <string name="sidebar_wiki">Subreddit-wiki</string>
   <string name="sidebar_mods">Subreddit-moderatorer</string>
   <!-- User profile -->
-  <string name="profile_karma_link">lenkekarma</string>
   <string name="profile_karma_comment">kommentarkarma</string>
   <string name="profile_message">Privatmelding</string>
   <string name="profile_saved">Lagret</string>
@@ -337,7 +336,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit-innstillinger</string>
   <string name="settings_accent_title">Velg aksentfarge</string>
-  <string name="settings_delete_sub_settings">Ønsker du å slette innstillingene for /r/%1$s?</string>
   <string name="settings_layout_default">Innleggs-layout</string>
   <string name="settings_link_album">Intern albumvisning</string>
   <string name="settings_link_gif">Intern GIF-visning</string>
@@ -396,6 +394,7 @@
   <string name="settings_section_general">Generelt</string>
   <string name="settings_section_appearance">Utseende</string>
   <string name="settings_section_other">Annet</string>
+  <string name="settings_section_save_history">Lagringshistorikk</string>
   <!-- Setting subheaders -->
   <string name="sorting">Sortering</string>
   <string name="display">Visning</string>
@@ -543,7 +542,6 @@
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Kort med sentrert bilde</string>
   <string name="mode_card">Kort</string>
-  <string name="mode_thumbnail">Kun miniatyrbilde</string>
   <string name="mode_cropped">Stort bekjært bilde</string>
   <string name="mode_bigpic">Stort bilde</string>
   <string name="settings_general_swipeanywhere_description">Dra hvor som helst for å avslutte</string>
@@ -629,7 +627,6 @@
   <string name="msg_save_draft">Meldingen ble lagret som utkast</string>
   <string name="content_removed">[fjernet]</string>
   <string name="guest">Gjest</string>
-  <string name="err_comment_post_nosave_message">\nVær vennlig å prøv igjen om noen få minutter.</string>
   <string name="album_slide_view">Horisontal albumvisning</string>
   <string name="album_grid">Albumrutenett</string>
   <string name="open_externally">Åpne eksternt</string>
@@ -638,6 +635,8 @@
   <string name="compose_message">Skriv ny melding</string>
   <string name="mark_all_as_read">Merk alle som lest</string>
   <string name="btn_changelog">Endringslogg</string>
+  <string name="err_something_wrong">Uff da, noe gikk galt.</string>
   <string name="btn_add_subreddit">Legg til en subreddit</string>
   <string name="btn_new">Nye</string>
+  <!-- Strings for alert dialogs -->
 </resources>

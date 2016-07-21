@@ -9,7 +9,9 @@
   <string name="general_open_settings">Открыть Настройки Сабреддита</string>
   <string name="general_sub_sync">Синхронизация Подписок</string>
   <!-- Used when viewing a thread -->
+  <string name="submission_info_unsaved">Несохранённые предложения</string>
   <string name="submission_info_saved">Запись сохранена</string>
+  <string name="submission_info_archived">Этот пост в архиве. Вы не сможете голосовать или комментировать</string>
   <string name="submission_post_saved">Пост сохранён</string>
   <string name="submission_info_hidden">Пост скрыт навсегда.</string>
   <string name="submission_stickied">закреплён</string>
@@ -25,6 +27,7 @@
   <string name="submission_save">Сохранить пост</string>
   <string name="submission_share">Поделиться постом</string>
   <string name="submission_load_full">Загрузить полное обсуждение</string>
+  <string name="submission_np_link">Здесь нету ссылки для участия. Пожалуйста, не голосуйте или комментируйте</string>
   <string name="submission_tap_gif">Нажмите для загрузки GIF</string>
   <string name="submission_not_found">Ох, пост не найден!</string>
   <string name="submission_not_found_msg">Извините, пост не может быть найден</string>
@@ -33,6 +36,11 @@
     <item quantity="one">%d очко</item>
     <item quantity="few">%d очка</item>
     <item quantity="other">%d очков</item>
+  </plurals>
+  <plurals name="points">
+    <item quantity="one">монета</item>
+    <item quantity="few">монеты</item>
+    <item quantity="other">монетов</item>
   </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Светлая</string>
@@ -46,22 +54,34 @@
   <string name="theme_card">Карточка</string>
   <!-- Font settings -->
   <string name="font_size">Размер Шрифта</string>
+  <string name="font_size_larger">Больше</string>
+  <string name="font_size_large">Большой</string>
+  <string name="font_size_medium">Средний</string>
+  <string name="font_size_small">Маленький</string>
+  <string name="font_size_smaller">Меньше</string>
+  <string name="font_size_tiny">Мелкий</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">«Скрыть запись» в панеле действий</string>
+  <string name="card_tint_outside">Только вне оттенка subreddit</string>
+  <string name="card_save_button">Кнопка «Сохранить пост» в actionbar</string>
   <!-- Settings for Multi-column view -->
   <string name="multi_column_title">Многостолбцовый</string>
   <string name="multi_column_landscape">Горизонтально</string>
+  <string name="multi_column_portrait">Двойная колонка в портретном режиме</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">Вы</string>
   <string name="drawer_support">Перейти на Pro</string>
   <string name="drawer_goto_profile">Перейти в профиль</string>
   <string name="drawer_add_account">Добавить аккаунт</string>
   <string name="drawer_hello">Привет,</string>
   <string name="drawer_search">Искать сабреддит</string>
   <string name="drawer_moderation">Модерация</string>
+  <string name="drawer_offline">Ползунковый переключатель находится в режиме офлайн</string>
   <string name="drawer_offline_retry">Попробуйте ввести в режиме онлайн</string>
   <!-- Sidebar items (That's the one on the right) -->
+  <string name="sidebar_wiki">Subreddit-Вики</string>
+  <string name="sidebar_mods">Модераторы Subreddit</string>
   <!-- User profile -->
-  <string name="profile_karma_link">карма ссылки</string>
   <string name="profile_karma_comment">карма комментария</string>
   <string name="profile_message">Личное сообщение</string>
   <string name="profile_saved">Сохранено</string>
@@ -81,6 +101,15 @@
   <string name="profile_remove_account">Вы действительно хотите удалить эту учетную запись?</string>
   <string name="profile_remove">Удалить аккаунт</string>
   <string name="profile_history">История</string>
+  <string name="profile_share">Пользователь %s</string>
+  <string name="profile_age">Redditor для %s</string>
+  <string name="profile_tag">Тег</string>
+  <string name="profile_tag_set">Установить тег для %s</string>
+  <string name="profile_tag_user">Тег пользователя</string>
+  <string name="profile_tag_user_existing">Пользователь с тегом как \'%s\'</string>
+  <string name="profile_btn_tag">Установить тег</string>
+  <string name="profile_btn_untag">Удалить тег</string>
+  <string name="profile_info">Данные пользователя</string>
   <!-- Comment text options -->
   <string name="comment_gild">Позолотить комментарий</string>
   <string name="comment_share">Поделиться комментарием</string>
@@ -89,11 +118,16 @@
   <string name="comment_delete_err">Ох, что-то пошло не так.</string>
   <string name="comment_delete_err_msg">Хотите попробовать еще раз?</string>
   <string name="comment_deleted">[deleted]</string>
+  <string name="comment_unsave">Не сохранено</string>
+  <string name="comment_load_more">Загрузить больше %1$d</string>
+  <string name="comment_loading_more">Загрузить больше комментариев&#8230;</string>
+  <string name="comment_parent">Показать родительский комментарий</string>
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Приступить</string>
   <string name="welcome_personalize">Персонализация</string>
   <!-- Sorting options -->
   <string name="sorting_choose">Выберите типа сортировки</string>
+  <string name="sorting_time_choose">Выбрать временные рамки</string>
   <string name="sorting_change_sorting">Режим сортировки</string>
   <string name="sorting_best">Лучшее</string>
   <string name="sorting_top">Лучшее</string>
@@ -103,6 +137,18 @@
   <string name="sorting_old">Старое</string>
   <string name="sorting_controversial">Спорное</string>
   <string name="sorting_rising">Набирающее популярность</string>
+  <string name="sorting_hour">› час</string>
+  <string name="sorting_day">› 24 часа</string>
+  <string name="sorting_week">› Неделя</string>
+  <string name="sorting_month">› месяц</string>
+  <string name="sorting_year">› год</string>
+  <string name="sorting_all">› всё время</string>
+  <string name="sorting_search_hour">За последний час</string>
+  <string name="sorting_search_day">За последние 24 часа</string>
+  <string name="sorting_search_week">За последнюю неделю</string>
+  <string name="sorting_search_month">За последний месяц</string>
+  <string name="sorting_search_year">За последний год</string>
+  <string name="sorting_search_all">За всё время</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">Ссылка</string>
   <string name="editor_text">Текст</string>
@@ -111,6 +157,7 @@
   <string name="editor_title">Заголовок</string>
   <string name="editor_err_msg">Пожалуйста, повторите попытку через несколько секунд.</string>
   <string name="editor_uploading_image">Загрузка изображения на imgur</string>
+  <string name="editor_self">Selftext</string>
   <string name="editor_select_img">Выберите изображение</string>
   <string name="editor_hint_optional_body">Текст (по выбору)</string>
   <string name="editor_submit">Сделать запись</string>
@@ -127,6 +174,7 @@
   <string name="err_retry_later">Попробуйте еще через минуту!</string>
   <string name="err_permission">Отказано в доступе</string>
   <string name="err_permission_msg">Похоже, вы отказали Slided в записи данных на внешнее хранилище. Это не даст возможности сохранят кэш и изображения :(. \nОткроете Slide доступ на внешнее хранилище?</string>
+  <string name="err_authentication">Ошибка аутентификации</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF не найдена</string>
   <string name="gif_err_msg">Произошла ошибка при загрузке этого GIF. Пожалуйста, повторите попытку.</string>
@@ -135,6 +183,7 @@
   <string name="multireddit_err_msg">Хотите создать новый Multireddit?</string>
   <string name="multireddit_title_empty">Заголовок не может быть пустым</string>
   <string name="multireddit_title_empty_msg">Пожалуйста, введите название для вашего мультиреддита</string>
+  <string name="multireddit_no_subs_msg">Пожалуйста, добавьте некоторые subreddits, нажав на кнопку +!</string>
   <string name="multireddit_selector">Выберите сабреддиты для добавления</string>
   <string name="multireddit_invalid_name">Неверное название мультиреддита</string>
   <!-- Content types -->
@@ -146,10 +195,15 @@
   <string name="type_gif">GIF</string>
   <string name="type_title_only">Название поста</string>
   <string name="type_album">Альбом</string>
+  <string name="type_nsfw_album">Ненормативный альбом</string>
   <string name="type_img">Изображение</string>
   <string name="type_vid">Видео</string>
+  <string name="type_videos">Видео</string>
+  <string name="type_nsfw_video">Ненормативные видео</string>
   <string name="type_emb">Встроенное</string>
   <!-- Content types plural (Content filters) -->
+  <string name="type_gifs">GIF</string>
+  <string name="type_nsfw_content">Ненормативное содержание</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Входящие</string>
   <string name="mail_author_wrote">%1$s написал&#8230;</string>
@@ -162,6 +216,11 @@
   <string name="mail_reply_to">Ответ %1$s</string>
   <string name="mail_notification_author">%1$s от %2$s</string>
   <string name="mail_theirs">Просмотреть их сообщение</string>
+  <string name="mail_re">re: %1$s</string>
+  <string name="mail_mark_read">Отметить как прочитанное</string>
+  <string name="mail_mark_unread">Отметить как непрочитанное</string>
+  <string name="mail_view_full_thread">Просмотр полного потока</string>
+  <string name="mail_message_copied">Сообщение скопировано</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Ошибка</string>
   <string name="misc_none">Ничего</string>
@@ -173,6 +232,8 @@
   <string name="misc_unsubscribed">Отписан</string>
   <string name="misc_no_more_posts">Больше нет записей!</string>
   <string name="misc_please_wait">Пожалуйста, подождите&#8230;</string>
+  <string name="misc_img_share">Поделиться изображением с</string>
+  <string name="misc_link_chooser">Открыть URL-адрес</string>
   <string name="misc_copy_text">Копировать текст</string>
   <!-- Goto User -->
   <string name="user_enter">Введите имя пользователя</string>
@@ -209,11 +270,15 @@
   <string name="backup_info">Slide делает резервную копию всех ваших данных в папку на вашем Google Диске. Вы можете синхронизировать эти данные (хранятся всегда только на вашем Диске) между всеми вашими устройствами.</string>
   <string name="backup_btn">Сделать резервную копию</string>
   <string name="backup_btn_restore">Восстановить</string>
+  <string name="backup_btn_file">Резервное копирование в файл</string>
+  <string name="backup_btn_restore_file">Восстановить из файла</string>
   <!-- Vote -->
   <string name="vote_err">Ошибка при голосовании!</string>
   <string name="vote_err_login">Вы должны войти, чтобы голосовать!</string>
   <!-- Moderation tools -->
   <string name="mod_mail">Почта от мод-ов</string>
+  <string name="mod_modqueue">Ожидание модераторства</string>
+  <string name="mod_unmoderated">Немодерируемые</string>
   <string name="mod_reports">Отчеты</string>
   <string name="mod_approve">Вы точно хотите одобрить эту запись?</string>
   <string name="mod_approved">Запись одобрена.</string>
@@ -223,6 +288,10 @@
   <string name="mod_flair_hint">Текст флаира</string>
   <string name="mod_no_reports">Нет отчетов</string>
   <string name="mod_btn_approve">Подтвердить</string>
+  <string name="mod_btn_mark_nsfw">Отметить как непристойное содержание</string>
+  <string name="mod_btn_unmark_nsfw">Снять пометку непристойного содержания</string>
+  <string name="mod_btn_sticky">Закрепить</string>
+  <string name="mod_btn_unsticky">Открепить</string>
   <string name="mod_btn_remove">Удалить</string>
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Вики не найдена</string>
@@ -248,7 +317,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Параметры Reddit</string>
   <string name="settings_accent_title">Цвет элементов</string>
-  <string name="settings_delete_sub_settings">Вы действительно хотите удалить настройки для /r/%1$s?</string>
   <string name="settings_layout_default">Разметка поста</string>
   <string name="settings_link_album">Вид внутреннего альбома</string>
   <string name="settings_link_gif">Встроенный просмотр GIF</string>
@@ -288,11 +356,24 @@
   <string name="settings_title_multi_column">Многостолбцовый</string>
   <string name="settings_title_fab">Поведение плавающей кнопки</string>
   <string name="settings_title_comments">Коментарии</string>
+  <string name="settings_title_filter">Фильтры</string>
   <string name="settings_title_font">Шрифт</string>
   <string name="settings_section_general">Основное</string>
   <string name="settings_section_appearance">Вид</string>
   <string name="settings_section_other">Другое</string>
   <!-- Setting subheaders -->
+  <string name="sorting">Сортировка</string>
+  <string name="display">Показать</string>
+  <string name="image_downloads">Изображения</string>
+  <string name="app_theme">Тема приложения</string>
+  <string name="tinting">Тонирование</string>
+  <string name="post_info">Разместить информацию</string>
+  <string name="post_buttons">Разместить кнопки</string>
+  <string name="navigation">Навигация</string>
+  <string name="collapse_comments">Свернуть действия</string>
+  <string name="nsfw">Ненормативное содержание</string>
+  <string name="content_thumbnails">Содержание эскизов</string>
+  <string name="view_reddit_settings">Открыть настройки Reddit в браузере</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Темы и макеты сабреддиттов</string>
   <string name="title_edit_theme">Редактировать тему</string>
@@ -333,15 +414,31 @@
   <string name="reorder_add_subreddit">Добавить сабреддит</string>
   <string name="reorder_subreddit_name">Название сабреддита</string>
   <string name="reorder_remove_title">Удалить этот сабреддит?</string>
+  <string name="reorder_remove_msg">Вы ещё не отписаны, но не увидите этот subreddit в вашей боковой панели!</string>
   <string name="reorder_sync_complete">Синхронизация завершена</string>
+  <plurals name="reorder_subs_added">
+    <item quantity="one">Добавлен %d subreddit</item>
+    <item quantity="few">Добавлены %d subreddit</item>
+    <item quantity="other">Добавлено %d subreddit</item>
+  </plurals>
   <!-- Time -->
+  <string name="time_just_now">Только что</string>
+  <plurals name="time_years">
+    <item quantity="one">%d год</item>
+    <item quantity="few">%d года</item>
+    <item quantity="other">%d лет</item>
+  </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <string name="time_seconds_short">%d</string>
   <!-- Strings present during the login process -->
   <string name="login_subscribe_rslideforreddit">Подписаться на /r/slideforreddit?</string>
   <string name="login_subscribe_rslideforreddit_desc">Хотели бы вы подписаться на /r/slideforreddit для получения последних новостей и сообщения об ошибках?</string>
   <string name="login_sync_colors">Синхронизировать цвета?</string>
+  <string name="login_sync_colors_desc">Вы хотите синхронизировать теперь ваши цвета subreddit? Это может быть сделано позднее в настройках → Темы Subreddit</string>
   <string name="login_authenticating">Slide выполняет вход</string>
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <string name="over18_title">/r/%1$s содержит зрелое содержание</string>
+  <string name="over18_desc_loggedout">Авторизируйтесь, чтобы отключить это предупреждение навсегда</string>
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Синхронизация завершена</string>
   <!-- Discover section: find -->
@@ -357,6 +454,8 @@
   <string name="subreddit_name_tint">Название сабреддита</string>
   <string name="content_deleted">[deleted]</string>
   <string name="open_externally">Открыть в другом приложении</string>
+  <string name="err_something_wrong">Ох, что-то пошло не так.</string>
   <string name="btn_add_subreddit">Добавить сабреддит</string>
   <string name="btn_new">Новое</string>
+  <!-- Strings for alert dialogs -->
 </resources>

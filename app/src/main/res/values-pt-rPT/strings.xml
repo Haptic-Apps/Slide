@@ -84,7 +84,6 @@
   <string name="sidebar_wiki">Subreddit wiki</string>
   <string name="sidebar_mods">Moderadores do subreddit</string>
   <!-- User profile -->
-  <string name="profile_karma_link">Karma de envios</string>
   <string name="profile_karma_comment">Karma de comentários</string>
   <string name="profile_message">Mensagem privada</string>
   <string name="profile_saved">Gravado</string>
@@ -352,7 +351,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Preferências do reddit</string>
   <string name="settings_accent_title">Editar cor de acento</string>
-  <string name="settings_delete_sub_settings">Você realmente quer apagar as configurações para /r/%1$s?</string>
   <string name="settings_layout_default">Layout de postagem</string>
   <string name="settings_link_album">Vista interna do álbum</string>
   <string name="settings_link_gif">Vista interna do GIF</string>
@@ -411,6 +409,7 @@
   <string name="settings_section_general">Geral</string>
   <string name="settings_section_appearance">Aparência</string>
   <string name="settings_section_other">Outros</string>
+  <string name="settings_section_save_history">Guardar histórico</string>
   <!-- Setting subheaders -->
   <string name="sorting">Ordenação</string>
   <string name="display">Tela</string>
@@ -558,7 +557,6 @@
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Cartão com imagem centrada</string>
   <string name="mode_card">Cartão</string>
-  <string name="mode_thumbnail">Miniatura apenas</string>
   <string name="mode_cropped">Imagem grande cortada</string>
   <string name="mode_bigpic">Imagem grande</string>
   <string name="settings_general_swipeanywhere_description">Deslize em qualquer lugar no modo de exibição para sair</string>
@@ -648,7 +646,6 @@
   <string name="msg_save_draft">Mensagem salva como rascunho</string>
   <string name="content_removed">[removido]</string>
   <string name="guest">Visitante</string>
-  <string name="err_comment_post_nosave_message">\nPor favor tente novamente em um minuto.</string>
   <string name="album_slide_view">Álbum deslizante</string>
   <string name="album_grid">Álbum em grade</string>
   <string name="open_externally">Abrir externamente</string>
@@ -665,6 +662,8 @@
   <string name="manage_offline_content">Gerenciar conteúdo offline</string>
   <string name="go_offline">Ficar off-line</string>
   <string name="cache_wifi_only">Apenas fazer cache no WiFi</string>
+  <string name="err_something_wrong">Uh oh, algo deu errado</string>
   <string name="btn_add_subreddit">Adicionar um subreddit</string>
   <string name="btn_new">Novas</string>
+  <!-- Strings for alert dialogs -->
 </resources>

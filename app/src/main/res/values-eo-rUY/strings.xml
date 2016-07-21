@@ -36,7 +36,6 @@
   <string name="drawer_hello">Saluton,</string>
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
-  <string name="profile_karma_link">karmo el ligiloj</string>
   <string name="profile_karma_comment">karmo el komentoj</string>
   <string name="profile_message">Privata mesaĝo</string>
   <string name="profile_saved">savita</string>
@@ -186,4 +185,5 @@
   <string name="content_deleted">[forigita]</string>
   <string name="open_externally">Malfermi ekstere</string>
   <string name="btn_new">Novaj</string>
+  <!-- Strings for alert dialogs -->
 </resources>

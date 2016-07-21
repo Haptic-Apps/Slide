@@ -77,7 +77,6 @@
   <string name="sidebar_wiki">Subreddit bilgi bankası</string>
   <string name="sidebar_mods">Subreddit moderatörleri</string>
   <!-- User profile -->
-  <string name="profile_karma_link">bağlantı karması</string>
   <string name="profile_karma_comment">yorum karması</string>
   <string name="profile_message">Özel Mesaj</string>
   <string name="profile_saved">Kaydedildi</string>
@@ -318,7 +317,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit tercihleri</string>
   <string name="settings_accent_title">Vurgu rengini değiştirin</string>
-  <string name="settings_delete_sub_settings">/r/%1$s ayarlarını gerçekten silmek istiyor musunuz</string>
   <string name="settings_layout_default">Gönderi düzeni</string>
   <string name="settings_link_album">Dahili albüm görünümü</string>
   <string name="settings_link_gif">Dahili GIF gösterimi</string>
@@ -361,6 +359,7 @@
   <string name="settings_title_font">Yazı tipi</string>
   <string name="settings_section_general">Genel</string>
   <string name="settings_section_appearance">Görünüm</string>
+  <string name="settings_section_save_history">Geçmişi kaydet</string>
   <!-- Setting subheaders -->
   <string name="sorting">Sıralama</string>
   <string name="image_downloads">Resimler</string>
@@ -494,7 +493,6 @@
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Ortalanmış resimli kart</string>
   <string name="mode_card">Kart</string>
-  <string name="mode_thumbnail">Sadece küçük resim</string>
   <string name="mode_cropped">Kırpılmış büyük resim</string>
   <string name="mode_bigpic">Büyük resim</string>
   <string name="settings_general_swipeanywhere_description">Görüntüden çıkmak için ekranı kaydır</string>
@@ -566,7 +564,6 @@
   <string name="dialog_no_drafts_msg">Editör çubuğundaki \'Kaydet\' simgesini tıklayarak bir taslak oluşturabilirsiniz!</string>
   <string name="msg_save_draft">Mesaj taslak olarak kaydedildi</string>
   <string name="guest">Ziyaretçi</string>
-  <string name="err_comment_post_nosave_message">\nLütfen bir dakika içinde yeniden deneyin.</string>
   <string name="open_externally">Başka uygulamayla aç</string>
   <string name="vertical_album_view">Dikey albüm görünümü</string>
   <string name="download_album">Albümü indir</string>
@@ -588,6 +585,19 @@
   <string name="help">Yardım</string>
   <string name="btn_set">AYARLA</string>
   <string name="view_subreddits">Subredditleri görüntüle</string>
+  <string name="err_connection_failed_msg">Reddit\'le bağlantı kurulamadı. Lütfen internet bağlantınız kontrol edip tekrar deneyin veya çevrimdışı moda geçin.</string>
+  <string name="btn_offline">Çevrimdışı moda gir</string>
+  <string name="err_could_not_find_content_msg">Reddit istenilen içeriği bulamadı</string>
+  <string name="err_refused_request_msg">Reddit isteği reddetti. Reddit\'e tekrar bağlanmaya calismak ister misiniz?</string>
+  <string name="backup_complete">Yedekleme tamamlandı!</string>
+  <string name="backup_saved_downloads">Yedek dosyası indirilenlere kaydedildi</string>
+  <string name="err_file_not_found">Dosya bulunamadı</string>
+  <string name="err_not_valid_backup">Geçerli bir Slide yedek dosyası değil</string>
+  <string name="err_not_valid_backup_msg">Seçili dosya geçerli bir Slide yedek dosyası değil</string>
+  <string name="include_personal_info">Kişisel bilgileri de içer?</string>
+  <string name="err_something_wrong">Hay aksi, bir şeyler ters gitti</string>
   <string name="btn_add_subreddit">Subreddit ekle</string>
   <string name="btn_new">Yeni</string>
+  <string name="share_slide">Slide\'ı paylaş</string>
+  <!-- Strings for alert dialogs -->
 </resources>

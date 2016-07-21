@@ -26,6 +26,8 @@
   <string name="submission_tap_gif">לחץ כדי לטעון את הGIF</string>
   <plurals name="submission_points">
     <item quantity="one">נקודה %d</item>
+    <item quantity="two">%d נקודות</item>
+    <item quantity="many">%d נקודות</item>
     <item quantity="other">%d נקודות</item>
   </plurals>
   <!-- Theme settings -->
@@ -50,7 +52,6 @@
   <string name="drawer_moderation">ניהול</string>
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
-  <string name="profile_karma_link">קארמת לינקים</string>
   <string name="profile_karma_comment">קארמת תגובות</string>
   <string name="profile_message">הודעה פרטית</string>
   <string name="profile_err_title">משתמש לא נמצא</string>
@@ -129,4 +130,5 @@
   <string name="btn_report">דיווח</string>
   <string name="open_externally">פתח חיצונית</string>
   <string name="btn_new">חדש</string>
+  <!-- Strings for alert dialogs -->
 </resources>

@@ -55,7 +55,6 @@
   <string name="drawer_moderation">Moderace</string>
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
-  <string name="profile_karma_link">karma odkazu</string>
   <string name="profile_karma_comment">karma komentáře</string>
   <string name="profile_message">Soukromá zpráva</string>
   <string name="profile_saved">uloženo</string>
@@ -221,7 +220,6 @@
   <string name="captcha_title">Dokažte, že nejste robot</string>
   <!-- Settings -->
   <string name="settings_accent_title">Upravit barvu zvýraznění</string>
-  <string name="settings_delete_sub_settings">Opravdu chcete odstranit nastavení pro /r/%1$s?</string>
   <string name="settings_link_album">Interní prohlížeč alb</string>
   <string name="settings_link_gif">Interní prohlížeč GIFů</string>
   <string name="settings_link_image">Interní prohlížeč obrázků</string>
@@ -306,5 +304,7 @@
   <string name="btn_report">Nahlásit</string>
   <string name="content_deleted">[deleted]</string>
   <string name="open_externally">Otevřít externě</string>
+  <string name="err_something_wrong">Ale ne, něco se pokazilo.</string>
   <string name="btn_new">Nové</string>
+  <!-- Strings for alert dialogs -->
 </resources>

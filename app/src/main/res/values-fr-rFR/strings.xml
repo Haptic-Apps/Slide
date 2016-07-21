@@ -40,6 +40,10 @@
     <item quantity="one">%d nouveau message</item>
     <item quantity="other">%d nouveaux messages</item>
   </plurals>
+  <plurals name="points">
+    <item quantity="one">pt</item>
+    <item quantity="other">pts</item>
+  </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Clair</string>
   <string name="theme_dark">Sombre</string>
@@ -52,6 +56,12 @@
   <string name="theme_card">Cartes</string>
   <!-- Font settings -->
   <string name="font_size">Taille de la police</string>
+  <string name="font_size_larger">Plus grand</string>
+  <string name="font_size_large">Grand</string>
+  <string name="font_size_medium">Moyenne</string>
+  <string name="font_size_small">Petite</string>
+  <string name="font_size_smaller">Très petite</string>
+  <string name="font_size_tiny">Minuscule</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">Bouton \"Cacher le post\" dans la barre d\'action</string>
   <string name="card_tint_outside">Colorer en dehors du subreddit uniquement</string>
@@ -61,6 +71,7 @@
   <string name="multi_column_landscape">Paysage</string>
   <string name="multi_column_portrait">Deux colonnes en mode portrait</string>
   <!-- Drawer items (That's the one on the left) -->
+  <string name="drawer_profile">Vous</string>
   <string name="drawer_support">Passez à la version Pro</string>
   <string name="drawer_goto_profile">Voir le profil</string>
   <string name="drawer_add_account">Ajouter un compte</string>
@@ -73,7 +84,6 @@
   <string name="sidebar_wiki">Wiki du subreddit</string>
   <string name="sidebar_mods">Modérateurs du subreddit</string>
   <!-- User profile -->
-  <string name="profile_karma_link">Karma du lien</string>
   <string name="profile_karma_comment">Karma du commentaire</string>
   <string name="profile_message">Message privé</string>
   <string name="profile_saved">enregistré</string>
@@ -93,7 +103,15 @@
   <string name="profile_remove_account">Voulez-vous vraiment supprimer ce compte ?</string>
   <string name="profile_remove">Effacer le compte</string>
   <string name="profile_history">Historique</string>
+  <string name="profile_share">Profil de %s</string>
+  <string name="profile_age">Redditeur pour %s</string>
+  <string name="profile_tag">Tagguer</string>
+  <string name="profile_tag_set">Régler le tag pour %s</string>
   <string name="profile_tag_user">Tagger l\'utilisateur</string>
+  <string name="profile_tag_user_existing">Utilisateur marqué comme «%s »</string>
+  <string name="profile_btn_tag">Définir le tag</string>
+  <string name="profile_btn_untag">Supprimer le tag</string>
+  <string name="profile_info">Informations du profil</string>
   <!-- Comment text options -->
   <string name="comment_gild">Dorer le commentaire</string>
   <string name="comment_share">Partager le commentaire</string>
@@ -122,6 +140,18 @@
   <string name="sorting_old">Ancien</string>
   <string name="sorting_controversial">Controversé</string>
   <string name="sorting_rising">En progression</string>
+  <string name="sorting_hour">› heure</string>
+  <string name="sorting_day">› 24 heures</string>
+  <string name="sorting_week">› la semaine</string>
+  <string name="sorting_month">› mois</string>
+  <string name="sorting_year">› année</string>
+  <string name="sorting_all">› depuis toujours</string>
+  <string name="sorting_search_hour">La dernière heure</string>
+  <string name="sorting_search_day">Dernières 24 heures</string>
+  <string name="sorting_search_week">La semaine dernière</string>
+  <string name="sorting_search_month">Le mois dernier</string>
+  <string name="sorting_search_year">L\'année passée</string>
+  <string name="sorting_search_all">Depuis toujours</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Texte</string>
@@ -154,6 +184,8 @@
   <!-- Multireddit errors -->
   <string name="multireddit_err_title">Pas de Multireddits (pour l\'instant)!</string>
   <string name="multireddit_err_msg">Voulez-vous créer un nouveau Multireddit?</string>
+  <string name="public_multireddit_err_title">Aucun multireddit !</string>
+  <string name="public_multireddit_err_msg">Cet utilisateur n’a aucun multireddit public.</string>
   <string name="multireddit_title_empty">Le titre ne peut pas être vide</string>
   <string name="multireddit_title_empty_msg">Veuillez entrer un nom pour votre Multireddit</string>
   <string name="multireddit_no_subs">Aucun subreddit n\'est ajouté</string>
@@ -171,13 +203,27 @@
   <string name="type_gif">GIF</string>
   <string name="type_title_only">Publication titre</string>
   <string name="type_album">Album</string>
+  <string name="type_nsfw_album">Album NSFW</string>
   <string name="type_img">Image</string>
   <string name="type_vid">Video</string>
+  <string name="type_videos">Vidéos</string>
+  <string name="type_nsfw_video">Vidéo NSFW</string>
   <string name="type_emb">Intégré</string>
+  <string name="type_nsfw_emb">NSFW incorporé</string>
   <string name="type_imgur">Contenu d\'Imgur</string>
+  <string name="type_nsfw_imgur">Contenu d\'Imgur NSFW</string>
+  <string name="type_external">Externe</string>
   <!-- Content types plural (Content filters) -->
+  <string name="type_gifs">GIFs</string>
+  <string name="type_albums">Albums</string>
+  <string name="type_nsfw_content">Contenu NSFW</string>
+  <string name="type_links">Liens</string>
   <!-- Inbox/mail -->
   <string name="mail_tab_inbox">Boîte de réception</string>
+  <string name="mail_tab_unread">Non lus</string>
+  <string name="mail_tab_messages">Messages</string>
+  <string name="mail_tab_sent">Envoyés</string>
+  <string name="mail_tab_mentions">Mentions</string>
   <string name="mail_author_wrote">%1$s a écrit&#8230;</string>
   <string name="mail_hint_recipient">Destinataire</string>
   <string name="mail_hint_subject">Objet </string>
@@ -185,13 +231,22 @@
   <string name="mail_send_to">Envoyer un message à %1$s</string>
   <string name="mail_send">Envoyer un message</string>
   <string name="mail_notification_msg">Nouveau message de %1$s</string>
+  <string name="mod_mail_notification_msg">Nouveau message du modérateur %1$s</string>
   <string name="mail_reply_to">Répondre à %1$s</string>
   <string name="mail_notification_author">%1$s de %2$s</string>
   <string name="mail_theirs">Voir le message</string>
   <string name="mail_re">Re : %1$s</string>
+  <string name="mail_mark_read">Marquer comme lu</string>
+  <string name="mail_mark_unread">Marquer comme non lu</string>
+  <string name="mail_view_full_thread">Charger entièrement le fil</string>
+  <string name="mail_message_copied">Message copié</string>
   <plurals name="mail_notification_title">
     <item quantity="one">Vous avez un nouveau message !</item>
     <item quantity="other">Vous avez %1$d nouveaux messages !</item>
+  </plurals>
+  <plurals name="mod_mail_notification_title">
+    <item quantity="one">Vous avez %d nouveau message de modérateur !</item>
+    <item quantity="other">Vous avez %d nouveaux messages de modérateur !</item>
   </plurals>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Erreur</string>
@@ -210,6 +265,7 @@
   <!-- Goto User -->
   <string name="user_enter">Entrez votre pseudo</string>
   <string name="user_btn_goto">Voir l\'utilisateur</string>
+  <string name="user_btn_gotomultis">Aller aux multis de l’utilisateur</string>
   <string name="user_invalid_msg">Les noms d\'utilisateur Reddit ne peuvent contenir que des lettres, chiffres et tirets.</string>
   <!-- Buttons -->
   <string name="btn_add">AJOUTER</string>
@@ -250,6 +306,8 @@
   <!-- Moderation tools -->
   <string name="mod_mail">Msg. Modération</string>
   <string name="mod_mail_unread">Mail de moderation non lus</string>
+  <string name="mod_modqueue">Modqueue</string>
+  <string name="mod_unmoderated">Non modéré</string>
   <string name="mod_reports">Rapports</string>
   <string name="mod_approve">Voulez-vous vraiment approuver cette publication ?</string>
   <string name="mod_approved">Publication approuvée.</string>
@@ -265,7 +323,7 @@
   <string name="mod_btn_unmark_nsfw">Enlever le NSFW</string>
   <string name="mod_btn_sticky">Épingler</string>
   <string name="mod_btn_unsticky">Détacher</string>
-  <string name="mod_btn_remove">Enlever</string>
+  <string name="mod_btn_remove">Supprimer</string>
   <string name="mod_btn_remove_reason">Enlever avec une raison</string>
   <string name="mod_btn_author">Profil de l\'auteur</string>
   <plurals name="mod_btn_reports">
@@ -298,7 +356,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Paramètres de Reddit</string>
   <string name="settings_accent_title">Modifier la couleur d\'accentuation</string>
-  <string name="settings_delete_sub_settings">Voulez-vous supprimer les paramètres de /r/%1$s</string>
   <string name="settings_layout_default">Aménagement des postes</string>
   <string name="settings_link_album">Voir les albums en interne</string>
   <string name="settings_link_gif">Voir les gif en interne</string>
@@ -313,6 +370,7 @@
   <string name="settings_store_history">Sauvegarder l\'historique</string>
   <string name="settings_store_nsfw_history">Enregistrer l\'historique NSFW</string>
   <string name="settings_confirm_exit">Confirmation de fermeture</string>
+  <string name="settings_commentnav">Naviguer entre les commentaires parents</string>
   <string name="share_link">Partager un Lien</string>
   <string name="posts_hidden_forever">Publications masquées pour toujours</string>
   <string name="share_image">Partager l\'image</string>
@@ -335,6 +393,9 @@
   <string name="settings_comment_crop">Rogner l\'image principal en vue de commentaire</string>
   <string name="settings_general_scroll_read">Marquer les articles comme vu après défilement</string>
   <string name="settings_link_chrome">Utilisez les onglets personnalisés Chrome</string>
+  <string name="settings_image_location">Choisir la destination de l\'image / GIF</string>
+  <string name="settings_image_location_unset">Pas encore défini</string>
+  <string name="settings_set_image_location">Les images seront enregistrées dans %s</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_backup">Sauver &amp; restaurer</string>
   <string name="settings_title_default_theme">Thème principal</string>
@@ -354,7 +415,20 @@
   <string name="settings_section_general">Général</string>
   <string name="settings_section_appearance">Apparence</string>
   <string name="settings_section_other">Autres</string>
+  <string name="settings_section_save_history">Sauvegarder l\'historique</string>
   <!-- Setting subheaders -->
+  <string name="sorting">Trier par</string>
+  <string name="display">Affichage</string>
+  <string name="image_downloads">Images</string>
+  <string name="app_theme">Thème de l\'application</string>
+  <string name="tinting">Teinter</string>
+  <string name="post_info">Informations du post</string>
+  <string name="post_buttons">Boutons de post</string>
+  <string name="navigation">Navigation</string>
+  <string name="collapse_comments">Actions de pliage</string>
+  <string name="nsfw">Contenu NSFW</string>
+  <string name="content_thumbnails">Vignettes de contenu</string>
+  <string name="view_reddit_settings">Ouvrir les paramètres reddit dans le navigateur</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Paramètres de subreddit</string>
   <string name="title_edit_theme">Modifier le thème</string>
@@ -397,7 +471,24 @@
   <string name="reorder_remove_title">Supprimer cette subreddit ?</string>
   <string name="reorder_remove_msg">Vous ne serez pas désabonné, mais vous ne verrez pas la subreddit dans votre barre latérale !</string>
   <string name="reorder_sync_complete">Synchronisation réussie</string>
+  <plurals name="reorder_subs_added">
+    <item quantity="one">%d subreddit ajouté</item>
+    <item quantity="other">%d subreddits ajoutés</item>
+  </plurals>
   <!-- Time -->
+  <string name="time_just_now">À l\'instant</string>
+  <plurals name="time_years">
+    <item quantity="one">%d an</item>
+    <item quantity="other">%d ans</item>
+  </plurals>
+  <plurals name="time_months">
+    <item quantity="one">%d mois</item>
+    <item quantity="other">%d mois</item>
+  </plurals>
+  <plurals name="time_days">
+    <item quantity="one">%d jour</item>
+    <item quantity="other">%d jours</item>
+  </plurals>
   <plurals name="time_hours">
     <item quantity="one">%d heure</item>
     <item quantity="other">%d heures</item>
@@ -406,7 +497,16 @@
     <item quantity="one">%d minute</item>
     <item quantity="other">%d minutes</item>
   </plurals>
+  <plurals name="time_seconds">
+    <item quantity="one">%d seconde</item>
+    <item quantity="other">%d secondes</item>
+  </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <string name="time_years_short">%da</string>
+  <string name="time_days_short">%d j</string>
+  <string name="time_hours_short">%dh</string>
+  <string name="time_minutes_short">%dm</string>
+  <string name="time_seconds_short">%ds</string>
   <!-- Strings present during the login process -->
   <string name="login_subscribe_rslideforreddit">S\'abonner à /r/slideforreddit ?</string>
   <string name="login_subscribe_rslideforreddit_desc">Souhaitez-vous vous abonner à /r/slideforreddit pour être informé des nouveautés et pour pouvoir rapporter des problèmes ?</string>
@@ -422,8 +522,15 @@
   <string name="over18_desc_loggedin">Vous pouvez désactiver cela définitivement dans réglages →préférences Reddit → voir le contenu NSFW</string>
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Synchronisation réussie</string>
+  <plurals name="color_sync_colored">
+    <item quantity="one">%d subreddit a été coloré</item>
+    <item quantity="other">%d subreddit ont été colorés</item>
+  </plurals>
   <!-- Discover section: find -->
   <string name="discover_title">Découvrir</string>
+  <string name="discover_search">Recherche par terme ou par sujet</string>
+  <string name="discover_popular">Populaires</string>
+  <string name="discover_trending">En vogue</string>
   <string name="comment_load_more_number_unknown">Charger plus de commentaires</string>
   <string name="settings_comment_color">Indicateurs du nombre de commentaire coloré</string>
   <string name="settings_volume_nav_comments">Naviguer à l\'aide des boutons de volume</string>
@@ -450,13 +557,15 @@
   <string name="fab_disabled">Désactivé</string>
   <string name="handling_internal_browser">Utiliser le navigateur web intégré</string>
   <string name="handling_external_browser">Visionner dans un navigateur externe</string>
+  <string name="settings_commentnav_description">Permet une barre en bas avec les flèches de navigation</string>
   <string name="settings_comment_collapse">Complètement cacher les commentaires</string>
   <string name="settings_comment_collapse_description">Désactive également les animations de commentaire</string>
   <string name="settings_comment_collapse_default">Réduire les réponses aux commentaires par défaut</string>
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Carte avec image centrée</string>
   <string name="mode_card">Cartes</string>
-  <string name="mode_thumbnail">Vignette seulement</string>
+  <string name="mode_cropped">Grandes images recadrées</string>
+  <string name="mode_bigpic">Grandes images</string>
   <string name="settings_general_swipeanywhere_description">Glisser n\'importe où pour quitter</string>
   <string name="press_actionbar">Appuyez sur la flèche pour montrer la barre d\'action</string>
   <string name="tap_actionbar">Appui long sur la barre d\'action</string>
@@ -464,6 +573,7 @@
   <string name="sub_content_filter">Filtrage de contenu subreddit</string>
   <string name="submission_share_reddit_url">Partager les commentaires</string>
   <string name="filter_content">Filtrer ce contenu</string>
+  <string name="content_to_hide">Contenu à cacher sur %1$s</string>
   <string name="settings_general_comment_last_visit">Afficher le nombre le commentaires postés depuis la dernière visite</string>
   <string name="error_video_not_found">Vidéo introuvable</string>
   <string name="error_video_message">Une erreur est survenue lors du chargement de la vidéo</string>
@@ -475,6 +585,9 @@
   <string name="btn_report">Rapport</string>
   <string name="input_reason_for_report">Raison du signalement</string>
   <string name="msg_report_sent">Signalement envoyé</string>
+  <string name="load_videos_internally">Charger les vidéos en interne</string>
+  <string name="load_videos_internally_content">Vous souhaitez essayer le plugin vidéo Slide ? Cela vous permettra d\'afficher des vidéos (comme YouTube) en interne !</string>
+  <string name="do_not_show_again">Ne plus afficher</string>
   <plurals name="landscape_columns">
     <item quantity="one">%d colonnes en mode paysage</item>
     <item quantity="other">%d colonnes en mode paysage</item>
@@ -524,9 +637,116 @@
   <string name="content_deleted">[supprimé]</string>
   <string name="thread_continue">Continuer ce fil</string>
   <string name="type_selftext">Texte brut</string>
+  <string name="settings_fab_create">Montrer le bouton flottant \"créer un commentaire\"</string>
+  <string name="settings_right_handed_comment_menu">Menu de réponse pour droitier</string>
   <string name="submission_unhide">Afficher le post</string>
   <string name="submission_info_unhidden">Message non masqué</string>
+  <string name="settings_handling_external_desc">Les domaines inscrits ci-dessous seront toujours ouverts en externe</string>
+  <string name="settings_handling_enterdomain">Entrez un domaine ou une partie d\'un domaine</string>
+  <string name="err_comment_post">Oh oh, poster ce commentaire a échoué !</string>
+  <string name="err_comment_post_reason">"Raison : "</string>
+  <string name="err_comment_post_message">\n\nVotre message a été enregistré comme brouillon. Veuillez réessayer ultérieurement.</string>
+  <string name="err_comment_post_copy">Copier le commentaire</string>
+  <string name="choose_draft">Sélectionnez un brouillon</string>
+  <string name="dialog_no_drafts">Pas encore de brouillon</string>
+  <string name="dialog_no_drafts_msg">Vous pouvez créer un brouillon en cliquant sur l’icône \"Enregistrer\" dans l\'éditeur !</string>
+  <string name="msg_save_draft">Message enregistré comme brouillon</string>
+  <string name="content_removed">[removed]</string>
+  <string name="guest">Invité</string>
+  <string name="err_comment_post_nosave_message">\nVeuillez réessayer dans quelques minutes</string>
+  <string name="album_slide_view">Album horizontal</string>
+  <string name="album_grid">Grille d\'album</string>
   <string name="open_externally">Ouvrir en externe</string>
+  <string name="vertical_album_view">Album vertical</string>
+  <string name="download_album">Télécharger l\'album</string>
+  <string name="compose_message">Composer le message</string>
+  <string name="mark_all_as_read">Tout marquer comme lu</string>
+  <string name="btn_changelog">Journal des modifications</string>
+  <string name="clear_subreddit_history">Effacer l\'historique des subreddits</string>
+  <string name="clear_submission_history">Effacer l\'historique des soumissions</string>
+  <string name="alert_history_cleared">Historique effacé !</string>
+  <string name="settings_subredditspecific_selftext">Toujours afficher des aperçus selftext dans ce subreddit</string>
+  <string name="settings_font_system">Système</string>
+  <string name="manage_offline_content">Gérer le contenu hors connexion</string>
+  <string name="go_offline">Passer en hors connexion</string>
+  <string name="cache_wifi_only">Charger le cache en Wifi uniquement</string>
+  <string name="misc_rate_title">Vous aimez Slide ?</string>
+  <string name="misc_rate_msg">Notez-la !</string>
+  <string name="sidebar_edit_flair">Modifier votre insigne</string>
+  <string name="no_cached_comments_found">Aucun commentaire mis en cache trouvé</string>
+  <string name="go_online_view_content">Connectez-vous pour afficher ce contenu</string>
+  <string name="FAQ">FAQ</string>
+  <string name="alphabetize_subreddits">Classer les subreddits par ordre alphabétique</string>
+  <string name="sync_subscriptions">Synchroniser les abonnements</string>
+  <string name="help">Aide</string>
+  <string name="upvote_percentage">Afficher le pourcentage d\'upvotes</string>
+  <string name="btn_set">Appliquer</string>
+  <string name="view_subreddits">Voir les subreddits</string>
+  <string name="settings_about_changelog_post">Voir le rapport de version</string>
+  <string name="autocache_subreddits">Mise en cache automatique des subreddits</string>
+  <string name="autocache_time">Temps de mise en cache automatique</string>
+  <string name="cache_subreddits_now">Mettre en cache les subreddits maitenant</string>
+  <string name="clear_saved_subreddits">Supprimer tous les subreddits enregistrés</string>
+  <string name="settings_section_content">Contenu</string>
+  <string name="download_the_slide_video_player_plugin">Télécharger le plugin de lecteur vidéo pour Slide</string>
+  <string name="settings_reddit_description">Ces paramètres changent ce que l\'API de Reddit envoie à Slide.\n\nPour voir les photos dans tous les subreddits, changer le Mode miniature à « Toujours Afficher » \n\n Pour voir tout le contenu NSFW, décochez « cacher photos NSFW » et sur \"J\'ai plus de 18 ans\"</string>
+  <string name="settings_description_synccit">Synccit vous permet de synchroniser votre historique de soumission entre vos périphériques et votre navigateur</string>
+  <string name="settings_description_view_type">Le type de vue affecte la vue principale et les vues de subreddits.\n\npanneau des commentaires : les commentaires glissent du coté du post, et l\'emplacement du dernier commentaire lu est sauvegardé.\n\nPas de panneau subreddit : on ne peux plus défiler entre les subreddits.\n\nPanneau des subreddits : défiler entre les dubreddits</string>
+  <string name="btn_suggest_title">Suggérer le titre</string>
+  <string name="navigate_comments_since">Commentaires plus récents que&#8230;</string>
+  <string name="err_connection_failed_msg">Échec de la connexion à Reddit. Veuillez vérifiez votre connexion internet et réessayez ou passer en mode hors connexion.</string>
+  <string name="btn_offline">Passer en mode hors connexion</string>
+  <string name="err_could_not_find_content_msg">Reddit n\'a pas pu trouver le contenu demandé</string>
+  <string name="err_refused_request_msg">Reddit a rejeté une requête. Désirez vous tenter de vous re-connecter à Reddit ?</string>
+  <string name="discard_comment_title">Rejeter le commentaire ?</string>
+  <string name="comment_discard_msg">Désirez-vous vraiment rejeter ce commentaire ?</string>
+  <string name="backup_complete">Sauvegarde terminée!</string>
+  <string name="backup_saved_downloads">Sauvegarde effectué vers Téléchargements</string>
+  <string name="err_file_not_found">Fichier non trouvé</string>
+  <string name="err_not_valid_backup">Ce n\'est pas un fichier de sauvegarde Slide valide</string>
+  <string name="err_not_valid_backup_msg">Le fichier sélectionné n\'est pas une archive Slide valide</string>
+  <string name="err_file_not_found_msg">Le fichier sélectionné est introuvable. Assurez-vous qu\'il existe et que Slide dispose de l\'autorisation d\'accéder à ce fichier/dossier</string>
+  <string name="include_personal_info">Inclure vos informations personnelles ?</string>
+  <string name="include_personal_info_msg">Cela comprend l\'historique, les noms d\'utilisateur, tags et jetons d\'authentification</string>
+  <string name="err_something_wrong">Oh oh, quelque chose a mal tourné</string>
+  <string name="err_couldnt_save_choose_new">Slide ne peux pas sauvegarder à l\'emplacement sélectionné. Voulez-vous choisir un autre emplacement ?</string>
+  <string name="set_save_location">Définir l\'emplacement d\'enregistrement des images</string>
+  <string name="set_save_location_msg">L’emplacement d\'enregistrement des images n\'a pas encore été défini. Voulez-vous le définir ?</string>
+  <string name="really_remove_subreddit_title">Vraiment supprimer ce subreddit ?</string>
+  <string name="choose_sync_time">Choisir l\'heure de la synchronisation</string>
+  <string name="account_suspended">Ce compte est suspendu</string>
+  <string name="clear_all_sub_themes">Effacer tous les thèmes de subreddit ?</string>
+  <string name="clear_all_sub_themes_msg">Vous ne pouvez pas annuler cette action</string>
+  <string name="title_not_found">Titre non trouvé</string>
+  <string name="really_delete_submission">Vraiment supprimer cette soumission ? Vous ne pourrez pas annuler ça</string>
+  <string name="unsticky_comment">Vraiment désépingler ce commentaire ?</string>
+  <string name="comment_unstickied">Commentaire désépinglé</string>
+  <string name="sticky_comment">Vraiment épingler ce commentaire ?</string>
+  <string name="comment_stickied">Commentaire épinglé</string>
+  <string name="undistinguish_comment">Vraiment ne plus mettre en valeur ce commentaire ?</string>
+  <string name="comment_undistinguished">Le commentaire n\'est plus mis en valeur</string>
+  <string name="distinguish_comment">Vraiment mettre en valeur ce commentaire ?</string>
+  <string name="comment_distinguished">Commentaire mis en valeur</string>
+  <string name="remove_comment">Vraiment supprimer ce commentaire ?</string>
+  <string name="comment_removed">Commentaire supprimé</string>
+  <string name="create_or_import_multi">Vous souhaitez créer une nouvelle collection ou importer un multireddit ?</string>
   <string name="btn_add_subreddit">Ajouter un subreddit</string>
+  <string name="btn_add_collection">Ajouter une collection</string>
   <string name="btn_new">Nouveau</string>
+  <string name="btn_import_multi">Importer un multireddit</string>
+  <string name="reorder_subs_FAQ">Réorganiser les FAQ des subreddits</string>
+  <string name="set_nav_mode">Définir le mode de navigation</string>
+  <string name="set_gif_save_loc">Définir l\'emplacement d\'enregistrement des gifs</string>
+  <string name="set_gif_save_loc_msg">L’emplacement d\'enregistrement des gifs n\'a pas encore été défini. Voulez-vous le définir ?</string>
+  <string name="gif_saved">GIF enregistré</string>
+  <string name="set_video_save_loc">Définir l\'emplacement d\'enregistrement des vidéos</string>
+  <string name="set_video_save_loc_msg">L’emplacement d\'enregistrement des vidéos n\'a pas encore été défini. Voulez-vous le définir ?</string>
+  <string name="video_saved">Vidéo sauvegardée</string>
+  <string name="manage_drafts">Gérer les brouillons</string>
+  <string name="really_delete_drafts">Voulez-vous vraiment supprimer ces brouillons ?</string>
+  <string name="auto_hide_the_comment_nav_bar">Masquer automatiquement la barre de navigation de commentaire</string>
+  <string name="rate_slide">Noter Slide</string>
+  <string name="edit_query">Modifier la requête</string>
+  <string name="share_slide">Partager Slide</string>
+  <!-- Strings for alert dialogs -->
 </resources>

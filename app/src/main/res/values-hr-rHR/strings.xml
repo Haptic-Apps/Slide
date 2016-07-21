@@ -263,7 +263,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit postavke</string>
   <string name="settings_accent_title">Uredi boju isticanja</string>
-  <string name="settings_delete_sub_settings">Želite izbrisati postavke za /r/%1$s?</string>
   <string name="settings_layout_default">Izgled posta</string>
   <string name="settings_link_album">Interni način prikazivanja albuma</string>
   <string name="settings_link_gif">Interni GIF preglednik</string>
@@ -402,7 +401,6 @@
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Kartice s centriranom slikom</string>
   <string name="mode_card">Kartica</string>
-  <string name="mode_thumbnail">Samo sličica minijature</string>
   <string name="press_actionbar">Pritisnite strelicu za prikaz akcijske trake</string>
   <string name="tap_actionbar">Dugi pritisak za prikaz akcijske trake</string>
   <string name="always_actionbar">Uvijek pokaži akcijsku traku</string>
@@ -415,6 +413,8 @@
   <string name="subreddit_name_tint">Ime podreddita</string>
   <string name="content_deleted">[izbrisano]</string>
   <string name="open_externally">Otvori u eksternom pregledniku</string>
+  <string name="err_something_wrong">Uh, nešto je pošlo krivo.</string>
   <string name="btn_add_subreddit">Dodaj podreddit</string>
   <string name="btn_new">Novo</string>
+  <!-- Strings for alert dialogs -->
 </resources>

@@ -81,7 +81,6 @@
   <string name="sidebar_wiki">Alreddit wiki</string>
   <string name="sidebar_mods">Alreddit moderátorok</string>
   <!-- User profile -->
-  <string name="profile_karma_link">Link karma</string>
   <string name="profile_karma_comment">Hozzászólás karma</string>
   <string name="profile_message">Privát üzenet</string>
   <string name="profile_saved">Mentve</string>
@@ -102,6 +101,12 @@
   <string name="profile_remove">Fiók törlése</string>
   <string name="profile_history">Előzmények</string>
   <string name="profile_share">%s profilja</string>
+  <string name="profile_tag">Címke</string>
+  <string name="profile_tag_user">Felhasználó megjelölése</string>
+  <string name="profile_tag_user_existing">Felhasználó megjelölve mint \'%s\'</string>
+  <string name="profile_btn_tag">Címke beállítása</string>
+  <string name="profile_btn_untag">Címke eltávolítása</string>
+  <string name="profile_info">Profil információ</string>
   <!-- Comment text options -->
   <string name="comment_gild">Hozzászólás aranyozása</string>
   <string name="comment_share">Hozzászólás megosztása</string>
@@ -109,14 +114,17 @@
   <string name="comment_delete_msg">Tényleg törölni akarod ezt a hozzászólást? Ezt nem lehet visszavonni.</string>
   <string name="comment_delete_err">Ajjaj, valami hiba történt.</string>
   <string name="comment_delete_err_msg">Meg szeretnéd próbálni újra?</string>
+  <string name="comment_deleted">[törölve]</string>
   <string name="comment_unsave">Mentés visszavonása</string>
   <string name="comment_load_more">%1$d további betöltése</string>
   <string name="comment_loading_more">További hozzászólások betöltése&#8230;</string>
+  <string name="comment_permalink">Hozzászóláslink betöltése</string>
+  <string name="comment_parent">Szülő hozzászólás mutatása</string>
   <!-- Welcome view (first time setup) -->
   <string name="welcome_start">Vágjunk bele</string>
   <string name="welcome_personalize">Személyre szabás</string>
   <!-- Sorting options -->
-  <string name="sorting_choose">Válaszd ki egy rendezési módot</string>
+  <string name="sorting_choose">Válassz ki egy rendezési módot</string>
   <string name="sorting_time_choose">Válaszd ki az időkeretet</string>
   <string name="sorting_change_sorting">Rendezés</string>
   <string name="sorting_best">Legjobb</string>
@@ -126,7 +134,7 @@
   <string name="sorting_old">Legrégebbi</string>
   <string name="sorting_controversial">Ellentmondásos</string>
   <string name="sorting_rising">Erősödő</string>
-  <string name="sorting_hour">› hour</string>
+  <string name="sorting_hour">› óra</string>
   <string name="sorting_day">› 24 óra</string>
   <string name="sorting_week">› hét</string>
   <string name="sorting_month">› hónap</string>
@@ -190,6 +198,7 @@
   <string name="type_nsfw_album">Kifogásolható album</string>
   <string name="type_img">Kép</string>
   <string name="type_vid">Videó</string>
+  <string name="type_videos">Videók</string>
   <string name="type_nsfw_video">Kifogásolható videó</string>
   <string name="type_emb">Beágyazott</string>
   <string name="type_nsfw_emb">Kifogásolható beágyazott tartalom</string>
@@ -218,6 +227,7 @@
   <string name="mail_reply_to">Válasz neki: %1$s</string>
   <string name="mail_notification_author">%1$s / %2$s</string>
   <string name="mail_theirs">Eredeti üzenet megtekintése</string>
+  <string name="mail_re">re: %1$s</string>
   <string name="mail_mark_read">Megjelölés olvasottként</string>
   <string name="mail_mark_unread">Megjelölés olvasatlanként</string>
   <string name="mail_view_full_thread">Teljes szál megtekintése</string>
@@ -299,6 +309,10 @@
   <string name="mod_btn_remove">Törlés</string>
   <string name="mod_btn_remove_reason">Eltávolítás indokkal</string>
   <string name="mod_btn_author">A szerző profilja</string>
+  <plurals name="mod_btn_reports">
+    <item quantity="one">%d jelentés megtekintése</item>
+    <item quantity="other">%d jelentés megtekintése</item>
+  </plurals>
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Nem található wiki</string>
   <string name="wiki_err_msg">Ennek az alredditnek nincsen wikije!</string>
@@ -312,18 +326,33 @@
   <string name="search_goto">Ugrás</string>
   <string name="search_title">Keresés</string>
   <string name="search_msg">Mit keresel?</string>
+  <string name="search_all">Keresés mindenben</string>
   <string name="search_subreddit">%1$s keresése</string>
+  <string name="search_relevance">Relevancia</string>
   <string name="search_top">Csúcs</string>
   <string name="search_new">Legújabb</string>
   <string name="search_comments">Hozzászólások</string>
   <!-- Captcha -->
+  <string name="captcha">Add meg a fenti kódot</string>
+  <string name="captcha_title">Bizonyítsd, hogy nem egy robot vagy</string>
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit beállítások</string>
   <string name="settings_accent_title">Másodlagos szín módosítása</string>
+  <string name="settings_layout_default">Bejegyzések elrendezése</string>
+  <string name="settings_link_album">Beépített album megtekintő</string>
+  <string name="settings_link_gif">Beépített GIF megtekintő</string>
   <string name="settings_link_handling">Linkek kezelése</string>
+  <string name="settings_link_image">Beépített képmegtekintő</string>
   <string name="settings_mail_check">Üzenetek ellenőrzése</string>
+  <string name="settings_mail_info">Minél kisebb az időköz, vélhetően annál több energiát fog használni a Slide a háttérben!</string>
+  <string name="settings_main_color_title">Fő szín módosítása</string>
   <string name="settings_notification">Üzenet-ellenőrzési időköz:</string>
+  <string name="settings_notification_short">Ellenőrzési időköz: %1$s</string>
+  <string name="settings_disable_nsfw_photo">Az össze kifogásolható kép elrejtése</string>
+  <string name="settings_store_history">Előzmények mentése</string>
+  <string name="settings_store_nsfw_history">Kifogásolható előzmények mentése</string>
   <string name="settings_confirm_exit">Kilépést megerősítő párbeszédablak</string>
+  <string name="settings_commentnav">Navigálás a szülőhozzászólások között</string>
   <string name="share_link">Link megosztása</string>
   <string name="posts_hidden_forever">Bejegyzések örökre elrejtve</string>
   <string name="share_image">Kép megosztása</string>
@@ -333,9 +362,12 @@
   <string name="settings_google">Csatlakozás a Google-hoz</string>
   <string name="settings_google_msg">A Slide csatlakozni a Google-hoz. Próbáld újra néhány másodperc múlva!</string>
   <string name="settings_notifdisabled">Értesítések letiltva.</string>
+  <string name="settings_colored_navigation_bar">Színes navigációs sáv</string>
   <string name="settings_filter_selfttext">Önálló szöveg szűrők</string>
+  <string name="settings_prefs_reddit">Összes reddit.com beállítás megtekintése</string>
   <string name="settings_font_post">Bejegyzéscím betűtípusa</string>
   <string name="settings_font_comment">Hozzászólás betűtípusa</string>
+  <string name="settings_comment_crop">Kép levágása a hozzászólásoknál</string>
   <string name="settings_general_scroll_read">Bejegyzések megjelölése olvasottként továbbgörgetéskor</string>
   <string name="settings_link_chrome">Egyéni Chrome lapok használata</string>
   <string name="settings_image_location">Képek/GIFek mentési helyének kiválasztása</string>
@@ -360,6 +392,7 @@
   <string name="settings_section_general">Általános</string>
   <string name="settings_section_appearance">Megjelenés</string>
   <string name="settings_section_other">Egyéb</string>
+  <string name="settings_section_save_history">Előzmények mentése</string>
   <!-- Setting subheaders -->
   <string name="sorting">Rendezés</string>
   <string name="display">Megjelenítés</string>
@@ -371,6 +404,7 @@
   <string name="navigation">Navigáció</string>
   <string name="collapse_comments">Összecsukási műveletek</string>
   <string name="nsfw">Kifogásolható tartalom</string>
+  <string name="content_thumbnails">Előnézeti képek</string>
   <string name="view_reddit_settings">Reddit beállítások megnyitása böngészőben</string>
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Alreddit témák &amp; elrendezések</string>
@@ -386,16 +420,19 @@
   <string name="title_create_multi">Multireddit létrehozása</string>
   <string name="title_mod">Moderátor</string>
   <!-- Text in Donation-Activity -->
+  <string name="donate_amount_title">Ez az összeg&#8230;</string>
+  <string name="donate_info_student">Egy diák fejlesztő vagyok, és nagyon hálás vagyok a nagylelkű adományokért, mivel így ingyenes lehet a Slide. :)</string>
   <string name="donate_btn">Adományozás</string>
-  <string name="donate_amount_ads1">Megment</string>
-  <string name="donate_amount_ads2">hirdetést a megjelenéstől</string>
-  <string name="donate_amount_hours1">Támogat</string>
+  <string name="donate_amount_ads1">helyettesít</string>
+  <string name="donate_amount_ads2">hirdetést</string>
+  <string name="donate_amount_hours1">támogat</string>
   <string name="donate_amount_hours2">órányi fejlesztést</string>
   <string name="donate_title">Támogasd a Slide for Redditet</string>
   <string name="donate_err_title">Sikertelen adományozás :(</string>
   <string name="donate_err_msg">Sajnos, az adományozás nem sikerült. Ellenőrizd, hogy csatlakozva vagy az internethez és próbáld újra! Köszönöm a támogatásodat!</string>
   <string name="donate_success_title">Sikeres adományozás!</string>
   <string name="donate_success_msg">Köszönöm szépen, hogy támogattad a Slide for Redditet! Ez tényleg sokat jelent nekem. Ha bármilyen problémába ütközöl, dobj egy emailt vagy jelentsd be GitHubon bármikor.</string>
+  <string name="donate_success_btn">Nincs mit!</string>
   <!-- Offline mode -->
   <string name="offline_caching">Bejegyzések gyorsítótárazása</string>
   <string name="offline_msg">Ehhez csatlakozz az internethez és frissítsd az alredditet</string>
@@ -441,13 +478,25 @@
     <item quantity="other">%d másodperc</item>
   </plurals>
   <!-- Time: shorthand durations for example 1 hour → 1h -->
+  <string name="time_years_short">%dé</string>
+  <string name="time_days_short">%dn</string>
+  <string name="time_hours_short">%dó</string>
+  <string name="time_minutes_short">%dp</string>
+  <string name="time_seconds_short">%dmp</string>
   <!-- Strings present during the login process -->
   <string name="login_subscribe_rslideforreddit">Feliratkozol a /r/slideforreddit-re?</string>
+  <string name="login_sync_colors">Szinkronizáljam a színeket?</string>
+  <string name="login_sync_colors_desc">Szeretnéd szinkronizálni az alredditek színeit most? Ezt később is megteheted itt: Beállítások → Alreddit témák</string>
   <string name="login_authenticating">A Slide hitelesít</string>
   <string name="login_starting">Beállítás</string>
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
+  <string name="over18_title">/r/%1$s felnőtt tartalmakat tartalmaz</string>
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Szinkronizálás befejezve</string>
+  <plurals name="color_sync_colored">
+    <item quantity="one">%d alreddit lett beszínezve</item>
+    <item quantity="other">%d alreddit lett beszínezve</item>
+  </plurals>
   <!-- Discover section: find -->
   <string name="discover_title">Felfedezés</string>
   <string name="discover_search">Keresési kifejezés vagy téma</string>
@@ -481,7 +530,6 @@
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Kártya középre igazított képpel</string>
   <string name="mode_card">Kártya</string>
-  <string name="mode_thumbnail">Csak bélyegkép</string>
   <string name="mode_cropped">Nagy kép levágva</string>
   <string name="mode_bigpic">Nagy kép</string>
   <string name="sub_content_filter">Alreddit tartalomszűrő</string>
@@ -494,14 +542,22 @@
   <string name="load_videos_internally">Videók betöltése az alkalmazáson belül</string>
   <string name="load_videos_internally_content">Ki szeretnéd próbálni a Slide videó bővítményt? Ez lehetővé teszi a videók (pl: YouTube) megtekintését az alkalmazáson belül!</string>
   <string name="do_not_show_again">Ne mutasd többször</string>
+  <plurals name="landscape_columns">
+    <item quantity="one">%d oszlop fekvő módban</item>
+    <item quantity="other">%d oszlop fekvő módban</item>
+  </plurals>
   <string name="datasave_always">Mobiladat és WiFi</string>
   <string name="datasave_mobile">Mobiladat</string>
   <string name="never">Soha</string>
   <string name="card_background_tint">Kártya háttere</string>
   <string name="subreddit_name_tint">Alreddit neve</string>
   <string name="settings_comment_hide_selftext_image">Címlapkép elrejtése önálló szöveg esetén</string>
+  <string name="thumb_type_off">Soha</string>
+  <string name="thumb_type_sub">Megjelenítés az alreddit beállításai szerint</string>
   <string name="settings_data_low_quality">Alacsony minőségű képek betöltése</string>
+  <string name="settings_view_type">Nézettípus</string>
   <string name="handling_browser">Webböngésző</string>
+  <string name="settings_redditprefs_over18">Elmúltam 18 éves, és látni akarom a kifogásolható tartalmakat</string>
   <string name="settings_data_lowqaul_desc">Máskülönben mindig a magas minőségű képek legyenek megnyitva</string>
   <string name="settings_data_lowqaul">Alacsonyabb minőségű képek betöltése, ha lehetséges</string>
   <string name="settings_subredditspecific_bigpic">A nagy kép mindig meg legyenek jelenítve ebben az alredditben</string>
@@ -509,11 +565,14 @@
   <string name="settings_general_expanded_toolbar">Bővített eszköztár</string>
   <string name="settings_general_expanded_toolbar_desc">Több beállítás megjelenítése az alreddit eszköztáron</string>
   <string name="settings_theme_tinting">Bejegyzések színezésének módja</string>
+  <string name="settings_reddit_thumbnail_mode">Bélyegkép mód</string>
   <string name="settings_links_force_external">Külső böngésző erőltetése</string>
   <string name="settings_data">Adatmegtakarítás</string>
+  <string name="btn_open_comments">Hozzászólások megnyitása</string>
   <string name="btn_preview">Előnézet</string>
   <string name="sorting_default_comment">Alapértelmezett hozzászólás-rendezés</string>
   <string name="theme_amoled_contrast">AMOLED kontraszttal</string>
+  <string name="content_deleted">[törölve]</string>
   <string name="thread_continue">A szál folytatása</string>
   <string name="type_selftext">Önálló szöveg</string>
   <string name="settings_right_handed_comment_menu">Jobbkezes hozzászólás válasz menü</string>
@@ -522,8 +581,12 @@
   <string name="err_comment_post">Ajjaj, nem sikerült elküldeni ezt a hozzászólást!</string>
   <string name="err_comment_post_reason">"Ok: "</string>
   <string name="err_comment_post_copy">Hozzászólás másolása</string>
+  <string name="choose_draft">Vázlat kiválasztása</string>
+  <string name="dialog_no_drafts">Nincsenek vázlatok</string>
+  <string name="msg_save_draft">Az üzenet el lett mentve vázlatként</string>
+  <string name="content_removed">[eltávolítva]</string>
   <string name="guest">Vendég</string>
-  <string name="err_comment_post_nosave_message">\nKérlek, próbáld újra egy perc múlva.</string>
+  <string name="err_comment_post_nosave_message">\nKérlek, próbáld újra később</string>
   <string name="album_grid">Album rács</string>
   <string name="open_externally">Megnyitás külső alkalmazásban</string>
   <string name="download_album">Album letöltése</string>
@@ -543,6 +606,11 @@
   <string name="FAQ">GYIK</string>
   <string name="sync_subscriptions">Feliratkozások szinkronizálása</string>
   <string name="help">Segítség</string>
+  <string name="settings_description_synccit">A Synccit lehetővé teszi az előzmények szinkronizálását a különböző eszközeid és a böngésződ között</string>
+  <string name="err_something_wrong">Ajjaj, valami hiba történt.</string>
   <string name="btn_add_subreddit">Válassz egy alredditet</string>
   <string name="btn_new">Legújabb</string>
+  <string name="rate_slide">Slide értékelése</string>
+  <string name="share_slide">Slide megosztása</string>
+  <!-- Strings for alert dialogs -->
 </resources>

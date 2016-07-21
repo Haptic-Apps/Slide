@@ -289,4 +289,5 @@
   <string name="open_externally">فتح بالخارج</string>
   <string name="btn_add_subreddit">إضافة سوبريديت</string>
   <string name="btn_new">جديد</string>
+  <!-- Strings for alert dialogs -->
 </resources>

@@ -52,7 +52,6 @@
   <string name="drawer_moderation">Модерација</string>
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
-  <string name="profile_karma_link">линк карма</string>
   <string name="profile_karma_comment">карма коментара</string>
   <string name="profile_message">Приватна порука</string>
   <string name="profile_saved">сачувано</string>
@@ -186,5 +185,7 @@
   <string name="btn_report">Извештај</string>
   <string name="content_deleted">[избрисано]</string>
   <string name="open_externally">Отвори у вањском прегледачу</string>
+  <string name="err_something_wrong">Ух, нешто је пошло наопако.</string>
   <string name="btn_new">Ново</string>
+  <!-- Strings for alert dialogs -->
 </resources>

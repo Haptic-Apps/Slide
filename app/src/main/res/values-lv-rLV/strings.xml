@@ -114,4 +114,6 @@
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <!-- Discover section: find -->
   <string name="btn_report">Ziņo</string>
+  <string name="err_something_wrong">Ak vai, kaut kas nogājis greizi.</string>
+  <!-- Strings for alert dialogs -->
 </resources>

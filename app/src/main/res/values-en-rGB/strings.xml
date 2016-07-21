@@ -84,7 +84,6 @@
   <string name="sidebar_wiki">Subreddit wiki</string>
   <string name="sidebar_mods">Subreddit moderators</string>
   <!-- User profile -->
-  <string name="profile_karma_link">Link karma</string>
   <string name="profile_karma_comment">Comment karma</string>
   <string name="profile_message">Private message</string>
   <string name="profile_saved">Saved</string>
@@ -354,7 +353,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit preferences</string>
   <string name="settings_accent_title">Edit accent colour</string>
-  <string name="settings_delete_sub_settings">Do you really want to delete settings for /r/%1$s?</string>
   <string name="settings_layout_default">Post layout</string>
   <string name="settings_link_album">Internal album view</string>
   <string name="settings_link_gif">Internal GIF view</string>
@@ -414,6 +412,7 @@
   <string name="settings_section_general">General</string>
   <string name="settings_section_appearance">Appearance</string>
   <string name="settings_section_other">Other</string>
+  <string name="settings_section_save_history">Save history</string>
   <!-- Setting subheaders -->
   <string name="sorting">Sorting</string>
   <string name="display">Display</string>
@@ -562,7 +561,6 @@
   <string name="mode_list">List</string>
   <string name="mode_centered">Card with centred image</string>
   <string name="mode_card">Card</string>
-  <string name="mode_thumbnail">Thumbnail only</string>
   <string name="mode_cropped">Big picture cropped</string>
   <string name="mode_bigpic">Big picture</string>
   <string name="settings_general_swipeanywhere_description">Swipe anywhere in view to exit</string>
@@ -652,7 +650,7 @@
   <string name="msg_save_draft">Message saved as a draft</string>
   <string name="content_removed">[removed]</string>
   <string name="guest">Guest</string>
-  <string name="err_comment_post_nosave_message">\nPlease try again in a minute.</string>
+  <string name="err_comment_post_nosave_message">\nPlease try again in a minute</string>
   <string name="album_slide_view">Sliding album view</string>
   <string name="album_grid">Album grid</string>
   <string name="open_externally">Open externally</string>
@@ -695,7 +693,7 @@
   <string name="navigate_comments_since">Comments newer than&#8230;</string>
   <string name="err_connection_failed_msg">The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.</string>
   <string name="btn_offline">Enter offline mode</string>
-  <string name="err_could_not_find_content_msg">Reddit could not find the requested content.</string>
+  <string name="err_could_not_find_content_msg">Reddit could not find the requested content</string>
   <string name="err_refused_request_msg">Reddit refused a request. Would you like to attempt to re-connect to Reddit?</string>
   <string name="discard_comment_title">Discard comment?</string>
   <string name="comment_discard_msg">Do you really want to discard your comment?</string>
@@ -703,19 +701,19 @@
   <string name="backup_saved_downloads">Backup saved to downloads</string>
   <string name="err_file_not_found">File not found</string>
   <string name="err_not_valid_backup">Not a valid Slide backup file</string>
-  <string name="err_not_valid_backup_msg">The selected file is not a valid Slide backup file.</string>
+  <string name="err_not_valid_backup_msg">The selected file is not a valid Slide backup file</string>
   <string name="err_file_not_found_msg">The selected file could not be found. Please make sure it exists and Slide has permissions to access that file/folder</string>
   <string name="include_personal_info">Include personal information?</string>
   <string name="include_personal_info_msg">This includes authentication tokens, usernames, tags, and history</string>
-  <string name="err_something_wrong">Uh oh, something went wrong.</string>
+  <string name="err_something_wrong">Uh oh, something went wrong</string>
   <string name="err_couldnt_save_choose_new">Slide couldn\'t save to the selected directory. Would you like to choose a new save location?</string>
   <string name="set_save_location">Set image save location</string>
   <string name="set_save_location_msg">Slide\'s image save location has not been set yet. Would you like to set this now?</string>
   <string name="really_remove_subreddit_title">Really remove this subreddit?</string>
   <string name="choose_sync_time">Choose a sync time</string>
-  <string name="account_suspended">This account is suspended.</string>
+  <string name="account_suspended">This account is suspended</string>
   <string name="clear_all_sub_themes">Clear all subreddit themes?</string>
-  <string name="clear_all_sub_themes_msg">You cannot undo this action.</string>
+  <string name="clear_all_sub_themes_msg">You cannot undo this action</string>
   <string name="title_not_found">Title not found</string>
   <string name="really_delete_submission">Really delete this submission? You cannot undo this</string>
   <string name="unsticky_comment">Really un-sticky this comment?</string>
@@ -747,4 +745,5 @@
   <string name="rate_slide">Rate Slide</string>
   <string name="edit_query">Edit query</string>
   <string name="share_slide">Share Slide</string>
+  <!-- Strings for alert dialogs -->
 </resources>

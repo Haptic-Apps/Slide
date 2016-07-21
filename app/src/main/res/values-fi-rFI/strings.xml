@@ -60,7 +60,6 @@
   <string name="drawer_offline_retry">Yritä päästä online-tilaan</string>
   <!-- Sidebar items (That's the one on the right) -->
   <!-- User profile -->
-  <string name="profile_karma_link">linkki karma</string>
   <string name="profile_karma_comment">kommentti karma</string>
   <string name="profile_message">Yksityisviesti</string>
   <string name="profile_saved">tallennettu</string>
@@ -223,6 +222,8 @@
   <string name="subreddit_name_tint">Subredditin nimi</string>
   <string name="content_deleted">[poistettu]</string>
   <string name="open_externally">Avaa ulkoisesti</string>
+  <string name="err_something_wrong">Ohhoh, jokin meni pieleen.</string>
   <string name="btn_add_subreddit">Lisää subredditti</string>
   <string name="btn_new">Uudet</string>
+  <!-- Strings for alert dialogs -->
 </resources>

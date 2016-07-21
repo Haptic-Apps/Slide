@@ -59,9 +59,9 @@
   <string name="font_size_larger">Más grande</string>
   <string name="font_size_large">Grande</string>
   <string name="font_size_medium">Mediano</string>
-  <string name="font_size_small">Chico</string>
-  <string name="font_size_smaller">Más Chico</string>
-  <string name="font_size_tiny">Pequeño</string>
+  <string name="font_size_small">Pequeño</string>
+  <string name="font_size_smaller">Enano</string>
+  <string name="font_size_tiny">Diminuto</string>
   <!-- For editing the submission card layout -->
   <string name="card_hide_post_button">Botón \"Ocultar mensaje\" en la barra de acciones</string>
   <string name="card_tint_outside">Solo colorea fuera del subreddit</string>
@@ -84,7 +84,6 @@
   <string name="sidebar_wiki">Wiki de Subreddit</string>
   <string name="sidebar_mods">Moderadores del Subreddit</string>
   <!-- User profile -->
-  <string name="profile_karma_link">karma de enlaces</string>
   <string name="profile_karma_comment">karma de comentarios</string>
   <string name="profile_message">Mensaje privado</string>
   <string name="profile_saved">guardado</string>
@@ -112,6 +111,7 @@
   <string name="profile_tag_user_existing">Usuario etiquetado como \'%s\'</string>
   <string name="profile_btn_tag">Etiquetar</string>
   <string name="profile_btn_untag">Quitar etiqueta</string>
+  <string name="profile_info">Información de perfil</string>
   <!-- Comment text options -->
   <string name="comment_gild">Recompensar comentario</string>
   <string name="comment_share">Compartir comentario</string>
@@ -131,7 +131,7 @@
   <!-- Sorting options -->
   <string name="sorting_choose">Elige un tipo de clasificación</string>
   <string name="sorting_time_choose">Elegir un marco de tiempo</string>
-  <string name="sorting_change_sorting">Cambia la clasificación del Post</string>
+  <string name="sorting_change_sorting">Modo de ordenación</string>
   <string name="sorting_best">Mejor</string>
   <string name="sorting_top">Top</string>
   <string name="sorting_hot">Popular</string>
@@ -353,7 +353,6 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Preferencias de Reddit</string>
   <string name="settings_accent_title">Editar color de acento</string>
-  <string name="settings_delete_sub_settings">Seguro que quieres eliminar los ajustes de /r/%1$s</string>
   <string name="settings_layout_default">Diseño del post</string>
   <string name="settings_link_album">Visor interno de álbum</string>
   <string name="settings_link_gif">Visor interno de gifs</string>
@@ -413,6 +412,7 @@
   <string name="settings_section_general">General</string>
   <string name="settings_section_appearance">Apariencia</string>
   <string name="settings_section_other">Otros</string>
+  <string name="settings_section_save_history">Guardar historial</string>
   <!-- Setting subheaders -->
   <string name="sorting">Ordenando</string>
   <string name="display">Mostrar</string>
@@ -561,7 +561,6 @@
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Tarjeta con imagen centrada</string>
   <string name="mode_card">Tarjeta</string>
-  <string name="mode_thumbnail">Sólo miniatura</string>
   <string name="mode_cropped">Imagen recortada</string>
   <string name="mode_bigpic">Imágenes grandes</string>
   <string name="settings_general_swipeanywhere_description">Deslize en cualquier parte para salir</string>
@@ -651,7 +650,7 @@
   <string name="msg_save_draft">Mensaje guardado como borrador</string>
   <string name="content_removed">[removed]</string>
   <string name="guest">Invitado</string>
-  <string name="err_comment_post_nosave_message">\nPor favor intenta de nuevo en un minuto.</string>
+  <string name="err_comment_post_nosave_message">\nPor favor inténtalo de nuevo en un minuto</string>
   <string name="album_slide_view">Vista de álbum en slides</string>
   <string name="album_grid">Álbum en cuadricula</string>
   <string name="open_externally">Abrir externamente</string>
@@ -685,6 +684,27 @@
   <string name="autocache_time">Tiempo de caché automático</string>
   <string name="cache_subreddits_now">Hacer caché de subreddits ahora</string>
   <string name="clear_saved_subreddits">Limpiar subreddits guardados</string>
+  <string name="settings_section_content">Contenido</string>
+  <string name="download_the_slide_video_player_plugin">Descargar el plugin Slide Vídeo Player</string>
+  <string name="settings_reddit_description">Estas opciones cambian lo que el API de Reddit le regresa a Slide.\n\nPara ver vistas previas de todos los subreddits, cambia el Modo de Vista Previa a \"Mostrar siempre\".\n\nPara ocultar todo el contenido NSFW, deshabilita \"Ocultar imágenes NSFW\" y habilita \"Soy mayor de 18 años\"</string>
+  <string name="settings_description_synccit">Synccit te permite sincronizar tu historial de subidas entre tus dispositivos y tu navegador</string>
+  <string name="btn_suggest_title">Sugerir título</string>
+  <string name="navigate_comments_since">Comentario más recientes que&#8230;</string>
+  <string name="btn_offline">Entrar en modo sin conexión</string>
+  <string name="err_could_not_find_content_msg">Reddit no ha podido encontrar el contenido solicitado</string>
+  <string name="err_refused_request_msg">Reddit ha rechazado una solicitud. Quieres intentar reconectarte a Reddit?</string>
+  <string name="discard_comment_title">Descartar comentario?</string>
+  <string name="comment_discard_msg">Realmente quieres descartar tu comentario?</string>
+  <string name="backup_complete">Copia de seguridad completada!</string>
+  <string name="backup_saved_downloads">Copia de seguridad guardada en descargas</string>
+  <string name="err_file_not_found">Archivo no encontrado</string>
+  <string name="err_not_valid_backup">El archivo de copia de seguridad Slide no es válido</string>
+  <string name="err_not_valid_backup_msg">El archivo seleccionado no es un archivo de copia de seguridad Slide válido</string>
+  <string name="err_file_not_found_msg">El archivo seleccionado no se encuentra. Asegúrate que exista y que Slide tiene permiso para acceder al archivo o carpeta</string>
+  <string name="include_personal_info">Incluir información personal?</string>
+  <string name="include_personal_info_msg">Esto incluye los identificadores de autenticación, nombres de usuario, etiquetas y el historial</string>
+  <string name="err_something_wrong">Vaya... algo salió mal.</string>
   <string name="btn_add_subreddit">Añadir un subreddit</string>
   <string name="btn_new">Nuevo</string>
+  <!-- Strings for alert dialogs -->
 </resources>
