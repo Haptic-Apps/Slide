@@ -825,6 +825,7 @@
     <string name="include_personal_info_msg">This includes authentication tokens, usernames, tags, and history</string>
     <string name="err_something_wrong">Uh oh, something went wrong</string>
     <string name="err_couldnt_save_choose_new">Slide couldn\'t save to the selected directory. Would you like to choose a new save location?</string>
+    <string name="err_share_image">Error sharing image</string>
     <string name="set_save_location">Set image save location</string>
     <string name="set_save_location_msg">Slide\'s image save location has not been set yet. Would you like to set this now?</string>
     <string name="really_remove_subreddit_title">Really remove this subreddit?</string>

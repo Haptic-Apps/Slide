@@ -10,10 +10,11 @@ import android.os.Bundle;
 public class Slide extends Activity {
 
     public static boolean hasStarted;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-        if(!hasStarted){
+        if (!hasStarted) {
             hasStarted = true;
             Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
