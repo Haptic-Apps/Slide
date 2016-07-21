@@ -21,7 +21,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="me.ccrama.redditslide.Activities.MediaView"
+            android:authorities="${applicationId}.MediaView"
             android:exported="false"
             android:grantUriPermissions="true">
 

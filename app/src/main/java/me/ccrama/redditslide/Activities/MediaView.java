@@ -1026,7 +1026,12 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 if (out != null) {
                     out.close();
 
-                    Uri contentUri = FileProvider.getUriForFile(this, this.getLocalClassName(), image);
+                    /**
+                     * If a user has both a debug build and a release build installed, the authority name needs to be unique
+                     */
+                    final String authority = (this.getPackageName()).concat(".").concat(MediaView.class.getSimpleName());
+
+                    final Uri contentUri = FileProvider.getUriForFile(this, authority, image);
 
                     if (contentUri != null) {
                         final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
@@ -1041,8 +1046,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     }
                 }
             }
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
             Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
         }
     }
