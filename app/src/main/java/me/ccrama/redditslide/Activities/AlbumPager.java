@@ -528,7 +528,8 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                                         .loadImage(finalUrl, new SimpleImageLoadingListener() {
                                             @Override
                                             public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
-                                                ((AlbumPager) getActivity()).saveImageGallery(loadedImage, finalUrl1);
+                                                if (getActivity() != null)
+                                                    ((AlbumPager) getActivity()).saveImageGallery(loadedImage, finalUrl1);
                                             }
 
                                         });
@@ -577,7 +578,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
                 rootView.findViewById(R.id.hq).setVisibility(View.GONE);
             }
 
-            if (getActivity().getIntent().hasExtra(MediaView.SUBMISSION_URL) ) {
+            if (getActivity().getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
                 rootView.findViewById(R.id.comments).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
