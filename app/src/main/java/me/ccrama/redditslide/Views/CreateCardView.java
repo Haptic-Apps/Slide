@@ -404,7 +404,11 @@ public class CreateCardView {
             picParams.setMargins(picParams.rightMargin, picParams.topMargin, picParams.leftMargin, picParams.bottomMargin);
 
             layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.thumbimage2);
-            layoutParams.removeRule(RelativeLayout.RIGHT_OF);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                layoutParams.removeRule(RelativeLayout.RIGHT_OF);
+            } else {
+                layoutParams.addRule(RelativeLayout.RIGHT_OF, 0);
+            }
         }
         if (!SettingValues.bigPicEnabled) {
             v.findViewById(R.id.thumbimage2).setVisibility(View.VISIBLE);

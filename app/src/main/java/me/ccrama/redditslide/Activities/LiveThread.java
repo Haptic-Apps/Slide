@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,6 +24,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -80,6 +82,7 @@ public class LiveThread extends BaseActivityAnim {
                 return false;
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -124,20 +127,41 @@ public class LiveThread extends BaseActivityAnim {
 
             @Override
             protected Void doInBackground(Void... params) {
-                thread = new LiveThreadManager(Authentication.reddit).get(getIntent().getStringExtra(EXTRA_LIVEURL));
+                try {
+                    thread = new LiveThreadManager(Authentication.reddit).get(getIntent().getStringExtra(EXTRA_LIVEURL));
+                } catch(Exception e){
+
+                }
                 return null;
             }
 
             @Override
             public void onPostExecute(Void aVoid) {
-                d.dismiss();
-                setupAppBar(R.id.toolbar, thread.getTitle(), true, false);
-                (findViewById(R.id.toolbar)).setBackgroundResource(R.color.md_red_300);
-                (findViewById(R.id.header_sub)).setBackgroundResource(R.color.md_red_300);
-                themeSystemBars(Palette.getDarkerColor(getResources().getColor(R.color.md_red_300)));
-                setRecentBar("Live thread: " + thread.getTitle(), getResources().getColor(R.color.md_red_300));
+                if(thread == null){
+                    new AlertDialogWrapper.Builder(LiveThread.this)
+                            .setTitle("Live thread not found")
+                            .setMessage("Please try again soon")
+                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            finish();
+                        }
+                    }).setCancelable(false).show();
+                } else {
+                    d.dismiss();
+                    setupAppBar(R.id.toolbar, thread.getTitle(), true, false);
+                    (findViewById(R.id.toolbar)).setBackgroundResource(R.color.md_red_300);
+                    (findViewById(R.id.header_sub)).setBackgroundResource(R.color.md_red_300);
+                    themeSystemBars(Palette.getDarkerColor(getResources().getColor(R.color.md_red_300)));
+                    setRecentBar("Live thread: " + thread.getTitle(), getResources().getColor(R.color.md_red_300));
 
-                doPaginator();
+                    doPaginator();
+                }
             }
         }.execute();
     }
@@ -438,7 +462,7 @@ public class LiveThread extends BaseActivityAnim {
             public void parseJson() {
                 try {
                     JsonObject result = HttpUtil.getJsonObject(client, gson, "https://publish.twitter.com/oembed?url=" + url, null);
-                   LogUtil.v("Got " + Html.fromHtml(result.toString()));
+                    LogUtil.v("Got " + Html.fromHtml(result.toString()));
                     twitter = new ObjectMapper().readValue(result.toString(), TwitterObject.class);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -453,7 +477,8 @@ public class LiveThread extends BaseActivityAnim {
 
             @Override
             public void onPostExecute(Void aVoid) {
-                view.loadData(twitter.getHtml().toString().replace("//platform.twitter", "https://platform.twitter"), "text/html", "UTF-8");
+                if (twitter != null && twitter.getHtml() != null)
+                    view.loadData(twitter.getHtml().toString().replace("//platform.twitter", "https://platform.twitter"), "text/html", "UTF-8");
             }
 
 

@@ -1979,7 +1979,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int color;
 
         Comment c = baseNode.getComment();
-        if (lastSeen < c.getCreated().getTime() && !dataSet.single && SettingValues.commentLastVisit && !Authentication.reddit.equals(c.getAuthor())) {
+        if (lastSeen < c.getCreated().getTime() && !dataSet.single && SettingValues.commentLastVisit && !Authentication.name.equals(c.getAuthor())) {
             color = Palette.getColor(baseNode.getComment().getSubredditName());
             color = Color.argb(20, Color.red(color), Color.green(color), Color.blue(color));
         } else {

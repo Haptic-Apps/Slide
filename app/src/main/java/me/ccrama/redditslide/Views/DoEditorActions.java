@@ -295,7 +295,7 @@ public class DoEditorActions {
                                 public void onClick(DialogInterface dialog, int which) {
                                     String selected = showText.getText().toString().substring(showText.getSelectionStart(), showText.getSelectionEnd());
                                     if (selected.equals("")) {
-                                        insertBefore("> ", editText);
+                                        insertBefore("> " + oldComment, editText);
                                     } else {
                                         insertBefore("> " + selected + "\n\n", editText);
                                     }
