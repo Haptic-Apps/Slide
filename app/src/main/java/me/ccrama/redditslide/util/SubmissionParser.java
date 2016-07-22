@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * token such as for code blocks.
  */
 public class SubmissionParser {
-    private static final Pattern SPOILER_PATTERN = Pattern.compile("<a.*title=\"(.*)\".*>(.*[^\\]]?[^\\]]?)</a>");
+    private static final Pattern SPOILER_PATTERN = Pattern.compile("<a[^>]*title=\"([^\"]*)\"[^>]*>([^<]*)</a>");
     private static final String TABLE_START_TAG = "<table>";
     private static final String TABLE_END_TAG = "</table>";
 
