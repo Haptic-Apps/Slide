@@ -22,6 +22,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -477,8 +478,9 @@ public class LiveThread extends BaseActivityAnim {
 
             @Override
             public void onPostExecute(Void aVoid) {
-                if (twitter != null && twitter.getHtml() != null)
-                    view.loadData(twitter.getHtml().toString().replace("//platform.twitter", "https://platform.twitter"), "text/html", "UTF-8");
+                if (twitter != null && twitter.getHtml() != null) {
+                    view.loadData(twitter.getHtml().replace("//platform.twitter", "https://platform.twitter"), "text/html", "UTF-8");
+                }
             }
 
 

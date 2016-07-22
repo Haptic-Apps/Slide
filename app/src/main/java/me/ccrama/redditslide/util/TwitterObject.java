@@ -41,7 +41,7 @@ public class TwitterObject {
     @JsonProperty("width")
     private Integer width;
     @JsonProperty("height")
-    private Object height;
+    private Integer height;
     @JsonProperty("type")
     private String type;
     @JsonProperty("cache_age")
@@ -139,7 +139,7 @@ public class TwitterObject {
      * @return The height
      */
     @JsonProperty("height")
-    public Object getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
@@ -147,7 +147,7 @@ public class TwitterObject {
      * @param height The height
      */
     @JsonProperty("height")
-    public void setHeight(Object height) {
+    public void setHeight(Integer height) {
         this.height = height;
     }
 
