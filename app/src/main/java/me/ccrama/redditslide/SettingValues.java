@@ -81,6 +81,7 @@ public class SettingValues {
     public static final String PREF_ALBUM_SWIPE = "albumswipe";
     public static final String PREF_COMMENT_NAV = "commentVolumeNav";
     public static final String PREF_COLOR_COMMENT_DEPTH = "colorCommentDepth";
+    public static final String COMMENT_DEPTH = "commentDepth";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting defaultSorting;
