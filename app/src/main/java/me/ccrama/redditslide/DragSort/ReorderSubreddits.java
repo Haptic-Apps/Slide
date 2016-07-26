@@ -301,20 +301,11 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 }
                             });
                     if(Authentication.isLoggedIn && Authentication.didOnline)
-                        b.neutralText("Add & Subscribe").onPositive(new MaterialDialog.SingleButtonCallback() {
+                        b.neutralText("Add & Subscribe").onNeutral(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 new AsyncGetSubreddit().execute(input);
-                                new AsyncTask<Void, Void, Void>() {
-                                    @Override
-                                    protected Void doInBackground(Void... params) {
-                                        AccountManager m = new AccountManager(Authentication.reddit);
-                                        for (String s : chosen) {
-                                            m.subscribe(s);
-                                        }
-                                        return null;
-                                    }
-                                }.execute();
+                                new UserSubscriptions.SubscribeTask().execute(input);
                             }
                         });
                     b.show();
@@ -560,16 +551,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                     subs.remove(index);
                                     adapter.notifyItemRemoved(index);
                                 }
-                                new AsyncTask<Void, Void, Void>() {
-                                    @Override
-                                    protected Void doInBackground(Void... params) {
-                                        AccountManager m = new AccountManager(Authentication.reddit);
-                                        for (String s : chosen) {
-                                            m.unsubscribe(Authentication.reddit.getSubreddit(s));
-                                        }
-                                        return null;
-                                    }
-                                }.execute();
+                                new UserSubscriptions.UnsubscribeTask().execute(
+                                        chosen.toArray(new String[chosen.size()])
+                                );
                                 isMultiple = false;
                                 chosen = new ArrayList<>();
                                 doOldToolbar();
@@ -681,14 +665,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                         final String sub = items.get(position);
                                                         subs.remove(sub);
                                                         adapter.notifyItemRemoved(position);
-                                                        new AsyncTask<Void, Void, Void>() {
-                                                            @Override
-                                                            protected Void doInBackground(Void... params) {
-                                                                AccountManager m = new AccountManager(Authentication.reddit);
-                                                                m.unsubscribe(Authentication.reddit.getSubreddit(sub));
-                                                                return null;
-                                                            }
-                                                        }.execute();
+                                                        new UserSubscriptions.UnsubscribeTask().execute(sub);
                                                     }
                                                 });
                                             b.show();
