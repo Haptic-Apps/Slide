@@ -560,16 +560,16 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                     subs.remove(index);
                                     adapter.notifyItemRemoved(index);
                                 }
-                                new AsyncTask<Void, Void, Void>() {
+                                new AsyncTask<String, Void, Void>() {
                                     @Override
-                                    protected Void doInBackground(Void... params) {
+                                    protected Void doInBackground(String... subreddits) {
                                         AccountManager m = new AccountManager(Authentication.reddit);
-                                        for (String s : chosen) {
+                                        for (String s : subreddits) {
                                             m.unsubscribe(Authentication.reddit.getSubreddit(s));
                                         }
                                         return null;
                                     }
-                                }.execute();
+                                }.execute(chosen.toArray(new String[chosen.size()]));
                                 isMultiple = false;
                                 chosen = new ArrayList<>();
                                 doOldToolbar();
