@@ -50,6 +50,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.MainActivity;
@@ -124,6 +125,7 @@ public class DoEditorActions {
             @Override
             public void onClick(View v) {
                 final ArrayList<String> drafts = Drafts.getDrafts();
+                Collections.reverse(drafts);
                 final String[] draftText = new String[drafts.size()];
                 for (int i = 0; i < drafts.size(); i++) {
                     draftText[i] = drafts.get(i);

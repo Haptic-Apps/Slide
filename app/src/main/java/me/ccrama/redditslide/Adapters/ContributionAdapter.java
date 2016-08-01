@@ -42,7 +42,9 @@ import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
+import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -185,7 +187,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int i = pos != 0 ? pos - 1 : pos;
 
         if (firstHolder instanceof SubmissionViewHolder) {
-            SubmissionViewHolder holder = (SubmissionViewHolder) firstHolder;
+            final SubmissionViewHolder holder = (SubmissionViewHolder) firstHolder;
             final Submission submission = (Submission) dataSet.posts.get(i);
             CreateCardView.resetColorCard(holder.itemView);
             if (submission.getSubredditName() != null)
@@ -334,6 +336,12 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     String url = "www.reddit.com" + submission.getPermalink();
                     url = url.replace("?ref=search_posts", "");
                     new OpenRedditLink(mContext, url);
+                    if (SettingValues.storeHistory) {
+                        if (SettingValues.storeNSFWHistory && submission.isNsfw() || !submission.isNsfw())
+                            HasSeen.addSeen(submission.getFullName());
+                    }
+
+                    notifyItemChanged(pos);
                 }
             });
 

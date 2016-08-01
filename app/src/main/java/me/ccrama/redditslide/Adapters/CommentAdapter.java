@@ -890,8 +890,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 );
                 holder.firstTextView.setTypeface(typeface);
             }
-            if (!toCollapse.contains(comment.getFullName()) && SettingValues.collapseComments || !SettingValues.collapseComments)
-                setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder);
 
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -942,6 +940,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             };
             holder.itemView.setOnClickListener(singleClick);
             holder.commentOverflow.setOnClickListener(singleClick);
+            if (!toCollapse.contains(comment.getFullName()) && SettingValues.collapseComments || !SettingValues.collapseComments)
+                setViews(comment.getDataNode().get("body_html").asText(), submission.getSubredditName(), holder, singleClick, onLongClickListener);
 
             holder.firstTextView.setOnClickListener(new OnSingleClickListener() {
                 @Override
@@ -1180,7 +1180,34 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
-            commentOverflow.setLongClickable(false);
+        } else {
+            commentOverflow.removeAllViews();
+        }
+
+    }
+    public void setViews(String rawHTML, String subredditName, final SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow, View.OnClickListener click, View.OnLongClickListener onLongClickListener) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0) + " ", subredditName);
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subredditName, click, onLongClickListener);
+            } else {
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName, click, onLongClickListener);
+            }
         } else {
             commentOverflow.removeAllViews();
         }
@@ -1190,7 +1217,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private void setViews(String rawHTML, String subredditName, CommentViewHolder holder) {
         setViews(rawHTML, subredditName, holder.firstTextView, holder.commentOverflow);
     }
-
+    private void setViews(String rawHTML, String subredditName, CommentViewHolder holder, View.OnClickListener click, View.OnLongClickListener longClickListener) {
+        setViews(rawHTML, subredditName, holder.firstTextView, holder.commentOverflow, click, longClickListener);
+    }
     int editingPosition;
 
     private ValueAnimator slideAnimator(int start, int end, final View v) {

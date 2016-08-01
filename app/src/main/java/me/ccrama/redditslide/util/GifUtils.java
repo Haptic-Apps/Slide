@@ -132,60 +132,65 @@ public class GifUtils {
 
         }
 
-        public void showGif(final URL url) {
-            c.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    final File downloaded = GifCache.getGif(url.toString());
-                    LogUtil.v("Path is " + "file://" + downloaded);
-                    video.setVideoPath("file://" + downloaded);
-                    //videoView.set
+        public void showGif(final URL url, final int tries) {
+            if(tries < 2) {
+                c.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final File downloaded = GifCache.getGif(url.toString());
+                        LogUtil.v("Path is " + "file://" + downloaded);
+                        video.setVideoPath("file://" + downloaded);
+                        //videoView.set
 
-                    if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
-                        MediaController mediaController = new
-                                MediaController(c);
-                        mediaController.setAnchorView(placeholder);
-                        video.setMediaController(mediaController);
-
-                    }
-                    showProgressBar(c, progressBar, false);
-                    if (gifSave != null) {
-                        gifSave.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                saveGif(downloaded, c);
-                            }
-                        });
-                    } else if (doOnClick != null) {
-                        MediaView.doOnClick = new Runnable() {
-                            @Override
-                            public void run() {
-                                saveGif(downloaded, c);
-
-                            }
-                        };
-                    }
-
-
-                    video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mp) {
-
-                            if (placeholder != null)
-                                placeholder.setVisibility(View.GONE);
-                            mp.setLooping(true);
-
+                        if (placeholder != null && !hideControls && !(c instanceof Shadowbox)) {
+                            MediaController mediaController = new
+                                    MediaController(c);
+                            mediaController.setAnchorView(placeholder);
+                            video.setMediaController(mediaController);
 
                         }
+                        showProgressBar(c, progressBar, false);
+                        if (gifSave != null) {
+                            gifSave.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    saveGif(downloaded, c);
+                                }
+                            });
+                        } else if (doOnClick != null) {
+                            MediaView.doOnClick = new Runnable() {
+                                @Override
+                                public void run() {
+                                    saveGif(downloaded, c);
 
-                    });
-                    if (autostart)
+                                }
+                            };
+                        }
 
-                        video.start();
+
+                        video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                            @Override
+                            public void onPrepared(MediaPlayer mp) {
+
+                                if (placeholder != null)
+                                    placeholder.setVisibility(View.GONE);
+                                mp.setLooping(true);
 
 
-                }
-            });
+                            }
+
+                        });
+                        if (autostart) {
+                            video.start();
+                            if (!video.isPlaying()) {
+                                showGif(url, tries + 1);
+                            }
+                        }
+
+
+                    }
+                });
+            }
 
         }
 
@@ -471,7 +476,7 @@ public class GifUtils {
                                         progressBar.setProgress(percent);
                                         if (percent == 100) {
                                             progressBar.setVisibility(View.GONE);
-                                            afterDone.showGif(url);
+                                            afterDone.showGif(url, 0);
                                             if(size != null)
                                                 size.setVisibility(View.GONE);
                                         }
@@ -490,7 +495,7 @@ public class GifUtils {
                             @Override
                             public void run() {
                                 progressBar.setVisibility(View.GONE);
-                                afterDone.showGif(url);
+                                afterDone.showGif(url, 0);
                             }
                         });
                     }

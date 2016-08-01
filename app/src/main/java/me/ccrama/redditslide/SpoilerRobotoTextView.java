@@ -20,6 +20,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
@@ -68,17 +69,17 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
     public SpoilerRobotoTextView(Context context) {
         super(context);
-        setLineSpacing(0,1.1f);
+        setLineSpacing(0, 1.1f);
     }
 
     public SpoilerRobotoTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setLineSpacing(0,1.1f);
+        setLineSpacing(0, 1.1f);
     }
 
     public SpoilerRobotoTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setLineSpacing(0,1.1f);
+        setLineSpacing(0, 1.1f);
     }
 
     public boolean isSpoilerClicked() {
@@ -159,6 +160,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
     /**
      * Replaces the blue line produced by <blockquote>s with something more visible
+     *
      * @param spannable parsed comment text #fromHtml
      */
     private void replaceQuoteSpans(Spannable spannable) {
@@ -173,8 +175,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
             //If the theme is Light or Sepia, use a darker blue; otherwise, use a lighter blue
             final int barColor = (SettingValues.currentTheme == 1 || SettingValues.currentTheme == 5)
-                            ? ContextCompat.getColor(getContext(), R.color.md_blue_600)
-                            : ContextCompat.getColor(getContext(), R.color.md_blue_400);
+                    ? ContextCompat.getColor(getContext(), R.color.md_blue_600)
+                    : ContextCompat.getColor(getContext(), R.color.md_blue_400);
 
             final int BAR_WIDTH = 4;
             final int GAP = 5;
@@ -271,7 +273,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     @Override
-    public void onLinkClick(String url, int xOffset, String subreddit) {
+    public void onLinkClick(String url, int xOffset, String subreddit, URLSpan span) {
         if (url == null) {
             ((View) getParent()).callOnClick();
             return;
@@ -370,7 +372,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     }
                 case SPOILER:
                     spoilerClicked = true;
-                    setOrRemoveSpoilerSpans(xOffset);
+                    setOrRemoveSpoilerSpans(xOffset, span);
                     break;
                 case EXTERNAL:
                     Reddit.defaultShare(url, activity);
@@ -486,19 +488,20 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
     }
 
-    public void setOrRemoveSpoilerSpans(int endOfLink) {
+    public void setOrRemoveSpoilerSpans(int endOfLink, URLSpan span) {
+        int offset = (span.getURL().contains("hidden")) ? -1 : 2;
         Spannable text = (Spannable) getText();
         // add 2 to end of link since there is a white space between the link text and the spoiler
-        ForegroundColorSpan[] foregroundColors = text.getSpans(endOfLink + 2, endOfLink + 2, ForegroundColorSpan.class);
+        ForegroundColorSpan[] foregroundColors = text.getSpans(endOfLink + offset, endOfLink + offset, ForegroundColorSpan.class);
 
         if (foregroundColors.length > 1) {
             text.removeSpan(foregroundColors[1]);
             setText(text);
         } else {
             for (int i = 1; i < storedSpoilerStarts.size(); i++) {
-                if (storedSpoilerStarts.get(i) < endOfLink + 2 && storedSpoilerEnds.get(i) > endOfLink + 2) {
+                if (storedSpoilerStarts.get(i) < endOfLink + offset && storedSpoilerEnds.get(i) > endOfLink + offset) {
                     try {
-                        text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i), storedSpoilerEnds.get(i) > text.toString().length() ? storedSpoilerEnds.get(i) - 1 : storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                        text.setSpan(storedSpoilerSpans.get(i), storedSpoilerStarts.get(i), storedSpoilerEnds.get(i) > text.toString().length() ? storedSpoilerEnds.get(i) + offset : storedSpoilerEnds.get(i), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                     } catch (Exception ignored) {
                         //catch out of bounds
                         ignored.printStackTrace();
@@ -542,6 +545,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                 URLSpan urlSpan = sequence.getSpans(start, start, URLSpan.class)[0];
                 sequence.setSpan(urlSpan, sequence.getSpanStart(urlSpan), start - 1, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 
+
+                sequence.setSpan(new URLSpanNoUnderline("#spoilerhidden"), start, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 // spoiler text has a space at the front
                 sequence.setSpan(backgroundColorSpan, start + 1, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
                 sequence.setSpan(underneathColorSpan, start, end - 4, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -567,6 +572,18 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         }
 
         return sequence;
+    }
+
+    private class URLSpanNoUnderline extends URLSpan {
+        public URLSpanNoUnderline(String url) {
+            super(url);
+        }
+
+        @Override
+        public void updateDrawState(TextPaint ds) {
+            super.updateDrawState(ds);
+            ds.setUnderlineText(false);
+        }
     }
 
     /**

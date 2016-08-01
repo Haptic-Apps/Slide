@@ -218,7 +218,7 @@ public class OpenRedditLink {
             }
             case OTHER: {
                 if (context instanceof Activity) {
-                    LinkUtil.openUrl(url, Palette.getStatusBarColor(), (Activity) context);
+                    LinkUtil.openUrl(oldUrl, Palette.getStatusBarColor(), (Activity) context);
                 } else {
                     Intent i = new Intent(context, Website.class);
                     i.putExtra(Website.EXTRA_URL, oldUrl);

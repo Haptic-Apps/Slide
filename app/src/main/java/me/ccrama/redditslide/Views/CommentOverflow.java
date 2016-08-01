@@ -22,6 +22,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Class that provides methods to help bind submissions with
@@ -69,6 +70,16 @@ public class CommentOverflow extends LinearLayout {
      * @param subreddit
      */
     public void setViews(List<String> blocks, String subreddit) {
+       setViews(blocks, subreddit, null, null);
+    }
+
+    /**
+     * Set the text for the corresponding views.
+     *
+     * @param blocks    list of all blocks to be set
+     * @param subreddit
+     */
+    public void setViews(List<String> blocks, String subreddit, OnClickListener click, OnLongClickListener longClick) {
         Context context = getContext();
         int type = new FontPreferences(context).getFontTypeComment().getTypeface();
         if (type >= 0) {
@@ -96,7 +107,7 @@ public class CommentOverflow extends LinearLayout {
             if (block.startsWith("<table>")) {
                 HorizontalScrollView scrollView = new HorizontalScrollView(context);
                 scrollView.setScrollbarFadingEnabled(false);
-                TableLayout table = formatTable(block, subreddit);
+                TableLayout table = formatTable(block, subreddit, click, longClick);
                 scrollView.setLayoutParams(MARGIN_PARAMS);
                 table.setPaddingRelative(0, 0, 0, Reddit.dpToPxVertical(10));
                 scrollView.addView(table);
@@ -111,6 +122,10 @@ public class CommentOverflow extends LinearLayout {
                 scrollView.setLayoutParams(MARGIN_PARAMS);
                 newTextView.setPaddingRelative(0, 0, 0, Reddit.dpToPxVertical(10));
                 scrollView.addView(newTextView);
+                if(click != null)
+                newTextView.setOnClickListener(click);
+                if(longClick != null)
+                newTextView.setOnLongClickListener(longClick);
                 addView(scrollView);
 
             } else {
@@ -118,6 +133,10 @@ public class CommentOverflow extends LinearLayout {
                 newTextView.setTextHtml(block, subreddit);
                 setStyle(newTextView, subreddit);
                 newTextView.setLayoutParams(MARGIN_PARAMS);
+                if(click != null)
+                newTextView.setOnClickListener(click);
+                if(longClick != null)
+                newTextView.setOnLongClickListener(longClick);
                 addView(newTextView);
             }
         }
@@ -130,6 +149,10 @@ public class CommentOverflow extends LinearLayout {
         return false;
     }*/
     private TableLayout formatTable(String text, String subreddit) {
+        return formatTable(text, subreddit, null, null);
+    }
+
+    private TableLayout formatTable(String text, String subreddit, OnClickListener click, OnLongClickListener longClick) {
         TableRow.LayoutParams rowParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
 
         Context context = getContext();
@@ -182,7 +205,10 @@ public class CommentOverflow extends LinearLayout {
                 textView.setTextHtml(text.subSequence(columnStart, columnEnd), subreddit);
                 setStyle(textView, subreddit);
                 textView.setLayoutParams(COLUMN_PARAMS);
-
+                if(click != null)
+                    textView.setOnClickListener(click);
+                if(longClick != null)
+                    textView.setOnLongClickListener(longClick);
                 row.addView(textView);
 
                 columnStart = 0;

@@ -1,5 +1,8 @@
 package me.ccrama.redditslide;
 
+import android.text.Spannable;
+import android.text.style.URLSpan;
+
 public interface ClickableText {
     /**
      * Callback for when a link is clicked
@@ -8,7 +11,7 @@ public interface ClickableText {
      * @param xOffset the last index of the url text (not the link)
      * @param subreddit
      */
-    void onLinkClick(String url, int xOffset, String subreddit);
+    void onLinkClick(String url, int xOffset, String subreddit, URLSpan span);
 
     void onLinkLongClick(String url);
 }

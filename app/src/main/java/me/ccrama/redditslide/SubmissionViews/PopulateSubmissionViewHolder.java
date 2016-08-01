@@ -71,6 +71,7 @@ import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Reauthenticate;
+import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
@@ -122,7 +123,7 @@ public class PopulateSubmissionViewHolder {
                     if (SettingValues.storeHistory && !full) {
                         if (!submission.isNsfw() || SettingValues.storeNSFWHistory) {
                             HasSeen.addSeen(submission.getFullName());
-                            if (contextActivity instanceof MainActivity || contextActivity instanceof MultiredditOverview || contextActivity instanceof SubredditView) {
+                            if (contextActivity instanceof MainActivity || contextActivity instanceof MultiredditOverview || contextActivity instanceof SubredditView || contextActivity instanceof Search || contextActivity instanceof Profile) {
                                 holder.title.setAlpha(0.54f);
                                 holder.body.setAlpha(0.54f);
                             }

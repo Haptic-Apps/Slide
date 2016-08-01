@@ -98,7 +98,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
                                 i = sequence.getSpanEnd(link[0]);
                             }
                             if (!link[0].getURL().isEmpty()) {
-                                clickableText.onLinkClick(link[0].getURL(), i, subreddit);
+                                clickableText.onLinkClick(link[0].getURL(), i, subreddit, link[0]);
                             }
                         } else {
                             return false;
