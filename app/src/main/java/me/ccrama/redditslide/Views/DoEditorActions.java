@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +32,8 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import net.dean.jraw.models.Submission;
+
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
@@ -54,10 +57,12 @@ import java.util.Collections;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Draw;
+import me.ccrama.redditslide.Activities.Gallery;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
@@ -247,51 +252,37 @@ public class DoEditorActions {
         baseView.findViewById(R.id.draw).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(a, Draw.class);
-                if (a instanceof MainActivity) {
-                    LogUtil.v("Running on main");
-                    ((MainActivity) a).doImage = new Runnable() {
-                        @Override
-                        public void run() {
-                            LogUtil.v("Running");
-                            if (((MainActivity) a).data != null) {
-                                Uri selectedImageUri = ((MainActivity) a).data.getData();
-                                Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
-                                try {
-                                    File f = new File(selectedImageUri.getPath());
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                    new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    };
-                    a.startActivityForResult(intent, 3333);
+                if (SettingValues.tabletUI) {
+                    doDraw(a, editText, fm);
                 } else {
-                    Fragment auxiliary = new Fragment() {
-                        @Override
-                        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                            super.onActivityResult(requestCode, resultCode, data);
-
-                            if (data != null) {
-                                Uri selectedImageUri = data.getData();
-                                Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
-                                try {
-                                    File f = new File(selectedImageUri.getPath());
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                    new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(a)
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg_crop)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        a.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (ActivityNotFoundException e) {
+                                        a.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
                                 }
-                                fm.beginTransaction().remove(this).commit();
+                            }).setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                    if (SettingValues.previews > 0) {
+                        b.setNeutralButton("Preview (" + SettingValues.previews + ")", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SettingValues.prefs.edit().putInt(SettingValues.PREVIEWS_LEFT, SettingValues.previews - 1).apply();
+                                SettingValues.previews = SettingValues.prefs.getInt(SettingValues.PREVIEWS_LEFT, 10);
+                                doDraw(a, editText, fm);
                             }
-                        }
-                    };
-                    fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
-                    fm.executePendingTransactions();
-
-                    auxiliary.startActivityForResult(intent, 3333);
+                        });
+                    }
+                    b.show();
                 }
             }
         });
@@ -429,6 +420,55 @@ public class DoEditorActions {
                 dialog.show();
             }
         });
+    }
+
+    public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm){
+        Intent intent = new Intent(a, Draw.class);
+        if (a instanceof MainActivity) {
+            LogUtil.v("Running on main");
+            ((MainActivity) a).doImage = new Runnable() {
+                @Override
+                public void run() {
+                    LogUtil.v("Running");
+                    if (((MainActivity) a).data != null) {
+                        Uri selectedImageUri = ((MainActivity) a).data.getData();
+                        Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
+                        try {
+                            File f = new File(selectedImageUri.getPath());
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
+                            new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+            a.startActivityForResult(intent, 3333);
+        } else {
+            Fragment auxiliary = new Fragment() {
+                @Override
+                public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                    super.onActivityResult(requestCode, resultCode, data);
+
+                    if (data != null) {
+                        Uri selectedImageUri = data.getData();
+                        Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
+                        try {
+                            File f = new File(selectedImageUri.getPath());
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
+                            new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        fm.beginTransaction().remove(this).commit();
+                    }
+                }
+            };
+            fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
+            fm.executePendingTransactions();
+
+            auxiliary.startActivityForResult(intent, 3333);
+        }
     }
 
     public static void wrapString(String wrapText, EditText editText) {
