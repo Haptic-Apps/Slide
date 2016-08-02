@@ -127,5 +127,6 @@ android {
         compile 'com.mikepenz:itemanimators:0.2.4@aar'
         compile 'com.neovisionaries:nv-websocket-client:1.28'
         compile 'com.github.ccrama:PeekAndPop:09adee29f1'
+        compile 'com.theartofdev.edmodo:android-image-cropper:2.2.+'
     }
 }

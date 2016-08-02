@@ -42,7 +42,16 @@
             android:tint="?attr/tint"
             android:background="?attr/selectableItemBackground"
             app:srcCompat="@drawable/image" />
-
+        <ImageButton
+            android:id="@+id/draw"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:cropToPadding="true"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:tint="?attr/tint"
+            android:background="?attr/selectableItemBackground"
+            app:srcCompat="@drawable/draw" />
         <ImageButton
             android:id="@+id/link"
             android:layout_height="48dp"

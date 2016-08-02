@@ -53,6 +53,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import me.ccrama.redditslide.Activities.Draw;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
@@ -240,6 +241,57 @@ public class DoEditorActions {
                     fm.executePendingTransactions();
 
                     auxiliary.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
+                }
+            }
+        });
+        baseView.findViewById(R.id.draw).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(a, Draw.class);
+                if (a instanceof MainActivity) {
+                    LogUtil.v("Running on main");
+                    ((MainActivity) a).doImage = new Runnable() {
+                        @Override
+                        public void run() {
+                            LogUtil.v("Running");
+                            if (((MainActivity) a).data != null) {
+                                Uri selectedImageUri = ((MainActivity) a).data.getData();
+                                Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
+                                try {
+                                    File f = new File(selectedImageUri.getPath());
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
+                                    new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    };
+                    a.startActivityForResult(intent, 3333);
+                } else {
+                    Fragment auxiliary = new Fragment() {
+                        @Override
+                        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+                            super.onActivityResult(requestCode, resultCode, data);
+
+                            if (data != null) {
+                                Uri selectedImageUri = data.getData();
+                                Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
+                                try {
+                                    File f = new File(selectedImageUri.getPath());
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
+                                    new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                fm.beginTransaction().remove(this).commit();
+                            }
+                        }
+                    };
+                    fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
+                    fm.executePendingTransactions();
+
+                    auxiliary.startActivityForResult(intent, 3333);
                 }
             }
         });

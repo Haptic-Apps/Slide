@@ -120,6 +120,30 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/night"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:padding="16dp"
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/nighttheme" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/theme_night"
+                    android:textColor="?attr/font"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
             <TextView
                 style="@style/TextAppearance.AppCompat.Body2"
                 android:id="@+id/tintingHeader"
