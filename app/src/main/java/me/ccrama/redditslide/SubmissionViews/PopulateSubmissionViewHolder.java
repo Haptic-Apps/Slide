@@ -303,6 +303,7 @@ public class PopulateSubmissionViewHolder {
     public String reportReason;
 
     boolean[] chosen = new boolean[]{false, false, false};
+    boolean[] oldChosen = new boolean[]{false, false, false};
 
     public static int getWhiteTintColor() {
         return Palette.ThemeEnum.DARK.getTint();
@@ -388,13 +389,21 @@ public class PopulateSubmissionViewHolder {
                     break;
                     case 10:
 
-                        chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
 
-                        final boolean[] oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
-
+                        String[] choices;
+                        final String flair = submission.getSubmissionFlair().getText() != null?submission.getSubmissionFlair().getText():"";
+                        if(flair.isEmpty()){
+                            choices = new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally"};
+                            chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
+                            oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
+                        } else {
+                            choices = new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally", "Flair " + flair};
+                            chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.flairFilters.toLowerCase().contains((submission.getSubredditName() + ":" + flair).toLowerCase())};
+                            oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.flairFilters.toLowerCase().contains((submission.getSubredditName() + ":" + flair).toLowerCase())};
+                        }
                         new AlertDialogWrapper.Builder(mContext).setTitle("What would you like to filter?")
                                 .alwaysCallMultiChoiceCallback()
-                                .setMultiChoiceItems(new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally"}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                                .setMultiChoiceItems(new String[]{}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                         chosen[which] = isChecked;
@@ -434,7 +443,15 @@ public class PopulateSubmissionViewHolder {
                                             e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
                                             e.apply();
                                         }
-
+                                        if (chosen[3] && chosen[3] != oldChosen[3]) {
+                                            SettingValues.flairFilters = SettingValues.flairFilters + ((SettingValues.flairFilters.isEmpty() || SettingValues.flairFilters.endsWith(",")) ? "" : ",") + submission.getSubredditName() +":" + flair;
+                                            e.putString(SettingValues.PREF_FLAIR_FILTERS, SettingValues.flairFilters);
+                                            e.apply();
+                                        } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
+                                            SettingValues.flairFilters = SettingValues.flairFilters.toLowerCase().replace((submission.getSubredditName() +":" + flair).toLowerCase(), "");
+                                            e.putString(SettingValues.PREF_FLAIR_FILTERS, SettingValues.flairFilters);
+                                            e.apply();
+                                        }
                                         if (filtered) {
                                             e.apply();
                                             PostMatch.domains = null;

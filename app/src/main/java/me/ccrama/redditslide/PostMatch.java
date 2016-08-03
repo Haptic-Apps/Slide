@@ -84,7 +84,7 @@ public class PostMatch {
         String body = s.getSelftext();
         String domain = s.getUrl();
         String subreddit = s.getSubredditName();
-        String flair = s.getSubmissionFlair().getText() != null?s.getSubmissionFlair().getText():"NO_FLAIR";
+        String flair = s.getSubmissionFlair().getText() != null?s.getSubmissionFlair().getText():"";
 
         boolean titlec;
         boolean bodyc;
@@ -183,6 +183,7 @@ public class PostMatch {
                 break;
         }
 
+        if(!flair.isEmpty())
         for(String flairText : flairs){
             if(flairText.toLowerCase().startsWith(baseSubreddit)){
                 String[] split = flairText.split(":");
