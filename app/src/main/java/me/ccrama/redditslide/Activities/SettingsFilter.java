@@ -247,7 +247,7 @@ public class SettingsFilter extends BaseActivityAnim {
                     @Override
                     public void onClick(View v) {
                         flairs.remove(finalS);
-                        SettingValues.domainFilters = Reddit.arrayToString(domains);
+                        SettingValues.flairFilters = Reddit.arrayToString(flairs);
                         updateFilters();
                     }
                 });
