@@ -249,7 +249,7 @@ public class SettingValues {
         subredditFilters = prefs.getString(PREF_SUBREDDIT_FILTERS, "");
         alwaysExternal = prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
         flairFilters = prefs.getString(PREF_FLAIR_FILTERS, "");
-
+       
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
         colorSubName = prefs.getBoolean(PREF_COLOR_SUB_NAME, false);
 

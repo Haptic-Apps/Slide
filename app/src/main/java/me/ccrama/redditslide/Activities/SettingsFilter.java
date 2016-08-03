@@ -223,7 +223,7 @@ public class SettingsFilter extends BaseActivityAnim {
         flairs = new ArrayList<>();
 
         ((LinearLayout) findViewById(R.id.flairlist)).removeAllViews();
-        for (String s : SettingValues.flairFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
+        for (String s : SettingValues.flairFilters.replaceAll("^[,]+", "").split("[,]+")) {
             if (!s.isEmpty()) {
                 s = s.trim();
                 final String finalS = s;

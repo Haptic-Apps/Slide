@@ -104,7 +104,7 @@ public class PostMatch {
             subreddits = SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
         }
         if (flairs == null) {
-            flairs = SettingValues.flairFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
+            flairs = SettingValues.flairFilters.replaceAll("^[,]+", "").split("[,]+");
         }
 
         titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(), titles, false);
