@@ -66,7 +66,7 @@
                     android:layout_marginEnd="12dp"
                     android:singleLine="true"
                     android:imeOptions="actionDone"
-                    android:hint="@string/settings_filter_hint"
+                    android:hint="@string/enter_text_to_filter_click_enter_to_add"
                     android:inputType="textUri"
                     android:textSize="14sp" />
 
@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
-                    android:hint="@string/settings_filter_hint"
+                    android:hint="@string/enter_text_to_filter_click_enter_to_add"
                     android:textSize="14sp" />
 
 
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
-                    android:hint="@string/settings_filter_hint"
+                    android:hint="@string/enter_text_to_filter_click_enter_to_add"
                     android:textSize="14sp" />
 
 
@@ -222,12 +222,64 @@
                     android:layout_marginEnd="12dp"
                     android:singleLine="true"
                     android:imeOptions="actionDone"
-                    android:hint="@string/settings_filter_hint"
+                    android:hint="@string/enter_text_to_filter_click_enter_to_add"
                     android:textSize="14sp" />
 
 
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:background="?attr/tint"
+                android:alpha=".25"
+                android:layout_height="0.25dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="8dp"
+                android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:padding="16dp"
+                        app:srcCompat="@drawable/flair"
+                        android:tint="?attr/tint" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="Flair filters"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:id="@+id/flairlist"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/flair"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:singleLine="true"
+                    android:imeOptions="actionDone"
+                    android:hint="Enter text to filter (subreddit:flair_text), click enter to add"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

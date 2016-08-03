@@ -126,17 +126,27 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             messageViewHolder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
             SpannableStringBuilder titleString = new SpannableStringBuilder();
-            if (comment.getAuthor() != null) {
-                titleString.append(comment.getAuthor());
+            String author = comment.getAuthor();
+            String direction = "from ";
+            if(comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase( comment.getDataNode().get("dest").asText()) && !comment.getDataNode().get("dest").asText().equals("reddit")){
+                author = comment.getDataNode().get("dest").asText().replace("#", "/r/");
+                direction = "to ";
+            }
+            if(comment.getDataNode().has("subreddit") && author == null || author.isEmpty()){
+                direction = "via /r/" + comment.getSubreddit();
+            }
+            titleString.append(direction);
+            if (author != null) {
+                titleString.append(author);
                 titleString.append(" ");
-                if (UserTags.isUserTagged(comment.getAuthor())) {
-                    SpannableStringBuilder pinned = new SpannableStringBuilder(" " + UserTags.getUserTag(comment.getAuthor()) + " ");
+                if (UserTags.isUserTagged(author)) {
+                    SpannableStringBuilder pinned = new SpannableStringBuilder(" " + UserTags.getUserTag(author) + " ");
                     pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     titleString.append(pinned);
                     titleString.append(" ");
                 }
 
-                if (UserSubscriptions.friends.contains(comment.getAuthor())) {
+                if (UserSubscriptions.friends.contains(author)) {
                     SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.profile_friend) + " ");
                     pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     titleString.append(pinned);

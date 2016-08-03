@@ -1,13 +1,19 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -15,6 +21,7 @@ import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -27,6 +34,7 @@ public class SettingsFilter extends BaseActivityAnim {
     EditText text;
     EditText domain;
     EditText subreddit;
+    EditText flair;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +47,7 @@ public class SettingsFilter extends BaseActivityAnim {
         text = (EditText) findViewById(R.id.text);
         domain = (EditText) findViewById(R.id.domain);
         subreddit = (EditText) findViewById(R.id.subreddit);
+        flair = (EditText) findViewById(R.id.flair);
 
         title.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -84,6 +93,21 @@ public class SettingsFilter extends BaseActivityAnim {
                 return false;
             }
         });
+        flair.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (flair.getText().toString().contains(":")) {
+                        SettingValues.flairFilters = SettingValues.flairFilters + ", " + flair.getText().toString();
+                        flair.setText("");
+                        updateFilters();
+                    } else {
+                        Toast.makeText(SettingsFilter.this, "Flair filters must look like subreddit:flairtext", Toast.LENGTH_LONG).show();
+                    }
+                }
+                return false;
+            }
+        });
         updateFilters();
 
     }
@@ -92,6 +116,7 @@ public class SettingsFilter extends BaseActivityAnim {
     public ArrayList<String> domains = new ArrayList<>();
     public ArrayList<String> textlist = new ArrayList<>();
     public ArrayList<String> titlelist = new ArrayList<>();
+    public ArrayList<String> flairs = new ArrayList<>();
 
 
     public void updateFilters() {
@@ -194,6 +219,42 @@ public class SettingsFilter extends BaseActivityAnim {
 
             }
         }
+
+        flairs = new ArrayList<>();
+
+        ((LinearLayout) findViewById(R.id.flairlist)).removeAllViews();
+        for (String s : SettingValues.flairFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
+            if (!s.isEmpty()) {
+                s = s.trim();
+                final String finalS = s;
+                flairs.add(finalS);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview, ((LinearLayout) findViewById(R.id.domainlist)), false);
+
+                SpannableStringBuilder b = new SpannableStringBuilder();
+
+                String subname = s.split(":")[0];
+                SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + subname + " ");
+
+                if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
+                    subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+
+                b.append(subreddit);
+                b.append(s.split(":")[1]);
+                ((TextView) t.findViewById(R.id.name)).setText(b);
+                t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        flairs.remove(finalS);
+                        SettingValues.domainFilters = Reddit.arrayToString(domains);
+                        updateFilters();
+                    }
+                });
+                ((LinearLayout) findViewById(R.id.flairlist)).addView(t);
+
+            }
+        }
     }
 
 
@@ -206,17 +267,20 @@ public class SettingsFilter extends BaseActivityAnim {
         e.putString(SettingValues.PREF_DOMAIN_FILTERS, Reddit.arrayToString(domains));
         e.putString(SettingValues.PREF_TEXT_FILTERS, Reddit.arrayToString(textlist));
         e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, Reddit.arrayToString(subs));
+        e.putString(SettingValues.PREF_FLAIR_FILTERS, Reddit.arrayToString(flairs));
         e.apply();
 
         PostMatch.subreddits = null;
         PostMatch.domains = null;
         PostMatch.titles = null;
         PostMatch.externalDomain = null;
+        PostMatch.flairs = null;
         PostMatch.texts = null;
 
         SettingValues.titleFilters = SettingValues.prefs.getString(SettingValues.PREF_TITLE_FILTERS, "");
         SettingValues.textFilters = SettingValues.prefs.getString(SettingValues.PREF_TEXT_FILTERS, "");
         SettingValues.domainFilters = SettingValues.prefs.getString(SettingValues.PREF_DOMAIN_FILTERS, "");
+        SettingValues.flairFilters = SettingValues.prefs.getString(SettingValues.PREF_FLAIR_FILTERS, "");
         SettingValues.subredditFilters = SettingValues.prefs.getString(SettingValues.PREF_SUBREDDIT_FILTERS, "");
 
     }

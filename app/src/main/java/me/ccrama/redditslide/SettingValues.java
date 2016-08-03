@@ -42,6 +42,7 @@ public class SettingValues {
     public static final String PREF_ALWAYS_EXTERNAL = "alwaysExternal";
     public static final String PREF_DRAFTS = "drafts";
     public static final String PREF_SUBREDDIT_FILTERS = "subredditFilters";
+    public static final String PREF_FLAIR_FILTERS = "flairFilters";
     public static final String PREF_COMMENT_LAST_VISIT = "commentLastVisit";
     public static final String PREF_VOTES_INFO_LINE = "votesInfoLine";
     public static final String PREF_TYPE_INFO_LINE = "typeInfoLine";
@@ -146,6 +147,7 @@ public class SettingValues {
     public static String textFilters;
     public static String domainFilters;
     public static String subredditFilters;
+    public static String flairFilters;
     public static String alwaysExternal;
     public static boolean loadImageLq;
 
@@ -246,6 +248,7 @@ public class SettingValues {
         domainFilters = prefs.getString(PREF_DOMAIN_FILTERS, "");
         subredditFilters = prefs.getString(PREF_SUBREDDIT_FILTERS, "");
         alwaysExternal = prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
+        flairFilters = prefs.getString(PREF_FLAIR_FILTERS, "");
 
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
         colorSubName = prefs.getBoolean(PREF_COLOR_SUB_NAME, false);

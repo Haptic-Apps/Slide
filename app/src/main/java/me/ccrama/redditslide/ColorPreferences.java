@@ -1,5 +1,6 @@
 package me.ccrama.redditslide;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -319,7 +320,6 @@ public class ColorPreferences {
     }
 
     public int getThemeSubreddit(String s) {
-
         String str = open().getString(s.toLowerCase(), getFontStyle().getTitle());
 
         if (Theme.valueOf(str).getThemeType() != Reddit.themeBack) {

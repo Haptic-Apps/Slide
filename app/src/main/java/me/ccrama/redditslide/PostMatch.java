@@ -76,6 +76,7 @@ public class PostMatch {
     public static String[] domains = null;
     public static String[] subreddits = null;
     public static String[] externalDomain = null;
+    public static String[] flairs = null;
 
 
     public static boolean doesMatch(Submission s, String baseSubreddit, boolean ignore18) {
@@ -83,6 +84,7 @@ public class PostMatch {
         String body = s.getSelftext();
         String domain = s.getUrl();
         String subreddit = s.getSubredditName();
+        String flair = s.getSubmissionFlair().getText() != null?s.getSubmissionFlair().getText():"NO_FLAIR";
 
         boolean titlec;
         boolean bodyc;
@@ -100,6 +102,9 @@ public class PostMatch {
         }
         if (subreddits == null) {
             subreddits = SettingValues.subredditFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
+        }
+        if (flairs == null) {
+            flairs = SettingValues.flairFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
         }
 
         titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(), titles, false);
@@ -119,6 +124,7 @@ public class PostMatch {
         if (baseSubreddit == null || baseSubreddit.isEmpty()) {
             baseSubreddit = "frontpage";
         }
+
         baseSubreddit = baseSubreddit.toLowerCase();
         boolean gifs = isGif(baseSubreddit);
         boolean images = isImage(baseSubreddit);
@@ -175,6 +181,18 @@ public class PostMatch {
                     contentMatch = true;
                 }
                 break;
+        }
+
+        for(String flairText : flairs){
+            if(flairText.toLowerCase().startsWith(baseSubreddit)){
+                String[] split = flairText.split(":");
+                if(split[0].equalsIgnoreCase(baseSubreddit)){
+                    if(flair.equalsIgnoreCase(split[1].trim())){
+                        contentMatch = true;
+                        break;
+                    }
+                }
+            }
         }
 
         return (titlec || bodyc || domainc || subredditc || contentMatch || Hidden.id.contains(s.getFullName()));
