@@ -391,19 +391,19 @@ public class PopulateSubmissionViewHolder {
 
 
                         String[] choices;
-                        final String flair = submission.getSubmissionFlair().getText() != null?submission.getSubmissionFlair().getText():"";
-                        if(flair.isEmpty()){
+                        final String flair = submission.getSubmissionFlair().getText() != null ? submission.getSubmissionFlair().getText() : "";
+                        if (flair.isEmpty()) {
                             choices = new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally"};
                             chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
                             oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
                         } else {
-                            choices = new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally", "Flair " + flair};
-                            chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.flairFilters.toLowerCase().contains((submission.getSubredditName() + ":" + flair).toLowerCase())};
-                            oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.flairFilters.toLowerCase().contains((submission.getSubredditName() + ":" + flair).toLowerCase())};
+                            choices = new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally", "Flair \"" + flair + "\" from " + baseSub};
+                            chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.flairFilters.toLowerCase().contains((baseSub + ":" + flair).toLowerCase())};
+                            oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.flairFilters.toLowerCase().contains((baseSub + ":" + flair).toLowerCase())};
                         }
                         new AlertDialogWrapper.Builder(mContext).setTitle("What would you like to filter?")
                                 .alwaysCallMultiChoiceCallback()
-                                .setMultiChoiceItems(new String[]{}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                                .setMultiChoiceItems(choices, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                         chosen[which] = isChecked;
@@ -418,21 +418,25 @@ public class PopulateSubmissionViewHolder {
                                             SettingValues.subredditFilters = SettingValues.subredditFilters + ((SettingValues.subredditFilters.isEmpty() || SettingValues.subredditFilters.endsWith(",")) ? "" : ",") + submission.getSubredditName();
                                             filtered = true;
                                             e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
+                                            PostMatch.subreddits = null;
                                         } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
                                             SettingValues.subredditFilters = SettingValues.subredditFilters.replace(submission.getSubredditName(), "");
                                             filtered = false;
                                             e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, SettingValues.subredditFilters);
                                             e.apply();
+                                            PostMatch.subreddits = null;
                                         }
                                         if (chosen[1] && chosen[1] != oldChosen[1]) {
                                             SettingValues.domainFilters = SettingValues.domainFilters + ((SettingValues.domainFilters.isEmpty() || SettingValues.domainFilters.endsWith(",")) ? "" : ",") + submission.getDomain();
                                             filtered = true;
                                             e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
+                                            PostMatch.domains = null;
                                         } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
                                             SettingValues.domainFilters = SettingValues.domainFilters.replace(submission.getDomain(), "");
                                             filtered = false;
                                             e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
                                             e.apply();
+                                            PostMatch.domains = null;
                                         }
                                         if (chosen[2] && chosen[2] != oldChosen[2]) {
                                             SettingValues.alwaysExternal = SettingValues.alwaysExternal + ((SettingValues.alwaysExternal.isEmpty() || SettingValues.alwaysExternal.endsWith(",")) ? "" : ",") + submission.getDomain();
@@ -443,14 +447,19 @@ public class PopulateSubmissionViewHolder {
                                             e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
                                             e.apply();
                                         }
-                                        if (chosen[3] && chosen[3] != oldChosen[3]) {
-                                            SettingValues.flairFilters = SettingValues.flairFilters + ((SettingValues.flairFilters.isEmpty() || SettingValues.flairFilters.endsWith(",")) ? "" : ",") + submission.getSubredditName() +":" + flair;
-                                            e.putString(SettingValues.PREF_FLAIR_FILTERS, SettingValues.flairFilters);
-                                            e.apply();
-                                        } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
-                                            SettingValues.flairFilters = SettingValues.flairFilters.toLowerCase().replace((submission.getSubredditName() +":" + flair).toLowerCase(), "");
-                                            e.putString(SettingValues.PREF_FLAIR_FILTERS, SettingValues.flairFilters);
-                                            e.apply();
+                                        if(chosen.length > 3) {
+                                            if (chosen[3] && chosen[3] != oldChosen[3]) {
+                                                SettingValues.flairFilters = SettingValues.flairFilters + ((SettingValues.flairFilters.isEmpty() || SettingValues.flairFilters.endsWith(",")) ? "" : ",") + (baseSub + ":" + flair);
+                                                e.putString(SettingValues.PREF_FLAIR_FILTERS, SettingValues.flairFilters);
+                                                e.apply();
+                                                PostMatch.flairs = null;
+                                                filtered = true;
+                                            } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
+                                                SettingValues.flairFilters = SettingValues.flairFilters.toLowerCase().replace((baseSub + ":" + flair).toLowerCase(), "");
+                                                e.putString(SettingValues.PREF_FLAIR_FILTERS, SettingValues.flairFilters);
+                                                e.apply();
+                                                PostMatch.flairs = null;
+                                            }
                                         }
                                         if (filtered) {
                                             e.apply();
@@ -937,7 +946,7 @@ public class PopulateSubmissionViewHolder {
                                                             TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                                                             tv.setTextColor(Color.WHITE);
                                                             s.show();
-                                                        } catch(Exception ignored){
+                                                        } catch (Exception ignored) {
 
                                                         }
 

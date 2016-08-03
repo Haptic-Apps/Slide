@@ -42,7 +42,7 @@ public class SettingValues {
     public static final String PREF_ALWAYS_EXTERNAL = "alwaysExternal";
     public static final String PREF_DRAFTS = "drafts";
     public static final String PREF_SUBREDDIT_FILTERS = "subredditFilters";
-    public static final String PREF_FLAIR_FILTERS = "flairFilters";
+    public static final String PREF_FLAIR_FILTERS = "subFlairFilters";
     public static final String PREF_COMMENT_LAST_VISIT = "commentLastVisit";
     public static final String PREF_VOTES_INFO_LINE = "votesInfoLine";
     public static final String PREF_TYPE_INFO_LINE = "typeInfoLine";
