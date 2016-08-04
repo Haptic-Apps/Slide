@@ -63,6 +63,11 @@ public class EditCardsLayout extends BaseActivityAnim {
                                 layout.removeAllViews();
                                 layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.LIST, layout));
                                 break;
+                            case R.id.desktop:
+                                layout.removeAllViews();
+                                layout.addView(CreateCardView.setCardViewType(CreateCardView.CardEnum.DESKTOP, layout));
+                                break;
+
                         }
                         ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard() ? (CreateCardView.isMiddle() ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : getString(R.string.mode_list));
                         return true;
