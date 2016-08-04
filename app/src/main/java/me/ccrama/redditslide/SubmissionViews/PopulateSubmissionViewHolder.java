@@ -1950,7 +1950,7 @@ public class PopulateSubmissionViewHolder {
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
                                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                             }
-                            if (!full && !SettingValues.actionbarVisible) {
+                            if (!full && !SettingValues.actionbarVisible && SettingValues.defaultCardView != CreateCardView.CardEnum.DESKTOP) {
                                 CreateCardView.toggleActionbar(holder.itemView);
                             }
                         }
@@ -1988,7 +1988,7 @@ public class PopulateSubmissionViewHolder {
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
                                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                             }
-                            if (!full && !SettingValues.actionbarVisible) {
+                            if (!full && !SettingValues.actionbarVisible && SettingValues.defaultCardView != CreateCardView.CardEnum.DESKTOP) {
                                 CreateCardView.toggleActionbar(holder.itemView);
                             }
                         }
