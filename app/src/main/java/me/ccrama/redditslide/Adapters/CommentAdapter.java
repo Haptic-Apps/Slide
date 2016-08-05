@@ -7,29 +7,21 @@ package me.ccrama.redditslide.Adapters;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
@@ -41,13 +33,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.mikepenz.itemanimators.AlphaInAnimator;
@@ -71,10 +58,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.BaseActivity;
-import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
@@ -1202,10 +1186,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (reply.getVisibility() == View.VISIBLE) {
                     reply.setVisibility(View.GONE);
                 }
-                if (upvote.getVisibility() == View.VISIBLE) {
+                if (!submission.isArchived() && Authentication.isLoggedIn && Authentication.didOnline && upvote.getVisibility() == View.VISIBLE) {
                     upvote.setVisibility(View.GONE);
                 }
-                if (downvote.getVisibility() == View.VISIBLE) {
+                if (!submission.isArchived() && Authentication.isLoggedIn && Authentication.didOnline && downvote.getVisibility() == View.VISIBLE) {
                     downvote.setVisibility(View.GONE);
                 }
             }

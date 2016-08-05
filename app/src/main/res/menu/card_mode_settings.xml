@@ -14,6 +14,6 @@
 
     <item
         android:id="@+id/desktop"
-        android:title="Desktop compact"/>
+        android:title="@string/mode_desktop_compact"/>
 
 </menu>

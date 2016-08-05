@@ -443,6 +443,10 @@ public class CreateCardView {
         return SettingValues.prefs.getBoolean("middleCard", false);
     }
 
+    public static boolean isDesktop() {
+        return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew", SettingValues.defaultCardView.toString())) == CardEnum.DESKTOP;
+    }
+
     public static CardEnum getCardView() {
         return CardEnum.valueOf(SettingValues.prefs.getString("defaultCardViewNew", SettingValues.defaultCardView.toString()));
     }

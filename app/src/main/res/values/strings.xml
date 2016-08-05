@@ -892,6 +892,7 @@
     <string name="theme_night">Night theme</string>
     <string name="choose_color_title">Choose a color</string>
     <string name="enter_text_to_filter_click_enter_to_add">Enter text to filter, click enter to add</string>
+    <string name="mode_desktop_compact">Desktop compact</string>
 
 
 </resources>

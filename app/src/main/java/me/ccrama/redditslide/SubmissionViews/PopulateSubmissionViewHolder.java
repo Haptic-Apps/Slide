@@ -1728,7 +1728,7 @@ public class PopulateSubmissionViewHolder {
         final ImageView downvotebutton = (ImageView) holder.downvote;
         final ImageView upvotebutton = (ImageView) holder.upvote;
 
-        if (submission.isArchived() || submission.isLocked()) {
+        if (submission.isArchived()) {
             downvotebutton.setVisibility(View.GONE);
             upvotebutton.setVisibility(View.GONE);
         } else if (Authentication.isLoggedIn && !offline && Authentication.didOnline) {
@@ -1748,7 +1748,9 @@ public class PopulateSubmissionViewHolder {
                 upvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_orange_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                if (!ownSubmission) {
+                if (submission.getVote() != VoteDirection.UPVOTE) {
+                    if(submission.getVote() == VoteDirection.DOWNVOTE)
+                        ++submissionScore;
                     ++submissionScore; //offset the score by +1
                 }
                 break;
@@ -1758,8 +1760,10 @@ public class PopulateSubmissionViewHolder {
                 downvotebutton.setColorFilter(ContextCompat.getColor(mContext, R.color.md_blue_500), PorterDuff.Mode.SRC_ATOP);
                 holder.score.setTypeface(null, Typeface.BOLD);
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
-                if (!ownSubmission) {
-                    --submissionScore; //offset the score by -1
+                if (submission.getVote() != VoteDirection.DOWNVOTE) {
+                    if(submission.getVote() == VoteDirection.UPVOTE)
+                        --submissionScore;
+                    --submissionScore; //offset the score by +1
                 }
                 break;
             }
@@ -1772,14 +1776,6 @@ public class PopulateSubmissionViewHolder {
             }
         }
 
-        if (ownSubmission) {
-            switch (submission.getVote()) {
-                case DOWNVOTE:
-                case NO_VOTE:
-                    --submissionScore;
-                    break;
-            }
-        }
 
         //if the submission is already at 0pts, keep it at 0pts
         submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
@@ -1939,16 +1935,16 @@ public class PopulateSubmissionViewHolder {
                                 AnimateHelper.setFlashAnimation(holder.itemView, downvotebutton, ContextCompat.getColor(mContext, R.color.md_blue_500));
                                 holder.score.setTypeface(null, Typeface.BOLD);
                                 final int DOWNVOTE_SCORE = (SUBMISSION_SCORE == 0) ? 0 : SUBMISSION_SCORE - 1; //if a post is at 0 votes, keep it at 0 when downvoting
-                                holder.score.setText(String.format(Locale.getDefault(), "%d", DOWNVOTE_SCORE));
                                 new Vote(false, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.DOWNVOTE);
+                                setSubmissionScoreText(submission, holder);
                             } else { //un-downvoted a post
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
                                 holder.score.setTypeface(null, Typeface.NORMAL);
-                                holder.score.setText(String.format(Locale.getDefault(), "%d", SUBMISSION_SCORE + 1));
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
                                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                                setSubmissionScoreText(submission, holder);
                             }
                             if (!full && !SettingValues.actionbarVisible && SettingValues.defaultCardView != CreateCardView.CardEnum.DESKTOP) {
                                 CreateCardView.toggleActionbar(holder.itemView);
@@ -1977,16 +1973,20 @@ public class PopulateSubmissionViewHolder {
 
                                 AnimateHelper.setFlashAnimation(holder.itemView, upvotebutton, ContextCompat.getColor(mContext, R.color.md_orange_500));
                                 holder.score.setTypeface(null, Typeface.BOLD);
-                                holder.score.setText(String.format(Locale.getDefault(), "%d", SUBMISSION_SCORE + 1));
+
+
                                 new Vote(true, points, mContext).execute(submission);
                                 ActionStates.setVoteDirection(submission, VoteDirection.UPVOTE);
+                                setSubmissionScoreText(submission, holder);
+
                             } else { //un-upvoted a post
                                 points.setTextColor(comments.getCurrentTextColor());
                                 new Vote(points, mContext).execute(submission);
                                 holder.score.setTypeface(null, Typeface.NORMAL);
-                                holder.score.setText(String.format(Locale.getDefault(), "%d", SUBMISSION_SCORE - 1));
                                 ActionStates.setVoteDirection(submission, VoteDirection.NO_VOTE);
                                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
+                                setSubmissionScoreText(submission, holder);
+
                             }
                             if (!full && !SettingValues.actionbarVisible && SettingValues.defaultCardView != CreateCardView.CardEnum.DESKTOP) {
                                 CreateCardView.toggleActionbar(holder.itemView);
@@ -2290,6 +2290,34 @@ public class PopulateSubmissionViewHolder {
                 holder.body.setAlpha(1f);
             }
         }
+    }
+
+    private void setSubmissionScoreText(Submission submission, SubmissionViewHolder holder) {
+        int submissionScore = submission.getScore();
+        switch (ActionStates.getVoteDirection(submission)) {
+            case UPVOTE: {
+                if (submission.getVote() != VoteDirection.UPVOTE) {
+                    if(submission.getVote() == VoteDirection.DOWNVOTE)
+                        ++submissionScore;
+                    ++submissionScore; //offset the score by +1
+                }
+                break;
+            }
+            case DOWNVOTE: {
+                if (submission.getVote() != VoteDirection.DOWNVOTE) {
+                    if(submission.getVote() == VoteDirection.UPVOTE)
+                        --submissionScore;
+                    --submissionScore; //offset the score by +1
+                }
+                break;
+            }
+        }
+
+
+        //if the submission is already at 0pts, keep it at 0pts
+        submissionScore = ((submissionScore < 0) ? 0 : submissionScore);
+        holder.score.setText(String.format(Locale.getDefault(), "%d", submissionScore));
+
     }
 
     private void setViews(String rawHTML, String subredditName, SubmissionViewHolder holder) {

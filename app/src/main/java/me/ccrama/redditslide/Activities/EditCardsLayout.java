@@ -40,7 +40,7 @@ public class EditCardsLayout extends BaseActivityAnim {
 
         //View type//
         //Cards or List//
-        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard() ? (CreateCardView.isMiddle() ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : getString(R.string.mode_list));
+        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard() ? (CreateCardView.isMiddle() ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : CreateCardView.isDesktop() ? getString(R.string.mode_desktop_compact) : getString(R.string.mode_list));
 
         findViewById(R.id.view).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +69,7 @@ public class EditCardsLayout extends BaseActivityAnim {
                                 break;
 
                         }
-                        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard() ? (CreateCardView.isMiddle() ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : getString(R.string.mode_list));
+                        ((TextView) findViewById(R.id.view_current)).setText(CreateCardView.isCard() ? (CreateCardView.isMiddle() ? getString(R.string.mode_centered) : getString(R.string.mode_card)) : CreateCardView.isDesktop() ? getString(R.string.mode_desktop_compact) : getString(R.string.mode_list));
                         return true;
                     }
                 });
