@@ -123,8 +123,6 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     public void onCreate(Bundle savedInstance) {
-
-
         popup = SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !SettingValues.fullCommentOverride;
         seen = new ArrayList<>();
         if (popup) {

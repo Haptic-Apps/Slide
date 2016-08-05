@@ -205,6 +205,7 @@ public class MainActivity extends BaseActivity {
     AsyncTask caching;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
     private int headerHeight; //height of the header
+    public boolean inNightMode;
 
     public static String abbreviate(final String str, final int maxWidth) {
         if (str.length() <= maxWidth) {
@@ -398,7 +399,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         applyOverrideLanguage();
-
+        inNightMode = SettingValues.isNight();
         disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
 
@@ -2537,6 +2538,8 @@ public class MainActivity extends BaseActivity {
         return true;
     }
 
+    int back;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final String subreddit = usedArray.get(Reddit.currentPosition);
@@ -2561,6 +2564,7 @@ public class MainActivity extends BaseActivity {
 
                 builder.setView(dialoglayout);
                 final Dialog d = builder.show();
+                 back = new ColorPreferences(MainActivity.this).getFontStyle().getThemeType();
 
                 dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -2570,7 +2574,7 @@ public class MainActivity extends BaseActivity {
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 d.dismiss();
                                 restartTheme();
@@ -2587,7 +2591,7 @@ public class MainActivity extends BaseActivity {
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 d.dismiss();
                                 restartTheme();
@@ -2604,7 +2608,7 @@ public class MainActivity extends BaseActivity {
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 5) {
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
                                 d.dismiss();
                                 restartTheme();
@@ -2622,7 +2626,7 @@ public class MainActivity extends BaseActivity {
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
                                 d.dismiss();
                                 restartTheme();
                                 break;
@@ -2639,7 +2643,7 @@ public class MainActivity extends BaseActivity {
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
                                 d.dismiss();
                                 restartTheme();
                                 break;
@@ -2656,7 +2660,7 @@ public class MainActivity extends BaseActivity {
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
                                 new ColorPreferences(MainActivity.this).setFontStyle(theme);
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
                                 d.dismiss();
                                 restartTheme();
                                 break;
@@ -2918,6 +2922,10 @@ public class MainActivity extends BaseActivity {
         super.onResume();
         if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(MainActivity.this) && headerMain != null && runAfterLoad == null) {
             new AsyncNotificationBadge().execute();
+        }
+
+        if((!inNightMode && SettingValues.isNight()) || (inNightMode && !SettingValues.isNight())){
+            restartTheme();
         }
 
         if (pager != null && commentPager) {

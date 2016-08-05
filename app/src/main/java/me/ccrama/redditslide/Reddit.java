@@ -89,7 +89,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean fabClear;
     public static ArrayList<Integer> lastposition;
     public static int currentPosition;
-    public static int themeBack;
     public static SharedPreferences cachedData;
     public static final boolean noGapps = true; //for testing
     public static boolean over18 = true;
@@ -619,8 +618,6 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         int fina = (widthDp > heightDp) ? widthDp : heightDp;
         fina += 99;
-
-        themeBack = new ColorPreferences(this).getFontStyle().getThemeType();
 
         if (colors.contains("tabletOVERRIDE")) {
             dpWidth = colors.getInt("tabletOVERRIDE", fina / 300);

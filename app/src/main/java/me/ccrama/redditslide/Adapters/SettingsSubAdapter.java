@@ -423,9 +423,9 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
                                 //Do not save accent color if it matches the default accent color
                                 if (newAccentColor != ContextCompat.getColor(context, colorPrefs.getFontStyle().getColor()) || newAccentColor != ContextCompat.getColor(context, colorPrefs.getFontStyleSubreddit(sub).getColor())) {
                                     LogUtil.v("Accent colors not equal");
-
+                                    int back = new ColorPreferences(context).getFontStyle().getThemeType();
                                     for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                                        if (ContextCompat.getColor(context, type.getColor()) == newAccentColor && Reddit.themeBack == type.getThemeType()) {
+                                        if (ContextCompat.getColor(context, type.getColor()) == newAccentColor && back == type.getThemeType()) {
                                             t = type;
                                             LogUtil.v("Setting accent color to " + t.getTitle());
                                             break;

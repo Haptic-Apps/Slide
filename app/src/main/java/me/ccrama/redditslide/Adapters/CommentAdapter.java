@@ -207,23 +207,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (i) {
             case SPACER: {
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer_post, viewGroup, false);
-                RecyclerView.ViewHolder v2 = new SpacerViewHolder(v);
-                return v2;
+                return new SpacerViewHolder(v);
             }
             case HEADER: {
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.submission_fullscreen, viewGroup, false);
-                RecyclerView.ViewHolder v2 = new SubmissionViewHolder(v);
-                return v2;
+                return new SubmissionViewHolder(v);
             }
             case 2: {
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
-                RecyclerView.ViewHolder v2 = new CommentViewHolder(v);
-                return v2;
+                return new CommentViewHolder(v);
             }
             default: {
                 View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.morecomment, viewGroup, false);
-                RecyclerView.ViewHolder v2 = new MoreCommentViewHolder(v);
-                return v2;
+                return new MoreCommentViewHolder(v);
             }
         }
 
@@ -1586,18 +1582,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 try {
                     listView.setItemAnimator(new AlphaInAnimator());
-                } catch (Exception e) {
+                } catch (Exception ignored) {
                 }
                 notifyItemRangeInserted(i, counter);
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
 
     public void hideAll(CommentNode n) {
 
-        int counter = hideNumber(n, 0);
+        hideNumber(n, 0);
         if (SettingValues.collapseComments) {
             listView.setItemAnimator(null);
             notifyDataSetChanged();

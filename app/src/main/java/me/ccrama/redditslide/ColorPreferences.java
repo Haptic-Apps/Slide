@@ -1,6 +1,5 @@
 package me.ccrama.redditslide;
 
-import android.app.UiModeManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -286,6 +285,9 @@ public class ColorPreferences {
 
     public Theme getFontStyle() {
         try {
+            if (SettingValues.isNight()) {
+                return getColoredTheme(SettingValues.nightTheme, open().getString(FONT_STYLE, Theme.dark_amber.name()), Theme.valueOf(open().getString(FONT_STYLE, Theme.dark_amber.name())));
+            }
             return Theme.valueOf(open().getString(FONT_STYLE, Theme.dark_amber.name()));
         } catch (Exception e) {
             return Theme.dark_amber;
@@ -304,29 +306,15 @@ public class ColorPreferences {
         edit().putString(FONT_STYLE, style.name()).apply();
     }
 
-    public int getThemeOverview() {
-        switch (getFontStyle().getThemeType()) {
-            case 0:
-                return R.style.white_dark;
-            case 1:
-                return R.style.white_light;
-            case 2:
-                return R.style.white_amoled;
-            case 3:
-                return R.style.white_AMOLED_lighter;
-            default:
-                return R.style.white_blue;
-        }
-    }
-
     public int getThemeSubreddit(String s) {
+        int back = getFontStyle().getThemeType();
         String str = open().getString(s.toLowerCase(), getFontStyle().getTitle());
 
-        if (Theme.valueOf(str).getThemeType() != Reddit.themeBack) {
+        if (Theme.valueOf(str).getThemeType() != back) {
             String[] names = str.split("_");
             String name = names[names.length - 1];
             for (Theme theme : Theme.values()) {
-                if (theme.toString().contains(name) && theme.getThemeType() == Reddit.themeBack) {
+                if (theme.toString().contains(name) && theme.getThemeType() == back) {
                     setFontStyle(theme, s);
                     return theme.baseId;
                 }
@@ -342,15 +330,14 @@ public class ColorPreferences {
     }
 
     public Theme getThemeSubreddit(String s, boolean b) {
-
+        int back = getFontStyle().getThemeType();
         String str = open().getString(s.toLowerCase(), getFontStyle().getTitle());
-
         try {
-            if (Theme.valueOf(str).getThemeType() != Reddit.themeBack) {
+            if (Theme.valueOf(str).getThemeType() != back) {
                 String[] names = str.split("_");
                 String name = names[names.length - 1];
                 for (Theme theme : Theme.values()) {
-                    if (theme.toString().contains(name) && theme.getThemeType() == Reddit.themeBack) {
+                    if (theme.toString().contains(name) && theme.getThemeType() == back) {
                         setFontStyle(theme, s);
                         return theme;
                     }
@@ -369,26 +356,26 @@ public class ColorPreferences {
     }
 
     public int getDarkThemeSubreddit(String s) {
+        return getColoredTheme(4, open().getString(s.toLowerCase(), getFontStyle().getTitle()), getFontStyle()).baseId;
+    }
 
-        String str = open().getString(s.toLowerCase(), getFontStyle().getTitle());
-
+    private Theme getColoredTheme(int i, String base, Theme defaultTheme) {
         try {
-            if (Theme.valueOf(str).getThemeType() != 4) {
-                String[] names = str.split("_");
+            if (Theme.valueOf(base).getThemeType() != i) {
+                String[] names = base.split("_");
                 String name = names[names.length - 1];
                 for (Theme theme : Theme.values()) {
-                    if (theme.toString().contains(name) && theme.getThemeType() == 4) {
-                        return theme.baseId;
+                    if (theme.toString().contains(name) && theme.getThemeType() == i) {
+                        return theme;
                     }
                 }
             } else {
-                return Theme.valueOf(str).baseId;
+                return Theme.valueOf(base);
             }
         } catch (Exception ignored) {
 
         }
-        return getFontStyle().baseId;
-
+        return defaultTheme;
     }
 
     public void setFontStyle(Theme style, String s) {

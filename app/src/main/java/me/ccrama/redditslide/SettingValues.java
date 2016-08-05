@@ -6,6 +6,8 @@ import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 
+import java.util.Calendar;
+
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -18,7 +20,8 @@ public class SettingValues {
     public static final String PREF_UPVOTE_PERCENTAGE = "upvotePercentage";
     public static final String PREF_FAB_TYPE = "FabType";
     public static final String PREF_DAY_TIME = "day";
-    public static final String PREF_NIGHT_TIME = "nightTime";
+    public static final String PREF_NIGHT_MODE = "nightMode";
+    public static final String PREF_NIGHT_THEME = "nightTheme";
     public static final String PREF_AUTOHIDE_COMMENTS = "autohideComments";
     public static final String PREF_NO_IMAGES = "noImages";
     public static final String PREF_AUTOTHEME = "autotime";
@@ -158,8 +161,7 @@ public class SettingValues {
     public static boolean tabletUI;
     public static boolean customtabs;
     public static boolean dualPortrait;
-    public static int nighttime;
-    public static int daytime;
+    public static boolean nightMode;
     public static boolean autoTime;
     public static boolean albumSwipe;
     public static boolean switchThumb;
@@ -173,6 +175,7 @@ public class SettingValues {
     public static boolean alwaysZoom;
     public static boolean imgurLq = true;
     public static int currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
+    public static int nightTheme;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -198,8 +201,8 @@ public class SettingValues {
         fab = prefs.getBoolean(PREF_FAB, true);
         fabType = prefs.getInt(PREF_FAB_TYPE, R.integer.FAB_DISMISS);
         subredditSearchMethod = prefs.getInt(PREF_SUBREDDIT_SEARCH_METHOD, R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER);
-        nighttime = prefs.getInt(PREF_DAY_TIME, 20);
-        daytime = prefs.getInt(PREF_NIGHT_TIME, 6);
+        nightMode = prefs.getBoolean(PREF_DAY_TIME, false);
+        nightTheme = prefs.getInt(PREF_NIGHT_THEME, 1);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
         colorBack = prefs.getBoolean(PREF_COLOR_BACK, false);
         cardText = prefs.getBoolean(PREF_CARD_TEXT, false);
@@ -312,6 +315,11 @@ public class SettingValues {
 
     public static Sorting getSubmissionSorting(String sub) {
         return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(), defaultCommentSorting.name()));
+    }
+
+    public static boolean isNight() {
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        return (hour > 20 || hour < 6) && tabletUI && nightMode;
     }
 
     public enum ColorIndicator {

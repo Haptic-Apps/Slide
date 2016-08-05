@@ -342,14 +342,14 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.nav).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (adapter != null && adapter.users != null) {
+                    if (adapter != null && adapter.currentComments != null) {
                         int parentCount, opCount, linkCount, gildCount;
                         parentCount = 0;
                         opCount = 0;
                         linkCount = 0;
                         gildCount = 0;
                         String op = adapter.submission.getAuthor();
-                        for (CommentObject o : adapter.users) {
+                        for (CommentObject o : adapter.currentComments) {
                             if (o.comment != null && !(o instanceof MoreChildItem)) {
                                 if (o.comment.isTopLevel())
                                     parentCount++;
@@ -395,7 +395,7 @@ public class CommentPage extends Fragment {
                                                         sortTime = c.getTimeInMillis() - i1 * 1000;
 
                                                         int commentcount = 0;
-                                                        for (CommentObject o : adapter.users) {
+                                                        for (CommentObject o : adapter.currentComments) {
                                                             if (o.comment != null && o.comment.getComment().getDataNode().has("created") && o.comment.getComment().getCreated().getTime() > sortTime) {
                                                                 commentcount += 1;
                                                             }
@@ -861,7 +861,6 @@ public class CommentPage extends Fragment {
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
         locked = bundle.getBoolean("locked", false);
-        String baseSubreddit = bundle.getString("baseSubreddit", "");
 
         loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
         if (!single) loadMore = false;
@@ -875,7 +874,7 @@ public class CommentPage extends Fragment {
         super.onDestroy();
         if (comments != null)
             comments.cancelLoad();
-        if (adapter != null && adapter.users != null) {
+        if (adapter != null && adapter.currentComments != null) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 Drafts.addDraft(adapter.currentlyEditing.getText().toString());
                 Toast.makeText(getActivity().getApplicationContext(), R.string.msg_save_draft, Toast.LENGTH_LONG).show();
@@ -1039,7 +1038,7 @@ public class CommentPage extends Fragment {
 
         for (int i = pos - 1; i >= 0; i--) {
             try {
-                CommentObject o = adapter.users.get(adapter.getRealPosition(i));
+                CommentObject o = adapter.currentComments.get(adapter.getRealPosition(i));
                 if (o instanceof CommentItem && pos - 1 != i) {
                     boolean matches = false;
                     switch (currentSort) {
@@ -1078,7 +1077,7 @@ public class CommentPage extends Fragment {
 
     private void goUp() {
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (adapter != null && adapter.users != null && !adapter.users.isEmpty()) {
+        if (adapter != null && adapter.currentComments != null && !adapter.currentComments.isEmpty()) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())
@@ -1131,11 +1130,11 @@ public class CommentPage extends Fragment {
     public void doGoDown(int old) {
         int pos = old - 2;
         if (pos < 0) pos = 0;
-        String original = adapter.users.get(adapter.getRealPosition(pos)).getName();
+        String original = adapter.currentComments.get(adapter.getRealPosition(pos)).getName();
 
-        for (int i = pos + 1; i < adapter.users.size(); i++) {
+        for (int i = pos + 1; i < adapter.currentComments.size(); i++) {
             try {
-                CommentObject o = adapter.users.get(adapter.getRealPosition(i));
+                CommentObject o = adapter.currentComments.get(adapter.getRealPosition(i));
                 if (o instanceof CommentItem) {
                     boolean matches = false;
                     switch (currentSort) {
@@ -1174,7 +1173,7 @@ public class CommentPage extends Fragment {
     private void goDown() {
         ((View) toolbar.getParent()).setTranslationY(-((View) toolbar.getParent()).getHeight());
         int toGoto = mLayoutManager.findFirstVisibleItemPosition();
-        if (adapter != null && adapter.users != null && !adapter.users.isEmpty()) {
+        if (adapter != null && adapter.currentComments != null && !adapter.currentComments.isEmpty()) {
             if (adapter.currentlyEditing != null && !adapter.currentlyEditing.getText().toString().isEmpty()) {
                 final int finalToGoto = toGoto;
                 new AlertDialogWrapper.Builder(getActivity())

@@ -1,7 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -12,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -22,6 +26,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.OnSingleClickListener;
 import uz.shift.colorpicker.LineColorPicker;
 import uz.shift.colorpicker.OnColorChangedListener;
 
@@ -32,11 +37,13 @@ import uz.shift.colorpicker.OnColorChangedListener;
 public class SettingsTheme extends BaseActivityAnim {
     public static boolean changed;
 
+    int back;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_theme);
         setupAppBar(R.id.toolbar, R.string.title_edit_theme, true, true);
+        back = new ColorPreferences(SettingsTheme.this).getFontStyle().getThemeType();
 
         findViewById(R.id.accent).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +75,7 @@ public class SettingsTheme extends BaseActivityAnim {
                         int color = colorPicker.getColor();
                         ColorPreferences.Theme t = null;
                         for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                            if (ContextCompat.getColor(SettingsTheme.this, type.getColor()) == color && Reddit.themeBack == type.getThemeType()) {
+                            if (ContextCompat.getColor(SettingsTheme.this, type.getColor()) == color && back == type.getThemeType()) {
                                 t = type;
                                 LogUtil.v("Setting to " + t.getTitle());
                                 break;
@@ -110,7 +117,7 @@ public class SettingsTheme extends BaseActivityAnim {
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
                                 new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
 
                                 Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
@@ -136,7 +143,7 @@ public class SettingsTheme extends BaseActivityAnim {
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
                                 new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
 
                                 Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -161,7 +168,7 @@ public class SettingsTheme extends BaseActivityAnim {
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
                                 new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
 
                                 Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -185,7 +192,7 @@ public class SettingsTheme extends BaseActivityAnim {
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
                                 new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
                                 Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -209,7 +216,7 @@ public class SettingsTheme extends BaseActivityAnim {
                         final String newName = name.replace("(", "");
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 5) {
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
                                 new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
                                 Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -234,7 +241,7 @@ public class SettingsTheme extends BaseActivityAnim {
                         for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                             if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
                                 new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
-                                Reddit.themeBack = theme.getThemeType();
+                                back = theme.getThemeType();
 
                                 Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                                 i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
@@ -400,13 +407,116 @@ public class SettingsTheme extends BaseActivityAnim {
                 SettingValues.colorNavBar = isChecked;
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COLOR_NAV_BAR, isChecked).apply();
                 themeSystemBars("");
-                if(!isChecked){
+                if (!isChecked) {
                     getWindow().setNavigationBarColor(Color.TRANSPARENT);
                 }
 
             }
         });
+        findViewById(R.id.night).setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View view) {
+                if (SettingValues.tabletUI) {
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View dialoglayout = inflater.inflate(R.layout.nightmode, null);
+                    final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsTheme.this);
+                    final Dialog dialog = builder.setView(dialoglayout).create();
+                    dialog.show();
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            //todo save
+                        }
+                    });
+                    SwitchCompat s = (SwitchCompat) dialog.findViewById(R.id.enabled);
+                    s.setChecked(SettingValues.nightMode);
+                    s.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            SettingValues.nightMode = isChecked;
+                            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_NIGHT_MODE, isChecked).apply();
+                            SettingsTheme.changed = true;
+                        }
+                    });
+                    switch (SettingValues.nightTheme) {
+                        case 0:
+                            ((RadioButton) dialoglayout.findViewById(R.id.dark)).setChecked(true);
+                            break;
+                        case 2:
+                            ((RadioButton) dialoglayout.findViewById(R.id.amoled)).setChecked(true);
+                            break;
+                        case 3:
+                            ((RadioButton) dialoglayout.findViewById(R.id.blue)).setChecked(true);
+                            break;
+                        case 4:
+                            ((RadioButton) dialoglayout.findViewById(R.id.amoled_contrast)).setChecked(true);
+                            break;
+                        default:
+                            ((RadioButton) dialoglayout.findViewById(R.id.dark)).setChecked(true);
+                            break;
 
+                    }
+                    ((RadioButton) dialoglayout.findViewById(R.id.dark)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                SettingsTheme.changed = true;
+                                SettingValues.nightTheme = 0;
+                                SettingValues.prefs.edit().putInt(SettingValues.PREF_NIGHT_THEME, 0).apply();
+                            }
+                        }
+                    });
+                    ((RadioButton) dialoglayout.findViewById(R.id.amoled)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                SettingsTheme.changed = true;
+                                SettingValues.nightTheme = 2;
+                                SettingValues.prefs.edit().putInt(SettingValues.PREF_NIGHT_THEME, 2).apply();
+                            }
+                        }
+                    });
+                    ((RadioButton) dialoglayout.findViewById(R.id.blue)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                SettingsTheme.changed = true;
+                                SettingValues.nightTheme = 3;
+                                SettingValues.prefs.edit().putInt(SettingValues.PREF_NIGHT_THEME, 3).apply();
+                            }
+                        }
+                    });
+                    ((RadioButton) dialoglayout.findViewById(R.id.amoled_contrast)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                SettingsTheme.changed = true;
+                                SettingValues.nightTheme = 4;
+                                SettingValues.prefs.edit().putInt(SettingValues.PREF_NIGHT_THEME, 4).apply();
+                            }
+                        }
+                    });
+                } else {
+                    new AlertDialogWrapper.Builder(SettingsTheme.this)
+                            .setTitle(R.string.general_pro)
+                            .setMessage(R.string.general_pro_msg)
+                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                    }
+                                }
+                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    }).show();
+                }
+            }
+        });
     }
+
 
 }
