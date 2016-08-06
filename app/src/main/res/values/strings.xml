@@ -893,6 +893,8 @@
     <string name="choose_color_title">Choose a color</string>
     <string name="enter_text_to_filter_click_enter_to_add">Enter text to filter, click enter to add</string>
     <string name="mode_desktop_compact">Desktop compact</string>
+    <string name="may_reduce_comment_scroll_performance">May reduce comment scroll performance</string>
+    <string name="show_content_type_text_beside_links">Show content type text beside links</string>
 
 
 </resources>

@@ -19,6 +19,7 @@
             android:paddingEnd="16dp"
             android:paddingTop="16dp"
             android:layout_width="match_parent"
+            android:textColor="?attr/colorAccent"
             android:layout_height="wrap_content" />
 
         <LinearLayout
@@ -47,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/handling_browser"
                         android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/browser"
@@ -67,6 +68,7 @@
                 android:paddingEnd="16dp"
                 android:paddingTop="16dp"
                 android:layout_width="match_parent"
+                android:textColor="?attr/colorAccent"
                 android:layout_height="wrap_content" />
 
             <RelativeLayout
@@ -89,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_gif"
                         android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -131,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_image"
                         android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -173,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_album"
                         android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -221,7 +223,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/download_the_slide_video_player_plugin"
                             android:textColor="?attr/font"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
                     </LinearLayout>
                 </RelativeLayout>
             </RelativeLayout>
@@ -234,6 +236,7 @@
                 android:paddingEnd="16dp"
                 android:paddingTop="16dp"
                 android:layout_width="match_parent"
+                android:textColor="?attr/colorAccent"
                 android:layout_height="wrap_content" />
 
             <RelativeLayout
@@ -257,7 +260,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_links_force_external"
                         android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -300,7 +303,7 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"
                     android:inputType="textUri"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

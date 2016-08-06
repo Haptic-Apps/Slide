@@ -10,6 +10,7 @@ import net.dean.jraw.models.Submission;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 
 /**
@@ -261,9 +262,11 @@ public class ContentType {
      * @return the String identifier
      */
     private static int getContentID(Submission submission) {
-        final Type contentType = getContentType(submission);
+        return getContentID(getContentType(submission.getUrl()), submission.isNsfw());
+    }
 
-        if (submission.isNsfw()) {
+    public static int getContentID(Type contentType, boolean nsfw) {
+        if (nsfw) {
             switch (contentType) {
                 case ALBUM:
                     return R.string.type_nsfw_album;

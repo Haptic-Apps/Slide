@@ -22,6 +22,7 @@ public class SettingValues {
     public static final String PREF_DAY_TIME = "day";
     public static final String PREF_NIGHT_MODE = "nightMode";
     public static final String PREF_NIGHT_THEME = "nightTheme";
+    public static final String PREF_TYPE_IN_TEXT = "typeInText";
     public static final String PREF_AUTOHIDE_COMMENTS = "autohideComments";
     public static final String PREF_NO_IMAGES = "noImages";
     public static final String PREF_AUTOTHEME = "autotime";
@@ -176,6 +177,7 @@ public class SettingValues {
     public static boolean imgurLq = true;
     public static int currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
     public static int nightTheme;
+    public static boolean typeInText;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -269,6 +271,7 @@ public class SettingValues {
         video = true;
         exit = prefs.getBoolean(PREF_EXIT, true);
         fastscroll = prefs.getBoolean(PREF_FASTSCROLL, false);
+        typeInText = prefs.getBoolean(PREF_TYPE_IN_TEXT, false);
 
         hideButton = prefs.getBoolean(PREF_HIDEBUTTON, false);
         saveButton = prefs.getBoolean(PREF_SAVE_BUTTON, false);

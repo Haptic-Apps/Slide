@@ -19,6 +19,7 @@
             android:paddingEnd="16dp"
             android:paddingTop="16dp"
             android:layout_width="match_parent"
+            android:textColor="?attr/colorAccent"
             android:layout_height="wrap_content" />
 
         <LinearLayout
@@ -48,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:text="Enable datasaving settings"
                         android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/lowquality"
@@ -68,6 +69,7 @@
                 android:paddingEnd="16dp"
                 android:paddingTop="16dp"
                 android:layout_width="match_parent"
+                android:textColor="?attr/colorAccent"
                 android:layout_height="wrap_content" />
 
             <RelativeLayout
@@ -90,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/never_load_images"
                         android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                 </LinearLayout>
 
@@ -134,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/low_quality_images_in_image_viewer"
                         android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/imagelq_subtext"
@@ -185,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/load_medium_quality_imgur_images"
                         android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -225,6 +227,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:background="?android:selectableItemBackground"
+                android:textColor="?attr/colorAccent"
                 android:paddingStart="16dp">
 
                 <LinearLayout
@@ -239,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_hide_selftext_image"
                         android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat

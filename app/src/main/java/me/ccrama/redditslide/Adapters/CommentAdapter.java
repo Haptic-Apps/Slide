@@ -1284,8 +1284,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public EditText currentlyEditing;
 
     public void resetMenu(LinearLayout v, boolean collapsed) {
+        v.removeAllViews();
         if (collapsed) {
-            v.removeAllViews();
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) v.getLayoutParams();
             params.height = 0;
             v.setLayoutParams(params);

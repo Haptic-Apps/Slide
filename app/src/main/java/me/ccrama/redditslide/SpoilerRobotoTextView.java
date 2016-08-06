@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
@@ -26,6 +27,7 @@ import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.QuoteSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
@@ -194,7 +196,6 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         Matcher htmlSpoilerMatcher = htmlSpoilerPattern.matcher(html);
         while (htmlSpoilerMatcher.find()) {
             String newPiece = htmlSpoilerMatcher.group();
-
             String inner = "<a href=\"/spoiler\">spoiler&lt; [[s[ " + newPiece.substring(newPiece.indexOf(">") + 1, newPiece.indexOf("<", newPiece.indexOf(">"))) + "]s]]</a>";
             html = html.replace(htmlSpoilerMatcher.group(), inner);
         }
@@ -219,6 +220,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
     private void setEmoteSpans(SpannableStringBuilder builder) {
         for (URLSpan span : builder.getSpans(0, builder.length(), URLSpan.class)) {
+            if (SettingValues.typeInText) {
+                setLinkTypes(builder, span);
+            }
             File emoteDir = new File(Environment.getExternalStorageDirectory(), "RedditEmotes");
             File emoteFile = new File(emoteDir, span.getURL().replace("/", "").replaceAll("-.*", "") + ".png"); //BPM uses "-" to add dynamics for emotes in browser. Fall back to original here if exists.
             boolean startsWithSlash = span.getURL().startsWith("/");
@@ -253,6 +257,25 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             }
         }
     }
+
+    private void setLinkTypes(SpannableStringBuilder builder, URLSpan span) {
+        String url = span.getURL();
+        String text = builder.subSequence(builder.getSpanStart(span), builder.getSpanEnd(span)).toString();
+        if (!text.equalsIgnoreCase(url)) {
+            ContentType.Type contentType = ContentType.getContentType(url);
+            String bod;
+            try {
+                bod = " (" + getContext().getString(ContentType.getContentID(contentType, false)) + " " + (contentType == ContentType.Type.LINK ? Uri.parse(url).getHost() : "") + ")";
+            } catch (Exception e){
+                bod = " (" + getContext().getString(ContentType.getContentID(contentType, false)) + ")";
+            }
+            SpannableStringBuilder b = new SpannableStringBuilder(bod);
+            b.setSpan(new StyleSpan(Typeface.BOLD), 0, b.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            b.setSpan(new RelativeSizeSpan(0.8f), 0, b.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.insert(builder.getSpanEnd(span), b);
+        }
+    }
+
 
     private void setStrikethrough(SpannableStringBuilder builder) {
         final int offset = "[[d[".length(); // == "]d]]".length()
