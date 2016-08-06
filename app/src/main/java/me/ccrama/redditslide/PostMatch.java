@@ -77,6 +77,7 @@ public class PostMatch {
     public static String[] subreddits = null;
     public static String[] externalDomain = null;
     public static String[] flairs = null;
+    public static String[] users = null;
 
 
     public static boolean doesMatch(Submission s, String baseSubreddit, boolean ignore18) {
@@ -90,6 +91,7 @@ public class PostMatch {
         boolean bodyc;
         boolean domainc;
         boolean subredditc;
+        boolean userc;
 
         if (titles == null) {
             titles = SettingValues.titleFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
@@ -106,10 +108,15 @@ public class PostMatch {
         if (flairs == null) {
             flairs = SettingValues.flairFilters.replaceAll("^[,]+", "").split("[,]+");
         }
+        if (users == null) {
+            users = SettingValues.userFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+");
+        }
 
         titlec = !SettingValues.titleFilters.isEmpty() && contains(title.toLowerCase(), titles, false);
 
         bodyc = !SettingValues.textFilters.isEmpty() && contains(body.toLowerCase(), texts, false);
+
+        userc = !SettingValues.userFilters.isEmpty() && contains(s.getAuthor().toLowerCase(), users, false);
 
         try {
             domainc = !SettingValues.domainFilters.isEmpty() && isDomain(domain.toLowerCase(), domains);
@@ -196,7 +203,7 @@ public class PostMatch {
             }
         }
 
-        return (titlec || bodyc || domainc || subredditc || contentMatch || Hidden.id.contains(s.getFullName()));
+        return (titlec || bodyc || userc || domainc || subredditc || contentMatch || Hidden.id.contains(s.getFullName()));
     }
 
     public static boolean doesMatch(Submission s) {

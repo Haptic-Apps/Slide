@@ -35,6 +35,7 @@ public class SettingsFilter extends BaseActivityAnim {
     EditText domain;
     EditText subreddit;
     EditText flair;
+    EditText user;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +49,7 @@ public class SettingsFilter extends BaseActivityAnim {
         domain = (EditText) findViewById(R.id.domain);
         subreddit = (EditText) findViewById(R.id.subreddit);
         flair = (EditText) findViewById(R.id.flair);
+        user = (EditText) findViewById(R.id.user);
 
         title.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -93,6 +95,17 @@ public class SettingsFilter extends BaseActivityAnim {
                 return false;
             }
         });
+        user.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    SettingValues.userFilters = SettingValues.userFilters + ", " + user.getText().toString();
+                    user.setText("");
+                    updateFilters();
+                }
+                return false;
+            }
+        });
         flair.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -117,6 +130,7 @@ public class SettingsFilter extends BaseActivityAnim {
     public ArrayList<String> textlist = new ArrayList<>();
     public ArrayList<String> titlelist = new ArrayList<>();
     public ArrayList<String> flairs = new ArrayList<>();
+    public ArrayList<String> users = new ArrayList<>();
 
 
     public void updateFilters() {
@@ -165,6 +179,31 @@ public class SettingsFilter extends BaseActivityAnim {
                     }
                 });
                 ((LinearLayout) findViewById(R.id.subredditlist)).addView(t);
+
+            }
+        }
+
+        users = new ArrayList<>();
+        ((LinearLayout) findViewById(R.id.userlist)).removeAllViews();
+
+        for (String s : SettingValues.userFilters.replaceAll("^[,\\s]+", "").split("[,\\s]+")) {
+            if (!s.isEmpty()) {
+                s = s.trim();
+                final String finalS = s;
+                users.add(finalS);
+                final View t = getLayoutInflater().inflate(R.layout.account_textview, ((LinearLayout) findViewById(R.id.subredditlist)), false);
+
+                ((TextView) t.findViewById(R.id.name)).setText(s);
+                t.findViewById(R.id.remove).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        users.remove(finalS);
+                        SettingValues.userFilters = Reddit.arrayToString(users);
+                        updateFilters();
+
+                    }
+                });
+                ((LinearLayout) findViewById(R.id.userlist)).addView(t);
 
             }
         }
@@ -268,6 +307,7 @@ public class SettingsFilter extends BaseActivityAnim {
         e.putString(SettingValues.PREF_TEXT_FILTERS, Reddit.arrayToString(textlist));
         e.putString(SettingValues.PREF_SUBREDDIT_FILTERS, Reddit.arrayToString(subs));
         e.putString(SettingValues.PREF_FLAIR_FILTERS, Reddit.arrayToString(flairs));
+        e.putString(SettingValues.PREF_USER_FILTERS, Reddit.arrayToString(users));
         e.apply();
 
         PostMatch.subreddits = null;
@@ -276,12 +316,14 @@ public class SettingsFilter extends BaseActivityAnim {
         PostMatch.externalDomain = null;
         PostMatch.flairs = null;
         PostMatch.texts = null;
+        PostMatch.users = null;
 
         SettingValues.titleFilters = SettingValues.prefs.getString(SettingValues.PREF_TITLE_FILTERS, "");
         SettingValues.textFilters = SettingValues.prefs.getString(SettingValues.PREF_TEXT_FILTERS, "");
         SettingValues.domainFilters = SettingValues.prefs.getString(SettingValues.PREF_DOMAIN_FILTERS, "");
         SettingValues.flairFilters = SettingValues.prefs.getString(SettingValues.PREF_FLAIR_FILTERS, "");
         SettingValues.subredditFilters = SettingValues.prefs.getString(SettingValues.PREF_SUBREDDIT_FILTERS, "");
+        SettingValues.userFilters = SettingValues.prefs.getString(SettingValues.PREF_USER_FILTERS, "");
 
     }
 

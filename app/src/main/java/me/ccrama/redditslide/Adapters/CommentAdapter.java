@@ -113,7 +113,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private String currentlyEditingId = "";
     public SubmissionViewHolder submissionViewHolder;
     long lastSeen;
-    
+
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, FragmentManager fm) {
         this.mContext = mContext.getContext();
         mPage = mContext;

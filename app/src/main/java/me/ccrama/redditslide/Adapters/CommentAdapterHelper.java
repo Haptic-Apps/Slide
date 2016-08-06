@@ -434,7 +434,7 @@ public class CommentAdapterHelper {
         boolean approved = false;
         String whoApproved = "";
         if (comment.getDataNode().get("approved_by").asText().equals("null")) {
-            b.sheet(1, approve, "Approve comment");
+            b.sheet(1, approve, "Approve");
         } else {
             approved = true;
             whoApproved = comment.getDataNode().get("approved_by").asText();
@@ -447,17 +447,17 @@ public class CommentAdapterHelper {
         final boolean stickied = comment.getDataNode().has("stickied") && comment.getDataNode().get("stickied").asBoolean();
         if (baseNode.isTopLevel())
             if (!stickied) {
-                b.sheet(4, pin, "Sticky comment");
+                b.sheet(4, pin, "Sticky");
             } else {
-                b.sheet(4, pin, "Un-sticky comment");
+                b.sheet(4, pin, "Un-sticky");
             }
 
         final boolean distinguished = !comment.getDataNode().get("distinguished").isNull();
         if (comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
             if (!distinguished) {
-                b.sheet(9, distinguish, "Distinguish comment");
+                b.sheet(9, distinguish, "Distinguish");
             } else {
-                b.sheet(9, distinguish, "Un-distinguish comment");
+                b.sheet(9, distinguish, "Un-distinguish");
             }
         }
 

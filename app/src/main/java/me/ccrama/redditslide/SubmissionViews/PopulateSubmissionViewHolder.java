@@ -393,13 +393,13 @@ public class PopulateSubmissionViewHolder {
                         String[] choices;
                         final String flair = submission.getSubmissionFlair().getText() != null ? submission.getSubmissionFlair().getText() : "";
                         if (flair.isEmpty()) {
-                            choices = new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally"};
-                            chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
-                            oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
+                            choices = new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts by /u/" + submission.getAuthor(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally"};
+                            chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.userFilters.toLowerCase().contains(submission.getAuthor().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
+                            oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.userFilters.toLowerCase().contains(submission.getAuthor().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase())};
                         } else {
-                            choices = new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally", "Flair \"" + flair + "\" from " + baseSub};
-                            chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.flairFilters.toLowerCase().contains((baseSub + ":" + flair).toLowerCase())};
-                            oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.flairFilters.toLowerCase().contains((baseSub + ":" + flair).toLowerCase())};
+                            choices = new String[]{"Posts from /r/" + submission.getSubredditName(), "Posts by /u/" + submission.getAuthor(), "Posts linking to " + submission.getDomain(), "Open " + submission.getDomain() + " urls externally", "Flair \"" + flair + "\" from " + baseSub};
+                            chosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.userFilters.toLowerCase().contains(submission.getAuthor().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.flairFilters.toLowerCase().contains((baseSub + ":" + flair).toLowerCase())};
+                            oldChosen = new boolean[]{SettingValues.subredditFilters.toLowerCase().contains(submission.getSubredditName().toLowerCase()), SettingValues.userFilters.toLowerCase().contains(submission.getAuthor().toLowerCase()), SettingValues.domainFilters.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.alwaysExternal.toLowerCase().contains(submission.getDomain().toLowerCase()), SettingValues.flairFilters.toLowerCase().contains((baseSub + ":" + flair).toLowerCase())};
                         }
                         new AlertDialogWrapper.Builder(mContext).setTitle("What would you like to filter?")
                                 .alwaysCallMultiChoiceCallback()
@@ -427,34 +427,46 @@ public class PopulateSubmissionViewHolder {
                                             PostMatch.subreddits = null;
                                         }
                                         if (chosen[1] && chosen[1] != oldChosen[1]) {
+                                            SettingValues.userFilters = SettingValues.userFilters + ((SettingValues.userFilters.isEmpty() || SettingValues.userFilters.endsWith(",")) ? "" : ",") + submission.getAuthor();
+                                            filtered = true;
+                                            e.putString(SettingValues.PREF_USER_FILTERS, SettingValues.userFilters);
+                                            PostMatch.users = null;
+                                        } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
+                                            SettingValues.userFilters = SettingValues.userFilters.replace(submission.getAuthor(), "");
+                                            filtered = false;
+                                            e.putString(SettingValues.PREF_USER_FILTERS, SettingValues.userFilters);
+                                            e.apply();
+                                            PostMatch.users = null;
+                                        }
+                                        if (chosen[2] && chosen[2] != oldChosen[2]) {
                                             SettingValues.domainFilters = SettingValues.domainFilters + ((SettingValues.domainFilters.isEmpty() || SettingValues.domainFilters.endsWith(",")) ? "" : ",") + submission.getDomain();
                                             filtered = true;
                                             e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
                                             PostMatch.domains = null;
-                                        } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
+                                        } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
                                             SettingValues.domainFilters = SettingValues.domainFilters.replace(submission.getDomain(), "");
                                             filtered = false;
                                             e.putString(SettingValues.PREF_DOMAIN_FILTERS, SettingValues.domainFilters);
                                             e.apply();
                                             PostMatch.domains = null;
                                         }
-                                        if (chosen[2] && chosen[2] != oldChosen[2]) {
+                                        if (chosen[3] && chosen[3] != oldChosen[3]) {
                                             SettingValues.alwaysExternal = SettingValues.alwaysExternal + ((SettingValues.alwaysExternal.isEmpty() || SettingValues.alwaysExternal.endsWith(",")) ? "" : ",") + submission.getDomain();
                                             e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
                                             e.apply();
-                                        } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
+                                        } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
                                             SettingValues.alwaysExternal = SettingValues.alwaysExternal.replace(submission.getDomain(), "");
                                             e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, SettingValues.alwaysExternal);
                                             e.apply();
                                         }
-                                        if(chosen.length > 3) {
-                                            if (chosen[3] && chosen[3] != oldChosen[3]) {
+                                        if (chosen.length > 4) {
+                                            if (chosen[4] && chosen[4] != oldChosen[4]) {
                                                 SettingValues.flairFilters = SettingValues.flairFilters + ((SettingValues.flairFilters.isEmpty() || SettingValues.flairFilters.endsWith(",")) ? "" : ",") + (baseSub + ":" + flair);
                                                 e.putString(SettingValues.PREF_FLAIR_FILTERS, SettingValues.flairFilters);
                                                 e.apply();
                                                 PostMatch.flairs = null;
                                                 filtered = true;
-                                            } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
+                                            } else if (!chosen[4] && chosen[4] != oldChosen[4]) {
                                                 SettingValues.flairFilters = SettingValues.flairFilters.toLowerCase().replace((baseSub + ":" + flair).toLowerCase(), "");
                                                 e.putString(SettingValues.PREF_FLAIR_FILTERS, SettingValues.flairFilters);
                                                 e.apply();
@@ -465,6 +477,7 @@ public class PopulateSubmissionViewHolder {
                                             e.apply();
                                             PostMatch.domains = null;
                                             PostMatch.subreddits = null;
+                                            PostMatch.users = null;
                                             ArrayList<Contribution> toRemove = new ArrayList<>();
                                             for (Contribution s : posts) {
                                                 if (s instanceof Submission && PostMatch.doesMatch((Submission) s)) {
@@ -1749,7 +1762,7 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTypeface(null, Typeface.BOLD);
                 downvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 if (submission.getVote() != VoteDirection.UPVOTE) {
-                    if(submission.getVote() == VoteDirection.DOWNVOTE)
+                    if (submission.getVote() == VoteDirection.DOWNVOTE)
                         ++submissionScore;
                     ++submissionScore; //offset the score by +1
                 }
@@ -1761,7 +1774,7 @@ public class PopulateSubmissionViewHolder {
                 holder.score.setTypeface(null, Typeface.BOLD);
                 upvotebutton.setColorFilter((((holder.itemView.getTag(holder.itemView.getId())) != null && holder.itemView.getTag(holder.itemView.getId()).equals("none") || full)) ? getCurrentTintColor(mContext) : getWhiteTintColor(), PorterDuff.Mode.SRC_ATOP);
                 if (submission.getVote() != VoteDirection.DOWNVOTE) {
-                    if(submission.getVote() == VoteDirection.UPVOTE)
+                    if (submission.getVote() == VoteDirection.UPVOTE)
                         --submissionScore;
                     --submissionScore; //offset the score by +1
                 }
@@ -2297,7 +2310,7 @@ public class PopulateSubmissionViewHolder {
         switch (ActionStates.getVoteDirection(submission)) {
             case UPVOTE: {
                 if (submission.getVote() != VoteDirection.UPVOTE) {
-                    if(submission.getVote() == VoteDirection.DOWNVOTE)
+                    if (submission.getVote() == VoteDirection.DOWNVOTE)
                         ++submissionScore;
                     ++submissionScore; //offset the score by +1
                 }
@@ -2305,14 +2318,14 @@ public class PopulateSubmissionViewHolder {
             }
             case DOWNVOTE: {
                 if (submission.getVote() != VoteDirection.DOWNVOTE) {
-                    if(submission.getVote() == VoteDirection.UPVOTE)
+                    if (submission.getVote() == VoteDirection.UPVOTE)
                         --submissionScore;
                     --submissionScore; //offset the score by +1
                 }
                 break;
             }
             case NO_VOTE:
-                if(submission.getVote() == VoteDirection.UPVOTE && submission.getAuthor().equalsIgnoreCase(Authentication.name)){
+                if (submission.getVote() == VoteDirection.UPVOTE && submission.getAuthor().equalsIgnoreCase(Authentication.name)) {
                     submissionScore--;
                 }
                 break;

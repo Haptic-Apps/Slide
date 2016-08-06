@@ -100,7 +100,6 @@ public class CreateCardView {
         doColor(getViewsByTag((ViewGroup) v, "tint"));
         doColorSecond(getViewsByTag((ViewGroup) v, "tintsecond"));
         doColorSecond(getViewsByTag((ViewGroup) v, "tintactionbar"));
-
     }
 
     public static void doColor(ArrayList<View> v) {
@@ -183,7 +182,6 @@ public class CreateCardView {
     }
 
     public static void colorCard(String sec, View v, String subToMatch, boolean secondary) {
-
         resetColorCard(v);
         if ((SettingValues.colorBack && !SettingValues.colorSubName && Palette.getColor(sec) != Palette.getDefaultColor()) || (subToMatch.equals("nomatching") && (SettingValues.colorBack && !SettingValues.colorSubName && Palette.getColor(sec) != Palette.getDefaultColor()))) {
             if (!secondary && !SettingValues.colorEverywhere || secondary) {

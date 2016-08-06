@@ -87,6 +87,7 @@ public class SettingValues {
     public static final String PREF_COMMENT_NAV = "commentVolumeNav";
     public static final String PREF_COLOR_COMMENT_DEPTH = "colorCommentDepth";
     public static final String COMMENT_DEPTH = "commentDepth";
+    public static final String PREF_USER_FILTERS = "userFilters";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting defaultSorting;
@@ -178,6 +179,7 @@ public class SettingValues {
     public static int currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
     public static int nightTheme;
     public static boolean typeInText;
+    public static String userFilters;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -254,6 +256,7 @@ public class SettingValues {
         subredditFilters = prefs.getString(PREF_SUBREDDIT_FILTERS, "");
         alwaysExternal = prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
         flairFilters = prefs.getString(PREF_FLAIR_FILTERS, "");
+        userFilters = prefs.getString(PREF_USER_FILTERS, "");
 
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
         colorSubName = prefs.getBoolean(PREF_COLOR_SUB_NAME, false);
