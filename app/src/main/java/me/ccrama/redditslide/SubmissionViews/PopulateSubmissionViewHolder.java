@@ -2311,6 +2311,11 @@ public class PopulateSubmissionViewHolder {
                 }
                 break;
             }
+            case NO_VOTE:
+                if(submission.getVote() == VoteDirection.UPVOTE && submission.getAuthor().equalsIgnoreCase(Authentication.name)){
+                    submissionScore--;
+                }
+                break;
         }
 
 
