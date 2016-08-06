@@ -464,20 +464,22 @@ public class MultiredditOverview extends BaseActivityAnim {
                             Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.CONTROVERSIAL);
                             Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.WEEK);
                             reloadSubs();
+                            break;
                         case 12:
                             Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.CONTROVERSIAL);
                             Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.MONTH);
                             reloadSubs();
+                            break;
                         case 13:
                             Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.CONTROVERSIAL);
                             Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.YEAR);
                             reloadSubs();
+                            break;
                         case 14:
                             Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.CONTROVERSIAL);
                             Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.ALL);
                             reloadSubs();
-
-
+                            break;
                     }
                 }
                 return true;

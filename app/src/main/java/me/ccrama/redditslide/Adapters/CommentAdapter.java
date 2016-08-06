@@ -113,7 +113,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private String currentlyEditingId = "";
     public SubmissionViewHolder submissionViewHolder;
     long lastSeen;
-
+    
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView, Submission submission, FragmentManager fm) {
         this.mContext = mContext.getContext();
         mPage = mContext;
@@ -1665,6 +1665,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     if (currentLoading != null && currentLoading.fullname.equals(fullname)) {
                         currentLoading.cancel(true);
                     }
+
                     fullname = fullname + "more";
 
                     if (!hidden.contains(fullname)) {
@@ -1726,13 +1727,30 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Override
         public void onPostExecute(Integer data) {
             currentLoading = null;
-            if (data != null) {
+            if (!isCancelled() && data != null) {
+                shifted += data;
+                ((Activity) mContext).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        currentComments.remove(position);
+                        notifyItemRemoved(holderPos);
+                    }
+                });
+                int oldSize = currentComments.size();
+                currentComments.addAll(position, finalData);
+                int newSize = currentComments.size();
+
+                for (int i2 = 0; i2 < currentComments.size(); i2++) {
+                    keys.put(currentComments.get(i2).getName(), i2);
+                }
+                data = newSize - oldSize;
                 listView.setItemAnimator(new SlideRightAlphaAnimator());
                 notifyItemRangeInserted(holderPos, data);
                 currentPos = holderPos;
                 toShiftTo = ((LinearLayoutManager) listView.getLayoutManager()).findLastVisibleItemPosition();
                 shiftFrom = ((LinearLayoutManager) listView.getLayoutManager()).findFirstVisibleItemPosition();
-            } else if (currentComments.get(dataPos) instanceof MoreChildItem) {
+
+            } else if (data == null && currentComments.get(dataPos) instanceof MoreChildItem) {
                 final MoreChildItem baseNode = (MoreChildItem) currentComments.get(dataPos);
                 if (baseNode.children.getCount() > 0) {
                     holder.content.setText(mContext.getString(R.string.comment_load_more, baseNode.children.getCount()));
@@ -1745,11 +1763,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
 
+        ArrayList<CommentObject> finalData;
+
         @Override
         protected Integer doInBackground(MoreChildItem... params) {
-            ArrayList<CommentObject> finalData = new ArrayList<>();
+            finalData = new ArrayList<>();
             int i = 0;
-
             if (params.length > 0) {
                 try {
                     CommentNode node = params[0].comment;
@@ -1863,23 +1882,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     }
                     return null;
                 }
-
-                shifted += i;
-                currentComments.remove(position);
-                ((Activity) mContext).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyItemRemoved(holderPos);
-                    }
-                });
-                int oldSize = currentComments.size();
-                currentComments.addAll(position, finalData);
-                int newSize = currentComments.size();
-
-                for (int i2 = 0; i2 < currentComments.size(); i2++) {
-                    keys.put(currentComments.get(i2).getName(), i2);
-                }
-                i = newSize - oldSize;
             }
             return i;
         }

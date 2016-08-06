@@ -262,7 +262,7 @@ public class UserSubscriptions {
         Authentication.authentication.edit().remove("backedCreds").remove("expires").apply();
         editor.putBoolean("loggedin", Authentication.isLoggedIn);
         editor.putString("name", Authentication.name);
-        editor.apply();
+        editor.commit();
     }
 
     /**

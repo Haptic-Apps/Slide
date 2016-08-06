@@ -1849,6 +1849,7 @@ public class MainActivity extends BaseActivity {
                                                         Authentication.name = s;
                                                         UserSubscriptions.switchAccounts();
                                                         Reddit.forceRestart(MainActivity.this, true);
+                                                        break;
                                                     }
 
                                                 }
