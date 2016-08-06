@@ -2902,7 +2902,7 @@ public class MainActivity extends BaseActivity {
         final boolean[] chosen = new boolean[2];
         new AlertDialogWrapper.Builder(this)
                 .setTitle("Save submissions for offline viewing")
-                .setMultiChoiceItems(new String[]{"Gifs", "Albums"}, new boolean[]{false, false}, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(new String[]{"Gifs"}, new boolean[]{false}, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         chosen[which] = isChecked;
@@ -2910,7 +2910,7 @@ public class MainActivity extends BaseActivity {
                 }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                caching = new CommentCacheAsync(submissions, MainActivity.this, subreddit).execute();
+                caching = new CommentCacheAsync(submissions, MainActivity.this, subreddit, chosen).execute();
             }
 
         }).show();

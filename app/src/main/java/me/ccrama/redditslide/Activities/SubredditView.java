@@ -236,7 +236,7 @@ public class SubredditView extends BaseActivityAnim {
                     if (posts != null && !posts.isEmpty()) {
                         Intent i2 = new Intent(this, Shadowbox.class);
                         i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                        i2.putExtra(Shadowbox.EXTRA_SUBREDDIT, subreddit);
+                        i2.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i2);
                     }
                 } else {

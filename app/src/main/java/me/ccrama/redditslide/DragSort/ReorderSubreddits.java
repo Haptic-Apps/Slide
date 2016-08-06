@@ -46,7 +46,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
 import net.dean.jraw.models.Subreddit;
@@ -251,12 +250,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                     b.append(s.getDisplayName());
                                                     b.append("+");
                                                 }
-                                                String finalS = b.toString().substring(0, b.length() - 1);
-                                                Log.v(LogUtil.getTag(), finalS);
-                                                subs.add(MULTI_REDDIT + r.getDisplayName());
+                                                int pos = addSubAlphabetically(MULTI_REDDIT + r.getDisplayName());
                                                 UserSubscriptions.setSubNameToProperties(MULTI_REDDIT + r.getDisplayName(), b.toString());
                                                 adapter.notifyDataSetChanged();
-                                                recyclerView.smoothScrollToPosition(subs.size());
+                                                recyclerView.smoothScrollToPosition(pos);
                                                 return false;
                                             }
                                         }).show();
@@ -300,7 +297,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                                 }
                             });
-                    if(Authentication.isLoggedIn && Authentication.didOnline)
+                    if (Authentication.isLoggedIn && Authentication.didOnline)
                         b.neutralText("Add & Subscribe").onNeutral(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -345,9 +342,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             adapter = new CustomAdapter(subs);
                                             recyclerView.setAdapter(adapter);
                                         } else {
-                                            subs.add(url);
+                                            int pos = addSubAlphabetically(url);
                                             adapter.notifyDataSetChanged();
-                                            recyclerView.smoothScrollToPosition(subs.size());
+                                            recyclerView.smoothScrollToPosition(pos);
                                         }
                                     } catch (Exception e) {
                                         e.printStackTrace();
@@ -437,15 +434,25 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         }
                         String finalS = b.toString().substring(0, b.length() - 1);
                         Log.v(LogUtil.getTag(), finalS);
-                        subs.add(finalS);
+                        int pos = addSubAlphabetically(finalS);
                         adapter.notifyDataSetChanged();
-                        recyclerView.smoothScrollToPosition(subs.size());
+                        recyclerView.smoothScrollToPosition(pos);
                         return true;
                     }
                 })
                 .positiveText(R.string.btn_add)
                 .negativeText(R.string.btn_cancel)
                 .show();
+    }
+
+    private int addSubAlphabetically(String finalS) {
+        int i = subs.size() - 1;
+        while (finalS.compareTo(subs.get(i)) < 0) {
+            i--;
+        }
+        i += 1;
+        subs.add(i, finalS);
+        return i;
     }
 
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
@@ -460,9 +467,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     adapter = new CustomAdapter(subs);
                     recyclerView.setAdapter(adapter);
                 } else {
-                    subs.add(input);
+                    int pos = addSubAlphabetically(input);
                     adapter.notifyDataSetChanged();
-                    recyclerView.smoothScrollToPosition(subs.size());
+                    recyclerView.smoothScrollToPosition(pos);
                 }
             }
         }

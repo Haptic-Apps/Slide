@@ -31,6 +31,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
+import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -41,11 +43,12 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
 
     NotificationManager mNotifyManager;
 
-    public CommentCacheAsync(List<Submission> submissions, Context c, String subreddit) {
+    public CommentCacheAsync(List<Submission> submissions, Context c, String subreddit, boolean[] otherChoices) {
         alreadyReceived = submissions;
         this.context = c;
         this.subs = new String[]{subreddit};
         this.modal = true;
+        this.otherChoices = otherChoices;
     }
 
     String[] subs;
@@ -54,6 +57,8 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
     NotificationCompat.Builder mBuilder;
     MaterialDialog dialog;
     boolean modal;
+
+    boolean[] otherChoices;
 
     public CommentCacheAsync(Context c, String[] subreddits, boolean modal) {
         this.context = c;
@@ -246,18 +251,22 @@ public class CommentCacheAsync extends AsyncTask<String, Void, Void> {
                         newFullnames.add(s2.getFullName());
                         if (!SettingValues.noImages)
                             loadPhotos(s, context);
-                /* todo maybe
                 switch (ContentType.getContentType(s)) {
                     case GIF:
-                        if (chosen[0])
-                            GifUtils.saveGifToCache(MainActivity.this, s.getUrl());
+                        if (otherChoices[0])
+                            if(context instanceof Activity)
+                                ((Activity)context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        new GifUtils.AsyncLoadGif().execute(s.getUrl());
+                                    }
+                                });
                         break;
                     case ALBUM:
-                        if (chosen[1])
-
-                            AlbumUtils.saveAlbumToCache(MainActivity.this, s.getUrl());
+                        if (otherChoices[1])
+                            //todo this AlbumUtils.saveAlbumToCache(context, s.getUrl());
                         break;
-                }*/
+                }
                     } catch (Exception ignored) {
                     }
                     count = count + Math.round(50f / submissions.size());
