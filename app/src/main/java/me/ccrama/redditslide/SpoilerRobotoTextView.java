@@ -265,7 +265,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             ContentType.Type contentType = ContentType.getContentType(url);
             String bod;
             try {
-                bod = " (" + getContext().getString(ContentType.getContentID(contentType, false)) + " " + (contentType == ContentType.Type.LINK ? Uri.parse(url).getHost() : "") + ")";
+                bod = " (" + getContext().getString(ContentType.getContentID(contentType, false)) + (contentType == ContentType.Type.LINK ? " " + Uri.parse(url).getHost() : "") + ")";
             } catch (Exception e){
                 bod = " (" + getContext().getString(ContentType.getContentID(contentType, false)) + ")";
             }
