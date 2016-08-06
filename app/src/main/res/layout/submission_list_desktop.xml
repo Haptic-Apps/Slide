@@ -37,7 +37,8 @@
         <TextView
             android:id="@+id/score"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/upvote"
+            android:layout_below="@+id/headerimage"
+            android:layout_marginTop="24dp"
             android:layout_width="36dp"
             android:textColor="?attr/tint"
             android:gravity="center"
@@ -60,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/headerimage"
-            android:layout_toRightOf="@+id/downvote"
+            android:layout_toRightOf="@+id/score"
             android:paddingTop="6dp">
 
             <com.makeramen.roundedimageview.RoundedImageView

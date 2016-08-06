@@ -2229,8 +2229,8 @@ public class MainActivity extends BaseActivity {
                 MainActivity.this,
                 drawerLayout,
                 toolbar,
-                R.string.hello_world,
-                R.string.hello_world
+                R.string.btn_open,
+                R.string.btn_close
         ) {
             @Override
             public void onDrawerClosed(View view) {
