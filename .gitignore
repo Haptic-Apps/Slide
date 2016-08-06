@@ -4,17 +4,18 @@ build/
 
 # Local configuration file (sdk path, etc)
 local.properties
- 
+
 # Gradle generated files
 .gradle/
- 
+
 # Signing files
 .signing/
- 
+
 # User-specific configurations
-.idea/
+.idea/*
+!.idea/codeStyleSettings.xml
 *.iml
- 
+
 # OS-specific files
 .DS_Store
 .DS_Store?
