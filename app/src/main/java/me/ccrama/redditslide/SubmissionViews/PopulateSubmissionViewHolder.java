@@ -1744,15 +1744,12 @@ public class PopulateSubmissionViewHolder {
         if (submission.isArchived()) {
             downvotebutton.setVisibility(View.GONE);
             upvotebutton.setVisibility(View.GONE);
-        } else if (Authentication.isLoggedIn && !offline && Authentication.didOnline) {
+        } else if (Authentication.isLoggedIn && Authentication.didOnline) {
             if (SettingValues.actionbarVisible && downvotebutton.getVisibility() != View.VISIBLE) {
                 downvotebutton.setVisibility(View.VISIBLE);
                 upvotebutton.setVisibility(View.VISIBLE);
             }
         }
-
-        //Whether or not this submission was made by this user
-        final boolean ownSubmission = submission.getAuthor().equals(Authentication.name);
 
         //Set the colors and styles for the score text depending on what state it is in
         switch (ActionStates.getVoteDirection(submission)) {

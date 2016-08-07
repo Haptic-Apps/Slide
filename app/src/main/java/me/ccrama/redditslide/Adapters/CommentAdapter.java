@@ -91,6 +91,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public SubmissionComments dataSet;
     public Submission         submission;
     public CommentViewHolder  currentlySelected;
+    public CommentNode currentNode;
     public String currentSelectedItem = "";
     public int               shiftFrom;
     public FragmentManager   fm;
@@ -954,6 +955,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             currentBaseNode = baseNode;
             int color = Palette.getColor(n.getSubredditName());
             currentSelectedItem = n.getFullName();
+            currentNode = baseNode;
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             resetMenu(holder.menuArea, false);
             final View baseView = (SettingValues.rightHandedCommentMenu) ? inflater.inflate(
@@ -1050,10 +1052,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
             final ImageView edit = (ImageView) baseView.findViewById(R.id.edit);
-            if (Authentication.name != null
-                    && Authentication.name.toLowerCase()
-                    .equals(comment.getAuthor().toLowerCase())
-                    && Authentication.didOnline) {
+            if (Authentication.name != null && Authentication.name.toLowerCase()
+                    .equals(comment.getAuthor().toLowerCase()) && Authentication.didOnline) {
                 edit.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
@@ -1067,10 +1067,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
             final ImageView delete = (ImageView) baseView.findViewById(R.id.delete);
-            if (Authentication.name != null
-                    && Authentication.name.toLowerCase()
-                    .equals(comment.getAuthor().toLowerCase())
-                    && Authentication.didOnline) {
+            if (Authentication.name != null && Authentication.name.toLowerCase()
+                    .equals(comment.getAuthor().toLowerCase()) && Authentication.didOnline) {
                 delete.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View v) {
