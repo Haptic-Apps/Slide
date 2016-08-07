@@ -57,6 +57,7 @@ import net.dean.jraw.models.VoteDirection;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -76,6 +77,7 @@ import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.DataShare;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
@@ -321,6 +323,7 @@ public class PopulateSubmissionViewHolder {
         Drawable hide = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
         final Drawable report = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
         Drawable copy = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy, null);
+        Drawable saveOffline = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
         Drawable open = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.openexternal, null);
         Drawable share = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.share, null);
         Drawable reddit = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange, null);
@@ -332,6 +335,7 @@ public class PopulateSubmissionViewHolder {
         hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        saveOffline.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -352,12 +356,18 @@ public class PopulateSubmissionViewHolder {
             }
             if (Authentication.isLoggedIn) {
                 b.sheet(3, saved, save);
+
+            }
+            b.sheet(26, saveOffline, "Save Offline");
+            if (Authentication.isLoggedIn) {
                 b.sheet(12, report, mContext.getString(R.string.btn_report));
             }
+
         }
         if (submission.getSelftext() != null && !submission.getSelftext().isEmpty() && full) {
             b.sheet(25, copy, "Copy selftext");
         }
+
         boolean hidden = submission.isHidden();
         if (!full && Authentication.didOnline) {
             if (!hidden)
@@ -571,6 +581,10 @@ public class PopulateSubmissionViewHolder {
                         ClipData clip = ClipData.newPlainText("Selftext", Html.fromHtml(submission.getSelftext()));
                         clipboard.setPrimaryClip(clip);
                         Toast.makeText(mContext, "Selftext copied", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 26:
+                        new CommentCacheAsync(Arrays.asList(submission),mContext, CommentCacheAsync.SAVED_SUBMISSIONS, new boolean[]{true,true}).execute();
+                        Toast.makeText(mContext, "Submission saved", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

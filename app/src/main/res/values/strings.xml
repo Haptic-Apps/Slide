@@ -852,6 +852,7 @@
     <string name="go_offline">Go offline</string>
     <string name="cache_wifi_only">Only cache on WiFi</string>
     <string name="comments_depth">Depth of comments to cache</string>
+    <string name="comments_count">Number of comments to cache</string>
     <string name="misc_rate_title">Like Slide?</string>
     <string name="misc_rate_msg">Rate it!</string>
     <string name="sidebar_edit_flair">Edit your flair</string>
