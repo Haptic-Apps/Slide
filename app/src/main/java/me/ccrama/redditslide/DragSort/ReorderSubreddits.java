@@ -447,7 +447,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
     private int addSubAlphabetically(String finalS) {
         int i = subs.size() - 1;
-        while (finalS.compareTo(subs.get(i)) < 0) {
+        while (i>=0 && finalS.compareTo(subs.get(i)) < 0) {
             i--;
         }
         i += 1;
