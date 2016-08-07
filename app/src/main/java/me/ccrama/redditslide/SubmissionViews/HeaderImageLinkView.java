@@ -106,7 +106,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
         boolean loadLq = ((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways);
 
-        if (loadLq && type == ContentType.Type.SELF && SettingValues.hideSelftextLeadImage) {
+        if (type == ContentType.Type.SELF && SettingValues.hideSelftextLeadImage) {
             setVisibility(View.GONE);
             if (wrapArea != null)
                 wrapArea.setVisibility(View.GONE);

@@ -45,7 +45,7 @@
 
                     android:text="@string/settings_bugs"
                     android:textColor="?attr/font"
-                    android:textSize="18sp"/>
+                    android:textSize="?attr/font_cardtitle"/>
             </LinearLayout>
 
             <LinearLayout
@@ -74,7 +74,7 @@
 
                     android:text="@string/settings_changelog"
                     android:textColor="?attr/font"
-                    android:textSize="18sp"/>
+                    android:textSize="?attr/font_cardtitle"/>
             </LinearLayout>
 
             <LinearLayout
@@ -102,7 +102,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/rate_slide"
                     android:textColor="?attr/font"
-                    android:textSize="18sp"/>
+                    android:textSize="?attr/font_cardtitle"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/sub"
@@ -129,7 +129,7 @@
                     android:gravity="center_vertical"
                     android:text="/r/slideforreddit"
                     android:textColor="?attr/font"
-                    android:textSize="18sp"/>
+                    android:textSize="?attr/font_cardtitle"/>
             </LinearLayout>
 
             <LinearLayout
@@ -158,7 +158,7 @@
 
                     android:text="@string/settings_libs"
                     android:textColor="?attr/font"
-                    android:textSize="18sp"/>
+                    android:textSize="?attr/font_cardtitle"/>
             </LinearLayout>
 
             <LinearLayout
@@ -177,7 +177,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical|center_horizontal"
                     android:textColor="?attr/font"
-                    android:textSize="18sp"
+                    android:textSize="?attr/font_cardtitle"
                     android:textStyle="bold"/>
             </LinearLayout>
 

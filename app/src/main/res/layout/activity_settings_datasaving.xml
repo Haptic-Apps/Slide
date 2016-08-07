@@ -49,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:text="Enable datasaving settings"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:id="@+id/lowquality"
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/never_load_images"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                 </LinearLayout>
 
@@ -136,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/low_quality_images_in_image_viewer"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:id="@+id/imagelq_subtext"
@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/load_medium_quality_imgur_images"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -200,53 +200,6 @@
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/imgurlq"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingEnd="16dp"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-            </RelativeLayout>
-
-            <TextView
-                style="@style/TextAppearance.AppCompat.Body2"
-                android:id="@+id/hideImagesHeader"
-                android:text="@string/settings_section_hide_images"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:background="?android:selectableItemBackground"
-                android:textColor="?attr/colorAccent"
-                android:paddingStart="16dp">
-
-                <LinearLayout
-                    android:layout_marginEnd="42dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_comment_hide_selftext_image"
-                        android:textColor="?attr/font"
-                        android:textSize="18sp" />
-                </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/selftextcomment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingEnd="16dp"

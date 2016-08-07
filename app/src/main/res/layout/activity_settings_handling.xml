@@ -48,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/handling_browser"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:id="@+id/browser"
@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_gif"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -133,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_image"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -175,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_link_album"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -223,7 +223,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/download_the_slide_video_player_plugin"
                             android:textColor="?attr/font"
-                            android:textSize="18sp" />
+                            android:textSize="?attr/font_cardtitle" />
                     </LinearLayout>
                 </RelativeLayout>
             </RelativeLayout>
@@ -260,7 +260,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_links_force_external"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -303,7 +303,7 @@
                     android:textColor="?attr/font"
                     android:textColorHint="?attr/font"
                     android:inputType="textUri"
-                    android:textSize="18sp" />
+                    android:textSize="?attr/font_cardtitle" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

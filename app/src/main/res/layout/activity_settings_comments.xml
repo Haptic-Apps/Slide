@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_crop"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_color"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -131,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_fab_create"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -173,7 +173,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_right_handed_comment_menu"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -215,7 +215,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/upvote_percentage"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -258,7 +258,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/show_content_type_text_beside_links"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -314,7 +314,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_commentnav"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -365,7 +365,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/auto_hide_the_comment_nav_bar"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -407,7 +407,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_volume_nav_comments"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -454,7 +454,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comments_swap_long"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -496,7 +496,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_collapse"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -545,7 +545,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_comment_collapse_default"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat

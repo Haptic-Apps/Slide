@@ -47,7 +47,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_store_history"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -90,7 +90,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_store_nsfw_history"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_general_scroll_read"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -180,7 +180,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/clear_submission_history"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -211,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/clear_subreddit_history"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

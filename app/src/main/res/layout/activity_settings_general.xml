@@ -48,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_view_type"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -78,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_general_expanded_toolbar"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_title_fab"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -168,7 +168,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/subreddit_search_method_title"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -212,7 +212,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_title_notifications"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -256,7 +256,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_title_sorting"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -295,7 +295,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/sorting_default_comment"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -339,7 +339,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_image_location"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -382,7 +382,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_general_force_en"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -432,7 +432,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_confirm_exit"
                         android:textColor="?attr/font"
-                        android:textSize="18sp" />
+                        android:textSize="?attr/font_cardtitle" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat

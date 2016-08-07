@@ -36,17 +36,6 @@ public class SettingsData extends BaseActivityAnim {
             });
         }
         {
-            SwitchCompat single2 = (SwitchCompat) findViewById(R.id.selftextcomment);
-            single2.setChecked(SettingValues.hideSelftextLeadImage);
-            single2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    SettingValues.hideSelftextLeadImage = isChecked;
-                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SELFTEXT_IMAGE_COMMENT, isChecked).apply();
-                }
-            });
-        }
-        {
             SwitchCompat single2 = (SwitchCompat) findViewById(R.id.noload);
             single2.setChecked(SettingValues.noImages);
             single2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

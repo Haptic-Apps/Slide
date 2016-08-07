@@ -205,7 +205,7 @@ public class SettingValues {
         fab = prefs.getBoolean(PREF_FAB, true);
         fabType = prefs.getInt(PREF_FAB_TYPE, R.integer.FAB_DISMISS);
         subredditSearchMethod = prefs.getInt(PREF_SUBREDDIT_SEARCH_METHOD, R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER);
-        nightMode = prefs.getBoolean(PREF_DAY_TIME, false);
+        nightMode = prefs.getBoolean(PREF_NIGHT_MODE, false);
         nightTheme = prefs.getInt(PREF_NIGHT_THEME, 1);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
         colorBack = prefs.getBoolean(PREF_COLOR_BACK, false);
