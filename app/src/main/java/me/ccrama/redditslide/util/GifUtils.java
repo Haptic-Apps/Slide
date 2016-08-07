@@ -337,6 +337,24 @@ public class GifUtils {
                         writeGif(finalUrl, progressBar, c, AsyncLoadGif.this);
                     } catch (Exception e) {
                         LogUtil.e(e, "Error loading streamable video url = [" + url + "] streamableUrl = [" + streamableUrl + "]");
+
+                        if (closeIfNull) {
+                            c.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new AlertDialogWrapper.Builder(c)
+                                            .setTitle(R.string.error_video_not_found)
+                                            .setMessage(R.string.error_video_message)
+                                            .setCancelable(false)
+                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    c.finish();
+                                                }
+                                            }).create().show();
+                                }
+                            });
+                        }
                     }
                     break;
                 case VID_ME:
