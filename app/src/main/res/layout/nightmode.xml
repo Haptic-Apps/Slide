@@ -1,100 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="?attr/card_background"
-        app:cardCornerRadius="2dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/card_background"
+            app:cardCornerRadius="2dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="24dp"
-                android:text="Night mode"
-                android:textColor="#fff"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/body"
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="20dp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp">
+                    android:orientation="horizontal">
 
-                    <android.support.v7.widget.SwitchCompat
+                <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="18dp"
+                        android:text="@string/night_mode"
+                        android:textColor="?attr/font"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                <android.support.v7.widget.SwitchCompat
                         android:id="@+id/enabled"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="18dp"
                         android:backgroundTint="?attr/tint"
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
-                        android:text="Enabled"
                         android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:textColorHint="?attr/font"/>
+            </LinearLayout>
 
-                    <RadioGroup
+            <LinearLayout
+                    android:id="@+id/body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="18dp"
+                    android:paddingEnd="18dp"
+                    android:paddingStart="18dp">
+
+                <RadioGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingBottom="16dp">
+                        android:orientation="vertical">
 
-                        <RadioButton
+                    <RadioButton
                             android:id="@+id/dark"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="?android:selectableItemBackground"
-                            android:textColor="?attr/font"
-                            android:text="Dark"
-                            />
-                        <RadioButton
+                            android:text="@string/theme_dark"
+                            android:textColor="?attr/font"/>
+
+                    <RadioButton
                             android:id="@+id/blue"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="?android:selectableItemBackground"
-                            android:textColor="?attr/font"
-                            android:text="Dark blue"
-                            />
-                        <RadioButton
+                            android:text="@string/theme_dark_blue"
+                            android:textColor="?attr/font"/>
+
+                    <RadioButton
                             android:id="@+id/amoled"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
                             android:background="?android:selectableItemBackground"
-                            android:text="AMOLED"
-                            />
-                        <RadioButton
+                            android:text="@string/theme_black"
+                            android:textColor="?attr/font"/>
+
+                    <RadioButton
                             android:id="@+id/amoled_contrast"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="?attr/font"
                             android:background="?android:selectableItemBackground"
-                            android:text="AMOLED with contrast"
-                            />
-                    </RadioGroup>
-
-                </LinearLayout>
-            </RelativeLayout>
+                            android:text="@string/theme_amoled_contrast"
+                            android:textColor="?attr/font"/>
+                </RadioGroup>
+            </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

@@ -55,6 +55,7 @@
     <string name="theme_dark">Dark</string>
     <string name="theme_black">AMOLED black</string>
     <string name="theme_dark_blue">Dark blue</string>
+    <string name="night_mode">Night Mode</string>
     <string name="theme_default_color">Primary color</string>
     <string name="theme_subreddit_color">Change color</string>
     <string name="theme_accent_color">Accent color</string>
