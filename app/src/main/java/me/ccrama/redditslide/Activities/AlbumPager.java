@@ -58,6 +58,7 @@ import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapter;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.ImageLoaderUtils;
@@ -241,7 +242,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
 
             AlbumViewPager adapter = new AlbumViewPager(getSupportFragmentManager());
             p.setAdapter(adapter);
-
+            p.setCurrentItem(1);
             findViewById(R.id.grid).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -267,14 +268,17 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             p.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                    if (getSupportActionBar() != null)
-
-                        getSupportActionBar().setSubtitle((position + 1) + "/" + images.size());
+                    if (position != 0) {
+                        if (getSupportActionBar() != null)
+                            getSupportActionBar().setSubtitle((position) + "/" + images.size());
+                    }
+                    if (position == 0 && positionOffset < 0.2) {
+                        finish();
+                    }
                 }
 
                 @Override
                 public void onPageSelected(int position) {
-
                 }
 
                 @Override
@@ -301,7 +305,6 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
     }
 
     public class AlbumViewPager extends FragmentStatePagerAdapter {
-
         public AlbumViewPager(FragmentManager m) {
             super(m);
         }
@@ -309,7 +312,12 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
         @Override
         public Fragment getItem(int i) {
 
+            if (i == 0) {
+                Fragment blankFragment = new BlankFragment();
+                return blankFragment;
+            }
 
+            i--;
             Image current = images.get(i);
 
             if (current.isAnimated()) {
@@ -336,7 +344,7 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             if (images == null) {
                 return 0;
             }
-            return images.size();
+            return images.size() + 1;
         }
     }
 
