@@ -145,7 +145,7 @@ public class UserSubscriptions {
         } else {
             ArrayList<String> subredditsForHome = new ArrayList<>();
             for (String s2 : s.split(",")) {
-                subredditsForHome.add(s2.toLowerCase());
+                subredditsForHome.add(s2);
             }
             return subredditsForHome;
         }
@@ -582,7 +582,7 @@ public class UserSubscriptions {
             }
         }
 
-        java.util.Collections.sort(subs);
+        java.util.Collections.sort(subs, String.CASE_INSENSITIVE_ORDER);
         finals.addAll(subs);
         return finals;
 
