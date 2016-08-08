@@ -32,4 +32,9 @@
         android:title="@string/btn_collapse_children_all"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/shadowbox"
+        android:title="Comment shadowbox"
+        app:showAsAction="never"/>
+
 </menu>

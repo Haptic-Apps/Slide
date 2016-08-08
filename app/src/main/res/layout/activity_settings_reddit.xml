@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_redditprefs_over18"
                         android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardtitle" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_disable_nsfw_photo"
                         android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardtitle" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <android.support.v7.widget.SwitchCompat
@@ -148,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_reddit_thumbnail_mode"
                         android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardtitle" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -193,7 +193,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/settings_prefs_reddit"
                         android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardtitle" />
+                        android:textSize="14sp" />
                 </LinearLayout>
             </RelativeLayout>
         </LinearLayout>

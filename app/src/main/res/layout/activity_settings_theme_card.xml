@@ -63,7 +63,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_layout_view"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/view_current"
@@ -102,7 +102,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_layout_picture_mode"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/picture_current"
@@ -140,7 +140,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/mode_big_thumbnails"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -183,7 +183,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_comment_hide_selftext_image"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -226,7 +226,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_layout_actionbar_mode"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/actionbar_current"
@@ -269,7 +269,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_card_show_selftext"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -311,7 +311,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_layout_small_content_tag"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -353,7 +353,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_layout_show_domain"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -395,7 +395,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_layout_show_content_type"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -437,7 +437,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_layout_show_votes_comments"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -479,7 +479,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/card_right_thumb"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -521,7 +521,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/settings_general_comment_last_visit"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.SwitchCompat
@@ -569,7 +569,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/card_hide_post_button"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.AppCompatCheckBox
@@ -613,7 +613,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/card_save_button"
                             android:textColor="?attr/font"
-                            android:textSize="?attr/font_cardtitle" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <android.support.v7.widget.AppCompatCheckBox

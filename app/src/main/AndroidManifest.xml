@@ -242,6 +242,10 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />
         <activity
+                android:name=".Activities.ShadowboxComments"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable" />
+        <activity
             android:name=".Activities.Settings"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />

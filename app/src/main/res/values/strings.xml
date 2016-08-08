@@ -897,6 +897,7 @@
     <string name="mode_desktop_compact">Desktop compact</string>
     <string name="may_reduce_comment_scroll_performance">May reduce comment scroll performance</string>
     <string name="show_content_type_text_beside_links">Show content type text beside links</string>
+    <string name="settings_filter_profile">Profile filters</string>
 
 
 </resources>

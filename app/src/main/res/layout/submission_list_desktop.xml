@@ -29,8 +29,8 @@
             android:layout_below="@+id/headerimage"
             android:layout_width="36dp"
             android:layout_height="24dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
             android:tag="tintsecond"
             android:tint="?attr/tint"
             app:srcCompat="@drawable/up" />
@@ -51,8 +51,8 @@
             android:layout_width="36dp"
             android:layout_height="24dp"
             android:layout_below="@+id/score"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
             android:tag="tintsecond"
             android:tint="?attr/tint"
             app:srcCompat="@drawable/down" />

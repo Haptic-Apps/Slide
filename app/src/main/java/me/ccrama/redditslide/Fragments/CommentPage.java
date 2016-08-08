@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Fragments;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
@@ -10,6 +11,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -40,12 +42,15 @@ import com.rey.material.widget.Slider;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
+import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
@@ -54,6 +59,8 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.Activities.Shadowbox;
+import me.ccrama.redditslide.Activities.ShadowboxComments;
 import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
@@ -574,6 +581,55 @@ public class CommentPage extends Fragment {
                         }
                     }
                     return true;
+                    case R.id.shadowbox:
+                        if(SettingValues.tabletUI){
+                        if (comments.comments != null && comments.submission != null) {
+                            ShadowboxComments.comments = new ArrayList<>();
+                            for (CommentObject c : comments.comments) {
+                                if (c instanceof CommentItem) {
+
+                                    if (c.comment.getComment()
+                                            .getDataNode()
+                                            .get("body_html")
+                                            .asText()
+                                            .contains("&lt;/a")) {
+                                        ShadowboxComments.comments.add(c.comment.getComment());
+                                    }
+                                }
+                            }
+                            if (!ShadowboxComments.comments.isEmpty()) {
+                                Intent i = new Intent(getActivity(), ShadowboxComments.class);
+                                startActivity(i);
+                            } else {
+                                Snackbar.make(mSwipeRefreshLayout, "No links found in comments",
+                                        Snackbar.LENGTH_SHORT).show();
+                            }
+                        }
+                        }  else {
+                            AlertDialogWrapper.Builder b =
+                                    new AlertDialogWrapper.Builder(getActivity()).setTitle(R.string.general_pro)
+                                            .setMessage(R.string.general_pro_msg)
+                                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                    try {
+                                                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                                                Uri.parse(
+                                                                        "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                    } catch (ActivityNotFoundException e) {
+                                                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                                                Uri.parse(
+                                                                        "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                    }
+                                                }
+                                            })
+                                            .setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int whichButton) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                            b.show();
+                        }
+                        return true;
                     case R.id.sort: {
                         openPopup(toolbar);
                         return true;

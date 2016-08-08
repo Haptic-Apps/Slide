@@ -203,7 +203,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="@string/settings_filter_title"
+                        android:text="@string/settings_filter_profile"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>

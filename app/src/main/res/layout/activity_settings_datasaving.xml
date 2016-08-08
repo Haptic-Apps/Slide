@@ -49,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:text="Enable datasaving settings"
                         android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardtitle" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/lowquality"
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/never_load_images"
                         android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardtitle" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -136,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/low_quality_images_in_image_viewer"
                         android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardtitle" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/imagelq_subtext"
@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/load_medium_quality_imgur_images"
                         android:textColor="?attr/font"
-                        android:textSize="?attr/font_cardtitle" />
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
