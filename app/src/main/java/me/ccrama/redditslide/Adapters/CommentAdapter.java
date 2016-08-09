@@ -1633,7 +1633,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int i = 0;
         for (CommentNode ignored : user.walkTree()) {
             i++;
-            if (ignored.hasMoreComments()) {
+            if (ignored.hasMoreComments() && dataSet.online) {
                 i++;
             }
         }
