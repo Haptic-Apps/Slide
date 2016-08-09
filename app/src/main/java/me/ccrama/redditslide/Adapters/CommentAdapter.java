@@ -1739,7 +1739,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     hidden.remove(name);
                     i++;
 
-                    if (ignored.hasMoreComments() && !hiddenPersons.contains(name)) {
+                    if (ignored.hasMoreComments() && !hiddenPersons.contains(name)&& dataSet.online) {
                         name = name + "more";
                         if (hidden.contains(name)) {
                             hidden.remove(name);
@@ -1752,7 +1752,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         if (n.hasMoreComments() && !parentHidden(n) && !hiddenPersons.contains(
-                n.getComment().getFullName())) {
+                n.getComment().getFullName())&& dataSet.online) {
             String fullname = n.getComment().getFullName() + "more";
 
             if (hidden.contains(fullname)) {
@@ -1772,7 +1772,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     i++;
                     hidden.add(fullname);
                 }
-                if (ignored.hasMoreComments()) {
+                if (ignored.hasMoreComments() && dataSet.online) {
                     if (currentLoading != null && currentLoading.fullname.equals(fullname)) {
                         currentLoading.cancel(true);
                     }
@@ -1788,7 +1788,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
         }
-        if (n.hasMoreComments()) {
+        if (n.hasMoreComments() && dataSet.online) {
             String fullname = n.getComment().getFullName() + "more";
             if (!hidden.contains(fullname)) {
                 i++;

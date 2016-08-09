@@ -44,17 +44,18 @@ public class SubmissionComments {
     private CommentSort defaultSorting = CommentSort.CONFIDENCE;
     private CommentAdapter adapter;
     public LoadData mLoadData;
+    public boolean online = true;
 
     public SubmissionComments(String fullName, CommentPage commentPage, SwipeRefreshLayout layout, Submission s) {
         this.fullName = fullName;
         this.page = commentPage;
+        online = NetworkUtil.isConnected(page.getActivity());
 
         this.refreshLayout = layout;
 
         if (s.getComments() != null) {
             submission = s;
             CommentNode baseComment = s.getComments();
-            boolean online = NetworkUtil.isConnected(page.getActivity());
             comments = new ArrayList<>();
             Map<Integer, MoreChildItem> waiting = new HashMap<>();
 

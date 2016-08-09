@@ -262,7 +262,7 @@ public class ContentType {
      * @return the String identifier
      */
     private static int getContentID(Submission submission) {
-        return getContentID(getContentType(submission.getUrl()), submission.isNsfw());
+        return getContentID(getContentType(submission), submission.isNsfw());
     }
 
     public static int getContentID(Type contentType, boolean nsfw) {

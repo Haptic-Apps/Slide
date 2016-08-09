@@ -932,7 +932,7 @@ public class CommentAdapterHelper {
             CommentViewHolder holder, Submission submission) {
         final String spacer =
                 " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
-        SpannableStringBuilder titleString = new SpannableStringBuilder();
+        SpannableStringBuilder titleString = new SpannableStringBuilder("\u200B");//zero width space to fix first span height
         SpannableStringBuilder author = new SpannableStringBuilder(comment.getAuthor());
         final int authorcolor = Palette.getFontColorUser(comment.getAuthor());
 

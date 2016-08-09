@@ -278,7 +278,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                }
 
             );
-            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, !dataSet.stillShow, dataSet.subreddit.toLowerCase(), null);
+            new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, dataSet.offline, dataSet.subreddit.toLowerCase(), null);
         }
         if (holder2 instanceof SubmissionFooterViewHolder) {
             Handler handler = new Handler();
