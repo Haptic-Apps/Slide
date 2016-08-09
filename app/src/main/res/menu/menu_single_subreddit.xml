@@ -53,4 +53,8 @@
         android:id="@+id/filter"
         android:title="@string/sub_content_filter"
         app:showAsAction="never" />
+
+    <item android:id="@+id/schedule"
+          android:title="Be notified of new posts"
+          app:showAsAction="never"/>
 </menu>

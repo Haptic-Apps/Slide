@@ -69,6 +69,10 @@
         android:title="@string/hide_read_posts"
         app:showAsAction="never" />
 
+    <item android:id="@+id/schedule"
+          android:title="Be notified of new posts"
+          app:showAsAction="never"/>
+
     <item
         android:id="@+id/share"
         android:title="@string/share_slide"

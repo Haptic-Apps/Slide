@@ -297,6 +297,7 @@
             android:name=".Activities.Reauthenticate"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
             android:theme="@style/swipeable" />
+        <activity android:name=".Activities.CancelSubNotifs"/>
         <activity
             android:name=".Activities.SettingsData"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
@@ -378,6 +379,7 @@
             android:resource="@dimen/app_minimumsize_w" />
 
         <receiver android:name=".Notifications.CheckForMail"></receiver>
+        <receiver android:name=".Notifications.CheckSubs"></receiver>
         <receiver android:name=".Autocache.CacheAll"></receiver>
 
         <meta-data

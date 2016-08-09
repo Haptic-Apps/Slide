@@ -47,10 +47,11 @@ import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.Notifications.SubPostScheduler;
 import me.ccrama.redditslide.util.GifCache;
 import me.ccrama.redditslide.util.IabHelper;
 import me.ccrama.redditslide.util.IabResult;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.UpgradeUtil;
@@ -61,42 +62,45 @@ import me.ccrama.redditslide.util.UpgradeUtil;
 public class Reddit extends MultiDexApplication implements Application.ActivityLifecycleCallbacks {
     public static final String EMPTY_STRING = "NOTHING";
 
-    public static final long enter_animation_time_original = 600;
-    public static final String PREF_LAYOUT = "PRESET";
-    public static final String SHARED_PREF_IS_MOD = "is_mod";
-    public static final String SHARED_PREF_IS_OVER_18 = "is_over_18";
+    public static final long   enter_animation_time_original = 600;
+    public static final String PREF_LAYOUT                   = "PRESET";
+    public static final String SHARED_PREF_IS_MOD            = "is_mod";
+    public static final String SHARED_PREF_IS_OVER_18        = "is_over_18";
 
     public static IabHelper mHelper;
-    public static SubmissionSearchPaginator.SearchSort search = SubmissionSearchPaginator.SearchSort.RELEVANCE;
-    public static long enter_animation_time = enter_animation_time_original;
-    public static final int enter_animation_time_multiplier = 1;
+    public static       SubmissionSearchPaginator.SearchSort search                          =
+            SubmissionSearchPaginator.SearchSort.RELEVANCE;
+    public static       long                                 enter_animation_time            =
+            enter_animation_time_original;
+    public static final int                                  enter_animation_time_multiplier = 1;
 
     public static Authentication authentication;
 
     public static Sorting defaultSorting;
 
-    public static TimePeriod timePeriod;
+    public static TimePeriod        timePeriod;
     public static SharedPreferences colors;
     public static SharedPreferences appRestart;
     public static SharedPreferences tags;
 
-    public static int dpWidth;
-    public static int notificationTime;
-    public static boolean videoPlugin;
+    public static int                      dpWidth;
+    public static int                      notificationTime;
+    public static boolean                  videoPlugin;
     public static NotificationJobScheduler notifications;
-    public static boolean isLoading = false;
-    public static final long time = System.currentTimeMillis();
-    public static boolean fabClear;
+    public static       boolean isLoading = false;
+    public static final long    time      = System.currentTimeMillis();
+    public static boolean            fabClear;
     public static ArrayList<Integer> lastposition;
-    public static int currentPosition;
-    public static SharedPreferences cachedData;
+    public static int                currentPosition;
+    public static SharedPreferences  cachedData;
     public static final boolean noGapps = true; //for testing
-    public static boolean over18 = true;
-    public static boolean overrideLanguage;
-    public static boolean isRestarting;
+    public static       boolean over18  = true;
+    public static boolean            overrideLanguage;
+    public static boolean            isRestarting;
     public static AutoCacheScheduler autoCache;
+    public static SubPostScheduler   post;
     private final List<Listener> listeners = new ArrayList<>();
-    public boolean active;
+    public  boolean     active;
     private ImageLoader defaultImageLoader;
 
     public static void forceRestart(Context context) {
@@ -130,6 +134,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     /**
      * Converts dp to px, uses vertical density
+     *
      * @param dp to convert to px
      * @return px
      */
@@ -140,6 +145,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     /**
      * Converts dp to px, uses horizontal density
+     *
      * @param dp to convert to px
      * @return px
      */
@@ -170,8 +176,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         try {
             final PackageManager pm = ctx.getPackageManager();
             final PackageInfo pi = pm.getPackageInfo(s, 0);
-            if (pi != null && pi.applicationInfo.enabled)
-                return true;
+            if (pi != null && pi.applicationInfo.enabled) return true;
         } catch (final Throwable ignored) {
         }
         return false;
@@ -181,8 +186,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         try {
             final PackageManager pm = ctx.getPackageManager();
             final PackageInfo pi = pm.getPackageInfo("me.ccrama.slideforreddittabletuiunlock", 0);
-            if (pi != null && pi.applicationInfo.enabled)
-                return true;
+            if (pi != null && pi.applicationInfo.enabled) return true;
         } catch (final Throwable ignored) {
         }
         return false;
@@ -192,8 +196,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         try {
             final PackageManager pm = ctx.getPackageManager();
             final PackageInfo pi = pm.getPackageInfo("ccrama.me.slideyoutubeplugin", 0);
-            if (pi != null && pi.applicationInfo.enabled)
-                return true;
+            if (pi != null && pi.applicationInfo.enabled) return true;
         } catch (final Throwable ignored) {
         }
         return false;
@@ -241,76 +244,72 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static Integer getSortingId(String subreddit) {
-        Sorting sort = sorting.containsKey(subreddit) ? sorting.get(subreddit) : Reddit.defaultSorting;
+        Sorting sort =
+                sorting.containsKey(subreddit) ? sorting.get(subreddit) : Reddit.defaultSorting;
         TimePeriod time = sorting.containsKey(subreddit) ? times.get(subreddit) : Reddit.timePeriod;
 
-        return sort == Sorting.HOT ? 0
-                : sort == Sorting.NEW ? 1
-                : sort == Sorting.RISING ? 2
-                : sort == Sorting.TOP ?
-                (time == TimePeriod.HOUR ? 3
-                        : time == TimePeriod.DAY ? 4
+        return sort == Sorting.HOT ? 0 : sort == Sorting.NEW ? 1 : sort == Sorting.RISING ? 2
+                : sort == Sorting.TOP ? (time == TimePeriod.HOUR ? 3 : time == TimePeriod.DAY ? 4
                         : time == TimePeriod.WEEK ? 5
-                        : time == TimePeriod.MONTH ? 6
-                        : time == TimePeriod.YEAR ? 7
-                        : 8)
-                : sort == Sorting.CONTROVERSIAL ?
-                (time == TimePeriod.HOUR ? 9
-                        : time == TimePeriod.DAY ? 10
-                        : time == TimePeriod.WEEK ? 11
-                        : time == TimePeriod.MONTH ? 12
-                        : time == TimePeriod.YEAR ? 13
-                        : 14)
-                : 0;
+                                : time == TimePeriod.MONTH ? 6 : time == TimePeriod.YEAR ? 7 : 8)
+                        : sort == Sorting.CONTROVERSIAL ? (time == TimePeriod.HOUR ? 9
+                                : time == TimePeriod.DAY ? 10 : time == TimePeriod.WEEK ? 11
+                                        : time == TimePeriod.MONTH ? 12
+                                                : time == TimePeriod.YEAR ? 13 : 14) : 0;
     }
 
 
     public static Integer getSortingIdSearch() {
-        return timePeriod == TimePeriod.HOUR ? 0 :
-                timePeriod == TimePeriod.DAY ? 1 :
-                        timePeriod == TimePeriod.WEEK ? 2 :
-                                timePeriod == TimePeriod.MONTH ? 3 :
-                                        timePeriod == TimePeriod.YEAR ? 4 :
-                                                5;
+        return timePeriod == TimePeriod.HOUR ? 0 : timePeriod == TimePeriod.DAY ? 1
+                : timePeriod == TimePeriod.WEEK ? 2 : timePeriod == TimePeriod.MONTH ? 3
+                        : timePeriod == TimePeriod.YEAR ? 4 : 5;
     }
 
     public static Integer getSortingIdSearch(Search s) {
-        return s.time == TimePeriod.HOUR ? 0 :
-                s.time == TimePeriod.DAY ? 1 :
-                        s.time == TimePeriod.WEEK ? 2 :
-                                s.time == TimePeriod.MONTH ? 3 :
-                                        s.time == TimePeriod.YEAR ? 4 :
-                                                5;
+        return s.time == TimePeriod.HOUR ? 0 : s.time == TimePeriod.DAY ? 1
+                : s.time == TimePeriod.WEEK ? 2
+                        : s.time == TimePeriod.MONTH ? 3 : s.time == TimePeriod.YEAR ? 4 : 5;
     }
 
     public static Integer getTypeSearch() {
-        return search == SubmissionSearchPaginator.SearchSort.RELEVANCE ? 0 :
-                search == SubmissionSearchPaginator.SearchSort.TOP ? 1 :
-                        search == SubmissionSearchPaginator.SearchSort.NEW ? 2 :
-                                3;
+        return search == SubmissionSearchPaginator.SearchSort.RELEVANCE ? 0
+                : search == SubmissionSearchPaginator.SearchSort.TOP ? 1
+                        : search == SubmissionSearchPaginator.SearchSort.NEW ? 2 : 3;
     }
 
     public static String[] getSortingStrings(Context c, String currentSub, boolean arrows) {
         return getSortingStrings(c, getSorting(currentSub), getTime(currentSub), arrows);
     }
 
-    public static String[] getSortingStrings(Context c, Sorting currentSort, TimePeriod currentTime, boolean arrows) {
+    public static String[] getSortingStrings(Context c, Sorting currentSort, TimePeriod currentTime,
+            boolean arrows) {
         String[] current = new String[]{
-                c.getString(R.string.sorting_hot),
-                c.getString(R.string.sorting_new),
+                c.getString(R.string.sorting_hot), c.getString(R.string.sorting_new),
                 c.getString(R.string.sorting_rising),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_hour).toLowerCase(),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_day).toLowerCase(),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_week).toLowerCase(),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_month).toLowerCase(),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_year).toLowerCase(),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_all).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_hour).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_day).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_week).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_month).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_year).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(R.string.sorting_all).toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_hour)
+                        .toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_day)
+                        .toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_week)
+                        .toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_month)
+                        .toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_year)
+                        .toLowerCase(),
+                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_all)
+                        .toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(
+                        R.string.sorting_hour).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(
+                        R.string.sorting_day).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(
+                        R.string.sorting_week).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(
+                        R.string.sorting_month).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(
+                        R.string.sorting_year).toLowerCase(),
+                c.getString(R.string.sorting_controversial) + " " + c.getString(
+                        R.string.sorting_all).toLowerCase(),
         };
         int pos = 0;
         switch (currentSort) {
@@ -358,32 +357,25 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static String[] getSortingStringsComments(Context c) {
         return new String[]{
-                c.getString(R.string.sorting_best),
-                c.getString(R.string.sorting_top),
-                c.getString(R.string.sorting_new),
-                c.getString(R.string.sorting_controversial),
-                c.getString(R.string.sorting_old),
-                c.getString(R.string.sorting_ama),
+                c.getString(R.string.sorting_best), c.getString(R.string.sorting_top),
+                c.getString(R.string.sorting_new), c.getString(R.string.sorting_controversial),
+                c.getString(R.string.sorting_old), c.getString(R.string.sorting_ama),
         };
     }
 
     public static String[] getSearch(Context c) {
         return new String[]{
-                c.getString(R.string.search_relevance),
-                c.getString(R.string.search_top),
-                c.getString(R.string.search_new),
-                c.getString(R.string.search_comments)
+                c.getString(R.string.search_relevance), c.getString(R.string.search_top),
+                c.getString(R.string.search_new), c.getString(R.string.search_comments)
         };
     }
 
     public static String[] getSortingStringsSearch(Context c) {
         return new String[]{
-                c.getString(R.string.sorting_search_hour),
-                c.getString(R.string.sorting_search_day),
+                c.getString(R.string.sorting_search_hour), c.getString(R.string.sorting_search_day),
                 c.getString(R.string.sorting_search_week),
                 c.getString(R.string.sorting_search_month),
-                c.getString(R.string.sorting_search_year),
-                c.getString(R.string.sorting_search_all),
+                c.getString(R.string.sorting_search_year), c.getString(R.string.sorting_search_all),
         };
     }
 
@@ -406,7 +398,10 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @Override
     public void onActivityResumed(Activity activity) {
-        if (authentication != null && Authentication.didOnline && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance().getTimeInMillis()) {
+        if (authentication != null
+                && Authentication.didOnline
+                && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance()
+                .getTimeInMillis()) {
             authentication.updateToken(activity);
         } else if (NetworkUtil.isConnected(activity) && authentication == null) {
             authentication = new Authentication(this);
@@ -419,7 +414,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public static void setDefaultErrorHandler(Context base) {
         //START code adapted from https://github.com/QuantumBadger/RedReader/
-        final Thread.UncaughtExceptionHandler androidHandler = Thread.getDefaultUncaughtExceptionHandler();
+        final Thread.UncaughtExceptionHandler androidHandler =
+                Thread.getDefaultUncaughtExceptionHandler();
         final WeakReference<Context> cont = new WeakReference<>(base);
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -430,7 +426,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                     PrintWriter printWriter = new PrintWriter(writer);
                     t.printStackTrace(printWriter);
                     String stacktrace = writer.toString().replace(";", ",");
-                    if (stacktrace.contains("UnknownHostException") || stacktrace.contains("SocketTimeoutException") || stacktrace.contains("ConnectException")) {
+                    if (stacktrace.contains("UnknownHostException") || stacktrace.contains(
+                            "SocketTimeoutException") || stacktrace.contains("ConnectException")) {
                         //is offline
                         final Handler mHandler = new Handler(Looper.getMainLooper());
                         mHandler.post(new Runnable() {
@@ -439,20 +436,29 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                               try {
                                                   new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
                                                           .setMessage(R.string.err_connection_failed_msg)
-                                                          .setNegativeButton(R.string.btn_close, new DialogInterface.OnClickListener() {
-                                                              @Override
-                                                              public void onClick(DialogInterface dialog, int which) {
-                                                                  if (!(c instanceof MainActivity)) {
-                                                                      ((Activity) c).finish();
-                                                                  }
-                                                              }
-                                                          }).setPositiveButton(R.string.btn_offline, new DialogInterface.OnClickListener() {
-                                                      @Override
-                                                      public void onClick(DialogInterface dialog, int which) {
-                                                          Reddit.appRestart.edit().putBoolean("forceoffline", true).apply();
-                                                          Reddit.forceRestart(c);
-                                                      }
-                                                  }).show();
+                                                          .setNegativeButton(R.string.btn_close,
+                                                                  new DialogInterface.OnClickListener() {
+                                                                      @Override
+                                                                      public void onClick(DialogInterface dialog,
+                                                                              int which) {
+                                                                          if (!(c instanceof MainActivity)) {
+                                                                              ((Activity) c).finish();
+                                                                          }
+                                                                      }
+                                                                  })
+                                                          .setPositiveButton(R.string.btn_offline,
+                                                                  new DialogInterface.OnClickListener() {
+                                                                      @Override
+                                                                      public void onClick(DialogInterface dialog,
+                                                                              int which) {
+                                                                          Reddit.appRestart.edit()
+                                                                                  .putBoolean("forceoffline",
+                                                                                          true)
+                                                                                  .apply();
+                                                                          Reddit.forceRestart(c);
+                                                                      }
+                                                                  })
+                                                          .show();
                                               } catch (Exception ignored) {
 
                                               }
@@ -460,7 +466,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                       }
 
                         );
-                    } else if (stacktrace.contains("403 Forbidden") || stacktrace.contains("401 Unauthorized")) {
+                    } else if (stacktrace.contains("403 Forbidden") || stacktrace.contains(
+                            "401 Unauthorized")) {
                         //Un-authenticated
                         final Handler mHandler = new Handler(Looper.getMainLooper());
                         mHandler.post(new Runnable() {
@@ -469,26 +476,33 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                 try {
                                     new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
                                             .setMessage(R.string.err_refused_request_msg)
-                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    if (!(c instanceof MainActivity)) {
-                                                        ((Activity) c).finish();
-                                                    }
-                                                }
-                                            }).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            authentication.updateToken((c));
-                                        }
-                                    }).show();
+                                            .setNegativeButton("No",
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                            if (!(c instanceof MainActivity)) {
+                                                                ((Activity) c).finish();
+                                                            }
+                                                        }
+                                                    })
+                                            .setPositiveButton("Yes",
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                            authentication.updateToken((c));
+                                                        }
+                                                    })
+                                            .show();
                                 } catch (Exception ignored) {
 
                                 }
                             }
                         });
 
-                    } else if (stacktrace.contains("404 Not Found") || stacktrace.contains("400 Bad Request")) {
+                    } else if (stacktrace.contains("404 Not Found") || stacktrace.contains(
+                            "400 Bad Request")) {
                         final Handler mHandler = new Handler(Looper.getMainLooper());
                         mHandler.post(new Runnable() {
                             @Override
@@ -496,32 +510,37 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                 try {
                                     new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
                                             .setMessage(R.string.err_could_not_find_content_msg)
-                                            .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    if (!(c instanceof MainActivity)) {
-                                                        ((Activity) c).finish();
-                                                    }
-                                                }
+                                            .setNegativeButton("Close",
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                            if (!(c instanceof MainActivity)) {
+                                                                ((Activity) c).finish();
+                                                            }
+                                                        }
 
-                                            }).show();
+                                                    })
+                                            .show();
                                 } catch (Exception ignored) {
 
                                 }
                             }
                         });
                     } else {
-                        appRestart.edit().putString("startScreen", "a").apply(); //Force reload of data after crash incase state was not saved
+                        appRestart.edit()
+                                .putString("startScreen", "a")
+                                .apply(); //Force reload of data after crash incase state was not saved
 
 
-                            try {
+                        try {
 
-                                SharedPreferences prefs = c.getSharedPreferences(
-                                        "STACKTRACE", Context.MODE_PRIVATE);
-                                prefs.edit().putString("stacktrace", stacktrace).apply();
+                            SharedPreferences prefs =
+                                    c.getSharedPreferences("STACKTRACE", Context.MODE_PRIVATE);
+                            prefs.edit().putString("stacktrace", stacktrace).apply();
 
-                            } catch (Throwable ignored) {
-                            }
+                        } catch (Throwable ignored) {
+                        }
 
 
                         androidHandler.uncaughtException(thread, t);
@@ -565,7 +584,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public void doMainStuff() {
         Log.v(LogUtil.getTag(), "ON CREATED AGAIN");
-        overrideLanguage = getSharedPreferences("SETTINGS", 0).getBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE, false);
+        overrideLanguage =
+                getSharedPreferences("SETTINGS", 0).getBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE,
+                        false);
         appRestart = getSharedPreferences("appRestart", 0);
         AlbumUtils.albumRequests = getSharedPreferences("albums", 0);
 
@@ -678,7 +699,8 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                mHelper = new IabHelper(Reddit.this, SecretConstants.getBase64EncodedPublicKey(getBaseContext()));
+                mHelper = new IabHelper(Reddit.this,
+                        SecretConstants.getBase64EncodedPublicKey(getBaseContext()));
                 mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
                     public void onIabSetupFinished(IabResult result) {
                         if (!result.isSuccess()) {

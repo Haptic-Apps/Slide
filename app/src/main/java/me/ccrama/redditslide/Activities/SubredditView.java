@@ -75,6 +75,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.Notifications.SubPostScheduler;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -148,6 +149,30 @@ public class SubredditView extends BaseActivityAnim {
                 if (canSubmit)
                     i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                 startActivity(i);
+                return true;
+            case R.id.schedule:
+                final String sub = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
+                new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                        "Be notified of new posts in /r/" + sub)
+                        .setMessage(
+                                "Slide will check for new posts every 10 minutes. You can cancel this in the post notifications.")
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ArrayList<String> subs = Reddit.stringToArray(
+                                        Reddit.appRestart.getString("subsToGet", ""));
+                                subs.add(sub);
+                                Reddit.appRestart.edit()
+                                        .putString("subsToGet", Reddit.arrayToString(subs))
+                                        .commit();
+                                if(Reddit.post == null){
+                                    Reddit.post = new SubPostScheduler(SubredditView.this);
+                                    Reddit.post.start(SubredditView.this);
+                                }
+                            }
+                        })
+                        .setNegativeButton("CANCEL", null)
+                        .show();
                 return true;
             case R.id.action_refresh:
                 if (adapter != null && adapter.getCurrentFragment() != null)
