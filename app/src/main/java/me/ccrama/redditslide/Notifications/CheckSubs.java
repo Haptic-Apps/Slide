@@ -113,20 +113,28 @@ public class CheckSubs extends BroadcastReceiver {
                     if (subs.isEmpty()) {
                         return null;
                     }
+
+                    String first = "";
+                    boolean skipFirst = false;
+                    ArrayList<String> finalSubs = new ArrayList<>();
                     for (String s : subs) {
-                        if (!s.isEmpty()) {
-                            LogUtil.v("Sub is " + s);
-                            SubredditPaginator unread =
-                                    new SubredditPaginator(Authentication.reddit, s);
-                            unread.setSorting(Sorting.NEW);
-                            unread.setTimePeriod(TimePeriod.HOUR);
-                            unread.setLimit(5);
-                            if (unread.hasNext()) {
-                                for (Submission subm : unread.next()) {
-                                    if (subm.getCreated().getTime() > lastTime) {
-                                        toReturn.add(subm);
-                                    }
-                                }
+                        if (!s.isEmpty() && !skipFirst) {
+                            finalSubs.add(s);
+                        } else {
+                            skipFirst = true;
+                            first = s;
+                        }
+                    }
+                    SubredditPaginator unread =
+                            new SubredditPaginator(Authentication.reddit, first, finalSubs.toArray(new String[finalSubs.size()]));
+                    unread.setSorting(Sorting.NEW);
+                    unread.setTimePeriod(TimePeriod.HOUR);
+
+                    unread.setLimit(5);
+                    if (unread.hasNext()) {
+                        for (Submission subm : unread.next()) {
+                            if (subm.getCreated().getTime() > lastTime) {
+                                toReturn.add(subm);
                             }
                         }
                     }
