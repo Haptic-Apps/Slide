@@ -87,7 +87,7 @@ public class Discover extends BaseActivityAnim {
         setContentView(R.layout.activity_multireddits);
 
         ((DrawerLayout)findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        setupAppBar(R.id.toolbar, "Discover", true, false);
+        setupAppBar(R.id.toolbar, R.string.discover_title, true, false);
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         findViewById(R.id.header).setBackgroundColor(Palette.getDefaultColor());

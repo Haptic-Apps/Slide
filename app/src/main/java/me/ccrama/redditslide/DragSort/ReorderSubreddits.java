@@ -135,12 +135,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             case R.id.info:
                 new AlertDialogWrapper.Builder(ReorderSubreddits.this)
                         .setTitle(R.string.reorder_subs_FAQ)
-                        .setMessage(Html.fromHtml("<b>How do I refresh subreddits?</b><br>" +
-                                "To refresh subreddits, click the refresh icon in the toolbar!<br><br>" +
-                                "<b>I unsubscribed from some subreddits but they are still in the list!</b><br>" +
-                                "Slide will convert unsubscribed subs from the browser into casual subscriptions. To remove them, long press on the subreddit(s) and click remove!<br><br>" +
-                                "<b>How do I use collections?</b><br>" +
-                                "To create a collection, click the + FAB and select 'Create a collection'. This allows you to have multiple subs acting as one subreddit in the main screen!"))
+                        .setMessage(R.string.sorting_faq)
                         .show();
                 return true;
         }
@@ -298,7 +293,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 }
                             });
                     if (Authentication.isLoggedIn && Authentication.didOnline)
-                        b.neutralText("Add & Subscribe").onNeutral(new MaterialDialog.SingleButtonCallback() {
+                        b.neutralText(R.string.reorder_add_subscribe).onNeutral(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 new AsyncGetSubreddit().execute(input);
@@ -318,10 +313,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 public void onClick(View v) {
                     fab.collapse();
                     new MaterialDialog.Builder(ReorderSubreddits.this)
-                            .title("Add a domain")
+                            .title(R.string.reorder_add_domain)
                             .inputRangeRes(2, 21, R.color.md_red_500)
                             .alwaysCallInputCallback()
-                            .input("example.com (only the domain name)", null, false, new MaterialDialog.InputCallback() {
+                            .input("example.com" + getString(R.string.reorder_domain_placeholder), null, false, new MaterialDialog.InputCallback() {
                                 @Override
                                 public void onInput(MaterialDialog dialog, CharSequence raw) {
                                     input = raw.toString().replaceAll("\\s", ""); //remove whitespace from input
@@ -530,12 +525,12 @@ public class ReorderSubreddits extends BaseActivityAnim {
         public void doNewToolbar() {
             mToolbar.setVisibility(View.GONE);
             mToolbar = (Toolbar) findViewById(R.id.toolbar2);
-            mToolbar.setTitle(chosen.size() + " selected");
+            mToolbar.setTitle(getResources().getQuantityString(R.plurals.reorder_selected, chosen.size(), chosen.size()));
             mToolbar.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
-                            .setPositiveButton("REMOVE", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.btn_remove, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     for (String s : chosen) {
@@ -550,7 +545,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                 }
                             });
                     if (Authentication.isLoggedIn && Authentication.didOnline)
-                        b.setNeutralButton("REMOVE & UNSUBSCRIBE", new DialogInterface.OnClickListener() {
+                        b.setNeutralButton(R.string.reorder_remove_unsubsribe, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 for (String s : chosen) {
@@ -592,7 +587,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
 
         public void updateToolbar() {
-            mToolbar.setTitle(chosen.size() + " selected");
+            mToolbar.setTitle(getResources().getQuantityString(R.plurals.reorder_selected, chosen.size(), chosen.size()));
         }
 
         @Override
@@ -648,12 +643,12 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 public void onClick(View v) {
                     if (!isMultiple) {
                         new AlertDialogWrapper.Builder(ReorderSubreddits.this)
-                                .setItems(new CharSequence[]{"Move to Top", "Delete"}, new DialogInterface.OnClickListener() {
+                                .setItems(new CharSequence[]{getString(R.string.reorder_move), getString(R.string.btn_delete)}, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         if (which == 1) {
                                             AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.reorder_remove_title)
-                                                    .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                                                    .setPositiveButton(R.string.btn_remove, new DialogInterface.OnClickListener() {
                                                         @Override
                                                         public void onClick(DialogInterface dialog, int which) {
                                                             subs.remove(items.get(position));
@@ -666,7 +661,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                         }
                                                     });
                                             if (Authentication.isLoggedIn && Authentication.didOnline)
-                                                b.setNeutralButton("REMOVE & UNSUBSCRIBE", new DialogInterface.OnClickListener() {
+                                                b.setNeutralButton(R.string.reorder_remove_unsubsribe, new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         final String sub = items.get(position);

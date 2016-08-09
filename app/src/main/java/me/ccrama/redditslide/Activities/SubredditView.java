@@ -155,7 +155,7 @@ public class SubredditView extends BaseActivityAnim {
                 return true;
             case R.id.action_sort:
                 if (subreddit.equalsIgnoreCase("friends")) {
-                    Snackbar s = Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT);
+                    Snackbar s = Snackbar.make(findViewById(R.id.anchor), getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
                     View view = s.getView();
                     TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);

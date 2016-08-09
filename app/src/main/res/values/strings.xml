@@ -61,7 +61,9 @@
     <string name="theme_accent_color">Accent color</string>
     <string name="theme_base">Base theme</string>
     <string name="theme_card">Card</string>
-
+    <string name="theme_sepia">Sepia</string>
+    <string name="theme_amoled_contrast">AMOLED with contrast</string>
+    <string name="theme_night">Night theme</string>
 
     <!-- Font settings -->
     <string name="font_size">Font size</string>
@@ -341,7 +343,13 @@
     <string name="btn_delete">Delete</string>
     <string name="btn_time">Time period</string>
     <string name="btn_message">Message</string>
-
+    <string name="btn_add_domain">Add a domain</string>
+    <string name="btn_select">Select</string>
+    <string name="btn_view">VIEW</string>
+    <string name="btn_changelog">Changelog</string>
+    <string name="btn_set">SET</string>
+    <string name="btn_create">Create</string>
+    <string name="btn_new">New</string>
 
     <!-- Backup -->
     <string name="backup_success">Backup successful!</string>
@@ -496,6 +504,94 @@
     <string name="settings_section_data_saving_mode">Data saving mode</string>
     <string name="settings_section_image_quality">Image quality</string>
     <string name="settings_section_hide_images">Hide images</string>
+    <string name="settings_comment_color">Colorful comment depth indicators</string>
+    <string name="settings_volume_nav_comments">Navigate comments using volume buttons</string>
+    <string name="settings_synccit_remove">DISCONNECT SYNCCIT</string>
+    <string name="settings_synccit_auth">Auth code</string>
+    <string name="settings_synccit_username">Username</string>
+    <string name="settings_synccit_delete">Really delete Synccit account?</string>
+    <string name="settings_synccit_authenticate">Authenticating with Synccit</string>
+    <string name="settings_synccit_connected">Connected successfully!</string>
+    <string name="settings_synccit_active">Synccit is now active for this device</string>
+    <string name="settings_synccit_failed">Could not authenticate</string>
+    <string name="settings_synccit_failed_msg">Make sure your username and authentication key are correct!</string>
+    <string name="settings_synccit">Synccit integration</string>
+    <string name="settings_commentnav_description">Enables a bottom bar with navigation arrows</string>
+    <string name="settings_comment_collapse">Fully collapse comments</string>
+    <string name="settings_comment_collapse_description">Also disables comment animations</string>
+    <string name="settings_comment_collapse_default">Collapse child comments by default</string>
+    <string name="settings_data_enable">Enable datasaving settings</string>
+    <string name="settings_backup_occurs">Backup will occur at\u0020</string>
+    <string name="settings_backup_none">No subreddits will back up</string>
+    <string name="settings_backup_will_backup">\u0020will back up</string>
+    <string name="settings_backup_submission_only">submission only</string>
+    <string name="settings_backup_comments">\u0020(comments)</string>
+    <string name="settings_filter_profile">Profile filters</string>
+    <string name="settings_subredditspecific_selftext">Always show selftext previews in this subreddit</string>
+    <string name="settings_font_system">System</string>
+    <string name="settings_manage_subscriptions">Manage your subscriptions</string>
+    <string name="settings_comments_swap_long">Swap long press and tap actions</string>
+    <string name="settings_redditprefs_over18">I am over 18 and want to see NSFW content</string>
+    <string name="settings_layout_view">View mode</string>
+    <string name="settings_data_lowqaul_desc">Otherwise, always open high quality images</string>
+    <string name="settings_data_lowqaul">Load lower quality image if possible</string>
+    <string name="settings_subredditspecific_bigpic">Always show big pictures in this subreddit</string>
+    <string name="settings_layout_picture_mode">Picture mode</string>
+    <string name="settings_general_expanded_toolbar">Expanded toolbar menu</string>
+    <string name="settings_general_expanded_toolbar_desc">Show more options on the subreddit toolbar</string>
+    <string name="settings_theme_tinting">Submission color tinting mode</string>
+    <string name="settings_reddit_thumbnail_mode">Thumbnail mode</string>
+    <string name="settings_layout_actionbar_mode">Actionbar mode</string>
+    <string name="settings_theme_tint_outside_desc">Only color background in multireddits, frontpage, and all</string>
+    <string name="settings_layout_small_content_tag">Smaller content tag</string>
+    <string name="settings_links_force_external">Force external browser</string>
+    <string name="settings_links_force_external_desc">Choose domains that will always open externally</string>
+    <string name="settings_layout_show_domain">Show domain in info line</string>
+    <string name="settings_layout_show_content_type">Show content type in info line</string>
+    <string name="settings_layout_show_votes_comments">Show votes/comments in info line</string>
+    <string name="settings_general_swipeanywhere_description">Swipe anywhere in view to exit</string>
+    <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
+    <string name="settings_fab_create">Show \"create comment\" floating action button</string>
+    <string name="settings_right_handed_comment_menu">Right-handed comment reply menu</string>
+    <string name="settings_reddit_description">These settings change what the Reddit API returns to Slide.\n\nTo see thumbnails in all subreddits, change the Thumbnail Mode to \'Always Show\'\n\nTo see all NSFW content, turn off \'Hide NSFW photos\' and turn on \'I am over 18\'</string>
+    <string name="settings_description_synccit">Synccit allows you to sync your submission history between devices and your browser</string>
+    <string name="settings_description_view_type">View types affect both the main view and single subreddit views.\n\nComment pane: comments slide out from next to posts and the comment page state is saved after swiping back (so you don\'t lose your place)\n\nNo subreddit tabs: disables swiping between subreddits\n\nSubreddit tabs: slide between your subreddits</string>
+    <string name="settings_comment_hide_selftext_image">Hide lead image on selftext posts</string>
+    <string name="settings_reddit_syncing">Syncing with Reddit</string>
+    <string name="settings_filter_flair">Flair filters</string>
+    <string name="settings_data_low_quality">Load low quality images</string>
+    <string name="settings_view_type">View type</string>
+    <string name="settings_data">Data saving</string>
+    <string name="settings_card_show_selftext">Show first paragraph of selftext</string>
+    <string name="settings_handling_external_desc">Domains entered below will always open externally</string>
+    <string name="settings_handling_enterdomain">Enter a domain or part of a domain</string>
+    <string name="settings_section_content">Content</string>
+    <string name="settings_about_changelog_post">View changelog post</string>
+
+
+    <!-- Subscription managing -->
+    <string name="reorder_add_domain">Add a domain</string>
+    <string name="reorder_fab_collection">Collection</string>
+    <string name="reorder_fab_domain">Domain</string>
+    <string name="reorder_fab_subreddit">Subreddit</string>
+    <string name="reorder_add_subscribe">Add &amp; Subscribe</string>
+    <string name="reorder_remove_unsubsribe">Remove &amp; Unsubscribe</string>
+    <string name="reorder_selected">\u0020selected</string>
+    <string name="reorder_move">Move to Top</string>
+    <string name="reorder_domain_placeholder">\u0020(only the domain name)</string>
+    <string name="sorting_faq"><b>How do I refresh subreddits?</b>\nTo refresh subreddits, click the refresh icon in the toolbar!\n\n<b>I unsubscribed from some subreddits but they are still in the list!</b>\nSlide will convert unsubscribed subs from the browser into casual subscriptions. To remove them, long press on the subreddit(s) and click remove!\n\n<b>How do I use collections?</b>\nTo create a collection, click the + FAB and select \'Create a collection\'. This allows you to have multiple subs acting as one subreddit in the main screen!</string>
+    <string name="FAQ">FAQ</string>
+    <string name="alphabetize_subreddits">Alphabetize subreddits</string>
+    <string name="sync_subscriptions">Sync subscriptions</string>
+    <string name="delete_multireddit_title">Do you really want to delete /m/</string>
+    <string name="cannot_be_undone">This cannot be undone.</string>
+    <string name="deleting">Deleting...</string>
+    <string name="create_or_import_multi">Would you like to create a new collection or import a multireddit?</string>
+    <string name="btn_add_subreddit">Add a subreddit</string>
+    <string name="btn_add_collection">Add a collection</string>
+    <string name="btn_import_multi">Import multireddit</string>
+    <string name="reorder_subs_FAQ">Reorder Subreddits FAQ</string>
+
 
     <!-- Setting subheaders -->
     <string name="sorting">Sorting</string>
@@ -548,6 +644,8 @@
     <string name="offline_msg">Please go online and refresh the subreddit to do that</string>
     <string name="offline_last_update">Last updated %1$s</string>
     <string name="offline_comments_not_loaded">Please go back online and select ‘Cache comments’ from the 3 dot menu to view comments offline</string>
+    <string name="offline_no_content_found">No offline content found</string>
+    <string name="offline_enter_online">Enter online mode</string>
 
 
     <!-- Website -->
@@ -636,23 +734,11 @@
 
 
     <string name="comment_load_more_number_unknown">Load more comments</string>
-    <string name="settings_comment_color">Colorful comment depth indicators</string>
-    <string name="settings_volume_nav_comments">Navigate comments using volume buttons</string>
-    <string name="settings_synccit_remove">DISCONNECT SYNCCIT</string>
-    <string name="settings_synccit_auth">Auth code</string>
-    <string name="settings_synccit_username">Username</string>
-    <string name="settings_synccit_delete">Really delete Synccit account?</string>
-    <string name="settings_synccit_authenticate">Authenticating with Synccit</string>
-    <string name="settings_synccit_connected">Connected successfully!</string>
-    <string name="settings_synccit_active">Synccit is now active for this device</string>
-    <string name="settings_synccit_failed">Could not authenticate</string>
-    <string name="settings_synccit_failed_msg">Make sure your username and authentication key are correct!</string>
-    <string name="settings_synccit">Synccit integration</string>
     <string name="card_right_thumb">Right-aligned thumbnail</string>
     <string name="submission_share_permalink">Share post</string>
     <string name="setting_filter_subreddits">Subreddit filters</string>
     <string name="subreddit_theme">Subreddit theme</string>
-    <string name="btn_select">Select</string>
+
     <string name="dialog_choose_subreddits_to_edit">Choose subreddits to edit</string>
     <string name="dialog_color_sync_title">Color syncing</string>
     <string name="dialog_color_sync_message">This will try to retrieve the subreddit’s ‘key color’ set by the moderators. It will not overwrite already colored subreddits.</string>
@@ -665,10 +751,7 @@
     <string name="subreddit_search_method_both">Both drawer and toolbar title</string>
     <string name="handling_internal_browser">Use internal browser</string>
     <string name="handling_external_browser">Use external browser</string>
-    <string name="settings_commentnav_description">Enables a bottom bar with navigation arrows</string>
-    <string name="settings_comment_collapse">Fully collapse comments</string>
-    <string name="settings_comment_collapse_description">Also disables comment animations</string>
-    <string name="settings_comment_collapse_default">Collapse child comments by default</string>
+
     <string name="mode_list">List</string>
     <string name="mode_centered">Card with centered image</string>
     <string name="mode_card">Card</string>
@@ -676,7 +759,7 @@
     <string name="mode_big_thumbnails">Big Thumbnails</string>
     <string name="mode_cropped">Big picture cropped</string>
     <string name="mode_bigpic">Big picture</string>
-    <string name="settings_general_swipeanywhere_description">Swipe anywhere in view to exit</string>
+
     <string name="press_actionbar">Press arrow to show actionbar</string>
     <string name="tap_actionbar">Long press for actionbar</string>
     <string name="always_actionbar">Always show actionbar</string>
@@ -684,7 +767,8 @@
     <string name="submission_share_reddit_url">Share comments</string>
     <string name="filter_content">Filter this content</string>
     <string name="content_to_hide">Content to hide on %1$s</string>
-    <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
+    <string name="save_for_offline_viewing">Save submissions for offline viewing</string>
+
     <string name="error_video_not_found">Video not found</string>
     <string name="error_video_message">An error occurred while loading this video</string>
     <string name="view_type_tabs">Subreddit tabs</string>
@@ -699,6 +783,8 @@
     <string name="load_videos_internally_content">Would you like to try out the Slide Video plugin? This will allow you to view videos (like YouTube) internally!</string>
     <string name="do_not_show_again">Don\'t show again</string>
 
+    <string name="enter_text_to_filter_click_enter_to_add_flair">Enter text to filter (subreddit:flair_text), click enter to add</string>
+
     <plurals name="landscape_columns">
         <item quantity="one">%d column in landscape</item>
         <item quantity="other">%d columns in landscape</item>
@@ -711,52 +797,30 @@
     <string name="submission_info_locked">This is a locked post. You won\'t be able to vote or comment.</string>
     <string name="card_background_tint">Card background</string>
     <string name="subreddit_name_tint">Subreddit name</string>
-    <string name="settings_comment_hide_selftext_image">Hide lead image on selftext posts</string>
+
     <string name="login_failed_err_decline">Be sure you didn’t select ‘Decline’ on the last screen, and try again in a minute</string>
     <string name="thumb_type_always">Always show</string>
     <string name="thumb_type_off">Never show</string>
     <string name="thumb_type_sub">Show per subreddit settings</string>
     <string name="tutorial_swipe_navigation">Swipe navigation</string>
     <string name="tutorial_swipe_description">Swipe from the left edge to exit.\n\nThis applies to images, GIFs, albums, settings, and more!</string>
-    <string name="settings_data_low_quality">Load low quality images</string>
-    <string name="settings_view_type">View type</string>
+
     <string name="handling_browser">Web browser</string>
-    <string name="settings_comments_swap_long">Swap long press and tap actions</string>
-    <string name="settings_redditprefs_over18">I am over 18 and want to see NSFW content</string>
-    <string name="settings_layout_view">View mode</string>
-    <string name="settings_data_lowqaul_desc">Otherwise, always open high quality images</string>
-    <string name="settings_data_lowqaul">Load lower quality image if possible</string>
-    <string name="settings_subredditspecific_bigpic">Always show big pictures in this subreddit</string>
-    <string name="settings_layout_picture_mode">Picture mode</string>
-    <string name="settings_general_expanded_toolbar">Expanded toolbar menu</string>
-    <string name="settings_general_expanded_toolbar_desc">Show more options on the subreddit toolbar</string>
-    <string name="settings_theme_tinting">Submission color tinting mode</string>
-    <string name="settings_reddit_thumbnail_mode">Thumbnail mode</string>
-    <string name="settings_layout_actionbar_mode">Actionbar mode</string>
-    <string name="settings_theme_tint_outside_desc">Only color background in multireddits, frontpage, and all</string>
-    <string name="settings_layout_small_content_tag">Smaller content tag</string>
-    <string name="settings_links_force_external">Force external browser</string>
-    <string name="settings_links_force_external_desc">Choose domains that will always open externally</string>
-    <string name="settings_layout_show_domain">Show domain in info line</string>
-    <string name="settings_layout_show_content_type">Show content type in info line</string>
-    <string name="settings_layout_show_votes_comments">Show votes/comments in info line</string>
+
     <string name="submit_replies_to_inbox">Send replies to inbox</string>
-    <string name="settings_data">Data saving</string>
-    <string name="settings_card_show_selftext">Show first paragraph of selftext</string>
-    <string name="btn_view">VIEW</string>
+
+
     <string name="btn_open_comments">Open comments</string>
     <string name="btn_preview">Preview</string>
     <string name="sorting_default_comment">Default comment sorting</string>
-    <string name="theme_amoled_contrast">AMOLED with contrast</string>
+
     <string name="content_deleted">[deleted]</string>
     <string name="thread_continue">Continue this thread</string>
     <string name="type_selftext">Selftext</string>
-    <string name="settings_fab_create">Show \"create comment\" floating action button</string>
-    <string name="settings_right_handed_comment_menu">Right-handed comment reply menu</string>
+
     <string name="submission_unhide">Unhide post</string>
     <string name="submission_info_unhidden">Submission unhidden</string>
-    <string name="settings_handling_external_desc">Domains entered below will always open externally</string>
-    <string name="settings_handling_enterdomain">Enter a domain or part of a domain</string>
+
     <string name="err_comment_post">Uh oh, posting this comment failed!</string>
     <string name="err_comment_post_reason">"Reason: "</string>
     <string name="err_comment_post_message">\n\nYour message has been saved as a draft. Please try again later.</string>
@@ -779,12 +843,11 @@
     <string name="download_album">Download album</string>
     <string name="compose_message">Compose message</string>
     <string name="mark_all_as_read">Mark all as read</string>
-    <string name="btn_changelog">Changelog</string>
+
     <string name="clear_subreddit_history">Clear subreddit history</string>
     <string name="clear_submission_history">Clear submission history</string>
     <string name="alert_history_cleared">History cleared!</string>
-    <string name="settings_subredditspecific_selftext">Always show selftext previews in this subreddit</string>
-    <string name="settings_font_system">System</string>
+
     <string name="manage_offline_content">Manage offline content</string>
     <string name="go_offline">Go offline</string>
     <string name="cache_wifi_only">Only cache on WiFi</string>
@@ -794,23 +857,20 @@
     <string name="sidebar_edit_flair">Edit your flair</string>
     <string name="no_cached_comments_found">No cached comments found</string>
     <string name="go_online_view_content">Please go online to view this content</string>
-    <string name="FAQ">FAQ</string>
-    <string name="alphabetize_subreddits">Alphabetize subreddits</string>
-    <string name="sync_subscriptions">Sync subscriptions</string>
+
     <string name="help">Help</string>
     <string name="upvote_percentage">Show upvote percentage</string>
-    <string name="btn_set">SET</string>
+
     <string name="view_subreddits">View subreddits</string>
-    <string name="settings_about_changelog_post">View changelog post</string>
+
     <string name="autocache_subreddits">Autocache subreddits</string>
     <string name="autocache_time">Autocache time</string>
     <string name="cache_subreddits_now">Cache subreddits now</string>
     <string name="clear_saved_subreddits">Clear all saved subreddits</string>
-    <string name="settings_section_content">Content</string>
+
+
     <string name="download_the_slide_video_player_plugin">Download the Slide Video Player plugin</string>
-    <string name="settings_reddit_description">These settings change what the Reddit API returns to Slide.\n\nTo see thumbnails in all subreddits, change the Thumbnail Mode to \'Always Show\'\n\nTo see all NSFW content, turn off \'Hide NSFW photos\' and turn on \'I am over 18\'</string>
-    <string name="settings_description_synccit">Synccit allows you to sync your submission history between devices and your browser</string>
-    <string name="settings_description_view_type">View types affect both the main view and single subreddit views.\n\nComment pane: comments slide out from next to posts and the comment page state is saved after swiping back (so you don\'t lose your place)\n\nNo subreddit tabs: disables swiping between subreddits\n\nSubreddit tabs: slide between your subreddits</string>
+
     <string name="btn_suggest_title">Suggest title</string>
     <string name="navigate_comments_since">Comments newer than…</string>
     <string name="err_connection_failed_msg">The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.</string>
@@ -849,12 +909,7 @@
     <string name="comment_distinguished">Comment distinguished</string>
     <string name="remove_comment">Really remove this comment?</string>
     <string name="comment_removed">Comment removed</string>
-    <string name="create_or_import_multi">Would you like to create a new collection or import a multireddit?</string>
-    <string name="btn_add_subreddit">Add a subreddit</string>
-    <string name="btn_add_collection">Add a collection</string>
-    <string name="btn_new">New</string>
-    <string name="btn_import_multi">Import multireddit</string>
-    <string name="reorder_subs_FAQ">Reorder Subreddits FAQ</string>
+
     <string name="set_nav_mode">Set navigation mode</string>
     <string name="set_gif_save_loc">Set GIF save location</string>
     <string name="set_gif_save_loc_msg">Slide\'s GIF save location has not been set yet. Would you like to set this now?</string>
@@ -870,18 +925,34 @@
     <string name="share_slide">Share Slide</string>
     <string name="create_folder">Create folder</string>
     <string name="folder_name">Folder name</string>
-    <string name="btn_create">Create</string>
     <string name="sidebar_friends">Friends</string>
-    <string name="settings_manage_subscriptions">Manage your subscriptions</string>
-    <string name="btn_add_domain">Add a domain</string>
-    <string name="delete_multireddit_title">Do you really want to delete /m/</string>
-    <string name="cannot_be_undone">This cannot be undone.</string>
-    <string name="deleting">Deleting...</string>
     <string name="results_in_slightly_higher_data_usage_but_some_cropped_images_will_be_full_sized">Results in slightly higher data usage, but some cropped images will be full sized</string>
     <string name="get_lq_imgur_images_through_imgur_api">Get LQ Imgur images through Imgur API</string>
-    <string name="theme_sepia">Sepia</string>
+
     <string name="open_links_externally">Always open this host externally</string>
     <string name="hide_read_posts">Hide read posts</string>
+    <string name="gallery_mode">Gallery mode</string>
+    <string name="sidebar_flair">Flair:\u0020</string>
+
+    <!-- Sidebar strings (multis, flairs) -->
+    <string name="sidebar_select_flair">Select flair</string>
+    <string name="sidebar_select_flair_text">Select flair text</string>
+    <string name="sidebar_findingmods">Finding moderators</string>
+    <string name="snackbar_flair_success">Flair set successfully</string>
+    <string name="snackbar_flair_error">Error setting flair, try again soon</string>
+    <string name="sidebar_submods">/r/%s mods</string>
+    <string name="multi_add_to">Add /r/%s to</string>
+    <string name="multi_subreddit_added">Subreddit added to /m/</string>
+    <string name="multi_error">An error occurred, please try again later</string>
+    <plurals name="reorder_selected">
+        <item quantity="other">"%d selected"</item>
+    </plurals>
+
+    <string name="profile_category_loading">Loading categories</string>
+    <string name="profile_category_select">"Select category"</string>
+    <string name="friends_sort_error">/r/ friends is unsortable</string>
+
+
 
     <!-- Strings for alert dialogs -->
     <string name="force_change_subscription">Could not change subscription</string>
@@ -891,7 +962,6 @@
     <string name="load_high_quality_image_every_time">Otherwise, load high quality image every time</string>
     <string name="load_lower_quality_imgur">If enabled, will attempt to load an even lower quality Imgur image</string>
     <string name="load_medium_quality_imgur_images">Load medium quality Imgur images</string>
-    <string name="theme_night">Night theme</string>
     <string name="choose_color_title">Choose a color</string>
     <string name="enter_text_to_filter_click_enter_to_add">Enter text to filter, click enter to add</string>
     <string name="mode_desktop_compact">Desktop compact</string>

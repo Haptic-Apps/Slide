@@ -510,7 +510,7 @@ public class Profile extends BaseActivityAnim {
 
                     @Override
                     public void onPreExecute() {
-                        d = new MaterialDialog.Builder(Profile.this).progress(true, 100).title("Loading categories").show();
+                        d = new MaterialDialog.Builder(Profile.this).progress(true, 100).title(R.string.profile_category_loading).show();
                     }
 
                     @Override
@@ -532,7 +532,7 @@ public class Profile extends BaseActivityAnim {
                     public void onPostExecute(final List<String> data) {
                         try {
                             new MaterialDialog.Builder(Profile.this).items(data)
-                                    .title("Select category")
+                                    .title(R.string.profile_category_select)
                                     .itemsCallback(new MaterialDialog.ListCallback() {
                                         @Override
                                         public void onSelection(MaterialDialog dialog, final View itemView, int which, CharSequence text) {
