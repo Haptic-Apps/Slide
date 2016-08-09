@@ -307,7 +307,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="Flair filters"
+                        android:text="@string/settings_filter_flair"
                         android:textColor="?attr/font"
                         android:textSize="16sp" />
                 </LinearLayout>
@@ -326,7 +326,7 @@
                     android:layout_marginEnd="12dp"
                     android:singleLine="true"
                     android:imeOptions="actionDone"
-                    android:hint="Enter text to filter (subreddit:flair_text), click enter to add"
+                    android:hint="@string/enter_text_to_filter_click_enter_to_add_flair"
                     android:textSize="14sp" />
 
 

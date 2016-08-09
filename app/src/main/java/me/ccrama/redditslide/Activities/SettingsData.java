@@ -21,7 +21,7 @@ public class SettingsData extends BaseActivityAnim {
         super.onCreate(savedInstanceState);
         applyColorTheme();
         setContentView(R.layout.activity_settings_datasaving);
-        setupAppBar(R.id.toolbar, "Data saving", true, true);
+        setupAppBar(R.id.toolbar, R.string.settings_data, true, true);
         final SwitchCompat single = (SwitchCompat) findViewById(R.id.imagelq);
         {
 

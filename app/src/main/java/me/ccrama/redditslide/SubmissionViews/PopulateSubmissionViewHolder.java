@@ -638,7 +638,7 @@ public class PopulateSubmissionViewHolder {
 
             @Override
             public void onPreExecute() {
-                d = new MaterialDialog.Builder(mContext).progress(true, 100).title("Loading categories").show();
+                d = new MaterialDialog.Builder(mContext).progress(true, 100).title(R.string.profile_category_loading).show();
             }
 
             @Override
@@ -660,7 +660,7 @@ public class PopulateSubmissionViewHolder {
             public void onPostExecute(final List<String> data) {
                 try {
                     new MaterialDialog.Builder(mContext).items(data)
-                            .title("Select flair")
+                            .title(R.string.sidebar_select_flair)
                             .itemsCallback(new MaterialDialog.ListCallback() {
                                 @Override
                                 public void onSelection(MaterialDialog dialog, final View itemView, int which, CharSequence text) {
@@ -672,7 +672,7 @@ public class PopulateSubmissionViewHolder {
                                                     public void onInput(MaterialDialog dialog, CharSequence input) {
 
                                                     }
-                                                }).positiveText("Set")
+                                                }).positiveText(R.string.btn_set)
                                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                                     @Override
                                                     public void onClick(MaterialDialog dialog, DialogAction which) {

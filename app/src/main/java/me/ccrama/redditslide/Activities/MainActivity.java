@@ -664,8 +664,8 @@ public class MainActivity extends BaseActivity {
     public void updateSubs(ArrayList<String> subs) {
         if (subs.isEmpty() && !NetworkUtil.isConnected(this)) {
             d = new MaterialDialog.Builder(MainActivity.this)
-                    .title("No offline content found")
-                    .positiveText("Enter online mode")
+                    .title(R.string.offline_no_content_found)
+                    .positiveText(R.string.offline_enter_online)
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -926,7 +926,7 @@ public class MainActivity extends BaseActivity {
             dialoglayout.findViewById(R.id.mods).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final Dialog d = new MaterialDialog.Builder(MainActivity.this).title("Finding moderators")
+                    final Dialog d = new MaterialDialog.Builder(MainActivity.this).title(R.string.sidebar_findingmods)
                             .cancelable(true)
                             .content(R.string.misc_please_wait)
                             .progress(true, 100)
@@ -953,7 +953,7 @@ public class MainActivity extends BaseActivity {
                                 names.add(rec.getFullName());
                             }
                             d.dismiss();
-                            new MaterialDialog.Builder(MainActivity.this).title("/r/" + subreddit + " mods")
+                            new MaterialDialog.Builder(MainActivity.this).title(getString(R.string.sidebar_submods, subreddit))
                                     .items(names)
                                     .itemsCallback(new MaterialDialog.ListCallback() {
                                         @Override
@@ -1020,25 +1020,25 @@ public class MainActivity extends BaseActivity {
                         if (flairs != null && !flairs.isEmpty() && flairText != null && !flairText.isEmpty()) {
                             flair.setVisibility(View.VISIBLE);
                             if (current != null) {
-                                ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText(getString(R.string.sidebar_flair)+ current);
                             }
                             flair.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     new MaterialDialog.Builder(MainActivity.this).items(flairText)
-                                            .title("Select flair")
+                                            .title(R.string.sidebar_select_flair)
                                             .itemsCallback(new MaterialDialog.ListCallback() {
                                                 @Override
                                                 public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
                                                     final FlairTemplate t = flairs.get(which);
                                                     if (t.isTextEditable()) {
-                                                        new MaterialDialog.Builder(MainActivity.this).title("Set flair text")
-                                                                .input("Flair text", t.getText(), true, new MaterialDialog.InputCallback() {
+                                                        new MaterialDialog.Builder(MainActivity.this).title(R.string.sidebar_select_flair_text)
+                                                                .input(getString(R.string.mod_flair_hint), t.getText(), true, new MaterialDialog.InputCallback() {
                                                                     @Override
                                                                     public void onInput(MaterialDialog dialog, CharSequence input) {
 
                                                                     }
-                                                                }).positiveText("Set")
+                                                                }).positiveText(R.string.btn_set)
                                                                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                                                                     @Override
                                                                     public void onClick(MaterialDialog dialog, DialogAction which) {
@@ -1066,11 +1066,11 @@ public class MainActivity extends BaseActivity {
                                                                                 Snackbar s;
                                                                                 if (done) {
                                                                                     if (current != null) {
-                                                                                        ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                                                                        ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText(getString(R.string.sidebar_flair) + current);
                                                                                     }
-                                                                                    s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                                    s = Snackbar.make(mToolbar, R.string.snackbar_flair_success, Snackbar.LENGTH_SHORT);
                                                                                 } else {
-                                                                                    s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                                    s = Snackbar.make(mToolbar, R.string.snackbar_flair_error, Snackbar.LENGTH_SHORT);
                                                                                 }
                                                                                 if (s != null) {
                                                                                     View view = s.getView();
@@ -1107,11 +1107,11 @@ public class MainActivity extends BaseActivity {
                                                                 Snackbar s;
                                                                 if (done) {
                                                                     if (current != null) {
-                                                                        ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                                                        ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText(getString(R.string.sidebar_flair) + current);
                                                                     }
-                                                                    s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                    s = Snackbar.make(mToolbar, R.string.snackbar_flair_success, Snackbar.LENGTH_SHORT);
                                                                 } else {
-                                                                    s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                    s = Snackbar.make(mToolbar, R.string.snackbar_flair_error, Snackbar.LENGTH_SHORT);
                                                                 }
                                                                 if (s != null) {
                                                                     View view = s.getView();
@@ -1348,7 +1348,7 @@ public class MainActivity extends BaseActivity {
 
                             @Override
                             protected void onPostExecute(Void aVoid) {
-                                new MaterialDialog.Builder(MainActivity.this).title("Add /r/" + subreddit.getDisplayName() + " to")
+                                new MaterialDialog.Builder(MainActivity.this).title(getString(R.string.multi_add_to, subreddit.getDisplayName()))
                                         .items(multis.keySet())
                                         .itemsCallback(new MaterialDialog.ListCallback() {
                                             @Override
@@ -1371,7 +1371,7 @@ public class MainActivity extends BaseActivity {
                                                                 @Override
                                                                 public void run() {
                                                                     drawerLayout.closeDrawers();
-                                                                    Snackbar.make(mToolbar, "Subreddit added to /m/" + multiName, Snackbar.LENGTH_LONG).show();
+                                                                    Snackbar.make(mToolbar, getString(R.string.multi_subreddit_added) + multiName, Snackbar.LENGTH_LONG).show();
                                                                 }
                                                             });
                                                         } catch (final NetworkException | ApiException e) {
@@ -1381,7 +1381,7 @@ public class MainActivity extends BaseActivity {
                                                                     runOnUiThread(new Runnable() {
                                                                         @Override
                                                                         public void run() {
-                                                                            Snackbar.make(mToolbar, "An error occured, please try again later", Snackbar.LENGTH_LONG).setAction(R.string.btn_ok, new View.OnClickListener() {
+                                                                            Snackbar.make(mToolbar, getString(R.string.multi_error), Snackbar.LENGTH_LONG).setAction(R.string.btn_ok, new View.OnClickListener() {
                                                                                 @Override
                                                                                 public void onClick(View v) {
 
@@ -2678,7 +2678,7 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.action_sort:
                 if (subreddit.equalsIgnoreCase("friends")) {
-                    Snackbar s = Snackbar.make(findViewById(R.id.anchor), "Cannot sort /r/friends", Snackbar.LENGTH_SHORT);
+                    Snackbar s = Snackbar.make(findViewById(R.id.anchor), getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
                     View view = s.getView();
                     TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
@@ -2901,13 +2901,13 @@ public class MainActivity extends BaseActivity {
     public void saveOffline(final List<Submission> submissions, final String subreddit) {
         final boolean[] chosen = new boolean[2];
         new AlertDialogWrapper.Builder(this)
-                .setTitle("Save submissions for offline viewing")
-                .setMultiChoiceItems(new String[]{"Gifs"}, new boolean[]{false}, new DialogInterface.OnMultiChoiceClickListener() {
+                .setTitle(R.string.save_for_offline_viewing)
+                .setMultiChoiceItems(new String[]{getString(R.string.type_gifs)}, new boolean[]{false}, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         chosen[which] = isChecked;
                     }
-                }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 caching = new CommentCacheAsync(submissions, MainActivity.this, subreddit, chosen).execute();
