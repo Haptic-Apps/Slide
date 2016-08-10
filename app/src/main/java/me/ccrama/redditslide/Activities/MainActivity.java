@@ -671,6 +671,8 @@ public class MainActivity extends BaseActivity {
             }.execute();
 
         }
+
+
         if (Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this)) {
             // Display an snackbar that asks the user to rate the app after this
             // activity was created 6 times, never again when once clicked or with a maximum of
