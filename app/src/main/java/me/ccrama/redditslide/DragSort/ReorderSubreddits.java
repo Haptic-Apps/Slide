@@ -25,7 +25,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.AppCompatCheckBox;
@@ -350,17 +349,14 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     fab.collapse();
                     MaterialDialog.Builder b =
                             new MaterialDialog.Builder(ReorderSubreddits.this).title(
-                                    R.string.reorder_add_subreddit)
-                                    .inputRangeRes(2, 21, R.color.md_red_500)
+                                    "Add or search for a subreddit")
                                     .alwaysCallInputCallback()
                                     .input(getString(R.string.reorder_subreddit_name), null, false,
                                             new MaterialDialog.InputCallback() {
                                                 @Override
                                                 public void onInput(MaterialDialog dialog,
                                                         CharSequence raw) {
-                                                    input = raw.toString()
-                                                            .replaceAll("\\s",
-                                                                    ""); //remove whitespace from input
+                                                    input = raw.toString();
                                                 }
                                             })
                                     .positiveText(R.string.btn_add)
@@ -379,18 +375,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                                         }
                                     });
-                    if (Authentication.isLoggedIn && Authentication.didOnline) {
-                        b.neutralText(R.string.reorder_add_subscribe)
-                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog,
-                                            @NonNull DialogAction which) {
-                                        isSubscribed.put(input.toLowerCase(), true);
-                                        new AsyncGetSubreddit().execute(input);
-                                        new UserSubscriptions.SubscribeTask().execute(input);
-                                    }
-                                });
-                    }
                     b.show();
                 }
             });
@@ -540,7 +524,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 .show();
     }
 
-    public void doAddSub(String subreddit){
+    public void doAddSub(String subreddit) {
+        subreddit = subreddit.toLowerCase();
         if (subreddit != null
                 || subreddit.equalsIgnoreCase("friends")
                 || subreddit.equalsIgnoreCase("all")
@@ -560,6 +545,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             }
         }
     }
+
     private int addSubAlphabetically(String finalS) {
         int i = subs.size() - 1;
         while (i >= 0 && finalS.compareTo(subs.get(i)) < 0) {
@@ -573,10 +559,11 @@ public class ReorderSubreddits extends BaseActivityAnim {
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            doAddSub(subreddit.getDisplayName());
+            if (subreddit != null) doAddSub(subreddit.getDisplayName());
         }
 
         ArrayList<Subreddit> otherSubs;
+
         @Override
         protected Subreddit doInBackground(final String... params) {
             String sub = params[0];
@@ -589,30 +576,36 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             : Authentication.reddit.getSubreddit(params[0]));
                 } catch (Exception e) {
                     otherSubs = new ArrayList<>();
-                    SubredditSearchPaginator p = new SubredditSearchPaginator(Authentication.reddit, sub);
-                    while(p.hasNext()){
+                    SubredditSearchPaginator p =
+                            new SubredditSearchPaginator(Authentication.reddit, sub);
+                    while (p.hasNext()) {
                         otherSubs.addAll((p.next()));
                     }
-                    if(otherSubs.isEmpty()) {
+                    if (otherSubs.isEmpty()) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
                                     new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
                                             R.string.subreddit_err)
-                                            .setMessage(getString(R.string.subreddit_err_msg, params[0]))
-                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    dialog.dismiss();
+                                            .setMessage(getString(R.string.subreddit_err_msg,
+                                                    params[0]))
+                                            .setPositiveButton(R.string.btn_ok,
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                            dialog.dismiss();
 
-                                                }
-                                            })
-                                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                                @Override
-                                                public void onDismiss(DialogInterface dialog) {
-                                                }
-                                            })
+                                                        }
+                                                    })
+                                            .setOnDismissListener(
+                                                    new DialogInterface.OnDismissListener() {
+                                                        @Override
+                                                        public void onDismiss(
+                                                                DialogInterface dialog) {
+                                                        }
+                                                    })
                                             .show();
                                 } catch (Exception ignored) {
                                 }
@@ -624,17 +617,19 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             public void run() {
                                 try {
                                     final ArrayList<String> subs = new ArrayList<>();
-                                    for(Subreddit s : otherSubs){
+                                    for (Subreddit s : otherSubs) {
                                         subs.add(s.getDisplayName());
                                     }
-                                    new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle("Subreddit not found, here are some suggestions")
-                                            .setSingleChoiceItems(subs.toArray(new String[subs.size()]), -1, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    doAddSub(subs.get(which));
-                                                }
-                                            })
+                                    new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
+                                            "Subreddit not found, here are some suggestions")
+                                            .setItems(subs.toArray(new String[subs.size()]),
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                            doAddSub(subs.get(which));
+                                                        }
+                                                    })
                                             .setPositiveButton(R.string.btn_cancel, null)
                                             .show();
                                 } catch (Exception ignored) {
@@ -943,7 +938,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
-            final TextView text;
+            final TextView          text;
             final AppCompatCheckBox check;
 
             public ViewHolder(View itemView) {
