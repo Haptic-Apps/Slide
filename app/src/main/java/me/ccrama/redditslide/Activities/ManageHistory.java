@@ -56,7 +56,7 @@ public class ManageHistory extends BaseActivityAnim {
             findViewById(R.id.sync_now).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new CommentCacheAsync(ManageHistory.this, Reddit.cachedData.getString("toCache", "").split(","), true).execute();
+                    new CommentCacheAsync(ManageHistory.this, Reddit.cachedData.getString("toCache", "").split(",")).execute();
                 }
             });
         } else {
@@ -91,6 +91,28 @@ public class ManageHistory extends BaseActivityAnim {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 SettingValues.prefs.edit().putString(SettingValues.COMMENT_DEPTH, commentDepths.get(which)).apply();
+                            }
+                        });
+                builder.show();
+
+            }
+        });
+
+        final List<String> commentCounts = ImmutableList.of("20", "40", "60", "80", "100");
+        final String[] commentCountArray = new String[commentCounts.size()];
+
+
+        findViewById(R.id.comments_count).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String commentCount = SettingValues.prefs.getString(SettingValues.COMMENT_COUNT, "2");
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(ManageHistory.this);
+                builder.setTitle(R.string.comments_count);
+                builder.setSingleChoiceItems(
+                        commentCounts.toArray(commentCountArray), commentCounts.indexOf(commentCount), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SettingValues.prefs.edit().putString(SettingValues.COMMENT_COUNT, commentCounts.get(which)).apply();
                             }
                         });
                 builder.show();

@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by carlo_000 on 11/19/2015.
@@ -29,6 +30,7 @@ import java.util.List;
 public class OfflineSubreddit {
 
     public static Long currentid = 0L;
+    private static String savedSubmissionsSubreddit = "";
     public long time;
     public ArrayList<Submission> submissions;
     public String subreddit;
@@ -123,8 +125,28 @@ public class OfflineSubreddit {
             for (String sub : names) {
                 fullNames += sub + ",";
             }
-            Reddit.cachedData.edit().putString(title, fullNames.substring(0, fullNames.length() - 1)).apply();
+            if (subreddit.equals(CommentCacheAsync.SAVED_SUBMISSIONS)) {
+                Map<String, ?> offlineSubs = Reddit.cachedData.getAll();
+                for (String offlineSub : offlineSubs.keySet()) {
+                    if (offlineSub.contains(CommentCacheAsync.SAVED_SUBMISSIONS)){
+                        savedSubmissionsSubreddit = offlineSub;
+                        break;
+                    }
+                }
+                String savedSubmissions = Reddit.cachedData.getString(OfflineSubreddit.savedSubmissionsSubreddit, fullNames);
+                Reddit.cachedData.edit().remove(savedSubmissionsSubreddit).apply();
+                if (!savedSubmissions.equals(fullNames)) {
+                    savedSubmissions = fullNames.concat(savedSubmissions);
+                }
+                    saveToCache(title, savedSubmissions);
+            } else {
+                saveToCache(title, fullNames);
+            }
         }
+    }
+
+    private void saveToCache(String title, String submissions) {
+        Reddit.cachedData.edit().putString(title, submissions).apply();
     }
 
     public static OfflineSubreddit getSubreddit(String subreddit, boolean offline, Context c) {
@@ -169,7 +191,7 @@ public class OfflineSubreddit {
             o.time = time;
 
             String[] split = Reddit.cachedData.getString(subreddit.toLowerCase() + "," + time, "").split(",");
-            if (split.length > 1) {
+            if (split.length > 0) {
                 o.time = time;
                 o.submissions = new ArrayList<>();
                 ObjectMapper mapperBase = new ObjectMapper();

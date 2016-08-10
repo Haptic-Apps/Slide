@@ -113,6 +113,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Adapters.SideArrayAdapter;
@@ -3419,10 +3421,14 @@ public class MainActivity extends BaseActivity {
                         caching = new CommentCacheAsync(submissions, MainActivity.this, subreddit,
                                 chosen).execute();
                     }
-
+                }).setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ExecutorService service = Executors.newSingleThreadExecutor();
+                new CommentCacheAsync(submissions, MainActivity.this, subreddit, chosen).executeOnExecutor(service);
+            }
                 })
                 .show();
-
 
     }
 
