@@ -7,7 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,17 +21,19 @@ import java.net.URISyntaxException;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Views.NestedWebView;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class Website extends BaseActivityAnim {
 
-    public static final String EXTRA_URL = "url";
+    public static final String EXTRA_URL   = "url";
     public static final String EXTRA_COLOR = "color";
-    WebView v;
-    String url;
-    int subredditColor;
+    WebView         v;
+    String          url;
+    int             subredditColor;
     MyWebViewClient client;
-    ProgressBar p;
+    ProgressBar     p;
 
     public static String getDomainName(String url) {
         URI uri;
@@ -56,8 +60,8 @@ public class Website extends BaseActivityAnim {
     }
 
     @Override
-    public void onBackPressed(){
-        if(v.canGoBack()){
+    public void onBackPressed() {
+        if (v.canGoBack()) {
             v.goBack();
         } else {
             super.onBackPressed();
@@ -81,6 +85,24 @@ public class Website extends BaseActivityAnim {
                 Intent inte = new Intent(this, MakeExternal.class);
                 inte.putExtra("url", v.getUrl());
                 sendBroadcast(inte);
+                return true;
+            case R.id.read:
+                v.evaluateJavascript("(function(){return window.document.body.outerHTML})();",
+                    new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String html) {
+                            Intent i = new Intent(Website.this, ReaderMode.class);
+
+                            if(html != null && !html.isEmpty()){
+                                ReaderMode.html = html.substring(1, html.length() -1);
+                            } else {
+                                ReaderMode.html = "";
+                                i.putExtra("url", v.getUrl());
+                            }
+                            startActivity(i);
+
+                        }
+                    });
                 return true;
             case R.id.chrome:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getUrl()));
@@ -127,7 +149,6 @@ public class Website extends BaseActivityAnim {
         v.getSettings().setLoadWithOverviewMode(true);
         v.loadUrl(url);
 
-
     }
 
     public void setValue(int newProgress) {
@@ -158,8 +179,9 @@ public class Website extends BaseActivityAnim {
 
                             setShareUrl(url);
 
-                            if (url.contains("/"))
+                            if (url.contains("/")) {
                                 getSupportActionBar().setSubtitle(getDomainName(url));
+                            }
                         }
                     } else {
                         if (getSupportActionBar() != null) {

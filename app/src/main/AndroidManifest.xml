@@ -1,338 +1,343 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.ccrama.redditslide">
+<manifest package="me.ccrama.redditslide"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.NFC" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.NFC"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
-        android:name=".Reddit"
-        android:allowBackup="true"
-        android:fullBackupContent="true"
-        android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
-        android:installLocation="auto"
-        android:label="@string/app_name"
-        android:largeHeap="true"
-        android:theme="@style/yellow_dark">
+            android:name=".Reddit"
+            android:allowBackup="true"
+            android:fullBackupContent="true"
+            android:hardwareAccelerated="true"
+            android:icon="@mipmap/ic_launcher"
+            android:installLocation="auto"
+            android:label="@string/app_name"
+            android:largeHeap="true"
+            android:theme="@style/yellow_dark">
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.MediaView"
-            android:exported="false"
-            android:grantUriPermissions="true">
+                android:name="android.support.v4.content.FileProvider"
+                android:authorities="${applicationId}.MediaView"
+                android:exported="false"
+                android:grantUriPermissions="true">
 
             <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/filepaths"/>
         </provider>
 
         <activity
-            android:name=".Activities.Slide"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:label="@string/app_name">
+                android:name=".Activities.Slide"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.MainActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:label="@string/app_name"></activity>
+                android:name=".Activities.MainActivity"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:label="@string/app_name"></activity>
 
         <receiver android:name=".CheckInstall">
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_INSTALL" />
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
+                <action android:name="android.intent.action.PACKAGE_ADDED"/>
 
-                <data android:scheme="package" />
+                <data android:scheme="package"/>
             </intent-filter>
         </receiver>
-        <receiver android:name=".Activities.MakeExternal" />
+        <receiver android:name=".Activities.MakeExternal"/>
 
         <activity
-            android:name=".Activities.SettingsSynccit"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable"
-            android:windowSoftInputMode="adjustResize" />
+                android:name=".Activities.SettingsSynccit"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"
+                android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".Activities.ManageHistory"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable"
-            android:windowSoftInputMode="adjustResize" />
+                android:name=".Activities.ManageHistory"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"
+                android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".Activities.ForceTouchLink"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:windowSoftInputMode="adjustResize" />
+                android:name=".Activities.ForceTouchLink"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".Activities.Album"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.ReaderMode"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".Activities.SettingsViewType"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Album"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsFilter"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Theme.AppCompat"/>
+                android:name=".Activities.SettingsViewType"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Draw"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+                android:name=".Activities.SettingsFilter"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Gallery"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+                android:theme="@style/Theme.AppCompat"/>
         <activity
-            android:name=".Activities.Discover"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Draw"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-            android:name=".Activities.ModQueue"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Gallery"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.MediaView"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Discover"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.AlbumPager"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.ModQueue"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsComments"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.MediaView"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Loader"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.AlbumPager"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsFont"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsComments"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.CommentSearch"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Loader"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Website"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsFont"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.FullscreenVideo"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:hardwareAccelerated="true"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.CommentSearch"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Wiki"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Website"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.CommentsScreen"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable"
-            android:windowSoftInputMode="adjustResize" />
+                android:name=".Activities.FullscreenVideo"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:hardwareAccelerated="true"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Announcement"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable"
-            android:windowSoftInputMode="adjustResize" />
+                android:name=".Activities.Wiki"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SubredditView"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.CommentsScreen"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"
+                android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".Activities.MultiredditOverview"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Announcement"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"
+                android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".Activities.Profile"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SubredditView"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsReddit"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.MultiredditOverview"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Sendmessage"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable"
-            android:windowSoftInputMode="adjustResize" />
+                android:name=".Activities.Profile"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.OpenContent"
-            android:label="View content">
+                android:name=".Activities.SettingsReddit"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
+        <activity
+                android:name=".Activities.Sendmessage"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"
+                android:windowSoftInputMode="adjustResize"/>
+        <activity
+                android:name=".Activities.OpenContent"
+                android:label="View content">
             <intent-filter android:label="@string/app_name">
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <action android:name="android.nfc.action.TECH_DISCOVERED" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.nfc.action.TECH_DISCOVERED"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="http" />
+                <data android:scheme="http"/>
                 <data
-                    android:host="*reddit.com"
-                    android:pathPattern=".*"
-                    android:scheme="https" />
+                        android:host="*reddit.com"
+                        android:pathPattern=".*"
+                        android:scheme="https"/>
                 <data
-                    android:host="*reddit.com"
-                    android:pathPattern=".*"
-                    android:scheme="http" />
+                        android:host="*reddit.com"
+                        android:pathPattern=".*"
+                        android:scheme="http"/>
                 <data
-                    android:host="redd.it"
-                    android:pathPattern=".*"
-                    android:scheme="https" />
+                        android:host="redd.it"
+                        android:pathPattern=".*"
+                        android:scheme="https"/>
                 <data
-                    android:host="redd.it"
-                    android:pathPattern=".*"
-                    android:scheme="http" />
-                <data android:scheme="https" />
-                <data android:host="*reddit.com" />
-                <data android:host="redd.it" />
+                        android:host="redd.it"
+                        android:pathPattern=".*"
+                        android:scheme="http"/>
+                <data android:scheme="https"/>
+                <data android:host="*reddit.com"/>
+                <data android:host="redd.it"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.SettingsGeneral"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsGeneral"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.CommentsScreenSingle"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable"
-            android:windowSoftInputMode="adjustResize" />
+                android:name=".Activities.CommentsScreenSingle"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"
+                android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".Activities.Inbox"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Inbox"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Submit"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:label="New Submission"
-            android:theme="@style/swipeable"
-            android:windowSoftInputMode="adjustResize">
+                android:name=".Activities.Submit"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:label="New Submission"
+                android:theme="@style/swipeable"
+                android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND"/>
 
-                <data android:mimeType="image/*" />
-                <data android:mimeType="text/plain" />
+                <data android:mimeType="image/*"/>
+                <data android:mimeType="text/plain"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.Tutorial"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode" />
+                android:name=".Activities.Tutorial"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"/>
         <activity
-            android:name=".Activities.DonateView"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.DonateView"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Shadowbox"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Shadowbox"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
                 android:name=".Activities.ShadowboxComments"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-                android:theme="@style/swipeable" />
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Settings"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Settings"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsTheme"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsTheme"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsSubreddit"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsSubreddit"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SwipeTutorial"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SwipeTutorial"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsAbout"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsAbout"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Search"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Search"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsHandling"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsHandling"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.EditCardsLayout"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.EditCardsLayout"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SubredditSearch"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SubredditSearch"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".DragSort.ReorderSubreddits"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".DragSort.ReorderSubreddits"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsExternalBrowser"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsExternalBrowser"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Login"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Login"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.Reauthenticate"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.Reauthenticate"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity android:name=".Activities.CancelSubNotifs"/>
         <activity
-            android:name=".Activities.SettingsData"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsData"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsBackup"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsBackup"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SettingsHistory"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.SettingsHistory"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.LiveThread"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.LiveThread"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity
-            android:name=".Activities.SetupWidget"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable"
-            android:windowSoftInputMode="adjustResize">
+                android:name=".Activities.SetupWidget"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"
+                android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="APPWIDGET_CONFIGURE" />
+                <action android:name="APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.CreateMulti"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
-            android:theme="@style/swipeable" />
+                android:name=".Activities.CreateMulti"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
         <activity android:name=".Activities.Shortcut">
             <intent-filter>
-                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+                <action android:name="android.intent.action.CREATE_SHORTCUT"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <!--
@@ -344,51 +349,51 @@
              <meta-data android:name="android.appwidget.provider"
                  android:resource="@xml/subreddit_widget" />
          </receiver> !-->
-        <service android:name=".Notifications.ImageDownloadNotificationService" />
+        <service android:name=".Notifications.ImageDownloadNotificationService"/>
         <service
-            android:name=".Adapters.MarkAsReadService"
-            android:exported="false" />
+                android:name=".Adapters.MarkAsReadService"
+                android:exported="false"/>
 
         <receiver android:name=".Widget.SubredditWidgetProvider">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="me.ccrama.redditslide.Widget.SubredditWidgetProvider.SUBMISSION" />
-                <action android:name="me.ccrama.redditslide.Widget.SubredditWidgetProvider.REFRESH" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="me.ccrama.redditslide.Widget.SubredditWidgetProvider.SUBMISSION"/>
+                <action android:name="me.ccrama.redditslide.Widget.SubredditWidgetProvider.REFRESH"/>
             </intent-filter>
             <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                    android:name="android.appwidget.provider"
+                    android:resource="@xml/widget_info"/>
         </receiver>
         <service
-            android:name=".Widget.ListViewWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS" />
+                android:name=".Widget.ListViewWidgetService"
+                android:permission="android.permission.BIND_REMOTEVIEWS"/>
         <uses-library
-            android:name="com.sec.android.app.multiwindow"
-            android:required="false" />
+                android:name="com.sec.android.app.multiwindow"
+                android:required="false"/>
 
         <meta-data
-            android:name="com.sec.android.support.multiwindow"
-            android:value="true" />
+                android:name="com.sec.android.support.multiwindow"
+                android:value="true"/>
         <meta-data
-            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
-            android:resource="@dimen/app_defaultsize_w" />
+                android:name="com.sec.android.multiwindow.DEFAULT_SIZE_W"
+                android:resource="@dimen/app_defaultsize_w"/>
         <meta-data
-            android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
-            android:resource="@dimen/app_defaultsize_h" />
+                android:name="com.sec.android.multiwindow.DEFAULT_SIZE_H"
+                android:resource="@dimen/app_defaultsize_h"/>
         <meta-data
-            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
-            android:resource="@dimen/app_minimumsize_w" />
+                android:name="com.sec.android.multiwindow.MINIMUM_SIZE_W"
+                android:resource="@dimen/app_minimumsize_w"/>
 
         <receiver android:name=".Notifications.CheckForMail"></receiver>
         <receiver android:name=".Notifications.CheckSubs"></receiver>
         <receiver android:name=".Autocache.CacheAll"></receiver>
 
         <meta-data
-            android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
-            android:resource="@dimen/app_minimumsize_h" />
+                android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
+                android:resource="@dimen/app_minimumsize_h"/>
         <meta-data
-            android:name="com.lge.support.SPLIT_WINDOW"
-            android:value="true" />
+                android:name="com.lge.support.SPLIT_WINDOW"
+                android:value="true"/>
 
     </application>
 

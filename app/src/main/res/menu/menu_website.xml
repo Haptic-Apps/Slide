@@ -1,28 +1,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".SubredditOverview">
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".SubredditOverview">
 
-    <item android:id="@+id/refresh"
-        android:icon="@drawable/ic_refresh"
-        android:title="@string/btn_refresh"
-        app:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/refresh"
+            android:icon="@drawable/ic_refresh"
+            android:title="@string/btn_refresh"
+            app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/back"
-        android:icon="@drawable/left"
-        android:title="@string/website_back"
-        app:showAsAction="ifRoom"/>
+    <item
+            android:id="@+id/read"
+            android:icon="@drawable/ic_format_size_white_48dp"
+            android:title="Reader Mode"
+            app:showAsAction="always"/>
 
-    <item android:id="@+id/chrome"
-        android:title="@string/website_external"
-        app:showAsAction="never"/>
+    <item
+            android:id="@+id/chrome"
+            android:icon="@drawable/ic_open_in_browser"
+            android:title="@string/website_external"
+            app:showAsAction="always"/>
 
-    <item android:id="@+id/share"
-        android:title="@string/submission_link_share"
-        app:showAsAction="never"/>
-    <item android:id="@+id/external"
-        android:title="@string/open_links_externally"
-        app:showAsAction="never"/>
+    <item
+            android:id="@+id/share"
+            android:title="@string/submission_link_share"
+            app:showAsAction="never"/>
+    <item
+            android:id="@+id/external"
+            android:title="@string/open_links_externally"
+            app:showAsAction="never"/>
 
 
 </menu>
