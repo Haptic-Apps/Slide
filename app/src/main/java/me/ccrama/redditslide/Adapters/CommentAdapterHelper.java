@@ -20,6 +20,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.Html;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -31,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 
 import net.dean.jraw.ApiException;
+import net.dean.jraw.http.oauth.InvalidScopeException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.models.Comment;
@@ -57,6 +60,7 @@ import java.util.Map;
 
 import me.ccrama.redditslide.ActionStates;
 import me.ccrama.redditslide.Activities.Profile;
+import me.ccrama.redditslide.Activities.Reauthenticate;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.OpenRedditLink;
@@ -479,6 +483,7 @@ public class CommentAdapterHelper {
         final Drawable pin = mContext.getResources().getDrawable(R.drawable.lock);
         final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
         final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
+        final Drawable ban = mContext.getResources().getDrawable(R.drawable.ban);
 
         //Tint drawables
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -488,6 +493,7 @@ public class CommentAdapterHelper {
         distinguish.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -536,6 +542,7 @@ public class CommentAdapterHelper {
             }
         }
 
+        b.sheet(23, ban, "Ban user");
 
         final String finalWhoApproved = whoApproved;
         final boolean finalApproved = approved;
@@ -574,13 +581,137 @@ public class CommentAdapterHelper {
                                 i.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
                                 mContext.startActivity(i);
                                 break;
+                            case 23:
+                                showBan(mContext, adapter.listView, comment,"", "", "", "");
+                                break;
 
                         }
                     }
                 });
         b.show();
     }
+    public static void showBan(final Context mContext, final View mToolbar, final Comment submission, String rs, String nt, String msg, String t) {
+        LinearLayout l = new LinearLayout(mContext);
+        l.setOrientation(LinearLayout.VERTICAL);
+        int sixteen = Reddit.dpToPxVertical(16);
+        l.setPadding(sixteen, 0, sixteen, 0);
 
+        final EditText reason = new EditText(mContext);
+        reason.setHint("Ban reason");
+        reason.setText(rs);
+        reason.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        l.addView(reason);
+
+
+        final EditText note = new EditText(mContext);
+        note.setHint("Moderator note (optional)");
+        note.setText(nt);
+        note.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        l.addView(note);
+
+        final EditText message = new EditText(mContext);
+        message.setHint("User message (optional)");
+        message.setText(msg);
+        message.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        l.addView(message);
+
+        final EditText time = new EditText(mContext);
+        time.setHint("Ban time (days)");
+        time.setText(t);
+        time.setInputType(InputType.TYPE_CLASS_NUMBER);
+        l.addView(time);
+
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+        builder.setView(l)
+                .setTitle("Ban /u/" + submission.getAuthor())
+                .setCancelable(true)
+                .setPositiveButton("BAN", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //to ban
+                                if (reason.getText().toString().isEmpty() || time.getText().toString().isEmpty()) {
+                                    new AlertDialogWrapper.Builder(mContext).setTitle("Reason and time are required")
+                                            .setMessage("Please try again")
+                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    showBan(mContext, mToolbar, submission, reason.getText().toString(), note.getText().toString(), message.getText().toString(), time.getText().toString());
+                                                }
+                                            }).setCancelable(false).show();
+                                } else {
+                                    new AsyncTask<Void, Void, Boolean>() {
+                                        @Override
+                                        protected Boolean doInBackground(Void... params) {
+                                            try {
+                                                String n = note.getText().toString();
+                                                String m = message.getText().toString();
+
+                                                if (n.isEmpty()) {
+                                                    n = null;
+                                                }
+                                                if (m.isEmpty()) {
+                                                    m = null;
+                                                }
+                                                new ModerationManager(Authentication.reddit).banUser(submission.getSubredditName(), submission.getAuthor(), reason.getText().toString(), n, m, Integer.valueOf(time.getText().toString()));
+                                                return true;
+                                            } catch (Exception e) {
+                                                if (e instanceof InvalidScopeException) {
+                                                    scope = true;
+                                                }
+                                                e.printStackTrace();
+                                                return false;
+                                            }
+                                        }
+
+                                        boolean scope;
+
+                                        @Override
+                                        protected void onPostExecute(Boolean done) {
+                                            Snackbar s;
+                                            if (done) {
+                                                s = Snackbar.make(mToolbar, "User banned!", Snackbar.LENGTH_SHORT);
+                                            } else {
+                                                if (scope) {
+                                                    new AlertDialogWrapper.Builder(mContext)
+                                                            .setTitle("To ban users, Slide must re-authenticate you")
+                                                            .setMessage("Would you like to re-log into Slide now?")
+                                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                    Intent i = new Intent(mContext, Reauthenticate.class);
+                                                                    mContext.startActivity(i);
+                                                                }
+                                                            }).setNegativeButton("MAYBE LATER", null)
+                                                            .setCancelable(false)
+                                                            .show();
+                                                }
+                                                s = Snackbar.make(mToolbar, "Error banning user", Snackbar.LENGTH_INDEFINITE)
+                                                        .setAction("TRY AGAIN", new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                showBan(mContext, mToolbar, submission, reason.getText().toString(), note.getText().toString(), message.getText().toString(), time.getText().toString());
+                                                            }
+                                                        });
+
+                                            }
+
+                                            if (s != null)
+
+                                            {
+                                                View view = s.getView();
+                                                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                tv.setTextColor(Color.WHITE);
+                                                s.show();
+                                            }
+                                        }
+                                    }.execute();
+                                }
+                            }
+                        }
+
+                ).setNegativeButton("CANCEL", null).show();
+
+    }
     private static void distinguishComment(final Context mContext, final CommentViewHolder holder,
             final Comment comment) {
         new AlertDialogWrapper.Builder(mContext).setTitle(R.string.distinguish_comment)

@@ -1653,13 +1653,7 @@ public class PopulateSubmissionViewHolder {
                             }
                         }
 
-                ).
-
-                setNegativeButton("CANCEL", null)
-
-                .
-
-                        show();
+                ).setNegativeButton("CANCEL", null).show();
 
     }
 
