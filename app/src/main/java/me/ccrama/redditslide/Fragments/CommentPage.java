@@ -584,13 +584,19 @@ public class CommentPage extends Fragment {
                                 ShadowboxComments.comments = new ArrayList<>();
                                 for (CommentObject c : comments.comments) {
                                     if (c instanceof CommentItem) {
-
                                         if (c.comment.getComment()
                                                 .getDataNode()
                                                 .get("body_html")
                                                 .asText()
                                                 .contains("&lt;/a")) {
-                                            ShadowboxComments.comments.add(c.comment.getComment());
+                                            String body = c.comment.getComment().getDataNode().get("body_html").asText();
+                                            int start = body.indexOf("&lt;a href=\"");
+                                            String url = body.substring(start + 12, body.indexOf("\"", start + 13));
+                                            ContentType.Type t = ContentType.getContentType(url);
+
+                                            if(ContentType.mediaType(t)) {
+                                                ShadowboxComments.comments.add(c.comment.getComment());
+                                            }
                                         }
                                     }
                                 }

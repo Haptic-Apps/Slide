@@ -71,8 +71,10 @@ public class AlbumUtils {
 
         public GetAlbumWithCallback(@NotNull String url, @NotNull Activity baseActivity) {
 
-
             this.baseActivity = baseActivity;
+            if(url.contains("/layout/")){
+                url = url.substring(0, url.indexOf("/layout"));
+            }
             String rawDat = cutEnds(url);
 
             if (rawDat.endsWith("/")) {

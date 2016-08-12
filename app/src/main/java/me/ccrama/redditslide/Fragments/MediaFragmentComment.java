@@ -213,11 +213,10 @@ public class MediaFragmentComment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         firstUrl = bundle.getString("firstUrl");
+        i = bundle.getInt("page");
         s = ((ShadowboxComments) getActivity()).comments.get(i);
         sub = s.getSubredditName();
-        i = bundle.getInt("page");
         contentUrl = bundle.getString("contentUrl");
-
         client = new OkHttpClient();
         gson = new Gson();
         mashapeKey = SecretConstants.getImgurApiKey(getContext());

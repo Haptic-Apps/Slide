@@ -7,10 +7,13 @@ import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import net.dean.jraw.ApiException;
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.DomainPaginator;
 import net.dean.jraw.paginators.Paginator;
@@ -40,23 +43,21 @@ import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
- * This class is reponsible for loading subreddit specific submissions
- * {@link loadMore(Context, SubmissionDisplay, boolean, String)} is implemented
- * asynchronously.
- * <p/>
- * Created by ccrama on 9/17/2015.
+ * This class is reponsible for loading subreddit specific submissions {@link loadMore(Context,
+ * SubmissionDisplay, boolean, String)} is implemented asynchronously. <p/> Created by ccrama on
+ * 9/17/2015.
  */
 public class SubredditPosts implements PostLoader {
     public List<Submission> posts;
-    public String subreddit;
-    public String subredditRandom;
+    public String           subreddit;
+    public String           subredditRandom;
     public boolean nomore = false;
-    public boolean stillShow;
-    public boolean offline;
-    public boolean forced;
-    public boolean loading;
-    private Paginator paginator;
-    public OfflineSubreddit cached;
+    public  boolean          stillShow;
+    public  boolean          offline;
+    public  boolean          forced;
+    public  boolean          loading;
+    private Paginator        paginator;
+    public  OfflineSubreddit cached;
     boolean doneOnce;
     Context c;
     boolean force18;
@@ -79,7 +80,8 @@ public class SubredditPosts implements PostLoader {
         new LoadData(context, display, reset).execute(subreddit);
     }
 
-    public void loadMore(Context context, SubmissionDisplay display, boolean reset, String subreddit) {
+    public void loadMore(Context context, SubmissionDisplay display, boolean reset,
+            String subreddit) {
         this.subreddit = subreddit;
         loadMore(context, display, reset);
     }
@@ -90,100 +92,135 @@ public class SubredditPosts implements PostLoader {
             ContentType.Type type = ContentType.getContentType(submission);
             if (submission.getThumbnails() != null) {
 
-                if (type == ContentType.Type.IMAGE || type == ContentType.Type.SELF || (submission.getThumbnailType() == Submission.ThumbnailType.URL)) {
+                if (type == ContentType.Type.IMAGE
+                        || type == ContentType.Type.SELF
+                        || (submission.getThumbnailType() == Submission.ThumbnailType.URL)) {
                     if (type == ContentType.Type.IMAGE) {
-                        if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null && submission.getThumbnails().getVariations().length > 0) {
+                        if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile)
+                                || SettingValues.lowResAlways)
+                                && submission.getThumbnails() != null
+                                && submission.getThumbnails().getVariations() != null
+                                && submission.getThumbnails().getVariations().length > 0) {
 
                             int length = submission.getThumbnails().getVariations().length;
-                            url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
+                            url = Html.fromHtml(
+                                    submission.getThumbnails().getVariations()[length / 2].getUrl())
+                                    .toString(); //unescape url characters
 
                         } else {
-                            if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                                url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                            if (submission.getDataNode().has("preview") && submission.getDataNode()
+                                    .get("preview")
+                                    .get("images")
+                                    .get(0)
+                                    .get("source")
+                                    .has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                                url = submission.getDataNode()
+                                        .get("preview")
+                                        .get("images")
+                                        .get(0)
+                                        .get("source")
+                                        .get("url")
+                                        .asText();
                             } else {
                                 url = submission.getUrl();
                             }
                         }
 
 
-                        ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(url, new ImageLoadingListener() {
-                            @Override
-                            public void onLoadingStarted(String imageUri, View view) {
+                        ((Reddit) c.getApplicationContext()).getImageLoader()
+                                .loadImage(url, new ImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view,
+                                            FailReason failReason) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view,
+                                            Bitmap loadedImage) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onLoadingCancelled(String imageUri, View view) {
+                                    @Override
+                                    public void onLoadingCancelled(String imageUri, View view) {
 
-                            }
-                        });
+                                    }
+                                });
 
                     } else if (submission.getThumbnails() != null) {
 
-                        if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails().getVariations().length != 0) {
+                        if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile)
+                                || SettingValues.lowResAlways)
+                                && submission.getThumbnails().getVariations().length != 0) {
 
                             int length = submission.getThumbnails().getVariations().length;
-                            url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
+                            url = Html.fromHtml(
+                                    submission.getThumbnails().getVariations()[length / 2].getUrl())
+                                    .toString(); //unescape url characters
 
                         } else {
-                            url = Html.fromHtml(submission.getThumbnails().getSource().getUrl()).toString(); //unescape url characters
+                            url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                                    .toString(); //unescape url characters
                         }
 
-                        ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(url, new ImageLoadingListener() {
-                            @Override
-                            public void onLoadingStarted(String imageUri, View view) {
+                        ((Reddit) c.getApplicationContext()).getImageLoader()
+                                .loadImage(url, new ImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view,
+                                            FailReason failReason) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view,
+                                            Bitmap loadedImage) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onLoadingCancelled(String imageUri, View view) {
+                                    @Override
+                                    public void onLoadingCancelled(String imageUri, View view) {
 
-                            }
-                        });
+                                    }
+                                });
 
-                    } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+                    } else if (submission.getThumbnail() != null && (submission.getThumbnailType()
+                            == Submission.ThumbnailType.URL
+                            || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
 
-                        ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(submission.getUrl(), new ImageLoadingListener() {
-                            @Override
-                            public void onLoadingStarted(String imageUri, View view) {
+                        ((Reddit) c.getApplicationContext()).getImageLoader()
+                                .loadImage(submission.getUrl(), new ImageLoadingListener() {
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view,
+                                            FailReason failReason) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view,
+                                            Bitmap loadedImage) {
 
-                            }
+                                    }
 
-                            @Override
-                            public void onLoadingCancelled(String imageUri, View view) {
+                                    @Override
+                                    public void onLoadingCancelled(String imageUri, View view) {
 
-                            }
-                        });
+                                    }
+                                });
                     }
                 }
             }
@@ -204,7 +241,7 @@ public class SubredditPosts implements PostLoader {
 
     public boolean skipOne;
     boolean usedOffline;
-    public long currentid;
+    public long              currentid;
     public SubmissionDisplay displayer;
 
     /**
@@ -247,13 +284,15 @@ public class SubredditPosts implements PostLoader {
                     ((BaseActivity) c).setShareUrl("https://reddit.com/r/" + subreddit);
                 }
 
-                if(subreddit.equals("random") || subreddit.equals("myrandom") || subreddit.equals("nsfwrandom")){
+                if (subreddit.equals("random") || subreddit.equals("myrandom") || subreddit.equals(
+                        "nsfwrandom")) {
                     subredditRandom = submissions.get(0).getSubredditName();
                 }
 
-                if(c instanceof SubredditView && (subreddit.equals("random") || subreddit.equals("myrandom") || subreddit.equals("nsfwrandom"))){
-                    ((SubredditView)c).subreddit = subredditRandom;
-                    ((SubredditView)c).executeAsyncSubreddit(subredditRandom);
+                if (c instanceof SubredditView && (subreddit.equals("random") || subreddit.equals(
+                        "myrandom") || subreddit.equals("nsfwrandom"))) {
+                    ((SubredditView) c).subreddit = subredditRandom;
+                    ((SubredditView) c).executeAsyncSubreddit(subredditRandom);
                 }
                 if (!SettingValues.synccitName.isEmpty() && !offline) {
                     new MySynccitReadTask(displayer).execute(ids);
@@ -263,7 +302,7 @@ public class SubredditPosts implements PostLoader {
                 // end of submissions
                 nomore = true;
                 displayer.updateSuccess(posts, posts.size() + 1);
-            } else if(MainActivity.isRestart){
+            } else if (MainActivity.isRestart) {
                 posts = new ArrayList<>();
                 cached = OfflineSubreddit.getSubreddit(subreddit, 0L, true, c);
                 for (Submission s : cached.submissions) {
@@ -288,7 +327,8 @@ public class SubredditPosts implements PostLoader {
         @Override
         protected List<Submission> doInBackground(String... subredditPaginators) {
 
-            if ((!NetworkUtil.isConnected(context) && !Authentication.didOnline) || MainActivity.isRestart) {
+            if ((!NetworkUtil.isConnected(context) && !Authentication.didOnline)
+                    || MainActivity.isRestart) {
                 Log.v(LogUtil.getTag(), "Using offline data");
                 offline = true;
                 usedOffline = true;
@@ -321,8 +361,10 @@ public class SubredditPosts implements PostLoader {
             List<Submission> filteredSubmissions = getNextFiltered();
 
 
-            if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways)))
+            if (!(SettingValues.noImages && ((!NetworkUtil.isConnectedWifi(c)
+                    && SettingValues.lowResMobile) || SettingValues.lowResAlways))) {
                 loadPhotos(filteredSubmissions);
+            }
             HasSeen.setHasSeenSubmission(filteredSubmissions);
             LastComments.setCommentsSince(filteredSubmissions);
             SubmissionCache.cacheSubmissions(filteredSubmissions, context, subreddit);
@@ -336,8 +378,11 @@ public class SubredditPosts implements PostLoader {
                 offline = false;
             }
 
-            if (!usedOffline)
-                OfflineSubreddit.getSubNoLoad(subreddit.toLowerCase()).overwriteSubmissions(posts).writeToMemory(context);
+            if (!usedOffline) {
+                OfflineSubreddit.getSubNoLoad(subreddit.toLowerCase())
+                        .overwriteSubmissions(posts)
+                        .writeToMemory(context);
+            }
             start = 0;
             if (posts != null) {
                 start = posts.size() + 1;
@@ -361,7 +406,9 @@ public class SubredditPosts implements PostLoader {
 
 
                 for (Submission s : adding) {
-                    if (!PostMatch.doesMatch(s, paginator instanceof SubredditPaginator ? ((SubredditPaginator) paginator).getSubreddit() : ((DomainPaginator) paginator).getDomain(), force18)) {
+                    if (!PostMatch.doesMatch(s, paginator instanceof SubredditPaginator
+                            ? ((SubredditPaginator) paginator).getSubreddit()
+                            : ((DomainPaginator) paginator).getDomain(), force18)) {
                         filteredSubmissions.add(s);
                     }
                 }
@@ -374,8 +421,7 @@ public class SubredditPosts implements PostLoader {
                     Reddit.authentication.updateToken(context);
                 }
 
-            }
-            return filteredSubmissions;
+            } return filteredSubmissions;
         }
     }
 
@@ -390,53 +436,58 @@ public class SubredditPosts implements PostLoader {
         int i = 0;
         for (String s : all) {
             String[] split = s.split(",");
-            titles[i] = (Long.valueOf(split[1]) == 0 ? "submission only" : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c) + " (comments)");
+            titles[i] = (Long.valueOf(split[1]) == 0 ? "submission only"
+                    : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c) + " (comments)");
             base[i] = s;
             i++;
         }
 
         ((MainActivity) c).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        ((MainActivity) c).getSupportActionBar().setListNavigationCallbacks(new OfflineSubAdapter(c, android.R.layout.simple_list_item_1, titles), new ActionBar.OnNavigationListener() {
+        ((MainActivity) c).getSupportActionBar()
+                .setListNavigationCallbacks(
+                        new OfflineSubAdapter(c, android.R.layout.simple_list_item_1, titles),
+                        new ActionBar.OnNavigationListener() {
 
-            @Override
-            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-                final String[] s2 = base[itemPosition].split(",");
-                OfflineSubreddit.currentid = Long.valueOf(s2[1]);
-                currentid = OfflineSubreddit.currentid;
+                            @Override
+                            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+                                final String[] s2 = base[itemPosition].split(",");
+                                OfflineSubreddit.currentid = Long.valueOf(s2[1]);
+                                currentid = OfflineSubreddit.currentid;
 
-                new AsyncTask<Void, Void, Void>() {
-                    OfflineSubreddit cached;
+                                new AsyncTask<Void, Void, Void>() {
+                                    OfflineSubreddit cached;
 
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        cached = OfflineSubreddit.getSubreddit(subreddit, Long.valueOf(s2[1]), true, c);
-                        List<Submission> finalSubs = new ArrayList<>();
-                        for (Submission s : cached.submissions) {
-                            if (!PostMatch.doesMatch(s, subreddit, force18)) {
-                                finalSubs.add(s);
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        cached = OfflineSubreddit.getSubreddit(subreddit,
+                                                Long.valueOf(s2[1]), true, c);
+                                        List<Submission> finalSubs = new ArrayList<>();
+                                        for (Submission s : cached.submissions) {
+                                            if (!PostMatch.doesMatch(s, subreddit, force18)) {
+                                                finalSubs.add(s);
+                                            }
+                                        }
+
+                                        posts = finalSubs;
+
+                                        return null;
+                                    }
+
+                                    @Override
+                                    protected void onPostExecute(Void aVoid) {
+
+                                        if (!cached.submissions.isEmpty()) {
+                                            stillShow = true;
+                                        } else {
+                                            displayer.updateOfflineError();
+                                        }
+                                        // update offline
+                                        displayer.updateOffline(posts, Long.valueOf(s2[1]));
+                                    }
+                                }.execute();
+                                return true;
                             }
-                        }
-
-                        posts = finalSubs;
-
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void aVoid) {
-
-                        if (!cached.submissions.isEmpty()) {
-                            stillShow = true;
-                        } else {
-                            displayer.updateOfflineError();
-                        }
-                        // update offline
-                        displayer.updateOffline(posts, Long.valueOf(s2[1]));
-                    }
-                }.execute();
-                return true;
-            }
-        });
+                        });
 
     }
 }

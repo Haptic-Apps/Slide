@@ -300,7 +300,6 @@ public class PopulateShadowboxInfo {
             titleString.append(TimeUtils.getTimeAgo(s.getCreated().getTime(), c));
 
             desc.setText(titleString);
-            ((TextView) rootView.findViewById(R.id.comments)).setVisibility(View.GONE);
             ((TextView) rootView.findViewById(R.id.score)).setText(String.format(Locale.getDefault(), "%d", s.getScore()));
 
             if (extras) {
@@ -460,7 +459,6 @@ public class PopulateShadowboxInfo {
                 } catch (Exception ignored) {
                     ignored.printStackTrace();
                 }
-                rootView.findViewById(R.id.menu).setVisibility(View.GONE);
             }
         }
     }

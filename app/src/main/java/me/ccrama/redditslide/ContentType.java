@@ -255,6 +255,22 @@ public class ContentType {
         }
     }
 
+    public static boolean mediaType(Type t) {
+        switch (t) {
+            case ALBUM:
+            case DEVIANTART:
+            case GIF:
+            case IMAGE:
+            case IMGUR:
+            case STREAMABLE:
+            case VID_ME:
+                return true;
+            default:
+                return false;
+
+        }
+    }
+
     /**
      * Returns a string identifier for a submission e.g. Link, GIF, NSFW Image
      *
