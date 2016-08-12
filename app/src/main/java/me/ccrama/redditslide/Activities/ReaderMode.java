@@ -24,6 +24,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.Views.TitleTextView;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class ReaderMode extends BaseActivityAnim {
 
@@ -80,7 +81,7 @@ public class ReaderMode extends BaseActivityAnim {
                     readability.init();
                     articleText = readability.outerHtml();
                 } else {
-                    Readability readability = new Readability(StringEscapeUtils.unescapeHtml4(html));  // URL
+                    Readability readability = new Readability(StringEscapeUtils.unescapeJava(html));  // URL
                     readability.init();
                     articleText = readability.outerHtml();
                 }

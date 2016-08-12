@@ -87,14 +87,15 @@ public class Website extends BaseActivityAnim {
                 sendBroadcast(inte);
                 return true;
             case R.id.read:
-                v.evaluateJavascript("(function(){return window.document.body.outerHTML})();",
+                v.evaluateJavascript("(function(){return \"<html>\" + document.documentElement.innerHTML + \"</html>\";})();",
                     new ValueCallback<String>() {
                         @Override
                         public void onReceiveValue(String html) {
                             Intent i = new Intent(Website.this, ReaderMode.class);
 
                             if(html != null && !html.isEmpty()){
-                                ReaderMode.html = html.substring(1, html.length() -1);
+                                ReaderMode.html = html;
+                                LogUtil.v(html);
                             } else {
                                 ReaderMode.html = "";
                                 i.putExtra("url", v.getUrl());
