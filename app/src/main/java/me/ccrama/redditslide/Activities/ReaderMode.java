@@ -38,15 +38,11 @@ public class ReaderMode extends BaseActivityAnim {
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
         super.onCreate(savedInstanceState);
-        applyColorTheme("");
+        applyDarkColorTheme("");
         setContentView(R.layout.activity_reader);
         if(getIntent().hasExtra("url")) {
             url = getIntent().getExtras().getString(EXTRA_URL, "");
         }
-
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
-        setupAppBar(R.id.toolbar, "", true, true);
-        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         v = (SpoilerRobotoTextView) findViewById(R.id.body);
 
@@ -99,8 +95,7 @@ public class ReaderMode extends BaseActivityAnim {
 
             }
             if (articleText != null) {
-                v.setTextHtml(articleText);
-                getSupportActionBar().setTitle(title);
+                v.setTextHtml(articleText, "nosub");
             } else {
                 new AlertDialogWrapper.Builder(ReaderMode.this).setTitle(
                         "Sorry, article could not be extracted")
