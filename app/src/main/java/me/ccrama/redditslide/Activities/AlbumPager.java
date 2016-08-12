@@ -506,6 +506,9 @@ public class AlbumPager extends FullScreenActivity implements FolderChooserDialo
             final ViewGroup rootView = (ViewGroup) inflater.inflate(
                     R.layout.album_image_pager, container, false);
 
+            if(((AlbumPager)getActivity()).images == null){
+                getActivity().finish();
+            }
             final Image current = ((AlbumPager) getActivity()).images.get(i);
             final String url = current.getImageUrl();
             boolean lq = false;

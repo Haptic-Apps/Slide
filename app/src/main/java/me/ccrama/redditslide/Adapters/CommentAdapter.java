@@ -91,7 +91,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public SubmissionComments dataSet;
     public Submission         submission;
     public CommentViewHolder  currentlySelected;
-    public CommentNode currentNode;
+    public CommentNode        currentNode;
     public String currentSelectedItem = "";
     public int               shiftFrom;
     public FragmentManager   fm;
@@ -1739,7 +1739,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     hidden.remove(name);
                     i++;
 
-                    if (ignored.hasMoreComments() && !hiddenPersons.contains(name)&& dataSet.online) {
+                    if (ignored.hasMoreComments()
+                            && !hiddenPersons.contains(name)
+                            && dataSet.online) {
                         name = name + "more";
                         if (hidden.contains(name)) {
                             hidden.remove(name);
@@ -1752,7 +1754,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         }
         if (n.hasMoreComments() && !parentHidden(n) && !hiddenPersons.contains(
-                n.getComment().getFullName())&& dataSet.online) {
+                n.getComment().getFullName()) && dataSet.online) {
             String fullname = n.getComment().getFullName() + "more";
 
             if (hidden.contains(fullname)) {
@@ -2088,8 +2090,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 shifted += i;
 
-                for (int i2 = 0; i2 < currentComments.size(); i2++) {
-                    keys.put(currentComments.get(i2).getName(), i2);
+                if (currentComments != null) {
+                    for (int i2 = 0; i2 < currentComments.size(); i2++) {
+                        keys.put(currentComments.get(i2).getName(), i2);
+                    }
+                } else {
+                    i = -1;
                 }
             }
             return i;

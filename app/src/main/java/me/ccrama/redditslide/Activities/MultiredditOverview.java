@@ -129,7 +129,11 @@ public class MultiredditOverview extends BaseActivityAnim {
         switch (item.getItemId()) {
 
             case android.R.id.home:
-                onBackPressed();
+                try {
+                    onBackPressed();
+                } catch(Exception ignored){
+
+                }
                 return true;
             case R.id.action_edit: {
                 if (profile.isEmpty() && (UserSubscriptions.multireddits != null) && !UserSubscriptions.multireddits.isEmpty()) {

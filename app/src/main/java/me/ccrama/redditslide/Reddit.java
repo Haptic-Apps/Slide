@@ -18,12 +18,15 @@ import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import net.dean.jraw.http.NetworkException;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.TimePeriod;
@@ -527,6 +530,15 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                                 }
                             }
                         });
+                    } else if (t instanceof NetworkException) {
+                        Toast.makeText(c, "Error "
+                                + ((NetworkException) t).getResponse().getStatusMessage()
+                                + ": "
+                                + (t).getMessage(), Toast.LENGTH_LONG).show();
+                    } else if(t instanceof NullPointerException && t.getMessage().contains("Attempt to invoke virtual method 'android.content.Context android.view.ViewGroup.getContext()' on a null object reference")){
+                        t.printStackTrace();
+                    } else if(t instanceof MaterialDialog.DialogException){
+                        t.printStackTrace();
                     } else {
                         appRestart.edit()
                                 .putString("startScreen", "a")

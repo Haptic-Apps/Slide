@@ -52,9 +52,9 @@ import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import okhttp3.OkHttpClient;
@@ -65,23 +65,23 @@ import okhttp3.OkHttpClient;
  */
 public class MediaFragment extends Fragment {
 
-    public String firstUrl;
-    public String contentUrl;
-    public String sub;
-    public String actuallyLoaded;
-    public int i;
-    private ViewGroup rootView;
-    private MediaVideoView videoView;
-    private boolean imageShown;
-    private float previous;
-    private boolean hidden;
-    private int stopPosition;
-    public boolean isGif;
+    public  String                firstUrl;
+    public  String                contentUrl;
+    public  String                sub;
+    public  String                actuallyLoaded;
+    public  int                   i;
+    private ViewGroup             rootView;
+    private MediaVideoView        videoView;
+    private boolean               imageShown;
+    private float                 previous;
+    private boolean               hidden;
+    private int                   stopPosition;
+    public  boolean               isGif;
     private GifUtils.AsyncLoadGif gif;
-    private Submission s;
-    private OkHttpClient client;
-    private Gson gson;
-    private String mashapeKey;
+    private Submission            s;
+    private OkHttpClient          client;
+    private Gson                  gson;
+    private String                mashapeKey;
 
     @Override
     public void onDestroy() {
@@ -114,18 +114,19 @@ public class MediaFragment extends Fragment {
         if (videoView != null) {
             stopPosition = videoView.getCurrentPosition();
             videoView.pause();
-            ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(
+                    SlidingUpPanelLayout.PanelState.COLLAPSED);
             outState.putInt("position", stopPosition);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        rootView = (ViewGroup) inflater.inflate(
-                R.layout.submission_mediacard, container, false);
-        if (savedInstanceState != null && savedInstanceState.containsKey("position"))
+            Bundle savedInstanceState) {
+        rootView = (ViewGroup) inflater.inflate(R.layout.submission_mediacard, container, false);
+        if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
             stopPosition = savedInstanceState.getInt("position");
+        }
         if (!firstUrl.isEmpty()) {
             displayImage(firstUrl);
         }
@@ -140,17 +141,26 @@ public class MediaFragment extends Fragment {
 
 
         if (!ContentType.fullImage(type)) {
-            if (!s.getDataNode().has("preview") || !s.getDataNode().get("preview").get("images").get(0).get("source").has("height")) {
+            if (!s.getDataNode().has("preview") || !s.getDataNode()
+                    .get("preview")
+                    .get("images")
+                    .get(0)
+                    .get("source")
+                    .has("height")) {
                 (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
-                ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(R.drawable.web);
-                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), rootView, type, getActivity(), s);
+                ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
+                        R.drawable.web);
+                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), rootView, type,
+                        getActivity(), s);
                 (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
             } else {
-                addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type, getActivity(), s);
+                addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type,
+                        getActivity(), s);
             }
         } else {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type, getActivity(), s);
+            addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type,
+                    getActivity(), s);
         }
         doLoad(contentUrl);
 
@@ -169,41 +179,49 @@ public class MediaFragment extends Fragment {
         final View.OnClickListener openClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelState(
+                        SlidingUpPanelLayout.PanelState.EXPANDED);
             }
         };
         rootView.findViewById(R.id.base).setOnClickListener(openClick);
         final View title = rootView.findViewById(R.id.title);
-        title.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
-                title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
-        ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
+        title.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        ((SlidingUpPanelLayout) rootView.findViewById(
+                                R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
+                        title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    }
+                });
+        ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(
+                new SlidingUpPanelLayout.PanelSlideListener() {
+                    @Override
+                    public void onPanelSlide(View panel, float slideOffset) {
 
-            }
+                    }
 
-            @Override
-            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                            i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
-                            getActivity().startActivity(i2);
+                    @Override
+                    public void onPanelStateChanged(View panel,
+                            SlidingUpPanelLayout.PanelState previousState,
+                            SlidingUpPanelLayout.PanelState newState) {
+                        if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                            rootView.findViewById(R.id.base)
+                                    .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent i2 =
+                                                    new Intent(getActivity(), CommentsScreen.class);
+                                            i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
+                                            getActivity().startActivity(i2);
+                                        }
+                                    });
+                        } else {
+                            rootView.findViewById(R.id.base).setOnClickListener(openClick);
                         }
-                    });
-                } else {
-                    rootView.findViewById(R.id.base).setOnClickListener(openClick);
-                }
-            }
-        });
+                    }
+                });
         return rootView;
     }
 
@@ -214,10 +232,11 @@ public class MediaFragment extends Fragment {
         firstUrl = bundle.getString("firstUrl");
         sub = ((Shadowbox) getActivity()).subreddit;
         i = bundle.getInt("page");
-        if (((Shadowbox) getActivity()).subredditPosts.getPosts().size() != 0)
+        if (((Shadowbox) getActivity()).subredditPosts.getPosts().size() != 0) {
             s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(i);
-        else
+        } else {
             getActivity().finish();
+        }
         contentUrl = bundle.getString("contentUrl");
 
         client = new OkHttpClient();
@@ -244,7 +263,8 @@ public class MediaFragment extends Fragment {
         }
     }
 
-    private static void addClickFunctions(final View base, final View clickingArea, ContentType.Type type, final Activity contextActivity, final Submission submission) {
+    private static void addClickFunctions(final View base, final View clickingArea,
+            ContentType.Type type, final Activity contextActivity, final Submission submission) {
         switch (type) {
             case VID_ME:
             case STREAMABLE:
@@ -268,7 +288,10 @@ public class MediaFragment extends Fragment {
                     public void onClick(View v2) {
                         if (SettingValues.video) {
                             Reddit.defaultShare(submission.getUrl(), contextActivity);
-                            String data = submission.getDataNode().get("media_embed").get("content").asText();
+                            String data = submission.getDataNode()
+                                    .get("media_embed")
+                                    .get("content")
+                                    .asText();
                             {
                                 Intent i = new Intent(contextActivity, FullscreenVideo.class);
                                 i.putExtra(FullscreenVideo.EXTRA_HTML, data);
@@ -285,7 +308,8 @@ public class MediaFragment extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(), contextActivity);
+                        PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(),
+                                contextActivity);
                     }
                 });
                 break;
@@ -294,8 +318,8 @@ public class MediaFragment extends Fragment {
 
                     @Override
                     public void onClick(View v2) {
-                        LinkUtil.openUrl(
-                                submission.getUrl(), Palette.getColor(submission.getSubredditName()), contextActivity);
+                        LinkUtil.openUrl(submission.getUrl(),
+                                Palette.getColor(submission.getSubredditName()), contextActivity);
                     }
                 });
                 break;
@@ -312,12 +336,14 @@ public class MediaFragment extends Fragment {
                                 Intent i = new Intent(contextActivity, AlbumPager.class);
                                 i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                 contextActivity.startActivity(i);
-                                contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                contextActivity.overridePendingTransition(R.anim.slideright,
+                                        R.anim.fade_out);
                             } else {
                                 Intent i = new Intent(contextActivity, Album.class);
                                 i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                 contextActivity.startActivity(i);
-                                contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                contextActivity.overridePendingTransition(R.anim.slideright,
+                                        R.anim.fade_out);
                             }
 
 
@@ -333,7 +359,8 @@ public class MediaFragment extends Fragment {
                 base.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openImage(contextActivity, submission, null, -1);
+                        PopulateSubmissionViewHolder.openImage(contextActivity, submission, null,
+                                -1);
                     }
                 });
                 break;
@@ -381,7 +408,9 @@ public class MediaFragment extends Fragment {
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
         rootView.findViewById(R.id.progress).setVisibility(View.GONE);
-        gif = new GifUtils.AsyncLoadGif(getActivity(), (MediaVideoView) rootView.findViewById(R.id.gif), loader, rootView.findViewById(R.id.placeholder), false, false, false);
+        gif = new GifUtils.AsyncLoadGif(getActivity(),
+                (MediaVideoView) rootView.findViewById(R.id.gif), loader,
+                rootView.findViewById(R.id.placeholder), false, false, false);
         gif.execute(dat);
     }
 
@@ -532,28 +561,30 @@ public class MediaFragment extends Fragment {
                         URL obj = new URL(finalUrl2);
                         URLConnection conn = obj.openConnection();
                         final String type = conn.getHeaderField("Content-Type");
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!imageShown
-                                        && type != null
-                                        && !type.isEmpty()
-                                        && type.startsWith("image/")) {
-                                    //is image
-                                    if (type.contains("gif")) {
-                                        doLoadGif(finalUrl2.replace(".jpg", ".gif")
-                                                .replace(".png", ".gif"));
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!imageShown
+                                            && type != null
+                                            && !type.isEmpty()
+                                            && type.startsWith("image/")) {
+                                        //is image
+                                        if (type.contains("gif")) {
+                                            doLoadGif(finalUrl2.replace(".jpg", ".gif")
+                                                    .replace(".png", ".gif"));
+                                        } else if (!imageShown) {
+                                            displayImage(finalUrl2);
+                                        }
+                                        actuallyLoaded = finalUrl2;
                                     } else if (!imageShown) {
-                                        displayImage(finalUrl2);
+                                        Intent i = new Intent(getActivity(), Website.class);
+                                        i.putExtra(Website.EXTRA_URL, finalUrl2);
+                                        getActivity().startActivity(i);
                                     }
-                                    actuallyLoaded = finalUrl2;
-                                } else if (!imageShown) {
-                                    Intent i = new Intent(getActivity(), Website.class);
-                                    i.putExtra(Website.EXTRA_URL, finalUrl2);
-                                    getActivity().startActivity(i);
                                 }
-                            }
-                        });
+                            });
+                        }
 
                     } catch (IOException e) {
                         LogUtil.e(e, "Error loading image finalUrl2 = [" + finalUrl2 + "]");
@@ -578,7 +609,8 @@ public class MediaFragment extends Fragment {
     public void displayImage(final String url) {
         if (!imageShown) {
             actuallyLoaded = url;
-            final SubsamplingScaleImageView i = (SubsamplingScaleImageView) rootView.findViewById(R.id.submission_image);
+            final SubsamplingScaleImageView i =
+                    (SubsamplingScaleImageView) rootView.findViewById(R.id.submission_image);
 
             i.setMinimumDpi(70);
             i.setMinimumTileDpi(240);
@@ -598,7 +630,9 @@ public class MediaFragment extends Fragment {
             fakeImage.setLayoutParams(new LinearLayout.LayoutParams(i.getWidth(), i.getHeight()));
             fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            File f = ((Reddit) getActivity().getApplicationContext()).getImageLoader().getDiscCache().get(url);
+            File f = ((Reddit) getActivity().getApplicationContext()).getImageLoader()
+                    .getDiscCache()
+                    .get(url);
             if (f != null && f.exists()) {
                 imageShown = true;
 
@@ -651,101 +685,130 @@ public class MediaFragment extends Fragment {
                 });
             } else {
                 ((Reddit) getActivity().getApplicationContext()).getImageLoader()
-                        .displayImage(url, new ImageViewAware(fakeImage), new DisplayImageOptions.Builder()
-                                .resetViewBeforeLoading(true)
-                                .cacheOnDisk(true)
-                                .imageScaleType(ImageScaleType.NONE)
-                                .cacheInMemory(false)
-                                .build(), new ImageLoadingListener() {
-                            private View mView;
+                        .displayImage(url, new ImageViewAware(fakeImage),
+                                new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
+                                        .cacheOnDisk(true)
+                                        .imageScaleType(ImageScaleType.NONE)
+                                        .cacheInMemory(false)
+                                        .build(), new ImageLoadingListener() {
+                                    private View mView;
 
-                            @Override
-                            public void onLoadingStarted(String imageUri, View view) {
-                                imageShown = true;
-                                mView = view;
-                            }
-
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                Log.v(LogUtil.getTag(), "LOADING FAILED");
-
-                            }
-
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                imageShown = true;
-                                File f = null;
-                                if (getActivity() != null)
-                                    f = ((Reddit) getActivity().getApplicationContext()).getImageLoader().getDiscCache().get(url);
-                                if (f != null && f.exists()) {
-                                    i.setImage(ImageSource.uri(f.getAbsolutePath()));
-                                } else {
-                                    i.setImage(ImageSource.bitmap(loadedImage));
-                                }
-                                (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
-                                handler.removeCallbacks(progressBarDelayRunner);
-
-                                previous = i.scale;
-                                final float base = i.scale;
-                                i.setOnZoomChangedListener(new SubsamplingScaleImageView.OnZoomChangedListener() {
                                     @Override
-                                    public void onZoomLevelChanged(float zoom) {
-                                        if (zoom > previous && !hidden && zoom > base) {
-                                            hidden = true;
-                                            final View base = rootView.findViewById(R.id.base);
+                                    public void onLoadingStarted(String imageUri, View view) {
+                                        imageShown = true;
+                                        mView = view;
+                                    }
 
-                                            ValueAnimator va = ValueAnimator.ofFloat(1.0f, 0.2f);
-                                            int mDuration = 250; //in millis
-                                            va.setDuration(mDuration);
-                                            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                                public void onAnimationUpdate(ValueAnimator animation) {
-                                                    Float value = (Float) animation.getAnimatedValue();
-                                                    base.setAlpha(value);
-                                                }
-                                            });
-                                            va.start();
-                                            //hide
-                                        } else if (zoom <= previous && hidden) {
-                                            hidden = false;
-                                            final View base = rootView.findViewById(R.id.base);
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view,
+                                            FailReason failReason) {
+                                        Log.v(LogUtil.getTag(), "LOADING FAILED");
 
-                                            ValueAnimator va = ValueAnimator.ofFloat(0.2f, 1.0f);
-                                            int mDuration = 250; //in millis
-                                            va.setDuration(mDuration);
-                                            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                                public void onAnimationUpdate(ValueAnimator animation) {
-                                                    Float value = (Float) animation.getAnimatedValue();
-                                                    base.setAlpha(value);
-                                                }
-                                            });
-                                            va.start();
-                                            //unhide
+                                    }
+
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view,
+                                            Bitmap loadedImage) {
+                                        imageShown = true;
+                                        File f = null;
+                                        if (getActivity() != null) {
+                                            f =
+                                                    ((Reddit) getActivity().getApplicationContext())
+                                                            .getImageLoader()
+                                                            .getDiscCache()
+                                                            .get(url);
                                         }
-                                        previous = zoom;
+                                        if (f != null && f.exists()) {
+                                            i.setImage(ImageSource.uri(f.getAbsolutePath()));
+                                        } else {
+                                            i.setImage(ImageSource.bitmap(loadedImage));
+                                        }
+                                        (rootView.findViewById(R.id.progress)).setVisibility(
+                                                View.GONE);
+                                        handler.removeCallbacks(progressBarDelayRunner);
+
+                                        previous = i.scale;
+                                        final float base = i.scale;
+                                        i.setOnZoomChangedListener(
+                                                new SubsamplingScaleImageView.OnZoomChangedListener() {
+                                                    @Override
+                                                    public void onZoomLevelChanged(float zoom) {
+                                                        if (zoom > previous
+                                                                && !hidden
+                                                                && zoom > base) {
+                                                            hidden = true;
+                                                            final View base = rootView.findViewById(
+                                                                    R.id.base);
+
+                                                            ValueAnimator va =
+                                                                    ValueAnimator.ofFloat(1.0f,
+                                                                            0.2f);
+                                                            int mDuration = 250; //in millis
+                                                            va.setDuration(mDuration);
+                                                            va.addUpdateListener(
+                                                                    new ValueAnimator.AnimatorUpdateListener() {
+                                                                        public void onAnimationUpdate(
+                                                                                ValueAnimator animation) {
+                                                                            Float value =
+                                                                                    (Float) animation
+                                                                                            .getAnimatedValue();
+                                                                            base.setAlpha(value);
+                                                                        }
+                                                                    });
+                                                            va.start();
+                                                            //hide
+                                                        } else if (zoom <= previous && hidden) {
+                                                            hidden = false;
+                                                            final View base = rootView.findViewById(
+                                                                    R.id.base);
+
+                                                            ValueAnimator va =
+                                                                    ValueAnimator.ofFloat(0.2f,
+                                                                            1.0f);
+                                                            int mDuration = 250; //in millis
+                                                            va.setDuration(mDuration);
+                                                            va.addUpdateListener(
+                                                                    new ValueAnimator.AnimatorUpdateListener() {
+                                                                        public void onAnimationUpdate(
+                                                                                ValueAnimator animation) {
+                                                                            Float value =
+                                                                                    (Float) animation
+                                                                                            .getAnimatedValue();
+                                                                            base.setAlpha(value);
+                                                                        }
+                                                                    });
+                                                            va.start();
+                                                            //unhide
+                                                        }
+                                                        previous = zoom;
+                                                    }
+                                                });
+                                    }
+
+                                    @Override
+                                    public void onLoadingCancelled(String imageUri, View view) {
+                                        Log.v(LogUtil.getTag(), "LOADING CANCELLED");
+
+                                    }
+                                }, new ImageLoadingProgressListener() {
+                                    @Override
+                                    public void onProgressUpdate(String imageUri, View view,
+                                            int current, int total) {
+                                        ((ProgressBar) rootView.findViewById(
+                                                R.id.progress)).setProgress(
+                                                Math.round(100.0f * current / total));
                                     }
                                 });
-                            }
-
-                            @Override
-                            public void onLoadingCancelled(String imageUri, View view) {
-                                Log.v(LogUtil.getTag(), "LOADING CANCELLED");
-
-                            }
-                        }, new ImageLoadingProgressListener() {
-                            @Override
-                            public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                                ((ProgressBar) rootView.findViewById(R.id.progress)).setProgress(Math.round(100.0f * current / total));
-                            }
-                        });
             }
 
-            rootView.findViewById(R.id.submission_image).setOnClickListener(new View.OnClickListener() {
+            rootView.findViewById(R.id.submission_image)
+                    .setOnClickListener(new View.OnClickListener() {
 
-                @Override
-                public void onClick(View v2) {
-                    getActivity().finish();
-                }
-            });
+                        @Override
+                        public void onClick(View v2) {
+                            getActivity().finish();
+                        }
+                    });
         }
     }
 }
