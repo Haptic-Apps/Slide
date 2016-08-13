@@ -43,6 +43,7 @@ import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -75,7 +76,7 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
-import me.ccrama.redditslide.Notifications.SubPostScheduler;
+import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -95,12 +96,12 @@ import me.ccrama.redditslide.util.SubmissionParser;
 
 public class SubredditView extends BaseActivityAnim {
 
-    public static final String EXTRA_SUBREDDIT = "subreddit";
-    public boolean canSubmit = true;
+    public static final String  EXTRA_SUBREDDIT = "subreddit";
+    public              boolean canSubmit       = true;
     private DrawerLayout drawerLayout;
-    public String subreddit;
-    public Submission openingComments;
-    public int currentComment;
+    public  String       subreddit;
+    public  Submission   openingComments;
+    public  int          currentComment;
 
     public void restartTheme() {
         Intent intent = this.getIntent();
@@ -113,7 +114,8 @@ public class SubredditView extends BaseActivityAnim {
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START) || drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
+        if (drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START)
+                || drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.END)) {
             drawerLayout.closeDrawers();
         } else if (commentPager && pager.getCurrentItem() == 2) {
             pager.setCurrentItem(pager.getCurrentItem() - 1);
@@ -146,43 +148,63 @@ public class SubredditView extends BaseActivityAnim {
                 return true;
             case R.id.submit:
                 Intent i = new Intent(this, Submit.class);
-                if (canSubmit)
-                    i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
+                if (canSubmit) i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                 startActivity(i);
                 return true;
             case R.id.schedule:
                 final String sub = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
-                new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                        "Be notified of new posts in /r/" + sub)
-                        .setMessage(
-                                "Slide will check for new posts every 10 minutes. You can cancel this in the post notifications.")
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ArrayList<String> subs = Reddit.stringToArray(
-                                        Reddit.appRestart.getString("subsToGet", ""));
-                                subs.add(sub);
-                                Reddit.appRestart.edit()
-                                        .putString("subsToGet", Reddit.arrayToString(subs))
-                                        .commit();
-                                if(Reddit.post == null){
-                                    Reddit.post = new SubPostScheduler(SubredditView.this);
-                                    Reddit.post.start(SubredditView.this);
+                if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("frontpage") &&
+                        !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
+                        !sub.contains("+") && !sub.contains(".") && !sub.contains(
+                        "/m/")) {
+                    new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                            "Be notified of new posts in /r/" + sub)
+                            .setMessage(
+                                    "Slide will check for new posts when it checks for mail. Make sure you have mail notifications turned on!")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new MaterialDialog.Builder(SubredditView.this).title(
+                                            "Score threshold")
+                                            .items(new String[]{"1", "5", "10", "20", "40", "50"})
+                                            .alwaysCallSingleChoiceCallback()
+                                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                                                @Override
+                                                public boolean onSelection(MaterialDialog dialog,
+                                                        View itemView, int which, CharSequence text) {
+                                                    ArrayList<String> subs = Reddit.stringToArray(
+                                                            Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET,
+                                                                    ""));
+                                                    subs.add(sub + ":" + text);
+                                                    Reddit.appRestart.edit()
+                                                            .putString(CheckForMail.SUBS_TO_GET,
+                                                                    Reddit.arrayToString(subs))
+                                                            .commit();
+                                                    return true;
+                                                }
+                                            })
+                                            .cancelable(false)
+                                            .show();
                                 }
-                            }
-                        })
-                        .setNegativeButton("CANCEL", null)
-                        .show();
+                            })
+                            .setNegativeButton("CANCEL", null)
+                            .show();
+                } else {
+                    Toast.makeText(SubredditView.this,"You can only add notifications to single subreddits", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.action_refresh:
-                if (adapter != null && adapter.getCurrentFragment() != null)
+                if (adapter != null && adapter.getCurrentFragment() != null) {
                     ((SubmissionsView) adapter.getCurrentFragment()).forceRefresh();
+                }
                 return true;
             case R.id.action_sort:
                 if (subreddit.equalsIgnoreCase("friends")) {
-                    Snackbar s = Snackbar.make(findViewById(R.id.anchor), getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
+                    Snackbar s = Snackbar.make(findViewById(R.id.anchor),
+                            getString(R.string.friends_sort_error), Snackbar.LENGTH_SHORT);
                     View view = s.getView();
-                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView tv =
+                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);
                     s.show();
                 } else {
@@ -191,61 +213,88 @@ public class SubredditView extends BaseActivityAnim {
                 return true;
             case R.id.gallery:
                 if (SettingValues.tabletUI) {
-                    List<Submission> posts = ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
+                    List<Submission> posts =
+                            ((SubmissionsView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         Intent i2 = new Intent(this, Gallery.class);
-                        i2.putExtra("offline", ((SubmissionsView) adapter.getCurrentFragment()).posts.cached != null ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time : 0L);
-                        i2.putExtra(Gallery.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                        i2.putExtra("offline",
+                                ((SubmissionsView) adapter.getCurrentFragment()).posts.cached
+                                        != null
+                                        ? ((SubmissionsView) adapter.getCurrentFragment()).posts.cached.time
+                                        : 0L);
+                        i2.putExtra(Gallery.EXTRA_SUBREDDIT,
+                                ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i2);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(this)
-                            .setTitle(R.string.general_pro)
+                    new AlertDialogWrapper.Builder(this).setTitle(R.string.general_pro)
                             .setMessage(R.string.general_pro_msg)
-                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    } catch (ActivityNotFoundException e) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    }
-                                }
-                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+                            .setPositiveButton(R.string.btn_sure,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            } catch (ActivityNotFoundException e) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                            .show();
                 }
                 return true;
             case R.id.search:
-                MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
-                        .alwaysCallInputCallback()
-                        .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
-                                term = charSequence.toString();
-                            }
-                        })
-                        .neutralText(R.string.search_all)
-                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
-                                Intent i = new Intent(SubredditView.this, Search.class);
-                                i.putExtra(Search.EXTRA_TERM, term);
-                                startActivity(i);
-                            }
-                        });
+                MaterialDialog.Builder builder =
+                        new MaterialDialog.Builder(this).title(R.string.search_title)
+                                .alwaysCallInputCallback()
+                                .input(getString(R.string.search_msg), "",
+                                        new MaterialDialog.InputCallback() {
+                                            @Override
+                                            public void onInput(MaterialDialog materialDialog,
+                                                    CharSequence charSequence) {
+                                                term = charSequence.toString();
+                                            }
+                                        })
+                                .neutralText(R.string.search_all)
+                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog materialDialog,
+                                            @NonNull DialogAction dialogAction) {
+                                        Intent i = new Intent(SubredditView.this, Search.class);
+                                        i.putExtra(Search.EXTRA_TERM, term);
+                                        startActivity(i);
+                                    }
+                                });
 
                 //Add "search current sub" if it is not frontpage/all/random
-                if (!subreddit.equalsIgnoreCase("frontpage") && !subreddit.equalsIgnoreCase("all") && !subreddit.equalsIgnoreCase("random") && !subreddit.equals("myrandom") && !subreddit.equals("nsfwrandom") && !subreddit.equalsIgnoreCase("friends") && !subreddit.equalsIgnoreCase("mod")) {
+                if (!subreddit.equalsIgnoreCase("frontpage")
+                        && !subreddit.equalsIgnoreCase("all")
+                        && !subreddit.equalsIgnoreCase("random")
+                        && !subreddit.equals("myrandom")
+                        && !subreddit.equals("nsfwrandom")
+                        && !subreddit.equalsIgnoreCase("friends")
+                        && !subreddit.equalsIgnoreCase("mod")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
-                                public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                public void onClick(@NonNull MaterialDialog materialDialog,
+                                        @NonNull DialogAction dialogAction) {
                                     Intent i = new Intent(SubredditView.this, Search.class);
                                     i.putExtra(Search.EXTRA_TERM, term);
                                     i.putExtra(Search.EXTRA_SUBREDDIT, subreddit);
-                                    Log.v(LogUtil.getTag(), "INTENT SHOWS " + term + " AND " + subreddit);
+                                    Log.v(LogUtil.getTag(),
+                                            "INTENT SHOWS " + term + " AND " + subreddit);
                                     startActivity(i);
                                 }
                             });
@@ -257,30 +306,41 @@ public class SubredditView extends BaseActivityAnim {
                 return true;
             case R.id.action_shadowbox:
                 if (SettingValues.tabletUI) {
-                    List<Submission> posts = ((SubmissionsView) ((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment()).posts.posts;
+                    List<Submission> posts =
+                            ((SubmissionsView) ((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         Intent i2 = new Intent(this, Shadowbox.class);
                         i2.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                        i2.putExtra(Shadowbox.EXTRA_SUBREDDIT, ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
+                        i2.putExtra(Shadowbox.EXTRA_SUBREDDIT,
+                                ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit);
                         startActivity(i2);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(this)
-                            .setTitle(R.string.general_pro)
+                    new AlertDialogWrapper.Builder(this).setTitle(R.string.general_pro)
                             .setMessage(R.string.general_pro_msg)
-                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    } catch (ActivityNotFoundException e) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    }
-                                }
-                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+                            .setPositiveButton(R.string.btn_sure,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            } catch (ActivityNotFoundException e) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                            .show();
                 }
                 return true;
             default:
@@ -290,13 +350,21 @@ public class SubredditView extends BaseActivityAnim {
 
     private void doSubOnlyStuff(final Subreddit subreddit) {
         findViewById(R.id.loader).setVisibility(View.GONE);
-        if (subreddit.getDataNode().has("subreddit_type") && !subreddit.getDataNode().get("subreddit_type").isNull())
-            canSubmit = !subreddit.getDataNode().get("subreddit_type").asText().toUpperCase().equals("RESTRICTED");
+        if (subreddit.getDataNode().has("subreddit_type") && !subreddit.getDataNode()
+                .get("subreddit_type")
+                .isNull()) {
+            canSubmit = !subreddit.getDataNode()
+                    .get("subreddit_type")
+                    .asText()
+                    .toUpperCase()
+                    .equals("RESTRICTED");
+        }
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
             findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
             final String text = subreddit.getDataNode().get("description_html").asText();
-            final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
+            final SpoilerRobotoTextView body =
+                    (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
             CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
             setViews(text, subreddit.getDisplayName(), body, overflow);
         } else {
@@ -323,30 +391,45 @@ public class SubredditView extends BaseActivityAnim {
 
                         @Override
                         protected void onPostExecute(Void aVoid) {
-                            new MaterialDialog.Builder(SubredditView.this).title("Add /r/" + subreddit.getDisplayName() + " to")
+                            new MaterialDialog.Builder(SubredditView.this).title(
+                                    "Add /r/" + subreddit.getDisplayName() + " to")
                                     .items(multis.keySet())
                                     .itemsCallback(new MaterialDialog.ListCallback() {
                                         @Override
-                                        public void onSelection(MaterialDialog dialog, View itemView, final int which, CharSequence text) {
+                                        public void onSelection(MaterialDialog dialog,
+                                                View itemView, final int which, CharSequence text) {
                                             new AsyncTask<Void, Void, Void>() {
                                                 @Override
                                                 protected Void doInBackground(Void... params) {
                                                     try {
-                                                        final String multiName = multis.keySet().toArray(new String[multis.size()])[which];
+                                                        final String multiName = multis.keySet()
+                                                                .toArray(
+                                                                        new String[multis.size()])[which];
                                                         List<String> subs = new ArrayList<String>();
-                                                        for (MultiSubreddit sub : multis.get(multiName).getSubreddits()) {
+                                                        for (MultiSubreddit sub : multis.get(
+                                                                multiName).getSubreddits()) {
                                                             subs.add(sub.getDisplayName());
                                                         }
                                                         subs.add(subreddit.getDisplayName());
-                                                        new MultiRedditManager(Authentication.reddit).createOrUpdate(new MultiRedditUpdateRequest.Builder(Authentication.name, multiName).subreddits(subs).build());
+                                                        new MultiRedditManager(
+                                                                Authentication.reddit).createOrUpdate(
+                                                                new MultiRedditUpdateRequest.Builder(
+                                                                        Authentication.name,
+                                                                        multiName).subreddits(subs)
+                                                                        .build());
 
-                                                        UserSubscriptions.syncMultiReddits(SubredditView.this);
+                                                        UserSubscriptions.syncMultiReddits(
+                                                                SubredditView.this);
 
                                                         runOnUiThread(new Runnable() {
                                                             @Override
                                                             public void run() {
                                                                 drawerLayout.closeDrawers();
-                                                                Snackbar.make(mToolbar, "Subreddit added to /m/" + multiName, Snackbar.LENGTH_LONG).show();
+                                                                Snackbar.make(mToolbar,
+                                                                        "Subreddit added to /m/"
+                                                                                + multiName,
+                                                                        Snackbar.LENGTH_LONG)
+                                                                        .show();
                                                             }
                                                         });
                                                     } catch (final NetworkException | ApiException e) {
@@ -356,12 +439,19 @@ public class SubredditView extends BaseActivityAnim {
                                                                 runOnUiThread(new Runnable() {
                                                                     @Override
                                                                     public void run() {
-                                                                        Snackbar.make(mToolbar, "An error occured, please try again later", Snackbar.LENGTH_LONG).setAction(R.string.btn_ok, new View.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(View v) {
+                                                                        Snackbar.make(mToolbar,
+                                                                                "An error occured, please try again later",
+                                                                                Snackbar.LENGTH_LONG)
+                                                                                .setAction(
+                                                                                        R.string.btn_ok,
+                                                                                        new View.OnClickListener() {
+                                                                                            @Override
+                                                                                            public void onClick(
+                                                                                                    View v) {
 
-                                                                            }
-                                                                        }).show();
+                                                                                            }
+                                                                                        })
+                                                                                .show();
                                                                     }
                                                                 });
                                                             }
@@ -373,7 +463,8 @@ public class SubredditView extends BaseActivityAnim {
                                             }.execute();
 
                                         }
-                                    }).show();
+                                    })
+                                    .show();
                         }
                     }.execute();
                 }
@@ -395,19 +486,27 @@ public class SubredditView extends BaseActivityAnim {
                         public void onPostExecute(Boolean success) {
                             if (!success) { // If subreddit was removed from account or not
 
-                                new AlertDialogWrapper.Builder(SubredditView.this).setTitle(R.string.force_change_subscription)
+                                new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                                        R.string.force_change_subscription)
                                         .setMessage(R.string.force_change_subscription_desc)
-                                        .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                changeSubscription(subreddit, isChecked); // Force remove the subscription
-                                            }
-                                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                                        .setPositiveButton(R.string.btn_yes,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                                        changeSubscription(subreddit,
+                                                                isChecked); // Force remove the subscription
+                                                    }
+                                                })
+                                        .setNegativeButton(R.string.btn_no,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog,
+                                                            int which) {
 
-                                    }
-                                }).setCancelable(false)
+                                                    }
+                                                })
+                                        .setCancelable(false)
                                         .show();
                             } else {
                                 changeSubscription(subreddit, isChecked);
@@ -422,7 +521,8 @@ public class SubredditView extends BaseActivityAnim {
                                 if (isChecked) {
                                     new AccountManager(Authentication.reddit).subscribe(subreddit);
                                 } else {
-                                    new AccountManager(Authentication.reddit).unsubscribe(subreddit);
+                                    new AccountManager(Authentication.reddit).unsubscribe(
+                                            subreddit);
                                 }
 
                             } catch (NetworkException e) {
@@ -440,35 +540,55 @@ public class SubredditView extends BaseActivityAnim {
         }
         if (!subreddit.getPublicDescription().isEmpty()) {
             findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
-            setViews(subreddit.getDataNode().get("public_description_html").asText(), subreddit.getDisplayName().toLowerCase(), ((SpoilerRobotoTextView) findViewById(R.id.sub_title)), (CommentOverflow) findViewById(R.id.sub_title_overflow));
+            setViews(subreddit.getDataNode().get("public_description_html").asText(),
+                    subreddit.getDisplayName().toLowerCase(),
+                    ((SpoilerRobotoTextView) findViewById(R.id.sub_title)),
+                    (CommentOverflow) findViewById(R.id.sub_title_overflow));
         } else {
             findViewById(R.id.sub_title).setVisibility(View.GONE);
         }
-        if (subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode().get("icon_img").asText().isEmpty()) {
-            ((Reddit) getApplication()).getImageLoader().displayImage(subreddit.getDataNode().get("icon_img").asText(), (ImageView) findViewById(R.id.subimage));
+        if (subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode()
+                .get("icon_img")
+                .asText()
+                .isEmpty()) {
+            ((Reddit) getApplication()).getImageLoader()
+                    .displayImage(subreddit.getDataNode().get("icon_img").asText(),
+                            (ImageView) findViewById(R.id.subimage));
         } else {
             findViewById(R.id.subimage).setVisibility(View.GONE);
         }
-        ((TextView) findViewById(R.id.subscribers)).setText(getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
+        ((TextView) findViewById(R.id.subscribers)).setText(
+                getString(R.string.subreddit_subscribers_string,
+                        subreddit.getLocalizedSubscriberCount()));
         findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
-        ((TextView) findViewById(R.id.active_users)).setText(getString(R.string.subreddit_active_users_string_new, subreddit.getLocalizedAccountsActive()));
+        ((TextView) findViewById(R.id.active_users)).setText(
+                getString(R.string.subreddit_active_users_string_new,
+                        subreddit.getLocalizedAccountsActive()));
         findViewById(R.id.active_users).setVisibility(View.VISIBLE);
     }
 
     public int getCurrentPage() {
         int position = 0;
         int currentOrientation = getResources().getConfiguration().orientation;
-        if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            position = ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition() - 1;
+        if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager
+                && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            position =
+                    ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())
+                            .findFirstCompletelyVisibleItemPosition() - 1;
         } else if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
             int[] firstVisibleItems = null;
-            firstVisibleItems = ((CatchStaggeredGridLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPositions(firstVisibleItems);
+            firstVisibleItems =
+                    ((CatchStaggeredGridLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv
+                            .getLayoutManager()).findFirstCompletelyVisibleItemPositions(
+                            firstVisibleItems);
             if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                 position = firstVisibleItems[0] - 1;
             }
         } else {
-            position = ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstCompletelyVisibleItemPosition() - 1;
+            position =
+                    ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())
+                            .findFirstCompletelyVisibleItemPosition() - 1;
         }
         return position;
     }
@@ -530,8 +650,7 @@ public class SubredditView extends BaseActivityAnim {
         pager = (ToggleSwipeViewPager) findViewById(R.id.content_view);
         singleMode = SettingValues.single;
         commentPager = false;
-        if (singleMode)
-            commentPager = SettingValues.commentPager;
+        if (singleMode) commentPager = SettingValues.commentPager;
         if (commentPager) {
             adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
             pager.setSwipeLeftOnly(false);
@@ -546,7 +665,9 @@ public class SubredditView extends BaseActivityAnim {
             public void onClick(View v) {
                 int[] firstVisibleItems;
                 int pastVisiblesItems = 0;
-                firstVisibleItems = ((CatchStaggeredGridLayoutManager) ((SubmissionsView) (adapter.getCurrentFragment())).rv.getLayoutManager()).findFirstVisibleItemPositions(null);
+                firstVisibleItems =
+                        ((CatchStaggeredGridLayoutManager) ((SubmissionsView) (adapter.getCurrentFragment())).rv
+                                .getLayoutManager()).findFirstVisibleItemPositions(null);
                 if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                     for (int firstVisibleItem : firstVisibleItems) {
                         pastVisiblesItems = firstVisibleItem;
@@ -564,11 +685,16 @@ public class SubredditView extends BaseActivityAnim {
                 ((SubmissionsView) (adapter.getCurrentFragment())).resetScroll();
             }
         });
-        if (!subreddit.equals("random") && !subreddit.equals("all")
-                && !subreddit.equals("frontpage") && !subreddit.equals("friends")
-                && !subreddit.equals("mod") && !subreddit.equals("myrandom")
-                && !subreddit.equals("nsfwrandom") && !subreddit.contains("+"))
+        if (!subreddit.equals("random")
+                && !subreddit.equals("all")
+                && !subreddit.equals("frontpage")
+                && !subreddit.equals("friends")
+                && !subreddit.equals("mod")
+                && !subreddit.equals("myrandom")
+                && !subreddit.equals("nsfwrandom")
+                && !subreddit.contains("+")) {
             executeAsyncSubreddit(subreddit);
+        }
     }
 
     public boolean singleMode;
@@ -585,19 +711,25 @@ public class SubredditView extends BaseActivityAnim {
             menu.findItem(R.id.sidebar).setVisible(false);
         }
 
-        mToolbar.getMenu().findItem(R.id.theme).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(subreddit);
-                final Context contextThemeWrapper = new ContextThemeWrapper(SubredditView.this, style);
-                LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
-                final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                ArrayList<String> arrayList = new ArrayList<>();
-                arrayList.add(subreddit);
-                SettingsSubAdapter.showSubThemeEditor(arrayList, SubredditView.this, dialoglayout);
-                return false;
-            }
-        });
+        mToolbar.getMenu()
+                .findItem(R.id.theme)
+                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(
+                                subreddit);
+                        final Context contextThemeWrapper =
+                                new ContextThemeWrapper(SubredditView.this, style);
+                        LayoutInflater localInflater =
+                                getLayoutInflater().cloneInContext(contextThemeWrapper);
+                        final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
+                        ArrayList<String> arrayList = new ArrayList<>();
+                        arrayList.add(subreddit);
+                        SettingsSubAdapter.showSubThemeEditor(arrayList, SubredditView.this,
+                                dialoglayout);
+                        return false;
+                    }
+                });
         return true;
     }
 
@@ -613,43 +745,47 @@ public class SubredditView extends BaseActivityAnim {
                 PostMatch.isNsfw(subreddit.toLowerCase())
         };
 
-        final String FILTER_TITLE = (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
-                : (getString(R.string.content_to_hide, "/r/" + subreddit));
+        final String FILTER_TITLE =
+                (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
+                        : (getString(R.string.content_to_hide, "/r/" + subreddit));
 
-        new AlertDialogWrapper.Builder(this)
-                .setTitle(FILTER_TITLE)
+        new AlertDialogWrapper.Builder(this).setTitle(FILTER_TITLE)
                 .alwaysCallMultiChoiceCallback()
                 .setMultiChoiceItems(new String[]{
-                        getString(R.string.image_downloads),
-                        getString(R.string.type_albums),
-                        getString(R.string.type_gifs),
-                        getString(R.string.type_videos),
-                        getString(R.string.type_links),
-                        getString(R.string.type_selftext),
-                        getString(R.string.type_nsfw_content)}, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                        getString(R.string.image_downloads), getString(R.string.type_albums),
+                        getString(R.string.type_gifs), getString(R.string.type_videos),
+                        getString(R.string.type_links), getString(R.string.type_selftext),
+                        getString(R.string.type_nsfw_content)
+                }, chosen, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         chosen[which] = isChecked;
                     }
-                }).setPositiveButton("Save", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                PostMatch.setChosen(chosen, subreddit);
-                reloadSubs();
-            }
-        }).setNegativeButton("Cancel", null).show();
+                })
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PostMatch.setChosen(chosen, subreddit);
+                        reloadSubs();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
 
 
     }
 
     public void openPopup() {
-        PopupMenu popup = new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        PopupMenu popup =
+                new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
         final String[] base = Reddit.getSortingStrings(getBaseContext(), subreddit, true);
         for (String s : base) {
             MenuItem m = popup.getMenu().add(s);
             if (s.startsWith("» ")) {
                 SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(SubredditView.this).getColor(subreddit)), 0, spanString.length(), 0);
+                spanString.setSpan(new ForegroundColorSpan(
+                                new ColorPreferences(SubredditView.this).getColor(subreddit)), 0,
+                        spanString.length(), 0);
                 spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
                 m.setTitle(spanString);
             }
@@ -748,7 +884,8 @@ public class SubredditView extends BaseActivityAnim {
         restartTheme();
     }
 
-    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView,
+            CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -786,14 +923,16 @@ public class SubredditView extends BaseActivityAnim {
 
     private void changeSubscription(Subreddit subreddit, boolean isChecked) {
         if (isChecked) {
-            UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(), SubredditView.this);
+            UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(),
+                    SubredditView.this);
         } else {
-            UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(), SubredditView.this);
+            UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(),
+                    SubredditView.this);
             pager.setCurrentItem(pager.getCurrentItem() - 1);
             restartTheme();
         }
-        Snackbar s = Snackbar.make(mToolbar, isChecked ?
-                getString(R.string.misc_subscribed) : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
+        Snackbar s = Snackbar.make(mToolbar, isChecked ? getString(R.string.misc_subscribed)
+                : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
         View view = s.getView();
         TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
         tv.setTextColor(Color.WHITE);
@@ -808,7 +947,8 @@ public class SubredditView extends BaseActivityAnim {
 
         if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") &&
                 !subOverride.equalsIgnoreCase("friends") && !subOverride.equalsIgnoreCase("mod") &&
-                !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains("/m/")) {
+                !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains(
+                "/m/")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
@@ -831,7 +971,8 @@ public class SubredditView extends BaseActivityAnim {
 
         } else {
             if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
+                        GravityCompat.END);
             }
         }
     }
@@ -841,9 +982,18 @@ public class SubredditView extends BaseActivityAnim {
 
         invalidateOptionsMenu();
 
-        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") && !subOverride.equalsIgnoreCase("random") && !subOverride.equalsIgnoreCase("myrandom") && !subOverride.equalsIgnoreCase("nsfwrandom") &&
-                !subOverride.equalsIgnoreCase("friends") && !subOverride.equalsIgnoreCase("mod") &&
-                !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains("/m/")) {
+        if (!subOverride.equalsIgnoreCase("all")
+                && !subOverride.equalsIgnoreCase("frontpage")
+                && !subOverride.equalsIgnoreCase("random")
+                && !subOverride.equalsIgnoreCase("myrandom")
+                && !subOverride.equalsIgnoreCase("nsfwrandom")
+                &&
+                !subOverride.equalsIgnoreCase("friends")
+                && !subOverride.equalsIgnoreCase("mod")
+                &&
+                !subOverride.contains("+")
+                && !subOverride.contains(".")
+                && !subOverride.contains("/m/")) {
             if (drawerLayout != null) {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
             }
@@ -898,22 +1048,27 @@ public class SubredditView extends BaseActivityAnim {
             dialoglayout.findViewById(R.id.theme).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(subOverride);
+                    int style =
+                            new ColorPreferences(SubredditView.this).getThemeSubreddit(subOverride);
 
-                    final Context contextThemeWrapper = new ContextThemeWrapper(SubredditView.this, style);
-                    LayoutInflater localInflater = getLayoutInflater().cloneInContext(contextThemeWrapper);
+                    final Context contextThemeWrapper =
+                            new ContextThemeWrapper(SubredditView.this, style);
+                    LayoutInflater localInflater =
+                            getLayoutInflater().cloneInContext(contextThemeWrapper);
 
                     final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
 
                     ArrayList<String> arrayList = new ArrayList<>();
                     arrayList.add(subOverride);
-                    SettingsSubAdapter.showSubThemeEditor(arrayList, SubredditView.this, dialoglayout);
+                    SettingsSubAdapter.showSubThemeEditor(arrayList, SubredditView.this,
+                            dialoglayout);
                 }
             });
             dialoglayout.findViewById(R.id.mods).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final Dialog d = new MaterialDialog.Builder(SubredditView.this).title("Finding moderators")
+                    final Dialog d = new MaterialDialog.Builder(SubredditView.this).title(
+                            "Finding moderators")
                             .cancelable(true)
                             .content(R.string.misc_please_wait)
                             .progress(true, 100)
@@ -924,7 +1079,9 @@ public class SubredditView extends BaseActivityAnim {
                         @Override
                         protected Void doInBackground(Void... params) {
                             mods = new ArrayList<>();
-                            UserRecordPaginator paginator = new UserRecordPaginator(Authentication.reddit, subOverride, "moderators");
+                            UserRecordPaginator paginator =
+                                    new UserRecordPaginator(Authentication.reddit, subOverride,
+                                            "moderators");
                             paginator.setSorting(Sorting.HOT);
                             paginator.setTimePeriod(TimePeriod.ALL);
                             while (paginator.hasNext()) {
@@ -940,12 +1097,15 @@ public class SubredditView extends BaseActivityAnim {
                                 names.add(rec.getFullName());
                             }
                             d.dismiss();
-                            new MaterialDialog.Builder(SubredditView.this).title("/r/" + subOverride + " mods")
+                            new MaterialDialog.Builder(SubredditView.this).title(
+                                    "/r/" + subOverride + " mods")
                                     .items(names)
                                     .itemsCallback(new MaterialDialog.ListCallback() {
                                         @Override
-                                        public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                            Intent i = new Intent(SubredditView.this, Profile.class);
+                                        public void onSelection(MaterialDialog dialog,
+                                                View itemView, int which, CharSequence text) {
+                                            Intent i =
+                                                    new Intent(SubredditView.this, Profile.class);
                                             i.putExtra(Profile.EXTRA_PROFILE, names.get(which));
                                             startActivity(i);
                                         }
@@ -953,12 +1113,15 @@ public class SubredditView extends BaseActivityAnim {
                                     .positiveText(R.string.btn_message)
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                                         @Override
-                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                            Intent i = new Intent(SubredditView.this, Sendmessage.class);
+                                        public void onClick(@NonNull MaterialDialog dialog,
+                                                @NonNull DialogAction which) {
+                                            Intent i = new Intent(SubredditView.this,
+                                                    Sendmessage.class);
                                             i.putExtra(Sendmessage.EXTRA_NAME, "/r/" + subOverride);
                                             startActivity(i);
                                         }
-                                    }).show();
+                                    })
+                                    .show();
                         }
                     }.execute();
                 }
@@ -1002,10 +1165,14 @@ public class SubredditView extends BaseActivityAnim {
 
                     @Override
                     protected void onPostExecute(View flair) {
-                        if (flairs != null && !flairs.isEmpty() && flairText != null && !flairText.isEmpty()) {
+                        if (flairs != null
+                                && !flairs.isEmpty()
+                                && flairText != null
+                                && !flairText.isEmpty()) {
                             flair.setVisibility(View.VISIBLE);
                             if (current != null) {
-                                ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText(
+                                        "Flair: " + current);
                             }
                             flair.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -1014,71 +1181,138 @@ public class SubredditView extends BaseActivityAnim {
                                             .title("Select flair")
                                             .itemsCallback(new MaterialDialog.ListCallback() {
                                                 @Override
-                                                public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+                                                public void onSelection(MaterialDialog dialog,
+                                                        View itemView, int which,
+                                                        CharSequence text) {
                                                     final FlairTemplate t = flairs.get(which);
                                                     if (t.isTextEditable()) {
-                                                        new MaterialDialog.Builder(SubredditView.this).title("Set flair text")
-                                                                .input("Flair text", t.getText(), true, new MaterialDialog.InputCallback() {
-                                                                    @Override
-                                                                    public void onInput(MaterialDialog dialog, CharSequence input) {
-
-                                                                    }
-                                                                }).positiveText("Set")
-                                                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                                                    @Override
-                                                                    public void onClick(MaterialDialog dialog, DialogAction which) {
-                                                                        final String flair = dialog.getInputEditText().getText().toString();
-                                                                        new AsyncTask<Void, Void, Boolean>() {
+                                                        new MaterialDialog.Builder(
+                                                                SubredditView.this).title(
+                                                                "Set flair text")
+                                                                .input("Flair text", t.getText(),
+                                                                        true,
+                                                                        new MaterialDialog.InputCallback() {
                                                                             @Override
-                                                                            protected Boolean doInBackground(Void... params) {
-                                                                                try {
-                                                                                    new ModerationManager(Authentication.reddit).setFlair(subOverride, t, flair, Authentication.name);
-                                                                                    FlairTemplate currentF = m.getCurrentFlair(subOverride);
-                                                                                    if (currentF.getText().isEmpty()) {
-                                                                                        current = ("[" + currentF.getCssClass() + "]");
-                                                                                    } else {
-                                                                                        current = (currentF.getText());
-                                                                                    }
-                                                                                    return true;
-                                                                                } catch (Exception e) {
-                                                                                    e.printStackTrace();
-                                                                                    return false;
-                                                                                }
-                                                                            }
+                                                                            public void onInput(
+                                                                                    MaterialDialog dialog,
+                                                                                    CharSequence input) {
 
-                                                                            @Override
-                                                                            protected void onPostExecute(Boolean done) {
-                                                                                Snackbar s;
-                                                                                if (done) {
-                                                                                    if (current != null) {
-                                                                                        ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
-                                                                                    }
-                                                                                    s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
-                                                                                } else {
-                                                                                    s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
-                                                                                }
-                                                                                if (s != null) {
-                                                                                    View view = s.getView();
-                                                                                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                                                                    tv.setTextColor(Color.WHITE);
-                                                                                    s.show();
-                                                                                }
                                                                             }
-                                                                        }.execute();
-                                                                    }
-                                                                }).negativeText(R.string.btn_cancel)
+                                                                        })
+                                                                .positiveText("Set")
+                                                                .onPositive(
+                                                                        new MaterialDialog.SingleButtonCallback() {
+                                                                            @Override
+                                                                            public void onClick(
+                                                                                    MaterialDialog dialog,
+                                                                                    DialogAction which) {
+                                                                                final String flair =
+                                                                                        dialog.getInputEditText()
+                                                                                                .getText()
+                                                                                                .toString();
+                                                                                new AsyncTask<Void, Void, Boolean>() {
+                                                                                    @Override
+                                                                                    protected Boolean doInBackground(
+                                                                                            Void... params) {
+                                                                                        try {
+                                                                                            new ModerationManager(
+                                                                                                    Authentication.reddit)
+                                                                                                    .setFlair(
+                                                                                                            subOverride,
+                                                                                                            t,
+                                                                                                            flair,
+                                                                                                            Authentication.name);
+                                                                                            FlairTemplate
+                                                                                                    currentF =
+                                                                                                    m.getCurrentFlair(
+                                                                                                            subOverride);
+                                                                                            if (currentF
+                                                                                                    .getText()
+                                                                                                    .isEmpty()) {
+                                                                                                current =
+                                                                                                        ("["
+                                                                                                                + currentF
+                                                                                                                .getCssClass()
+                                                                                                                + "]");
+                                                                                            } else {
+                                                                                                current =
+                                                                                                        (currentF
+                                                                                                                .getText());
+                                                                                            }
+                                                                                            return true;
+                                                                                        } catch (Exception e) {
+                                                                                            e.printStackTrace();
+                                                                                            return false;
+                                                                                        }
+                                                                                    }
+
+                                                                                    @Override
+                                                                                    protected void onPostExecute(
+                                                                                            Boolean done) {
+                                                                                        Snackbar s;
+                                                                                        if (done) {
+                                                                                            if (current
+                                                                                                    != null) {
+                                                                                                ((TextView) dialoglayout
+                                                                                                        .findViewById(
+                                                                                                                R.id.flair_text))
+                                                                                                        .setText(
+                                                                                                                "Flair: "
+                                                                                                                        + current);
+                                                                                            }
+                                                                                            s =
+                                                                                                    Snackbar.make(
+                                                                                                            mToolbar,
+                                                                                                            "Flair set successfully",
+                                                                                                            Snackbar.LENGTH_SHORT);
+                                                                                        } else {
+                                                                                            s =
+                                                                                                    Snackbar.make(
+                                                                                                            mToolbar,
+                                                                                                            "Error setting flair, try again soon",
+                                                                                                            Snackbar.LENGTH_SHORT);
+                                                                                        }
+                                                                                        if (s
+                                                                                                != null) {
+                                                                                            View
+                                                                                                    view =
+                                                                                                    s.getView();
+                                                                                            TextView
+                                                                                                    tv =
+                                                                                                    (TextView) view
+                                                                                                            .findViewById(
+                                                                                                                    android.support.design.R.id.snackbar_text);
+                                                                                            tv.setTextColor(
+                                                                                                    Color.WHITE);
+                                                                                            s.show();
+                                                                                        }
+                                                                                    }
+                                                                                }.execute();
+                                                                            }
+                                                                        })
+                                                                .negativeText(R.string.btn_cancel)
                                                                 .show();
                                                     } else {
                                                         new AsyncTask<Void, Void, Boolean>() {
                                                             @Override
-                                                            protected Boolean doInBackground(Void... params) {
+                                                            protected Boolean doInBackground(
+                                                                    Void... params) {
                                                                 try {
-                                                                    new ModerationManager(Authentication.reddit).setFlair(subOverride, t, null, Authentication.name);
-                                                                    FlairTemplate currentF = m.getCurrentFlair(subOverride);
-                                                                    if (currentF.getText().isEmpty()) {
-                                                                        current = ("[" + currentF.getCssClass() + "]");
+                                                                    new ModerationManager(
+                                                                            Authentication.reddit).setFlair(
+                                                                            subOverride, t, null,
+                                                                            Authentication.name);
+                                                                    FlairTemplate currentF =
+                                                                            m.getCurrentFlair(
+                                                                                    subOverride);
+                                                                    if (currentF.getText()
+                                                                            .isEmpty()) {
+                                                                        current = ("["
+                                                                                + currentF.getCssClass()
+                                                                                + "]");
                                                                     } else {
-                                                                        current = (currentF.getText());
+                                                                        current =
+                                                                                (currentF.getText());
                                                                     }
                                                                     return true;
                                                                 } catch (Exception e) {
@@ -1088,19 +1322,29 @@ public class SubredditView extends BaseActivityAnim {
                                                             }
 
                                                             @Override
-                                                            protected void onPostExecute(Boolean done) {
+                                                            protected void onPostExecute(
+                                                                    Boolean done) {
                                                                 Snackbar s;
                                                                 if (done) {
                                                                     if (current != null) {
-                                                                        ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText("Flair: " + current);
+                                                                        ((TextView) dialoglayout.findViewById(
+                                                                                R.id.flair_text)).setText(
+                                                                                "Flair: "
+                                                                                        + current);
                                                                     }
-                                                                    s = Snackbar.make(mToolbar, "Flair set successfully", Snackbar.LENGTH_SHORT);
+                                                                    s = Snackbar.make(mToolbar,
+                                                                            "Flair set successfully",
+                                                                            Snackbar.LENGTH_SHORT);
                                                                 } else {
-                                                                    s = Snackbar.make(mToolbar, "Error setting flair, try again soon", Snackbar.LENGTH_SHORT);
+                                                                    s = Snackbar.make(mToolbar,
+                                                                            "Error setting flair, try again soon",
+                                                                            Snackbar.LENGTH_SHORT);
                                                                 }
                                                                 if (s != null) {
                                                                     View view = s.getView();
-                                                                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                                                                    TextView tv =
+                                                                            (TextView) view.findViewById(
+                                                                                    android.support.design.R.id.snackbar_text);
                                                                     tv.setTextColor(Color.WHITE);
                                                                     s.show();
                                                                 }
@@ -1108,7 +1352,8 @@ public class SubredditView extends BaseActivityAnim {
                                                         }.execute();
                                                     }
                                                 }
-                                            }).show();
+                                            })
+                                            .show();
                                 }
                             });
                         }
@@ -1117,7 +1362,8 @@ public class SubredditView extends BaseActivityAnim {
             }
         } else {
             if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
+                        GravityCompat.END);
             }
         }
     }
@@ -1135,7 +1381,7 @@ public class SubredditView extends BaseActivityAnim {
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
-        private BlankFragment blankPage;
+        private BlankFragment   blankPage;
 
         @Override
         public Parcelable saveState() {
@@ -1147,10 +1393,13 @@ public class SubredditView extends BaseActivityAnim {
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                public void onPageScrolled(int position, float positionOffset,
+                        int positionOffsetPixels) {
                     if (position == 0) {
-                        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) header.getLayoutParams();
-                        params.setMargins(header.getWidth() - positionOffsetPixels, 0, -((header.getWidth() - positionOffsetPixels)), 0);
+                        CoordinatorLayout.LayoutParams params =
+                                (CoordinatorLayout.LayoutParams) header.getLayoutParams();
+                        params.setMargins(header.getWidth() - positionOffsetPixels, 0,
+                                -((header.getWidth() - positionOffsetPixels)), 0);
                         header.setLayoutParams(params);
                         if (positionOffsetPixels == 0) {
                             finish();
@@ -1158,7 +1407,8 @@ public class SubredditView extends BaseActivityAnim {
                     }
 
                     if (position == 0) {
-                        ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
+                        ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(
+                                positionOffset);
                         pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
                     }
                 }
@@ -1184,7 +1434,10 @@ public class SubredditView extends BaseActivityAnim {
         }
 
         public void doSetPrimary(Object object, int position) {
-            if (object != null && getCurrentFragment() != object && position != 3 && object instanceof SubmissionsView) {
+            if (object != null
+                    && getCurrentFragment() != object
+                    && position != 3
+                    && object instanceof SubmissionsView) {
                 mCurrentFragment = ((SubmissionsView) object);
                 if (mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
                     mCurrentFragment.doAdapter();
@@ -1244,29 +1497,38 @@ public class SubredditView extends BaseActivityAnim {
                 doSubOnlyStuff(sub);
                 SubredditView.this.subreddit = sub.getDisplayName();
 
-                if (subreddit.isNsfw() && SettingValues.storeHistory && SettingValues.storeNSFWHistory)
+                if (subreddit.isNsfw()
+                        && SettingValues.storeHistory
+                        && SettingValues.storeNSFWHistory) {
                     UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
-                else if (SettingValues.storeHistory && !subreddit.isNsfw())
+                } else if (SettingValues.storeHistory && !subreddit.isNsfw()) {
                     UserSubscriptions.addSubToHistory(subreddit.getDisplayName());
+                }
 
                 // Over 18 interstitial for signed out users or those who haven't enabled NSFW content
                 if (subreddit.isNsfw() && (!Reddit.over18 || !Authentication.isLoggedIn)) {
-                    new AlertDialogWrapper.Builder(SubredditView.this)
-                            .setTitle(getString(R.string.over18_title, subreddit.getDisplayName()))
-                            .setMessage(getString(R.string.over18_desc) + "\n\n"
-                                    + getString(Authentication.isLoggedIn ? R.string.over18_desc_loggedin : R.string.over18_desc_loggedout))
+                    new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                            getString(R.string.over18_title, subreddit.getDisplayName()))
+                            .setMessage(getString(R.string.over18_desc) + "\n\n" + getString(
+                                    Authentication.isLoggedIn ? R.string.over18_desc_loggedin
+                                            : R.string.over18_desc_loggedout))
                             .setCancelable(false)
-                            .setPositiveButton(R.string.misc_continue, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    ((SubmissionsView) adapter.getCurrentFragment()).doAdapter(true);
-                                }
-                            }).setNeutralButton(R.string.btn_go_back, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).show();
+                            .setPositiveButton(R.string.misc_continue,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            ((SubmissionsView) adapter.getCurrentFragment()).doAdapter(
+                                                    true);
+                                        }
+                                    })
+                            .setNeutralButton(R.string.btn_go_back,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            finish();
+                                        }
+                                    })
+                            .show();
                 }
             }
         }
@@ -1280,23 +1542,28 @@ public class SubredditView extends BaseActivityAnim {
                     @Override
                     public void run() {
                         try {
-                            new AlertDialogWrapper.Builder(SubredditView.this)
-                                    .setTitle(R.string.subreddit_err)
-                                    .setMessage(getString(R.string.subreddit_err_msg_new, params[0]))
-                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                                    R.string.subreddit_err)
+                                    .setMessage(
+                                            getString(R.string.subreddit_err_msg_new, params[0]))
+                                    .setPositiveButton(R.string.btn_ok,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                                    dialog.dismiss();
+                                                    setResult(4);
+                                                    finish();
+                                                }
+                                            })
+                                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
+                                        public void onDismiss(DialogInterface dialog) {
                                             setResult(4);
                                             finish();
                                         }
-                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    setResult(4);
-                                    finish();
-                                }
-                            }).show();
+                                    })
+                                    .show();
                         } catch (Exception ignored) {
 
                         }
@@ -1311,10 +1578,7 @@ public class SubredditView extends BaseActivityAnim {
     }
 
     public void doPageSelectedComments(int position) {
-        header.animate()
-                .translationY(0)
-                .setInterpolator(new LinearInterpolator())
-                .setDuration(180);
+        header.animate().translationY(0).setInterpolator(new LinearInterpolator()).setDuration(180);
         pager.setSwipeLeftOnly(false);
         Reddit.currentPosition = position;
     }
@@ -1333,10 +1597,13 @@ public class SubredditView extends BaseActivityAnim {
             pager.clearOnPageChangeListeners();
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                public void onPageScrolled(int position, float positionOffset,
+                        int positionOffsetPixels) {
                     if (position == 0) {
-                        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) header.getLayoutParams();
-                        params.setMargins(header.getWidth() - positionOffsetPixels, 0, -((header.getWidth() - positionOffsetPixels)), 0);
+                        CoordinatorLayout.LayoutParams params =
+                                (CoordinatorLayout.LayoutParams) header.getLayoutParams();
+                        params.setMargins(header.getWidth() - positionOffsetPixels, 0,
+                                -((header.getWidth() - positionOffsetPixels)), 0);
                         header.setLayoutParams(params);
                         if (positionOffsetPixels == 0) {
                             finish();
@@ -1348,7 +1615,9 @@ public class SubredditView extends BaseActivityAnim {
                     } else if (positionOffset == 0) {
                         if (position == 1) {
                             doPageSelectedComments(position);
-                            if (position == 2 && adapter != null && adapter.getCurrentFragment() != null) {
+                            if (position == 2
+                                    && adapter != null
+                                    && adapter.getCurrentFragment() != null) {
                                 ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
                             }
                         } else {
@@ -1356,11 +1625,12 @@ public class SubredditView extends BaseActivityAnim {
                             //mAsyncGetSubreddit.cancel(true);
                             //}
 
-                            if (header.getTranslationY() == 0)
+                            if (header.getTranslationY() == 0) {
                                 header.animate()
                                         .translationY(-header.getHeight())
                                         .setInterpolator(new LinearInterpolator())
                                         .setDuration(180);
+                            }
 
                             pager.setSwipeLeftOnly(true);
                             themeSystemBars(openingComments.getSubredditName().toLowerCase());
@@ -1400,7 +1670,9 @@ public class SubredditView extends BaseActivityAnim {
             if (position != 2 && position != 0) {
                 if (getCurrentFragment() != object) {
                     mCurrentFragment = ((SubmissionsView) object);
-                    if (mCurrentFragment != null && mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
+                    if (mCurrentFragment != null
+                            && mCurrentFragment.posts == null
+                            && mCurrentFragment.isAdded()) {
                         mCurrentFragment.doAdapter();
                     }
                 }
@@ -1412,8 +1684,7 @@ public class SubredditView extends BaseActivityAnim {
 
         @Override
         public int getItemPosition(Object object) {
-            if (object != storedFragment)
-                return POSITION_NONE;
+            if (object != storedFragment) return POSITION_NONE;
             return POSITION_UNCHANGED;
         }
 

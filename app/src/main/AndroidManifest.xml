@@ -385,7 +385,6 @@
                 android:resource="@dimen/app_minimumsize_w"/>
 
         <receiver android:name=".Notifications.CheckForMail"></receiver>
-        <receiver android:name=".Notifications.CheckSubs"></receiver>
         <receiver android:name=".Autocache.CacheAll"></receiver>
 
         <meta-data

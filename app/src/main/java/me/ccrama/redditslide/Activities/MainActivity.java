@@ -127,8 +127,8 @@ import me.ccrama.redditslide.CommentCacheAsync;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
+import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
-import me.ccrama.redditslide.Notifications.SubPostScheduler;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -3170,27 +3170,45 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.schedule:
                 final String sub = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
-                new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                        "Be notified of new posts in /r/" + sub)
-                        .setMessage(
-                                "Slide will check for new posts every 10 minutes. You can cancel this in the post notifications.")
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ArrayList<String> subs = Reddit.stringToArray(
-                                        Reddit.appRestart.getString("subsToGet", ""));
-                                subs.add(sub);
-                                Reddit.appRestart.edit()
-                                        .putString("subsToGet", Reddit.arrayToString(subs))
-                                        .commit();
-                                if(Reddit.post == null){
-                                    Reddit.post = new SubPostScheduler(MainActivity.this);
-                                    Reddit.post.start(MainActivity.this);
+                if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("frontpage") &&
+                        !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
+                        !sub.contains("+") && !sub.contains(".") && !sub.contains(
+                        "/m/")) {
+                    new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
+                            "Be notified of new posts in /r/" + sub)
+                            .setMessage(
+                                    "Slide will check for new posts when it checks for mail. Make sure you have mail notifications turned on!")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    new MaterialDialog.Builder(MainActivity.this).title(
+                                            "Score threshold")
+                                            .items(new String[]{"1", "5", "10", "20", "40", "50"})
+                                            .alwaysCallSingleChoiceCallback()
+                                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                                                @Override
+                                                public boolean onSelection(MaterialDialog dialog,
+                                                        View itemView, int which, CharSequence text) {
+                                                    ArrayList<String> subs = Reddit.stringToArray(
+                                                            Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET,
+                                                                    ""));
+                                                    subs.add(sub + ":" + text);
+                                                    Reddit.appRestart.edit()
+                                                            .putString(CheckForMail.SUBS_TO_GET,
+                                                                    Reddit.arrayToString(subs))
+                                                            .commit();
+                                                    return true;
+                                                }
+                                            })
+                                            .cancelable(false)
+                                            .show();
                                 }
-                            }
-                        })
-                        .setNegativeButton("CANCEL", null)
-                        .show();
+                            })
+                            .setNegativeButton("CANCEL", null)
+                            .show();
+                } else {
+                    Toast.makeText(MainActivity.this,"You can only add notifications to single subreddits", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.share:
                 Reddit.defaultShareText("Slide for Reddit",
@@ -4294,11 +4312,6 @@ public class MainActivity extends BaseActivity {
                     if (Reddit.notificationTime != -1) {
                         Reddit.notifications = new NotificationJobScheduler(MainActivity.this);
                         Reddit.notifications.start(getApplicationContext());
-                    }
-                    if (!Reddit.appRestart.getString("subsToGet", "").isEmpty()
-                            && Reddit.post == null) {
-                        Reddit.post = new SubPostScheduler(MainActivity.this);
-                        Reddit.post.start(getApplicationContext());
                     }
                     if (Reddit.cachedData.contains("toCache")) {
                         Reddit.autoCache = new AutoCacheScheduler(MainActivity.this);
