@@ -52,13 +52,27 @@ public class LinkUtil {
         return bitmap;
     }
 
+    /**
+     * Opens the {@code url} using the method the user has set in their preferences (custom tabs,
+     * internal, external) falling back as needed
+     * @param url URL to open
+     * @param color Color to provide to the browser UI if applicable
+     * @param contextActivity The current activity
+     */
     public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity) {
+        if (!SettingValues.web) {
+            // External browser
+            Reddit.defaultShare(url, contextActivity);
+            return;
+        }
 
-        Intent intent = new Intent(contextActivity, MakeExternal.class);
-        intent.putExtra(Website.EXTRA_URL, url);
-        PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
+        String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
 
-        if (SettingValues.web && SettingValues.customtabs) {
+        if (packageName != null) {
+            Intent intent = new Intent(contextActivity, MakeExternal.class);
+            intent.putExtra(Website.EXTRA_URL, url);
+            PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
+
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
                     .setToolbarColor(color)
                     .setShowTitle(true)
@@ -68,7 +82,6 @@ public class LinkUtil {
                     .addMenuItem(contextActivity.getString(R.string.open_links_externally), pendingIntent)
                     .setCloseButtonIcon(drawableToBitmap(ContextCompat.getDrawable(contextActivity, R.drawable.ic_arrow_back_white_24dp)));
             try {
-                String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
                 CustomTabsIntent customTabsIntent = builder.build();
 
                 customTabsIntent.intent.setPackage(packageName);
@@ -77,13 +90,12 @@ public class LinkUtil {
                 Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
                 Reddit.defaultShare(url, contextActivity);
             }
-        } else if (!SettingValues.customtabs && SettingValues.web) {
+        } else {
+            // Internal browser
             Intent i = new Intent(contextActivity, Website.class);
             i.putExtra(Website.EXTRA_URL, url);
             i.putExtra(Website.EXTRA_COLOR, color);
             contextActivity.startActivity(i);
-        } else {
-            Reddit.defaultShare(url, contextActivity);
         }
     }
 
