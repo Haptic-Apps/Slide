@@ -290,7 +290,7 @@ public class CheckForMail extends BroadcastReceiver {
                         Intent readIntent = new Intent(c, OpenContent.class);
                         readIntent.putExtra(OpenContent.EXTRA_URL,
                                 "https://reddit.com" + s.getPermalink());
-                        PendingIntent readPI = PendingIntent.getService(c, 1, readIntent,
+                        PendingIntent readPI = PendingIntent.getActivity(c, 1, readIntent,
                                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 
