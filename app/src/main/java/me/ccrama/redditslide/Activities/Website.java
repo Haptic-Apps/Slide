@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,18 +12,23 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.NestedWebView;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.AdBlocker;
 import me.ccrama.redditslide.util.LogUtil;
 
 public class Website extends BaseActivityAnim {
@@ -33,6 +39,7 @@ public class Website extends BaseActivityAnim {
     String          url;
     int             subredditColor;
     MyWebViewClient client;
+    AdBlockWebViewClient webClient;
     ProgressBar     p;
 
     public static String getDomainName(String url) {
@@ -142,8 +149,9 @@ public class Website extends BaseActivityAnim {
         v = (WebView) findViewById(R.id.web);
 
         client = new MyWebViewClient();
+        webClient = new AdBlockWebViewClient();
         v.setWebChromeClient(client);
-        v.setWebViewClient(new WebViewClient());
+        v.setWebViewClient(webClient);
         v.getSettings().setBuiltInZoomControls(true);
         v.getSettings().setDisplayZoomControls(false);
         v.getSettings().setJavaScriptEnabled(true);
@@ -194,6 +202,26 @@ public class Website extends BaseActivityAnim {
             } catch (Exception ignored) {
 
             }
+        }
+
+    }
+
+
+    //Method adapted from http://www.hidroh.com/2016/05/19/hacking-up-ad-blocker-android/
+    public class AdBlockWebViewClient extends WebViewClient{
+        private Map<String, Boolean> loadedUrls = new HashMap<>();
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+            boolean ad;
+            if (!loadedUrls.containsKey(url)) {
+                ad = AdBlocker.isAd(url, Website.this);
+                loadedUrls.put(url, ad);
+            } else {
+                ad = loadedUrls.get(url);
+            }
+            return ad && SettingValues.tabletUI ? AdBlocker.createEmptyResource() :
+                    super.shouldInterceptRequest(view, url);
         }
     }
 }
