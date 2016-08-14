@@ -71,6 +71,8 @@ public class SettingValues {
     public static final String PREF_IMGUR_LQ = "imgurLq";
     public static final String PREF_SOUND_NOTIFS = "soundNotifs";
     public static final String PREF_COOKIES = "storeCookies";
+    public static final String PREF_NIGHT_START = "nightStart";
+    public static final String PREF_NIGHT_END = "nightEnd";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
     public static final String PREF_ALBUM = "album";
@@ -145,6 +147,8 @@ public class SettingValues {
     public static boolean collapseCommentsDefault;
     public static boolean rightHandedCommentMenu;
     public static int subredditSearchMethod;
+    public static int nightStart;
+    public static int nightEnd;
 
     public static int previews;
 
@@ -255,6 +259,8 @@ public class SettingValues {
         cookies = prefs.getBoolean(PREF_COOKIES, true);
 
         previews = prefs.getInt(PREVIEWS_LEFT, 10);
+        nightStart = prefs.getInt(PREF_NIGHT_START, 9);
+        nightEnd = prefs.getInt(PREF_NIGHT_END, 5);
 
         fabComments = prefs.getBoolean(PREF_COMMENT_FAB, false);
         titleFilters = prefs.getString(PREF_TITLE_FILTERS, "");
