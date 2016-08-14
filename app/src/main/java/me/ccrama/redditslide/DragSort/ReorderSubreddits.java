@@ -389,7 +389,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     fab.collapse();
                     new MaterialDialog.Builder(ReorderSubreddits.this).title(
                             R.string.reorder_add_domain)
-                            .inputRangeRes(2, 21, R.color.md_red_500)
                             .alwaysCallInputCallback()
                             .input("example.com" + getString(R.string.reorder_domain_placeholder),
                                     null, false, new MaterialDialog.InputCallback() {
@@ -399,9 +398,15 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                             input = raw.toString()
                                                     .replaceAll("\\s",
                                                             ""); //remove whitespace from input
+                                            if (input.contains(".")) {
+                                                dialog.getActionButton(DialogAction.POSITIVE).setEnabled(true);
+                                            } else {
+                                                dialog.getActionButton(DialogAction.POSITIVE).setEnabled(false);
+                                            }
                                         }
                                     })
                             .positiveText(R.string.btn_add)
+                            .inputRange(1, 35)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(MaterialDialog dialog, DialogAction which) {
@@ -431,6 +436,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                                     }
                                 }
+
                             })
                             .negativeText(R.string.btn_cancel)
                             .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -690,7 +696,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                                                 }
                                             });
-                    if (Authentication.isLoggedIn && Authentication.didOnline) {
+                    if (Authentication.isLoggedIn && Authentication.didOnline ) {
                         b.setNeutralButton(R.string.reorder_remove_unsubsribe,
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -717,8 +723,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         }
                     }).show();
                 }
-            });
-            mToolbar.findViewById(R.id.top).setOnClickListener(new View.OnClickListener() {
+            }); mToolbar.findViewById(R.id.top).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     for (String s : chosen) {
@@ -753,16 +758,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
             } else {
                 holder.itemView.setBackgroundColor(Color.TRANSPARENT);
             }
-            if (origPos.equalsIgnoreCase("all")
-                    || origPos.equalsIgnoreCase("frontpage")
-                    ||
-                    origPos.equalsIgnoreCase("friends")
-                    || origPos.equalsIgnoreCase("mod")
-                    ||
-                    origPos.contains("+")
-                    || origPos.contains(".")
-                    || origPos.contains("/m/")
-                    || !Authentication.isLoggedIn) {
+            if (!isSingle(origPos) || !Authentication.isLoggedIn) {
                 holder.check.setVisibility(View.GONE);
             } else {
                 holder.check.setVisibility(View.VISIBLE);
@@ -872,7 +868,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                                         }
                                                                     });
                                             if (Authentication.isLoggedIn
-                                                    && Authentication.didOnline) {
+                                                    && Authentication.didOnline
+                                                    && isSingle(items.get(position))) {
                                                 b.setNeutralButton(
                                                         R.string.reorder_remove_unsubsribe,
                                                         new DialogInterface.OnClickListener() {
@@ -947,5 +944,11 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 check = (AppCompatCheckBox) itemView.findViewById(R.id.isSubscribed);
             }
         }
+    }
+
+    private boolean isSingle(String origPos) {
+        return !(origPos.equalsIgnoreCase("all") || origPos.equalsIgnoreCase("frontpage") ||
+                origPos.equalsIgnoreCase("friends") || origPos.equalsIgnoreCase("mod") ||
+                origPos.contains("+") || origPos.contains(".") || origPos.contains("/m/"));
     }
 }

@@ -175,7 +175,6 @@ public class CommentOverflow extends LinearLayout {
         int columnStart = 0;
         int columnEnd;
         TableRow row = null;
-        boolean bolded = false;
         while (i < text.length()) {
             if (text.charAt(i) != '<') { // quick check otherwise it falls through to else
                 i += 1;
@@ -184,9 +183,6 @@ public class CommentOverflow extends LinearLayout {
             } else if (text.subSequence(i, i + tableHeadStart.length()).toString().equals(tableHeadStart)) {
                 i += tableHeadStart.length();
             } else if (text.subSequence(i, i + tableRowStart.length()).toString().equals(tableRowStart)) {
-                if(row != null && !bolded){
-                    bolded = true;
-                }
                 row = new TableRow(context);
                 row.setLayoutParams(rowParams);
                 i += tableRowStart.length();
@@ -213,7 +209,7 @@ public class CommentOverflow extends LinearLayout {
                     textView.setOnClickListener(click);
                 if(longClick != null)
                     textView.setOnLongClickListener(longClick);
-                if(!bolded){
+                if(text.subSequence(i, i + tableHeaderEnd.length()).toString().equals(tableHeaderEnd)){
                     textView.setTypeface(null, Typeface.BOLD);
                 }
                 row.addView(textView);

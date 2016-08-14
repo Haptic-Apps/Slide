@@ -46,6 +46,8 @@ public class SubmissionParser {
                 .replace("<li><div>", "<li>")
                 .replace("</div></li>", "</li>")
                 .replace("<del>", "[[d[")
+                .replace("<sup>", "<sup><small>")
+                .replace("</sup>", "</small></sup>")
                 .replace("</del>", "]d]]");
 
         if (html.contains("\n")) {
