@@ -1331,7 +1331,7 @@ public class CommentPage extends Fragment {
         if (pos < 0) pos = 0;
         String original = adapter.currentComments.get(adapter.getRealPosition(pos)).getName();
 
-        for (int i = pos + 1; i < adapter.currentComments.size(); i++) {
+        for (int i = pos + pos==0?0:1; i < adapter.currentComments.size(); i++) {
             try {
                 CommentObject o = adapter.currentComments.get(adapter.getRealPosition(i));
                 if (o instanceof CommentItem) {

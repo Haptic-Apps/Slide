@@ -59,6 +59,17 @@ public class SettingsGeneral extends BaseActivityAnim
         final Slider landscape = (Slider) dialoglayout.findViewById(R.id.landscape);
         final CheckBox checkBox = (CheckBox) dialoglayout.findViewById(R.id.load);
 
+        final CheckBox sound = (CheckBox) dialoglayout.findViewById(R.id.sound);
+
+        sound.setChecked(SettingValues.notifSound);
+        sound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SOUND_NOTIFS, isChecked).apply();
+                SettingValues.notifSound = isChecked;
+            }
+        });
+
         if (Reddit.notificationTime == -1) {
             checkBox.setChecked(false);
             checkBox.setText(context.getString(R.string.settings_mail_check));

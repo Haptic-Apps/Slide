@@ -5,6 +5,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 
 import net.dean.jraw.models.Contribution;
 import net.dean.jraw.models.Submission;
+import net.dean.jraw.paginators.Sorting;
+import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserContributionPaginator;
 
 import java.util.ArrayList;
@@ -110,9 +112,8 @@ public class ContributionPosts extends GeneralPosts {
                 if (reset || paginator == null) {
                     paginator = new UserContributionPaginator(Authentication.reddit, where, subreddit);
 
-                    LogUtil.v("Sorting is " + Reddit.getSorting(subreddit).name());
-                    paginator.setSorting(Reddit.getSorting(subreddit));
-                    paginator.setTimePeriod(Reddit.getTime(subreddit));
+                    paginator.setSorting(Reddit.getSorting(subreddit, Sorting.NEW));
+                    paginator.setTimePeriod(Reddit.getTime(subreddit, TimePeriod.ALL));
                 }
 
                 if (!paginator.hasNext()) {

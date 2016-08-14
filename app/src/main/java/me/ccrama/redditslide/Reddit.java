@@ -686,6 +686,24 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         }
     }
 
+    public static Sorting getSorting(String subreddit, Sorting defaultSort) {
+        subreddit = subreddit.toLowerCase();
+        if (sorting.containsKey(subreddit)) {
+            return sorting.get(subreddit);
+        } else {
+            return defaultSort;
+        }
+    }
+
+    public static TimePeriod getTime(String subreddit, TimePeriod defaultTime) {
+        subreddit = subreddit.toLowerCase();
+        if (times.containsKey(subreddit)) {
+            return times.get(subreddit);
+        } else {
+            return defaultTime;
+        }
+    }
+
     public static void setTime(String s, TimePeriod sort) {
         times.put(s.toLowerCase(), sort);
     }

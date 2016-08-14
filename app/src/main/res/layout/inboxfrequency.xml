@@ -59,6 +59,19 @@
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
+                    <CheckBox
+                            android:id="@+id/sound"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?android:selectableItemBackground"
+                            android:backgroundTint="?attr/tint"
+                            android:buttonTint="?attr/tint"
+                            android:padding="16dp"
+                            android:text="Sound and vibrate"
+                            android:textColor="?attr/font"
+                            android:textSize="14sp"
+                            android:textStyle="bold"/>
+
                     <com.rey.material.widget.Slider
                         android:id="@+id/landscape"
                         android:layout_width="match_parent"

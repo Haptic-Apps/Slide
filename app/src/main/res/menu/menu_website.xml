@@ -29,6 +29,11 @@
             android:id="@+id/external"
             android:title="@string/open_links_externally"
             app:showAsAction="never"/>
-
+    <item
+            android:id="@+id/store_cookies"
+            android:checkable="true"
+            android:title="Store website cookies"
+            app:actionViewClass="android.widget.CheckBox"
+            app:showAsAction="withText" />
 
 </menu>

@@ -36,6 +36,7 @@ import me.ccrama.redditslide.Adapters.MarkAsReadService;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -133,6 +134,10 @@ public class CheckForMail extends BroadcastReceiver {
                                     .addAction(R.drawable.ic_check_all_black,
                                             c.getString(R.string.mail_mark_read), readPI)
                                     .build();
+                    if(SettingValues.notifSound) {
+                        notification.defaults |= Notification.DEFAULT_SOUND;
+                        notification.defaults |= Notification.DEFAULT_VIBRATE;
+                    }
                     notificationManager.notify(0, notification);
                 } else {
                     int amount = messages.size();
@@ -162,6 +167,11 @@ public class CheckForMail extends BroadcastReceiver {
                                     .addAction(R.drawable.ic_check_all_black,
                                             c.getString(R.string.mail_mark_read), readPI)
                                     .build();
+                    if(SettingValues.notifSound) {
+                        notification.defaults |= Notification.DEFAULT_SOUND;
+                        notification.defaults |= Notification.DEFAULT_VIBRATE;
+                    }
+
                     notificationManager.notify(0, notification);
                 }
             }
@@ -226,6 +236,11 @@ public class CheckForMail extends BroadcastReceiver {
                                     .setContentText(Html.fromHtml(messages.get(0).getBody()))
                                     .setStyle(notiStyle)
                                     .build();
+                    if(SettingValues.notifSound) {
+                        notification.defaults |= Notification.DEFAULT_SOUND;
+                        notification.defaults |= Notification.DEFAULT_VIBRATE;
+                    }
+
                     notificationManager.notify(1, notification);
                 } else {
                     int amount = messages.size();
@@ -251,6 +266,11 @@ public class CheckForMail extends BroadcastReceiver {
                                             R.plurals.mod_mail_notification_title, amount, amount))
                                     .setStyle(notiStyle)
                                     .build();
+                    if(SettingValues.notifSound) {
+                        notification.defaults |= Notification.DEFAULT_SOUND;
+                        notification.defaults |= Notification.DEFAULT_VIBRATE;
+                    }
+
                     notificationManager.notify(1, notification);
                 }
             }

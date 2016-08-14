@@ -10,11 +10,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 
 import java.net.URI;
@@ -62,7 +67,8 @@ public class Website extends BaseActivityAnim {
 
         //   if (mShowInfoButton) menu.findItem(R.id.action_info).setVisible(true);
         //   else menu.findItem(R.id.action_info).setVisible(false);
-
+        MenuItem item = menu.findItem(R.id.store_cookies);
+        item.setChecked(SettingValues.cookies);
         return true;
     }
 
@@ -92,6 +98,14 @@ public class Website extends BaseActivityAnim {
                 Intent inte = new Intent(this, MakeExternal.class);
                 inte.putExtra("url", v.getUrl());
                 sendBroadcast(inte);
+                return true;
+            case R.id.store_cookies:
+                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COOKIES, !SettingValues.cookies).apply();
+                SettingValues.cookies = !SettingValues.cookies;
+                finish();
+                overridePendingTransition( 0, 0);
+                startActivity(getIntent());
+                overridePendingTransition( 0, 0);
                 return true;
             case R.id.read:
                 v.evaluateJavascript("(function(){return \"<html>\" + document.documentElement.innerHTML + \"</html>\";})();",
@@ -150,6 +164,19 @@ public class Website extends BaseActivityAnim {
 
         client = new MyWebViewClient();
         webClient = new AdBlockWebViewClient();
+
+        if(!SettingValues.cookies){
+            CookieSyncManager.createInstance(this);
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.removeAllCookies(null);
+            CookieManager.getInstance().flush();
+            cookieManager.setAcceptCookie(false);
+
+            WebSettings ws = v.getSettings();
+            ws.setSaveFormData(false);
+            ws.setSavePassword(false);
+        }
+
         v.setWebChromeClient(client);
         v.setWebViewClient(webClient);
         v.getSettings().setBuiltInZoomControls(true);

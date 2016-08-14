@@ -69,6 +69,8 @@ public class SettingValues {
     public static final String PREF_ZOOM_DEFAULT = "zoomDefault";
     public static final String PREF_SUBREDDIT_SEARCH_METHOD = "subredditSearchMethod";
     public static final String PREF_IMGUR_LQ = "imgurLq";
+    public static final String PREF_SOUND_NOTIFS = "soundNotifs";
+    public static final String PREF_COOKIES = "storeCookies";
 
     public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
     public static final String PREF_ALBUM = "album";
@@ -181,6 +183,8 @@ public class SettingValues {
     public static int nightTheme;
     public static boolean typeInText;
     public static String userFilters;
+    public static boolean notifSound;
+    public static boolean cookies;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -247,6 +251,8 @@ public class SettingValues {
         scrollSeen = prefs.getBoolean(PREF_SCROLL_SEEN, false);
         synccitName = prefs.getString(SYNCCIT_NAME, "");
         synccitAuth = prefs.getString(SYNCCIT_AUTH, "");
+        notifSound = prefs.getBoolean(PREF_SOUND_NOTIFS, false);
+        cookies = prefs.getBoolean(PREF_COOKIES, true);
 
         previews = prefs.getInt(PREVIEWS_LEFT, 10);
 
