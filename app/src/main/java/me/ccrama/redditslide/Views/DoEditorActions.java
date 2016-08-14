@@ -260,10 +260,12 @@ public class DoEditorActions {
                 if (SettingValues.tabletUI) {
                     doDraw(a, editText, fm);
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(a)
-                            .setTitle(R.string.general_pro)
-                            .setMessage(R.string.general_pro_msg_crop)
-                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(a).setTitle(
+                            "Crop and Draw on Uploaded Images is a Pro feature")
+                            .setMessage(R.string.pro_upgrade_msg)
+                            .setPositiveButton(R.string.btn_yes_exclaim,
+
+                                    new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     try {
                                         a.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));

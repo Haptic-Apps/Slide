@@ -36,8 +36,8 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class SettingsBackup extends BaseActivityAnim {
     MaterialDialog progress;
-    String title;
-    File file;
+    String         title;
+    File           file;
 
     public static void close(Closeable stream) {
         try {
@@ -51,12 +51,12 @@ public class SettingsBackup extends BaseActivityAnim {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 42) {
-            progress = new MaterialDialog.Builder(SettingsBackup.this)
-                    .title(R.string.backup_restoring)
-                    .content(R.string.misc_please_wait)
-                    .cancelable(false)
-                    .progress(true, 1)
-                    .build();
+            progress =
+                    new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring)
+                            .content(R.string.misc_please_wait)
+                            .cancelable(false)
+                            .progress(true, 1)
+                            .build();
             progress.show();
 
 
@@ -78,14 +78,22 @@ public class SettingsBackup extends BaseActivityAnim {
 
                         String[] files = read.split("END>");
                         progress.dismiss();
-                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_restoring).progress(false, files.length - 1).build();
+                        progress = new MaterialDialog.Builder(SettingsBackup.this).title(
+                                R.string.backup_restoring)
+                                .progress(false, files.length - 1)
+                                .build();
                         progress.show();
                         for (int i = 1; i < files.length; i++) {
                             String innerFile = files[i];
                             String t = innerFile.substring(6, innerFile.indexOf(">"));
-                            innerFile = innerFile.substring(innerFile.indexOf(">") + 1, innerFile.length());
+                            innerFile = innerFile.substring(innerFile.indexOf(">") + 1,
+                                    innerFile.length());
 
-                            File newF = new File(getApplicationInfo().dataDir + File.separator + "shared_prefs" + File.separator + t);
+                            File newF = new File(getApplicationInfo().dataDir
+                                    + File.separator
+                                    + "shared_prefs"
+                                    + File.separator
+                                    + t);
                             Log.v(LogUtil.getTag(), "WRITING TO " + newF.getAbsolutePath());
                             try {
                                 FileWriter newfw = new FileWriter(newF);
@@ -98,8 +106,7 @@ public class SettingsBackup extends BaseActivityAnim {
                             }
 
                         }
-                        new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                .setCancelable(false)
+                        new AlertDialogWrapper.Builder(SettingsBackup.this).setCancelable(false)
                                 .setTitle(R.string.backup_restore_settings)
                                 .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                     @Override
@@ -108,41 +115,48 @@ public class SettingsBackup extends BaseActivityAnim {
 
                                     }
                                 })
-                                .setMessage(R.string.backup_restarting).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                ProcessPhoenix.triggerRebirth(SettingsBackup.this);
-                            }
-                        }).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ProcessPhoenix.triggerRebirth(SettingsBackup.this);
+                                .setMessage(R.string.backup_restarting)
+                                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                    @Override
+                                    public void onDismiss(DialogInterface dialog) {
+                                        ProcessPhoenix.triggerRebirth(SettingsBackup.this);
+                                    }
+                                })
+                                .setPositiveButton(R.string.btn_ok,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                ProcessPhoenix.triggerRebirth(SettingsBackup.this);
 
-                            }
-                        }).show();
+                                            }
+                                        })
+                                .show();
 
                     } else {
                         progress.hide();
-                        new AlertDialogWrapper.Builder(SettingsBackup.this)
-                                .setTitle(R.string.err_not_valid_backup)
+                        new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                                R.string.err_not_valid_backup)
                                 .setMessage(R.string.err_not_valid_backup_msg)
-                                .setPositiveButton(R.string.btn_ok, null).show();
+                                .setPositiveButton(R.string.btn_ok, null)
+                                .show();
                     }
                 } catch (Exception e) {
                     progress.hide();
                     e.printStackTrace();
-                    new AlertDialogWrapper.Builder(SettingsBackup.this)
-                            .setTitle(R.string.err_file_not_found)
+                    new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                            R.string.err_file_not_found)
                             .setMessage(R.string.err_file_not_found_msg)
-                            .setPositiveButton(R.string.btn_ok, null).show();
+                            .setPositiveButton(R.string.btn_ok, null)
+                            .show();
                 }
 
             } else {
                 progress.dismiss();
-                new AlertDialogWrapper.Builder(SettingsBackup.this)
-                        .setTitle(R.string.err_file_not_found)
+                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                        R.string.err_file_not_found)
                         .setMessage(R.string.err_file_not_found_msg)
-                        .setPositiveButton(R.string.btn_ok, null).show();
+                        .setPositiveButton(R.string.btn_ok, null)
+                        .show();
             }
 
         }
@@ -159,21 +173,24 @@ public class SettingsBackup extends BaseActivityAnim {
             findViewById(R.id.backfile).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new AlertDialogWrapper.Builder(SettingsBackup.this)
-                            .setTitle("Include personal information?")
-                            .setMessage("This includes authentication tokens, usernames, tags, and history")
-                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    backupToDir(false);
-                                }
-                            })
-                            .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    backupToDir(true);
-                                }
-                            })
+                    new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                            "Include personal information?")
+                            .setMessage(
+                                    "This includes authentication tokens, usernames, tags, and history")
+                            .setPositiveButton(R.string.btn_yes,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            backupToDir(false);
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            backupToDir(true);
+                                        }
+                                    })
                             .setNeutralButton(R.string.btn_cancel, null)
                             .show();
                 }
@@ -190,29 +207,29 @@ public class SettingsBackup extends BaseActivityAnim {
                 }
             });
         } else {
-            new AlertDialogWrapper.Builder(SettingsBackup.this)
-                    .setTitle(R.string.general_pro)
-                    .setMessage(R.string.general_pro_msg)
-                    //avoid that the dialog can be closed
-                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            finish();
-                        }
-                    })
-                    .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+            new AlertDialogWrapper.Builder(this).setTitle(
+                    "Settings Backup is a Pro feature")
+                    .setMessage(R.string.pro_upgrade_msg)
+                    .setPositiveButton(R.string.btn_yes_exclaim,
+
+                            new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             try {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                        "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
                             } catch (android.content.ActivityNotFoundException anfe) {
-                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
+                                        "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
                             }
                         }
-                    }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    finish();
-                }
-            }).show();
+                    })
+                    .setNegativeButton(R.string.btn_no_danks,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    finish();
+                                }
+                            })
+                    .show();
         }
     }
 
@@ -221,7 +238,8 @@ public class SettingsBackup extends BaseActivityAnim {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected void onPreExecute() {
-                progress = new MaterialDialog.Builder(SettingsBackup.this).title(R.string.backup_backing_up).progress(false, 40).cancelable(false).build();
+                progress = new MaterialDialog.Builder(SettingsBackup.this).title(
+                        R.string.backup_backing_up).progress(false, 40).cancelable(false).build();
                 progress.show();
             }
 
@@ -233,7 +251,14 @@ public class SettingsBackup extends BaseActivityAnim {
                     String[] list = prefsdir.list();
 
 
-                    File backedup = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + "Slide" + new SimpleDateFormat("HH:mm-MMddyy").format(Calendar.getInstance().getTime()) + (!personal ? "-personal" : "") + ".txt");
+                    File backedup = new File(Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_DOWNLOADS)
+                            + File.separator
+                            + "Slide"
+                            + new SimpleDateFormat("HH:mm-MMddyy").format(
+                            Calendar.getInstance().getTime())
+                            + (!personal ? "-personal" : "")
+                            + ".txt");
                     file = backedup;
                     FileWriter fw = null;
                     try {
@@ -242,7 +267,15 @@ public class SettingsBackup extends BaseActivityAnim {
                         fw.write("Slide_backupEND>");
                         for (String s : list) {
 
-                            if (!s.contains("cache") && !s.contains("ion-cookies") && !s.contains("albums") && !s.contains("com.google") && (((personal && !s.contains("SUBSNEW") && !s.contains("appRestart") && !s.contains("AUTH") && !s.contains("TAGS") && !s.contains("SEEN") && !s.contains("HIDDEN") && !s.contains("HIDDEN_POSTS"))) || !personal)) {
+                            if (!s.contains("cache") && !s.contains("ion-cookies") && !s.contains(
+                                    "albums") && !s.contains("com.google") && (((personal
+                                    && !s.contains("SUBSNEW")
+                                    && !s.contains("appRestart")
+                                    && !s.contains("AUTH")
+                                    && !s.contains("TAGS")
+                                    && !s.contains("SEEN")
+                                    && !s.contains("HIDDEN")
+                                    && !s.contains("HIDDEN_POSTS"))) || !personal)) {
                                 FileReader fr = null;
                                 try {
                                     fr = new FileReader(new File(prefsdir + File.separator + s));
@@ -276,25 +309,35 @@ public class SettingsBackup extends BaseActivityAnim {
             @Override
             protected void onPostExecute(Void aVoid) {
                 progress.dismiss();
-                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(R.string.backup_complete)
+                new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
+                        R.string.backup_complete)
                         .setMessage(R.string.backup_saved_downloads)
-                        .setPositiveButton(R.string.btn_view, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Uri selectedUri = Uri.parse("file://" + file.getAbsolutePath());
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setData(selectedUri);
-                                if (intent.resolveActivityInfo(getPackageManager(), 0) != null) {
-                                    startActivity(Intent.createChooser(intent, "View backup"));
-                                } else {
-                                    Snackbar s = Snackbar.make(findViewById(R.id.restorefile), "No file explorer found, file located at " + file, Snackbar.LENGTH_INDEFINITE);
-                                    View view = s.getView();
-                                    TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                    tv.setTextColor(Color.WHITE);
-                                    s.show();
-                                }
-                            }
-                        })
+                        .setPositiveButton(R.string.btn_view,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Uri selectedUri =
+                                                Uri.parse("file://" + file.getAbsolutePath());
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setData(selectedUri);
+                                        if (intent.resolveActivityInfo(getPackageManager(), 0)
+                                                != null) {
+                                            startActivity(
+                                                    Intent.createChooser(intent, "View backup"));
+                                        } else {
+                                            Snackbar s =
+                                                    Snackbar.make(findViewById(R.id.restorefile),
+                                                            "No file explorer found, file located at "
+                                                                    + file,
+                                                            Snackbar.LENGTH_INDEFINITE);
+                                            View view = s.getView();
+                                            TextView tv = (TextView) view.findViewById(
+                                                    android.support.design.R.id.snackbar_text);
+                                            tv.setTextColor(Color.WHITE);
+                                            s.show();
+                                        }
+                                    }
+                                })
                         .setNegativeButton(R.string.btn_close, null)
                         .show();
             }

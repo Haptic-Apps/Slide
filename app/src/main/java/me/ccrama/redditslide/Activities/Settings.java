@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -32,9 +33,10 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
  */
 public class Settings extends BaseActivity {
     private final static int RESTART_SETTINGS_RESULT = 2;
-    private int scrollY;
-    private SharedPreferences.OnSharedPreferenceChangeListener prefsListener;
-    public static boolean changed; //whether or not a Setting was changed
+    private       int                                                scrollY;
+    private       SharedPreferences.OnSharedPreferenceChangeListener prefsListener;
+    public static boolean                                            changed;
+            //whether or not a Setting was changed
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -63,8 +65,7 @@ public class Settings extends BaseActivity {
 
         prefsListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-                                                  String key) {
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
                 Settings.changed = true;
             }
         };
@@ -93,16 +94,38 @@ public class Settings extends BaseActivity {
 
     private void setSettingItems() {
         View pro = findViewById(R.id.pro);
-        if (SettingValues.tabletUI) pro.setVisibility(View.GONE);
-        else {
+        if (SettingValues.tabletUI) {
+            pro.setVisibility(View.GONE);
+        } else {
             pro.setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View v) {
-                    try {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                    } catch (android.content.ActivityNotFoundException anfe) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                    }
+                    new AlertDialogWrapper.Builder(Settings.this).setTitle(
+                            "Support Slide for Reddit by Going Pro!")
+                            .setMessage(R.string.pro_upgrade_msg)
+                            .setPositiveButton(R.string.btn_yes_exclaim,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            } catch (ActivityNotFoundException e) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                            .show();
                 }
             });
         }
@@ -223,24 +246,30 @@ public class Settings extends BaseActivity {
                 if (SettingValues.tabletUI) {
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.tabletui, null);
-                    final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Settings.this);
+                    final AlertDialogWrapper.Builder builder =
+                            new AlertDialogWrapper.Builder(Settings.this);
                     final Resources res = getResources();
 
-                    dialoglayout.findViewById(R.id.title).setBackgroundColor(Palette.getDefaultColor());
+                    dialoglayout.findViewById(R.id.title)
+                            .setBackgroundColor(Palette.getDefaultColor());
                     //todo final Slider portrait = (Slider) dialoglayout.findViewById(R.id.portrait);
                     final SeekBar landscape = (SeekBar) dialoglayout.findViewById(R.id.landscape);
 
                     //todo  portrait.setBackgroundColor(Palette.getDefaultColor());
                     landscape.setProgress(Reddit.dpWidth - 1);
 
-                    ((TextView) dialoglayout.findViewById(R.id.progressnumber))
-                            .setText(res.getQuantityString(R.plurals.landscape_columns, landscape.getProgress() + 1, landscape.getProgress() + 1));
+                    ((TextView) dialoglayout.findViewById(R.id.progressnumber)).setText(
+                            res.getQuantityString(R.plurals.landscape_columns,
+                                    landscape.getProgress() + 1, landscape.getProgress() + 1));
 
                     landscape.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
-                        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                            ((TextView) dialoglayout.findViewById(R.id.progressnumber))
-                                    .setText(res.getQuantityString(R.plurals.landscape_columns, landscape.getProgress() + 1, landscape.getProgress() + 1));
+                        public void onProgressChanged(SeekBar seekBar, int progress,
+                                boolean fromUser) {
+                            ((TextView) dialoglayout.findViewById(R.id.progressnumber)).setText(
+                                    res.getQuantityString(R.plurals.landscape_columns,
+                                            landscape.getProgress() + 1,
+                                            landscape.getProgress() + 1));
                             Settings.changed = true;
                         }
 
@@ -260,7 +289,9 @@ public class Settings extends BaseActivity {
                         @Override
                         public void onDismiss(DialogInterface dialog) {
                             Reddit.dpWidth = landscape.getProgress() + 1;
-                            Reddit.colors.edit().putInt("tabletOVERRIDE", landscape.getProgress() + 1).apply();
+                            Reddit.colors.edit()
+                                    .putInt("tabletOVERRIDE", landscape.getProgress() + 1)
+                                    .apply();
                         }
                     });
                     SwitchCompat s = (SwitchCompat) dialog.findViewById(R.id.dualcolumns);
@@ -269,7 +300,9 @@ public class Settings extends BaseActivity {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             SettingValues.dualPortrait = isChecked;
-                            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_DUAL_PORTRAIT, isChecked).apply();
+                            SettingValues.prefs.edit()
+                                    .putBoolean(SettingValues.PREF_DUAL_PORTRAIT, isChecked)
+                                    .apply();
                         }
                     });
                     SwitchCompat s2 = (SwitchCompat) dialog.findViewById(R.id.fullcomment);
@@ -278,26 +311,38 @@ public class Settings extends BaseActivity {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             SettingValues.fullCommentOverride = isChecked;
-                            SettingValues.prefs.edit().putBoolean(SettingValues.PREF_FULL_COMMENT_OVERRIDE, isChecked).apply();
+                            SettingValues.prefs.edit()
+                                    .putBoolean(SettingValues.PREF_FULL_COMMENT_OVERRIDE, isChecked)
+                                    .apply();
                         }
                     });
                 } else {
-                    new AlertDialogWrapper.Builder(Settings.this)
-                            .setTitle(R.string.general_pro)
-                            .setMessage(R.string.general_pro_msg)
-                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    } catch (android.content.ActivityNotFoundException anfe) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    }
-                                }
-                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
+                    new AlertDialogWrapper.Builder(Settings.this).setTitle(
+                            "Mutli-Column Settings are a Pro feature")
+                            .setMessage(R.string.pro_upgrade_msg)
+                            .setPositiveButton(R.string.btn_yes_exclaim,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            } catch (android.content.ActivityNotFoundException anfe) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
 
-                        }
-                    }).show();
+                                        }
+                                    })
+                            .show();
                 }
             }
         });

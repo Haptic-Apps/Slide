@@ -3,6 +3,7 @@
     <string name="general_confirm_exit">Confirm exit</string>
     <string name="general_confirm_exit_msg">Do you really want to exit Slide?</string>
     <string name="general_enable_shadowbox">Shadowbox mode</string>
+    <string name="pro_upgrade_msg">Upgrade to Slide for Reddit Pro to enjoy some awesome new features including:\n\n- Ad Blocker and Reader Mode in Website view\n- Crop and draw on images to upload\n- Customizable tablet column mode\n- Automatic night mode\n- Shadowbox and Gallery content views\n- Comment Shadowbox view\n- Backup and restore to Google Drive and to file\n- Supporting open source and ad-free software!\n\nWould you like to support Slide for Reddit?</string>
     <string name="general_pro_msg">I have opted to make a few features of Slide unlockable by purchasing a Pro unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is multi-column mode, Shadowbox mode (for image subreddits), gallery mode, backup and restore to Google Drive and to file, and drawing/cropping images!\n\nWould you like to unlock Slide for Reddit Pro?</string>
     <string name="general_pro_msg_crop">I have opted to make a few features of Slide (including cropping and drawing on images) unlockable by purchasing a Pro unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is multi-column mode, Shadowbox mode (for image subreddits), gallery mode, backup and restore to Google Drive and to file, and more!\n\nWould you like to unlock Slide for Reddit Pro?</string>
     <string name="general_open_settings">Sidebar</string>
@@ -338,6 +339,7 @@
     <string name="btn_sure">Sure!</string>
     <string name="btn_undo">Undo</string>
     <string name="btn_yes">Yes</string>
+    <string name="btn_yes_exclaim">Yes!</string>
     <string name="btn_refresh">Refresh</string>
     <string name="btn_cache">Cache comments</string>
     <string name="btn_delete">Delete</string>

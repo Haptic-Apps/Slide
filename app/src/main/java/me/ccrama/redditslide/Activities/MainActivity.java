@@ -2508,13 +2508,32 @@ public class MainActivity extends BaseActivity {
                 header.findViewById(R.id.support).setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View view) {
-                        try {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                    "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                        } catch (android.content.ActivityNotFoundException anfe) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(
-                                    "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                        }
+                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
+                                "Support Slide for Reddit by Going Pro!")
+                                .setMessage(R.string.pro_upgrade_msg)
+                                .setPositiveButton(R.string.btn_yes_exclaim,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                    int whichButton) {
+                                                try {
+                                                    startActivity(new Intent(Intent.ACTION_VIEW,
+                                                            Uri.parse(
+                                                                    "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                } catch (ActivityNotFoundException e) {
+                                                    startActivity(new Intent(Intent.ACTION_VIEW,
+                                                            Uri.parse(
+                                                                    "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                }
+                                            }
+                                        })
+                                .setNegativeButton(R.string.btn_no_danks,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                    int whichButton) {
+                                                dialog.dismiss();
+                                            }
+                                        })
+                                .show();
                     }
                 });
             }
@@ -3172,8 +3191,7 @@ public class MainActivity extends BaseActivity {
                 final String sub = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
                 if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("frontpage") &&
                         !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
-                        !sub.contains("+") && !sub.contains(".") && !sub.contains(
-                        "/m/")) {
+                        !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
                     new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
                             "Be notified of new posts in /r/" + sub)
                             .setMessage(
@@ -3185,21 +3203,28 @@ public class MainActivity extends BaseActivity {
                                             "Score threshold")
                                             .items(new String[]{"1", "5", "10", "20", "40", "50"})
                                             .alwaysCallSingleChoiceCallback()
-                                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
-                                                @Override
-                                                public boolean onSelection(MaterialDialog dialog,
-                                                        View itemView, int which, CharSequence text) {
-                                                    ArrayList<String> subs = Reddit.stringToArray(
-                                                            Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET,
-                                                                    ""));
-                                                    subs.add(sub + ":" + text);
-                                                    Reddit.appRestart.edit()
-                                                            .putString(CheckForMail.SUBS_TO_GET,
-                                                                    Reddit.arrayToString(subs))
-                                                            .commit();
-                                                    return true;
-                                                }
-                                            })
+                                            .itemsCallbackSingleChoice(0,
+                                                    new MaterialDialog.ListCallbackSingleChoice() {
+                                                        @Override
+                                                        public boolean onSelection(
+                                                                MaterialDialog dialog,
+                                                                View itemView, int which,
+                                                                CharSequence text) {
+                                                            ArrayList<String> subs =
+                                                                    Reddit.stringToArray(
+                                                                            Reddit.appRestart.getString(
+                                                                                    CheckForMail.SUBS_TO_GET,
+                                                                                    ""));
+                                                            subs.add(sub + ":" + text);
+                                                            Reddit.appRestart.edit()
+                                                                    .putString(
+                                                                            CheckForMail.SUBS_TO_GET,
+                                                                            Reddit.arrayToString(
+                                                                                    subs))
+                                                                    .commit();
+                                                            return true;
+                                                        }
+                                                    })
                                             .cancelable(false)
                                             .show();
                                 }
@@ -3207,7 +3232,9 @@ public class MainActivity extends BaseActivity {
                             .setNegativeButton("CANCEL", null)
                             .show();
                 } else {
-                    Toast.makeText(MainActivity.this,"You can only add notifications to single subreddits", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,
+                            "You can only add notifications to single subreddits",
+                            Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.share:
@@ -3239,31 +3266,31 @@ public class MainActivity extends BaseActivity {
                         startActivity(i2);
                     }
                 } else {
-                    AlertDialogWrapper.Builder b =
-                            new AlertDialogWrapper.Builder(this).setTitle(R.string.general_pro)
-                                    .setMessage(R.string.general_pro_msg)
-                                    .setPositiveButton(R.string.btn_sure,
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                        int whichButton) {
-                                                    try {
-                                                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                                                Uri.parse(
-                                                                        "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                                    } catch (ActivityNotFoundException e) {
-                                                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                                                Uri.parse(
-                                                                        "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                                    }
-                                                }
-                                            })
-                                    .setNegativeButton(R.string.btn_no_danks,
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                        int whichButton) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
+                            "Gallery mode is a Pro feature")
+                            .setMessage(R.string.pro_upgrade_msg)
+                            .setPositiveButton(R.string.btn_yes_exclaim,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            } catch (ActivityNotFoundException e) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    });
                     if (SettingValues.previews > 0) {
                         b.setNeutralButton("Preview (" + SettingValues.previews + ")",
                                 new DialogInterface.OnClickListener() {
@@ -3312,31 +3339,31 @@ public class MainActivity extends BaseActivity {
                         startActivity(i2);
                     }
                 } else {
-                    AlertDialogWrapper.Builder b =
-                            new AlertDialogWrapper.Builder(this).setTitle(R.string.general_pro)
-                                    .setMessage(R.string.general_pro_msg)
-                                    .setPositiveButton(R.string.btn_sure,
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                        int whichButton) {
-                                                    try {
-                                                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                                                Uri.parse(
-                                                                        "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                                    } catch (ActivityNotFoundException e) {
-                                                        startActivity(new Intent(Intent.ACTION_VIEW,
-                                                                Uri.parse(
-                                                                        "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                                    }
-                                                }
-                                            })
-                                    .setNegativeButton(R.string.btn_no_danks,
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                        int whichButton) {
-                                                    dialog.dismiss();
-                                                }
-                                            });
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
+                            "Shadowbox is a Pro feature")
+                            .setMessage(R.string.pro_upgrade_msg)
+                            .setPositiveButton(R.string.btn_yes_exclaim,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            } catch (ActivityNotFoundException e) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            dialog.dismiss();
+                                        }
+                                    });
                     if (SettingValues.previews > 0) {
                         b.setNeutralButton("Preview (" + SettingValues.previews + ")",
                                 new DialogInterface.OnClickListener() {
@@ -3441,12 +3468,14 @@ public class MainActivity extends BaseActivity {
                         caching = new CommentCacheAsync(submissions, MainActivity.this, subreddit,
                                 chosen).execute();
                     }
-                }).setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                ExecutorService service = Executors.newSingleThreadExecutor();
-                new CommentCacheAsync(submissions, MainActivity.this, subreddit, chosen).executeOnExecutor(service);
-            }
+                })
+                .setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ExecutorService service = Executors.newSingleThreadExecutor();
+                        new CommentCacheAsync(submissions, MainActivity.this, subreddit,
+                                chosen).executeOnExecutor(service);
+                    }
                 })
                 .show();
 

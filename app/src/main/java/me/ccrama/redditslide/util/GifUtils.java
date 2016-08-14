@@ -142,7 +142,7 @@ public class GifUtils {
                 c.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        final File downloaded = GifCache.getGif(url.toString());
+                        final File downloaded = GifCache.getGif(url);
                         LogUtil.v("Path is " + "file://" + downloaded);
                         video.setVideoPath("file://" + downloaded);
                         //videoView.set

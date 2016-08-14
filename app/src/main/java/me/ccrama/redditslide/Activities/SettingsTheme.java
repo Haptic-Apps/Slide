@@ -660,10 +660,11 @@ public class SettingsTheme extends BaseActivityAnim {
                         });
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(SettingsTheme.this).setTitle(
-                            R.string.general_pro)
-                            .setMessage(R.string.general_pro_msg)
-                            .setPositiveButton(R.string.btn_sure,
+                     new AlertDialogWrapper.Builder(SettingsTheme.this).setTitle(
+                            "Automatic Night Mode is a Pro feature")
+                            .setMessage(R.string.pro_upgrade_msg)
+                            .setPositiveButton(R.string.btn_yes_exclaim,
+
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,
                                                 int whichButton) {

@@ -609,11 +609,10 @@ public class CommentPage extends Fragment {
                                 }
                             }
                         } else {
-                            AlertDialogWrapper.Builder b =
-                                    new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                                            R.string.general_pro)
-                                            .setMessage(R.string.general_pro_msg)
-                                            .setPositiveButton(R.string.btn_sure,
+                            AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(getContext()).setTitle(
+                                    "Comment Shadowbox mode is a Pro feature")
+                                    .setMessage(R.string.pro_upgrade_msg)
+                                    .setPositiveButton(R.string.btn_yes_exclaim,
                                                     new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog,
                                                                 int whichButton) {

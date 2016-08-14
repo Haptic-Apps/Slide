@@ -67,12 +67,12 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     public static final String EXTRA_PROFILE = "profile";
 
-    public static MultiReddit searchMulti;
-    public OverviewPagerAdapter adapter;
-    private ViewPager pager;
-    private String profile;
-    private TabLayout tabs;
-    private List<MultiReddit> usedArray;
+    public static MultiReddit          searchMulti;
+    public        OverviewPagerAdapter adapter;
+    private       ViewPager            pager;
+    private       String               profile;
+    private       TabLayout            tabs;
+    private       List<MultiReddit>    usedArray;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,16 +108,23 @@ public class MultiredditOverview extends BaseActivityAnim {
     public int getCurrentPage() {
         int position = 0;
         int currentOrientation = getResources().getConfiguration().orientation;
-        if (((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            position = ((LinearLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() - 1;
+        if (((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager
+                && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            position =
+                    ((LinearLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager())
+                            .findFirstVisibleItemPosition() - 1;
         } else if (((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
             int[] firstVisibleItems = null;
-            firstVisibleItems = ((CatchStaggeredGridLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
+            firstVisibleItems =
+                    ((CatchStaggeredGridLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv
+                            .getLayoutManager()).findFirstVisibleItemPositions(firstVisibleItems);
             if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                 position = firstVisibleItems[0] - 1;
             }
         } else {
-            position = ((PreCachingLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).findFirstVisibleItemPosition() - 1;
+            position =
+                    ((PreCachingLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager())
+                            .findFirstVisibleItemPosition() - 1;
         }
         return position;
     }
@@ -131,14 +138,18 @@ public class MultiredditOverview extends BaseActivityAnim {
             case android.R.id.home:
                 try {
                     onBackPressed();
-                } catch(Exception ignored){
+                } catch (Exception ignored) {
 
                 }
                 return true;
             case R.id.action_edit: {
-                if (profile.isEmpty() && (UserSubscriptions.multireddits != null) && !UserSubscriptions.multireddits.isEmpty()) {
+                if (profile.isEmpty()
+                        && (UserSubscriptions.multireddits != null)
+                        && !UserSubscriptions.multireddits.isEmpty()) {
                     Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
-                    i.putExtra(CreateMulti.EXTRA_MULTI, UserSubscriptions.getMultireddits().get(pager.getCurrentItem()).getDisplayName());
+                    i.putExtra(CreateMulti.EXTRA_MULTI, UserSubscriptions.getMultireddits()
+                            .get(pager.getCurrentItem())
+                            .getDisplayName());
                     startActivity(i);
                 }
             }
@@ -147,23 +158,29 @@ public class MultiredditOverview extends BaseActivityAnim {
                 List<MultiReddit> multireddits = getMultireddits();
                 if ((multireddits != null) && !multireddits.isEmpty()) {
                     searchMulti = multireddits.get(pager.getCurrentItem());
-                    MaterialDialog.Builder builder = new MaterialDialog.Builder(this).title(R.string.search_title)
-                            .alwaysCallInputCallback()
-                            .input(getString(R.string.search_msg), "", new MaterialDialog.InputCallback() {
-                                @Override
-                                public void onInput(MaterialDialog materialDialog, CharSequence charSequence) {
-                                    term = charSequence.toString();
-                                }
-                            });
+                    MaterialDialog.Builder builder =
+                            new MaterialDialog.Builder(this).title(R.string.search_title)
+                                    .alwaysCallInputCallback()
+                                    .input(getString(R.string.search_msg), "",
+                                            new MaterialDialog.InputCallback() {
+                                                @Override
+                                                public void onInput(MaterialDialog materialDialog,
+                                                        CharSequence charSequence) {
+                                                    term = charSequence.toString();
+                                                }
+                                            });
 
                     //Add "search current sub" if it is not frontpage/all/random
-                    builder.positiveText(getString(R.string.search_subreddit, "/m/" + searchMulti.getDisplayName()))
+                    builder.positiveText(getString(R.string.search_subreddit,
+                            "/m/" + searchMulti.getDisplayName()))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
-                                public void onClick(@NonNull MaterialDialog materialDialog, @NonNull DialogAction dialogAction) {
+                                public void onClick(@NonNull MaterialDialog materialDialog,
+                                        @NonNull DialogAction dialogAction) {
                                     Intent i = new Intent(MultiredditOverview.this, Search.class);
                                     i.putExtra(Search.EXTRA_TERM, term);
-                                    i.putExtra(Search.EXTRA_MULTIREDDIT, searchMulti.getDisplayName());
+                                    i.putExtra(Search.EXTRA_MULTIREDDIT,
+                                            searchMulti.getDisplayName());
                                     startActivity(i);
                                 }
                             });
@@ -187,93 +204,136 @@ public class MultiredditOverview extends BaseActivityAnim {
                 return true;
             case R.id.gallery:
                 if (SettingValues.tabletUI) {
-                    List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                    List<Submission> posts =
+                            ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         Intent i2 = new Intent(this, Gallery.class);
                         i2.putExtra(Gallery.EXTRA_PROFILE, profile);
-                        i2.putExtra(Gallery.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
+                        i2.putExtra(Gallery.EXTRA_MULTIREDDIT,
+                                ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
                         startActivity(i2);
                     }
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this)
-                            .setTitle(R.string.general_pro)
-                            .setMessage(R.string.general_pro_msg)
-                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    } catch (ActivityNotFoundException e) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    }
-                                }
-                            }).setNegativeButton(R.string.btn_no_danks,
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
+                            "Gallery mode is a Pro feature")
+                            .setMessage(R.string.pro_upgrade_msg)
+                            .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            } catch (ActivityNotFoundException e) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no_danks,
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
                                             dialog.dismiss();
                                         }
                                     });
                     if (SettingValues.previews > 0) {
-                        b.setNeutralButton("Preview (" + SettingValues.previews + ")", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                SettingValues.prefs.edit().putInt(SettingValues.PREVIEWS_LEFT, SettingValues.previews - 1).apply();
-                                SettingValues.previews = SettingValues.prefs.getInt(SettingValues.PREVIEWS_LEFT, 10);
-                                List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
-                                if (posts != null && !posts.isEmpty()) {
-                                    Intent i2 = new Intent(MultiredditOverview.this, Gallery.class);
-                                    i2.putExtra(Gallery.EXTRA_PROFILE, profile);
-                                    i2.putExtra(Gallery.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
-                                    startActivity(i2);
-                                }
-                            }
-                        });
+                        b.setNeutralButton("Preview (" + SettingValues.previews + ")",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SettingValues.prefs.edit()
+                                                .putInt(SettingValues.PREVIEWS_LEFT,
+                                                        SettingValues.previews - 1)
+                                                .apply();
+                                        SettingValues.previews = SettingValues.prefs.getInt(
+                                                SettingValues.PREVIEWS_LEFT, 10);
+                                        List<Submission> posts =
+                                                ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                                        if (posts != null && !posts.isEmpty()) {
+                                            Intent i2 = new Intent(MultiredditOverview.this,
+                                                    Gallery.class);
+                                            i2.putExtra(Gallery.EXTRA_PROFILE, profile);
+                                            i2.putExtra(Gallery.EXTRA_MULTIREDDIT,
+                                                    ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit
+                                                            .getDisplayName());
+                                            startActivity(i2);
+                                        }
+                                    }
+                                });
                     }
                     b.show();
                 }
                 return true;
             case R.id.action_shadowbox:
                 if (SettingValues.tabletUI) {
-                    List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                    List<Submission> posts =
+                            ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
                     if (posts != null && !posts.isEmpty()) {
                         Intent i = new Intent(this, Shadowbox.class);
                         i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
                         i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
-                        i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
+                        i.putExtra(Shadowbox.EXTRA_MULTIREDDIT,
+                                ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
                         startActivity(i);
                     }
                 } else {
-                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this)
-                            .setTitle(R.string.general_pro)
-                            .setMessage(R.string.general_pro_msg)
-                            .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    } catch (ActivityNotFoundException e) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                    AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
+                            "Shadowbox mode is a Pro feature")
+                            .setMessage(R.string.pro_upgrade_msg)
+                            .setPositiveButton(R.string.btn_yes_exclaim,
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog,
+                                                        int whichButton) {
+                                                    try {
+                                                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                                                Uri.parse(
+                                                                        "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                    } catch (ActivityNotFoundException e) {
+                                                        startActivity(new Intent(Intent.ACTION_VIEW,
+                                                                Uri.parse(
+                                                                        "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                                    }
+                                                }
+                                            })
+                                    .setNegativeButton(R.string.btn_no_danks,
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog,
+                                                        int whichButton) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                    if (SettingValues.previews > 0
+                            && adapter != null
+                            && ((MultiredditView) adapter.getCurrentFragment()).posts != null
+                            && ((MultiredditView) adapter.getCurrentFragment()).posts.posts != null
+                            && !((MultiredditView) adapter.getCurrentFragment()).posts.posts.isEmpty()) {
+                        b.setNeutralButton("Preview (" + SettingValues.previews + ")",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SettingValues.prefs.edit()
+                                                .putInt(SettingValues.PREVIEWS_LEFT,
+                                                        SettingValues.previews - 1)
+                                                .apply();
+                                        SettingValues.previews = SettingValues.prefs.getInt(
+                                                SettingValues.PREVIEWS_LEFT, 10);
+                                        List<Submission> posts =
+                                                ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
+                                        if (posts != null && !posts.isEmpty()) {
+                                            Intent i = new Intent(MultiredditOverview.this,
+                                                    Shadowbox.class);
+                                            i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
+                                            i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
+                                            i.putExtra(Shadowbox.EXTRA_MULTIREDDIT,
+                                                    ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit
+                                                            .getDisplayName());
+                                            startActivity(i);
+                                        }
                                     }
-                                }
-                            }).setNegativeButton(R.string.btn_no_danks, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    if (SettingValues.previews > 0 && adapter != null && ((MultiredditView) adapter.getCurrentFragment()).posts != null && ((MultiredditView) adapter.getCurrentFragment()).posts.posts != null && !((MultiredditView) adapter.getCurrentFragment()).posts.posts.isEmpty()) {
-                        b.setNeutralButton("Preview (" + SettingValues.previews + ")", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                SettingValues.prefs.edit().putInt(SettingValues.PREVIEWS_LEFT, SettingValues.previews - 1).apply();
-                                SettingValues.previews = SettingValues.prefs.getInt(SettingValues.PREVIEWS_LEFT, 10);
-                                List<Submission> posts = ((MultiredditView) adapter.getCurrentFragment()).posts.posts;
-                                if (posts != null && !posts.isEmpty()) {
-                                    Intent i = new Intent(MultiredditOverview.this, Shadowbox.class);
-                                    i.putExtra(Shadowbox.EXTRA_PAGE, getCurrentPage());
-                                    i.putExtra(Shadowbox.EXTRA_PROFILE, profile);
-                                    i.putExtra(Shadowbox.EXTRA_MULTIREDDIT, ((MultiredditView) adapter.getCurrentFragment()).posts.multiReddit.getDisplayName());
-                                    startActivity(i);
-                                }
-                            }
-                        });
+                                });
                     }
                     b.show();
                 }
@@ -289,13 +349,14 @@ public class MultiredditOverview extends BaseActivityAnim {
 
     private void buildDialog(boolean wasException) {
         try {
-            AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(MultiredditOverview.this).setCancelable(false)
-                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            finish();
-                        }
-                    });
+            AlertDialogWrapper.Builder b =
+                    new AlertDialogWrapper.Builder(MultiredditOverview.this).setCancelable(false)
+                            .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                @Override
+                                public void onDismiss(DialogInterface dialog) {
+                                    finish();
+                                }
+                            });
             if (wasException) {
                 b.setTitle(R.string.err_title)
                         .setMessage(R.string.err_loading_content)
@@ -314,25 +375,27 @@ public class MultiredditOverview extends BaseActivityAnim {
                                 Intent i = new Intent(MultiredditOverview.this, CreateMulti.class);
                                 startActivity(i);
                             }
-                        }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-            } else {
-                b.setTitle(R.string.public_multireddit_err_title)
-                        .setMessage(R.string.public_multireddit_err_msg)
-                        .setNegativeButton(R.string.btn_go_back, new DialogInterface.OnClickListener() {
+                        })
+                        .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 finish();
                             }
                         });
+            } else {
+                b.setTitle(R.string.public_multireddit_err_title)
+                        .setMessage(R.string.public_multireddit_err_msg)
+                        .setNegativeButton(R.string.btn_go_back,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
             }
             b.show();
-        } catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
     }
 
@@ -377,10 +440,11 @@ public class MultiredditOverview extends BaseActivityAnim {
 
             @Override
             protected void onPostExecute(List<MultiReddit> multiReddits) {
-                if (multiReddits != null && !multiReddits.isEmpty())
+                if (multiReddits != null && !multiReddits.isEmpty()) {
                     setDataSet(multiReddits);
-                else
+                } else {
                     buildDialog();
+                }
             }
         }.execute();
 
@@ -388,14 +452,20 @@ public class MultiredditOverview extends BaseActivityAnim {
 
 
     public void openPopup() {
-        PopupMenu popup = new PopupMenu(MultiredditOverview.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        String id = ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase();
+        PopupMenu popup =
+                new PopupMenu(MultiredditOverview.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        String id =
+                ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit
+                        .getDisplayName()
+                        .toLowerCase();
         final String[] base = Reddit.getSortingStrings(getBaseContext(), "multi" + id, true);
         for (String s : base) {
             MenuItem m = popup.getMenu().add(s);
             if (s.startsWith("» ")) {
                 SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(MultiredditOverview.this).getColor(id)), 0, spanString.length(), 0);
+                spanString.setSpan(new ForegroundColorSpan(
+                                new ColorPreferences(MultiredditOverview.this).getColor(id)), 0,
+                        spanString.length(), 0);
                 spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
                 m.setTitle(spanString);
             }
@@ -413,75 +483,156 @@ public class MultiredditOverview extends BaseActivityAnim {
                 if (pager.getAdapter() != null) {
                     switch (i) {
                         case 0:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.HOT);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.HOT);
                             reloadSubs();
                             break;
                         case 1:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.NEW);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.NEW);
                             reloadSubs();
                             break;
                         case 2:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.RISING);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.RISING);
                             reloadSubs();
                             break;
                         case 3:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.TOP);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.HOUR);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.TOP);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.HOUR);
                             reloadSubs();
                             break;
                         case 4:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.TOP);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.DAY);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.TOP);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.DAY);
                             reloadSubs();
                             break;
                         case 5:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.TOP);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.WEEK);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.TOP);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.WEEK);
                             reloadSubs();
                             break;
                         case 6:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.TOP);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.MONTH);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.TOP);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.MONTH);
                             reloadSubs();
                             break;
                         case 7:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.TOP);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.YEAR);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.TOP);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.YEAR);
                             reloadSubs();
                             break;
                         case 8:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.TOP);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.ALL);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.TOP);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.ALL);
                             reloadSubs();
                             break;
                         case 9:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.CONTROVERSIAL);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.HOUR);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.CONTROVERSIAL);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.HOUR);
                             reloadSubs();
                             break;
                         case 10:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.CONTROVERSIAL);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.DAY);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.CONTROVERSIAL);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.DAY);
                             reloadSubs();
                             break;
                         case 11:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.CONTROVERSIAL);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.WEEK);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.CONTROVERSIAL);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.WEEK);
                             reloadSubs();
                             break;
                         case 12:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.CONTROVERSIAL);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.MONTH);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.CONTROVERSIAL);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.MONTH);
                             reloadSubs();
                             break;
                         case 13:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.CONTROVERSIAL);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.YEAR);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.CONTROVERSIAL);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.YEAR);
                             reloadSubs();
                             break;
                         case 14:
-                            Reddit.setSorting("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), Sorting.CONTROVERSIAL);
-                            Reddit.setTime("multi" + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit.getDisplayName().toLowerCase(), TimePeriod.ALL);
+                            Reddit.setSorting("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), Sorting.CONTROVERSIAL);
+                            Reddit.setTime("multi"
+                                    + ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter())
+                                    .getCurrentFragment())).posts.multiReddit.getDisplayName()
+                                    .toLowerCase(), TimePeriod.ALL);
                             reloadSubs();
                             break;
                     }
@@ -516,40 +667,46 @@ public class MultiredditOverview extends BaseActivityAnim {
                 pager.setAdapter(adapter);
                 pager.setOffscreenPageLimit(1);
                 tabs.setupWithViewPager(pager);
-                tabs.setSelectedTabIndicatorColor(new ColorPreferences(MultiredditOverview.this).getColor(usedArray.get(0).getDisplayName()));
+                tabs.setSelectedTabIndicatorColor(
+                        new ColorPreferences(MultiredditOverview.this).getColor(
+                                usedArray.get(0).getDisplayName()));
                 doDrawerSubs(0);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = this.getWindow();
-                    window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(0).getDisplayName()));
+                    window.setStatusBarColor(
+                            Palette.getDarkerColor(usedArray.get(0).getDisplayName()));
                 }
                 final View header = findViewById(R.id.header);
-                tabs.setOnTabSelectedListener(
-                        new TabLayout.ViewPagerOnTabSelectedListener(pager) {
-                            @Override
-                            public void onTabReselected(TabLayout.Tab tab) {
-                                super.onTabReselected(tab);
-                                int[] firstVisibleItems;
-                                int pastVisiblesItems = 0;
-                                firstVisibleItems = ((CatchStaggeredGridLayoutManager) (((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager())).findFirstVisibleItemPositions(null);
-                                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                                    for (int firstVisibleItem : firstVisibleItems) {
-                                        pastVisiblesItems = firstVisibleItem;
-                                    }
-                                }
-                                if (pastVisiblesItems > 8) {
-                                    ((MultiredditView) adapter.getCurrentFragment()).rv.scrollToPosition(0);
-                                    if (header != null) {
-                                        header.animate()
-                                                .translationY(header.getHeight())
-                                                .setInterpolator(new LinearInterpolator())
-                                                .setDuration(0);
-                                    }
-                                } else {
-                                    ((MultiredditView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(0);
-                                }
+                tabs.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager) {
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+                        super.onTabReselected(tab);
+                        int[] firstVisibleItems;
+                        int pastVisiblesItems = 0;
+                        firstVisibleItems =
+                                ((CatchStaggeredGridLayoutManager) (((MultiredditView) adapter.getCurrentFragment()).rv
+                                        .getLayoutManager())).findFirstVisibleItemPositions(null);
+                        if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                            for (int firstVisibleItem : firstVisibleItems) {
+                                pastVisiblesItems = firstVisibleItem;
                             }
-                        });
-                findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(0).getDisplayName()));
+                        }
+                        if (pastVisiblesItems > 8) {
+                            ((MultiredditView) adapter.getCurrentFragment()).rv.scrollToPosition(0);
+                            if (header != null) {
+                                header.animate()
+                                        .translationY(header.getHeight())
+                                        .setInterpolator(new LinearInterpolator())
+                                        .setDuration(0);
+                            }
+                        } else {
+                            ((MultiredditView) adapter.getCurrentFragment()).rv.smoothScrollToPosition(
+                                    0);
+                        }
+                    }
+                });
+                findViewById(R.id.header).setBackgroundColor(
+                        Palette.getColor(usedArray.get(0).getDisplayName()));
             }
         } catch (NullPointerException e) {
             buildDialog(true);
@@ -577,7 +734,9 @@ public class MultiredditOverview extends BaseActivityAnim {
             t.setText(subreddit);
 
             convertView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-            convertView.findViewById(R.id.color).getBackground().setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
+            convertView.findViewById(R.id.color)
+                    .getBackground()
+                    .setColorFilter(Palette.getColor(subreddit), PorterDuff.Mode.MULTIPLY);
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -596,7 +755,8 @@ public class MultiredditOverview extends BaseActivityAnim {
             super(fm);
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                public void onPageScrolled(int position, float positionOffset,
+                        int positionOffsetPixels) {
 
                 }
 
@@ -606,12 +766,16 @@ public class MultiredditOverview extends BaseActivityAnim {
                             .translationY(0)
                             .setInterpolator(new LinearInterpolator())
                             .setDuration(180);
-                    findViewById(R.id.header).setBackgroundColor(Palette.getColor(usedArray.get(position).getDisplayName()));
+                    findViewById(R.id.header).setBackgroundColor(
+                            Palette.getColor(usedArray.get(position).getDisplayName()));
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         Window window = getWindow();
-                        window.setStatusBarColor(Palette.getDarkerColor(usedArray.get(position).getDisplayName()));
+                        window.setStatusBarColor(
+                                Palette.getDarkerColor(usedArray.get(position).getDisplayName()));
                     }
-                    tabs.setSelectedTabIndicatorColor(new ColorPreferences(MultiredditOverview.this).getColor(usedArray.get(position).getDisplayName()));
+                    tabs.setSelectedTabIndicatorColor(
+                            new ColorPreferences(MultiredditOverview.this).getColor(
+                                    usedArray.get(position).getDisplayName()));
                     doDrawerSubs(position);
                 }
 
@@ -672,8 +836,13 @@ public class MultiredditOverview extends BaseActivityAnim {
                 LogUtil.v("Doing hide posts");
                 ArrayList<Integer> posts = data.getIntegerArrayListExtra("seen");
                 ((MultiredditView) adapter.getCurrentFragment()).adapter.refreshView(posts);
-                if (data.hasExtra("lastPage") && data.getIntExtra("lastPage", 0) != 0 && ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager)
-                    ((LinearLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager()).scrollToPositionWithOffset(data.getIntExtra("lastPage", 0) + 1, mToolbar.getHeight());
+                if (data.hasExtra("lastPage")
+                        && data.getIntExtra("lastPage", 0) != 0
+                        && ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager) {
+                    ((LinearLayoutManager) ((MultiredditView) adapter.getCurrentFragment()).rv.getLayoutManager())
+                            .scrollToPositionWithOffset(data.getIntExtra("lastPage", 0) + 1,
+                                    mToolbar.getHeight());
+                }
             } else {
                 ((MultiredditView) adapter.getCurrentFragment()).adapter.refreshView();
             }

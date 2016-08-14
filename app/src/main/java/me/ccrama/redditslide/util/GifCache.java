@@ -36,8 +36,8 @@ public class GifCache {
         }
     }
 
-    public static File getGif(String url) {
-        return discCache.get(url);
+    public static File getGif(URL url) {
+        return discCache.get(url.toString());
     }
 
     public static void writeGif(String url, InputStream stream, IoUtils.CopyListener listener) {

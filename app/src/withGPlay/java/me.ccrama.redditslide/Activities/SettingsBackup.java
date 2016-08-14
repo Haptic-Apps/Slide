@@ -426,9 +426,9 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                 }
             });
         } else {
-            new AlertDialogWrapper.Builder(SettingsBackup.this)
-                    .setTitle(R.string.general_pro)
-                    .setMessage(R.string.general_pro_msg)
+            AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
+                    "Settings Backup is a Pro feature")
+                    .setMessage(R.string.pro_upgrade_msg)
                             //avoid that the dialog can be closed
                     .setOnCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
@@ -436,7 +436,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                             finish();
                         }
                     })
-                    .setPositiveButton(R.string.btn_sure, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.btn_yes_exclaim, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             try {
                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
