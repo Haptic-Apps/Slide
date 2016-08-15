@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.URLSpan;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +21,8 @@ import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Album;
@@ -26,6 +32,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -124,7 +131,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             {
                 if (user.getTitle() != null) {
                     List<String> text = SubmissionParser.getBlocks(user.getTitle());
-                    holder.text.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
+                    setTextWithLinks(text.get(0), holder.text);
                     if (holder.text.getText().toString().isEmpty()) {
                         holder.text.setVisibility(View.GONE);
                     }
@@ -137,7 +144,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             {
                 if (user.getDescription() != null) {
                     List<String> text = SubmissionParser.getBlocks(user.getDescription());
-                    holder.body.setText(Html.fromHtml(text.get(0))); // TODO deadleg determine behaviour. Add overflow
+                    setTextWithLinks(text.get(0), holder.body);
                     if (holder.body.getText().toString().isEmpty()) {
                         holder.body.setVisibility(View.GONE);
                     }
@@ -164,7 +171,7 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             if (user.isAnimated()) {
                 holder.body.setVisibility(View.VISIBLE);
                 holder.body.setSingleLine(false);
-                holder.body.setText(holder.text.getText() + main.getString(R.string.submission_tap_gif).toUpperCase()); //got rid of the \n thing, because it didnt parse and it was already a new line so...
+                holder.body.setTextHtml(holder.text.getText() + main.getString(R.string.submission_tap_gif).toUpperCase()); //got rid of the \n thing, because it didnt parse and it was already a new line so...
                 holder.body.setOnClickListener(onGifImageClickListener);
             }
 
@@ -173,6 +180,20 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder2.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(holder2.itemView.getWidth(), paddingBottom ? height : main.findViewById(R.id.toolbar).getHeight()));
         }
 
+    }
+
+    public static void setTextWithLinks(String s, SpoilerRobotoTextView text) {
+        String[] parts = s.split("\\s+");
+
+        StringBuilder b = new StringBuilder();
+        for (String item : parts)
+            try {
+                URL url = new URL(item);
+                b.append(" <a href=\"").append(url).append("\">").append(url).append("</a>");
+            } catch (MalformedURLException e) {
+                b.append(" ").append(item);
+            }
+        text.setTextHtml(b.toString(), "no sub");
     }
 
     @Override

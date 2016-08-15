@@ -420,6 +420,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 posts.offline = false;
                 rv.getLayoutManager().scrollToPosition(MainActivity.restartPage + 1);
             }
+            resetScroll();
         }
     }
 
