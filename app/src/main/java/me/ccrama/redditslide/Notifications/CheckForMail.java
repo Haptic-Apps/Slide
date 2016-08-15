@@ -34,6 +34,7 @@ import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.OpenContent;
 import me.ccrama.redditslide.Adapters.MarkAsReadService;
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -406,7 +407,8 @@ public class CheckForMail extends BroadcastReceiver {
                 unread.setLimit(30);
                 if (unread.hasNext()) {
                     for (Submission subm : unread.next()) {
-                        if (subm.getCreated().getTime() > lastTime && subm.getScore() >= subThresholds.get(subm.getSubredditName().toLowerCase())) {
+                        if (subm.getCreated().getTime() > lastTime && subm.getScore() >= subThresholds.get(subm.getSubredditName().toLowerCase()) && !HasSeen
+                                .getSeen(subm)) {
                             toReturn.add(subm);
                         }
                     }
