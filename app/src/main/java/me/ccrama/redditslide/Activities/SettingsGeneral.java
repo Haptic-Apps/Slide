@@ -76,7 +76,7 @@ public class SettingsGeneral extends BaseActivityAnim
         } else {
             checkBox.setChecked(true);
             landscape.setValue(Reddit.notificationTime / 15, false);
-            checkBox.setText(context.getString(R.string.settings_notification,
+            checkBox.setText(context.getString(R.string.settings_notification_newline,
                     TimeUtils.getTimeInHoursAndMins(Reddit.notificationTime,
                             context.getBaseContext())));
         }

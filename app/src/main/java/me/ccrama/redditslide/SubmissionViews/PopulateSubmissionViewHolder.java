@@ -350,7 +350,7 @@ public class PopulateSubmissionViewHolder {
 
     public String reportReason;
 
-    boolean[] chosen = new boolean[]{false, false, false};
+    boolean[] chosen    = new boolean[]{false, false, false};
     boolean[] oldChosen = new boolean[]{false, false, false};
 
     public static int getWhiteTintColor() {
@@ -474,25 +474,20 @@ public class PopulateSubmissionViewHolder {
                                     "Open " + submission.getDomain() + " urls externally"
                             };
                             chosen = new boolean[]{
-                                    SettingValues.subredditFilters.toLowerCase().contains(
+                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase()
+                                            .split(",")).contains(
                                             submission.getSubredditName().toLowerCase()),
-                                    SettingValues.userFilters.toLowerCase().contains(
+                                    Arrays.asList(SettingValues.userFilters.toLowerCase()
+                                            .split(",")).contains(
                                             submission.getAuthor().toLowerCase()),
-                                    SettingValues.domainFilters.toLowerCase().contains(
-                                            submission.getDomain().toLowerCase()),
-                                    SettingValues.alwaysExternal.toLowerCase().contains(
-                                            submission.getDomain().toLowerCase())
+                                    Arrays.asList(
+                                    SettingValues.domainFilters.toLowerCase().split(",")).contains(
+                                    submission.getDomain().toLowerCase()),
+                                    Arrays.asList(
+                                    SettingValues.alwaysExternal.toLowerCase().split(",")).contains(
+                                    submission.getDomain().toLowerCase())
                             };
-                            oldChosen = new boolean[]{
-                                    SettingValues.subredditFilters.toLowerCase().contains(
-                                            submission.getSubredditName().toLowerCase()),
-                                    SettingValues.userFilters.toLowerCase().contains(
-                                            submission.getAuthor().toLowerCase()),
-                                    SettingValues.domainFilters.toLowerCase().contains(
-                                            submission.getDomain().toLowerCase()),
-                                    SettingValues.alwaysExternal.toLowerCase().contains(
-                                            submission.getDomain().toLowerCase())
-                            };
+                            oldChosen = chosen.clone();
                         } else {
                             choices = new String[]{
                                     "Posts from /r/" + submission.getSubredditName(),
@@ -502,29 +497,23 @@ public class PopulateSubmissionViewHolder {
                                     "Flair \"" + flair + "\" from " + baseSub
                             };
                             chosen = new boolean[]{
-                                    SettingValues.subredditFilters.toLowerCase().contains(
+                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase()
+                                            .split(",")).contains(
                                             submission.getSubredditName().toLowerCase()),
-                                    SettingValues.userFilters.toLowerCase().contains(
+                                    Arrays.asList(SettingValues.userFilters.toLowerCase()
+                                            .split(",")).contains(
                                             submission.getAuthor().toLowerCase()),
-                                    SettingValues.domainFilters.toLowerCase().contains(
-                                            submission.getDomain().toLowerCase()),
-                                    SettingValues.alwaysExternal.toLowerCase().contains(
-                                            submission.getDomain().toLowerCase()),
-                                    SettingValues.flairFilters.toLowerCase().contains(
-                                            (baseSub + ":" + flair).toLowerCase())
+                                    Arrays.asList(
+                                    SettingValues.domainFilters.toLowerCase().split(",")).contains(
+                                    submission.getDomain().toLowerCase()),
+                                    Arrays.asList(
+                                    SettingValues.alwaysExternal.toLowerCase().split(",")).contains(
+                                    submission.getDomain().toLowerCase()),
+                                    Arrays.asList(
+                                            SettingValues.flairFilters.toLowerCase().split(",")).contains(
+                                            baseSub + ":" + flair)
                             };
-                            oldChosen = new boolean[]{
-                                    SettingValues.subredditFilters.toLowerCase().contains(
-                                            submission.getSubredditName().toLowerCase()),
-                                    SettingValues.userFilters.toLowerCase().contains(
-                                            submission.getAuthor().toLowerCase()),
-                                    SettingValues.domainFilters.toLowerCase().contains(
-                                            submission.getDomain().toLowerCase()),
-                                    SettingValues.alwaysExternal.toLowerCase().contains(
-                                            submission.getDomain().toLowerCase()),
-                                    SettingValues.flairFilters.toLowerCase().contains(
-                                            (baseSub + ":" + flair).toLowerCase())
-                            };
+                            oldChosen = chosen.clone();
                         }
                         new AlertDialogWrapper.Builder(mContext).setTitle(
                                 "What would you like to filter?")
@@ -565,11 +554,12 @@ public class PopulateSubmissionViewHolder {
                                             PostMatch.subreddits = null;
                                         }
                                         if (chosen[1] && chosen[1] != oldChosen[1]) {
-                                            SettingValues.userFilters = SettingValues.userFilters
-                                                    + ((SettingValues.userFilters.isEmpty()
-                                                    || SettingValues.userFilters.endsWith(",")) ? ""
-                                                    : ",")
-                                                    + submission.getAuthor();
+                                            SettingValues.userFilters =
+                                                    SettingValues.userFilters
+                                                            + ((SettingValues.userFilters.isEmpty()
+                                                            || SettingValues.userFilters.endsWith(
+                                                            ",")) ? "" : ",")
+                                                            + submission.getAuthor();
                                             filtered = true;
                                             e.putString(SettingValues.PREF_USER_FILTERS,
                                                     SettingValues.userFilters);
@@ -2469,7 +2459,9 @@ public class PopulateSubmissionViewHolder {
                 holder.body.setTypeface(typeface);
             }
             holder.body.setTextHtml(Html.fromHtml(
-                    text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length())).toString().replace("<sup>", "<sup><small>")
+                    text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length()))
+                    .toString()
+                    .replace("<sup>", "<sup><small>")
                     .replace("</sup>", "</small></sup>"), "none ");
             holder.body.setOnClickListener(new View.OnClickListener() {
                 @Override

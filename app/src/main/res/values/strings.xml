@@ -446,6 +446,7 @@
     <string name="settings_mail_info">The higher the frequency, the more potential battery Slide will use in the background!</string>
     <string name="settings_main_color_title">Edit main color</string>
     <string name="settings_notification">Check for new messages every %1$s</string>
+    <string name="settings_notification_newline">Check for new messages every\n%1$s</string>
     <string name="settings_notification_short">Check every %1$s</string>
     <string name="settings_disable_nsfw_photo">Hide all NSFW photos</string>
     <string name="settings_store_history">Save history</string>

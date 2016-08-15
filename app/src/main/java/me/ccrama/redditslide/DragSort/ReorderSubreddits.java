@@ -39,6 +39,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -62,7 +63,9 @@ import me.ccrama.redditslide.Activities.SettingsTheme;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.UserSubscriptions;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -260,6 +263,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     }
                 });
         final FloatingActionsMenu fab = (FloatingActionsMenu) findViewById(R.id.add);
+
 
         {
             FloatingActionButton collection = (FloatingActionButton) findViewById(R.id.collection);
@@ -658,7 +662,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
         mToolbar.setVisibility(View.VISIBLE);
     }
 
-    public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+    public class CustomAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private final ArrayList<String> items;
 
         public CustomAdapter(ArrayList<String> items) {
@@ -666,10 +670,23 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
 
         @Override
-        public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            if(viewType == 2){
+                View v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.spacer, parent, false);
+                return new SpacerViewHolder(v);
+            }
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.subforsublistdrag, parent, false);
             return new ViewHolder(v);
+        }
+
+        @Override
+        public int getItemViewType(int position){
+            if(position == items.size()){
+                return 2;
+            }
+            return 1;
         }
 
         public void doNewToolbar() {
@@ -752,160 +769,60 @@ public class ReorderSubreddits extends BaseActivityAnim {
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, final int position) {
-            final String origPos = items.get(position);
-            holder.text.setText(origPos);
+        public void onBindViewHolder(final RecyclerView.ViewHolder holderB, final int position) {
+            if(holderB instanceof ViewHolder) {
+                final ViewHolder holder = (ViewHolder) holderB;
+                final String origPos = items.get(position);
+                holder.text.setText(origPos);
 
-            if (chosen.contains(origPos)) {
-                holder.itemView.setBackgroundColor(
-                        Palette.getDarkerColor(holder.text.getCurrentTextColor()));
-            } else {
-                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-            }
-            if (!isSingle(origPos) || !Authentication.isLoggedIn) {
-                holder.check.setVisibility(View.GONE);
-            } else {
-                holder.check.setVisibility(View.VISIBLE);
-            }
-            holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    //do nothing
+                if (chosen.contains(origPos)) {
+                    holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
+                } else {
+                    holder.itemView.setBackgroundColor(Color.TRANSPARENT);
                 }
-            });
-            holder.check.setChecked(
-                    isSubscribed.containsKey(origPos.toLowerCase()) && isSubscribed.get(
-                            origPos.toLowerCase()));
-            holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    String sub = origPos;
-                    if (!isChecked) {
-                        new UserSubscriptions.UnsubscribeTask().execute(sub);
-                        Snackbar.make(mToolbar, "Unsubscribed from /r/" + origPos,
-                                Snackbar.LENGTH_SHORT).show();
-                    } else {
-                        new UserSubscriptions.SubscribeTask().execute(sub);
-                        Snackbar.make(mToolbar, "Subscribed to /r/" + origPos,
-                                Snackbar.LENGTH_SHORT).show();
+                if (!isSingle(origPos) || !Authentication.isLoggedIn) {
+                    holder.check.setVisibility(View.GONE);
+                } else {
+                    holder.check.setVisibility(View.VISIBLE);
+                }
+                holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        //do nothing
                     }
-                    isSubscribed.put(origPos.toLowerCase(), isChecked);
-                }
-            });
-            holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
-            holder.itemView.findViewById(R.id.color)
-                    .getBackground()
-                    .setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    if (!isMultiple) {
-                        isMultiple = true;
-                        chosen = new ArrayList<>();
-                        chosen.add(origPos);
-
-                        doNewToolbar();
-                        holder.itemView.setBackgroundColor(
-                                Palette.getDarkerColor(Palette.getDefaultAccent()));
-                        holder.text.setTextColor(Color.WHITE);
-                    } else if (chosen.contains(origPos)) {
-                        holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-
-                        //set the color of the text back to what it should be
-                        int[] textColorAttr = new int[]{R.attr.font};
-                        TypedArray ta = obtainStyledAttributes(textColorAttr);
-                        holder.text.setTextColor(ta.getColor(0, Color.BLACK));
-                        ta.recycle();
-
-                        chosen.remove(origPos);
-
-                        if (chosen.isEmpty()) {
-                            isMultiple = false;
-                            doOldToolbar();
+                });
+                holder.check.setChecked(
+                        isSubscribed.containsKey(origPos.toLowerCase()) && isSubscribed.get(origPos.toLowerCase()));
+                holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        String sub = origPos;
+                        if (!isChecked) {
+                            new UserSubscriptions.UnsubscribeTask().execute(sub);
+                            Snackbar.make(mToolbar, "Unsubscribed from /r/" + origPos, Snackbar.LENGTH_SHORT).show();
+                        } else {
+                            new UserSubscriptions.SubscribeTask().execute(sub);
+                            Snackbar.make(mToolbar, "Subscribed to /r/" + origPos, Snackbar.LENGTH_SHORT).show();
                         }
-                    } else {
-                        chosen.add(origPos);
-                        holder.itemView.setBackgroundColor(
-                                Palette.getDarkerColor(Palette.getDefaultAccent()));
-                        holder.text.setTextColor(Color.WHITE);
-                        updateToolbar();
+                        isSubscribed.put(origPos.toLowerCase(), isChecked);
                     }
-                    return true;
-                }
-            });
+                });
+                holder.itemView.findViewById(R.id.color).setBackgroundResource(R.drawable.circle);
+                holder.itemView.findViewById(R.id.color)
+                        .getBackground()
+                        .setColorFilter(Palette.getColor(origPos), PorterDuff.Mode.MULTIPLY);
+                holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        if (!isMultiple) {
+                            isMultiple = true;
+                            chosen = new ArrayList<>();
+                            chosen.add(origPos);
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!isMultiple) {
-                        new AlertDialogWrapper.Builder(ReorderSubreddits.this).setItems(
-                                new CharSequence[]{
-                                        getString(R.string.reorder_move),
-                                        getString(R.string.btn_delete)
-                                }, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        if (which == 1) {
-                                            AlertDialogWrapper.Builder b =
-                                                    new AlertDialogWrapper.Builder(
-                                                            ReorderSubreddits.this).setTitle(
-                                                            R.string.reorder_remove_title)
-                                                            .setPositiveButton(R.string.btn_remove,
-                                                                    new DialogInterface.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(
-                                                                                DialogInterface dialog,
-                                                                                int which) {
-                                                                            subs.remove(items.get(
-                                                                                    position));
-                                                                            adapter.notifyItemRemoved(
-                                                                                    position);
-                                                                        }
-                                                                    })
-                                                            .setNegativeButton(R.string.btn_cancel,
-                                                                    new DialogInterface.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(
-                                                                                DialogInterface dialog,
-                                                                                int which) {
-
-                                                                        }
-                                                                    });
-                                            if (Authentication.isLoggedIn
-                                                    && Authentication.didOnline
-                                                    && isSingle(origPos)) {
-                                                b.setNeutralButton(
-                                                        R.string.reorder_remove_unsubsribe,
-                                                        new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(
-                                                                    DialogInterface dialog,
-                                                                    int which) {
-                                                                final String sub =
-                                                                        items.get(position);
-                                                                subs.remove(sub);
-                                                                adapter.notifyItemRemoved(position);
-                                                                new UserSubscriptions.UnsubscribeTask()
-                                                                        .execute(sub);
-                                                                isSubscribed.put(sub.toLowerCase(),
-                                                                        false);
-                                                            }
-                                                        });
-                                            }
-                                            b.show();
-                                        } else {
-                                            String s = items.get(holder.getAdapterPosition());
-                                            int index = subs.indexOf(s);
-                                            subs.remove(index);
-                                            subs.add(0, s);
-
-                                            notifyItemMoved(holder.getAdapterPosition(), 0);
-                                            recyclerView.smoothScrollToPosition(0);
-                                        }
-                                    }
-                                }).show();
-                    } else {
-                        if (chosen.contains(origPos)) {
+                            doNewToolbar();
+                            holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
+                            holder.text.setTextColor(Color.WHITE);
+                        } else if (chosen.contains(origPos)) {
                             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
 
                             //set the color of the text back to what it should be
@@ -915,7 +832,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             ta.recycle();
 
                             chosen.remove(origPos);
-                            updateToolbar();
 
                             if (chosen.isEmpty()) {
                                 isMultiple = false;
@@ -923,19 +839,101 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             }
                         } else {
                             chosen.add(origPos);
-                            holder.itemView.setBackgroundColor(
-                                    Palette.getDarkerColor(Palette.getDefaultAccent()));
+                            holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
                             holder.text.setTextColor(Color.WHITE);
                             updateToolbar();
                         }
+                        return true;
                     }
-                }
-            });
+                });
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!isMultiple) {
+                            new AlertDialogWrapper.Builder(ReorderSubreddits.this).setItems(new CharSequence[]{
+                                    getString(R.string.reorder_move), getString(R.string.btn_delete)
+                            }, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if (which == 1) {
+                                        AlertDialogWrapper.Builder b =
+                                                new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
+                                                        R.string.reorder_remove_title)
+                                                        .setPositiveButton(R.string.btn_remove, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                                subs.remove(items.get(position));
+                                                                adapter.notifyItemRemoved(position);
+                                                            }
+                                                        })
+                                                        .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog,
+                                                                    int which) {
+
+                                                            }
+                                                        });
+                                        if (Authentication.isLoggedIn && Authentication.didOnline && isSingle(origPos)) {
+                                            b.setNeutralButton(R.string.reorder_remove_unsubsribe,
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                            final String sub = items.get(position);
+                                                            subs.remove(sub);
+                                                            adapter.notifyItemRemoved(position);
+                                                            new UserSubscriptions.UnsubscribeTask().execute(sub);
+                                                            isSubscribed.put(sub.toLowerCase(),
+                                                                    false);
+                                                        }
+                                                    });
+                                        }
+                                        b.show();
+                                    } else {
+                                        String s = items.get(holder.getAdapterPosition());
+                                        int index = subs.indexOf(s);
+                                        subs.remove(index);
+                                        subs.add(0, s);
+
+                                        notifyItemMoved(holder.getAdapterPosition(), 0);
+                                        recyclerView.smoothScrollToPosition(0);
+                                    }
+                                }
+                            }).show();
+                        } else {
+                            if (chosen.contains(origPos)) {
+                                holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+
+                                //set the color of the text back to what it should be
+                                int[] textColorAttr = new int[]{R.attr.font};
+                                TypedArray ta = obtainStyledAttributes(textColorAttr);
+                                holder.text.setTextColor(ta.getColor(0, Color.BLACK));
+                                ta.recycle();
+
+                                chosen.remove(origPos);
+                                updateToolbar();
+
+                                if (chosen.isEmpty()) {
+                                    isMultiple = false;
+                                    doOldToolbar();
+                                }
+                            } else {
+                                chosen.add(origPos);
+                                holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
+                                holder.text.setTextColor(Color.WHITE);
+                                updateToolbar();
+                            }
+                        }
+                    }
+                });
+            }
         }
 
         @Override
         public int getItemCount() {
-            return items.size();
+            return items.size() + 1;
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
@@ -948,6 +946,15 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 check = (AppCompatCheckBox) itemView.findViewById(R.id.isSubscribed);
             }
         }
+        public class SpacerViewHolder extends RecyclerView.ViewHolder {
+            public SpacerViewHolder(View itemView) {
+                super(itemView);
+                    itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT, Reddit.dpToPxVertical(88)));
+
+                }
+        }
+
     }
 
     private boolean isSingle(ArrayList<String> chosen) {
