@@ -35,6 +35,7 @@ public class CommentOverflow extends LinearLayout {
     private int fontSize;
     private static final MarginLayoutParams COLUMN_PARAMS;
     private static final MarginLayoutParams MARGIN_PARAMS;
+    private static final MarginLayoutParams HR_PARAMS;
 
     static {
         COLUMN_PARAMS = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -42,6 +43,9 @@ public class CommentOverflow extends LinearLayout {
 
         MARGIN_PARAMS = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         MARGIN_PARAMS.setMargins(0, 16, 0, 16);
+
+        HR_PARAMS = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, Reddit.dpToPxVertical(2));
+        HR_PARAMS.setMargins(0, 16, 0, 16);
     }
 
     public CommentOverflow(Context context) {
@@ -112,8 +116,14 @@ public class CommentOverflow extends LinearLayout {
                 table.setPaddingRelative(0, 0, 0, Reddit.dpToPxVertical(10));
                 scrollView.addView(table);
                 addView(scrollView);
-
-            } else if (block.startsWith("<pre>")) {
+            } else if(block.equals("<hr/>")) {
+                View line = new View(context);
+                LogUtil.v("Size is " +  Reddit.dpToPxVertical(2));
+                line.setLayoutParams(HR_PARAMS);
+                line.setBackgroundColor(textColor);
+                line.setAlpha(0.6f);
+                addView(line);
+            } else if (block.startsWith("<pre>")){
                 HorizontalScrollView scrollView = new HorizontalScrollView(context);
                 scrollView.setScrollbarFadingEnabled(false);
                 SpoilerRobotoTextView newTextView = new SpoilerRobotoTextView(context);

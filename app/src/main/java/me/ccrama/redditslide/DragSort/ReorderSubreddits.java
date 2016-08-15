@@ -151,8 +151,12 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
     @Override
     public void onPause() {
-        UserSubscriptions.setSubscriptions(new ArrayList<>(subs));
-        SettingsTheme.changed = true;
+        try {
+            UserSubscriptions.setSubscriptions(new ArrayList<>(subs));
+            SettingsTheme.changed = true;
+        } catch(Exception e){
+
+        }
         super.onPause();
     }
 

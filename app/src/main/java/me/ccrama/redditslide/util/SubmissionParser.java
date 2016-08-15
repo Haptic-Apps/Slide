@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 public class SubmissionParser {
     private static final Pattern SPOILER_PATTERN = Pattern.compile("<a[^>]*title=\"([^\"]*)\"[^>]*>([^<]*)</a>");
     private static final String TABLE_START_TAG = "<table>";
+    private static final String HR_TAG = "<hr/>";
     private static final String TABLE_END_TAG = "</table>";
 
     private SubmissionParser() {
@@ -63,7 +64,14 @@ public class SubmissionParser {
             html = parseLists(html);
         }
 
+
+
         List<String> codeBlockSeperated = parseCodeTags(html);
+
+        if (html.contains(HR_TAG)) {
+            codeBlockSeperated = parseHR(codeBlockSeperated);
+        }
+
         if (html.contains("<table")) {
             return parseTableTags(codeBlockSeperated);
         } else {
@@ -144,6 +152,23 @@ public class SubmissionParser {
 
 
         return html;
+    }
+
+    private static List<String> parseHR(List<String> blocks) {
+        List<String> newBlocks = new ArrayList<>();
+        for (String block : blocks) {
+            if (block.contains(HR_TAG)) {
+                for(String s : block.split(HR_TAG)) {
+                    newBlocks.add(s);
+                    newBlocks.add(HR_TAG);
+                }
+                newBlocks.remove(newBlocks.size() - 1);
+            } else {
+                newBlocks.add(block);
+            }
+        }
+
+        return newBlocks;
     }
 
     /**

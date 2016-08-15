@@ -311,7 +311,7 @@ public class DoEditorActions {
 
                 if (oldComment != null) {
                     final TextView showText = new TextView(a);
-                    showText.setText(oldComment);
+                    showText.setText(oldComment, TextView.BufferType.SPANNABLE);
                     showText.setTextIsSelectable(true);
                     showText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
                         @Override

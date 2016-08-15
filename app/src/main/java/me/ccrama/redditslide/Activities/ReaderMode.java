@@ -38,7 +38,7 @@ public class ReaderMode extends BaseActivityAnim {
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
         super.onCreate(savedInstanceState);
-        applyDarkColorTheme("");
+        applyColorTheme("");
         setContentView(R.layout.activity_reader);
         if(getIntent().hasExtra("url")) {
             url = getIntent().getExtras().getString(EXTRA_URL, "");

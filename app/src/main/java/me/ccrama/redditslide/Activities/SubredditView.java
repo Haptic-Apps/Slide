@@ -108,7 +108,7 @@ public class SubredditView extends BaseActivityAnim {
     View header;
     Subreddit sub;
     private DrawerLayout drawerLayout;
-    private boolean      currentlySubbed;
+    private boolean      currentlySubbed = false;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

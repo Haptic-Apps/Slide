@@ -522,28 +522,30 @@ public class MediaFragmentComment extends Fragment {
                         URL obj = new URL(finalUrl2);
                         URLConnection conn = obj.openConnection();
                         final String type = conn.getHeaderField("Content-Type");
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!imageShown
-                                        && type != null
-                                        && !type.isEmpty()
-                                        && type.startsWith("image/")) {
-                                    //is image
-                                    if (type.contains("gif")) {
-                                        doLoadGif(finalUrl2.replace(".jpg", ".gif")
-                                                .replace(".png", ".gif"));
+                        if (getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (!imageShown
+                                            && type != null
+                                            && !type.isEmpty()
+                                            && type.startsWith("image/")) {
+                                        //is image
+                                        if (type.contains("gif")) {
+                                            doLoadGif(finalUrl2.replace(".jpg", ".gif")
+                                                    .replace(".png", ".gif"));
+                                        } else if (!imageShown) {
+                                            displayImage(finalUrl2);
+                                        }
+                                        actuallyLoaded = finalUrl2;
                                     } else if (!imageShown) {
-                                        displayImage(finalUrl2);
+                                        Intent i = new Intent(getActivity(), Website.class);
+                                        i.putExtra(Website.EXTRA_URL, finalUrl2);
+                                        getActivity().startActivity(i);
                                     }
-                                    actuallyLoaded = finalUrl2;
-                                } else if (!imageShown) {
-                                    Intent i = new Intent(getActivity(), Website.class);
-                                    i.putExtra(Website.EXTRA_URL, finalUrl2);
-                                    getActivity().startActivity(i);
                                 }
-                            }
-                        });
+                            });
+                        }
 
                     } catch (IOException e) {
                         LogUtil.e(e, "Error loading image finalUrl2 = [" + finalUrl2 + "]");

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#000000"
+              android:background="?attr/activity_background"
               android:orientation="vertical">
 
     <ScrollView
@@ -18,7 +18,7 @@
             android:paddingBottom="16dp"
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
-            android:textColor="#ffffff"
+            android:textColor="?attr/font"
             android:textSize="?attr/font_commentbody"/>
     </ScrollView>
 </LinearLayout>
