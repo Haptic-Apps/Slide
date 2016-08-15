@@ -247,7 +247,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            b.sheet(6, file, "Save " + type);
+            b.sheet(6, file, getString(R.string.mediaview_save) + type);
         }
         b.listener(new DialogInterface.OnClickListener() {
             @Override
@@ -313,7 +313,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     mNotifyManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(MediaView.this);
-                    mBuilder.setContentTitle("Saving " + baseUrl)
+                    mBuilder.setContentTitle(getString(R.string.mediaview_saving) + baseUrl)
                             .setSmallIcon(R.drawable.save);
                     try {
 
@@ -1067,7 +1067,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.settings_set_image_location, folder.getAbsolutePath()), Toast.LENGTH_LONG).show();
         }
     }
 }

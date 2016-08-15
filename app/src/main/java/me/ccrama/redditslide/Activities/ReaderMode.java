@@ -97,8 +97,8 @@ public class ReaderMode extends BaseActivityAnim {
             if (articleText != null) {
                 v.setTextHtml(articleText, "nosub");
             } else {
-                new AlertDialogWrapper.Builder(ReaderMode.this).setTitle(
-                        "Sorry, article could not be extracted")
+                new AlertDialogWrapper.Builder(ReaderMode.this)
+                        .setTitle(R.string.internal_browser_extracting_error)
                         .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -112,7 +112,7 @@ public class ReaderMode extends BaseActivityAnim {
 
         @Override
         protected void onPreExecute() {
-            d = new MaterialDialog.Builder(ReaderMode.this).title("Extracting article...")
+            d = new MaterialDialog.Builder(ReaderMode.this).title(R.string.internal_browser_extracting_progress)
                     .progress(true, 100)
                     .show();
         }

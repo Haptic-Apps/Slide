@@ -220,7 +220,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 @Override
                 protected void onPreExecute() {
                     d = new MaterialDialog.Builder(ReorderSubreddits.this).progress(true, 100)
-                            .title("Loading your subreddits")
+                            .title(R.string.reorder_loading_title)
                             .cancelable(false)
                             .show();
                 }
@@ -357,7 +357,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                     fab.collapse();
                     MaterialDialog.Builder b =
                             new MaterialDialog.Builder(ReorderSubreddits.this).title(
-                                    "Add or search for a subreddit")
+                                    R.string.reorder_add_or_search_subreddit)
                                     .alwaysCallInputCallback()
                                     .input(getString(R.string.reorder_subreddit_name), null, false,
                                             new MaterialDialog.InputCallback() {
@@ -438,8 +438,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                         e.printStackTrace();
                                         //todo make this better
                                         new AlertDialogWrapper.Builder(
-                                                ReorderSubreddits.this).setTitle("URL Invalid")
-                                                .setMessage("Please try again")
+                                                ReorderSubreddits.this).setTitle(R.string.reorder_url_err)
+                                                .setMessage(R.string.misc_please_try_again)
                                                 .show();
 
                                     }
@@ -635,7 +635,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                         subs.add(s.getDisplayName());
                                     }
                                     new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
-                                            "Subreddit not found, here are some suggestions")
+                                            R.string.reorder_not_found_err)
                                             .setItems(subs.toArray(new String[subs.size()]),
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
@@ -799,10 +799,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         String sub = origPos;
                         if (!isChecked) {
                             new UserSubscriptions.UnsubscribeTask().execute(sub);
-                            Snackbar.make(mToolbar, "Unsubscribed from /r/" + origPos, Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(mToolbar, getString(R.string.reorder_unsubscribed_toast) + origPos, Snackbar.LENGTH_SHORT).show();
                         } else {
                             new UserSubscriptions.SubscribeTask().execute(sub);
-                            Snackbar.make(mToolbar, "Subscribed to /r/" + origPos, Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(mToolbar, getString(R.string.reorder_subscribed_toast) + origPos, Snackbar.LENGTH_SHORT).show();
                         }
                         isSubscribed.put(origPos.toLowerCase(), isChecked);
                     }

@@ -127,6 +127,12 @@
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:background="?attr/tint"
+                android:alpha=".25"
+                android:layout_height="0.25dp"/>
+
             <RelativeLayout
                     android:id="@+id/comments_count"
                     android:layout_width="match_parent"
@@ -155,12 +161,12 @@
 
             </RelativeLayout>
 
-
             <View
-                android:layout_width="match_parent"
-                android:background="?attr/tint"
-                android:alpha=".25"
-                android:layout_height="0.25dp"/>
+                    android:layout_width="match_parent"
+                    android:background="?attr/tint"
+                    android:alpha=".25"
+                    android:layout_height="0.25dp"/>
+
             <RelativeLayout
                 android:id="@+id/autocache_time_touch"
                 android:layout_width="match_parent"

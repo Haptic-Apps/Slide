@@ -503,7 +503,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                                     ClipData clip = ClipData.newPlainText("Link", url);
                                     clipboard.setPrimaryClip(clip);
 
-                                    Toast.makeText(activity, "Link copied", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                                     break;
                             }
                         }

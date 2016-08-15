@@ -62,7 +62,7 @@ public class SettingsAbout extends BaseActivityAnim {
                 ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newPlainText("Version", versionNumber);
                 clipboard.setPrimaryClip(clip);
-                Toast.makeText(SettingsAbout.this, "Version number copied to clipboard", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsAbout.this, R.string.settings_about_version_copied_toast, Toast.LENGTH_SHORT).show();
 
             }
         });

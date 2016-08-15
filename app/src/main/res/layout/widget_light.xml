@@ -66,6 +66,6 @@
         android:textColor="#424242"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="Loading..." />
+        android:text="@string/widget_loading" />
 
 </LinearLayout>

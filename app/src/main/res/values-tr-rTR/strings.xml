@@ -291,7 +291,7 @@
   <string name="mod_btn_approved">/u/%1$s tarafından onaylandı</string>
   <string name="mod_btn_mark_nsfw">NSFW olarak işaretle</string>
   <string name="mod_btn_unmark_nsfw">NSFW işaretini kaldır</string>
-  <string name="mod_btn_sticky">İğnele</string>
+  <string name="mod_btn_pin">İğnele</string>
   <string name="mod_btn_remove">Kaldır</string>
   <string name="mod_btn_author">Yazar profili</string>
   <!-- Subreddit Wiki -->

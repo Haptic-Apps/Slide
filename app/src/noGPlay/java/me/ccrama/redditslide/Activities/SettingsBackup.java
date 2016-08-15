@@ -174,9 +174,9 @@ public class SettingsBackup extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     new AlertDialogWrapper.Builder(SettingsBackup.this).setTitle(
-                            "Include personal information?")
+                            R.string.settings_backup_include_personal_title)
                             .setMessage(
-                                    "This includes authentication tokens, usernames, tags, and history")
+                                    R.string.settings_backup_include_personal_text)
                             .setPositiveButton(R.string.btn_yes,
                                     new DialogInterface.OnClickListener() {
                                         @Override
@@ -323,11 +323,11 @@ public class SettingsBackup extends BaseActivityAnim {
                                         if (intent.resolveActivityInfo(getPackageManager(), 0)
                                                 != null) {
                                             startActivity(
-                                                    Intent.createChooser(intent, "View backup"));
+                                                    Intent.createChooser(intent, getString(R.string.settings_backup_view)));
                                         } else {
                                             Snackbar s =
                                                     Snackbar.make(findViewById(R.id.restorefile),
-                                                            "No file explorer found, file located at "
+                                                            getString(R.string.settings_backup_err_no_explorer) + file.getAbsolutePath()
                                                                     + file,
                                                             Snackbar.LENGTH_INDEFINITE);
                                             View view = s.getView();

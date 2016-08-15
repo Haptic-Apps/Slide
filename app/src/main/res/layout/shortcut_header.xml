@@ -14,7 +14,7 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="?attr/tint"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
-        android:hint="Subreddit name"
+        android:hint="@string/widget_subname_hint"
         android:imeOptions="actionSearch"
         android:singleLine="true"
         android:textColor="?attr/font"

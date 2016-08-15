@@ -12,7 +12,7 @@
     <item
             android:id="@+id/read"
             android:icon="@drawable/ic_format_size_white_48dp"
-            android:title="Reader Mode"
+            android:title="@string/internal_browser_readermode"
             app:showAsAction="always"/>
 
     <item
@@ -32,7 +32,7 @@
     <item
             android:id="@+id/store_cookies"
             android:checkable="true"
-            android:title="Store website cookies"
+            android:title="@string/internal_browser_storecookies"
             app:actionViewClass="android.widget.CheckBox"
             app:showAsAction="withText" />
 

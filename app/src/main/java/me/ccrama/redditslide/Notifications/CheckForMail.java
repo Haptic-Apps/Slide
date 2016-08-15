@@ -339,7 +339,7 @@ public class CheckForMail extends BroadcastReceiver {
                         Notification notification =
                                 new NotificationCompat.Builder(c).setContentIntent(readPI)
                                         .setSmallIcon(R.drawable.notif)
-                                        .setTicker("New post in /r/" + s.getSubredditName())
+                                        .setTicker(c.getString(R.string.sub_post_notifs_notification_title) + s.getSubredditName())
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
                                         .setContentTitle("/r/"
@@ -352,8 +352,8 @@ public class CheckForMail extends BroadcastReceiver {
                                                 + s.getAuthor())
                                         .setColor(Palette.getColor(s.getSubredditName()))
                                         .setStyle(notiStyle)
-                                        .addAction(R.drawable.close,
-                                                "Stop tracking /r/" + s.getSubredditName(),
+                                        .addAction(R.drawable.close,c.getString(R.string.sub_post_notifs_notification_btn)
+                                                 + s.getSubredditName(),
                                                 cancelPi)
                                         .build();
                         notificationManager.notify((int) (s.getCreated().getTime() / 1000),

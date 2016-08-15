@@ -101,7 +101,7 @@ public class Settings extends BaseActivity {
                 @Override
                 public void onSingleClick(View v) {
                     new AlertDialogWrapper.Builder(Settings.this).setTitle(
-                            "Support Slide for Reddit by Going Pro!")
+                            R.string.settings_support_slide)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {

@@ -313,8 +313,8 @@
   <string name="mod_btn_submission_flair">設置前綴</string>
   <string name="mod_btn_mark_nsfw">標記為 NSFW</string>
   <string name="mod_btn_unmark_nsfw">移除 NSFW 標記</string>
-  <string name="mod_btn_sticky">置頂</string>
-  <string name="mod_btn_unsticky">取消置頂</string>
+  <string name="mod_btn_pin">置頂</string>
+  <string name="mod_btn_unpin">取消置頂</string>
   <string name="mod_btn_remove">刪除</string>
   <string name="mod_btn_remove_reason">有原因刪除</string>
   <string name="mod_btn_author">提交者用戶頁</string>

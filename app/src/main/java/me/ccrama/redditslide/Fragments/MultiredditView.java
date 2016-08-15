@@ -103,7 +103,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                             subs.add(s.getDisplayName());
                         }
                         new MaterialDialog.Builder(getActivity())
-                                .title("Which sub would you like to submit to?")
+                                .title(R.string.multi_submit_which_sub)
                                 .items(subs)
                                 .itemsCallback(new MaterialDialog.ListCallback() {
                                     @Override

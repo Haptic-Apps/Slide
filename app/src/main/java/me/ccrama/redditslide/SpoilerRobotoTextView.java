@@ -469,7 +469,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             ClipboardManager clipboard = (ClipboardManager) finalActivity.getSystemService(Context.CLIPBOARD_SERVICE);
                             ClipData clip = ClipData.newPlainText("Link", url);
                             clipboard.setPrimaryClip(clip);
-                            Toast.makeText(finalActivity, "Link copied", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(finalActivity, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             break;
                     }
                 }

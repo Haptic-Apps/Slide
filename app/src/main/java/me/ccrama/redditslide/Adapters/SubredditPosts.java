@@ -34,6 +34,7 @@ import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.PostMatch;
+import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionCache;
@@ -436,8 +437,8 @@ public class SubredditPosts implements PostLoader {
         int i = 0;
         for (String s : all) {
             String[] split = s.split(",");
-            titles[i] = (Long.valueOf(split[1]) == 0 ? "submission only"
-                    : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c) + " (comments)");
+            titles[i] = (Long.valueOf(split[1]) == 0 ? c.getString(R.string.settings_backup_submission_only)
+                    : TimeUtils.getTimeAgo(Long.valueOf(split[1]), c) + c.getString(R.string.settings_backup_comments));
             base[i] = s;
             i++;
         }

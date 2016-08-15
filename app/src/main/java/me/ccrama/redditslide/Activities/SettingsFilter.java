@@ -115,7 +115,7 @@ public class SettingsFilter extends BaseActivityAnim {
                         flair.setText("");
                         updateFilters();
                     } else {
-                        Toast.makeText(SettingsFilter.this, "Flair filters must look like subreddit:flairtext", Toast.LENGTH_LONG).show();
+                        Toast.makeText(SettingsFilter.this, R.string.settings_filter_flair_error, Toast.LENGTH_LONG).show();
                     }
                 }
                 return false;

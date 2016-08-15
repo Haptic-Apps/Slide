@@ -596,14 +596,14 @@ public class SettingsTheme extends BaseActivityAnim {
                             });
                     {
                         final TextView start = (TextView) dialoglayout.findViewById(R.id.start);
-                        start.setText("Start at " + SettingValues.nightStart + "PM");
+                        start.setText(getString(R.string.settings_theme_night_start_at) + SettingValues.nightStart + "PM");
                         final String[] timesStart = new String[]{"6", "7", "8", "9", "10", "11"};
                         selectionStart = SettingValues.nightStart - 6;
                         start.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 new MaterialDialog.Builder(SettingsTheme.this).title(
-                                        "Select a start time for Night Mode")
+                                        R.string.settings_theme_night_start_title)
                                         .itemsCallback(new MaterialDialog.ListCallback() {
                                                     @Override
                                                     public void onSelection(
@@ -615,7 +615,7 @@ public class SettingsTheme extends BaseActivityAnim {
                                                                 .putInt(SettingValues.PREF_NIGHT_START,
                                                                         selectionStart)
                                                                 .apply();
-                                                        start.setText("Start at "
+                                                        start.setText(getString(R.string.settings_theme_night_start_at)
                                                                 + SettingValues.nightStart
                                                                 + "PM");
                                                     }
@@ -628,7 +628,7 @@ public class SettingsTheme extends BaseActivityAnim {
                     }
                     {
                         final TextView end = (TextView) dialoglayout.findViewById(R.id.end);
-                        end.setText("End at " + SettingValues.nightEnd + "AM");
+                        end.setText(getString(R.string.settings_theme_night_end_at) + SettingValues.nightEnd + "AM");
                         final String[] timesStart = new String[]{
                                 "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
                         };
@@ -637,7 +637,7 @@ public class SettingsTheme extends BaseActivityAnim {
                             @Override
                             public void onClick(View v) {
                                 new MaterialDialog.Builder(SettingsTheme.this).title(
-                                        "Select an end time for Night Mode")
+                                        R.string.settings_theme_night_end_title)
                                         .itemsCallback(new MaterialDialog.ListCallback() {
                                                     @Override
                                                     public void onSelection(
@@ -650,7 +650,7 @@ public class SettingsTheme extends BaseActivityAnim {
                                                                         selectionEnd)
                                                                 .apply();
                                                         end.setText(
-                                                                "End at " + SettingValues.nightEnd + "AM");
+                                                                getString(R.string.settings_theme_night_end_at) + SettingValues.nightEnd + "AM");
                                                     }
                                                 })
                                         .items(timesStart)
@@ -661,7 +661,7 @@ public class SettingsTheme extends BaseActivityAnim {
                     }
                 } else {
                      new AlertDialogWrapper.Builder(SettingsTheme.this).setTitle(
-                            "Automatic Night Mode is a Pro feature")
+                            R.string.general_nighttheme_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
 

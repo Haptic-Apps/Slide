@@ -419,14 +419,14 @@ public class PopulateSubmissionViewHolder {
                 b.sheet(3, saved, save);
 
             }
-            b.sheet(26, saveOffline, "Save Offline");
+            b.sheet(26, saveOffline, mContext.getString(R.string.submission_save_offline));
             if (Authentication.isLoggedIn) {
                 b.sheet(12, report, mContext.getString(R.string.btn_report));
             }
 
         }
         if (submission.getSelftext() != null && !submission.getSelftext().isEmpty() && full) {
-            b.sheet(25, copy, "Copy selftext");
+            b.sheet(25, copy, mContext.getString(R.string.submission_copy_text));
         }
 
         boolean hidden = submission.isHidden();
@@ -468,11 +468,11 @@ public class PopulateSubmissionViewHolder {
                                 ? submission.getSubmissionFlair().getText() : "";
                         if (flair.isEmpty()) {
                             choices = new String[]{
-                                    "Posts from /r/" + submission.getSubredditName(),
-                                    "Posts by /u/" + submission.getAuthor(),
-                                    "Posts linking to " + submission.getDomain(),
-                                    "Open " + submission.getDomain() + " urls externally"
-                            };
+                                            mContext.getString(R.string.filter_posts_sub) + submission.getSubredditName(),
+                                            mContext.getString(R.string.filter_posts_user) + submission.getAuthor(),
+                                            mContext.getString(R.string.filter_posts_urls) + submission.getDomain(),
+                                            mContext.getString(R.string.filter_open_externally, submission.getDomain())};
+
                             chosen = new boolean[]{
                                     Arrays.asList(SettingValues.subredditFilters.toLowerCase()
                                             .split(",")).contains(
@@ -490,11 +490,11 @@ public class PopulateSubmissionViewHolder {
                             oldChosen = chosen.clone();
                         } else {
                             choices = new String[]{
-                                    "Posts from /r/" + submission.getSubredditName(),
-                                    "Posts by /u/" + submission.getAuthor(),
-                                    "Posts linking to " + submission.getDomain(),
-                                    "Open " + submission.getDomain() + " urls externally",
-                                    "Flair \"" + flair + "\" from " + baseSub
+                                            mContext.getString(R.string.filter_posts_sub) + submission.getSubredditName(),
+                                            mContext.getString(R.string.filter_posts_user) + submission.getAuthor(),
+                                            mContext.getString(R.string.filter_posts_urls) + submission.getDomain(),
+                                            mContext.getString(R.string.filter_open_externally, submission.getDomain()),
+                                            mContext.getString(R.string.filter_posts_flair, flair, baseSub)};
                             };
                             chosen = new boolean[]{
                                     Arrays.asList(SettingValues.subredditFilters.toLowerCase()
@@ -514,9 +514,9 @@ public class PopulateSubmissionViewHolder {
                                             baseSub + ":" + flair)
                             };
                             oldChosen = chosen.clone();
-                        }
+
                         new AlertDialogWrapper.Builder(mContext).setTitle(
-                                "What would you like to filter?")
+                                R.string.filter_title)
                                 .alwaysCallMultiChoiceCallback()
                                 .setMultiChoiceItems(choices, chosen,
                                         new DialogInterface.OnMultiChoiceClickListener() {
@@ -526,7 +526,7 @@ public class PopulateSubmissionViewHolder {
                                                 chosen[which] = isChecked;
                                             }
                                         })
-                                .setPositiveButton("Filter", new DialogInterface.OnClickListener() {
+                                .setPositiveButton(R.string.filter_btn, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         boolean filtered = false;
@@ -670,7 +670,7 @@ public class PopulateSubmissionViewHolder {
                                         }
                                     }
                                 })
-                                .setNegativeButton("Cancel", null)
+                                .setNegativeButton(R.string.btn_cancel, null)
                                 .show();
                         break;
 
@@ -746,7 +746,7 @@ public class PopulateSubmissionViewHolder {
                                 Context.CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
                         clipboard.setPrimaryClip(clip);
-                        Toast.makeText(mContext, "Link copied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                     }
                     break;
                     case 25:
@@ -755,13 +755,13 @@ public class PopulateSubmissionViewHolder {
                         ClipData clip = ClipData.newPlainText("Selftext",
                                 Html.fromHtml(submission.getSelftext()));
                         clipboard.setPrimaryClip(clip);
-                        Toast.makeText(mContext, "Selftext copied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.submission_text_copied, Toast.LENGTH_SHORT).show();
                         break;
                     case 26:
                         new CommentCacheAsync(Arrays.asList(submission), mContext,
                                 CommentCacheAsync.SAVED_SUBMISSIONS,
                                 new boolean[]{true, true}).execute();
-                        Toast.makeText(mContext, "Submission saved", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.submission_post_saved, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -802,7 +802,7 @@ public class PopulateSubmissionViewHolder {
                         s = Snackbar.make(holder.itemView, R.string.submission_info_saved,
                                 Snackbar.LENGTH_LONG);
                         if (Authentication.me.hasGold()) {
-                            s.setAction("CATEGORIZE", new View.OnClickListener() {
+                            s.setAction(R.string.category_categorize, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     categorizeSaved(submission, holder.itemView, mContext);
@@ -874,8 +874,8 @@ public class PopulateSubmissionViewHolder {
                                     final String t = data.get(which);
                                     if (which == data.size() - 1) {
                                         new MaterialDialog.Builder(mContext).title(
-                                                "Set category name")
-                                                .input("Category name", null, false,
+                                                R.string.category_set_name)
+                                                .input(mContext.getString(R.string.category_set_name_hint), null, false,
                                                         new MaterialDialog.InputCallback() {
                                                             @Override
                                                             public void onInput(
@@ -935,7 +935,7 @@ public class PopulateSubmissionViewHolder {
                                                                             if (itemView != null) {
                                                                                 s = Snackbar.make(
                                                                                         itemView,
-                                                                                        "Error setting category",
+                                                                                        R.string.category_set_error,
                                                                                         Snackbar.LENGTH_SHORT);
                                                                                 View view =
                                                                                         s.getView();
@@ -986,7 +986,7 @@ public class PopulateSubmissionViewHolder {
                                                 } else {
                                                     if (itemView != null) {
                                                         s = Snackbar.make(itemView,
-                                                                "Error setting category",
+                                                                R.string.category_set_error,
                                                                 Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
                                                         TextView tv = (TextView) view.findViewById(
@@ -1149,15 +1149,15 @@ public class PopulateSubmissionViewHolder {
 
         final boolean stickied = submission.isStickied();
         if (stickied) {
-            b.sheet(4, pin, res.getString(R.string.mod_btn_unsticky));
+            b.sheet(4, pin, res.getString(R.string.mod_btn_unpin));
         } else {
-            b.sheet(4, pin, res.getString(R.string.mod_btn_sticky));
+            b.sheet(4, pin, res.getString(R.string.mod_btn_pin));
         }
 
         final String finalWhoApproved = whoApproved;
         final boolean finalApproved = approved;
         b.sheet(8, profile, res.getString(R.string.mod_btn_author));
-        b.sheet(23, ban, "Ban user");
+        b.sheet(23, ban, mContext.getString(R.string.mod_ban_user));
         b.listener(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -1399,7 +1399,7 @@ public class PopulateSubmissionViewHolder {
                     case 4:
                         if (stickied) {
                             new AlertDialogWrapper.Builder(mContext).setTitle(
-                                    "Really un-pin this submission?")
+                                    R.string.really_unpin_submission)
                                     .setPositiveButton(R.string.btn_yes,
                                             new DialogInterface.OnClickListener() {
                                                 @Override
@@ -1430,7 +1430,7 @@ public class PopulateSubmissionViewHolder {
                                                                 }
                                                                 Snackbar s = Snackbar.make(
                                                                         holder.itemView,
-                                                                        "Submission un-pinned",
+                                                                        R.string.really_unpin_submission_message,
                                                                         Snackbar.LENGTH_LONG);
                                                                 View view = s.getView();
                                                                 TextView tv =
@@ -1471,7 +1471,7 @@ public class PopulateSubmissionViewHolder {
                                     .show();
                         } else {
                             new AlertDialogWrapper.Builder(mContext).setTitle(
-                                    "Really pin this submission?")
+                                    R.string.really_pin_submission)
                                     .setPositiveButton(R.string.btn_yes,
                                             new DialogInterface.OnClickListener() {
                                                 @Override
@@ -1502,7 +1502,7 @@ public class PopulateSubmissionViewHolder {
                                                                 }
                                                                 Snackbar s = Snackbar.make(
                                                                         holder.itemView,
-                                                                        "Submission pinned",
+                                                                        R.string.really_pin_submission_message,
                                                                         Snackbar.LENGTH_LONG);
                                                                 View view = s.getView();
                                                                 TextView tv =
@@ -1630,7 +1630,7 @@ public class PopulateSubmissionViewHolder {
                     case 6:
 
                         new AlertDialogWrapper.Builder(mContext).setTitle(
-                                "Really remove this submission?")
+                                R.string.really_remove_submission)
                                 .setPositiveButton(R.string.btn_yes,
                                         new DialogInterface.OnClickListener() {
                                             @Override
@@ -1660,7 +1660,7 @@ public class PopulateSubmissionViewHolder {
                                                             }
                                                             Snackbar s =
                                                                     Snackbar.make(holder.itemView,
-                                                                            "Submission removed",
+                                                                            R.string.submission_removed,
                                                                             Snackbar.LENGTH_LONG);
                                                             View view = s.getView();
                                                             TextView tv =
@@ -1702,10 +1702,10 @@ public class PopulateSubmissionViewHolder {
                     case 7:
                         reason = "";
                         new MaterialDialog.Builder(mContext).title(
-                                "What is the reason for removing this submission?")
+                                R.string.mod_remove_title)
                                 .positiveText(R.string.btn_remove)
                                 .alwaysCallInputCallback()
-                                .input("Removal reason", "Removed for ", false,
+                                .input(mContext.getString(R.string.mod_remove_hint), mContext.getString(R.string.mod_remove_template), false,
                                         new MaterialDialog.InputCallback() {
                                             @Override
                                             public void onInput(MaterialDialog dialog,
@@ -1714,7 +1714,7 @@ public class PopulateSubmissionViewHolder {
                                             }
                                         })
                                 .inputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                                .neutralText("Insert draft")
+                                .neutralText(R.string.mod_remove_insert_draft)
                                 .onNeutral(new MaterialDialog.SingleButtonCallback() {
                                     @Override
                                     public void onClick(@NonNull MaterialDialog dialog,
@@ -1748,7 +1748,7 @@ public class PopulateSubmissionViewHolder {
                                                         dialog.dismiss();
                                                     }
                                                     Snackbar s = Snackbar.make(holder.itemView,
-                                                            "Submission removed",
+                                                            R.string.submission_removed,
                                                             Snackbar.LENGTH_LONG);
                                                     View view = s.getView();
                                                     TextView tv = (TextView) view.findViewById(
@@ -1827,12 +1827,12 @@ public class PopulateSubmissionViewHolder {
 
                                     if (data.isEmpty()) {
                                         new AlertDialogWrapper.Builder(mContext).setTitle(
-                                                "No flair found for this subreddit")
+                                                R.string.mod_flair_none_found)
                                                 .setPositiveButton(R.string.btn_ok, null)
                                                 .show();
                                     } else {
                                         new MaterialDialog.Builder(mContext).items(data)
-                                                .title("Select flair")
+                                                .title(R.string.sidebar_select_flair)
                                                 .itemsCallback(new MaterialDialog.ListCallback() {
                                                     @Override
                                                     public void onSelection(MaterialDialog dialog,
@@ -1842,8 +1842,9 @@ public class PopulateSubmissionViewHolder {
                                                         if (t.isTextEditable()) {
                                                             new MaterialDialog.Builder(
                                                                     mContext).title(
-                                                                    "Set flair text")
-                                                                    .input("Flair text",
+                                                                    R.string.sidebar_select_flair_text)
+                                                                    .input(mContext.getString(
+                                                                            R.string.mod_flair_hint),
                                                                             t.getText(), true,
                                                                             new MaterialDialog.InputCallback() {
                                                                                 @Override
@@ -1853,7 +1854,7 @@ public class PopulateSubmissionViewHolder {
 
                                                                                 }
                                                                             })
-                                                                    .positiveText("Set")
+                                                                    .positiveText(R.string.btn_set)
                                                                     .onPositive(
                                                                             new MaterialDialog.SingleButtonCallback() {
                                                                                 @Override
@@ -1897,7 +1898,7 @@ public class PopulateSubmissionViewHolder {
                                                                                                     s =
                                                                                                             Snackbar.make(
                                                                                                                     recyclerview,
-                                                                                                                    "Flair set successfully",
+                                                                                                                    R.string.snackbar_flair_success,
                                                                                                                     Snackbar.LENGTH_SHORT);
                                                                                                 }
                                                                                                 if (holder.itemView
@@ -1920,7 +1921,7 @@ public class PopulateSubmissionViewHolder {
                                                                                                     s =
                                                                                                             Snackbar.make(
                                                                                                                     recyclerview,
-                                                                                                                    "Error setting flair, try again soon",
+                                                                                                                    R.string.snackbar_flair_error,
                                                                                                                     Snackbar.LENGTH_SHORT);
                                                                                                 }
                                                                                             }
@@ -1972,7 +1973,7 @@ public class PopulateSubmissionViewHolder {
                                                                         if (recyclerview != null) {
                                                                             s = Snackbar.make(
                                                                                     recyclerview,
-                                                                                    "Flair set successfully",
+                                                                                    R.string.snackbar_flair_success,
                                                                                     Snackbar.LENGTH_SHORT);
                                                                         }
                                                                         if (holder.itemView
@@ -1990,7 +1991,7 @@ public class PopulateSubmissionViewHolder {
                                                                         if (recyclerview != null) {
                                                                             s = Snackbar.make(
                                                                                     recyclerview,
-                                                                                    "Error setting flair, try again soon",
+                                                                                    R.string.snackbar_flair_error,
                                                                                     Snackbar.LENGTH_SHORT);
                                                                         }
                                                                     }
@@ -2038,35 +2039,35 @@ public class PopulateSubmissionViewHolder {
         l.setPadding(sixteen, 0, sixteen, 0);
 
         final EditText reason = new EditText(mContext);
-        reason.setHint("Ban reason");
+        reason.setHint(R.string.mod_ban_reason);
         reason.setText(rs);
         reason.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         l.addView(reason);
 
 
         final EditText note = new EditText(mContext);
-        note.setHint("Moderator note (optional)");
+        note.setHint(R.string.mod_ban_note_mod);
         note.setText(nt);
         note.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         l.addView(note);
 
         final EditText message = new EditText(mContext);
-        message.setHint("User message (optional)");
+        message.setHint(R.string.mod_ban_note_user);
         message.setText(msg);
         message.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         l.addView(message);
 
         final EditText time = new EditText(mContext);
-        time.setHint("Ban time (days)");
+        time.setHint(R.string.mod_ban_time);
         time.setText(t);
         time.setInputType(InputType.TYPE_CLASS_NUMBER);
         l.addView(time);
 
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
         builder.setView(l)
-                .setTitle("Ban /u/" + submission.getAuthor())
+                .setTitle(mContext.getString(R.string.mod_ban_title) + submission.getAuthor())
                 .setCancelable(true)
-                .setPositiveButton("BAN", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.mod_btn_ban, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //to ban
@@ -2074,8 +2075,8 @@ public class PopulateSubmissionViewHolder {
                                         .toString()
                                         .isEmpty()) {
                                     new AlertDialogWrapper.Builder(mContext).setTitle(
-                                            "Reason and time are required")
-                                            .setMessage("Please try again")
+                                            R.string.mod_ban_requirements)
+                                            .setMessage(R.string.misc_please_try_again)
                                             .setPositiveButton(R.string.btn_ok,
                                                     new DialogInterface.OnClickListener() {
                                                         @Override
@@ -2124,15 +2125,15 @@ public class PopulateSubmissionViewHolder {
                                         protected void onPostExecute(Boolean done) {
                                             Snackbar s;
                                             if (done) {
-                                                s = Snackbar.make(mToolbar, "User banned!",
+                                                s = Snackbar.make(mToolbar, R.string.mod_ban_success,
                                                         Snackbar.LENGTH_SHORT);
                                             } else {
                                                 if (scope) {
                                                     new AlertDialogWrapper.Builder(mContext).setTitle(
-                                                            "To ban users, Slide must re-authenticate you")
+                                                            R.string.mod_ban_reauth)
                                                             .setMessage(
-                                                                    "Would you like to re-log into Slide now?")
-                                                            .setPositiveButton("OK",
+                                                                    R.string.mod_ban_reauth_question)
+                                                            .setPositiveButton(R.string.btn_ok,
                                                                     new DialogInterface.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(
@@ -2143,13 +2144,13 @@ public class PopulateSubmissionViewHolder {
                                                                             mContext.startActivity(i);
                                                                         }
                                                                     })
-                                                            .setNegativeButton("MAYBE LATER", null)
+                                                            .setNegativeButton(R.string.misc_maybe_later, null)
                                                             .setCancelable(false)
                                                             .show();
                                                 }
-                                                s = Snackbar.make(mToolbar, "Error banning user",
+                                                s = Snackbar.make(mToolbar, R.string.mod_ban_fail,
                                                         Snackbar.LENGTH_INDEFINITE)
-                                                        .setAction("TRY AGAIN", new View.OnClickListener() {
+                                                        .setAction(R.string.misc_try_again, new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
                                                                 showBan(mContext, mToolbar, submission,
@@ -2178,7 +2179,7 @@ public class PopulateSubmissionViewHolder {
                         }
 
                 )
-                .setNegativeButton("CANCEL", null)
+                .setNegativeButton(R.string.btn_cancel, null)
                 .show();
 
     }
@@ -2698,12 +2699,12 @@ public class PopulateSubmissionViewHolder {
                                             Html.fromHtml(submission.getTitle()));
 
                             if (submission.isSelfPost()) {
-                                b.sheet(1, edit_drawable, "Edit selftext");
+                                b.sheet(1, edit_drawable, mContext.getString(R.string.edit_selftext));
                             }
-                            b.sheet(2, delete_drawable, "Delete submission");
+                            b.sheet(2, delete_drawable, mContext.getString(R.string.delete_submission));
 
                             if (flair) {
-                                b.sheet(3, flair_drawable, "Set submission flair");
+                                b.sheet(3, flair_drawable, mContext.getString(R.string.set_submission_flair));
 
                             }
 
@@ -2878,13 +2879,13 @@ public class PopulateSubmissionViewHolder {
                                                                     }.execute();
                                                                 }
                                                             })
-                                                    .setNegativeButton("Cancel", null)
+                                                    .setNegativeButton(R.string.btn_cancel, null)
                                                     .show();
                                         }
                                         break;
                                         case 3: {
                                             new MaterialDialog.Builder(mContext).items(data)
-                                                    .title("Select flair")
+                                                    .title(R.string.sidebar_select_flair)
                                                     .itemsCallback(
                                                             new MaterialDialog.ListCallback() {
                                                                 @Override
@@ -2897,8 +2898,8 @@ public class PopulateSubmissionViewHolder {
                                                                     if (t.isTextEditable()) {
                                                                         new MaterialDialog.Builder(
                                                                                 mContext).title(
-                                                                                "Set flair text")
-                                                                                .input("Flair text",
+                                                                                R.string.mod_btn_submission_flair_text)
+                                                                                .input(mContext.getString(R.string.mod_flair_hint),
                                                                                         t.getText(),
                                                                                         true,
                                                                                         new MaterialDialog.InputCallback() {
@@ -2909,7 +2910,7 @@ public class PopulateSubmissionViewHolder {
 
                                                                                             }
                                                                                         })
-                                                                                .positiveText("Set")
+                                                                                .positiveText(R.string.btn_set)
                                                                                 .onPositive(
                                                                                         new MaterialDialog.SingleButtonCallback() {
                                                                                             @Override
@@ -2953,7 +2954,7 @@ public class PopulateSubmissionViewHolder {
                                                                                                                 s =
                                                                                                                         Snackbar.make(
                                                                                                                                 holder.itemView,
-                                                                                                                                "Flair set successfully",
+                                                                                                                                R.string.snackbar_flair_success,
                                                                                                                                 Snackbar.LENGTH_SHORT);
                                                                                                                 SubmissionCache
                                                                                                                         .updateTitleFlair(
@@ -2973,7 +2974,7 @@ public class PopulateSubmissionViewHolder {
                                                                                                                 s =
                                                                                                                         Snackbar.make(
                                                                                                                                 holder.itemView,
-                                                                                                                                "Error setting flair, try again soon",
+                                                                                                                                R.string.snackbar_flair_error,
                                                                                                                                 Snackbar.LENGTH_SHORT);
                                                                                                             }
                                                                                                         }
@@ -3029,7 +3030,7 @@ public class PopulateSubmissionViewHolder {
                                                                                         s =
                                                                                                 Snackbar.make(
                                                                                                         holder.itemView,
-                                                                                                        "Flair set successfully",
+                                                                                                        R.string.snackbar_flair_success,
                                                                                                         Snackbar.LENGTH_SHORT);
                                                                                         SubmissionCache
                                                                                                 .updateTitleFlair(
@@ -3049,7 +3050,7 @@ public class PopulateSubmissionViewHolder {
                                                                                         s =
                                                                                                 Snackbar.make(
                                                                                                         holder.itemView,
-                                                                                                        "Error setting flair, try again soon",
+                                                                                                        R.string.snackbar_flair_error,
                                                                                                         Snackbar.LENGTH_SHORT);
                                                                                     }
                                                                                 }

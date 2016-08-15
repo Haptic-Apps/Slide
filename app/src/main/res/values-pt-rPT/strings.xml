@@ -316,8 +316,8 @@
   <string name="mod_btn_submission_flair">Definir Flair</string>
   <string name="mod_btn_mark_nsfw">Marcar como NSFW</string>
   <string name="mod_btn_unmark_nsfw">Desmarcar NSFW</string>
-  <string name="mod_btn_sticky">Fixar</string>
-  <string name="mod_btn_unsticky">Desafixar</string>
+  <string name="mod_btn_pin">Fixar</string>
+  <string name="mod_btn_unpin">Desafixar</string>
   <string name="mod_btn_remove">Eliminar</string>
   <string name="mod_btn_remove_reason">Remover com razão</string>
   <string name="mod_btn_author">Perfil do Autor</string>

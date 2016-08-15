@@ -301,8 +301,8 @@
   <string name="mod_btn_submission_flair">Angi \"flair\"</string>
   <string name="mod_btn_mark_nsfw">Merk NSFW</string>
   <string name="mod_btn_unmark_nsfw">Fjern NSFW-merking</string>
-  <string name="mod_btn_sticky">Fest</string>
-  <string name="mod_btn_unsticky">Løsne</string>
+  <string name="mod_btn_pin">Fest</string>
+  <string name="mod_btn_unpin">Løsne</string>
   <string name="mod_btn_remove">Fjern</string>
   <string name="mod_btn_remove_reason">Fjern med grunn</string>
   <string name="mod_btn_author">Brukerprofil</string>

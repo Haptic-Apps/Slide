@@ -308,8 +308,8 @@
   <string name="mod_btn_submission_flair">Setează flair</string>
   <string name="mod_btn_mark_nsfw">Marchează NSFW</string>
   <string name="mod_btn_unmark_nsfw">Demarchează NSFW</string>
-  <string name="mod_btn_sticky">Fixează</string>
-  <string name="mod_btn_unsticky">Desprinde</string>
+  <string name="mod_btn_pin">Fixează</string>
+  <string name="mod_btn_unpin">Desprinde</string>
   <string name="mod_btn_remove">Elimină</string>
   <string name="mod_btn_remove_reason">Elimină cu motiv</string>
   <string name="mod_btn_author">Profilul autorului</string>

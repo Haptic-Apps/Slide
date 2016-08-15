@@ -261,7 +261,7 @@ public class DoEditorActions {
                     doDraw(a, editText, fm);
                 } else {
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(a).setTitle(
-                            "Crop and Draw on Uploaded Images is a Pro feature")
+                            R.string.general_cropdraw_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
 
@@ -280,7 +280,7 @@ public class DoEditorActions {
                                         }
                                     });
                     if (SettingValues.previews > 0) {
-                        b.setNeutralButton("Preview (" + SettingValues.previews + ")", new DialogInterface.OnClickListener() {
+                        b.setNeutralButton(a.getString(R.string.pro_previews, SettingValues.previews), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 SettingValues.prefs.edit().putInt(SettingValues.PREVIEWS_LEFT, SettingValues.previews - 1).apply();

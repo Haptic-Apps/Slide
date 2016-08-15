@@ -321,8 +321,8 @@
   <string name="mod_btn_submission_flair">Rédiger le flair</string>
   <string name="mod_btn_mark_nsfw">Marquer comme NSFW</string>
   <string name="mod_btn_unmark_nsfw">Enlever le NSFW</string>
-  <string name="mod_btn_sticky">Épingler</string>
-  <string name="mod_btn_unsticky">Détacher</string>
+  <string name="mod_btn_pin">Épingler</string>
+  <string name="mod_btn_unpin">Détacher</string>
   <string name="mod_btn_remove">Supprimer</string>
   <string name="mod_btn_remove_reason">Enlever avec une raison</string>
   <string name="mod_btn_author">Profil de l\'auteur</string>

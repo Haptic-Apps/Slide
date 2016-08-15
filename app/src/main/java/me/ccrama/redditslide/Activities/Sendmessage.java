@@ -208,7 +208,7 @@ public class Sendmessage extends BaseActivity {
                     if (e.getReason().equals("USER_DOESNT_EXIST") || e.getReason().equals("NO_USER")) {
                         messageSentStatus = getString(R.string.msg_send_user_dne);
                     } else if (e.getReason().toLowerCase().contains("captcha")) {
-                        messageSentStatus = "Captcha incorrect, please try again.";
+                        messageSentStatus = getString(R.string.misc_captcha_incorrect);
                     }
 
                     //todo show captcha

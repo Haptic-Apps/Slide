@@ -59,7 +59,7 @@ public class SetupWidget extends BaseActivity {
     public void doShortcut() {
 
         setContentView(R.layout.activity_setup_widget);
-        setupAppBar(R.id.toolbar, "New widget", true, true);
+        setupAppBar(R.id.toolbar, R.string.widget_creation_title, true, true);
         header = getLayoutInflater().inflate(R.layout.widget_header, null);
 
         ListView list = (ListView)findViewById(R.id.subs);
