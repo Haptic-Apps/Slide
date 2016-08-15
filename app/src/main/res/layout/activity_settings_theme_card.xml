@@ -129,7 +129,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -172,7 +172,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -258,7 +258,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -300,7 +300,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -342,7 +342,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -384,7 +384,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -426,7 +426,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -468,7 +468,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -510,7 +510,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -558,7 +558,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -602,7 +602,7 @@
                     android:paddingStart="16dp">
 
                     <LinearLayout
-                        android:layout_marginEnd="42dp"
+                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
