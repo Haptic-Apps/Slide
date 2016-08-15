@@ -440,6 +440,9 @@ public class MainActivity extends BaseActivity {
                     public void run() {
                         runAfterLoad = null;
                         if (Authentication.isLoggedIn) new AsyncNotificationBadge().execute();
+                        if (!Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, "").isEmpty()) {
+                            new CheckForMail.AsyncGetSubs(MainActivity.this).execute();
+                        }
                         new AsyncTask<Void, Void, Submission>() {
                             @Override
                             protected Submission doInBackground(Void... params) {

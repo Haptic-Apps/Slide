@@ -53,7 +53,7 @@ public class CheckForMail extends BroadcastReceiver {
             new AsyncGetMail().execute();
             if (Authentication.mod) new AsyncGetModmail().execute();
             if (!Reddit.appRestart.getString(SUBS_TO_GET, "").isEmpty()) {
-                new AsyncGetSubs().execute();
+                new AsyncGetSubs(c).execute();
             }
         }
         new NotificationJobScheduler(context).start(context);
@@ -298,7 +298,13 @@ public class CheckForMail extends BroadcastReceiver {
         }
     }
 
-    private class AsyncGetSubs extends AsyncTask<Void, Void, List<Submission>> {
+    public static class AsyncGetSubs extends AsyncTask<Void, Void, List<Submission>> {
+
+        public Context c;
+
+        public AsyncGetSubs(Context context){
+            this.c = context;
+        }
 
         @Override
         public void onPostExecute(List<Submission> messages) {
