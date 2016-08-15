@@ -973,6 +973,8 @@
     <string name="comment_shadowbox">Comment shadowbox</string>
     <string name="title_sub_post_notifs">Subreddit post notifications</string>
     <string name="settings_enable_notifs">Enable inbox notifications</string>
+    <string name="add_to_subs">ADD TO SUBSCRIPTIONS</string>
+    <string name="sub_added">Subreddit added!</string>
 
 
 </resources>

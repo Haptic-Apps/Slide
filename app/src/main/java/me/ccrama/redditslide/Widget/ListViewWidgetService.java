@@ -32,21 +32,23 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * Created by carlo_000 on 5/4/2016.
  */
 public class ListViewWidgetService extends RemoteViewsService {
     public RemoteViewsService.RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new ListViewRemoteViewsFactory(this.getApplicationContext(), intent, "android", intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0));
+        return new ListViewRemoteViewsFactory(this.getApplicationContext(), intent, "android",
+                intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, 0));
     }
 }
 
 class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    private Context mContext;
+    private Context               mContext;
     private ArrayList<Submission> records;
     String subreddit;
-    int id;
+    int    id;
 
     public ListViewRemoteViewsFactory(Context context, Intent intent, String subreddit, int id) {
         mContext = context;
@@ -60,135 +62,144 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         // for example downloading or creating content etc, should be deferred to onDataSetChanged()
         // or getViewAt(). Taking more than 20 seconds in this call will result in an ANR.
         records = new ArrayList<>();
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                if(Authentication.reddit == null){
+        if (NetworkUtil.isConnected(mContext)) {
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    if (Authentication.reddit == null) {
                         new Authentication(mContext.getApplicationContext());
-                    Authentication.me = Authentication.reddit.me();
-                    Authentication.mod = Authentication.me.isMod();
-                    Reddit.over18 = Authentication.me.isOver18();
+                        Authentication.me = Authentication.reddit.me();
+                        Authentication.mod = Authentication.me.isMod();
+                        Reddit.over18 = Authentication.me.isOver18();
 
-                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod).apply();
-                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18).apply();
+                        Authentication.authentication.edit()
+                                .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
+                                .apply();
+                        Authentication.authentication.edit()
+                                .putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18)
+                                .apply();
 
-                    if (Reddit.notificationTime != -1) {
-                        Reddit.notifications = new NotificationJobScheduler(mContext);
-                        Reddit.notifications.start(mContext.getApplicationContext());
-                    }
-
-                    if (Reddit.cachedData.contains("toCache")) {
-                        Reddit.autoCache = new AutoCacheScheduler(mContext);
-                        Reddit.autoCache.start(mContext.getApplicationContext());
-                    }
-
-                    final String name = Authentication.me.getFullName();
-                    Authentication.name = name;
-                    LogUtil.v("AUTHENTICATED");
-
-                    if (Authentication.reddit.isAuthenticated()) {
-                        final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
-                        if (accounts.contains(name)) { //convert to new system
-                            accounts.remove(name);
-                            accounts.add(name + ":" + Authentication.refresh);
-                            Authentication.authentication.edit().putStringSet("accounts", accounts).apply(); //force commit
+                        if (Reddit.notificationTime != -1) {
+                            Reddit.notifications = new NotificationJobScheduler(mContext);
+                            Reddit.notifications.start(mContext.getApplicationContext());
                         }
-                        Authentication.isLoggedIn = true;
-                        Reddit.notFirst = true;
-                    }
-                }
-                String sub = SubredditWidgetProvider.getSubFromId(id, mContext);
-                Paginator p;
-                if (sub.equals("frontpage")) {
-                    p = new SubredditPaginator(Authentication.reddit);
-                } else if (!sub.contains(".")) {
-                    p = new SubredditPaginator(Authentication.reddit, sub);
-                } else {
-                    p = new DomainPaginator(Authentication.reddit, sub);
-                }
-                p.setLimit(50);
-                switch (SubredditWidgetProvider.getSorting(id, mContext)) {
-                    case 0:
-                        p.setSorting(Sorting.HOT);
-                        break;
-                    case 1:
-                        p.setSorting(Sorting.NEW);
-                        break;
-                    case 2:
-                        p.setSorting(Sorting.RISING);
-                        break;
-                    case 3:
-                        p.setSorting(Sorting.TOP);
-                        p.setTimePeriod(TimePeriod.HOUR);
-                        break;
-                    case 4:
-                        p.setSorting(Sorting.TOP);
-                        p.setTimePeriod(TimePeriod.DAY);
-                        break;
-                    case 5:
-                        p.setSorting(Sorting.TOP);
-                        p.setTimePeriod(TimePeriod.WEEK);
-                        break;
-                    case 6:
-                        p.setSorting(Sorting.TOP);
-                        p.setTimePeriod(TimePeriod.MONTH);
-                        break;
-                    case 7:
-                        p.setSorting(Sorting.TOP);
-                        p.setTimePeriod(TimePeriod.YEAR);
-                        break;
-                    case 8:
-                        p.setSorting(Sorting.TOP);
-                        p.setTimePeriod(TimePeriod.ALL);
-                        break;
-                    case 9:
-                        p.setSorting(Sorting.CONTROVERSIAL);
-                        p.setTimePeriod(TimePeriod.HOUR);
-                        break;
-                    case 10:
-                        p.setSorting(Sorting.CONTROVERSIAL);
-                        p.setTimePeriod(TimePeriod.DAY);
-                        break;
-                    case 11:
-                        p.setSorting(Sorting.CONTROVERSIAL);
-                        p.setTimePeriod(TimePeriod.WEEK);
-                        break;
-                    case 12:
-                        p.setSorting(Sorting.CONTROVERSIAL);
-                        p.setTimePeriod(TimePeriod.MONTH);
-                        break;
-                    case 13:
-                        p.setSorting(Sorting.CONTROVERSIAL);
-                        p.setTimePeriod(TimePeriod.YEAR);
-                        break;
-                    case 14:
-                        p.setSorting(Sorting.CONTROVERSIAL);
-                        p.setTimePeriod(TimePeriod.ALL);
-                        break;
-                }
-                try {
-                    ArrayList<Submission> s = new ArrayList<>(p.next());
-                    records = new ArrayList<>();
-                    for(Submission subm : s){
-                        if(!PostMatch.doesMatch(subm)){
-                            records.add(subm);
+
+                        if (Reddit.cachedData.contains("toCache")) {
+                            Reddit.autoCache = new AutoCacheScheduler(mContext);
+                            Reddit.autoCache.start(mContext.getApplicationContext());
+                        }
+
+                        final String name = Authentication.me.getFullName();
+                        Authentication.name = name;
+                        LogUtil.v("AUTHENTICATED");
+
+                        if (Authentication.reddit.isAuthenticated()) {
+                            final Set<String> accounts =
+                                    Authentication.authentication.getStringSet("accounts",
+                                            new HashSet<String>());
+                            if (accounts.contains(name)) { //convert to new system
+                                accounts.remove(name);
+                                accounts.add(name + ":" + Authentication.refresh);
+                                Authentication.authentication.edit()
+                                        .putStringSet("accounts", accounts)
+                                        .apply(); //force commit
+                            }
+                            Authentication.isLoggedIn = true;
+                            Reddit.notFirst = true;
                         }
                     }
-                } catch (Exception e) {
+                    String sub = SubredditWidgetProvider.getSubFromId(id, mContext);
+                    Paginator p;
+                    if (sub.equals("frontpage")) {
+                        p = new SubredditPaginator(Authentication.reddit);
+                    } else if (!sub.contains(".")) {
+                        p = new SubredditPaginator(Authentication.reddit, sub);
+                    } else {
+                        p = new DomainPaginator(Authentication.reddit, sub);
+                    }
+                    p.setLimit(50);
+                    switch (SubredditWidgetProvider.getSorting(id, mContext)) {
+                        case 0:
+                            p.setSorting(Sorting.HOT);
+                            break;
+                        case 1:
+                            p.setSorting(Sorting.NEW);
+                            break;
+                        case 2:
+                            p.setSorting(Sorting.RISING);
+                            break;
+                        case 3:
+                            p.setSorting(Sorting.TOP);
+                            p.setTimePeriod(TimePeriod.HOUR);
+                            break;
+                        case 4:
+                            p.setSorting(Sorting.TOP);
+                            p.setTimePeriod(TimePeriod.DAY);
+                            break;
+                        case 5:
+                            p.setSorting(Sorting.TOP);
+                            p.setTimePeriod(TimePeriod.WEEK);
+                            break;
+                        case 6:
+                            p.setSorting(Sorting.TOP);
+                            p.setTimePeriod(TimePeriod.MONTH);
+                            break;
+                        case 7:
+                            p.setSorting(Sorting.TOP);
+                            p.setTimePeriod(TimePeriod.YEAR);
+                            break;
+                        case 8:
+                            p.setSorting(Sorting.TOP);
+                            p.setTimePeriod(TimePeriod.ALL);
+                            break;
+                        case 9:
+                            p.setSorting(Sorting.CONTROVERSIAL);
+                            p.setTimePeriod(TimePeriod.HOUR);
+                            break;
+                        case 10:
+                            p.setSorting(Sorting.CONTROVERSIAL);
+                            p.setTimePeriod(TimePeriod.DAY);
+                            break;
+                        case 11:
+                            p.setSorting(Sorting.CONTROVERSIAL);
+                            p.setTimePeriod(TimePeriod.WEEK);
+                            break;
+                        case 12:
+                            p.setSorting(Sorting.CONTROVERSIAL);
+                            p.setTimePeriod(TimePeriod.MONTH);
+                            break;
+                        case 13:
+                            p.setSorting(Sorting.CONTROVERSIAL);
+                            p.setTimePeriod(TimePeriod.YEAR);
+                            break;
+                        case 14:
+                            p.setSorting(Sorting.CONTROVERSIAL);
+                            p.setTimePeriod(TimePeriod.ALL);
+                            break;
+                    }
+                    try {
+                        ArrayList<Submission> s = new ArrayList<>(p.next());
+                        records = new ArrayList<>();
+                        for (Submission subm : s) {
+                            if (!PostMatch.doesMatch(subm)) {
+                                records.add(subm);
+                            }
+                        }
+                    } catch (Exception e) {
 
+                    }
+                    return null;
                 }
-                return null;
-            }
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                Intent widgetUpdateIntent = new Intent(mContext, SubredditWidgetProvider.class);
-                widgetUpdateIntent.setAction(SubredditWidgetProvider.UPDATE_MEETING_ACTION);
-                widgetUpdateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                        id);
-                mContext.sendBroadcast(widgetUpdateIntent);
-            }
-        }.execute();
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    Intent widgetUpdateIntent = new Intent(mContext, SubredditWidgetProvider.class);
+                    widgetUpdateIntent.setAction(SubredditWidgetProvider.UPDATE_MEETING_ACTION);
+                    widgetUpdateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
+                    mContext.sendBroadcast(widgetUpdateIntent);
+                }
+            }.execute();
+        }
     }
 
     // Given the position (index) of a WidgetItem in the array, use the item's text value in
@@ -201,17 +212,19 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
         switch (SubredditWidgetProvider.getViewType(id, mContext)) {
             case 1:
             case 0:
-                if (SubredditWidgetProvider.getThemeFromId(id, mContext) == 2)
+                if (SubredditWidgetProvider.getThemeFromId(id, mContext) == 2) {
                     view = R.layout.submission_widget_light;
-                else
+                } else {
                     view = R.layout.submission_widget;
+                }
 
                 break;
             case 2:
-                if (SubredditWidgetProvider.getThemeFromId(id, mContext) == 2)
+                if (SubredditWidgetProvider.getThemeFromId(id, mContext) == 2) {
                     view = R.layout.submission_widget_compact_light;
-                else
+                } else {
                     view = R.layout.submission_widget_compact;
+                }
                 break;
         }
         final RemoteViews rv = new RemoteViews(mContext.getPackageName(), view);
@@ -223,25 +236,36 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
             rv.setTextViewText(R.id.title, Html.fromHtml(data.getTitle()));
             rv.setTextViewText(R.id.score, data.getScore() + "");
             rv.setTextViewText(R.id.comments, data.getCommentCount() + "");
-            rv.setTextViewText(R.id.information, data.getAuthor() + " " + TimeUtils.getTimeAgo(data.getCreated().getTime(), mContext));
+            rv.setTextViewText(R.id.information,
+                    data.getAuthor() + " " + TimeUtils.getTimeAgo(data.getCreated().getTime(),
+                            mContext));
             rv.setTextViewText(R.id.subreddit, data.getSubredditName());
             rv.setTextColor(R.id.subreddit, Palette.getColor(data.getSubredditName()));
             if (SubredditWidgetProvider.getViewType(id, mContext) == 1) {
                 Thumbnails s = data.getThumbnails();
                 rv.setViewVisibility(R.id.thumbimage2, View.GONE);
                 if (s != null && s.getVariations() != null && s.getSource() != null) {
-                    rv.setImageViewBitmap(R.id.bigpic, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(Html.fromHtml(data.getThumbnails().getSource().getUrl()).toString()));
+                    rv.setImageViewBitmap(R.id.bigpic,
+                            ((Reddit) mContext.getApplicationContext()).getImageLoader()
+                                    .loadImageSync(
+                                            Html.fromHtml(data.getThumbnails().getSource().getUrl())
+                                                    .toString()));
                     rv.setViewVisibility(R.id.bigpic, View.VISIBLE);
-                } else
+                } else {
                     rv.setViewVisibility(R.id.bigpic, View.GONE);
+                }
             } else {
-                if (SubredditWidgetProvider.getViewType(id, mContext) != 2)
+                if (SubredditWidgetProvider.getViewType(id, mContext) != 2) {
                     rv.setViewVisibility(R.id.bigpic, View.GONE);
+                }
                 if (data.getThumbnailType() == Submission.ThumbnailType.URL) {
-                    rv.setImageViewBitmap(R.id.thumbimage2, ((Reddit) mContext.getApplicationContext()).getImageLoader().loadImageSync(data.getThumbnail()));
+                    rv.setImageViewBitmap(R.id.thumbimage2,
+                            ((Reddit) mContext.getApplicationContext()).getImageLoader()
+                                    .loadImageSync(data.getThumbnail()));
                     rv.setViewVisibility(R.id.thumbimage2, View.VISIBLE);
-                } else
+                } else {
                     rv.setViewVisibility(R.id.thumbimage2, View.GONE);
+                }
             }
             Bundle infos = new Bundle();
             infos.putString(OpenContent.EXTRA_URL, data.getPermalink());

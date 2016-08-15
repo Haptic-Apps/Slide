@@ -696,7 +696,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                                                 }
                                             });
-                    if (Authentication.isLoggedIn && Authentication.didOnline ) {
+                    if (Authentication.isLoggedIn && Authentication.didOnline && isSingle(chosen)) {
                         b.setNeutralButton(R.string.reorder_remove_unsubsribe,
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -869,7 +869,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                                                                     });
                                             if (Authentication.isLoggedIn
                                                     && Authentication.didOnline
-                                                    && isSingle(items.get(position))) {
+                                                    && isSingle(origPos)) {
                                                 b.setNeutralButton(
                                                         R.string.reorder_remove_unsubsribe,
                                                         new DialogInterface.OnClickListener() {
@@ -944,6 +944,15 @@ public class ReorderSubreddits extends BaseActivityAnim {
                 check = (AppCompatCheckBox) itemView.findViewById(R.id.isSubscribed);
             }
         }
+    }
+
+    private boolean isSingle(ArrayList<String> chosen) {
+        for(String s : chosen){
+            if(!isSingle(s)){
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean isSingle(String origPos) {

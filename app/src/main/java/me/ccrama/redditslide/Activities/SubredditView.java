@@ -38,8 +38,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -98,19 +96,30 @@ public class SubredditView extends BaseActivityAnim {
 
     public static final String  EXTRA_SUBREDDIT = "subreddit";
     public              boolean canSubmit       = true;
-    private DrawerLayout drawerLayout;
     public  String       subreddit;
     public  Submission   openingComments;
     public  int          currentComment;
-
-    public void restartTheme() {
-        Intent intent = this.getIntent();
-        finish();
-        startActivity(intent);
-        overridePendingTransition(0, 0);
-    }
-
     public OverviewPagerAdapter adapter;
+    public String term;
+    public ToggleSwipeViewPager pager;
+    public boolean singleMode;
+    public boolean commentPager;
+    public boolean loaded;
+    View header;
+    Subreddit sub;
+    private DrawerLayout drawerLayout;
+    private boolean      currentlySubbed;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == 2) {
+            // Make sure the request was successful
+            pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
+        } else if (requestCode == 1) {
+            restartTheme();
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -125,6 +134,75 @@ public class SubredditView extends BaseActivityAnim {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        overrideSwipeFromAnywhere();
+        if (SettingValues.commentPager && SettingValues.single) {
+            disableSwipeBackLayout();
+        }
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        getWindow().getDecorView().setBackgroundDrawable(null);
+        super.onCreate(savedInstanceState);
+
+        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
+        applyColorTheme(subreddit);
+        setContentView(R.layout.activity_singlesubreddit);
+        setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
+
+        header = findViewById(R.id.header);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        setResult(3);
+        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
+        pager = (ToggleSwipeViewPager) findViewById(R.id.content_view);
+        singleMode = SettingValues.single;
+        commentPager = false;
+        if (singleMode) commentPager = SettingValues.commentPager;
+        if (commentPager) {
+            adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
+            pager.setSwipeLeftOnly(false);
+            pager.setSwipingEnabled(true);
+        } else {
+            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
+        }
+        pager.setAdapter(adapter);
+        pager.setCurrentItem(1);
+        mToolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int[] firstVisibleItems;
+                int pastVisiblesItems = 0;
+                firstVisibleItems =
+                        ((CatchStaggeredGridLayoutManager) ((SubmissionsView) (adapter.getCurrentFragment())).rv
+                                .getLayoutManager()).findFirstVisibleItemPositions(null);
+                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                    for (int firstVisibleItem : firstVisibleItems) {
+                        pastVisiblesItems = firstVisibleItem;
+                    }
+                }
+                if (pastVisiblesItems > 8) {
+                    ((SubmissionsView) (adapter.getCurrentFragment())).rv.scrollToPosition(0);
+                    header.animate()
+                            .translationY(header.getHeight())
+                            .setInterpolator(new LinearInterpolator())
+                            .setDuration(180);
+                } else {
+                    ((SubmissionsView) (adapter.getCurrentFragment())).rv.smoothScrollToPosition(0);
+                }
+                ((SubmissionsView) (adapter.getCurrentFragment())).resetScroll();
+            }
+        });
+        if (!subreddit.equals("random")
+                && !subreddit.equals("all")
+                && !subreddit.equals("frontpage")
+                && !subreddit.equals("friends")
+                && !subreddit.equals("mod")
+                && !subreddit.equals("myrandom")
+                && !subreddit.equals("nsfwrandom")
+                && !subreddit.contains("+")) {
+            executeAsyncSubreddit(subreddit);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
@@ -134,6 +212,38 @@ public class SubredditView extends BaseActivityAnim {
             inflater.inflate(R.menu.menu_single_subreddit, menu);
         }
 
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        //Hide the "Submit" menu item if the currently viewed sub is the frontpage or /r/all.
+        if (subreddit.equals("frontpage") || subreddit.equals("all")) {
+            menu.findItem(R.id.submit).setVisible(false);
+            menu.findItem(R.id.sidebar).setVisible(false);
+        }
+
+        mToolbar.getMenu()
+                .findItem(R.id.theme)
+                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(
+                                subreddit);
+                        final Context contextThemeWrapper =
+                                new ContextThemeWrapper(SubredditView.this, style);
+                        LayoutInflater localInflater =
+                                getLayoutInflater().cloneInContext(contextThemeWrapper);
+                        final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
+                        ArrayList<String> arrayList = new ArrayList<>();
+                        arrayList.add(subreddit);
+                        SettingsSubAdapter.showSubThemeEditor(arrayList, SubredditView.this,
+                                dialoglayout);
+                        return false;
+                    }
+                });
         return true;
     }
 
@@ -155,8 +265,7 @@ public class SubredditView extends BaseActivityAnim {
                 final String sub = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
                 if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("frontpage") &&
                         !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
-                        !sub.contains("+") && !sub.contains(".") && !sub.contains(
-                        "/m/")) {
+                        !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
                     new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
                             "Be notified of new posts in /r/" + sub)
                             .setMessage(
@@ -168,21 +277,28 @@ public class SubredditView extends BaseActivityAnim {
                                             "Score threshold")
                                             .items(new String[]{"1", "5", "10", "20", "40", "50"})
                                             .alwaysCallSingleChoiceCallback()
-                                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
-                                                @Override
-                                                public boolean onSelection(MaterialDialog dialog,
-                                                        View itemView, int which, CharSequence text) {
-                                                    ArrayList<String> subs = Reddit.stringToArray(
-                                                            Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET,
-                                                                    ""));
-                                                    subs.add(sub + ":" + text);
-                                                    Reddit.appRestart.edit()
-                                                            .putString(CheckForMail.SUBS_TO_GET,
-                                                                    Reddit.arrayToString(subs))
-                                                            .commit();
-                                                    return true;
-                                                }
-                                            })
+                                            .itemsCallbackSingleChoice(0,
+                                                    new MaterialDialog.ListCallbackSingleChoice() {
+                                                        @Override
+                                                        public boolean onSelection(
+                                                                MaterialDialog dialog,
+                                                                View itemView, int which,
+                                                                CharSequence text) {
+                                                            ArrayList<String> subs =
+                                                                    Reddit.stringToArray(
+                                                                            Reddit.appRestart.getString(
+                                                                                    CheckForMail.SUBS_TO_GET,
+                                                                                    ""));
+                                                            subs.add(sub + ":" + text);
+                                                            Reddit.appRestart.edit()
+                                                                    .putString(
+                                                                            CheckForMail.SUBS_TO_GET,
+                                                                            Reddit.arrayToString(
+                                                                                    subs))
+                                                                    .commit();
+                                                            return true;
+                                                        }
+                                                    })
                                             .cancelable(false)
                                             .show();
                                 }
@@ -190,7 +306,9 @@ public class SubredditView extends BaseActivityAnim {
                             .setNegativeButton("CANCEL", null)
                             .show();
                 } else {
-                    Toast.makeText(SubredditView.this,"You can only add notifications to single subreddits", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SubredditView.this,
+                            "You can only add notifications to single subreddits",
+                            Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.action_refresh:
@@ -227,8 +345,7 @@ public class SubredditView extends BaseActivityAnim {
                         startActivity(i2);
                     }
                 } else {
-                   new AlertDialogWrapper.Builder(this).setTitle(
-                            "Gallery mode is a Pro feature")
+                    new AlertDialogWrapper.Builder(this).setTitle("Gallery mode is a Pro feature")
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
@@ -317,8 +434,7 @@ public class SubredditView extends BaseActivityAnim {
                         startActivity(i2);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(this).setTitle(
-                            "Shadowbox mode is a Pro feature")
+                    new AlertDialogWrapper.Builder(this).setTitle("Shadowbox mode is a Pro feature")
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
 
@@ -351,253 +467,6 @@ public class SubredditView extends BaseActivityAnim {
         }
     }
 
-    private void doSubOnlyStuff(final Subreddit subreddit) {
-        findViewById(R.id.loader).setVisibility(View.GONE);
-        if (subreddit.getDataNode().has("subreddit_type") && !subreddit.getDataNode()
-                .get("subreddit_type")
-                .isNull()) {
-            canSubmit = !subreddit.getDataNode()
-                    .get("subreddit_type")
-                    .asText()
-                    .toUpperCase()
-                    .equals("RESTRICTED");
-        }
-        if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
-            findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
-
-            final String text = subreddit.getDataNode().get("description_html").asText();
-            final SpoilerRobotoTextView body =
-                    (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
-            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
-            setViews(text, subreddit.getDisplayName(), body, overflow);
-        } else {
-            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
-        }
-        View collection = findViewById(R.id.collection);
-        if (Authentication.isLoggedIn) {
-            collection.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new AsyncTask<Void, Void, Void>() {
-                        HashMap<String, MultiReddit> multis = new HashMap<String, MultiReddit>();
-
-                        @Override
-                        protected Void doInBackground(Void... params) {
-                            if (UserSubscriptions.multireddits == null) {
-                                UserSubscriptions.syncMultiReddits(SubredditView.this);
-                            }
-                            for (MultiReddit r : UserSubscriptions.multireddits) {
-                                multis.put(r.getDisplayName(), r);
-                            }
-                            return null;
-                        }
-
-                        @Override
-                        protected void onPostExecute(Void aVoid) {
-                            new MaterialDialog.Builder(SubredditView.this).title(
-                                    "Add /r/" + subreddit.getDisplayName() + " to")
-                                    .items(multis.keySet())
-                                    .itemsCallback(new MaterialDialog.ListCallback() {
-                                        @Override
-                                        public void onSelection(MaterialDialog dialog,
-                                                View itemView, final int which, CharSequence text) {
-                                            new AsyncTask<Void, Void, Void>() {
-                                                @Override
-                                                protected Void doInBackground(Void... params) {
-                                                    try {
-                                                        final String multiName = multis.keySet()
-                                                                .toArray(
-                                                                        new String[multis.size()])[which];
-                                                        List<String> subs = new ArrayList<String>();
-                                                        for (MultiSubreddit sub : multis.get(
-                                                                multiName).getSubreddits()) {
-                                                            subs.add(sub.getDisplayName());
-                                                        }
-                                                        subs.add(subreddit.getDisplayName());
-                                                        new MultiRedditManager(
-                                                                Authentication.reddit).createOrUpdate(
-                                                                new MultiRedditUpdateRequest.Builder(
-                                                                        Authentication.name,
-                                                                        multiName).subreddits(subs)
-                                                                        .build());
-
-                                                        UserSubscriptions.syncMultiReddits(
-                                                                SubredditView.this);
-
-                                                        runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                drawerLayout.closeDrawers();
-                                                                Snackbar.make(mToolbar,
-                                                                        "Subreddit added to /m/"
-                                                                                + multiName,
-                                                                        Snackbar.LENGTH_LONG)
-                                                                        .show();
-                                                            }
-                                                        });
-                                                    } catch (final NetworkException | ApiException e) {
-                                                        runOnUiThread(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                runOnUiThread(new Runnable() {
-                                                                    @Override
-                                                                    public void run() {
-                                                                        Snackbar.make(mToolbar,
-                                                                                "An error occured, please try again later",
-                                                                                Snackbar.LENGTH_LONG)
-                                                                                .setAction(
-                                                                                        R.string.btn_ok,
-                                                                                        new View.OnClickListener() {
-                                                                                            @Override
-                                                                                            public void onClick(
-                                                                                                    View v) {
-
-                                                                                            }
-                                                                                        })
-                                                                                .show();
-                                                                    }
-                                                                });
-                                                            }
-                                                        });
-                                                        e.printStackTrace();
-                                                    }
-                                                    return null;
-                                                }
-                                            }.execute();
-
-                                        }
-                                    })
-                                    .show();
-                        }
-                    }.execute();
-                }
-            });
-            final CheckBox c = ((CheckBox) findViewById(R.id.subscribed));
-            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    //reset check adapter
-                }
-            });
-            c.setChecked(UserSubscriptions.isSubscriber(subreddit.getDisplayName(), this)
-                    || subreddit.isUserSubscriber());
-            c.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-                    new AsyncTask<Void, Void, Boolean>() {
-                        @Override
-                        public void onPostExecute(Boolean success) {
-                            if (!success) { // If subreddit was removed from account or not
-
-                                new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                                        R.string.force_change_subscription)
-                                        .setMessage(R.string.force_change_subscription_desc)
-                                        .setPositiveButton(R.string.btn_yes,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                            int which) {
-                                                        changeSubscription(subreddit,
-                                                                isChecked); // Force remove the subscription
-                                                    }
-                                                })
-                                        .setNegativeButton(R.string.btn_no,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                            int which) {
-
-                                                    }
-                                                })
-                                        .setCancelable(false)
-                                        .show();
-                            } else {
-                                changeSubscription(subreddit, isChecked);
-                            }
-
-                        }
-
-
-                        @Override
-                        protected Boolean doInBackground(Void... params) {
-                            try {
-                                if (isChecked) {
-                                    new AccountManager(Authentication.reddit).subscribe(subreddit);
-                                } else {
-                                    new AccountManager(Authentication.reddit).unsubscribe(
-                                            subreddit);
-                                }
-
-                            } catch (NetworkException e) {
-                                return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
-                            }
-                            return true;
-
-                        }
-                    }.execute();
-
-                }
-            });
-        } else {
-            collection.setVisibility(View.GONE);
-        }
-        if (!subreddit.getPublicDescription().isEmpty()) {
-            findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
-            setViews(subreddit.getDataNode().get("public_description_html").asText(),
-                    subreddit.getDisplayName().toLowerCase(),
-                    ((SpoilerRobotoTextView) findViewById(R.id.sub_title)),
-                    (CommentOverflow) findViewById(R.id.sub_title_overflow));
-        } else {
-            findViewById(R.id.sub_title).setVisibility(View.GONE);
-        }
-        if (subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode()
-                .get("icon_img")
-                .asText()
-                .isEmpty()) {
-            ((Reddit) getApplication()).getImageLoader()
-                    .displayImage(subreddit.getDataNode().get("icon_img").asText(),
-                            (ImageView) findViewById(R.id.subimage));
-        } else {
-            findViewById(R.id.subimage).setVisibility(View.GONE);
-        }
-        ((TextView) findViewById(R.id.subscribers)).setText(
-                getString(R.string.subreddit_subscribers_string,
-                        subreddit.getLocalizedSubscriberCount()));
-        findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
-
-        ((TextView) findViewById(R.id.active_users)).setText(
-                getString(R.string.subreddit_active_users_string_new,
-                        subreddit.getLocalizedAccountsActive()));
-        findViewById(R.id.active_users).setVisibility(View.VISIBLE);
-    }
-
-    public int getCurrentPage() {
-        int position = 0;
-        int currentOrientation = getResources().getConfiguration().orientation;
-        if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager
-                && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-            position =
-                    ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())
-                            .findFirstCompletelyVisibleItemPosition() - 1;
-        } else if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
-            int[] firstVisibleItems = null;
-            firstVisibleItems =
-                    ((CatchStaggeredGridLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv
-                            .getLayoutManager()).findFirstCompletelyVisibleItemPositions(
-                            firstVisibleItems);
-            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                position = firstVisibleItems[0] - 1;
-            }
-        } else {
-            position =
-                    ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())
-                            .findFirstCompletelyVisibleItemPosition() - 1;
-        }
-        return position;
-    }
-
-    public String term;
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -618,366 +487,18 @@ public class SubredditView extends BaseActivityAnim {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == 2) {
-            // Make sure the request was successful
-            pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
-        } else if (requestCode == 1) {
-            restartTheme();
-        }
+    public int adjustAlpha(float factor) {
+        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
+        int red = Color.red(Color.BLACK);
+        int green = Color.green(Color.BLACK);
+        int blue = Color.blue(Color.BLACK);
+        return Color.argb(alpha, red, green, blue);
     }
 
-    public ToggleSwipeViewPager pager;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        overrideSwipeFromAnywhere();
-        if (SettingValues.commentPager && SettingValues.single) {
-            disableSwipeBackLayout();
-        }
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        getWindow().getDecorView().setBackgroundDrawable(null);
-        super.onCreate(savedInstanceState);
-
-        subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
-        applyColorTheme(subreddit);
-        setContentView(R.layout.activity_singlesubreddit);
-        setupSubredditAppBar(R.id.toolbar, subreddit, true, subreddit);
-
-        header = findViewById(R.id.header);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        setResult(3);
-        mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
-        pager = (ToggleSwipeViewPager) findViewById(R.id.content_view);
-        singleMode = SettingValues.single;
-        commentPager = false;
-        if (singleMode) commentPager = SettingValues.commentPager;
-        if (commentPager) {
-            adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
-            pager.setSwipeLeftOnly(false);
-            pager.setSwipingEnabled(true);
-        } else {
-            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-        }
-        pager.setAdapter(adapter);
-        pager.setCurrentItem(1);
-        mToolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int[] firstVisibleItems;
-                int pastVisiblesItems = 0;
-                firstVisibleItems =
-                        ((CatchStaggeredGridLayoutManager) ((SubmissionsView) (adapter.getCurrentFragment())).rv
-                                .getLayoutManager()).findFirstVisibleItemPositions(null);
-                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
-                    for (int firstVisibleItem : firstVisibleItems) {
-                        pastVisiblesItems = firstVisibleItem;
-                    }
-                }
-                if (pastVisiblesItems > 8) {
-                    ((SubmissionsView) (adapter.getCurrentFragment())).rv.scrollToPosition(0);
-                    header.animate()
-                            .translationY(header.getHeight())
-                            .setInterpolator(new LinearInterpolator())
-                            .setDuration(180);
-                } else {
-                    ((SubmissionsView) (adapter.getCurrentFragment())).rv.smoothScrollToPosition(0);
-                }
-                ((SubmissionsView) (adapter.getCurrentFragment())).resetScroll();
-            }
-        });
-        if (!subreddit.equals("random")
-                && !subreddit.equals("all")
-                && !subreddit.equals("frontpage")
-                && !subreddit.equals("friends")
-                && !subreddit.equals("mod")
-                && !subreddit.equals("myrandom")
-                && !subreddit.equals("nsfwrandom")
-                && !subreddit.contains("+")) {
-            executeAsyncSubreddit(subreddit);
-        }
-    }
-
-    public boolean singleMode;
-    public boolean commentPager;
-    public boolean loaded;
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        super.onPrepareOptionsMenu(menu);
-
-        //Hide the "Submit" menu item if the currently viewed sub is the frontpage or /r/all.
-        if (subreddit.equals("frontpage") || subreddit.equals("all")) {
-            menu.findItem(R.id.submit).setVisible(false);
-            menu.findItem(R.id.sidebar).setVisible(false);
-        }
-
-        mToolbar.getMenu()
-                .findItem(R.id.theme)
-                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int style = new ColorPreferences(SubredditView.this).getThemeSubreddit(
-                                subreddit);
-                        final Context contextThemeWrapper =
-                                new ContextThemeWrapper(SubredditView.this, style);
-                        LayoutInflater localInflater =
-                                getLayoutInflater().cloneInContext(contextThemeWrapper);
-                        final View dialoglayout = localInflater.inflate(R.layout.colorsub, null);
-                        ArrayList<String> arrayList = new ArrayList<>();
-                        arrayList.add(subreddit);
-                        SettingsSubAdapter.showSubThemeEditor(arrayList, SubredditView.this,
-                                dialoglayout);
-                        return false;
-                    }
-                });
-        return true;
-    }
-
-
-    public void filterContent(final String subreddit) {
-        final boolean[] chosen = new boolean[]{
-                PostMatch.isImage(subreddit.toLowerCase()),
-                PostMatch.isAlbums(subreddit.toLowerCase()),
-                PostMatch.isGif(subreddit.toLowerCase()),
-                PostMatch.isVideo(subreddit.toLowerCase()),
-                PostMatch.isUrls(subreddit.toLowerCase()),
-                PostMatch.isSelftext(subreddit.toLowerCase()),
-                PostMatch.isNsfw(subreddit.toLowerCase())
-        };
-
-        final String FILTER_TITLE =
-                (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
-                        : (getString(R.string.content_to_hide, "/r/" + subreddit));
-
-        new AlertDialogWrapper.Builder(this).setTitle(FILTER_TITLE)
-                .alwaysCallMultiChoiceCallback()
-                .setMultiChoiceItems(new String[]{
-                        getString(R.string.image_downloads), getString(R.string.type_albums),
-                        getString(R.string.type_gifs), getString(R.string.type_videos),
-                        getString(R.string.type_links), getString(R.string.type_selftext),
-                        getString(R.string.type_nsfw_content)
-                }, chosen, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        chosen[which] = isChecked;
-                    }
-                })
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PostMatch.setChosen(chosen, subreddit);
-                        reloadSubs();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
-
-
-    }
-
-    public void openPopup() {
-        PopupMenu popup =
-                new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), subreddit, true);
-        for (String s : base) {
-            MenuItem m = popup.getMenu().add(s);
-            if (s.startsWith("» ")) {
-                SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(
-                                new ColorPreferences(SubredditView.this).getColor(subreddit)), 0,
-                        spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                m.setTitle(spanString);
-            }
-        }
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            public boolean onMenuItemClick(MenuItem item) {
-                LogUtil.v("Chosen is " + item.getOrder());
-                int i = 0;
-                for (String s : base) {
-                    if (s.equals(item.getTitle())) {
-                        break;
-                    }
-                    i++;
-                }
-                switch (i) {
-                    case 0:
-                        Reddit.setSorting(subreddit, Sorting.HOT);
-                        reloadSubs();
-                        break;
-                    case 1:
-                        Reddit.setSorting(subreddit, Sorting.NEW);
-                        reloadSubs();
-                        break;
-                    case 2:
-                        Reddit.setSorting(subreddit, Sorting.RISING);
-                        reloadSubs();
-                        break;
-                    case 3:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.HOUR);
-                        reloadSubs();
-                        break;
-                    case 4:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.DAY);
-                        reloadSubs();
-                        break;
-                    case 5:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.WEEK);
-                        reloadSubs();
-                        break;
-                    case 6:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.MONTH);
-                        reloadSubs();
-                        break;
-                    case 7:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.YEAR);
-                        reloadSubs();
-                        break;
-                    case 8:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.ALL);
-                        reloadSubs();
-                        break;
-                    case 9:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.HOUR);
-                        reloadSubs();
-                        break;
-                    case 10:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.DAY);
-                        reloadSubs();
-                        break;
-                    case 11:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.WEEK);
-                        reloadSubs();
-                        break;
-                    case 12:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.MONTH);
-                        reloadSubs();
-                        break;
-                    case 13:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.YEAR);
-                        reloadSubs();
-                        break;
-                    case 14:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.ALL);
-                        reloadSubs();
-                        break;
-                }
-                return true;
-            }
-        });
-        popup.show();
-    }
-
-    private void reloadSubs() {
-        restartTheme();
-    }
-
-    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView,
-            CommentOverflow commentOverflow) {
-        if (rawHTML.isEmpty()) {
-            return;
-        }
-
-        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
-
-        int startIndex = 0;
-        // the <div class="md"> case is when the body contains a table or code block first
-        if (!blocks.get(0).equals("<div class=\"md\">")) {
-            firstTextView.setVisibility(View.VISIBLE);
-            firstTextView.setTextHtml(blocks.get(0), subreddit);
-            startIndex = 1;
-        } else {
-            firstTextView.setText("");
-            firstTextView.setVisibility(View.GONE);
-        }
-
-        if (blocks.size() > 1) {
-            if (startIndex == 0) {
-                commentOverflow.setViews(blocks, subreddit);
-            } else {
-                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
-            }
-            SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
-            for (int i = 0; i < commentOverflow.getChildCount(); i++) {
-                View maybeScrollable = commentOverflow.getChildAt(i);
-                if (maybeScrollable instanceof HorizontalScrollView) {
-                    sidebar.addScrollable(maybeScrollable);
-                }
-            }
-        } else {
-            commentOverflow.removeAllViews();
-        }
-    }
-
-    private void changeSubscription(Subreddit subreddit, boolean isChecked) {
-        if (isChecked) {
-            UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(),
-                    SubredditView.this);
-        } else {
-            UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(),
-                    SubredditView.this);
-            pager.setCurrentItem(pager.getCurrentItem() - 1);
-            restartTheme();
-        }
-        Snackbar s = Snackbar.make(mToolbar, isChecked ? getString(R.string.misc_subscribed)
-                : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
-        View view = s.getView();
-        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setTextColor(Color.WHITE);
-        s.show();
-    }
-
-
-    public void doSubSidebarNoLoad(final String subOverride) {
-        findViewById(R.id.loader).setVisibility(View.GONE);
-
-        invalidateOptionsMenu();
-
-        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") &&
-                !subOverride.equalsIgnoreCase("friends") && !subOverride.equalsIgnoreCase("mod") &&
-                !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains(
-                "/m/")) {
-            if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
-            }
-
-            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
-            findViewById(R.id.sub_title).setVisibility(View.GONE);
-            findViewById(R.id.subscribers).setVisibility(View.GONE);
-            findViewById(R.id.active_users).setVisibility(View.GONE);
-
-            findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subOverride));
-            ((TextView) findViewById(R.id.sub_infotitle)).setText(subOverride);
-
-            //Sidebar buttons should use subOverride's accent color
-            int subColor = new ColorPreferences(this).getColor(subOverride);
-            ((TextView) findViewById(R.id.theme_text)).setTextColor(subColor);
-            ((TextView) findViewById(R.id.wiki_text)).setTextColor(subColor);
-            ((TextView) findViewById(R.id.post_text)).setTextColor(subColor);
-            ((TextView) findViewById(R.id.mods_text)).setTextColor(subColor);
-            ((TextView) findViewById(R.id.flair_text)).setTextColor(subColor);
-
-        } else {
-            if (drawerLayout != null) {
-                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
-                        GravityCompat.END);
-            }
-        }
+    public void doPageSelectedComments(int position) {
+        header.animate().translationY(0).setInterpolator(new LinearInterpolator()).setDuration(180);
+        pager.setSwipeLeftOnly(false);
+        Reddit.currentPosition = position;
     }
 
     public void doSubSidebar(final String subOverride) {
@@ -1004,19 +525,14 @@ public class SubredditView extends BaseActivityAnim {
 
             final View dialoglayout = findViewById(R.id.sidebarsub);
             {
-                CheckBox pinned = ((CheckBox) dialoglayout.findViewById(R.id.pinned));
                 View submit = (dialoglayout.findViewById(R.id.submit));
 
                 if (!Authentication.isLoggedIn || !Authentication.didOnline) {
-                    pinned.setVisibility(View.GONE);
-                    findViewById(R.id.subscribed).setVisibility(View.GONE);
                     submit.setVisibility(View.GONE);
                 }
                 if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_POST) {
                     submit.setVisibility(View.GONE);
                 }
-
-                pinned.setVisibility(View.GONE);
 
                 submit.setOnClickListener(new OnSingleClickListener() {
                     @Override
@@ -1371,25 +887,684 @@ public class SubredditView extends BaseActivityAnim {
         }
     }
 
+    public void doSubSidebarNoLoad(final String subOverride) {
+        findViewById(R.id.loader).setVisibility(View.GONE);
 
-    View header;
+        invalidateOptionsMenu();
 
-    public int adjustAlpha(float factor) {
-        int alpha = Math.round(Color.alpha(Color.BLACK) * factor);
-        int red = Color.red(Color.BLACK);
-        int green = Color.green(Color.BLACK);
-        int blue = Color.blue(Color.BLACK);
-        return Color.argb(alpha, red, green, blue);
+        if (!subOverride.equalsIgnoreCase("all") && !subOverride.equalsIgnoreCase("frontpage") &&
+                !subOverride.equalsIgnoreCase("friends") && !subOverride.equalsIgnoreCase("mod") &&
+                !subOverride.contains("+") && !subOverride.contains(".") && !subOverride.contains(
+                "/m/")) {
+            if (drawerLayout != null) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+            }
+
+            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+            findViewById(R.id.sub_title).setVisibility(View.GONE);
+            findViewById(R.id.subscribers).setVisibility(View.GONE);
+            findViewById(R.id.active_users).setVisibility(View.GONE);
+
+            findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subOverride));
+            ((TextView) findViewById(R.id.sub_infotitle)).setText(subOverride);
+
+            //Sidebar buttons should use subOverride's accent color
+            int subColor = new ColorPreferences(this).getColor(subOverride);
+            ((TextView) findViewById(R.id.theme_text)).setTextColor(subColor);
+            ((TextView) findViewById(R.id.wiki_text)).setTextColor(subColor);
+            ((TextView) findViewById(R.id.post_text)).setTextColor(subColor);
+            ((TextView) findViewById(R.id.mods_text)).setTextColor(subColor);
+            ((TextView) findViewById(R.id.flair_text)).setTextColor(subColor);
+
+        } else {
+            if (drawerLayout != null) {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
+                        GravityCompat.END);
+            }
+        }
+    }
+
+    public void executeAsyncSubreddit(String sub) {
+        new AsyncGetSubreddit().execute(sub);
+    }
+
+    public void filterContent(final String subreddit) {
+        final boolean[] chosen = new boolean[]{
+                PostMatch.isImage(subreddit.toLowerCase()),
+                PostMatch.isAlbums(subreddit.toLowerCase()),
+                PostMatch.isGif(subreddit.toLowerCase()),
+                PostMatch.isVideo(subreddit.toLowerCase()),
+                PostMatch.isUrls(subreddit.toLowerCase()),
+                PostMatch.isSelftext(subreddit.toLowerCase()),
+                PostMatch.isNsfw(subreddit.toLowerCase())
+        };
+
+        final String FILTER_TITLE =
+                (subreddit.equals("frontpage")) ? (getString(R.string.content_to_hide, "frontpage"))
+                        : (getString(R.string.content_to_hide, "/r/" + subreddit));
+
+        new AlertDialogWrapper.Builder(this).setTitle(FILTER_TITLE)
+                .alwaysCallMultiChoiceCallback()
+                .setMultiChoiceItems(new String[]{
+                        getString(R.string.image_downloads), getString(R.string.type_albums),
+                        getString(R.string.type_gifs), getString(R.string.type_videos),
+                        getString(R.string.type_links), getString(R.string.type_selftext),
+                        getString(R.string.type_nsfw_content)
+                }, chosen, new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        chosen[which] = isChecked;
+                    }
+                })
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PostMatch.setChosen(chosen, subreddit);
+                        reloadSubs();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+
+
+    }
+
+    public int getCurrentPage() {
+        int position = 0;
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager
+                && currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            position =
+                    ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())
+                            .findFirstCompletelyVisibleItemPosition() - 1;
+        } else if (((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
+            int[] firstVisibleItems = null;
+            firstVisibleItems =
+                    ((CatchStaggeredGridLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv
+                            .getLayoutManager()).findFirstCompletelyVisibleItemPositions(
+                            firstVisibleItems);
+            if (firstVisibleItems != null && firstVisibleItems.length > 0) {
+                position = firstVisibleItems[0] - 1;
+            }
+        } else {
+            position =
+                    ((PreCachingLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())
+                            .findFirstCompletelyVisibleItemPosition() - 1;
+        }
+        return position;
+    }
+
+    public void openPopup() {
+        PopupMenu popup =
+                new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        final String[] base = Reddit.getSortingStrings(getBaseContext(), subreddit, true);
+        for (String s : base) {
+            MenuItem m = popup.getMenu().add(s);
+            if (s.startsWith("» ")) {
+                SpannableString spanString = new SpannableString(s.replace("» ", ""));
+                spanString.setSpan(new ForegroundColorSpan(
+                                new ColorPreferences(SubredditView.this).getColor(subreddit)), 0,
+                        spanString.length(), 0);
+                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+                m.setTitle(spanString);
+            }
+        }
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                LogUtil.v("Chosen is " + item.getOrder());
+                int i = 0;
+                for (String s : base) {
+                    if (s.equals(item.getTitle())) {
+                        break;
+                    }
+                    i++;
+                }
+                switch (i) {
+                    case 0:
+                        Reddit.setSorting(subreddit, Sorting.HOT);
+                        reloadSubs();
+                        break;
+                    case 1:
+                        Reddit.setSorting(subreddit, Sorting.NEW);
+                        reloadSubs();
+                        break;
+                    case 2:
+                        Reddit.setSorting(subreddit, Sorting.RISING);
+                        reloadSubs();
+                        break;
+                    case 3:
+                        Reddit.setSorting(subreddit, Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.HOUR);
+                        reloadSubs();
+                        break;
+                    case 4:
+                        Reddit.setSorting(subreddit, Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.DAY);
+                        reloadSubs();
+                        break;
+                    case 5:
+                        Reddit.setSorting(subreddit, Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.WEEK);
+                        reloadSubs();
+                        break;
+                    case 6:
+                        Reddit.setSorting(subreddit, Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.MONTH);
+                        reloadSubs();
+                        break;
+                    case 7:
+                        Reddit.setSorting(subreddit, Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.YEAR);
+                        reloadSubs();
+                        break;
+                    case 8:
+                        Reddit.setSorting(subreddit, Sorting.TOP);
+                        Reddit.setTime(subreddit, TimePeriod.ALL);
+                        reloadSubs();
+                        break;
+                    case 9:
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.HOUR);
+                        reloadSubs();
+                        break;
+                    case 10:
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.DAY);
+                        reloadSubs();
+                        break;
+                    case 11:
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.WEEK);
+                        reloadSubs();
+                        break;
+                    case 12:
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.MONTH);
+                        reloadSubs();
+                        break;
+                    case 13:
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.YEAR);
+                        reloadSubs();
+                        break;
+                    case 14:
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
+                        Reddit.setTime(subreddit, TimePeriod.ALL);
+                        reloadSubs();
+                        break;
+                }
+                return true;
+            }
+        });
+        popup.show();
+    }
+
+    public void restartTheme() {
+        Intent intent = this.getIntent();
+        finish();
+        startActivity(intent);
+        overridePendingTransition(0, 0);
+    }
+
+    private void changeSubscription(Subreddit subreddit, boolean isChecked) {
+        if (isChecked) {
+            UserSubscriptions.addSubreddit(subreddit.getDisplayName().toLowerCase(),
+                    SubredditView.this);
+        } else {
+            UserSubscriptions.removeSubreddit(subreddit.getDisplayName().toLowerCase(),
+                    SubredditView.this);
+            pager.setCurrentItem(pager.getCurrentItem() - 1);
+            restartTheme();
+        }
+        Snackbar s = Snackbar.make(mToolbar, isChecked ? getString(R.string.misc_subscribed)
+                : getString(R.string.misc_unsubscribed), Snackbar.LENGTH_SHORT);
+        View view = s.getView();
+        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+        tv.setTextColor(Color.WHITE);
+        s.show();
+    }
+
+    private void doSubOnlyStuff(final Subreddit subreddit) {
+        findViewById(R.id.loader).setVisibility(View.GONE);
+        if (subreddit.getDataNode().has("subreddit_type") && !subreddit.getDataNode()
+                .get("subreddit_type")
+                .isNull()) {
+            canSubmit = !subreddit.getDataNode()
+                    .get("subreddit_type")
+                    .asText()
+                    .toUpperCase()
+                    .equals("RESTRICTED");
+        }
+        if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
+            findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
+
+            final String text = subreddit.getDataNode().get("description_html").asText();
+            final SpoilerRobotoTextView body =
+                    (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
+            CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
+            setViews(text, subreddit.getDisplayName(), body, overflow);
+        } else {
+            findViewById(R.id.sidebar_text).setVisibility(View.GONE);
+        }
+        View collection = findViewById(R.id.collection);
+        if (Authentication.isLoggedIn) {
+            collection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new AsyncTask<Void, Void, Void>() {
+                        HashMap<String, MultiReddit> multis = new HashMap<String, MultiReddit>();
+
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            if (UserSubscriptions.multireddits == null) {
+                                UserSubscriptions.syncMultiReddits(SubredditView.this);
+                            }
+                            for (MultiReddit r : UserSubscriptions.multireddits) {
+                                multis.put(r.getDisplayName(), r);
+                            }
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            new MaterialDialog.Builder(SubredditView.this).title(
+                                    "Add /r/" + subreddit.getDisplayName() + " to")
+                                    .items(multis.keySet())
+                                    .itemsCallback(new MaterialDialog.ListCallback() {
+                                        @Override
+                                        public void onSelection(MaterialDialog dialog,
+                                                View itemView, final int which, CharSequence text) {
+                                            new AsyncTask<Void, Void, Void>() {
+                                                @Override
+                                                protected Void doInBackground(Void... params) {
+                                                    try {
+                                                        final String multiName = multis.keySet()
+                                                                .toArray(
+                                                                        new String[multis.size()])[which];
+                                                        List<String> subs = new ArrayList<String>();
+                                                        for (MultiSubreddit sub : multis.get(
+                                                                multiName).getSubreddits()) {
+                                                            subs.add(sub.getDisplayName());
+                                                        }
+                                                        subs.add(subreddit.getDisplayName());
+                                                        new MultiRedditManager(
+                                                                Authentication.reddit).createOrUpdate(
+                                                                new MultiRedditUpdateRequest.Builder(
+                                                                        Authentication.name,
+                                                                        multiName).subreddits(subs)
+                                                                        .build());
+
+                                                        UserSubscriptions.syncMultiReddits(
+                                                                SubredditView.this);
+
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                drawerLayout.closeDrawers();
+                                                                Snackbar.make(mToolbar,
+                                                                        "Subreddit added to /m/"
+                                                                                + multiName,
+                                                                        Snackbar.LENGTH_LONG)
+                                                                        .show();
+                                                            }
+                                                        });
+                                                    } catch (final NetworkException | ApiException e) {
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                runOnUiThread(new Runnable() {
+                                                                    @Override
+                                                                    public void run() {
+                                                                        Snackbar.make(mToolbar,
+                                                                                "An error occured, please try again later",
+                                                                                Snackbar.LENGTH_LONG)
+                                                                                .setAction(
+                                                                                        R.string.btn_ok,
+                                                                                        new View.OnClickListener() {
+                                                                                            @Override
+                                                                                            public void onClick(
+                                                                                                    View v) {
+
+                                                                                            }
+                                                                                        })
+                                                                                .show();
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                        e.printStackTrace();
+                                                    }
+                                                    return null;
+                                                }
+                                            }.execute();
+
+                                        }
+                                    })
+                                    .show();
+                        }
+                    }.execute();
+                }
+            });
+
+        } else {
+            collection.setVisibility(View.GONE);
+        }
+
+        {
+            final TextView subscribe = (TextView) findViewById(R.id.subscribe);
+            currentlySubbed =
+                    (!Authentication.isLoggedIn && UserSubscriptions.getSubscriptions(this)
+                            .contains(subreddit.getDisplayName().toLowerCase()))
+                            || subreddit.isUserSubscriber();
+            doSubscribeButtonText(currentlySubbed, subscribe);
+
+            subscribe.setOnClickListener(new View.OnClickListener() {
+                private void doSubscribe() {
+                    if (Authentication.isLoggedIn) {
+                        new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                                "Subscribe to /r/" + subreddit.getDisplayName())
+                                .setPositiveButton("ADD & SUBSCRIBE",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                new AsyncTask<Void, Void, Boolean>() {
+                                                    @Override
+                                                    public void onPostExecute(Boolean success) {
+                                                        if (!success) { // If subreddit was removed from account or not
+
+                                                            new AlertDialogWrapper.Builder(
+                                                                    SubredditView.this).setTitle(
+                                                                    R.string.force_change_subscription)
+                                                                    .setMessage(
+                                                                            R.string.force_change_subscription_desc)
+                                                                    .setPositiveButton(
+                                                                            R.string.btn_yes,
+                                                                            new DialogInterface.OnClickListener() {
+                                                                                @Override
+                                                                                public void onClick(
+                                                                                        DialogInterface dialog,
+                                                                                        int which) {
+                                                                                    changeSubscription(
+                                                                                            subreddit,
+                                                                                            true); // Force add the subscription
+                                                                                    Snackbar s =
+                                                                                            Snackbar.make(
+                                                                                                    mToolbar,
+                                                                                                    getString(
+                                                                                                            R.string.misc_subscribed),
+                                                                                                    Snackbar.LENGTH_SHORT);
+                                                                                    View view =
+                                                                                            s.getView();
+                                                                                    TextView tv =
+                                                                                            (TextView) view
+                                                                                                    .findViewById(
+                                                                                                            android.support.design.R.id.snackbar_text);
+                                                                                    tv.setTextColor(
+                                                                                            Color.WHITE);
+                                                                                    s.show();
+                                                                                }
+                                                                            })
+                                                                    .setNegativeButton(
+                                                                            R.string.btn_no,
+                                                                            new DialogInterface.OnClickListener() {
+                                                                                @Override
+                                                                                public void onClick(
+                                                                                        DialogInterface dialog,
+                                                                                        int which) {
+
+                                                                                }
+                                                                            })
+                                                                    .setCancelable(false)
+                                                                    .show();
+                                                        } else {
+                                                            changeSubscription(subreddit, true);
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    protected Boolean doInBackground(
+                                                            Void... params) {
+                                                        try {
+                                                            new AccountManager(
+                                                                    Authentication.reddit).subscribe(
+                                                                    subreddit);
+                                                        } catch (NetworkException e) {
+                                                            return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
+                                                        }
+                                                        return true;
+                                                    }
+                                                }.execute();
+                                            }
+                                        })
+                                .setNegativeButton("CANCEL", null)
+                                .setNeutralButton("ADD TO SUB LIST",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                changeSubscription(subreddit,
+                                                        true); // Force add the subscription
+                                                Snackbar s =
+                                                        Snackbar.make(mToolbar, R.string.sub_added,
+                                                                Snackbar.LENGTH_SHORT);
+                                                View view = s.getView();
+                                                TextView tv = (TextView) view.findViewById(
+                                                        android.support.design.R.id.snackbar_text);
+                                                tv.setTextColor(Color.WHITE);
+                                                s.show();
+                                            }
+                                        })
+                                .show();
+                    } else {
+                        changeSubscription(subreddit, true);
+                    }
+                }                @Override
+                public void onClick(View v) {
+                    if (!currentlySubbed) {
+                        doSubscribe();
+                        doSubscribeButtonText(currentlySubbed, subscribe);
+                    } else {
+                        doUnsubscribe();
+                        doSubscribeButtonText(currentlySubbed, subscribe);
+                    }
+                }
+
+                private void doUnsubscribe() {
+                    if (Authentication.didOnline) {
+                        new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                                "Unsubscribe from /r/" + subreddit.getDisplayName())
+                                .setPositiveButton("REMOVE & UNSUBSCRIBE",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                new AsyncTask<Void, Void, Boolean>() {
+                                                    @Override
+                                                    public void onPostExecute(Boolean success) {
+                                                        if (!success) { // If subreddit was removed from account or not
+
+                                                            new AlertDialogWrapper.Builder(
+                                                                    SubredditView.this).setTitle(
+                                                                    R.string.force_change_subscription)
+                                                                    .setMessage(
+                                                                            R.string.force_change_subscription_desc)
+                                                                    .setPositiveButton(
+                                                                            R.string.btn_yes,
+                                                                            new DialogInterface.OnClickListener() {
+                                                                                @Override
+                                                                                public void onClick(
+                                                                                        DialogInterface dialog,
+                                                                                        int which) {
+                                                                                    changeSubscription(
+                                                                                            subreddit,
+                                                                                            false); // Force add the subscription
+                                                                                    Snackbar s =
+                                                                                            Snackbar.make(
+                                                                                                    mToolbar,
+                                                                                                    getString(
+                                                                                                            R.string.misc_unsubscribed),
+                                                                                                    Snackbar.LENGTH_SHORT);
+                                                                                    View view =
+                                                                                            s.getView();
+                                                                                    TextView tv =
+                                                                                            (TextView) view
+                                                                                                    .findViewById(
+                                                                                                            android.support.design.R.id.snackbar_text);
+                                                                                    tv.setTextColor(
+                                                                                            Color.WHITE);
+                                                                                    s.show();
+                                                                                }
+                                                                            })
+                                                                    .setNegativeButton(
+                                                                            R.string.btn_no,
+                                                                            new DialogInterface.OnClickListener() {
+                                                                                @Override
+                                                                                public void onClick(
+                                                                                        DialogInterface dialog,
+                                                                                        int which) {
+
+                                                                                }
+                                                                            })
+                                                                    .setCancelable(false)
+                                                                    .show();
+                                                        } else {
+                                                            changeSubscription(subreddit, false);
+                                                        }
+
+                                                    }
+
+                                                    @Override
+                                                    protected Boolean doInBackground(
+                                                            Void... params) {
+                                                        try {
+                                                            new AccountManager(
+                                                                    Authentication.reddit).unsubscribe(
+                                                                    subreddit);
+                                                        } catch (NetworkException e) {
+                                                            return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
+                                                        }
+                                                        return true;
+                                                    }
+                                                }.execute();
+                                            }
+                                        })
+                                .setNegativeButton("CANCEL", null)
+                                .setNeutralButton("JUST UNSUBSCRIBE",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                changeSubscription(subreddit,
+                                                        false); // Force add the subscription
+                                                Snackbar s = Snackbar.make(mToolbar,
+                                                        R.string.misc_unsubscribed,
+                                                        Snackbar.LENGTH_SHORT);
+                                                View view = s.getView();
+                                                TextView tv = (TextView) view.findViewById(
+                                                        android.support.design.R.id.snackbar_text);
+                                                tv.setTextColor(Color.WHITE);
+                                                s.show();
+                                            }
+                                        })
+                                .show();
+                    } else {
+                        changeSubscription(subreddit, false);
+                    }
+                }
+
+
+
+            });
+
+        }
+        if (!subreddit.getPublicDescription().isEmpty()) {
+            findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
+            setViews(subreddit.getDataNode().get("public_description_html").asText(),
+                    subreddit.getDisplayName().toLowerCase(),
+                    ((SpoilerRobotoTextView) findViewById(R.id.sub_title)),
+                    (CommentOverflow) findViewById(R.id.sub_title_overflow));
+        } else {
+            findViewById(R.id.sub_title).setVisibility(View.GONE);
+        }
+        if (subreddit.getDataNode().has("icon_img") && !subreddit.getDataNode()
+                .get("icon_img")
+                .asText()
+                .isEmpty()) {
+            ((Reddit) getApplication()).getImageLoader()
+                    .displayImage(subreddit.getDataNode().get("icon_img").asText(),
+                            (ImageView) findViewById(R.id.subimage));
+        } else {
+            findViewById(R.id.subimage).setVisibility(View.GONE);
+        }
+        ((TextView) findViewById(R.id.subscribers)).setText(
+                getString(R.string.subreddit_subscribers_string,
+                        subreddit.getLocalizedSubscriberCount()));
+        findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
+
+        ((TextView) findViewById(R.id.active_users)).setText(
+                getString(R.string.subreddit_active_users_string_new,
+                        subreddit.getLocalizedAccountsActive()));
+        findViewById(R.id.active_users).setVisibility(View.VISIBLE);
+    }
+
+    private void doSubscribeButtonText(boolean currentlySubbed, TextView subscribe) {
+        if (Authentication.didOnline) {
+            if (currentlySubbed) {
+                subscribe.setText("UNSUBSCRIBE");
+            } else {
+                subscribe.setText("SUBSCRIBE");
+            }
+        } else {
+            if (currentlySubbed) {
+                subscribe.setText("REMOVE FROM SUB LIST");
+            } else {
+                subscribe.setText("ADD TO SUB LIST");
+            }
+        }
+    }
+
+    private void reloadSubs() {
+        restartTheme();
+    }
+
+    private void setViews(String rawHTML, String subreddit, SpoilerRobotoTextView firstTextView,
+            CommentOverflow commentOverflow) {
+        if (rawHTML.isEmpty()) {
+            return;
+        }
+
+        List<String> blocks = SubmissionParser.getBlocks(rawHTML);
+
+        int startIndex = 0;
+        // the <div class="md"> case is when the body contains a table or code block first
+        if (!blocks.get(0).equals("<div class=\"md\">")) {
+            firstTextView.setVisibility(View.VISIBLE);
+            firstTextView.setTextHtml(blocks.get(0), subreddit);
+            startIndex = 1;
+        } else {
+            firstTextView.setText("");
+            firstTextView.setVisibility(View.GONE);
+        }
+
+        if (blocks.size() > 1) {
+            if (startIndex == 0) {
+                commentOverflow.setViews(blocks, subreddit);
+            } else {
+                commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subreddit);
+            }
+            SidebarLayout sidebar = (SidebarLayout) findViewById(R.id.drawer_layout);
+            for (int i = 0; i < commentOverflow.getChildCount(); i++) {
+                View maybeScrollable = commentOverflow.getChildAt(i);
+                if (maybeScrollable instanceof HorizontalScrollView) {
+                    sidebar.addScrollable(maybeScrollable);
+                }
+            }
+        } else {
+            commentOverflow.removeAllViews();
+        }
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         private SubmissionsView mCurrentFragment;
         private BlankFragment   blankPage;
-
-        @Override
-        public Parcelable saveState() {
-            return null;
-        }
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -1431,28 +1606,9 @@ public class SubredditView extends BaseActivityAnim {
             }
         }
 
-
-        public Fragment getCurrentFragment() {
-            return mCurrentFragment;
-        }
-
-        public void doSetPrimary(Object object, int position) {
-            if (object != null
-                    && getCurrentFragment() != object
-                    && position != 3
-                    && object instanceof SubmissionsView) {
-                mCurrentFragment = ((SubmissionsView) object);
-                if (mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
-                    mCurrentFragment.doAdapter();
-
-                }
-            }
-        }
-
         @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            super.setPrimaryItem(container, position, object);
-            doSetPrimary(object, position);
+        public int getCount() {
+            return 2;
         }
 
         @Override
@@ -1473,19 +1629,177 @@ public class SubredditView extends BaseActivityAnim {
 
         }
 
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            super.setPrimaryItem(container, position, object);
+            doSetPrimary(object, position);
+        }
 
         @Override
-        public int getCount() {
-            return 2;
+        public Parcelable saveState() {
+            return null;
+        }
+
+        public void doSetPrimary(Object object, int position) {
+            if (object != null
+                    && getCurrentFragment() != object
+                    && position != 3
+                    && object instanceof SubmissionsView) {
+                mCurrentFragment = ((SubmissionsView) object);
+                if (mCurrentFragment.posts == null && mCurrentFragment.isAdded()) {
+                    mCurrentFragment.doAdapter();
+
+                }
+            }
+        }
+
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
         }
 
     }
 
+    public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
+        public int size = 2;
+        public Fragment storedFragment;
+        BlankFragment blankPage;
+        private SubmissionsView mCurrentFragment;
 
-    Subreddit sub;
 
-    public void executeAsyncSubreddit(String sub) {
-        new AsyncGetSubreddit().execute(sub);
+        public OverviewPagerAdapterComment(FragmentManager fm) {
+            super(fm);
+            pager.clearOnPageChangeListeners();
+            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset,
+                        int positionOffsetPixels) {
+                    if (position == 0) {
+                        CoordinatorLayout.LayoutParams params =
+                                (CoordinatorLayout.LayoutParams) header.getLayoutParams();
+                        params.setMargins(header.getWidth() - positionOffsetPixels, 0,
+                                -((header.getWidth() - positionOffsetPixels)), 0);
+                        header.setLayoutParams(params);
+                        if (positionOffsetPixels == 0) {
+                            finish();
+                        }
+
+                        blankPage.doOffset(positionOffset);
+                        pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+
+                    } else if (positionOffset == 0) {
+                        if (position == 1) {
+                            doPageSelectedComments(position);
+                            if (position == 2
+                                    && adapter != null
+                                    && adapter.getCurrentFragment() != null) {
+                                ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
+                            }
+                        } else {
+                            //todo if (mAsyncGetSubreddit != null) {
+                            //mAsyncGetSubreddit.cancel(true);
+                            //}
+
+                            if (header.getTranslationY() == 0) {
+                                header.animate()
+                                        .translationY(-header.getHeight())
+                                        .setInterpolator(new LinearInterpolator())
+                                        .setDuration(180);
+                            }
+
+                            pager.setSwipeLeftOnly(true);
+                            themeSystemBars(openingComments.getSubredditName().toLowerCase());
+                            setRecentBar(openingComments.getSubredditName().toLowerCase());
+
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onPageSelected(final int position) {
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+            if (pager.getAdapter() != null) {
+                pager.getAdapter().notifyDataSetChanged();
+                pager.setCurrentItem(1);
+                pager.setCurrentItem(0);
+
+            }
+        }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
+        }
+
+        @Override
+        public void doSetPrimary(Object object, int position) {
+            if (position != 2 && position != 0) {
+                if (getCurrentFragment() != object) {
+                    mCurrentFragment = ((SubmissionsView) object);
+                    if (mCurrentFragment != null
+                            && mCurrentFragment.posts == null
+                            && mCurrentFragment.isAdded()) {
+                        mCurrentFragment.doAdapter();
+                    }
+                }
+            }
+
+        }        @Override
+        public int getItemPosition(Object object) {
+            if (object != storedFragment) return POSITION_NONE;
+            return POSITION_UNCHANGED;
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+
+            if (i == 0) {
+                blankPage = new BlankFragment();
+                return blankPage;
+            } else if (openingComments == null || i != 2) {
+                SubmissionsView f = new SubmissionsView();
+                Bundle args = new Bundle();
+                args.putString("id", subreddit);
+                f.setArguments(args);
+                return f;
+
+            } else {
+                Fragment f = new CommentPage();
+                Bundle args = new Bundle();
+                String name = openingComments.getFullName();
+                args.putString("id", name.substring(3, name.length()));
+                args.putBoolean("archived", openingComments.isArchived());
+                args.putBoolean("locked", openingComments.isLocked());
+                args.putInt("page", currentComment);
+                args.putString("subreddit", openingComments.getSubredditName());
+                args.putString("baseSubreddit", subreddit);
+                f.setArguments(args);
+                return f;
+            }
+
+
+        }
+
+        @Override
+        public int getCount() {
+            return size;
+        }
+
+
+
+
+
     }
 
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
@@ -1577,158 +1891,6 @@ public class SubredditView extends BaseActivityAnim {
                 return null;
             }
         }
-
-    }
-
-    public void doPageSelectedComments(int position) {
-        header.animate().translationY(0).setInterpolator(new LinearInterpolator()).setDuration(180);
-        pager.setSwipeLeftOnly(false);
-        Reddit.currentPosition = position;
-    }
-
-    public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
-        private SubmissionsView mCurrentFragment;
-        public int size = 2;
-
-        @Override
-        public Parcelable saveState() {
-            return null;
-        }
-
-        public OverviewPagerAdapterComment(FragmentManager fm) {
-            super(fm);
-            pager.clearOnPageChangeListeners();
-            pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset,
-                        int positionOffsetPixels) {
-                    if (position == 0) {
-                        CoordinatorLayout.LayoutParams params =
-                                (CoordinatorLayout.LayoutParams) header.getLayoutParams();
-                        params.setMargins(header.getWidth() - positionOffsetPixels, 0,
-                                -((header.getWidth() - positionOffsetPixels)), 0);
-                        header.setLayoutParams(params);
-                        if (positionOffsetPixels == 0) {
-                            finish();
-                        }
-
-                        blankPage.doOffset(positionOffset);
-                        pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
-
-                    } else if (positionOffset == 0) {
-                        if (position == 1) {
-                            doPageSelectedComments(position);
-                            if (position == 2
-                                    && adapter != null
-                                    && adapter.getCurrentFragment() != null) {
-                                ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
-                            }
-                        } else {
-                            //todo if (mAsyncGetSubreddit != null) {
-                            //mAsyncGetSubreddit.cancel(true);
-                            //}
-
-                            if (header.getTranslationY() == 0) {
-                                header.animate()
-                                        .translationY(-header.getHeight())
-                                        .setInterpolator(new LinearInterpolator())
-                                        .setDuration(180);
-                            }
-
-                            pager.setSwipeLeftOnly(true);
-                            themeSystemBars(openingComments.getSubredditName().toLowerCase());
-                            setRecentBar(openingComments.getSubredditName().toLowerCase());
-
-                        }
-                    }
-
-                }
-
-                @Override
-                public void onPageSelected(final int position) {
-
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-            if (pager.getAdapter() != null) {
-                pager.getAdapter().notifyDataSetChanged();
-                pager.setCurrentItem(1);
-                pager.setCurrentItem(0);
-
-            }
-        }
-
-
-        public Fragment getCurrentFragment() {
-            return mCurrentFragment;
-        }
-
-
-        @Override
-        public void doSetPrimary(Object object, int position) {
-            if (position != 2 && position != 0) {
-                if (getCurrentFragment() != object) {
-                    mCurrentFragment = ((SubmissionsView) object);
-                    if (mCurrentFragment != null
-                            && mCurrentFragment.posts == null
-                            && mCurrentFragment.isAdded()) {
-                        mCurrentFragment.doAdapter();
-                    }
-                }
-            }
-
-        }
-
-        public Fragment storedFragment;
-
-        @Override
-        public int getItemPosition(Object object) {
-            if (object != storedFragment) return POSITION_NONE;
-            return POSITION_UNCHANGED;
-        }
-
-        BlankFragment blankPage;
-
-        @Override
-        public Fragment getItem(int i) {
-
-            if (i == 0) {
-                blankPage = new BlankFragment();
-                return blankPage;
-            } else if (openingComments == null || i != 2) {
-                SubmissionsView f = new SubmissionsView();
-                Bundle args = new Bundle();
-                args.putString("id", subreddit);
-                f.setArguments(args);
-                return f;
-
-            } else {
-                Fragment f = new CommentPage();
-                Bundle args = new Bundle();
-                String name = openingComments.getFullName();
-                args.putString("id", name.substring(3, name.length()));
-                args.putBoolean("archived", openingComments.isArchived());
-                args.putBoolean("locked", openingComments.isLocked());
-                args.putInt("page", currentComment);
-                args.putString("subreddit", openingComments.getSubredditName());
-                args.putString("baseSubreddit", subreddit);
-                f.setArguments(args);
-                return f;
-            }
-
-
-        }
-
-
-        @Override
-        public int getCount() {
-            return size;
-        }
-
 
     }
 

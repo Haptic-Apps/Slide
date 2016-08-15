@@ -29,6 +29,7 @@
                 android:minHeight="30dp"
                 android:textColor="?attr/font"
                 android:textSize="16sp"
+                android:textCursorDrawable="@null"
                 android:theme="@style/ReplyEditTextTheme" />
         </LinearLayout>
 

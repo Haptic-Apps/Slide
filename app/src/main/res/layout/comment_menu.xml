@@ -88,6 +88,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/btn_reply"
             android:textColor="@color/white"
+            android:textCursorDrawable="@null"
             android:textColorHint="@color/white"
             android:imeOptions="actionDone|flagNoEnterAction"
             android:inputType="textMultiLine|textAutoCorrect|textCapSentences"

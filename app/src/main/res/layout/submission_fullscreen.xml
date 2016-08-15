@@ -305,6 +305,7 @@
                 android:imeOptions="actionDone|flagNoEnterAction"
                 android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                 android:minHeight="30dp"
+                android:textCursorDrawable="@null"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font" />
 
