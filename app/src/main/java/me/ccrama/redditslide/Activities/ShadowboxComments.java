@@ -102,11 +102,7 @@ public class ShadowboxComments extends FullScreenActivity {
                 }
                 break;
             }
-
-
             return f;
-
-
         }
 
 

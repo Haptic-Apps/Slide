@@ -65,7 +65,6 @@ import okhttp3.OkHttpClient;
  */
 public class MediaFragmentComment extends Fragment {
 
-    public  String                firstUrl;
     public  String                contentUrl;
     public  String                sub;
     public  String                actuallyLoaded;
@@ -127,21 +126,13 @@ public class MediaFragmentComment extends Fragment {
         if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
             stopPosition = savedInstanceState.getInt("position");
         }
-        if (!firstUrl.isEmpty()) {
-            displayImage(firstUrl);
-        }
-
 
         PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
-
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-
 
         ContentType.Type type = ContentType.getContentType(contentUrl);
 
-
         if (!ContentType.fullImage(type)) {
-
             addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type,
                     getActivity(), s);
 
@@ -152,11 +143,10 @@ public class MediaFragmentComment extends Fragment {
         }
         doLoad(contentUrl);
 
-
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new OpenRedditLink(getActivity(), s.getUrl());
+                new OpenRedditLink(getActivity(), s.getUrl() + s.getId() + "?context=3");
             }
         });
         final View.OnClickListener openClick = new View.OnClickListener() {
@@ -193,11 +183,7 @@ public class MediaFragmentComment extends Fragment {
                                     .setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            Intent i2 =
-                                                    new Intent(getActivity(), CommentsScreen.class);
-                                            i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
-                                            getActivity().startActivity(i2);
+                                            new OpenRedditLink(getActivity(), s.getUrl() + s.getId() + "?context=3");
                                         }
                                     });
                         } else {
@@ -212,7 +198,6 @@ public class MediaFragmentComment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        firstUrl = bundle.getString("firstUrl");
         i = bundle.getInt("page");
         s = ((ShadowboxComments) getActivity()).comments.get(i);
         sub = s.getSubredditName();
