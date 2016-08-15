@@ -478,7 +478,7 @@ public class MainActivity extends BaseActivity {
                                                 && !Reddit.appRestart.contains(
                                                 "announcement" + s.getFullName())
                                                 && s.getTitle()
-                                                .contains(BuildConfig.VERSION_NAME)) {
+                                                .startsWith("v" + BuildConfig.VERSION_NAME)) {
                                             Reddit.appRestart.edit()
                                                     .putBoolean("announcement" + s.getFullName(),
                                                             true)
