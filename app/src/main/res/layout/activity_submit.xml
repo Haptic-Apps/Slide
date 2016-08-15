@@ -76,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tint"
-                    android:textCursorDrawable="@null"
+                    android:textCursorDrawable="@drawable/cursor"
                     android:hint="@string/editor_hint_subreddit"
                     android:inputType="textFilter"
                     android:maxLength="21"
@@ -95,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="?attr/tint"
-                    android:textCursorDrawable="@null"
+                    android:textCursorDrawable="@drawable/cursor"
                     android:hint="@string/editor_title"
                     android:inputType="text|textCapSentences"
                     android:maxLines="1"
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="?attr/tint"
                         android:hint="@string/editor_hint_optional_body"
-                        android:textCursorDrawable="@null"
+                        android:textCursorDrawable="@drawable/cursor"
                         android:imeOptions="actionDone|flagNoEnterAction"
                         android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                         android:textColor="?attr/font" />
@@ -182,7 +182,7 @@
                         android:id="@+id/urltext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textCursorDrawable="@null"
+                        android:textCursorDrawable="@drawable/cursor"
                         android:backgroundTint="?attr/tint"
                         android:hint="@string/editor_url" />
                 </android.support.design.widget.TextInputLayout>

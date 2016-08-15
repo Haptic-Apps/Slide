@@ -38,6 +38,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -248,7 +249,7 @@ public class AlbumPager extends FullScreenActivity
             findViewById(R.id.progress).setVisibility(View.GONE);
             images = new ArrayList<>(jsonElements);
 
-            final ViewPager p = (ViewPager) findViewById(R.id.images_horizontal);
+             p = (ViewPager) findViewById(R.id.images_horizontal);
 
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setSubtitle(1 + "/" + images.size());
@@ -272,7 +273,7 @@ public class AlbumPager extends FullScreenActivity
                     gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v, int position,
                                 long id) {
-                            p.setCurrentItem(position);
+                            p.setCurrentItem(position + 1);
                             d.dismiss();
                         }
                     });
@@ -306,6 +307,8 @@ public class AlbumPager extends FullScreenActivity
 
         }
     }
+
+    ViewPager p;
 
     public List<Image> images;
 
@@ -412,7 +415,7 @@ public class AlbumPager extends FullScreenActivity
                 public void run() {
 
                 }
-            }, false, true, i == 0).execute(url);
+            }, false, true, true, (TextView) rootView.findViewById(R.id.size)).execute(url);
             ((MediaVideoView) rootView.findViewById(R.id.gif)).setZOrderOnTop(true);
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override

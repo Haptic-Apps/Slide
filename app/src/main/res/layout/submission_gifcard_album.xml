@@ -36,15 +36,22 @@
             android:progress="0" />
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/gifheader"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="56dp"
         android:layout_below="@+id/imagearea"
-        android:layout_marginTop="-56dp"
-        android:gravity="right">
+        android:layout_marginTop="-56dp">
 
-
+        <TextView
+                android:layout_width="wrap_content"
+                android:paddingLeft="16dp"
+                android:gravity="center"
+                android:id="@+id/size"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentLeft="true"
+                android:textSize="12sp"
+                android:layout_height="match_parent" />
         <ImageView
             android:id="@+id/save"
             android:layout_width="56dp"
@@ -52,12 +59,13 @@
             android:padding="15dp"
             android:theme="@style/Ripple.List"
             android:tint="@color/white"
-
+            android:layout_toLeftOf="@+id/more"
             app:srcCompat="@drawable/save" />
 
         <ImageView
             android:id="@+id/more"
             style="@style/Ripple.List"
+            android:layout_alignParentRight="true"
             android:layout_width="48dp"
             android:layout_height="56dp"
             android:layout_gravity="right"
@@ -67,7 +75,7 @@
             android:paddingTop="15dp"
             android:theme="@style/Ripple.List"
             app:srcCompat="@drawable/more" />
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
 
