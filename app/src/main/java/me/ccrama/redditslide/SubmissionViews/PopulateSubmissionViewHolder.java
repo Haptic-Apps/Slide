@@ -437,8 +437,10 @@ public class PopulateSubmissionViewHolder {
                 b.sheet(5, hide, mContext.getString(R.string.submission_unhide));
             }
         }
-        b.sheet(7, open, mContext.getString(R.string.submission_link_extern))
-                .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
+        if (!submission.isSelfPost()) {
+            b.sheet(7, open, mContext.getString(R.string.submission_link_extern));
+        }
+        b.sheet(4, share, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url));
         if ((mContext instanceof MainActivity) || (mContext instanceof SubredditView)) {
             b.sheet(10, filter, mContext.getString(R.string.filter_content));
@@ -468,10 +470,15 @@ public class PopulateSubmissionViewHolder {
                                 ? submission.getSubmissionFlair().getText() : "";
                         if (flair.isEmpty()) {
                             choices = new String[]{
-                                            mContext.getString(R.string.filter_posts_sub) + submission.getSubredditName(),
-                                            mContext.getString(R.string.filter_posts_user) + submission.getAuthor(),
-                                            mContext.getString(R.string.filter_posts_urls) + submission.getDomain(),
-                                            mContext.getString(R.string.filter_open_externally, submission.getDomain())};
+                                    mContext.getString(R.string.filter_posts_sub)
+                                            + submission.getSubredditName(),
+                                    mContext.getString(R.string.filter_posts_user)
+                                            + submission.getAuthor(),
+                                    mContext.getString(R.string.filter_posts_urls)
+                                            + submission.getDomain(),
+                                    mContext.getString(R.string.filter_open_externally,
+                                            submission.getDomain())
+                            };
 
                             chosen = new boolean[]{
                                     Arrays.asList(SettingValues.subredditFilters.toLowerCase()
@@ -479,44 +486,43 @@ public class PopulateSubmissionViewHolder {
                                             submission.getSubredditName().toLowerCase()),
                                     Arrays.asList(SettingValues.userFilters.toLowerCase()
                                             .split(",")).contains(
-                                            submission.getAuthor().toLowerCase()),
-                                    Arrays.asList(
+                                            submission.getAuthor().toLowerCase()), Arrays.asList(
                                     SettingValues.domainFilters.toLowerCase().split(",")).contains(
-                                    submission.getDomain().toLowerCase()),
-                                    Arrays.asList(
+                                    submission.getDomain().toLowerCase()), Arrays.asList(
                                     SettingValues.alwaysExternal.toLowerCase().split(",")).contains(
                                     submission.getDomain().toLowerCase())
                             };
                             oldChosen = chosen.clone();
                         } else {
                             choices = new String[]{
-                                            mContext.getString(R.string.filter_posts_sub) + submission.getSubredditName(),
-                                            mContext.getString(R.string.filter_posts_user) + submission.getAuthor(),
-                                            mContext.getString(R.string.filter_posts_urls) + submission.getDomain(),
-                                            mContext.getString(R.string.filter_open_externally, submission.getDomain()),
-                                            mContext.getString(R.string.filter_posts_flair, flair, baseSub)};
+                                    mContext.getString(R.string.filter_posts_sub)
+                                            + submission.getSubredditName(),
+                                    mContext.getString(R.string.filter_posts_user)
+                                            + submission.getAuthor(),
+                                    mContext.getString(R.string.filter_posts_urls)
+                                            + submission.getDomain(),
+                                    mContext.getString(R.string.filter_open_externally,
+                                            submission.getDomain()),
+                                    mContext.getString(R.string.filter_posts_flair, flair, baseSub)
                             };
-                            chosen = new boolean[]{
-                                    Arrays.asList(SettingValues.subredditFilters.toLowerCase()
-                                            .split(",")).contains(
-                                            submission.getSubredditName().toLowerCase()),
-                                    Arrays.asList(SettingValues.userFilters.toLowerCase()
-                                            .split(",")).contains(
-                                            submission.getAuthor().toLowerCase()),
-                                    Arrays.asList(
-                                    SettingValues.domainFilters.toLowerCase().split(",")).contains(
-                                    submission.getDomain().toLowerCase()),
-                                    Arrays.asList(
-                                    SettingValues.alwaysExternal.toLowerCase().split(",")).contains(
-                                    submission.getDomain().toLowerCase()),
-                                    Arrays.asList(
-                                            SettingValues.flairFilters.toLowerCase().split(",")).contains(
-                                            baseSub + ":" + flair)
-                            };
-                            oldChosen = chosen.clone();
+                        }
+                        ;
+                        chosen = new boolean[]{
+                                Arrays.asList(SettingValues.subredditFilters.toLowerCase()
+                                        .split(",")).contains(
+                                        submission.getSubredditName().toLowerCase()), Arrays.asList(
+                                SettingValues.userFilters.toLowerCase().split(",")).contains(
+                                submission.getAuthor().toLowerCase()), Arrays.asList(
+                                SettingValues.domainFilters.toLowerCase().split(",")).contains(
+                                submission.getDomain().toLowerCase()), Arrays.asList(
+                                SettingValues.alwaysExternal.toLowerCase().split(",")).contains(
+                                submission.getDomain().toLowerCase()), Arrays.asList(
+                                SettingValues.flairFilters.toLowerCase().split(",")).contains(
+                                baseSub + ":" + flair)
+                        };
+                        oldChosen = chosen.clone();
 
-                        new AlertDialogWrapper.Builder(mContext).setTitle(
-                                R.string.filter_title)
+                        new AlertDialogWrapper.Builder(mContext).setTitle(R.string.filter_title)
                                 .alwaysCallMultiChoiceCallback()
                                 .setMultiChoiceItems(choices, chosen,
                                         new DialogInterface.OnMultiChoiceClickListener() {
@@ -526,150 +532,166 @@ public class PopulateSubmissionViewHolder {
                                                 chosen[which] = isChecked;
                                             }
                                         })
-                                .setPositiveButton(R.string.filter_btn, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        boolean filtered = false;
-                                        SharedPreferences.Editor e = SettingValues.prefs.edit();
-                                        if (chosen[0] && chosen[0] != oldChosen[0]) {
-                                            SettingValues.subredditFilters =
-                                                    SettingValues.subredditFilters
-                                                            + (
-                                                            (SettingValues.subredditFilters.isEmpty()
-                                                                    || SettingValues.subredditFilters
-                                                                    .endsWith(",")) ? "" : ",")
-                                                            + submission.getSubredditName();
-                                            filtered = true;
-                                            e.putString(SettingValues.PREF_SUBREDDIT_FILTERS,
-                                                    SettingValues.subredditFilters);
-                                            PostMatch.subreddits = null;
-                                        } else if (!chosen[0] && chosen[0] != oldChosen[0]) {
-                                            SettingValues.subredditFilters =
-                                                    SettingValues.subredditFilters.replace(
-                                                            submission.getSubredditName(), "");
-                                            filtered = false;
-                                            e.putString(SettingValues.PREF_SUBREDDIT_FILTERS,
-                                                    SettingValues.subredditFilters);
-                                            e.apply();
-                                            PostMatch.subreddits = null;
-                                        }
-                                        if (chosen[1] && chosen[1] != oldChosen[1]) {
-                                            SettingValues.userFilters =
-                                                    SettingValues.userFilters
-                                                            + ((SettingValues.userFilters.isEmpty()
-                                                            || SettingValues.userFilters.endsWith(
-                                                            ",")) ? "" : ",")
-                                                            + submission.getAuthor();
-                                            filtered = true;
-                                            e.putString(SettingValues.PREF_USER_FILTERS,
-                                                    SettingValues.userFilters);
-                                            PostMatch.users = null;
-                                        } else if (!chosen[1] && chosen[1] != oldChosen[1]) {
-                                            SettingValues.userFilters =
-                                                    SettingValues.userFilters.replace(
-                                                            submission.getAuthor(), "");
-                                            filtered = false;
-                                            e.putString(SettingValues.PREF_USER_FILTERS,
-                                                    SettingValues.userFilters);
-                                            e.apply();
-                                            PostMatch.users = null;
-                                        }
-                                        if (chosen[2] && chosen[2] != oldChosen[2]) {
-                                            SettingValues.domainFilters =
-                                                    SettingValues.domainFilters
-                                                            + (
-                                                            (SettingValues.domainFilters.isEmpty()
-                                                                    || SettingValues.domainFilters.endsWith(
-                                                                    ",")) ? "" : ",")
-                                                            + submission.getDomain();
-                                            filtered = true;
-                                            e.putString(SettingValues.PREF_DOMAIN_FILTERS,
-                                                    SettingValues.domainFilters);
-                                            PostMatch.domains = null;
-                                        } else if (!chosen[2] && chosen[2] != oldChosen[2]) {
-                                            SettingValues.domainFilters =
-                                                    SettingValues.domainFilters.replace(
-                                                            submission.getDomain(), "");
-                                            filtered = false;
-                                            e.putString(SettingValues.PREF_DOMAIN_FILTERS,
-                                                    SettingValues.domainFilters);
-                                            e.apply();
-                                            PostMatch.domains = null;
-                                        }
-                                        if (chosen[3] && chosen[3] != oldChosen[3]) {
-                                            SettingValues.alwaysExternal =
-                                                    SettingValues.alwaysExternal
-                                                            + (
-                                                            (SettingValues.alwaysExternal.isEmpty()
-                                                                    || SettingValues.alwaysExternal.endsWith(
-                                                                    ",")) ? "" : ",")
-                                                            + submission.getDomain();
-                                            e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
-                                                    SettingValues.alwaysExternal);
-                                            e.apply();
-                                        } else if (!chosen[3] && chosen[3] != oldChosen[3]) {
-                                            SettingValues.alwaysExternal =
-                                                    SettingValues.alwaysExternal.replace(
-                                                            submission.getDomain(), "");
-                                            e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
-                                                    SettingValues.alwaysExternal);
-                                            e.apply();
-                                        }
-                                        if (chosen.length > 4) {
-                                            if (chosen[4] && chosen[4] != oldChosen[4]) {
-                                                SettingValues.flairFilters =
-                                                        SettingValues.flairFilters
-                                                                + (
-                                                                (SettingValues.flairFilters.isEmpty()
-                                                                        || SettingValues.flairFilters
-                                                                        .endsWith(",")) ? "" : ",")
-                                                                + (baseSub + ":" + flair);
-                                                e.putString(SettingValues.PREF_FLAIR_FILTERS,
-                                                        SettingValues.flairFilters);
-                                                e.apply();
-                                                PostMatch.flairs = null;
-                                                filtered = true;
-                                            } else if (!chosen[4] && chosen[4] != oldChosen[4]) {
-                                                SettingValues.flairFilters =
-                                                        SettingValues.flairFilters.toLowerCase()
-                                                                .replace((baseSub
+                                .setPositiveButton(R.string.filter_btn,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                boolean filtered = false;
+                                                SharedPreferences.Editor e =
+                                                        SettingValues.prefs.edit();
+                                                if (chosen[0] && chosen[0] != oldChosen[0]) {
+                                                    SettingValues.subredditFilters =
+                                                            SettingValues.subredditFilters
+                                                                    + (
+                                                                    (SettingValues.subredditFilters.isEmpty()
+                                                                            || SettingValues.subredditFilters
+                                                                            .endsWith(",")) ? ""
+                                                                            : ",")
+                                                                    + submission.getSubredditName();
+                                                    filtered = true;
+                                                    e.putString(
+                                                            SettingValues.PREF_SUBREDDIT_FILTERS,
+                                                            SettingValues.subredditFilters);
+                                                    PostMatch.subreddits = null;
+                                                } else if (!chosen[0]
+                                                        && chosen[0] != oldChosen[0]) {
+                                                    SettingValues.subredditFilters =
+                                                            SettingValues.subredditFilters.replace(
+                                                                    submission.getSubredditName(),
+                                                                    "");
+                                                    filtered = false;
+                                                    e.putString(
+                                                            SettingValues.PREF_SUBREDDIT_FILTERS,
+                                                            SettingValues.subredditFilters);
+                                                    e.apply();
+                                                    PostMatch.subreddits = null;
+                                                }
+                                                if (chosen[1] && chosen[1] != oldChosen[1]) {
+                                                    SettingValues.userFilters =
+                                                            SettingValues.userFilters + ((
+                                                                    SettingValues.userFilters.isEmpty()
+                                                                            || SettingValues.userFilters
+                                                                            .endsWith(",")) ? ""
+                                                                    : ",") + submission.getAuthor();
+                                                    filtered = true;
+                                                    e.putString(SettingValues.PREF_USER_FILTERS,
+                                                            SettingValues.userFilters);
+                                                    PostMatch.users = null;
+                                                } else if (!chosen[1]
+                                                        && chosen[1] != oldChosen[1]) {
+                                                    SettingValues.userFilters =
+                                                            SettingValues.userFilters.replace(
+                                                                    submission.getAuthor(), "");
+                                                    filtered = false;
+                                                    e.putString(SettingValues.PREF_USER_FILTERS,
+                                                            SettingValues.userFilters);
+                                                    e.apply();
+                                                    PostMatch.users = null;
+                                                }
+                                                if (chosen[2] && chosen[2] != oldChosen[2]) {
+                                                    SettingValues.domainFilters =
+                                                            SettingValues.domainFilters + ((
+                                                                    SettingValues.domainFilters.isEmpty()
+                                                                            || SettingValues.domainFilters
+                                                                            .endsWith(",")) ? ""
+                                                                    : ",") + submission.getDomain();
+                                                    filtered = true;
+                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS,
+                                                            SettingValues.domainFilters);
+                                                    PostMatch.domains = null;
+                                                } else if (!chosen[2]
+                                                        && chosen[2] != oldChosen[2]) {
+                                                    SettingValues.domainFilters =
+                                                            SettingValues.domainFilters.replace(
+                                                                    submission.getDomain(), "");
+                                                    filtered = false;
+                                                    e.putString(SettingValues.PREF_DOMAIN_FILTERS,
+                                                            SettingValues.domainFilters);
+                                                    e.apply();
+                                                    PostMatch.domains = null;
+                                                }
+                                                if (chosen[3] && chosen[3] != oldChosen[3]) {
+                                                    SettingValues.alwaysExternal =
+                                                            SettingValues.alwaysExternal + ((
+                                                                    SettingValues.alwaysExternal.isEmpty()
+                                                                            || SettingValues.alwaysExternal
+                                                                            .endsWith(",")) ? ""
+                                                                    : ",") + submission.getDomain();
+                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                            SettingValues.alwaysExternal);
+                                                    e.apply();
+                                                } else if (!chosen[3]
+                                                        && chosen[3] != oldChosen[3]) {
+                                                    SettingValues.alwaysExternal =
+                                                            SettingValues.alwaysExternal.replace(
+                                                                    submission.getDomain(), "");
+                                                    e.putString(SettingValues.PREF_ALWAYS_EXTERNAL,
+                                                            SettingValues.alwaysExternal);
+                                                    e.apply();
+                                                }
+                                                if (chosen.length > 4) {
+                                                    if (chosen[4] && chosen[4] != oldChosen[4]) {
+                                                        SettingValues.flairFilters =
+                                                                SettingValues.flairFilters + ((
+                                                                        SettingValues.flairFilters.isEmpty()
+                                                                                || SettingValues.flairFilters
+                                                                                .endsWith(",")) ? ""
+                                                                        : ",") + (baseSub
                                                                         + ":"
-                                                                        + flair).toLowerCase(), "");
-                                                e.putString(SettingValues.PREF_FLAIR_FILTERS,
-                                                        SettingValues.flairFilters);
-                                                e.apply();
-                                                PostMatch.flairs = null;
-                                            }
-                                        }
-                                        if (filtered) {
-                                            e.apply();
-                                            PostMatch.domains = null;
-                                            PostMatch.subreddits = null;
-                                            PostMatch.users = null;
-                                            ArrayList<Contribution> toRemove = new ArrayList<>();
-                                            for (Contribution s : posts) {
-                                                if (s instanceof Submission && PostMatch.doesMatch(
-                                                        (Submission) s)) {
-                                                    toRemove.add(s);
+                                                                        + flair);
+                                                        e.putString(
+                                                                SettingValues.PREF_FLAIR_FILTERS,
+                                                                SettingValues.flairFilters);
+                                                        e.apply();
+                                                        PostMatch.flairs = null;
+                                                        filtered = true;
+                                                    } else if (!chosen[4]
+                                                            && chosen[4] != oldChosen[4]) {
+                                                        SettingValues.flairFilters =
+                                                                SettingValues.flairFilters.toLowerCase()
+                                                                        .replace((baseSub
+                                                                                        + ":"
+                                                                                        + flair).toLowerCase(),
+                                                                                "");
+                                                        e.putString(
+                                                                SettingValues.PREF_FLAIR_FILTERS,
+                                                                SettingValues.flairFilters);
+                                                        e.apply();
+                                                        PostMatch.flairs = null;
+                                                    }
+                                                }
+                                                if (filtered) {
+                                                    e.apply();
+                                                    PostMatch.domains = null;
+                                                    PostMatch.subreddits = null;
+                                                    PostMatch.users = null;
+                                                    ArrayList<Contribution> toRemove =
+                                                            new ArrayList<>();
+                                                    for (Contribution s : posts) {
+                                                        if (s instanceof Submission
+                                                                && PostMatch.doesMatch(
+                                                                (Submission) s)) {
+                                                            toRemove.add(s);
+                                                        }
+                                                    }
+
+                                                    OfflineSubreddit s =
+                                                            OfflineSubreddit.getSubreddit(baseSub,
+                                                                    false, mContext);
+
+                                                    for (Contribution remove : toRemove) {
+                                                        final int pos = posts.indexOf(remove);
+                                                        posts.remove(pos);
+                                                        if (baseSub != null) {
+                                                            s.hideMulti(pos);
+                                                        }
+                                                    }
+                                                    s.writeToMemoryNoStorage();
+                                                    recyclerview.getAdapter()
+                                                            .notifyDataSetChanged();
                                                 }
                                             }
-
-                                            OfflineSubreddit s =
-                                                    OfflineSubreddit.getSubreddit(baseSub, false,
-                                                            mContext);
-
-                                            for (Contribution remove : toRemove) {
-                                                final int pos = posts.indexOf(remove);
-                                                posts.remove(pos);
-                                                if (baseSub != null) {
-                                                    s.hideMulti(pos);
-                                                }
-                                            }
-                                            s.writeToMemoryNoStorage();
-                                            recyclerview.getAdapter().notifyDataSetChanged();
-                                        }
-                                    }
-                                })
+                                        })
                                 .setNegativeButton(R.string.btn_cancel, null)
                                 .show();
                         break;
@@ -746,22 +768,26 @@ public class PopulateSubmissionViewHolder {
                                 Context.CLIPBOARD_SERVICE);
                         ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
                         clipboard.setPrimaryClip(clip);
-                        Toast.makeText(mContext, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.submission_link_copied,
+                                Toast.LENGTH_SHORT).show();
                     }
                     break;
                     case 25:
                         ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
                                 Context.CLIPBOARD_SERVICE);
-                        ClipData clip = ClipData.newPlainText("Selftext",
-                                Html.fromHtml(submission.getSelftext()));
+                        ClipData clip =
+                                ClipData.newPlainText("Selftext", submission.getTitle() + "\n" +
+                                        Html.fromHtml(submission.getSelftext()));
                         clipboard.setPrimaryClip(clip);
-                        Toast.makeText(mContext, R.string.submission_text_copied, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.submission_text_copied,
+                                Toast.LENGTH_SHORT).show();
                         break;
                     case 26:
                         new CommentCacheAsync(Arrays.asList(submission), mContext,
                                 CommentCacheAsync.SAVED_SUBMISSIONS,
                                 new boolean[]{true, true}).execute();
-                        Toast.makeText(mContext, R.string.submission_post_saved, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.submission_post_saved, Toast.LENGTH_SHORT)
+                                .show();
                         break;
                 }
             }
@@ -875,8 +901,9 @@ public class PopulateSubmissionViewHolder {
                                     if (which == data.size() - 1) {
                                         new MaterialDialog.Builder(mContext).title(
                                                 R.string.category_set_name)
-                                                .input(mContext.getString(R.string.category_set_name_hint), null, false,
-                                                        new MaterialDialog.InputCallback() {
+                                                .input(mContext.getString(
+                                                        R.string.category_set_name_hint), null,
+                                                        false, new MaterialDialog.InputCallback() {
                                                             @Override
                                                             public void onInput(
                                                                     MaterialDialog dialog,
@@ -1701,11 +1728,11 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case 7:
                         reason = "";
-                        new MaterialDialog.Builder(mContext).title(
-                                R.string.mod_remove_title)
+                        new MaterialDialog.Builder(mContext).title(R.string.mod_remove_title)
                                 .positiveText(R.string.btn_remove)
                                 .alwaysCallInputCallback()
-                                .input(mContext.getString(R.string.mod_remove_hint), mContext.getString(R.string.mod_remove_template), false,
+                                .input(mContext.getString(R.string.mod_remove_hint),
+                                        mContext.getString(R.string.mod_remove_template), false,
                                         new MaterialDialog.InputCallback() {
                                             @Override
                                             public void onInput(MaterialDialog dialog,
@@ -2131,8 +2158,7 @@ public class PopulateSubmissionViewHolder {
                                                 if (scope) {
                                                     new AlertDialogWrapper.Builder(mContext).setTitle(
                                                             R.string.mod_ban_reauth)
-                                                            .setMessage(
-                                                                    R.string.mod_ban_reauth_question)
+                                                            .setMessage(R.string.mod_ban_reauth_question)
                                                             .setPositiveButton(R.string.btn_ok,
                                                                     new DialogInterface.OnClickListener() {
                                                                         @Override
@@ -2144,22 +2170,26 @@ public class PopulateSubmissionViewHolder {
                                                                             mContext.startActivity(i);
                                                                         }
                                                                     })
-                                                            .setNegativeButton(R.string.misc_maybe_later, null)
+                                                            .setNegativeButton(R.string.misc_maybe_later,
+                                                                    null)
                                                             .setCancelable(false)
                                                             .show();
                                                 }
                                                 s = Snackbar.make(mToolbar, R.string.mod_ban_fail,
                                                         Snackbar.LENGTH_INDEFINITE)
-                                                        .setAction(R.string.misc_try_again, new View.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(View v) {
-                                                                showBan(mContext, mToolbar, submission,
-                                                                        reason.getText().toString(),
-                                                                        note.getText().toString(),
-                                                                        message.getText().toString(),
-                                                                        time.getText().toString());
-                                                            }
-                                                        });
+                                                        .setAction(R.string.misc_try_again,
+                                                                new View.OnClickListener() {
+                                                                    @Override
+                                                                    public void onClick(View v) {
+                                                                        showBan(mContext, mToolbar,
+                                                                                submission,
+                                                                                reason.getText().toString(),
+                                                                                note.getText().toString(),
+                                                                                message.getText()
+                                                                                        .toString(),
+                                                                                time.getText().toString());
+                                                                    }
+                                                                });
 
                                             }
 
@@ -2699,12 +2729,15 @@ public class PopulateSubmissionViewHolder {
                                             Html.fromHtml(submission.getTitle()));
 
                             if (submission.isSelfPost()) {
-                                b.sheet(1, edit_drawable, mContext.getString(R.string.edit_selftext));
+                                b.sheet(1, edit_drawable,
+                                        mContext.getString(R.string.edit_selftext));
                             }
-                            b.sheet(2, delete_drawable, mContext.getString(R.string.delete_submission));
+                            b.sheet(2, delete_drawable,
+                                    mContext.getString(R.string.delete_submission));
 
                             if (flair) {
-                                b.sheet(3, flair_drawable, mContext.getString(R.string.set_submission_flair));
+                                b.sheet(3, flair_drawable,
+                                        mContext.getString(R.string.set_submission_flair));
 
                             }
 
@@ -2899,7 +2932,8 @@ public class PopulateSubmissionViewHolder {
                                                                         new MaterialDialog.Builder(
                                                                                 mContext).title(
                                                                                 R.string.mod_btn_submission_flair_text)
-                                                                                .input(mContext.getString(R.string.mod_flair_hint),
+                                                                                .input(mContext.getString(
+                                                                                        R.string.mod_flair_hint),
                                                                                         t.getText(),
                                                                                         true,
                                                                                         new MaterialDialog.InputCallback() {
@@ -2910,7 +2944,8 @@ public class PopulateSubmissionViewHolder {
 
                                                                                             }
                                                                                         })
-                                                                                .positiveText(R.string.btn_set)
+                                                                                .positiveText(
+                                                                                        R.string.btn_set)
                                                                                 .onPositive(
                                                                                         new MaterialDialog.SingleButtonCallback() {
                                                                                             @Override
