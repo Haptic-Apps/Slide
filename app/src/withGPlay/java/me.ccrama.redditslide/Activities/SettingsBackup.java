@@ -426,7 +426,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                 }
             });
         } else {
-            AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
+            new AlertDialogWrapper.Builder(this).setTitle(
                     "Settings Backup is a Pro feature")
                     .setMessage(R.string.pro_upgrade_msg)
                             //avoid that the dialog can be closed
