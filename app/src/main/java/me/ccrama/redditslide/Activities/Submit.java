@@ -179,8 +179,8 @@ public class Submit extends BaseActivity {
                                 }
                                 if (s.getSubredditType().equals("RESTRICTED")) {
                                     subredditText.setText("");
-                                    new AlertDialogWrapper.Builder(Submit.this).setTitle("This subreddit is restricted")
-                                            .setMessage("You are not allowed to post here. Please choose another subreddit")
+                                    new AlertDialogWrapper.Builder(Submit.this).setTitle(R.string.err_submit_restricted)
+                                            .setMessage(R.string.err_submit_restricted_text)
                                             .setPositiveButton(R.string.btn_ok, null).show();
                                 }
                             } else {
@@ -239,7 +239,7 @@ public class Submit extends BaseActivity {
                     protected void onPreExecute() {
                         d = new MaterialDialog.Builder(Submit.this)
                                 .progress(true, 100)
-                                .title("Finding the title")
+                                .title(R.string.editor_finding_title)
                                 .show();
                     }
 
@@ -647,7 +647,7 @@ public class Submit extends BaseActivity {
                 } else {
                     new AlertDialogWrapper.Builder(Submit.this)
                             .setTitle(R.string.err_general)
-                            .setMessage("Make sure the image is accessible and try again!")
+                            .setMessage(R.string.err_upload_unaccessible)
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
                 }

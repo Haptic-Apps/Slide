@@ -267,14 +267,14 @@ public class SubredditView extends BaseActivityAnim {
                         !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
                         !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
                     new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                            "Be notified of new posts in /r/" + sub)
+                            getString(R.string.sub_post_notifs_title) + sub)
                             .setMessage(
-                                    "Slide will check for new posts when it checks for mail. Make sure you have mail notifications turned on!")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    R.string.sub_post_notifs_text)
+                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     new MaterialDialog.Builder(SubredditView.this).title(
-                                            "Score threshold")
+                                            R.string.sub_post_notifs_threshold)
                                             .items(new String[]{"1", "5", "10", "20", "40", "50"})
                                             .alwaysCallSingleChoiceCallback()
                                             .itemsCallbackSingleChoice(0,
@@ -303,11 +303,12 @@ public class SubredditView extends BaseActivityAnim {
                                             .show();
                                 }
                             })
-                            .setNegativeButton("CANCEL", null)
+                            .setNegativeButton(R.string.btn_cancel, null)
                             .show();
                 } else {
+
                     Toast.makeText(SubredditView.this,
-                            "You can only add notifications to single subreddits",
+                            R.string.sub_post_notifs_err,
                             Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -345,7 +346,7 @@ public class SubredditView extends BaseActivityAnim {
                         startActivity(i2);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(this).setTitle("Gallery mode is a Pro feature")
+                    new AlertDialogWrapper.Builder(this).setTitle(R.string.general_gallerymode_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
@@ -434,7 +435,7 @@ public class SubredditView extends BaseActivityAnim {
                         startActivity(i2);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(this).setTitle("Shadowbox mode is a Pro feature")
+                    new AlertDialogWrapper.Builder(this).setTitle(R.string.general_shadowbox_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
 
@@ -587,7 +588,7 @@ public class SubredditView extends BaseActivityAnim {
                 @Override
                 public void onClick(View v) {
                     final Dialog d = new MaterialDialog.Builder(SubredditView.this).title(
-                            "Finding moderators")
+                            R.string.sidebar_findingmods)
                             .cancelable(true)
                             .content(R.string.misc_please_wait)
                             .progress(true, 100)
@@ -617,7 +618,7 @@ public class SubredditView extends BaseActivityAnim {
                             }
                             d.dismiss();
                             new MaterialDialog.Builder(SubredditView.this).title(
-                                    "/r/" + subOverride + " mods")
+                                    getString(R.string.sidebar_submods, mods))
                                     .items(names)
                                     .itemsCallback(new MaterialDialog.ListCallback() {
                                         @Override
@@ -691,13 +692,13 @@ public class SubredditView extends BaseActivityAnim {
                             flair.setVisibility(View.VISIBLE);
                             if (current != null) {
                                 ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText(
-                                        "Flair: " + current);
+                                        getString(R.string.sidebar_flair) + current);
                             }
                             flair.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     new MaterialDialog.Builder(SubredditView.this).items(flairText)
-                                            .title("Select flair")
+                                            .title(R.string.sidebar_select_flair)
                                             .itemsCallback(new MaterialDialog.ListCallback() {
                                                 @Override
                                                 public void onSelection(MaterialDialog dialog,
@@ -707,8 +708,9 @@ public class SubredditView extends BaseActivityAnim {
                                                     if (t.isTextEditable()) {
                                                         new MaterialDialog.Builder(
                                                                 SubredditView.this).title(
-                                                                "Set flair text")
-                                                                .input("Flair text", t.getText(),
+                                                                R.string.sidebar_select_flair_text)
+                                                                .input(getString(
+                                                                        R.string.mod_flair_hint), t.getText(),
                                                                         true,
                                                                         new MaterialDialog.InputCallback() {
                                                                             @Override
@@ -718,7 +720,7 @@ public class SubredditView extends BaseActivityAnim {
 
                                                                             }
                                                                         })
-                                                                .positiveText("Set")
+                                                                .positiveText(R.string.btn_set)
                                                                 .onPositive(
                                                                         new MaterialDialog.SingleButtonCallback() {
                                                                             @Override
@@ -776,19 +778,20 @@ public class SubredditView extends BaseActivityAnim {
                                                                                                         .findViewById(
                                                                                                                 R.id.flair_text))
                                                                                                         .setText(
-                                                                                                                "Flair: "
+                                                                                                                getString(
+                                                                                                                        R.string.sidebar_flair)
                                                                                                                         + current);
                                                                                             }
                                                                                             s =
                                                                                                     Snackbar.make(
                                                                                                             mToolbar,
-                                                                                                            "Flair set successfully",
+                                                                                                            R.string.snackbar_flair_success,
                                                                                                             Snackbar.LENGTH_SHORT);
                                                                                         } else {
                                                                                             s =
                                                                                                     Snackbar.make(
                                                                                                             mToolbar,
-                                                                                                            "Error setting flair, try again soon",
+                                                                                                            R.string.snackbar_flair_error,
                                                                                                             Snackbar.LENGTH_SHORT);
                                                                                         }
                                                                                         if (s
@@ -848,15 +851,16 @@ public class SubredditView extends BaseActivityAnim {
                                                                     if (current != null) {
                                                                         ((TextView) dialoglayout.findViewById(
                                                                                 R.id.flair_text)).setText(
-                                                                                "Flair: "
+                                                                                getString(
+                                                                                        R.string.sidebar_flair)
                                                                                         + current);
                                                                     }
                                                                     s = Snackbar.make(mToolbar,
-                                                                            "Flair set successfully",
+                                                                            R.string.snackbar_flair_success,
                                                                             Snackbar.LENGTH_SHORT);
                                                                 } else {
                                                                     s = Snackbar.make(mToolbar,
-                                                                            "Error setting flair, try again soon",
+                                                                            R.string.snackbar_flair_error,
                                                                             Snackbar.LENGTH_SHORT);
                                                                 }
                                                                 if (s != null) {
@@ -956,14 +960,14 @@ public class SubredditView extends BaseActivityAnim {
                         chosen[which] = isChecked;
                     }
                 })
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.btn_save, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         PostMatch.setChosen(chosen, subreddit);
                         reloadSubs();
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton(R.string.btn_cancel, null)
                 .show();
 
 
@@ -1202,7 +1206,8 @@ public class SubredditView extends BaseActivityAnim {
                                                             public void run() {
                                                                 drawerLayout.closeDrawers();
                                                                 Snackbar.make(mToolbar,
-                                                                        "Subreddit added to /m/"
+                                                                        getString(
+                                                                                R.string.multi_subreddit_added)
                                                                                 + multiName,
                                                                         Snackbar.LENGTH_LONG)
                                                                         .show();
@@ -1216,7 +1221,8 @@ public class SubredditView extends BaseActivityAnim {
                                                                     @Override
                                                                     public void run() {
                                                                         Snackbar.make(mToolbar,
-                                                                                "An error occured, please try again later",
+                                                                                getString(
+                                                                                        R.string.multi_error),
                                                                                 Snackbar.LENGTH_LONG)
                                                                                 .setAction(
                                                                                         R.string.btn_ok,
@@ -1262,8 +1268,8 @@ public class SubredditView extends BaseActivityAnim {
                 private void doSubscribe() {
                     if (Authentication.isLoggedIn) {
                         new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                                "Subscribe to /r/" + subreddit.getDisplayName())
-                                .setPositiveButton("ADD & SUBSCRIBE",
+                                getString(R.string.subscribe_to) + subreddit.getDisplayName())
+                                .setPositiveButton(R.string.reorder_add_subscribe,
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -1337,8 +1343,8 @@ public class SubredditView extends BaseActivityAnim {
                                                 }.execute();
                                             }
                                         })
-                                .setNegativeButton("CANCEL", null)
-                                .setNeutralButton("ADD TO SUB LIST",
+                                .setNegativeButton(R.string.btn_cancel, null)
+                                .setNeutralButton(R.string.btn_add_to_sublist,
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -1372,8 +1378,8 @@ public class SubredditView extends BaseActivityAnim {
                 private void doUnsubscribe() {
                     if (Authentication.didOnline) {
                         new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                                "Unsubscribe from /r/" + subreddit.getDisplayName())
-                                .setPositiveButton("REMOVE & UNSUBSCRIBE",
+                                getString(R.string.unsubscribe_from) + subreddit.getDisplayName())
+                                .setPositiveButton(R.string.reorder_remove_unsubsribe,
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -1447,8 +1453,7 @@ public class SubredditView extends BaseActivityAnim {
                                                 }.execute();
                                             }
                                         })
-                                .setNegativeButton("CANCEL", null)
-                                .setNeutralButton("JUST UNSUBSCRIBE",
+                                .setNeutralButton(R.string.just_unsub,
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -1464,6 +1469,7 @@ public class SubredditView extends BaseActivityAnim {
                                                 s.show();
                                             }
                                         })
+                                .setNegativeButton(R.string.btn_cancel, null)
                                 .show();
                     } else {
                         changeSubscription(subreddit, false);
@@ -1508,15 +1514,15 @@ public class SubredditView extends BaseActivityAnim {
     private void doSubscribeButtonText(boolean currentlySubbed, TextView subscribe) {
         if (Authentication.didOnline) {
             if (currentlySubbed) {
-                subscribe.setText("UNSUBSCRIBE");
+                subscribe.setText(R.string.unsubscribe_caps);
             } else {
-                subscribe.setText("SUBSCRIBE");
+                subscribe.setText(R.string.subscribe_caps);
             }
         } else {
             if (currentlySubbed) {
-                subscribe.setText("REMOVE FROM SUB LIST");
+                subscribe.setText(R.string.btn_remove_from_sublist);
             } else {
-                subscribe.setText("ADD TO SUB LIST");
+                subscribe.setText(R.string.btn_add_to_sublist);
             }
         }
     }

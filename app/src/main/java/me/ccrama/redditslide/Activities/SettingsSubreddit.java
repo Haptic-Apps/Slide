@@ -173,7 +173,7 @@ public class SettingsSubreddit extends BaseActivityAnim {
                                 }
                             }).setNegativeButton(R.string.btn_cancel, null).show();
                 } else {
-                    Snackbar s = Snackbar.make(mToolbar, "Please log in to use Color Sync", Snackbar.LENGTH_SHORT);
+                    Snackbar s = Snackbar.make(mToolbar, R.string.err_color_sync_login, Snackbar.LENGTH_SHORT);
                     View view = s.getView();
                     TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                     tv.setTextColor(Color.WHITE);

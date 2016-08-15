@@ -486,10 +486,10 @@ public class CommentPage extends Fragment {
                 int duration = Toast.LENGTH_SHORT;
                 CharSequence text;
                 if (!upvoted) {
-                    text = "Upvoted";
+                    text = getString(R.string.profile_upvoted);
                     downvoted = false;
                 } else {
-                    text = "Vote Removed";
+                    text = getString(R.string.vote_removed);
                 }
                 upvoted = !upvoted;
                 Toast toast = Toast.makeText(context, text, duration);
@@ -517,10 +517,10 @@ public class CommentPage extends Fragment {
                 int duration = Toast.LENGTH_SHORT;
                 CharSequence text;
                 if (!downvoted) {
-                    text = "Downvoted";
+                    text = getString(R.string.profile_downvoted);
                     upvoted = false;
                 } else {
-                    text = "Vote Removed";
+                    text = getString(R.string.vote_removed);
                 }
                 downvoted = !downvoted;
                 Toast toast = Toast.makeText(context, text, duration);
@@ -604,13 +604,13 @@ public class CommentPage extends Fragment {
                                     Intent i = new Intent(getActivity(), ShadowboxComments.class);
                                     startActivity(i);
                                 } else {
-                                    Snackbar.make(mSwipeRefreshLayout, "No links found in comments",
+                                    Snackbar.make(mSwipeRefreshLayout, R.string.shadowbox_comments_nolinks,
                                             Snackbar.LENGTH_SHORT).show();
                                 }
                             }
                         } else {
                             AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(getContext()).setTitle(
-                                    "Comment Shadowbox mode is a Pro feature")
+                                    R.string.general_shadowbox_comments_ispro)
                                     .setMessage(R.string.pro_upgrade_msg)
                                     .setPositiveButton(R.string.btn_yes_exclaim,
                                                     new DialogInterface.OnClickListener() {
@@ -716,7 +716,7 @@ public class CommentPage extends Fragment {
                                     case SELF:
                                         if (adapter.submission.getSelftext().isEmpty()) {
                                             Snackbar s =
-                                                    Snackbar.make(rv, "Submission has no content",
+                                                    Snackbar.make(rv, R.string.submission_nocontent,
                                                             Snackbar.LENGTH_SHORT);
                                             View view = s.getView();
                                             TextView tv = (TextView) view.findViewById(
@@ -1186,7 +1186,7 @@ public class CommentPage extends Fragment {
                     reloadSubs();
                 }
             })
-                    .setNeutralButton("Default for /r/" + subreddit,
+                    .setNeutralButton(getString(R.string.sorting_defaultfor) + subreddit,
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

@@ -661,9 +661,9 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 protected void onPreExecute() {
-                    d = new MaterialDialog.Builder(MainActivity.this).title(
-                            "Setting some things up...")
-                            .content("Please don't leave this screen. Shouldn't take long!")
+                    d = new MaterialDialog.Builder(MainActivity.this)
+                            .title(R.string.misc_setting_up)
+                            .content(R.string.misc_setting_up_message)
                             .progress(true, 100)
                             .cancelable(false)
                             .build();
@@ -706,9 +706,11 @@ public class MainActivity extends BaseActivity {
 
     public void updateSubs(ArrayList<String> subs) {
         if (subs.isEmpty() && !NetworkUtil.isConnected(this)) {
+            findViewById(R.id.toolbar).setVisibility(View.GONE);
             d = new MaterialDialog.Builder(MainActivity.this).title(
                     R.string.offline_no_content_found)
                     .positiveText(R.string.offline_enter_online)
+                    .cancelable(false)
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog,
@@ -1604,8 +1606,8 @@ public class MainActivity extends BaseActivity {
                 private void doSubscribe() {
                     if (Authentication.isLoggedIn) {
                         new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                                "Subscribe to /r/" + subreddit.getDisplayName())
-                                .setPositiveButton("ADD & SUBSCRIBE",
+                                getString(R.string.subscribe_to) + subreddit.getDisplayName())
+                                .setPositiveButton(R.string.reorder_add_subscribe,
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -1679,9 +1681,9 @@ public class MainActivity extends BaseActivity {
                                                 }.execute();
                                             }
                                         })
-                                .setNegativeButton("CANCEL", null)
-                                .setNeutralButton("ADD TO SUB LIST",
-                                        new DialogInterface.OnClickListener() {
+
+                                .setNeutralButton(R.string.btn_add_to_sublist,
+                                new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 changeSubscription(subreddit,
@@ -1696,6 +1698,7 @@ public class MainActivity extends BaseActivity {
                                                 s.show();
                                             }
                                         })
+                                .setNegativeButton(R.string.btn_cancel, null)
                                 .show();
                     } else {
                         changeSubscription(subreddit, true);
@@ -1705,8 +1708,8 @@ public class MainActivity extends BaseActivity {
                 private void doUnsubscribe() {
                     if (Authentication.didOnline) {
                         new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                                "Unsubscribe from /r/" + subreddit.getDisplayName())
-                                .setPositiveButton("REMOVE & UNSUBSCRIBE",
+                                getString(R.string.unsubscribe_from) + subreddit.getDisplayName())
+                                .setPositiveButton(R.string.reorder_remove_unsubsribe,
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -1780,8 +1783,7 @@ public class MainActivity extends BaseActivity {
                                                 }.execute();
                                             }
                                         })
-                                .setNegativeButton("CANCEL", null)
-                                .setNeutralButton("JUST UNSUBSCRIBE",
+                                .setNeutralButton(R.string.just_unsub,
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -1797,6 +1799,7 @@ public class MainActivity extends BaseActivity {
                                                 s.show();
                                             }
                                         })
+                                .setNegativeButton(R.string.btn_cancel, null)
                                 .show();
                     } else {
                         changeSubscription(subreddit, false);
@@ -1841,15 +1844,15 @@ public class MainActivity extends BaseActivity {
     private void doSubscribeButtonText(boolean currentlySubbed, TextView subscribe) {
         if (Authentication.didOnline) {
             if (currentlySubbed) {
-                subscribe.setText("UNSUBSCRIBE");
+                subscribe.setText(R.string.unsubscribe_caps);
             } else {
-                subscribe.setText("SUBSCRIBE");
+                subscribe.setText(R.string.subscribe_caps);
             }
         } else {
             if (currentlySubbed) {
-                subscribe.setText("REMOVE FROM SUB LIST");
+                subscribe.setText(R.string.btn_remove_from_sublist);
             } else {
-                subscribe.setText("ADD TO SUB LIST");
+                subscribe.setText(R.string.btn_add_to_sublist);
             }
         }
     }
@@ -2675,7 +2678,7 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onSingleClick(View view) {
                         new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                                "Support Slide for Reddit by Going Pro!")
+                                R.string.settings_support_slide)
                                 .setMessage(R.string.pro_upgrade_msg)
                                 .setPositiveButton(R.string.btn_yes_exclaim,
                                         new DialogInterface.OnClickListener() {
@@ -3126,7 +3129,7 @@ public class MainActivity extends BaseActivity {
                         && !subreddit.contains("/m/")) {
                     drawerLayout.openDrawer(GravityCompat.END);
                 } else {
-                    Toast.makeText(this, "No sidebar found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.sidebar_notfound, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.night: {
@@ -3359,14 +3362,14 @@ public class MainActivity extends BaseActivity {
                         !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
                         !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
                     new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                            "Be notified of new posts in /r/" + sub)
+                            getString(R.string.sub_post_notifs_title) + sub)
                             .setMessage(
-                                    "Slide will check for new posts when it checks for mail. Make sure you have mail notifications turned on!")
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    R.string.sub_post_notifs_text)
+                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     new MaterialDialog.Builder(MainActivity.this).title(
-                                            "Score threshold")
+                                            R.string.sub_post_notifs_threshold)
                                             .items(new String[]{"1", "5", "10", "20", "40", "50"})
                                             .alwaysCallSingleChoiceCallback()
                                             .itemsCallbackSingleChoice(0,
@@ -3395,11 +3398,11 @@ public class MainActivity extends BaseActivity {
                                             .show();
                                 }
                             })
-                            .setNegativeButton("CANCEL", null)
+                            .setNegativeButton(R.string.btn_cancel, null)
                             .show();
                 } else {
                     Toast.makeText(MainActivity.this,
-                            "You can only add notifications to single subreddits",
+                            R.string.sub_post_notifs_err,
                             Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -3433,7 +3436,7 @@ public class MainActivity extends BaseActivity {
                     }
                 } else {
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
-                            "Gallery mode is a Pro feature")
+                            R.string.general_gallerymode_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
@@ -3458,7 +3461,7 @@ public class MainActivity extends BaseActivity {
                                         }
                                     });
                     if (SettingValues.previews > 0) {
-                        b.setNeutralButton("Preview (" + SettingValues.previews + ")",
+                        b.setNeutralButton(getString(R.string.pro_previews, SettingValues.previews),
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -3506,7 +3509,7 @@ public class MainActivity extends BaseActivity {
                     }
                 } else {
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
-                            "Shadowbox is a Pro feature")
+                            R.string.general_shadowbox_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {

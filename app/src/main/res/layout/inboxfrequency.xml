@@ -67,7 +67,7 @@
                             android:backgroundTint="?attr/tint"
                             android:buttonTint="?attr/tint"
                             android:padding="16dp"
-                            android:text="Sound and vibrate"
+                            android:text="@string/settings_general_inbox_snd"
                             android:textColor="?attr/font"
                             android:textSize="14sp"
                             android:textStyle="bold"/>

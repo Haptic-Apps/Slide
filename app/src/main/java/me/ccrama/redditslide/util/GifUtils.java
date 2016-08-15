@@ -425,9 +425,9 @@ public class GifUtils {
                                             public void run() {
                                                 AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(c)
                                                         .setTitle(R.string.gif_err_title)
-                                                        .setMessage("Converting the gif through Gfycat did not work.")
+                                                        .setMessage(R.string.mediaview_converting_fail)
                                                         .setCancelable(false)
-                                                        .setPositiveButton("Open in web", new DialogInterface.OnClickListener() {
+                                                        .setPositiveButton(R.string.mediaview_converting_fail_btn, new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialog, int which) {
                                                                 Intent i = new Intent(c, Website.class);

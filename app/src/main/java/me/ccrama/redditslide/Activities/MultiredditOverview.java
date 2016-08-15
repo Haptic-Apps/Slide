@@ -215,7 +215,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                     }
                 } else {
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
-                            "Gallery mode is a Pro feature")
+                            R.string.general_gallerymode_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
@@ -240,7 +240,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                                         }
                                     });
                     if (SettingValues.previews > 0) {
-                        b.setNeutralButton("Preview (" + SettingValues.previews + ")",
+                        b.setNeutralButton(getString(R.string.pro_previews, SettingValues.previews),
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -281,7 +281,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                     }
                 } else {
                     AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(this).setTitle(
-                            "Shadowbox mode is a Pro feature")
+                            R.string.general_shadowbox_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                             new DialogInterface.OnClickListener() {
@@ -310,7 +310,7 @@ public class MultiredditOverview extends BaseActivityAnim {
                             && ((MultiredditView) adapter.getCurrentFragment()).posts != null
                             && ((MultiredditView) adapter.getCurrentFragment()).posts.posts != null
                             && !((MultiredditView) adapter.getCurrentFragment()).posts.posts.isEmpty()) {
-                        b.setNeutralButton("Preview (" + SettingValues.previews + ")",
+                        b.setNeutralButton(getString(R.string.pro_previews, SettingValues.previews),
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {

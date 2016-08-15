@@ -571,7 +571,7 @@ public class PopulateShadowboxInfo {
                                 ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData clip = ClipData.newPlainText("Link", submission.getUrl());
                                 clipboard.setPrimaryClip(clip);
-                                Toast.makeText(mContext, "Link copied", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             }
                             break;
                         }

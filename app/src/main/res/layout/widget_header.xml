@@ -19,7 +19,7 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:text="Visuals" />
+            android:text="@string/widget_visuals" />
 
         <RadioGroup
             android:id="@+id/theme"
@@ -35,21 +35,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="CLEAR" />
+                android:text="@string/widget_theme_clear" />
 
             <RadioButton
                 android:id="@+id/dark"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="DARK" />
+                android:text="@string/widget_theme_dark" />
 
             <RadioButton
                 android:id="@+id/light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="LIGHT" />
+                android:text="@string/widget_theme_light" />
         </RadioGroup>
 
         <TextView
@@ -59,7 +59,7 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:text="Post type" />
+            android:text="@string/widget_posttype_title" />
 
         <RadioGroup
             android:id="@+id/type"
@@ -75,21 +75,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="LIST" />
+                android:text="@string/widget_posttype_list" />
 
             <RadioButton
                 android:id="@+id/big"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="BIG PIC" />
+                android:text="@string/widget_posttype_bigpic" />
 
             <RadioButton
                 android:id="@+id/compact"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="COMPACT" />
+                android:text="@string/widget_posttype_compact" />
         </RadioGroup>
 
         <View
@@ -106,7 +106,7 @@
             android:paddingEnd="16dp"
             android:paddingStart="16dp"
             android:paddingTop="16dp"
-            android:text="Content" />
+            android:text="@string/widget_content" />
     </LinearLayout>
 
     <EditText
@@ -118,7 +118,7 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="?attr/tint"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_."
-        android:hint="Subreddit name"
+        android:hint="@string/widget_subname_hint"
         android:imeOptions="actionSearch"
         android:singleLine="true"
         android:textColor="?attr/font"

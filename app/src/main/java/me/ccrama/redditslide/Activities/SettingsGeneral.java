@@ -580,7 +580,7 @@ public class SettingsGeneral extends BaseActivityAnim
     private void setSubText() {
         ArrayList<String> rawSubs =
                 Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
-        String subText = "No subreddits to notify";
+        String subText = getString(R.string.sub_post_notifs_settings_none);
         StringBuilder subs = new StringBuilder();
         for (String s : rawSubs) {
             if (!s.isEmpty()) {
@@ -668,7 +668,7 @@ public class SettingsGeneral extends BaseActivityAnim
                     }
                 })
                 .alwaysCallMultiChoiceCallback()
-                .setTitle("Subreddits to check")
+                .setTitle(R.string.sub_post_notifs_title)
                 .setPositiveButton(getString(R.string.btn_add).toUpperCase(),
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -676,7 +676,7 @@ public class SettingsGeneral extends BaseActivityAnim
                                 showThresholdDialog(toCheck, false);
                             }
                         })
-                .setNegativeButton("Search sub name",
+                .setNegativeButton(R.string.sub_post_notifs_settings_search,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -745,7 +745,7 @@ public class SettingsGeneral extends BaseActivityAnim
             }
         }
         if (!toAdd.isEmpty()) {
-            new MaterialDialog.Builder(SettingsGeneral.this).title("Score threshold")
+            new MaterialDialog.Builder(SettingsGeneral.this).title(R.string.sub_post_notifs_threshold)
                     .items(new String[]{"1", "5", "10", "20", "40", "50"})
                     .alwaysCallSingleChoiceCallback()
                     .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {

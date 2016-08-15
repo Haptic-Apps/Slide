@@ -196,8 +196,8 @@
   <string name="mod_no_reports">لا توجد تقارير</string>
   <string name="mod_btn_mark_nsfw">علّم محتوى غير صالح للعمل</string>
   <string name="mod_btn_unmark_nsfw">ألغ تعليم محتوى غير صالح للعمل</string>
-  <string name="mod_btn_sticky">ثبّت</string>
-  <string name="mod_btn_unsticky">ألغ التثبيت</string>
+  <string name="mod_btn_pin">ثبّت</string>
+  <string name="mod_btn_unpin">ألغ التثبيت</string>
   <string name="mod_btn_remove">إزالة</string>
   <!-- Subreddit Wiki -->
   <string name="wiki_err">لم يتم العصور على wiki</string>

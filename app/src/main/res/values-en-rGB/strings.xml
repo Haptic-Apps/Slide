@@ -318,8 +318,8 @@
   <string name="mod_btn_submission_flair">Set flair</string>
   <string name="mod_btn_mark_nsfw">Mark NSFW</string>
   <string name="mod_btn_unmark_nsfw">Unmark NSFW</string>
-  <string name="mod_btn_sticky">Pin</string>
-  <string name="mod_btn_unsticky">Unpin</string>
+  <string name="mod_btn_pin">Pin</string>
+  <string name="mod_btn_unpin">Unpin</string>
   <string name="mod_btn_remove">Remove</string>
   <string name="mod_btn_remove_reason">Remove with reason</string>
   <string name="mod_btn_author">Author profile</string>

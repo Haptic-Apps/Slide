@@ -120,7 +120,7 @@ public class LiveThread extends BaseActivityAnim {
             @Override
             public void onPreExecute() {
                 d = new MaterialDialog.Builder(LiveThread.this)
-                        .title("Loading live thread...")
+                        .title(R.string.livethread_loading_title)
                         .progress(true, 100)
                         .cancelable(false)
                         .show();
@@ -140,8 +140,8 @@ public class LiveThread extends BaseActivityAnim {
             public void onPostExecute(Void aVoid) {
                 if(thread == null){
                     new AlertDialogWrapper.Builder(LiveThread.this)
-                            .setTitle("Live thread not found")
-                            .setMessage("Please try again soon")
+                            .setTitle(R.string.livethread_not_found)
+                            .setMessage(R.string.misc_please_try_again_soon)
                             .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -159,7 +159,7 @@ public class LiveThread extends BaseActivityAnim {
                     (findViewById(R.id.toolbar)).setBackgroundResource(R.color.md_red_300);
                     (findViewById(R.id.header_sub)).setBackgroundResource(R.color.md_red_300);
                     themeSystemBars(Palette.getDarkerColor(getResources().getColor(R.color.md_red_300)));
-                    setRecentBar("Live thread: " + thread.getTitle(), getResources().getColor(R.color.md_red_300));
+                    setRecentBar(getString(R.string.livethread_recents_title) + thread.getTitle(), getResources().getColor(R.color.md_red_300));
 
                     doPaginator();
                 }

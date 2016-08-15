@@ -3,7 +3,7 @@
     <item
         android:id="@+id/undo"
         android:icon="@drawable/undo"
-        android:title="Undo"
+        android:title="@string/draw_undo"
         app:showAsAction="always" />
     <item
         android:id="@+id/done"

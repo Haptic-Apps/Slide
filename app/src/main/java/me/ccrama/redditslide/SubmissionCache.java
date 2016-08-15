@@ -259,7 +259,7 @@ public class SubmissionCache {
             titleString.append(pinned);
         }
         if (!submission.getDataNode().get("approved_by").asText().equals("null")) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0Approved by " + submission.getDataNode().get("approved_by").asText().trim() + "\u00A0");
+            SpannableStringBuilder pinned = new SpannableStringBuilder(mContext.getString(R.string.mod_approved_by) + submission.getDataNode().get("approved_by").asText().trim() + "\u00A0");
             pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(pinned);

@@ -290,8 +290,8 @@
   <string name="mod_btn_approve">Подтвердить</string>
   <string name="mod_btn_mark_nsfw">Отметить как непристойное содержание</string>
   <string name="mod_btn_unmark_nsfw">Снять пометку непристойного содержания</string>
-  <string name="mod_btn_sticky">Закрепить</string>
-  <string name="mod_btn_unsticky">Открепить</string>
+  <string name="mod_btn_pin">Закрепить</string>
+  <string name="mod_btn_unpin">Открепить</string>
   <string name="mod_btn_remove">Удалить</string>
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Вики не найдена</string>

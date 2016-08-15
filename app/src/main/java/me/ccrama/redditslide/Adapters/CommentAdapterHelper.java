@@ -204,7 +204,7 @@ public class CommentAdapterHelper {
                         ClipData clip = ClipData.newPlainText("Comment text", n.getBody());
                         clipboard.setPrimaryClip(clip);
 
-                        Toast.makeText(mContext, "Comment text copied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.submission_comment_copied, Toast.LENGTH_SHORT).show();
                         break;
                     case 4:
                         //Share comment
@@ -270,9 +270,9 @@ public class CommentAdapterHelper {
             protected void onPostExecute(Void aVoid) {
                 Snackbar s;
                 if (ActionStates.isSaved(comment)) {
-                    s = Snackbar.make(holder.itemView, "Comment saved", Snackbar.LENGTH_LONG);
+                    s = Snackbar.make(holder.itemView, R.string.submission_comment_saved, Snackbar.LENGTH_LONG);
                     if (Authentication.me.hasGold()) {
-                        s.setAction("CATEGORIZE", new View.OnClickListener() {
+                        s.setAction(R.string.category_categorize, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 categorizeComment(comment, mContext);
@@ -280,7 +280,7 @@ public class CommentAdapterHelper {
                         });
                     }
                 } else {
-                    s = Snackbar.make(holder.itemView, "Comment un-saved", Snackbar.LENGTH_SHORT);
+                    s = Snackbar.make(holder.itemView, R.string.submission_comment_unsaved, Snackbar.LENGTH_SHORT);
                 }
                 View view = s.getView();
                 TextView tv =
@@ -299,7 +299,7 @@ public class CommentAdapterHelper {
             @Override
             public void onPreExecute() {
                 d = new MaterialDialog.Builder(mContext).progress(true, 100)
-                        .title("Loading categories")
+                        .title(R.string.profile_category_loading)
                         .show();
             }
 
@@ -322,7 +322,7 @@ public class CommentAdapterHelper {
             public void onPostExecute(final List<String> data) {
                 try {
                     new MaterialDialog.Builder(mContext).items(data)
-                            .title("Select flair")
+                            .title(R.string.sidebar_select_flair)
                             .itemsCallback(new MaterialDialog.ListCallback() {
                                 @Override
                                 public void onSelection(MaterialDialog dialog, final View itemView,
@@ -330,8 +330,8 @@ public class CommentAdapterHelper {
                                     final String t = data.get(which);
                                     if (which == data.size() - 1) {
                                         new MaterialDialog.Builder(mContext).title(
-                                                "Set category name")
-                                                .input("Category name", null, false,
+                                                R.string.category_set_name)
+                                                .input(mContext.getString(R.string.category_set_name_hint), null, false,
                                                         new MaterialDialog.InputCallback() {
                                                             @Override
                                                             public void onInput(
@@ -340,7 +340,7 @@ public class CommentAdapterHelper {
 
                                                             }
                                                         })
-                                                .positiveText("Set")
+                                                .positiveText(R.string.btn_set)
                                                 .onPositive(
                                                         new MaterialDialog.SingleButtonCallback() {
                                                             @Override
@@ -391,7 +391,7 @@ public class CommentAdapterHelper {
                                                                             if (itemView != null) {
                                                                                 s = Snackbar.make(
                                                                                         itemView,
-                                                                                        "Error setting category",
+                                                                                        R.string.category_set_error,
                                                                                         Snackbar.LENGTH_SHORT);
                                                                                 View view =
                                                                                         s.getView();
@@ -442,7 +442,7 @@ public class CommentAdapterHelper {
                                                 } else {
                                                     if (itemView != null) {
                                                         s = Snackbar.make(itemView,
-                                                                "Error setting category",
+                                                                R.string.category_set_error,
                                                                 Snackbar.LENGTH_SHORT);
                                                         View view = s.getView();
                                                         TextView tv = (TextView) view.findViewById(
@@ -504,19 +504,19 @@ public class CommentAdapterHelper {
         int reportCount = reports.size() + reports2.size();
 
         if (reportCount == 0) {
-            b.sheet(0, report, "No reports");
+            b.sheet(0, report, mContext.getString(R.string.mod_no_reports));
         } else {
-            b.sheet(0, report, "View " + reportCount + " reports");
+            b.sheet(0, report, mContext.getResources().getQuantityString(R.plurals.mod_btn_reports, reportCount, reportCount));
         }
 
         boolean approved = false;
         String whoApproved = "";
         if (comment.getDataNode().get("approved_by").asText().equals("null")) {
-            b.sheet(1, approve, "Approve");
+            b.sheet(1, approve, mContext.getString(R.string.mod_btn_approve));
         } else {
             approved = true;
             whoApproved = comment.getDataNode().get("approved_by").asText();
-            b.sheet(1, approve, "Approved by /u/" + whoApproved);
+            b.sheet(1, approve, mContext.getString(R.string.mod_btn_approved, whoApproved));
         }
 
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
@@ -527,27 +527,27 @@ public class CommentAdapterHelper {
                 .asBoolean();
         if (baseNode.isTopLevel()) {
             if (!stickied) {
-                b.sheet(4, pin, "Sticky");
+                b.sheet(4, pin, mContext.getString(R.string.mod_sticky));
             } else {
-                b.sheet(4, pin, "Un-sticky");
+                b.sheet(4, pin, mContext.getString(R.string.mod_unsticky));
             }
         }
 
         final boolean distinguished = !comment.getDataNode().get("distinguished").isNull();
         if (comment.getAuthor().equalsIgnoreCase(Authentication.name)) {
             if (!distinguished) {
-                b.sheet(9, distinguish, "Distinguish");
+                b.sheet(9, distinguish, mContext.getString(R.string.mod_distinguish));
             } else {
-                b.sheet(9, distinguish, "Un-distinguish");
+                b.sheet(9, distinguish, mContext.getString(R.string.mod_undistinguish));
             }
         }
 
-        b.sheet(23, ban, "Ban user");
+        b.sheet(23, ban, mContext.getString(R.string.mod_ban_user));
 
         final String finalWhoApproved = whoApproved;
         final boolean finalApproved = approved;
         b.sheet(6, remove, mContext.getString(R.string.btn_remove))
-                .sheet(8, profile, "Author profile")
+                .sheet(8, profile, mContext.getString(R.string.mod_btn_author))
                 .listener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -597,41 +597,41 @@ public class CommentAdapterHelper {
         l.setPadding(sixteen, 0, sixteen, 0);
 
         final EditText reason = new EditText(mContext);
-        reason.setHint("Ban reason");
+        reason.setHint(R.string.mod_ban_reason);
         reason.setText(rs);
         reason.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         l.addView(reason);
 
 
         final EditText note = new EditText(mContext);
-        note.setHint("Moderator note (optional)");
+        note.setHint(R.string.mod_ban_note_mod);
         note.setText(nt);
         note.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         l.addView(note);
 
         final EditText message = new EditText(mContext);
-        message.setHint("User message (optional)");
+        message.setHint(R.string.mod_ban_note_user);
         message.setText(msg);
         message.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         l.addView(message);
 
         final EditText time = new EditText(mContext);
-        time.setHint("Ban time (days)");
+        time.setHint(R.string.mod_ban_time);
         time.setText(t);
         time.setInputType(InputType.TYPE_CLASS_NUMBER);
         l.addView(time);
 
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
         builder.setView(l)
-                .setTitle("Ban /u/" + submission.getAuthor())
+                .setTitle(mContext.getString(R.string.mod_ban_title) + submission.getAuthor())
                 .setCancelable(true)
-                .setPositiveButton("BAN", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.mod_btn_ban, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //to ban
                                 if (reason.getText().toString().isEmpty() || time.getText().toString().isEmpty()) {
-                                    new AlertDialogWrapper.Builder(mContext).setTitle("Reason and time are required")
-                                            .setMessage("Please try again")
+                                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.mod_ban_requirements)
+                                            .setMessage(R.string.misc_please_try_again)
                                             .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialog, int which) {
@@ -669,24 +669,24 @@ public class CommentAdapterHelper {
                                         protected void onPostExecute(Boolean done) {
                                             Snackbar s;
                                             if (done) {
-                                                s = Snackbar.make(mToolbar, "User banned!", Snackbar.LENGTH_SHORT);
+                                                s = Snackbar.make(mToolbar, R.string.mod_ban_success, Snackbar.LENGTH_SHORT);
                                             } else {
                                                 if (scope) {
                                                     new AlertDialogWrapper.Builder(mContext)
-                                                            .setTitle("To ban users, Slide must re-authenticate you")
-                                                            .setMessage("Would you like to re-log into Slide now?")
-                                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            .setTitle(R.string.mod_ban_reauth)
+                                                            .setMessage(R.string.mod_ban_reauth_question)
+                                                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                                 @Override
                                                                 public void onClick(DialogInterface dialog, int which) {
                                                                     Intent i = new Intent(mContext, Reauthenticate.class);
                                                                     mContext.startActivity(i);
                                                                 }
-                                                            }).setNegativeButton("MAYBE LATER", null)
+                                                            }).setNegativeButton(R.string.misc_maybe_later, null)
                                                             .setCancelable(false)
                                                             .show();
                                                 }
-                                                s = Snackbar.make(mToolbar, "Error banning user", Snackbar.LENGTH_INDEFINITE)
-                                                        .setAction("TRY AGAIN", new View.OnClickListener() {
+                                                s = Snackbar.make(mToolbar, R.string.mod_ban_fail, Snackbar.LENGTH_INDEFINITE)
+                                                        .setAction(R.string.misc_try_again, new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
                                                                 showBan(mContext, mToolbar, submission, reason.getText().toString(), note.getText().toString(), message.getText().toString(), time.getText().toString());
@@ -709,7 +709,7 @@ public class CommentAdapterHelper {
                             }
                         }
 
-                ).setNegativeButton("CANCEL", null).show();
+                ).setNegativeButton(R.string.btn_cancel, null).show();
 
     }
     private static void distinguishComment(final Context mContext, final CommentViewHolder holder,

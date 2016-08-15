@@ -55,7 +55,7 @@
         app:showAsAction="never" />
 
     <item android:id="@+id/schedule"
-          android:title="Be notified of new posts"
+          android:title="@string/sub_post_notifs_menu"
           app:showAsAction="never"/>
 
 </menu>

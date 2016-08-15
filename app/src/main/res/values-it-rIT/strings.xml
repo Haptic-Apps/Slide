@@ -329,8 +329,8 @@
   <string name="mod_btn_submission_flair">Imposta flair</string>
   <string name="mod_btn_mark_nsfw">Segna come NSFW</string>
   <string name="mod_btn_unmark_nsfw">Togli flag NSFW</string>
-  <string name="mod_btn_sticky">Fissa in alto</string>
-  <string name="mod_btn_unsticky">Non fissare in alto</string>
+  <string name="mod_btn_pin">Fissa in alto</string>
+  <string name="mod_btn_unpin">Non fissare in alto</string>
   <string name="mod_btn_remove">Elimina</string>
   <string name="mod_btn_remove_reason">Rimuovi con motivazione</string>
   <string name="mod_btn_author">Profilo autore</string>

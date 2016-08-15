@@ -63,8 +63,8 @@ public class ImageDownloadNotificationService extends Service {
             id = (int) (System.currentTimeMillis()/1000);
             mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mBuilder = new NotificationCompat.Builder(getApplicationContext());
-            mBuilder.setContentTitle("Downloading image...")
-                    .setContentText("Download in progress")
+            mBuilder.setContentTitle(getString(R.string.mediaview_notif_title))
+                    .setContentText(getString(R.string.mediaview_notif_text))
                     .setSmallIcon(R.drawable.save);
         }
 

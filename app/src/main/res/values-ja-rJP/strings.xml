@@ -324,8 +324,8 @@
   <string name="mod_btn_submission_flair">フレアを設定する</string>
   <string name="mod_btn_mark_nsfw">NSFWタグを付ける</string>
   <string name="mod_btn_unmark_nsfw">NSFWタグを外す</string>
-  <string name="mod_btn_sticky">ピン留めする</string>
-  <string name="mod_btn_unsticky">ピン留め解除</string>
+  <string name="mod_btn_pin">ピン留めする</string>
+  <string name="mod_btn_unpin">ピン留め解除</string>
   <string name="mod_btn_remove">削除</string>
   <string name="mod_btn_remove_reason">何らかの理由により削除</string>
   <string name="mod_btn_author">著者のプロフィール</string>

@@ -130,7 +130,7 @@ public class AlbumPager extends FullScreenActivity
 
         if (id == R.id.download) {
             final MaterialDialog d =
-                    new MaterialDialog.Builder(AlbumPager.this).title("Saving album")
+                    new MaterialDialog.Builder(AlbumPager.this).title(R.string.album_saving)
                             .progress(false, images.size())
                             .show();
             new AsyncTask<Void, Void, Void>() {
@@ -213,8 +213,8 @@ public class AlbumPager extends FullScreenActivity
                 @Override
                 public void run() {
                     try {
-                        new AlertDialogWrapper.Builder(AlbumPager.this).setTitle("Album not found")
-                                .setMessage("Would you like to open the link in browser?")
+                        new AlertDialogWrapper.Builder(AlbumPager.this).setTitle(R.string.error_album_not_found)
+                                .setMessage(R.string.error_album_not_found_text)
                                 .setNegativeButton(R.string.btn_no,
                                         new DialogInterface.OnClickListener() {
                                             @Override
@@ -465,7 +465,7 @@ public class AlbumPager extends FullScreenActivity
         b.sheet(2, external, getString(R.string.submission_link_extern));
         b.sheet(5, share, getString(R.string.submission_link_share));
         if (!isGif) b.sheet(3, image, getString(R.string.share_image));
-        b.sheet(4, save, "Save image");
+        b.sheet(4, save, getString(R.string.submission_save_image));
         b.listener(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -907,7 +907,7 @@ public class AlbumPager extends FullScreenActivity
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(),
+            Toast.makeText(this, getString(R.string.settings_set_image_location, folder.getAbsolutePath()) + folder.getAbsolutePath(),
                     Toast.LENGTH_LONG).show();
 
         }

@@ -242,24 +242,24 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                                                            }
                                                        } else {
                                                            if (!Reddit.appRestart.contains("offlinepopup")) {
-                                                               new AlertDialogWrapper.Builder(context).setTitle("No comments found")
-                                                                       .setMessage("This submission has no cached comments. To cache comments in the future, click the 3 dot menu on the main screen and click 'Cache Comments', or set up Auto Cache in the Offline Content tab in the nav drawer.")
+                                                               new AlertDialogWrapper.Builder(context).setTitle(R.string.cache_no_comments_found)
+                                                                       .setMessage(R.string.cache_no_comments_found_message)
                                                                        .setCancelable(false)
-                                                                       .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                                       .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                                            @Override
                                                                            public void onClick(DialogInterface dialog, int which) {
                                                                                Reddit.appRestart.edit().putString("offlinepopup", "").apply();
                                                                            }
                                                                        }).show();
                                                            } else {
-                                                               Snackbar s = Snackbar.make(holder.itemView, R.string.no_cached_comments_found, Snackbar.LENGTH_SHORT);
-                                                               s.setAction("MORE INFO", new View.OnClickListener() {
+                                                               Snackbar s = Snackbar.make(holder.itemView, R.string.cache_no_comments_found_snackbar, Snackbar.LENGTH_SHORT);
+                                                               s.setAction(R.string.misc_more_info, new View.OnClickListener() {
                                                                    @Override
                                                                    public void onClick(View v) {
-                                                                       new AlertDialogWrapper.Builder(context).setTitle("No comments found")
-                                                                               .setMessage("This submission has no cached comments. To cache comments in the future, click the 3 dot menu on the main screen and click 'Cache Comments', or set up Auto Cache in the Offline Content tab in the nav drawer.")
+                                                                       new AlertDialogWrapper.Builder(context).setTitle(R.string.cache_no_comments_found)
+                                                                               .setMessage(R.string.cache_no_comments_found_message)
                                                                                .setCancelable(false)
-                                                                               .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                                               .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                                                                                    @Override
                                                                                    public void onClick(DialogInterface dialog, int which) {
                                                                                        Reddit.appRestart.edit().putString("offlinepopup", "").apply();

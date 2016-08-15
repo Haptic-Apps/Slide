@@ -69,7 +69,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this, "Images will be saved to " + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.settings_set_image_location, folder.getAbsolutePath()), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -104,7 +104,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         }
         if (id == R.id.download) {
             final MaterialDialog d = new MaterialDialog.Builder(Album.this)
-                    .title("Saving album")
+                    .title(R.string.album_saving)
                     .progress(false, images.size())
                     .show();
             new AsyncTask<Void, Void, Void>() {
@@ -376,8 +376,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                     public void run() {
                         try {
                             new AlertDialogWrapper.Builder(getActivity())
-                                    .setTitle("Album not found")
-                                    .setMessage("Would you like to open the link in browser?")
+                                    .setTitle(R.string.error_album_not_found)
+                                    .setMessage(R.string.error_album_not_found_text)
                                     .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {

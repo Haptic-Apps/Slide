@@ -160,7 +160,7 @@ public class Reauthenticate extends BaseActivityAnim {
             mMaterialDialog.dismiss();
 
             new AlertDialogWrapper.Builder(Reauthenticate.this)
-                    .setTitle("Re-authentication complete!")
+                    .setTitle(R.string.reauth_complete)
                     .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

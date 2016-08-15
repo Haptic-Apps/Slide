@@ -318,8 +318,8 @@
   <string name="mod_btn_submission_flair">Kies flair</string>
   <string name="mod_btn_mark_nsfw">Markeer NSFW</string>
   <string name="mod_btn_unmark_nsfw">Demarkeer NSFW</string>
-  <string name="mod_btn_sticky">Vastzetten</string>
-  <string name="mod_btn_unsticky">Losmaken</string>
+  <string name="mod_btn_pin">Vastzetten</string>
+  <string name="mod_btn_unpin">Losmaken</string>
   <string name="mod_btn_remove">Verwijderen</string>
   <string name="mod_btn_remove_reason">Verwijder met reden</string>
   <string name="mod_btn_author">Profiel auteur</string>
