@@ -143,12 +143,6 @@ public class MediaFragmentComment extends Fragment {
         }
         doLoad(contentUrl);
 
-        rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new OpenRedditLink(getActivity(), s.getUrl() + s.getId() + "?context=3");
-            }
-        });
         final View.OnClickListener openClick = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,7 +177,11 @@ public class MediaFragmentComment extends Fragment {
                                     .setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            new OpenRedditLink(getActivity(), s.getUrl() + s.getId() + "?context=3");
+                                            String url =  "https://reddit.com"
+                                                    + "/r/" + s.getSubredditName() + "/comments/"
+                                                    + s.getDataNode().get("link_id").asText().substring(3, s.getDataNode().get("link_id").asText().length())+"/nothing/" + s.getId()
+                                                    + "?context=3";
+                                            new OpenRedditLink(getActivity(), url);
                                         }
                                     });
                         } else {
