@@ -839,8 +839,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             }
                         } else {
                             chosen.add(origPos);
+                            int[] textColorAttr = new int[]{R.attr.font};
+                            TypedArray ta = obtainStyledAttributes(textColorAttr);
                             holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
-                            holder.text.setTextColor(Color.WHITE);
+                            holder.text.setTextColor(ta.getColor(0, Color.BLACK));
                             updateToolbar();
                         }
                         return true;

@@ -106,7 +106,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
         boolean loadLq = ((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways);
 
-        if (type == ContentType.Type.SELF && SettingValues.hideSelftextLeadImage) {
+        if (type == ContentType.Type.SELF && SettingValues.hideSelftextLeadImage || SettingValues.noImages && submission.isSelfPost()) {
             setVisibility(View.GONE);
             if (wrapArea != null)
                 wrapArea.setVisibility(View.GONE);
@@ -169,7 +169,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 if (!full && !submission.isSelfPost()) {
                     thumbImage2.setVisibility(View.VISIBLE);
                 } else {
-                    if (full)
+                    if (full && !submission.isSelfPost())
                         wrapArea.setVisibility(View.VISIBLE);
                 }
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
