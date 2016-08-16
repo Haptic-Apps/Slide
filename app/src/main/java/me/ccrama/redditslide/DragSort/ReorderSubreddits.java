@@ -761,6 +761,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
             });
         }
 
+        int[] textColorAttr = new int[]{R.attr.font};
+        TypedArray ta = obtainStyledAttributes(textColorAttr);
+        int textColor = ta.getColor(0, Color.BLACK);
 
         public void updateToolbar() {
             mToolbar.setTitle(
@@ -777,8 +780,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                 if (chosen.contains(origPos)) {
                     holder.itemView.setBackgroundColor(Palette.getDarkerColor(holder.text.getCurrentTextColor()));
+                    holder.text.setTextColor(Color.WHITE);
                 } else {
                     holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+                    holder.text.setTextColor(textColor);
                 }
                 if (!isSingle(origPos) || !Authentication.isLoggedIn) {
                     holder.check.setVisibility(View.GONE);
@@ -826,9 +831,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
 
                             //set the color of the text back to what it should be
-                            int[] textColorAttr = new int[]{R.attr.font};
-                            TypedArray ta = obtainStyledAttributes(textColorAttr);
-                            holder.text.setTextColor(ta.getColor(0, Color.BLACK));
+                            holder.text.setTextColor(textColor);
                             ta.recycle();
 
                             chosen.remove(origPos);
@@ -839,10 +842,8 @@ public class ReorderSubreddits extends BaseActivityAnim {
                             }
                         } else {
                             chosen.add(origPos);
-                            int[] textColorAttr = new int[]{R.attr.font};
-                            TypedArray ta = obtainStyledAttributes(textColorAttr);
                             holder.itemView.setBackgroundColor(Palette.getDarkerColor(Palette.getDefaultAccent()));
-                            holder.text.setTextColor(ta.getColor(0, Color.BLACK));
+                            holder.text.setTextColor(textColor);
                             updateToolbar();
                         }
                         return true;

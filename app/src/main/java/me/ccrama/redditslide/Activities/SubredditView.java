@@ -618,7 +618,7 @@ public class SubredditView extends BaseActivityAnim {
                             }
                             d.dismiss();
                             new MaterialDialog.Builder(SubredditView.this).title(
-                                    getString(R.string.sidebar_submods, mods))
+                                    getString(R.string.sidebar_submods, subreddit))
                                     .items(names)
                                     .itemsCallback(new MaterialDialog.ListCallback() {
                                         @Override

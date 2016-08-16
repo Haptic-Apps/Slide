@@ -97,7 +97,7 @@ public class Website extends BaseActivityAnim {
             case R.id.external:
                 Intent inte = new Intent(this, MakeExternal.class);
                 inte.putExtra("url", v.getUrl());
-                sendBroadcast(inte);
+                startActivity(inte);
                 return true;
             case R.id.store_cookies:
                 SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COOKIES, !SettingValues.cookies).apply();

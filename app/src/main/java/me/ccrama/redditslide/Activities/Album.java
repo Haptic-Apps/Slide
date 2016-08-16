@@ -48,6 +48,7 @@ import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.ImgurAlbum.Image;
+import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -103,35 +104,29 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             Reddit.defaultShare(url, this);
         }
         if (id == R.id.download) {
-            final MaterialDialog d = new MaterialDialog.Builder(Album.this)
-                    .title(R.string.album_saving)
-                    .progress(false, images.size())
-                    .show();
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    if (images != null && !images.isEmpty()) {
-                        for (final Image elem : images) {
-                            saveImageGallery(((Reddit) getApplicationContext()).getImageLoader().loadImageSync(elem.getImageUrl()), elem.getImageUrl());
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    d.setProgress(d.getCurrentProgress() + 1);
-
-                                }
-                            });
-                        }
-                        d.dismiss();
-                    }
-                    return null;
-                }
-            }.execute();
-
+            for (final Image elem : images) {
+                doImageSave(false, elem.getImageUrl());
+            }
         }
 
         return super.onOptionsItemSelected(item);
     }
+    public void doImageSave(boolean isGif, String contentUrl) {
+        if (!isGif) {
+            if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
+                showFirstDialog();
+            } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
+                showErrorDialog();
+            } else {
+                Intent i = new Intent(this, ImageDownloadNotificationService.class);
+                i.putExtra("actuallyLoaded", contentUrl);
 
+                startService(i);
+            }
+        } else {
+            MediaView.doOnClick.run();
+        }
+    }
     public void showFirstDialog() {
         try {
             new AlertDialogWrapper.Builder(this)

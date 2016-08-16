@@ -14,17 +14,15 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,7 +40,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.cocosw.bottomsheet.BottomSheet;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
@@ -69,6 +66,7 @@ import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.ImgurAlbum.Image;
+import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -79,7 +77,6 @@ import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -129,31 +126,9 @@ public class AlbumPager extends FullScreenActivity
         }
 
         if (id == R.id.download) {
-            final MaterialDialog d =
-                    new MaterialDialog.Builder(AlbumPager.this).title(R.string.album_saving)
-                            .progress(false, images.size())
-                            .show();
-            new AsyncTask<Void, Void, Void>() {
-                @Override
-                protected Void doInBackground(Void... params) {
-                    if (images != null && !images.isEmpty()) {
-                        for (final Image elem : images) {
-                            saveImageGallery(((Reddit) getApplicationContext()).getImageLoader()
-                                    .loadImageSync(elem.getImageUrl()), elem.getImageUrl());
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    d.setProgress(d.getCurrentProgress() + 1);
-
-                                }
-                            });
-                        }
-                        d.dismiss();
-                    }
-                    return null;
-                }
-            }.execute();
-
+            for (final Image elem : images) {
+                doImageSave(false, elem.getImageUrl());
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -213,7 +188,8 @@ public class AlbumPager extends FullScreenActivity
                 @Override
                 public void run() {
                     try {
-                        new AlertDialogWrapper.Builder(AlbumPager.this).setTitle(R.string.error_album_not_found)
+                        new AlertDialogWrapper.Builder(AlbumPager.this).setTitle(
+                                R.string.error_album_not_found)
                                 .setMessage(R.string.error_album_not_found_text)
                                 .setNegativeButton(R.string.btn_no,
                                         new DialogInterface.OnClickListener() {
@@ -249,7 +225,7 @@ public class AlbumPager extends FullScreenActivity
             findViewById(R.id.progress).setVisibility(View.GONE);
             images = new ArrayList<>(jsonElements);
 
-             p = (ViewPager) findViewById(R.id.images_horizontal);
+            p = (ViewPager) findViewById(R.id.images_horizontal);
 
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setSubtitle(1 + "/" + images.size());
@@ -483,24 +459,7 @@ public class AlbumPager extends FullScreenActivity
                     }
                     break;
                     case (4): {
-                        if (!isGif) {
-                            try {
-                                ((Reddit) getApplication()).getImageLoader()
-                                        .loadImage(contentUrl, new SimpleImageLoadingListener() {
-                                            @Override
-                                            public void onLoadingComplete(String imageUri,
-                                                    View view, final Bitmap loadedImage) {
-                                                saveImageGallery(loadedImage, contentUrl);
-                                            }
-
-                                        });
-
-                            } catch (Exception e) {
-                                Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
-                            }
-                        } else {
-                            MediaView.doOnClick.run();
-                        }
+                        doImageSave(isGif, contentUrl);
                     }
                     break;
                 }
@@ -509,6 +468,23 @@ public class AlbumPager extends FullScreenActivity
 
         b.show();
 
+    }
+
+    public void doImageSave(boolean isGif, String contentUrl) {
+        if (!isGif) {
+            if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
+                showFirstDialog();
+            } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
+                showErrorDialog();
+            } else {
+                Intent i = new Intent(this, ImageDownloadNotificationService.class);
+                i.putExtra("actuallyLoaded", contentUrl);
+
+                startService(i);
+            }
+        } else {
+            MediaView.doOnClick.run();
+        }
     }
 
     public static class ImageFullNoSubmission extends Fragment {
@@ -543,7 +519,6 @@ public class AlbumPager extends FullScreenActivity
                 loadImage(rootView, this, url);
             }
 
-            final String finalUrl = url;
             {
                 rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -552,28 +527,11 @@ public class AlbumPager extends FullScreenActivity
                     }
                 });
                 {
-                    final String finalUrl1 = url;
                     rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
 
                         @Override
                         public void onClick(View v2) {
-                            try {
-                                ((Reddit) (getActivity()).getApplication()).getImageLoader()
-                                        .loadImage(finalUrl, new SimpleImageLoadingListener() {
-                                            @Override
-                                            public void onLoadingComplete(String imageUri,
-                                                    View view, final Bitmap loadedImage) {
-                                                if (getActivity() != null) {
-                                                    ((AlbumPager) getActivity()).saveImageGallery(
-                                                            loadedImage, finalUrl1);
-                                                }
-                                            }
-
-                                        });
-                            } catch (Exception e) {
-                                Log.v(LogUtil.getTag(), "COULDN'T DOWNLOAD!");
-                            }
-
+                            ((AlbumPager) getActivity()).doImageSave(false, url);
                         }
 
                     });
@@ -702,54 +660,7 @@ public class AlbumPager extends FullScreenActivity
                             }
                         });
     }
-
-    private void shareImage(String finalUrl) {
-        ((Reddit) getApplication()).getImageLoader()
-                .loadImage(finalUrl, new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        shareImage(loadedImage);
-                    }
-                });
-    }
-
-    private void saveImageGallery(final Bitmap bitmap, String URL) {
-        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
-            showFirstDialog();
-        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
-            showErrorDialog();
-        } else {
-            File f = new File(Reddit.appRestart.getString("imagelocation", "")
-                    + File.separator
-                    + UUID.randomUUID().toString()
-                    + ".png");
-
-
-            FileOutputStream out = null;
-            try {
-                f.createNewFile();
-                out = new FileOutputStream(f);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            } catch (Exception e) {
-                e.printStackTrace();
-                showErrorDialog();
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                        showNotifPhoto(f, bitmap);
-
-
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showErrorDialog();
-                }
-            }
-        }
-
-    }
-
+    
     public void showFirstDialog() {
         runOnUiThread(new Runnable() {
             @Override
@@ -807,52 +718,81 @@ public class AlbumPager extends FullScreenActivity
                 });
     }
 
-    private void shareImage(final Bitmap bitmap) {
-
-        if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
-            showFirstDialog();
-        } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
-            showErrorDialog();
-        } else {
-            File f = new File(Reddit.appRestart.getString("imagelocation", "")
-                    + File.separator
-                    + UUID.randomUUID().toString()
-                    + ".png");
-
-
-            FileOutputStream out = null;
-            try {
-                f.createNewFile();
-                out = new FileOutputStream(f);
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            } catch (Exception e) {
-                e.printStackTrace();
-                showErrorDialog();
-            } finally {
-                try {
-                    if (out != null) {
-                        out.close();
-                        if (!f.getAbsolutePath().isEmpty()) {
-                            Uri bmpUri = Uri.parse(f.getAbsolutePath());
-                            final Intent shareImageIntent =
-                                    new Intent(android.content.Intent.ACTION_SEND);
-                            shareImageIntent.putExtra(Intent.EXTRA_STREAM, bmpUri);
-                            shareImageIntent.setType("image/png");
-                            startActivity(Intent.createChooser(shareImageIntent,
-                                    getString(R.string.misc_img_share)));
-                        } else {
-                            showErrorDialog();
-                        }
-
+    private void shareImage(final String finalUrl) {
+        ((Reddit) getApplication()).getImageLoader()
+                .loadImage(finalUrl, new SimpleImageLoadingListener() {
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        shareImage(loadedImage);
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    showErrorDialog();
-                }
-            }
+                });
+    }
+    /**
+     * Deletes all files in a folder
+     *
+     * @param dir to clear contents
+     */
+    private void deleteFilesInDir(File dir) {
+        for (File child : dir.listFiles()) {
+            child.delete();
+        }
+    }
+    /**
+     * Converts an image to a PNG, stores it to the cache, then shares it.
+     * Saves the image to /cache/shared_image for easy deletion.
+     * If the /cache/shared_image folder already exists, we clear it's contents as to avoid
+     * increasing the cache size unnecessarily.
+     *
+     * @param bitmap image to share
+     */
+    private void shareImage(final Bitmap bitmap) {
+        File image; //image to share
+
+        //check to see if the cache/shared_images directory is present
+        final File imagesDir = new File(this.getCacheDir().toString() + File.separator + "shared_image");
+        if (!imagesDir.exists()) {
+            imagesDir.mkdir(); //create the folder if it doesn't exist
+        } else {
+            deleteFilesInDir(imagesDir);
         }
 
+        try {
+            //creates a file in the cache; filename will be prefixed with "img" and end with ".png"
+            image = File.createTempFile("img", ".png", imagesDir);
+            FileOutputStream out = null;
 
+            try {
+                //convert image to png
+                out = new FileOutputStream(image);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            } finally {
+                if (out != null) {
+                    out.close();
+
+                    /**
+                     * If a user has both a debug build and a release build installed, the authority name needs to be unique
+                     */
+                    final String authority = (this.getPackageName()).concat(".").concat(MediaView.class.getSimpleName());
+
+                    final Uri contentUri = FileProvider.getUriForFile(this, authority, image);
+
+                    if (contentUri != null) {
+                        final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
+                        shareImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //temp permission for receiving app to read this file
+                        shareImageIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                        shareImageIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+
+                        //Select a share option
+                        startActivity(Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
+                    } else {
+                        Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        } catch (IOException | NullPointerException e) {
+            e.printStackTrace();
+            Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
+        }
     }
 
     public void showErrorDialog() {
@@ -879,36 +819,13 @@ public class AlbumPager extends FullScreenActivity
 
     }
 
-    private void showShareDialog(final String url) {
-        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        final View dialoglayout = inflater.inflate(R.layout.sharemenu, null);
-
-        dialoglayout.findViewById(R.id.share_img).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shareImage(url);
-            }
-        });
-
-        dialoglayout.findViewById(R.id.share_link).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Reddit.defaultShareText("", url, AlbumPager.this);
-            }
-        });
-
-
-        builder.setView(dialoglayout);
-        builder.show();
-    }
-
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this, getString(R.string.settings_set_image_location, folder.getAbsolutePath()) + folder.getAbsolutePath(),
-                    Toast.LENGTH_LONG).show();
+            Toast.makeText(this,
+                    getString(R.string.settings_set_image_location, folder.getAbsolutePath())
+                            + folder.getAbsolutePath(), Toast.LENGTH_LONG).show();
 
         }
     }

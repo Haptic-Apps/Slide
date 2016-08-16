@@ -203,8 +203,12 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
                             .title(Html.fromHtml(comment.getSubject()));
 
+                    String author = comment.getAuthor();
+                    if(comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase( comment.getDataNode().get("dest").asText()) && !comment.getDataNode().get("dest").asText().equals("reddit")){
+                        author = comment.getDataNode().get("dest").asText().replace("#", "/r/");
+                    }
                     if (comment.getAuthor()!=null) {
-                        b.sheet(1, profile, "/u/" + comment.getAuthor());
+                        b.sheet(1, profile, "/u/" + author);
                     }
 
                     String read = mContext.getString(R.string.mail_mark_read);
@@ -219,13 +223,14 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     if (comment.isComment()) {
                         b.sheet(30, reddit, mContext.getString(R.string.mail_view_full_thread));
                     }
+                    final String finalAuthor = author;
                     b.listener(new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 1: {
                                     Intent i = new Intent(mContext, Profile.class);
-                                    i.putExtra(Profile.EXTRA_PROFILE, comment.getAuthor());
+                                    i.putExtra(Profile.EXTRA_PROFILE, finalAuthor);
                                     mContext.startActivity(i);
                                 }
                                 break;

@@ -338,7 +338,7 @@ public class SettingValues {
 
     public static boolean isNight() {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        return (hour > 20 || hour < 6) && tabletUI && nightMode;
+        return (hour > nightStart || hour < nightEnd) && tabletUI && nightMode;
     }
 
     public enum ColorIndicator {

@@ -437,9 +437,8 @@ public class PopulateSubmissionViewHolder {
                 b.sheet(5, hide, mContext.getString(R.string.submission_unhide));
             }
         }
-        if (!submission.isSelfPost()) {
             b.sheet(7, open, mContext.getString(R.string.submission_link_extern));
-        }
+
         b.sheet(4, share, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url));
         if ((mContext instanceof MainActivity) || (mContext instanceof SubredditView)) {

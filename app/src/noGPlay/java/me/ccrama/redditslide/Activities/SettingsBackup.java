@@ -271,6 +271,7 @@ public class SettingsBackup extends BaseActivityAnim {
                                     "albums") && !s.contains("com.google") && (((personal
                                     && !s.contains("SUBSNEW")
                                     && !s.contains("appRestart")
+                                    && !s.contains("STACKTRACE")
                                     && !s.contains("AUTH")
                                     && !s.contains("TAGS")
                                     && !s.contains("SEEN")

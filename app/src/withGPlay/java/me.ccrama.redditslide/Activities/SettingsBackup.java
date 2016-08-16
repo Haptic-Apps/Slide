@@ -96,7 +96,7 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                 String[] list = prefsdir.list();
 
                 for (final String s : list) {
-                    if (!s.contains("com.google") && !s.contains("cache")) {
+                    if (!s.contains("com.google") && !s.contains("cache") && !s.contains("STACKTRACE")) {
                         title = s;
                         Drive.DriveApi.newDriveContents(mGoogleApiClient)
                                 .setResultCallback(new ResultCallback<DriveApi.DriveContentsResult>() {
@@ -480,7 +480,8 @@ public class SettingsBackup extends BaseActivityAnim implements GoogleApiClient.
                         fw.write("Slide_backupEND>");
                         for (String s : list) {
 
-                            if (!s.contains("cache") && !s.contains("ion-cookies") && !s.contains("albums") && !s.contains("com.google") && (((personal && !s.contains("SUBSNEW") && !s.contains("appRestart") && !s.contains("AUTH") && !s.contains("TAGS") && !s.contains("SEEN") && !s.contains("HIDDEN") && !s.contains("HIDDEN_POSTS"))) || !personal)) {
+                            if (!s.contains("cache") && !s.contains("ion-cookies") && !s.contains("albums") && !s.contains("STACKTRACE")
+                                    && !s.contains("com.google") && (((personal && !s.contains("SUBSNEW") && !s.contains("appRestart") && !s.contains("AUTH") && !s.contains("TAGS") && !s.contains("SEEN") && !s.contains("HIDDEN") && !s.contains("HIDDEN_POSTS"))) || !personal)) {
                                 FileReader fr = null;
                                 try {
                                     fr = new FileReader(new File(prefsdir + File.separator + s));
