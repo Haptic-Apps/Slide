@@ -697,6 +697,7 @@
 
     <!-- Subscription managing -->
     <string name="reorder_add_domain">Add a domain</string>
+    <string name="reorder_add_subreddit">Add a subreddit</string>
     <string name="reorder_fab_collection">Collection</string>
     <string name="reorder_fab_domain">Domain</string>
     <string name="reorder_fab_subreddit">Subreddit</string>
