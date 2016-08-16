@@ -29,6 +29,7 @@ import me.ccrama.redditslide.Fragments.InboxPage;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -38,9 +39,9 @@ import me.ccrama.redditslide.util.LogUtil;
 public class Inbox extends BaseActivityAnim {
 
     public static final String EXTRA_UNREAD = "unread";
-    public Inbox.OverviewPagerAdapter adapter;
-    private TabLayout tabs;
-    private ViewPager pager;
+    public  Inbox.OverviewPagerAdapter adapter;
+    private TabLayout                  tabs;
+    private ViewPager                  pager;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -54,6 +55,7 @@ public class Inbox extends BaseActivityAnim {
     }
 
     private boolean changed;
+    public  long    last;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -135,6 +137,9 @@ public class Inbox extends BaseActivityAnim {
         overrideSwipeFromAnywhere();
 
         super.onCreate(savedInstance);
+        last = SettingValues.prefs.getLong("lastInbox",
+                System.currentTimeMillis() - (60 * 1000 * 60));
+        SettingValues.prefs.edit().putLong("lastInbox", System.currentTimeMillis()).apply();
         applyColorTheme("");
         setContentView(R.layout.activity_inbox);
         setupAppBar(R.id.toolbar, R.string.title_inbox, true, true);
@@ -157,7 +162,8 @@ public class Inbox extends BaseActivityAnim {
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                    int positionOffsetPixels) {
 
             }
 
@@ -191,8 +197,12 @@ public class Inbox extends BaseActivityAnim {
                     Authentication.mod = Authentication.me.isMod();
                     Reddit.over18 = Authentication.me.isOver18();
 
-                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod).apply();
-                    Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18).apply();
+                    Authentication.authentication.edit()
+                            .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
+                            .apply();
+                    Authentication.authentication.edit()
+                            .putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18)
+                            .apply();
 
                     if (Reddit.notificationTime != -1) {
                         Reddit.notifications = new NotificationJobScheduler(Inbox.this);
@@ -209,11 +219,15 @@ public class Inbox extends BaseActivityAnim {
                     LogUtil.v("AUTHENTICATED");
 
                     if (Authentication.reddit.isAuthenticated()) {
-                        final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
+                        final Set<String> accounts =
+                                Authentication.authentication.getStringSet("accounts",
+                                        new HashSet<String>());
                         if (accounts.contains(name)) { //convert to new system
                             accounts.remove(name);
                             accounts.add(name + ":" + Authentication.refresh);
-                            Authentication.authentication.edit().putStringSet("accounts", accounts).apply(); //force commit
+                            Authentication.authentication.edit()
+                                    .putStringSet("accounts", accounts)
+                                    .apply(); //force commit
                         }
                         Authentication.isLoggedIn = true;
                         Reddit.notFirst = true;
