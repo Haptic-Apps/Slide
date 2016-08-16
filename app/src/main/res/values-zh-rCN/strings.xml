@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">确认退出</string>
   <string name="general_confirm_exit_msg">你真的想退出 Slide 吗？</string>
   <string name="general_enable_shadowbox">启用 Shadowbox 模式</string>
-  <string name="general_pro_msg">我选择了几个 Slide 功能（包括多栏目模式）仅能通过 Play Store 购买专业版解锁密钥来解锁。\n\n这是为了能让开发持续进行，避免广告出现在免费版的 Slide 中！\n\n其中包含多栏目模式，Shadowbox 模式（图片板块用），还有更多功能马上到来！\n\n你想解锁 Slide for Reddit 专业版吗?</string>
   <string name="general_open_settings">打开版块设置</string>
   <string name="general_sub_sync">正在同步订阅</string>
   <!-- Used when viewing a thread -->
@@ -31,7 +30,8 @@
   <string name="submission_tap_gif">点击来载入动图</string>
   <string name="submission_not_found">噢，帖子未找到！</string>
   <string name="submission_not_found_msg">抱歉，此帖未找到</string>
-  <string name="submission_copy">复制文字</string>
+  <string name="submission_copy_text">复制文字</string>
+  <string name="submission_share_permalink">分享告示</string>
   <plurals name="submission_points">
     <item quantity="other">%d 积分</item>
   </plurals>
@@ -137,10 +137,11 @@
   <string name="err_retry_later">一分钟后再试！</string>
   <string name="err_permission">权限被拒绝</string>
   <string name="err_permission_msg">似乎您拒绝了 Slide 在外置存储的写入权限。这会引起图片缓存、帖子缓存和保存图片失败 :(。\n您想让 Slide 访问外部存储吗？</string>
+  <string name="err_something_wrong">噢，出问题了。</string>
   <!-- Gif -->
   <string name="gif_err_title">动图未找到</string>
   <string name="gif_err_msg">载入此动图时出现错误。请将其重新打开并再试。</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_err_title">（还）没有多板块！</string>
   <string name="multireddit_err_msg">你想创建一个新的多板块吗？</string>
   <string name="multireddit_title_empty">标题不能为空</string>
@@ -215,6 +216,7 @@
   <string name="btn_refresh">刷新</string>
   <string name="btn_cache">缓存的评论</string>
   <string name="btn_delete">删除</string>
+  <string name="btn_new">新的</string>
   <!-- Backup -->
   <string name="backup_success">备份成功！</string>
   <string name="backup_restoring">正在还原你的设置</string>
@@ -239,6 +241,8 @@
   <string name="mod_no_reports">没有报告</string>
   <string name="mod_btn_approve">赞同</string>
   <string name="mod_btn_remove">移除</string>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <string name="wiki_err">未找到 Wiki</string>
   <string name="wiki_err_msg">此版块没有 wiki！</string>
@@ -309,6 +313,15 @@
   <string name="settings_title_filter">过滤</string>
   <string name="settings_title_font">字体</string>
   <string name="settings_section_general">通用</string>
+  <!-- View types -->
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_fab_subreddit">版块</string>
+  <string name="btn_add_subreddit">添加板块</string>
+  <string name="reorder_subreddits_title">选择要添加的板块</string>
+  <string name="reorder_subreddit_name">板块名称</string>
+  <string name="reorder_remove_msg">你不会取消订阅，但你不会在侧边栏看见此板块！</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">版块设置</string>
@@ -342,11 +355,6 @@
   <!-- Website -->
   <string name="website_back">返回</string>
   <string name="website_external">在外部浏览器中打开</string>
-  <!-- Reorder subreddit activity -->
-  <string name="reorder_subreddits_title">选择要添加的板块</string>
-  <string name="reorder_add_subreddit">添加板块</string>
-  <string name="reorder_subreddit_name">板块名称</string>
-  <string name="reorder_remove_msg">你不会取消订阅，但你不会在侧边栏看见此板块！</string>
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="other">%d 小时</item>
@@ -359,14 +367,23 @@
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <!-- Discover section: find -->
-  <string name="submission_share_permalink">分享告示</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <!-- Strings for widgets -->
+  <string name="widget_subname_hint">板块名称</string>
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="mode_card">卡片</string>
   <string name="btn_report">报告</string>
   <string name="subreddit_name_tint">板块名称</string>
   <string name="content_deleted">[deleted]</string>
   <string name="open_externally">外部打开</string>
-  <string name="err_something_wrong">噢，出问题了。</string>
-  <string name="btn_add_subreddit">添加板块</string>
-  <string name="btn_new">新的</string>
-  <!-- Strings for alert dialogs -->
+  <string name="draw_undo">撤销</string>
 </resources>

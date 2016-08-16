@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">Подтвердите выход</string>
   <string name="general_confirm_exit_msg">Вы уверены что хотите выйти?</string>
   <string name="general_enable_shadowbox">Включить Shadowbox Mode</string>
-  <string name="general_pro_msg">Я решил сделать некоторые функции Slide (включая многоколонный режим) доступными только при покупке Pro Unlock ключа в Play Store. \n\n Это дает возможность дальше работать над проектом, без рекламы в приложении. \n\n Pro-версия включает режим Shadowbox (только картинки и названия записей), многоколонный режим и, вскоре, многое еще!\n\n Хотели бы вы приобрести Pro-версию приложения?</string>
   <string name="general_open_settings">Открыть Настройки Сабреддита</string>
   <string name="general_sub_sync">Синхронизация Подписок</string>
   <!-- Used when viewing a thread -->
@@ -31,7 +30,8 @@
   <string name="submission_tap_gif">Нажмите для загрузки GIF</string>
   <string name="submission_not_found">Ох, пост не найден!</string>
   <string name="submission_not_found_msg">Извините, пост не может быть найден</string>
-  <string name="submission_copy">Копировать текст</string>
+  <string name="submission_copy_text">Копировать текст</string>
+  <string name="submission_share_permalink">Поделиться постом</string>
   <plurals name="submission_points">
     <item quantity="one">%d очко</item>
     <item quantity="few">%d очка</item>
@@ -175,10 +175,11 @@
   <string name="err_permission">Отказано в доступе</string>
   <string name="err_permission_msg">Похоже, вы отказали Slided в записи данных на внешнее хранилище. Это не даст возможности сохранят кэш и изображения :(. \nОткроете Slide доступ на внешнее хранилище?</string>
   <string name="err_authentication">Ошибка аутентификации</string>
+  <string name="err_something_wrong">Ох, что-то пошло не так.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF не найдена</string>
   <string name="gif_err_msg">Произошла ошибка при загрузке этого GIF. Пожалуйста, повторите попытку.</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_err_title">Нет мультиреддитов (пока)!</string>
   <string name="multireddit_err_msg">Хотите создать новый Multireddit?</string>
   <string name="multireddit_title_empty">Заголовок не может быть пустым</string>
@@ -261,6 +262,8 @@
   <string name="btn_cache">Загрузить комментарии</string>
   <string name="btn_delete">Удалить</string>
   <string name="btn_time">Период</string>
+  <string name="btn_select">Выбрать</string>
+  <string name="btn_new">Новое</string>
   <!-- Backup -->
   <string name="backup_success">Резервное копир-е успешно!</string>
   <string name="backup_restoring">Восстановление настроек</string>
@@ -290,9 +293,9 @@
   <string name="mod_btn_approve">Подтвердить</string>
   <string name="mod_btn_mark_nsfw">Отметить как непристойное содержание</string>
   <string name="mod_btn_unmark_nsfw">Снять пометку непристойного содержания</string>
-  <string name="mod_btn_pin">Закрепить</string>
-  <string name="mod_btn_unpin">Открепить</string>
   <string name="mod_btn_remove">Удалить</string>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Вики не найдена</string>
   <string name="wiki_err_msg">У этого сабреддита нет вики!</string>
@@ -361,6 +364,20 @@
   <string name="settings_section_general">Основное</string>
   <string name="settings_section_appearance">Вид</string>
   <string name="settings_section_other">Другое</string>
+  <string name="settings_synccit_remove">ОТКЛЮЧИТЬ SYNCCIT</string>
+  <string name="settings_synccit_auth">Код авторизации</string>
+  <string name="settings_synccit_username">Имя пользователя</string>
+  <!-- View types -->
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_fab_subreddit">Сабреддит</string>
+  <string name="btn_add_subreddit">Добавить сабреддит</string>
+  <string name="reorder_subreddits_title">Выберите сабреддиты для добавления</string>
+  <string name="reorder_subreddit_name">Название сабреддита</string>
+  <string name="reorder_remove_title">Удалить этот сабреддит?</string>
+  <string name="reorder_remove_msg">Вы ещё не отписаны, но не увидите этот subreddit в вашей боковой панели!</string>
+  <string name="reorder_sync_complete">Синхронизация завершена</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <string name="sorting">Сортировка</string>
   <string name="display">Показать</string>
@@ -409,13 +426,6 @@
   <!-- Website -->
   <string name="website_back">Назад</string>
   <string name="website_external">Открыть во внешнем браузере</string>
-  <!-- Reorder subreddit activity -->
-  <string name="reorder_subreddits_title">Выберите сабреддиты для добавления</string>
-  <string name="reorder_add_subreddit">Добавить сабреддит</string>
-  <string name="reorder_subreddit_name">Название сабреддита</string>
-  <string name="reorder_remove_title">Удалить этот сабреддит?</string>
-  <string name="reorder_remove_msg">Вы ещё не отписаны, но не увидите этот subreddit в вашей боковой панели!</string>
-  <string name="reorder_sync_complete">Синхронизация завершена</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">Добавлен %d subreddit</item>
     <item quantity="few">Добавлены %d subreddit</item>
@@ -442,20 +452,25 @@
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Синхронизация завершена</string>
   <!-- Discover section: find -->
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <!-- Strings for widgets -->
+  <string name="widget_subname_hint">Название сабреддита</string>
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Загрузить больше комментариев</string>
-  <string name="settings_synccit_remove">ОТКЛЮЧИТЬ SYNCCIT</string>
-  <string name="settings_synccit_auth">Код авторизации</string>
-  <string name="settings_synccit_username">Имя пользователя</string>
-  <string name="submission_share_permalink">Поделиться постом</string>
-  <string name="btn_select">Выбрать</string>
   <string name="dialog_color_sync_title">Синхронизация цветов</string>
   <string name="mode_card">Карточка</string>
   <string name="btn_report">Отчет</string>
   <string name="subreddit_name_tint">Название сабреддита</string>
   <string name="content_deleted">[deleted]</string>
   <string name="open_externally">Открыть в другом приложении</string>
-  <string name="err_something_wrong">Ох, что-то пошло не так.</string>
-  <string name="btn_add_subreddit">Добавить сабреддит</string>
-  <string name="btn_new">Новое</string>
-  <!-- Strings for alert dialogs -->
+  <string name="draw_undo">Отменить</string>
 </resources>

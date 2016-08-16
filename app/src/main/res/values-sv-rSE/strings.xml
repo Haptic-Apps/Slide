@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">Bekräfta avstängning</string>
   <string name="general_confirm_exit_msg">Vill du verkligen avsluta Slide?</string>
   <string name="general_enable_shadowbox">Aktivera Shadowbox läge</string>
-  <string name="general_pro_msg">Jag har valt för att göra några funktioner i Slide (inklusive multi-kolumn läge) upplåsbara genom att köpa en Pro nyckel från Play Store. \n\nDetta är för att hålla igång utvecklingen, och i stället för att visa annonser i den gratisversionen av Slide! \n\nI denna ingår flerkolumns läge, Shadowboxläge (för bildsubreddits) och mycket mer som kommer snart! \n\nSkulle du vilja låsa upp Slide for Reddit Pro?</string>
   <string name="general_open_settings">Öppna Subredditinställningar</string>
   <string name="general_sub_sync">Synkronisera prenumerationer</string>
   <!-- Used when viewing a thread -->
@@ -31,7 +30,8 @@
   <string name="submission_tap_gif">Tryck för att ladda GIF</string>
   <string name="submission_not_found">Inlägget kunde inte hittas!</string>
   <string name="submission_not_found_msg">Detta inlägg kunde inte hittas</string>
-  <string name="submission_copy">Kopiera text</string>
+  <string name="submission_copy_text">Kopiera text</string>
+  <string name="submission_share_permalink">Dela inlägg</string>
   <plurals name="submission_points">
     <item quantity="one">%d poäng</item>
     <item quantity="other">%d poäng</item>
@@ -131,10 +131,11 @@
   <string name="err_permission">Tillstånd nekades</string>
   <string name="err_permission_msg">Det ser ut som du nekade Slide tillgång att skriva till extern lagring. Detta kommer att orsaka bild cache, inläggs cache och spara bilder att misslyckas :(. \n Skulle du vilja att Slide ska få tillgång till extern lagring?</string>
   <string name="err_authentication">Verifiering misslyckades</string>
+  <string name="err_something_wrong">Hoppsan, något gick fel.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIFen hittades inte</string>
   <string name="gif_err_msg">Ett fel uppstod vid inläsning av denna GIF. Vänligen öppna GIFen på nytt och försök igen.</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_err_title">Ingen Multireddits (ännu)!</string>
   <string name="multireddit_err_msg">Vill du skapa en ny multireddit?</string>
   <string name="multireddit_title_empty">Titeln får inte vara tomt</string>
@@ -213,6 +214,7 @@
   <string name="btn_yes">Ja</string>
   <string name="btn_refresh">Uppdatera</string>
   <string name="btn_delete">Ta bort</string>
+  <string name="btn_new">Nya</string>
   <!-- Backup -->
   <string name="backup_success">Säkerhetskopieringen lyckades!</string>
   <string name="backup_restoring">Återställer dina inställningar</string>
@@ -237,6 +239,8 @@
   <string name="mod_no_reports">Inga rapporter</string>
   <string name="mod_btn_approve">Godkänn</string>
   <string name="mod_btn_remove">Ta bort</string>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Ingen wiki hittades</string>
   <string name="wiki_err_msg">Denna subreddit har ingen wiki!</string>
@@ -308,6 +312,11 @@
   <string name="settings_title_fab">Flytande action-knapp</string>
   <string name="settings_title_comments">Kommentarer</string>
   <string name="settings_section_general">Allmänt</string>
+  <!-- View types -->
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_fab_subreddit">Subreddit</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Subreddit inställningar</string>
@@ -339,7 +348,6 @@
   <string name="offline_msg">Gå online och uppdatera subreddit</string>
   <!-- Website -->
   <string name="website_back">Gå tillbaka</string>
-  <!-- Reorder subreddit activity -->
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="one">%d timme</item>
@@ -354,12 +362,21 @@
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <!-- Discover section: find -->
-  <string name="submission_share_permalink">Dela inlägg</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <!-- Strings for widgets -->
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="mode_card">Kort</string>
   <string name="btn_report">Rapportera</string>
   <string name="content_deleted">[borttagen]</string>
   <string name="open_externally">Öppna externt</string>
-  <string name="err_something_wrong">Hoppsan, något gick fel.</string>
-  <string name="btn_new">Nya</string>
-  <!-- Strings for alert dialogs -->
+  <string name="draw_undo">Ångra</string>
 </resources>

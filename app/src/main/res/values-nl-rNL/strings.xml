@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">Afsluiten bevestigen</string>
   <string name="general_confirm_exit_msg">Wil je Slide echt afsluiten?</string>
   <string name="general_enable_shadowbox">Shadowbox-modus inschakelen</string>
-  <string name="general_pro_msg">Ik heb ervoor gekozen om enkele functies van Slide (inclusief multikolom-modus) beschikbaar te stellen middels de aanschaf van een uitbreiding in de Play Store. \n\nDit om de ontwikkeling te ondersteunen maar ook om de gratis versie van Slide advertentievrij te houden! \n\nInbegrepen zijn de multikolom-modus, Shadowbox-modus (voor subreddits met afbeeldingen) en er komt nog veel meer aan! \n\nWil je Slide for Reddit Pro aanschaffen?</string>
   <string name="general_open_settings">Zijbalk</string>
   <string name="general_sub_sync">Abonnementen synchroniseren</string>
   <!-- Used when viewing a thread -->
@@ -31,7 +30,8 @@
   <string name="submission_tap_gif">Tik om GIF te laden</string>
   <string name="submission_not_found">Oh oh, bericht niet gevonden!</string>
   <string name="submission_not_found_msg">Sorry, dit bericht kan niet worden gevonden</string>
-  <string name="submission_copy">Tekst kopiëren</string>
+  <string name="submission_copy_text">Tekst kopiëren</string>
+  <string name="submission_share_permalink">Bericht delen</string>
   <plurals name="submission_points">
     <item quantity="one">%d punt</item>
     <item quantity="other">%d punten</item>
@@ -44,6 +44,10 @@
     <item quantity="one">pnt</item>
     <item quantity="other">pntn</item>
   </plurals>
+  <plurals name="comments">
+    <item quantity="one">reactie</item>
+    <item quantity="other">reacties</item>
+  </plurals>
   <!-- Theme settings -->
   <string name="theme_light">Licht</string>
   <string name="theme_dark">Donker</string>
@@ -54,8 +58,11 @@
   <string name="theme_accent_color">Accentkleur</string>
   <string name="theme_base">Basisthema</string>
   <string name="theme_card">Kaart</string>
+  <string name="theme_sepia">Sepia</string>
+  <string name="theme_amoled_contrast">AMOLED met contrast</string>
   <!-- Font settings -->
   <string name="font_size">Lettergrootte</string>
+  <string name="font_size_huge">Gigantisch</string>
   <string name="font_size_larger">Groter</string>
   <string name="font_size_large">Groot</string>
   <string name="font_size_medium">Middelgroot</string>
@@ -84,6 +91,7 @@
   <string name="sidebar_wiki">Subredditwiki</string>
   <string name="sidebar_mods">Subredditmoderators</string>
   <!-- User profile -->
+  <string name="profile_karma_link">Post karma</string>
   <string name="profile_karma_comment">Reactiekarma</string>
   <string name="profile_message">Privébericht</string>
   <string name="profile_saved">Opgeslagen</string>
@@ -122,6 +130,7 @@
   <string name="comment_deleted">[verwijderd]</string>
   <string name="comment_unsave">Verwijderen</string>
   <string name="comment_load_more">Laad er %1$d meer</string>
+  <string name="comment_load_more_string">Nog %1$s meer laden</string>
   <string name="comment_loading_more">Meer reacties aan het laden&#8230;</string>
   <string name="comment_permalink">Laad de reactie permalink</string>
   <string name="comment_parent">Toon bovenliggende reactie</string>
@@ -167,6 +176,8 @@
   <string name="editor_hint_subreddit">Subreddit</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Afbeelding opgeslagen</string>
+  <string name="video_saved">Video opgeslagen</string>
+  <string name="gif_saved">GIF opgeslagen</string>
   <!-- General errors / errors without a category -->
   <string name="err_title">Oh oh, er is iets misgegaan!</string>
   <string name="err_invalid_url">Ongeldige URL</string>
@@ -178,12 +189,30 @@
   <string name="err_permission">Toegang geweigerd</string>
   <string name="err_permission_msg">Je hebt Slide geen toegang gegeven tot de externe opslag. Hierdoor kunnen er geen tijdelijke afbeeldingen of berichten worden opgeslagen :(. \nWil je Slide alsnog toegang geven tot de externe opslag?</string>
   <string name="err_authentication">Authenticatie mislukt</string>
+  <string name="error_video_not_found">Video niet gevonden</string>
+  <string name="error_video_message">Er is een fout opgetreden tijdens het laden van deze video</string>
+  <string name="err_comment_post_nosave_message">\nProbeer het over een minuut nogmaals</string>
+  <string name="err_could_not_find_content_msg">Reddit kon de opgevraagde inhoud niet vinden</string>
+  <string name="err_refused_request_msg">Reddit weigerde het verzoek. Wil je probeer nogmaals te verbinden met Reddit?</string>
+  <string name="err_something_wrong">Oh oh, er is iets misgegaan</string>
+  <string name="err_couldnt_save_choose_new">Slide kon niet opslaan naar de geselecteerde map. Wil je een nieuwe map kiezen voor het opslaan?</string>
+  <string name="err_file_not_found">Bestand niet gevonden</string>
+  <string name="err_not_valid_backup">Dit is geen geldig back-up bestand van Slide</string>
+  <string name="err_not_valid_backup_msg">Het geselecteerde bestand is geen geldig back-up bestand van Slide</string>
+  <string name="err_file_not_found_msg">Het geselecteerde bestand kan niet worden gevonden. Zorg ervoor dat het bestand bestaat en dat Slide toestemming heeft voor het benaderen dat bestand/die map</string>
+  <string name="err_comment_post">Ai, het plaatsen van deze reactie is mislukt!</string>
+  <string name="err_comment_post_reason">"Reden: "</string>
+  <string name="err_comment_post_message">\n\nJouw bericht is opgeslagen als concept. Probeer het later nogmaals.</string>
+  <string name="err_comment_post_copy">Kopieer reactie</string>
+  <string name="err_connection_failed_msg">Verbinding met Reddit is mislukt. Controleer de internetverbinding en probeer nogmaals of ga in offlinemodus.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF niet gevonden</string>
   <string name="gif_err_msg">Er is een fout opgetreden bij het laden van deze GIF. Probeer de GIF opnieuw te openen.</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_err_title">Er zijn (nog) geen multireddits!</string>
   <string name="multireddit_err_msg">Wil je een nieuwe multireddit maken?</string>
+  <string name="public_multireddit_err_title">Geen multireddits!</string>
+  <string name="public_multireddit_err_msg">Deze gebruiker heeft geen openbare multireddits.</string>
   <string name="multireddit_title_empty">Titel mag niet leeg zijn</string>
   <string name="multireddit_title_empty_msg">Voer een titel in voor je multireddit</string>
   <string name="multireddit_no_subs">Er zijn geen subreddits toegevoegd</string>
@@ -192,6 +221,8 @@
   <string name="multireddit_create_hint">Multiredditnaam</string>
   <string name="multireddit_invalid_name">Ongeldige multiredditnaam</string>
   <string name="multireddit_invalid_name_msg">De titel van een multireddit mag alleen letters, nummers of underscores bevatten</string>
+  <string name="btn_import_multi">Multireddit importeren</string>
+  <string name="delete_multireddit_title">Wil je echt /m/ verwijderen</string>
   <!-- Content types -->
   <string name="type_nsfw_img">NSFW-afbeelding</string>
   <string name="type_nsfw_gif">NSFW-GIF</string>
@@ -250,6 +281,7 @@
   <string name="misc_err">Fout</string>
   <string name="misc_none">Geen</string>
   <string name="misc_retry">Wil je het nog een keer proberen?</string>
+  <string name="misc_retry_draft">Wil je het opnieuw proberen? \nEen concept van je submissie is opgeslagen</string>
   <string name="misc_score_hidden">score verborgen</string>
   <string name="misc_nsfw">NSFW</string>
   <string name="misc_subscribed">Geabonneerd</string>
@@ -260,9 +292,12 @@
   <string name="misc_img_share">Deel afbeelding met</string>
   <string name="misc_link_chooser">Open URL met</string>
   <string name="misc_copy_text">Tekst kopiëren</string>
+  <string name="misc_rate_title">Bevalt Slide?</string>
+  <string name="misc_rate_msg">Beoordeel!</string>
   <!-- Goto User -->
   <string name="user_enter">Gebruikersnaam invoeren</string>
   <string name="user_btn_goto">Naar gebruiker gaan</string>
+  <string name="user_btn_gotomultis">Ga naar de multis van de gebruiker</string>
   <string name="user_invalid_msg">Gebruikersnamen op Reddit kunnen alleen letters, cijfers, underscores en streepjes bevatten</string>
   <!-- Buttons -->
   <string name="btn_add">Toevoegen</string>
@@ -286,6 +321,14 @@
   <string name="btn_cache">Cache reacties</string>
   <string name="btn_delete">Verwijder</string>
   <string name="btn_time">Tijdsbestek</string>
+  <string name="btn_message">Bericht</string>
+  <string name="btn_add_domain">Domein toevoegen</string>
+  <string name="btn_select">Selecteren</string>
+  <string name="btn_view">BEKIJK</string>
+  <string name="btn_changelog">Wijzigingen</string>
+  <string name="btn_set">INSTELLEN</string>
+  <string name="btn_create">Creër</string>
+  <string name="btn_new">Nieuw</string>
   <!-- Backup -->
   <string name="backup_success">Back-up gelukt!</string>
   <string name="backup_restoring">Je instellingen herstellen</string>
@@ -318,8 +361,6 @@
   <string name="mod_btn_submission_flair">Kies flair</string>
   <string name="mod_btn_mark_nsfw">Markeer NSFW</string>
   <string name="mod_btn_unmark_nsfw">Demarkeer NSFW</string>
-  <string name="mod_btn_pin">Vastzetten</string>
-  <string name="mod_btn_unpin">Losmaken</string>
   <string name="mod_btn_remove">Verwijderen</string>
   <string name="mod_btn_remove_reason">Verwijder met reden</string>
   <string name="mod_btn_author">Profiel auteur</string>
@@ -327,11 +368,16 @@
     <item quantity="one">Bekijk %d melding</item>
     <item quantity="other">Bekijk %d meldingen</item>
   </plurals>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <string name="undistinguish_comment">Ben je zeker dat je de onderscheiding van deze reactie wilt verwijderen?</string>
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Geen wiki gevonden</string>
   <string name="wiki_err_msg">Deze subreddit heeft geen wiki!</string>
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d abonnees</string>
+  <string name="subreddit_subscribers_string">%1$s abonnees</string>
+  <string name="subreddit_active_users_string_new">%1$s gebruikers aanwezig</string>
   <string name="subreddit_err_msg">De subreddit %1$s kon niet worden gevonden. Misschien is het verkeerd gespeld?</string>
   <string name="subreddit_err_msg_new">Subreddit \'%1$s\' kon niet worden gevonden. Wellicht is het fout gespeld of je hebt hier geen toegang tot.</string>
   <string name="subreddit_err">Subreddit niet gevonden</string>
@@ -353,6 +399,7 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit-voorkeuren</string>
   <string name="settings_accent_title">Accentkleur aanpassen</string>
+  <string name="settings_delete_sub_settings">Wil je echt de instellingen voor %1$s verwijderen?</string>
   <string name="settings_layout_default">Postlay-out</string>
   <string name="settings_link_album">Interne albumweergave</string>
   <string name="settings_link_gif">Interne GIF-weergave</string>
@@ -412,7 +459,95 @@
   <string name="settings_section_general">Algemeen</string>
   <string name="settings_section_appearance">Uiterlijk</string>
   <string name="settings_section_other">Overig</string>
+  <string name="settings_section_browser">Browser</string>
+  <string name="settings_section_internal_viewers">Interne viewer</string>
+  <string name="settings_section_custom_domains">Aangepaste domeinen</string>
   <string name="settings_section_save_history">Geschiedenis bewaren</string>
+  <string name="settings_section_clear_history">Geschiedenis wissen</string>
+  <string name="settings_section_data_saving_mode">Databesparende modus</string>
+  <string name="settings_section_image_quality">Afbeeldingskwaliteit</string>
+  <string name="settings_section_hide_images">Afbeeldingen verbergen</string>
+  <string name="settings_comment_color">Diepte-indicatie tonen bij onderliggende reacties</string>
+  <string name="settings_volume_nav_comments">Navigeren door reacties met volumeknoppen</string>
+  <string name="settings_synccit_remove">VERBINDING VERBREKEN MET SYNCIT</string>
+  <string name="settings_synccit_auth">Autorisatiecode</string>
+  <string name="settings_synccit_username">Gebruikersnaam</string>
+  <string name="settings_synccit_delete">Weet je zeker dat je het Synccit-account wil verwijderen?</string>
+  <string name="settings_synccit_authenticate">Bezig het aanmelden bij Synccit</string>
+  <string name="settings_synccit_connected">Succesvol verbonden!</string>
+  <string name="settings_synccit_active">Synccit is nu actief voor dit apparaat</string>
+  <string name="settings_synccit_failed">Aanmelden mislukt</string>
+  <string name="settings_synccit_failed_msg">Controleer of jouw gebruikersnaam en autorisatiecode kloppen!</string>
+  <string name="settings_synccit">Synccit-integratie</string>
+  <string name="settings_commentnav_description">Gebruik een navigatiebalk met navigatiepijlen</string>
+  <string name="settings_comment_collapse">Reacties volledig inklappen</string>
+  <string name="settings_comment_collapse_description">Reactie-animaties ook uitschakelen</string>
+  <string name="settings_comment_collapse_default">Onderliggende reacties standaard inklappen</string>
+  <string name="settings_subredditspecific_selftext">Altijd voorbeelden van zelfteksten tonen in deze Subreddit</string>
+  <string name="settings_font_system">Systeem</string>
+  <string name="settings_manage_subscriptions">Beheer uw abonnementen</string>
+  <string name="settings_comments_swap_long">Wissel lange druk- and klikactie</string>
+  <string name="settings_redditprefs_over18">Ik ben ouder dan 18 jaar en ik wil NSFW-inhoud zien</string>
+  <string name="settings_layout_view">Weergavemodus</string>
+  <string name="settings_data_lowqaul_desc">Anders altijd hoge kwaliteit afbeeldingen tonen</string>
+  <string name="settings_data_lowqaul">Laad lagere kwaliteit afbeeldingen indien mogelijk</string>
+  <string name="settings_subredditspecific_bigpic">Altijd grote afbeeldingen tonen in deze subreddit</string>
+  <string name="settings_layout_picture_mode">Afbeeldingsmodus</string>
+  <string name="settings_general_expanded_toolbar">Uitgeklapte werkbalk</string>
+  <string name="settings_general_expanded_toolbar_desc">Toon meer opties in de subredditwerkbalk</string>
+  <string name="settings_theme_tinting">Bericht kleurmode</string>
+  <string name="settings_reddit_thumbnail_mode">Thumbnailmode</string>
+  <string name="settings_layout_actionbar_mode">Werkbalkmode</string>
+  <string name="settings_theme_tint_outside_desc">Alleen de achtergrond kleuren in multireddits, voorpagina en /r/all</string>
+  <string name="settings_layout_small_content_tag">Kleinere contenttag</string>
+  <string name="settings_links_force_external">Forceer externe browser</string>
+  <string name="settings_links_force_external_desc">Kies domeinen die altijd extern geopend worden</string>
+  <string name="settings_layout_show_domain">Toon domeininformatie</string>
+  <string name="settings_layout_show_content_type">Inhoudstype in de inforegel weergeven</string>
+  <string name="settings_layout_show_votes_comments">Toon votes/reacties in de inforegel</string>
+  <string name="settings_general_swipeanywhere_description">Veeg overal in de weergave om af te sluiten</string>
+  <string name="settings_general_comment_last_visit">Toon aantal nieuwe reacties sinds laatste bezoek</string>
+  <string name="settings_right_handed_comment_menu">Rechtshandige reactiereageermenu</string>
+  <string name="settings_reddit_description">Deze instellingen wijzigen wat de Reddit API terugkeert naar Slide.\n\nOm miniaturen te zien in alle subreddits, wijzig de Miniatuurmodus naar \"Altijd laten zien\"\n\nOm alle NSFW inhoud te zien, schakel \"Verberg NSFW foto\'s\" uit en zet \"Ik ben ouder dan 18\" aan</string>
+  <string name="settings_description_synccit">Synccit laat toe je submissie-geschiedenis te synchroniseren tussen verschillende toestellen en je browser</string>
+  <string name="settings_description_view_type">Weergave Modus verandert zowel de hoofdweergave als weergaven van een enkele subreddit.\n\nReactie deelvenster: reacties glijden uit langs de posts en de staat van de reactiepagina is opgeslagen (zodat je je plaats niet verliest)\n\nGeen subreddit tabbladen: Vermijd het swipen tussen subreddits\n\nSubreddit tabbladen: swipe tussen je subreddits</string>
+  <string name="settings_comment_hide_selftext_image">Verberg hoofdafbeelding bij zelfteksten</string>
+  <string name="settings_data_low_quality">Laad afbeeldingen van lage kwaliteit</string>
+  <string name="settings_view_type">Weergave</string>
+  <string name="settings_data">Databesparing</string>
+  <string name="settings_card_show_selftext">Toon de eerste paragraaf van zelfteksten</string>
+  <string name="settings_handling_external_desc">Onderstaande domeinen worden altijd extern geopend</string>
+  <string name="settings_handling_enterdomain">Voer (gedeelte van) een domein in</string>
+  <string name="settings_section_content">Inhoud</string>
+  <string name="settings_about_changelog_post">Bekijk wijzigingen</string>
+  <string name="settings_backup_include_personal_title">Persoonlijke gegevens toevoegen?</string>
+  <string name="settings_backup_include_personal_text">Dit houd in: authenticatie-tokens, gebruikersnamen, tags en geschiedenis</string>
+  <!-- View types -->
+  <string name="view_type_tabs">Subreddit tabbladen</string>
+  <string name="view_type_none">Geen subreddit tabbladen</string>
+  <string name="view_type_comments">Reactiepaneel</string>
+  <!--Search methods -->
+  <string name="subreddit_search_method_title">Zoekmethode voor subreddits</string>
+  <string name="subreddit_search_method_drawer">Zoekbalk in het uitschuifbaar menu</string>
+  <string name="subreddit_search_method_toolbar">Lang drukken op de titelbar</string>
+  <string name="subreddit_search_method_both">In zowel het uitschuifbaar menu als in de titelbalk</string>
+  <!-- Subscription managing -->
+  <string name="reorder_add_domain">Domein toevoegen</string>
+  <string name="reorder_fab_subreddit">Subreddit</string>
+  <string name="FAQ">VGV</string>
+  <string name="alphabetize_subreddits">Alfabetiseer subreddits</string>
+  <string name="sync_subscriptions">Synchroniseer abonnementen</string>
+  <string name="cannot_be_undone">Dit kan niet ongedaan worden gemaakt.</string>
+  <string name="create_or_import_multi">Wilt u een nieuwe collectie maken of importeren van een multireddit?</string>
+  <string name="btn_add_subreddit">Subreddit toevoegen</string>
+  <string name="btn_add_collection">Een verzameling toevoegen</string>
+  <string name="reorder_subs_FAQ">Herschik de FAQ van de subreddit</string>
+  <string name="reorder_subreddits_title">Selecteer subreddits om toe te voegen</string>
+  <string name="reorder_subreddit_name">Subredditnaam</string>
+  <string name="reorder_remove_title">Deze subreddit verwijderen?</string>
+  <string name="reorder_remove_msg">Je meld je niet af maar de subreddit verschijnt niet meer in de zijbalk!</string>
+  <string name="reorder_sync_complete">Synchronisatie voltooid</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <string name="sorting">Sortering</string>
   <string name="display">Weergave</string>
@@ -461,13 +596,6 @@
   <!-- Website -->
   <string name="website_back">Terug</string>
   <string name="website_external">Weergeven in externe browser</string>
-  <!-- Reorder subreddit activity -->
-  <string name="reorder_subreddits_title">Selecteer subreddits om toe te voegen</string>
-  <string name="reorder_add_subreddit">Subreddit toevoegen</string>
-  <string name="reorder_subreddit_name">Subredditnaam</string>
-  <string name="reorder_remove_title">Deze subreddit verwijderen?</string>
-  <string name="reorder_remove_msg">Je meld je niet af maar de subreddit verschijnt niet meer in de zijbalk!</string>
-  <string name="reorder_sync_complete">Synchronisatie voltooid</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">%d subreddit toegevoegd</item>
     <item quantity="other">%d subreddits toegevoegd</item>
@@ -528,24 +656,47 @@
   <string name="discover_search">Zoek woord of onderwerp</string>
   <string name="discover_popular">Populair</string>
   <string name="discover_trending">Trending</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <string name="choose_draft">Kies een concept</string>
+  <string name="dialog_no_drafts">Er zijn geen concepten</string>
+  <string name="dialog_no_drafts_msg">Je kan een concept toevoegen door op de \'opslaan\'-knop te drukken in de reactiebalk!</string>
+  <string name="msg_save_draft">Bericht opgeslagen als concept</string>
+  <string name="manage_drafts">Concepten beheren</string>
+  <string name="really_delete_drafts">Ben je zeker dat je deze concepten wilt verwijderen?</string>
+  <!-- Strings for widgets -->
+  <string name="widget_subname_hint">Subredditnaam</string>
+  <string name="widget_content">Inhoud</string>
+  <!-- Strings for alert dialogs -->
+  <string name="force_change_subscription">Kon abonnement niet wijzigen</string>
+  <string name="force_change_subscription_desc">Wil je het nog steeds lokaal aanpassen?</string>
+  <string name="never_load_images">Geen afbeeldingen laden</string>
+  <string name="low_quality_images_in_image_viewer">Lage kwaliteit afbeeldingen laden in de afbeeldingsviewer</string>
+  <string name="load_high_quality_image_every_time">Anders, altijd hoge kwaliteit afbeeldingen laden</string>
+  <string name="load_lower_quality_imgur">Indien ingeschakeld, zal proberen om afbeeldingen van Imgur te laden van een nog lagere kwaliteit</string>
+  <string name="load_medium_quality_imgur_images">Gemiddelde kwaliteit afbeeldingen laden van Imgur</string>
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <string name="autocache_subreddits">Autocache subreddits</string>
+  <string name="autocache_time">Autocache tijd</string>
+  <string name="cache_subreddits_now">Cache subreddits nu</string>
+  <string name="cache_wifi_only">Alleen cachen met WiFi</string>
+  <!-- Saving location setting -->
+  <string name="set_gif_save_loc">Selecteer opslaglocatie voor GIF bestanden</string>
+  <string name="set_gif_save_loc_msg">Slide\'s opslaglocatie voor GIF bestanden is nog niet ingesteld. Wil je dit nu doen?</string>
+  <string name="set_video_save_loc">Selecteer opslaglocatie voor videobestanden</string>
+  <string name="set_video_save_loc_msg">Slide\'s opslaglocatie voor videobestanden van is nog niet ingesteld. Wil je dit nu doen?</string>
+  <string name="set_save_location">Selecteer opslaglocatie voor afbeeldingen</string>
+  <string name="set_save_location_msg">Slide\'s opslaglocatie voor afbeeldingen van is nog niet ingesteld. Wil je dit nu doen?</string>
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Laad meer reacties</string>
-  <string name="settings_comment_color">Diepte-indicatie tonen bij onderliggende reacties</string>
-  <string name="settings_volume_nav_comments">Navigeren door reacties met volumeknoppen</string>
-  <string name="settings_synccit_remove">VERBINDING VERBREKEN MET SYNCIT</string>
-  <string name="settings_synccit_auth">Autorisatiecode</string>
-  <string name="settings_synccit_username">Gebruikersnaam</string>
-  <string name="settings_synccit_delete">Weet je zeker dat je het Synccit-account wil verwijderen?</string>
-  <string name="settings_synccit_authenticate">Bezig het aanmelden bij Synccit</string>
-  <string name="settings_synccit_connected">Succesvol verbonden!</string>
-  <string name="settings_synccit_active">Synccit is nu actief voor dit apparaat</string>
-  <string name="settings_synccit_failed">Aanmelden mislukt</string>
-  <string name="settings_synccit_failed_msg">Controleer of jouw gebruikersnaam en autorisatiecode kloppen!</string>
-  <string name="settings_synccit">Synccit-integratie</string>
   <string name="card_right_thumb">Rechtsuitgelijnde thumbnail</string>
-  <string name="submission_share_permalink">Bericht delen</string>
   <string name="setting_filter_subreddits">Subreddit-filter</string>
   <string name="subreddit_theme">Subreddit-thema</string>
-  <string name="btn_select">Selecteren</string>
   <string name="dialog_choose_subreddits_to_edit">Kies subreddits om te bewerken</string>
   <string name="dialog_color_sync_title">Kleuren synchroniseren</string>
   <string name="dialog_color_sync_message">Hiermee wordt geprobeerd de \'hoofdkleur\' te bepalen die door de moderators is gekozen. Bestaande subredditkleuren worden niet overschreven.</string>
@@ -554,16 +705,13 @@
   <string name="fab_disabled">Uitgeschakeld</string>
   <string name="handling_internal_browser">Gebruik de geïntegreerde browser</string>
   <string name="handling_external_browser">Gebruik de externe browser</string>
-  <string name="settings_commentnav_description">Gebruik een navigatiebalk met navigatiepijlen</string>
-  <string name="settings_comment_collapse">Reacties volledig inklappen</string>
-  <string name="settings_comment_collapse_description">Reactie-animaties ook uitschakelen</string>
-  <string name="settings_comment_collapse_default">Onderliggende reacties standaard inklappen</string>
   <string name="mode_list">Lijst</string>
   <string name="mode_centered">Kaart met gecentreerde afbeelding</string>
   <string name="mode_card">Kaart</string>
+  <string name="mode_thumbnail">Miniatuur</string>
+  <string name="mode_big_thumbnails">Grote miniaturen</string>
   <string name="mode_cropped">Grote bijgesneden afbeelding</string>
   <string name="mode_bigpic">Grote afbeelding</string>
-  <string name="settings_general_swipeanywhere_description">Veeg overal in de weergave om af te sluiten</string>
   <string name="press_actionbar">Druk op de pijl om de actiebalk te tonen</string>
   <string name="tap_actionbar">Lang drukken voor de actiebalk</string>
   <string name="always_actionbar">Actiebalk altijd tonen</string>
@@ -571,12 +719,6 @@
   <string name="submission_share_reddit_url">Deel reacties</string>
   <string name="filter_content">Filter deze berichten</string>
   <string name="content_to_hide">Inhoud om te verbergen in %1$s</string>
-  <string name="settings_general_comment_last_visit">Toon aantal nieuwe reacties sinds laatste bezoek</string>
-  <string name="error_video_not_found">Video niet gevonden</string>
-  <string name="error_video_message">Er is een fout opgetreden tijdens het laden van deze video</string>
-  <string name="view_type_tabs">Subreddit tabbladen</string>
-  <string name="view_type_none">Geen subreddit tabbladen</string>
-  <string name="view_type_comments">Reactiepaneel</string>
   <string name="btn_collapse_children_all">Onderliggende reacties inklappen</string>
   <string name="btn_open_content">Open inhoud</string>
   <string name="btn_report">Melden</string>
@@ -596,61 +738,28 @@
   <string name="submission_info_locked">Dit bericht is gesloten. Je kan niet meer stemmen of reageren.</string>
   <string name="card_background_tint">Achtergrondkleur kaart</string>
   <string name="subreddit_name_tint">Subredditnaam</string>
-  <string name="settings_comment_hide_selftext_image">Verberg hoofdafbeelding bij zelfteksten</string>
   <string name="login_failed_err_decline">Weet je zeker dat je op het vorige scherm niet \'Decline\' hebt gekozen? Probeer het nogmaals over een minuut</string>
   <string name="thumb_type_always">Altijd tonen</string>
   <string name="thumb_type_off">Nooit weergeven</string>
   <string name="thumb_type_sub">Toon subreddit specifieke instellingen</string>
   <string name="tutorial_swipe_navigation">Swipenavigatie</string>
   <string name="tutorial_swipe_description">Swipe vanaf de linkerkant om af te sluiten.\n\nDit geldt voor afbeeldingen, GIFs, albums, instellingen en meer!</string>
-  <string name="settings_data_low_quality">Laad afbeeldingen van lage kwaliteit</string>
-  <string name="settings_view_type">Weergave</string>
   <string name="handling_browser">Webbrowser</string>
-  <string name="settings_comments_swap_long">Wissel lange druk- and klikactie</string>
-  <string name="settings_redditprefs_over18">Ik ben ouder dan 18 jaar en ik wil NSFW-inhoud zien</string>
-  <string name="settings_layout_view">Weergavemodus</string>
-  <string name="settings_data_lowqaul_desc">Anders altijd hoge kwaliteit afbeeldingen tonen</string>
-  <string name="settings_data_lowqaul">Laad lagere kwaliteit afbeeldingen indien mogelijk</string>
-  <string name="settings_subredditspecific_bigpic">Altijd grote afbeeldingen tonen in deze subreddit</string>
-  <string name="settings_layout_picture_mode">Afbeeldingsmodus</string>
-  <string name="settings_general_expanded_toolbar">Uitgeklapte werkbalk</string>
-  <string name="settings_general_expanded_toolbar_desc">Toon meer opties in de subredditwerkbalk</string>
-  <string name="settings_theme_tinting">Bericht kleurmode</string>
-  <string name="settings_reddit_thumbnail_mode">Thumbnailmode</string>
-  <string name="settings_layout_actionbar_mode">Werkbalkmode</string>
-  <string name="settings_theme_tint_outside_desc">Alleen de achtergrond kleuren in multireddits, voorpagina en /r/all</string>
-  <string name="settings_layout_small_content_tag">Kleinere contenttag</string>
-  <string name="settings_links_force_external">Forceer externe browser</string>
-  <string name="settings_links_force_external_desc">Kies domeinen die altijd extern geopend worden</string>
-  <string name="settings_layout_show_domain">Toon domeininformatie</string>
   <string name="submit_replies_to_inbox">Stuur reacties naar de inbox</string>
-  <string name="settings_data">Databesparing</string>
-  <string name="settings_card_show_selftext">Toon de eerste paragraaf van zelfteksten</string>
-  <string name="btn_view">BEKIJK</string>
   <string name="btn_open_comments">Toon reacties</string>
   <string name="btn_preview">Voorbeeld</string>
   <string name="sorting_default_comment">Standaard reactiesortering</string>
-  <string name="theme_amoled_contrast">AMOLED met contrast</string>
   <string name="content_deleted">[verwijderd]</string>
   <string name="thread_continue">Verdergaan met deze thread</string>
   <string name="type_selftext">Zelftekst</string>
-  <string name="settings_fab_create">Toon zwevende \"Voeg reactie toe\"-knop</string>
-  <string name="settings_right_handed_comment_menu">Rechtshandige reactiereageermenu</string>
   <string name="submission_unhide">Bericht weer tonen</string>
   <string name="submission_info_unhidden">Bericht wordt weer getoond</string>
-  <string name="settings_handling_external_desc">Onderstaande domeinen worden altijd extern geopend</string>
-  <string name="settings_handling_enterdomain">Voer (gedeelte van) een domein in</string>
-  <string name="err_comment_post">Ai, het plaatsen van deze reactie is mislukt!</string>
-  <string name="err_comment_post_reason">"Reden: "</string>
-  <string name="err_comment_post_message">\n\nJouw bericht is opgeslagen als concept. Probeer het later nogmaals.</string>
-  <string name="err_comment_post_copy">Kopieer reactie</string>
-  <string name="choose_draft">Kies een concept</string>
-  <string name="dialog_no_drafts">Er zijn geen concepten</string>
-  <string name="dialog_no_drafts_msg">Je kan een concept toevoegen door op de \'opslaan\'-knop te drukken in de reactiebalk!</string>
-  <string name="msg_save_draft">Bericht opgeslagen als concept</string>
+  <string name="msg_sent_success">Bericht verzonden</string>
+  <string name="msg_sent_failure">Bericht versturen mislukt</string>
+  <string name="msg_send_user_dne">Die gebruiker bestaat niet</string>
+  <string name="editor_actions_quote_comment">Selecteer de tekst die je wilt quoteren</string>
   <string name="content_removed">[verwijderd]</string>
   <string name="guest">Gast</string>
-  <string name="err_comment_post_nosave_message">\nProbeer het over een minuut nogmaals</string>
   <string name="album_slide_view">Horizontaal album</string>
   <string name="album_grid">Gridalbum</string>
   <string name="open_externally">Extern openen</string>
@@ -658,55 +767,53 @@
   <string name="download_album">Download album</string>
   <string name="compose_message">Bericht opstellen</string>
   <string name="mark_all_as_read">Markeer alles als gelezen</string>
-  <string name="btn_changelog">Wijzigingen</string>
   <string name="clear_subreddit_history">Subreddit geschiedenis wissen</string>
   <string name="clear_submission_history">Instuurgeschiedenis wissen</string>
   <string name="alert_history_cleared">Geschiedenis gewist!</string>
-  <string name="settings_subredditspecific_selftext">Altijd voorbeelden van zelfteksten tonen in deze Subreddit</string>
-  <string name="settings_font_system">Systeem</string>
   <string name="manage_offline_content">Offline-inhoud beheren</string>
   <string name="go_offline">Offline gaan</string>
-  <string name="cache_wifi_only">Alleen cachen met WiFi</string>
-  <string name="misc_rate_title">Bevalt Slide?</string>
-  <string name="misc_rate_msg">Beoordeel!</string>
   <string name="sidebar_edit_flair">Wijzig jouw flair</string>
-  <string name="no_cached_comments_found">Geen gecachete reacties gevonden</string>
   <string name="go_online_view_content">Ga online om dit te bekijken</string>
-  <string name="FAQ">VGV</string>
-  <string name="alphabetize_subreddits">Alfabetiseer subreddits</string>
-  <string name="sync_subscriptions">Synchroniseer abonnementen</string>
   <string name="help">Help</string>
   <string name="upvote_percentage">Toon omhoogstem-percentage</string>
-  <string name="btn_set">INSTELLEN</string>
   <string name="view_subreddits">Bekijk subreddits</string>
-  <string name="settings_about_changelog_post">Bekijk wijzigingen</string>
-  <string name="autocache_subreddits">Autocache subreddits</string>
-  <string name="autocache_time">Autocache tijd</string>
-  <string name="cache_subreddits_now">Cache subreddits nu</string>
   <string name="clear_saved_subreddits">Wis alle opgeslagen subreddits</string>
-  <string name="settings_section_content">Inhoud</string>
   <string name="download_the_slide_video_player_plugin">Download de Slide Videospeler-plugin</string>
-  <string name="settings_reddit_description">Deze instellingen wijzigen wat de Reddit API terugkeert naar Slide.\n\nOm miniaturen te zien in alle subreddits, wijzig de Miniatuurmodus naar \"Altijd laten zien\"\n\nOm alle NSFW inhoud te zien, schakel \"Verberg NSFW foto\'s\" uit en zet \"Ik ben ouder dan 18\" aan</string>
-  <string name="settings_description_synccit">Synccit laat toe je submissie-geschiedenis te synchroniseren tussen verschillende toestellen en je browser</string>
   <string name="btn_suggest_title">Stel titel voor</string>
   <string name="navigate_comments_since">Reacties nieuwer dan...</string>
-  <string name="err_connection_failed_msg">Verbinding met Reddit is mislukt. Controleer de internetverbinding en probeer nogmaals of ga in offlinemodus.</string>
   <string name="btn_offline">Ga offline.</string>
-  <string name="err_could_not_find_content_msg">Reddit kon de opgevraagde inhoud niet vinden</string>
-  <string name="err_refused_request_msg">Reddit weigerde het verzoek. Wil je probeer nogmaals te verbinden met Reddit?</string>
   <string name="discard_comment_title">Reactie annuleren?</string>
   <string name="comment_discard_msg">Weet je zeker dat je de reactie wil annuleren?</string>
   <string name="backup_complete">Back-up voltooid.</string>
-  <string name="err_something_wrong">Oh oh, er is iets misgegaan</string>
-  <string name="set_save_location">Selecteer opslaglocatie voor afbeelding</string>
+  <string name="backup_saved_downloads">Back-up opgeslagen in downloads</string>
+  <string name="include_personal_info">Persoonlijke gegevens toevoegen?</string>
+  <string name="include_personal_info_msg">Dit houd in: authenticatie-tokens, gebruikersnamen, tags en geschiedenis</string>
+  <string name="really_remove_subreddit_title">Ben je zeker dat je deze subreddit wilt verwijderen?</string>
+  <string name="choose_sync_time">Kies een tijd om te synchroniseren</string>
   <string name="account_suspended">Dit account is geschorst</string>
+  <string name="clear_all_sub_themes">Alle thema\'s van subreddits verwijderen?</string>
+  <string name="clear_all_sub_themes_msg">Je kan deze actie niet ongedaan maken</string>
   <string name="title_not_found">Titel niet gevonden</string>
+  <string name="really_delete_submission">Ben je zeker dat je deze submissie wilt verwijderen? Je kan dit niet ongedaan maken</string>
+  <string name="unsticky_comment">Ben je zeker dat je deze reactie wilt lospinnen?</string>
+  <string name="comment_unstickied">Reactie losgepind</string>
+  <string name="sticky_comment">Ben je zeker dat je deze reactie wilt vastpinnen?</string>
+  <string name="comment_stickied">Reactie vastgepind</string>
+  <string name="comment_undistinguished">Onderscheiding van de reactie is verwijderd</string>
+  <string name="distinguish_comment">Ben je zeker dat je deze reactie wilt onderscheiden?</string>
+  <string name="comment_distinguished">Onderscheiding is toegevoegd aan de reactie</string>
   <string name="remove_comment">Dit commentaar echt verwijderen?</string>
   <string name="comment_removed">Commentaar verwijderd</string>
-  <string name="create_or_import_multi">Wilt u een nieuwe collectie maken of importeren van een multireddit?</string>
-  <string name="btn_add_subreddit">Subreddit toevoegen</string>
-  <string name="btn_add_collection">Een verzameling toevoegen</string>
-  <string name="btn_new">Nieuw</string>
-  <string name="btn_import_multi">Multireddit importeren</string>
-  <!-- Strings for alert dialogs -->
+  <string name="set_nav_mode">Stel navigatiemodus in</string>
+  <string name="auto_hide_the_comment_nav_bar">Automatisch de reactienavigatiebalk verbergen</string>
+  <string name="rate_slide">Beoordeel Slide</string>
+  <string name="edit_query">Query wijzigen</string>
+  <string name="share_slide">Slide delen</string>
+  <string name="create_folder">Nieuwe map aanmaken</string>
+  <string name="folder_name">Mapnaam</string>
+  <string name="sidebar_friends">Vrienden</string>
+  <string name="get_lq_imgur_images_through_imgur_api">Verkrijg LQ Imgur afbeeldingen via de Imgur API</string>
+  <string name="open_links_externally">Altijd deze host extern openen</string>
+  <string name="hide_read_posts">Verberg gelezen posts</string>
+  <string name="draw_undo">Ongedaan maken</string>
 </resources>

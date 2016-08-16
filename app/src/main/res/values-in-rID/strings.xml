@@ -21,7 +21,8 @@
   <string name="submission_tap_gif">Tap untuk memuat GIF</string>
   <string name="submission_not_found">Uh oh, post tidak ditemukan!</string>
   <string name="submission_not_found_msg">Maaf, post ini tidak dapat ditemukan</string>
-  <string name="submission_copy">Salin teks</string>
+  <string name="submission_copy_text">Salin teks</string>
+  <string name="submission_share_permalink">Bagikan post</string>
   <plurals name="submission_points">
     <item quantity="other">%d poin</item>
   </plurals>
@@ -67,8 +68,9 @@
   <string name="editor_hint_optional_body">Tubuh (opsional)</string>
   <!-- General information / information without a category -->
   <!-- General errors / errors without a category -->
+  <string name="err_something_wrong">Uh oh, ada sesuatu yang tidak beres.</string>
   <!-- Gif -->
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <!-- Content types -->
   <string name="type_nsfw_img">Gambar NSFW</string>
   <string name="type_nsfw_gif">GIF NSFW</string>
@@ -119,10 +121,13 @@
   <string name="btn_no">Tidak</string>
   <string name="btn_ok">OKE</string>
   <string name="btn_remove">Hapus</string>
+  <string name="btn_new">Baru</string>
   <!-- Backup -->
   <!-- Vote -->
   <!-- Moderation tools -->
   <string name="mod_btn_remove">Hapus</string>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d pelanggan</string>
@@ -153,6 +158,10 @@
   <string name="settings_google">Menyambungkan ke Google</string>
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_support">Donasi</string>
+  <!-- View types -->
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_settings">Setelan</string>
@@ -166,7 +175,6 @@
   <!-- Offline mode -->
   <!-- Website -->
   <string name="website_back">Kembali</string>
-  <!-- Reorder subreddit activity -->
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="other">%d jam</item>
@@ -179,10 +187,18 @@
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <!-- Discover section: find -->
-  <string name="submission_share_permalink">Bagikan post</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <!-- Strings for widgets -->
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="mode_card">Kartu</string>
   <string name="content_deleted">[deleted]</string>
-  <string name="err_something_wrong">Uh oh, ada sesuatu yang tidak beres.</string>
-  <string name="btn_new">Baru</string>
-  <!-- Strings for alert dialogs -->
 </resources>

@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">Slide beenden</string>
   <string name="general_confirm_exit_msg">Willst du Slide wirklich beenden?</string>
   <string name="general_enable_shadowbox">Shadowbox-Modus aktivieren</string>
-  <string name="general_pro_msg">Einige Funktionen von Slide, wie zum Beispiel die Mehrspaltenansicht, sind erst durch den Kauf der Pro-Version im Play Store verfügbar.\n\nDies dient zur außerdem zur weiteren Entwicklung der App und hält Slide frei von Werbung!\n\nFreischaltbar sind die Mehrspaltenansicht, die Shadowbox-Ansicht (praktisch für Subreddits mit vielen Bildern) und bald noch mehr!\n\nMöchtest du Slide for Reddit Pro kaufen?</string>
   <string name="general_open_settings">Seitenleiste</string>
   <string name="general_sub_sync">Subreddits werden synchronisiert</string>
   <!-- Used when viewing a thread -->
@@ -31,7 +30,8 @@
   <string name="submission_tap_gif">Tippe, um das GIF zu laden</string>
   <string name="submission_not_found">Beitrag nicht gefunden</string>
   <string name="submission_not_found_msg">Der Beitrag konnte leider nicht gefunden werden</string>
-  <string name="submission_copy">Text kopieren</string>
+  <string name="submission_copy_text">Text kopieren</string>
+  <string name="submission_share_permalink">Beitrag teilen</string>
   <plurals name="submission_points">
     <item quantity="one">%d Punkt</item>
     <item quantity="other">%d Punkte</item>
@@ -54,8 +54,11 @@
   <string name="theme_accent_color">Akzentfarbe</string>
   <string name="theme_base">App-Thema</string>
   <string name="theme_card">Karte</string>
+  <string name="theme_sepia">Sepia</string>
+  <string name="theme_amoled_contrast">AMOLED mit Kontrast</string>
   <!-- Font settings -->
   <string name="font_size">Schriftgröße</string>
+  <string name="font_size_huge">Riesig</string>
   <string name="font_size_larger">Größer</string>
   <string name="font_size_large">Groß</string>
   <string name="font_size_medium">Mittel</string>
@@ -167,6 +170,8 @@
   <string name="editor_hint_subreddit">Subreddit</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Foto gespeichert</string>
+  <string name="video_saved">Video wurde gespeichert</string>
+  <string name="gif_saved">GIF wurde gespeichert</string>
   <!-- General errors / errors without a category -->
   <string name="err_title">Oh nein, irgendwas ist schief gelaufen!</string>
   <string name="err_invalid_url">Ungültiger Link</string>
@@ -178,12 +183,30 @@
   <string name="err_permission">Berechtigung wurde verweigert</string>
   <string name="err_permission_msg">Es sieht aus als hättest du Slide den Zugang zu deinem externen Speicher verweigert. Dies führt dazu, dass Bild Cache, Post Cache sowie das Speichern von Bildern nicht mehr funktioniert :(. \nWillst du Silde den Zugang zum externen Speicher erlauben?</string>
   <string name="err_authentication">Anmeldung fehlgeschlagen</string>
+  <string name="error_video_not_found">Video nicht gefunden</string>
+  <string name="error_video_message">Beim Laden des Videos ist ein Fehler aufgetreten</string>
+  <string name="err_comment_post_nosave_message">\nVersuche es später erneut</string>
+  <string name="err_could_not_find_content_msg">Reddit konnten den angeforderten Inhalt nicht finden</string>
+  <string name="err_refused_request_msg">Reddit hat eine Anfrage abgewiesen. Möchtest du noch einen Verbindungsversuch machen?</string>
+  <string name="err_something_wrong">Oh nein, irgendetwas ist schief gelaufen.</string>
+  <string name="err_couldnt_save_choose_new">Slide konnte im ausgewählten Verzeichnis nicht speichern. Möchtest du ein neues Verzeichnis auswählen?</string>
+  <string name="err_file_not_found">Datei nicht gefunden</string>
+  <string name="err_not_valid_backup">Ungültige Slide Sicherungsdatei</string>
+  <string name="err_not_valid_backup_msg">Die ausgewählte Datei ist keine gültige Slide Sicherungsdatei</string>
+  <string name="err_file_not_found_msg">Die ausgewählte Datei konnte nicht gefunden werden. Stelle sicher, dass sie existiert und die benötigten Berechtigungen vorhanden sind</string>
+  <string name="err_comment_post">Hoppla! Dieser Kommentar konnte nicht gesendet werden.</string>
+  <string name="err_comment_post_reason">"Grund: "</string>
+  <string name="err_comment_post_message">\n\nDeine Nachricht wurde als Entwurf gespeichert. Versuche es später erneut.</string>
+  <string name="err_comment_post_copy">Kommentar kopieren</string>
+  <string name="err_connection_failed_msg">Die Verbindung zu Reddit konnte nicht hergestellt werden. Bitte überprüfe deine Internetverbindung oder wechsle in den Offline-Modus.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF nicht gefunden</string>
   <string name="gif_err_msg">Beim Laden des GIFs ist ein Fehler aufgetreten. Bitte versuche es nochmal und öffne das GIF erneut.</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_err_title">(Noch) keine Multireddits!</string>
   <string name="multireddit_err_msg">Möchtest du ein neues Multireddit erstellen?</string>
+  <string name="public_multireddit_err_title">Keine Multireddits!</string>
+  <string name="public_multireddit_err_msg">Dieser Benutzer hat keine öffentlichen Multireddits.</string>
   <string name="multireddit_title_empty">Der Titel darf nicht leer sein</string>
   <string name="multireddit_title_empty_msg">Bitte gib einen Titel für dein Multireddit ein</string>
   <string name="multireddit_no_subs">Keine Subreddits wurden hinzugefügt</string>
@@ -192,6 +215,7 @@
   <string name="multireddit_create_hint">Multireddit-Name</string>
   <string name="multireddit_invalid_name">Ungültiger Multireddit-Name</string>
   <string name="multireddit_invalid_name_msg">Multireddit-Namen dürfen nur Buchstaben, Zahlen und Unterstriche enthalten.</string>
+  <string name="btn_import_multi">Multireddit importieren</string>
   <!-- Content types -->
   <string name="type_nsfw_img">NSFW-Bild</string>
   <string name="type_nsfw_gif">NSFW-GIF</string>
@@ -250,6 +274,7 @@
   <string name="misc_err">Fehler</string>
   <string name="misc_none">Kein</string>
   <string name="misc_retry">Noch einmal versuchen?</string>
+  <string name="misc_retry_draft">Erneut versuchen?\nEin Entwurf des Beitrags wurde gespeichert</string>
   <string name="misc_score_hidden">Bewertung versteckt</string>
   <string name="misc_nsfw">NSFW</string>
   <string name="misc_subscribed">Abonniert</string>
@@ -260,6 +285,8 @@
   <string name="misc_img_share">Teile Bild mit</string>
   <string name="misc_link_chooser">URL öffnen mit</string>
   <string name="misc_copy_text">Text kopieren</string>
+  <string name="misc_rate_title">Gefällt dir Slide?</string>
+  <string name="misc_rate_msg">Bewerte es!</string>
   <!-- Goto User -->
   <string name="user_enter">Benutzername eingeben</string>
   <string name="user_btn_goto">Gehe zu Nutzer</string>
@@ -286,6 +313,14 @@
   <string name="btn_cache">Kommentare speichern</string>
   <string name="btn_delete">Löschen</string>
   <string name="btn_time">Zeitraum</string>
+  <string name="btn_message">Nachricht</string>
+  <string name="btn_add_domain">Domain hinzufügen</string>
+  <string name="btn_select">Auswählen</string>
+  <string name="btn_view">ANSICHT</string>
+  <string name="btn_changelog">Was ist neu?</string>
+  <string name="btn_set">Anwenden</string>
+  <string name="btn_create">Erstellen</string>
+  <string name="btn_new">Neu</string>
   <!-- Backup -->
   <string name="backup_success">Sicherung erfolgreich!</string>
   <string name="backup_restoring">Wiederherstellen deiner Einstellungen</string>
@@ -313,13 +348,11 @@
   <string name="mod_flair_post">Flair hinzufügen</string>
   <string name="mod_flair_hint">Text des Flairs</string>
   <string name="mod_no_reports">Keine Meldungen</string>
-  <string name="mod_btn_approve">Genehmingen</string>
+  <string name="mod_btn_approve">Genehmigen</string>
   <string name="mod_btn_approved">Von /u/%1$s genehmigt</string>
   <string name="mod_btn_submission_flair">Flair setzen</string>
   <string name="mod_btn_mark_nsfw">Als NSFW markieren</string>
   <string name="mod_btn_unmark_nsfw">NSFW-Markierung entfernen</string>
-  <string name="mod_btn_pin">Anpinnen</string>
-  <string name="mod_btn_unpin">Lospinnen</string>
   <string name="mod_btn_remove">Entfernen</string>
   <string name="mod_btn_remove_reason">Mit Begründung entfernen</string>
   <string name="mod_btn_author">Autorenprofil</string>
@@ -327,11 +360,15 @@
     <item quantity="one">%d Bericht anzeigen</item>
     <item quantity="other">%d Berichte anzeigen</item>
   </plurals>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <string name="undistinguish_comment">Diesen Kommentar wirklich nicht mehr markieren?</string>
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Kein Wiki gefunden</string>
   <string name="wiki_err_msg">Dieses Subreddit hat kein Wiki!</string>
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d Abonnenten</string>
+  <string name="subreddit_subscribers_string">%1$s Abonnenten</string>
   <string name="subreddit_err_msg">Subreddit %1$s konnte nicht gefunden werden. Vielleicht ist es falsch geschrieben?</string>
   <string name="subreddit_err_msg_new">Subreddit %1$s wurde nicht gefunden. Möglicherweise hast du dich verschrieben, oder du hast keinen Zugang dazu.</string>
   <string name="subreddit_err">Subreddit nicht gefunden</string>
@@ -412,7 +449,87 @@
   <string name="settings_section_general">Allgemein</string>
   <string name="settings_section_appearance">Darstellung</string>
   <string name="settings_section_other">Weitere Einstellungen</string>
+  <string name="settings_section_browser">Browser</string>
+  <string name="settings_section_custom_domains">Benutzerdefinierte Domains</string>
   <string name="settings_section_save_history">Verlauf speichern</string>
+  <string name="settings_section_clear_history">Verlauf löschen</string>
+  <string name="settings_section_image_quality">Bildqualität</string>
+  <string name="settings_section_hide_images">Bilder ausblenden</string>
+  <string name="settings_comment_color">Farbige Indikatoren für Kommentartiefe</string>
+  <string name="settings_volume_nav_comments">Kommentare mit Lautstärketasten navigieren</string>
+  <string name="settings_synccit_remove">SYNCCIT TRENNEN</string>
+  <string name="settings_synccit_auth">Authentifizierungsschlüssel</string>
+  <string name="settings_synccit_username">Benutzername</string>
+  <string name="settings_synccit_delete">Synccit-Account wirklich löschen?</string>
+  <string name="settings_synccit_authenticate">Authentifizierung mit Synccit</string>
+  <string name="settings_synccit_connected">Verbindung erfolgreich!</string>
+  <string name="settings_synccit_active">Synccit ist jetzt aktiv für dieses Gerät</string>
+  <string name="settings_synccit_failed">Konnte nicht authentifizieren</string>
+  <string name="settings_synccit_failed_msg">Stellen Sie sicher, dass ihr Benutzername und Authentifizierungsschlüssel korrekt sind!</string>
+  <string name="settings_synccit">Synccit-Integration</string>
+  <string name="settings_commentnav_description">Aktiviert eine Leiste am unteren Rand mit Steuerpfeilen</string>
+  <string name="settings_comment_collapse">Kommentare komplett zuklappen</string>
+  <string name="settings_comment_collapse_description">Deaktiviert Animationen in den Kommentaren</string>
+  <string name="settings_comment_collapse_default">Untergeordnete Kommentare standardmäßig zuklappen</string>
+  <string name="settings_subredditspecific_selftext">Zeige immer Vorschau vom Selftext in diesem Subreddit</string>
+  <string name="settings_font_system">System</string>
+  <string name="settings_manage_subscriptions">Verwalte deine Abonnenten</string>
+  <string name="settings_comments_swap_long">Vertausche \'Langes Drücken\' und Tippen</string>
+  <string name="settings_redditprefs_over18">Ich bin über 18 und möchte NSFW-Inhalte sehen</string>
+  <string name="settings_layout_view">Ansichtsmodus</string>
+  <string name="settings_data_lowqaul_desc">Andernfalls immer Bilder mit hoher Qualität öffnen</string>
+  <string name="settings_data_lowqaul">Lade Bilder wenn möglich mit niedriger Bildqualität</string>
+  <string name="settings_subredditspecific_bigpic">Zeige immer grosse Bilder in diesem Subreddit</string>
+  <string name="settings_layout_picture_mode">Bildmodus</string>
+  <string name="settings_general_expanded_toolbar">Erweitertes Symbolleistenmenü</string>
+  <string name="settings_general_expanded_toolbar_desc">Weitere Optionen auf der Subreddit-Symbolleiste anzeigen</string>
+  <string name="settings_theme_tinting">Beitrags-Einfärbungs Modus</string>
+  <string name="settings_reddit_thumbnail_mode">Thumbnail Modus</string>
+  <string name="settings_layout_actionbar_mode">Actionbar Modus</string>
+  <string name="settings_theme_tint_outside_desc">Nur den Hintergrund färben von Multireddits, Startseite und dem Rest</string>
+  <string name="settings_layout_small_content_tag">Kleinerer Inhalts-Tag</string>
+  <string name="settings_links_force_external">Immer in externem Browser öffnen</string>
+  <string name="settings_links_force_external_desc">Wähle Domains, welche immer extern geöffnet werden</string>
+  <string name="settings_layout_show_domain">Domäne in der Infozeile anzeigen</string>
+  <string name="settings_general_swipeanywhere_description">Irgendwo wischen um zu beenden</string>
+  <string name="settings_general_comment_last_visit">Anzahl der Kommentare seit dem letzten Besuch anzeigen</string>
+  <string name="settings_right_handed_comment_menu">Rechtshänder Kommentar Menü</string>
+  <string name="settings_reddit_description">Diese Einstellungen ändern was die Reddit API zu Slide zurücksendet.\n\nUm Thumbnails in allen Subreddits zu sehen, ändern den Thumbnail Modus zu \'Immer anzeigen\'\n\nUm allen NSFW Inhalt anzuzeigen, aktiviere \'Verstecke NSFW Fotos\' aus und schalte \'Ich bin über 18\'</string>
+  <string name="settings_description_synccit">Synccit erlaubt dir deinen Beitragsverlauf zwischen Geräten und deinem Browser zu synchronisieren</string>
+  <string name="settings_description_view_type">Ansichtstypen beeinflussen die Hauptansicht und auch die Ansicht in Subreddits.\n\nKommentarfenster: Kommentare erscheinen neben Beiträgen durch wischen und werden beim Zurückwechseln automatisch gespeichert, damit du nichts verlierst.\n\nNicht-Subreddit Tabs: Wischen zwischen Subreddits ist deaktiviert\n\nSubreddit Tabs: Wischen um zwischen Subreddits zu wechseln</string>
+  <string name="settings_comment_hide_selftext_image">Beitragsbild bei Selftext Beiträgen ausblenden</string>
+  <string name="settings_data_low_quality">Bilder mit niedriger Qualität laden</string>
+  <string name="settings_view_type">Ansichtstyp</string>
+  <string name="settings_data">Datenverbrauch</string>
+  <string name="settings_card_show_selftext">Zeige ersten Paragraph vom Selftext</string>
+  <string name="settings_handling_external_desc">Eingegebene Domains werden immer extern geöffnet</string>
+  <string name="settings_handling_enterdomain">Gib einen Domainnamen oder einen Teil eines Domainnamens ein</string>
+  <string name="settings_section_content">Inhalt</string>
+  <string name="settings_about_changelog_post">Änderungsprotokoll anzeigen</string>
+  <string name="settings_backup_include_personal_title">Personenbezogene Daten inkludieren?</string>
+  <string name="settings_backup_include_personal_text">Dies beinhaltet Authentifizierungs-Tokens, Benutzernamen, Tags und den Verlauf</string>
+  <!-- View types -->
+  <string name="view_type_tabs">Subreddit-Tabs</string>
+  <string name="view_type_none">Keine Subreddit-Tabs</string>
+  <string name="view_type_comments">Kommentar-Fenster</string>
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_add_domain">Domain hinzufügen</string>
+  <string name="reorder_fab_subreddit">Subreddit</string>
+  <string name="FAQ">Häufige Fragen / FAQ</string>
+  <string name="alphabetize_subreddits">Sortiere Subreddits alphabetisch</string>
+  <string name="sync_subscriptions">Subreddits synchronisieren</string>
+  <string name="cannot_be_undone">Das kann nicht rückgängig gemacht werden.</string>
+  <string name="create_or_import_multi">Möchtest du eine neue Sammlung erstellen oder einen Multireddit importieren?</string>
+  <string name="btn_add_subreddit">Füge einen Subreddit hinzu</string>
+  <string name="btn_add_collection">Sammlung hinzufügen</string>
+  <string name="reorder_subs_FAQ">Subreddit FAQ anordnen</string>
+  <string name="reorder_subreddits_title">Wähle einen Subreddit zum Hinzufügen aus</string>
+  <string name="reorder_subreddit_name">Subreddit-Name</string>
+  <string name="reorder_remove_title">Diesen Subreddit entfernen?</string>
+  <string name="reorder_remove_msg">Dein Abo wird nicht gelöscht, jedoch wird dieser Subreddit nicht mehr in deiner Seitenleiste angezeigt!</string>
+  <string name="reorder_sync_complete">Synchronisation abgeschlossen</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <string name="sorting">Sortierung</string>
   <string name="display">Anzeige</string>
@@ -461,13 +578,6 @@
   <!-- Website -->
   <string name="website_back">Zurück</string>
   <string name="website_external">In externem Browser öffnen</string>
-  <!-- Reorder subreddit activity -->
-  <string name="reorder_subreddits_title">Wähle einen Subreddit zum Hinzufügen aus</string>
-  <string name="reorder_add_subreddit">Füge einen Subreddit hinzu</string>
-  <string name="reorder_subreddit_name">Subreddit-Name</string>
-  <string name="reorder_remove_title">Diesen Subreddit entfernen?</string>
-  <string name="reorder_remove_msg">Dein Abo wird nicht gelöscht, jedoch wird dieser Subreddit nicht mehr in deiner Seitenleiste angezeigt!</string>
-  <string name="reorder_sync_complete">Synchronisation abgeschlossen</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">%d Subreddit hinzugefügt</item>
     <item quantity="other">%d Subreddits hinzugefügt</item>
@@ -528,24 +638,40 @@
   <string name="discover_search">Suche nach Titel oder Thema</string>
   <string name="discover_popular">Beliebt</string>
   <string name="discover_trending">Angesagt</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <string name="choose_draft">Entwurf auswählen</string>
+  <string name="dialog_no_drafts">Noch keine Entwürfe</string>
+  <string name="dialog_no_drafts_msg">Du kannst einen Entwurf hinzufügen, indem Du auf \'Speichern\' in der Bearbeitungsleiste klickst!</string>
+  <string name="msg_save_draft">Nachricht als Entwurf gespeichert</string>
+  <string name="manage_drafts">Entwürfe verwalten</string>
+  <string name="really_delete_drafts">Entwürfe wirklich löschen?</string>
+  <!-- Strings for widgets -->
+  <string name="widget_subname_hint">Subreddit-Name</string>
+  <string name="widget_content">Inhalt</string>
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <string name="autocache_subreddits">Subreddits automatisch cachen</string>
+  <string name="autocache_time">Zeit für automatisches Cachen</string>
+  <string name="cache_subreddits_now">Subreddits jetzt cachen</string>
+  <string name="cache_wifi_only">Nur bei WLAN cachen</string>
+  <!-- Saving location setting -->
+  <string name="set_gif_save_loc">GIF Speicher-Verzeichnis festlegen</string>
+  <string name="set_gif_save_loc_msg">Es wurde noch kein GIF Speicher-Verzeichnis ausgewählt. Möchtest du jetzt eines setzen?</string>
+  <string name="set_video_save_loc">Video Speicher-Verzeichnis festlegen</string>
+  <string name="set_video_save_loc_msg">Es wurde noch kein Video Speicher-Verzeichnis ausgewählt. Möchtest du jetzt eines setzen?</string>
+  <string name="set_save_location">Bild Speicher-Verzeichnis festlegen</string>
+  <string name="set_save_location_msg">Es wurde noch kein Bild Speicher-Verzeichnis ausgewählt. Möchtest du jetzt einen setzen?</string>
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Mehr Kommentare laden</string>
-  <string name="settings_comment_color">Farbige Indikatoren für Kommentartiefe</string>
-  <string name="settings_volume_nav_comments">Kommentare mit Lautstärketasten navigieren</string>
-  <string name="settings_synccit_remove">SYNCCIT TRENNEN</string>
-  <string name="settings_synccit_auth">Authentifizierungsschlüssel</string>
-  <string name="settings_synccit_username">Benutzername</string>
-  <string name="settings_synccit_delete">Synccit-Account wirklich löschen?</string>
-  <string name="settings_synccit_authenticate">Authentifizierung mit Synccit</string>
-  <string name="settings_synccit_connected">Verbindung erfolgreich!</string>
-  <string name="settings_synccit_active">Synccit ist jetzt aktiv für dieses Gerät</string>
-  <string name="settings_synccit_failed">Konnte nicht authentifizieren</string>
-  <string name="settings_synccit_failed_msg">Stellen Sie sicher, dass ihr Benutzername und Authentifizierungsschlüssel korrekt sind!</string>
-  <string name="settings_synccit">Synccit-Integration</string>
   <string name="card_right_thumb">Rechtsbündige Thumbnails</string>
-  <string name="submission_share_permalink">Beitrag teilen</string>
   <string name="setting_filter_subreddits">Subreddit-Filter</string>
   <string name="subreddit_theme">Subreddit-Theme</string>
-  <string name="btn_select">Auswählen</string>
   <string name="dialog_choose_subreddits_to_edit">Wähle Subreddits, die du bearbiten willst</string>
   <string name="dialog_color_sync_title">Farbsynchronisierung</string>
   <string name="dialog_color_sync_message">Dies wird versuchen, die \"Hauptfarbe\" eines Subreddits, die durch die Moderatoren festlegt wurde, abzurufen. Es überschreibt keine bereits gefärbten Subreddits.</string>
@@ -554,16 +680,13 @@
   <string name="fab_disabled">Deaktiviert</string>
   <string name="handling_internal_browser">In internem Browser öffnen</string>
   <string name="handling_external_browser">In externem Browser öffnen</string>
-  <string name="settings_commentnav_description">Aktiviert eine Leiste am unteren Rand mit Steuerpfeilen</string>
-  <string name="settings_comment_collapse">Kommentare komplett zuklappen</string>
-  <string name="settings_comment_collapse_description">Deaktiviert Animationen in den Kommentaren</string>
-  <string name="settings_comment_collapse_default">Untergeordnete Kommentare standardmäßig zuklappen</string>
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Karte mit zentrierten Bild</string>
   <string name="mode_card">Karte</string>
+  <string name="mode_thumbnail">Vorschau</string>
+  <string name="mode_big_thumbnails">Große Thumbnails</string>
   <string name="mode_cropped">Großes Bild, zugeschnitten</string>
   <string name="mode_bigpic">Großes Bild</string>
-  <string name="settings_general_swipeanywhere_description">Irgendwo wischen um zu beenden</string>
   <string name="press_actionbar">Pfeil drücken um Actionbar anzuzeigen</string>
   <string name="tap_actionbar">Gedrückt halten um Actionbar anzuzeigen</string>
   <string name="always_actionbar">Actionbar immer anzeigen</string>
@@ -571,12 +694,6 @@
   <string name="submission_share_reddit_url">Kommentare teilen</string>
   <string name="filter_content">Diesen Inhalt filtern</string>
   <string name="content_to_hide">Folgenden Inhalt ausblenden in %1$s</string>
-  <string name="settings_general_comment_last_visit">Anzahl der Kommentare seit dem letzten Besuch anzeigen</string>
-  <string name="error_video_not_found">Video nicht gefunden</string>
-  <string name="error_video_message">Beim Laden des Videos ist ein Fehler aufgetreten</string>
-  <string name="view_type_tabs">Subreddit-Tabs</string>
-  <string name="view_type_none">Keine Subreddit-Tabs</string>
-  <string name="view_type_comments">Kommentar-Fenster</string>
   <string name="btn_collapse_children_all">Untergeordnete Kommentare zuklappen</string>
   <string name="btn_open_content">Inhalt öffnen</string>
   <string name="btn_report">Melden</string>
@@ -596,61 +713,28 @@
   <string name="submission_info_locked">Dies ist ein gesperrter Beitrag. Du kannst nicht Bewerten oder Kommentare abgeben.</string>
   <string name="card_background_tint">Kartenhintergrund</string>
   <string name="subreddit_name_tint">Subreddit-Name</string>
-  <string name="settings_comment_hide_selftext_image">Beitragsbild bei Selftext Beiträgen ausblenden</string>
   <string name="login_failed_err_decline">Stelle sicher, dass du vorher nicht auf \"Ablehnen\" gedrückt hast und versuche es in einer Minute nochmals</string>
   <string name="thumb_type_always">Immer anzeigen</string>
   <string name="thumb_type_off">Nie anzeigen</string>
   <string name="thumb_type_sub">Per Subreddit-Einstellungen anzeigen</string>
   <string name="tutorial_swipe_navigation">Wischgesten</string>
   <string name="tutorial_swipe_description">Wische vom linken Rand zur Mitte um zurückzugehen.\n\nDies gilt für Bilder, GIFs, Alben, Einstellungen und mehr!</string>
-  <string name="settings_data_low_quality">Bilder mit niedriger Qualität laden</string>
-  <string name="settings_view_type">Ansichtstyp</string>
   <string name="handling_browser">Web-Browser</string>
-  <string name="settings_comments_swap_long">Vertausche \'Langes Drücken\' und Tippen</string>
-  <string name="settings_redditprefs_over18">Ich bin über 18 und möchte NSFW-Inhalte sehen</string>
-  <string name="settings_layout_view">Ansichtsmodus</string>
-  <string name="settings_data_lowqaul_desc">Andernfalls immer Bilder mit hoher Qualität öffnen</string>
-  <string name="settings_data_lowqaul">Lade Bilder wenn möglich mit niedriger Bildqualität</string>
-  <string name="settings_subredditspecific_bigpic">Zeige immer grosse Bilder in diesem Subreddit</string>
-  <string name="settings_layout_picture_mode">Bildmodus</string>
-  <string name="settings_general_expanded_toolbar">Erweitertes Symbolleistenmenü</string>
-  <string name="settings_general_expanded_toolbar_desc">Weitere Optionen auf der Subreddit-Symbolleiste anzeigen</string>
-  <string name="settings_theme_tinting">Beitrags-Einfärbungs Modus</string>
-  <string name="settings_reddit_thumbnail_mode">Thumbnail Modus</string>
-  <string name="settings_layout_actionbar_mode">Actionbar Modus</string>
-  <string name="settings_theme_tint_outside_desc">Nur den Hintergrund färben von Multireddits, Startseite und dem Rest</string>
-  <string name="settings_layout_small_content_tag">Kleinerer Inhalts-Tag</string>
-  <string name="settings_links_force_external">Immer in externem Browser öffnen</string>
-  <string name="settings_links_force_external_desc">Wähle Domains, welche immer extern geöffnet werden</string>
-  <string name="settings_layout_show_domain">Domäne in der Infozeile anzeigen</string>
   <string name="submit_replies_to_inbox">Über Antworten benachrichtigen</string>
-  <string name="settings_data">Datenverbrauch</string>
-  <string name="settings_card_show_selftext">Zeige ersten Paragraph vom Selftext</string>
-  <string name="btn_view">ANSICHT</string>
   <string name="btn_open_comments">Kommentare anzeigen</string>
   <string name="btn_preview">Vorschau</string>
   <string name="sorting_default_comment">Standardmäßige Kommentar-Sortierung</string>
-  <string name="theme_amoled_contrast">AMOLED mit Kontrast</string>
   <string name="content_deleted">[gelöscht]</string>
   <string name="thread_continue">Diesen Beitrag fortsetzen</string>
   <string name="type_selftext">Selftext</string>
-  <string name="settings_fab_create">Zeige \"Kommentar erfassen\" Action Button</string>
-  <string name="settings_right_handed_comment_menu">Rechtshänder Kommentar Menü</string>
   <string name="submission_unhide">Beitrag nicht mehr verstecken</string>
   <string name="submission_info_unhidden">Beitrag nicht mehr versteckt</string>
-  <string name="settings_handling_external_desc">Eingegebene Domains werden immer extern geöffnet</string>
-  <string name="settings_handling_enterdomain">Gib einen Domainnamen oder einen Teil eines Domainnamens ein</string>
-  <string name="err_comment_post">Hoppla! Dieser Kommentar konnte nicht gesendet werden.</string>
-  <string name="err_comment_post_reason">"Grund: "</string>
-  <string name="err_comment_post_message">\n\nDeine Nachricht wurde als Entwurf gespeichert. Versuche es später erneut.</string>
-  <string name="err_comment_post_copy">Kommentar kopieren</string>
-  <string name="choose_draft">Entwurf auswählen</string>
-  <string name="dialog_no_drafts">Noch keine Entwürfe</string>
-  <string name="dialog_no_drafts_msg">Du kannst einen Entwurf hinzufügen, indem Du auf \'Speichern\' in der Bearbeitungsleiste klickst!</string>
-  <string name="msg_save_draft">Nachricht als Entwurf gespeichert</string>
+  <string name="msg_sent_success">Nachricht gesendet</string>
+  <string name="msg_sent_failure">Nachricht konnte nicht gesendet werden</string>
+  <string name="msg_send_user_dne">Dieser Benutzer existiert nicht</string>
+  <string name="editor_actions_quote_comment">Selektiere den Text um ihn zu zitieren</string>
   <string name="content_removed">[entfernt]</string>
   <string name="guest">Gast</string>
-  <string name="err_comment_post_nosave_message">\nVersuche es später erneut</string>
   <string name="album_slide_view">Gleitende Albumansicht</string>
   <string name="album_grid">Alben als Raster</string>
   <string name="open_externally">Extern öffnen</string>
@@ -658,57 +742,27 @@
   <string name="download_album">Album herunterladen</string>
   <string name="compose_message">Nachricht verfassen</string>
   <string name="mark_all_as_read">Alles als gelesen markieren</string>
-  <string name="btn_changelog">Was ist neu?</string>
   <string name="clear_subreddit_history">Subreddit-Verlauf löschen</string>
   <string name="clear_submission_history">Beitragsverlauf löschen</string>
   <string name="alert_history_cleared">Verlauf gelöscht!</string>
-  <string name="settings_subredditspecific_selftext">Zeige immer Vorschau vom Selftext in diesem Subreddit</string>
-  <string name="settings_font_system">System</string>
   <string name="manage_offline_content">Offline-Inhalt verwalten</string>
   <string name="go_offline">Offline gehen</string>
-  <string name="cache_wifi_only">Nur bei WLAN cachen</string>
-  <string name="misc_rate_title">Gefällt dir Slide?</string>
-  <string name="misc_rate_msg">Bewerte es!</string>
   <string name="sidebar_edit_flair">Bearbeite dein Flair</string>
-  <string name="no_cached_comments_found">Keine gecachten Kommentare gefunden</string>
   <string name="go_online_view_content">Geh online, um diesen Inhalt anzusehen.</string>
-  <string name="FAQ">Häufige Fragen / FAQ</string>
-  <string name="alphabetize_subreddits">Sortiere Subreddits alphabetisch</string>
-  <string name="sync_subscriptions">Subreddits synchronisieren</string>
   <string name="help">Hilfe</string>
   <string name="upvote_percentage">Zeige Upvote-Prozentsatz</string>
-  <string name="btn_set">Anwenden</string>
   <string name="view_subreddits">Subreddits ansehen</string>
-  <string name="settings_about_changelog_post">Änderungsprotokoll anzeigen</string>
-  <string name="autocache_subreddits">Subreddits automatisch cachen</string>
-  <string name="autocache_time">Zeit für automatisches Cachen</string>
-  <string name="cache_subreddits_now">Subreddits jetzt cachen</string>
   <string name="clear_saved_subreddits">Lösche alle gespeicherten subreddits</string>
-  <string name="settings_section_content">Inhalt</string>
   <string name="download_the_slide_video_player_plugin">Lade das Slide Video Player Plugin runter</string>
-  <string name="settings_reddit_description">Diese Einstellungen ändern was die Reddit API zu Slide zurücksendet.\n\nUm Thumbnails in allen Subreddits zu sehen, ändern den Thumbnail Modus zu \'Immer anzeigen\'\n\nUm allen NSFW Inhalt anzuzeigen, aktiviere \'Verstecke NSFW Fotos\' aus und schalte \'Ich bin über 18\'</string>
-  <string name="settings_description_synccit">Synccit erlaubt dir deinen Beitragsverlauf zwischen Geräten und deinem Browser zu synchronisieren</string>
-  <string name="settings_description_view_type">Ansichtstypen beeinflussen die Hauptansicht und auch die Ansicht in Subreddits.\n\nKommentarfenster: Kommentare erscheinen neben Beiträgen durch wischen und werden beim Zurückwechseln automatisch gespeichert, damit du nichts verlierst.\n\nNicht-Subreddit Tabs: Wischen zwischen Subreddits ist deaktiviert\n\nSubreddit Tabs: Wischen um zwischen Subreddits zu wechseln</string>
   <string name="btn_suggest_title">Schlage einen Titel vor</string>
   <string name="navigate_comments_since">Kommentare neuer als...</string>
-  <string name="err_connection_failed_msg">Die Verbindung zu Reddit konnte nicht hergestellt werden. Bitte überprüfe deine Internetverbindung oder wechsle in den Offline-Modus.</string>
   <string name="btn_offline">Offline-Modus aktivieren</string>
-  <string name="err_could_not_find_content_msg">Reddit konnten den angeforderten Inhalt nicht finden</string>
-  <string name="err_refused_request_msg">Reddit hat eine Anfrage abgewiesen. Möchtest du noch einen Verbindungsversuch machen?</string>
   <string name="discard_comment_title">Kommentar verwerfen?</string>
   <string name="comment_discard_msg">Willst du deinen Kommentar wirklich verwerfen?</string>
   <string name="backup_complete">Sicherung abgeschlossen!</string>
   <string name="backup_saved_downloads">Sicherung in Downloads gespeichert</string>
-  <string name="err_file_not_found">Datei nicht gefunden</string>
-  <string name="err_not_valid_backup">Ungültige Slide Sicherungsdatei</string>
-  <string name="err_not_valid_backup_msg">Die ausgewählte Datei ist keine gültige Slide Sicherungsdatei</string>
-  <string name="err_file_not_found_msg">Die ausgewählte Datei konnte nicht gefunden werden. Stelle sicher, dass sie existiert und die benötigten Berechtigungen vorhanden sind</string>
   <string name="include_personal_info">Personenbezogene Daten inkludieren?</string>
   <string name="include_personal_info_msg">Dies beinhaltet Authentifizierungs-Tokens, Benutzernamen, Tags und den Verlauf</string>
-  <string name="err_something_wrong">Oh nein, irgendetwas ist schief gelaufen.</string>
-  <string name="err_couldnt_save_choose_new">Slide konnte im ausgewählten Verzeichnis nicht speichern. Möchtest du ein neues Verzeichnis auswählen?</string>
-  <string name="set_save_location">Bild Speicher-Verzeichnis festlegen</string>
-  <string name="set_save_location_msg">Es wurde noch kein Bild Speicher-Verzeichnis ausgewählt. Möchtest du jetzt einen setzen?</string>
   <string name="really_remove_subreddit_title">Diesen Subreddit wirklich entfernen?</string>
   <string name="choose_sync_time">Wähle die Synchronisierungszeit</string>
   <string name="account_suspended">Dieses Konto ist gesperrt</string>
@@ -720,30 +774,18 @@
   <string name="comment_unstickied">Kommentar nicht mehr angepinnt</string>
   <string name="sticky_comment">Diesen Kommentar wirklich anpinnen?</string>
   <string name="comment_stickied">Kommentar angepinnt</string>
-  <string name="undistinguish_comment">Diesen Kommentar wirklich nicht mehr markieren?</string>
   <string name="comment_undistinguished">Kommentar nicht mehr markieren</string>
   <string name="distinguish_comment">Diesen Kommentar wirklich markieren?</string>
   <string name="comment_distinguished">Kommentar markieren</string>
   <string name="remove_comment">Diesen Kommentar wirklich entfernen?</string>
   <string name="comment_removed">Kommentar entfernt</string>
-  <string name="create_or_import_multi">Möchtest du eine neue Sammlung erstellen oder einen Multireddit importieren?</string>
-  <string name="btn_add_subreddit">Füge einen Subreddit hinzu</string>
-  <string name="btn_add_collection">Sammlung hinzufügen</string>
-  <string name="btn_new">Neu</string>
-  <string name="btn_import_multi">Multireddit importieren</string>
-  <string name="reorder_subs_FAQ">Subreddit FAQ anordnen</string>
   <string name="set_nav_mode">Steuerungsmodus einstellen</string>
-  <string name="set_gif_save_loc">GIF Speicher-Verzeichnis festlegen</string>
-  <string name="set_gif_save_loc_msg">Es wurde noch kein GIF Speicher-Verzeichnis ausgewählt. Möchtest du jetzt eines setzen?</string>
-  <string name="gif_saved">GIF wurde gespeichert</string>
-  <string name="set_video_save_loc">Video Speicher-Verzeichnis festlegen</string>
-  <string name="set_video_save_loc_msg">Es wurde noch kein Video Speicher-Verzeichnis ausgewählt. Möchtest du jetzt eines setzen?</string>
-  <string name="video_saved">Video wurde gespeichert</string>
-  <string name="manage_drafts">Entwürfe verwalten</string>
-  <string name="really_delete_drafts">Entwürfe wirklich löschen?</string>
   <string name="auto_hide_the_comment_nav_bar">Kommentar-Steuerleiste automatisch ausblenden</string>
   <string name="rate_slide">Slide bewerten</string>
   <string name="edit_query">Abfrage bearbeiten</string>
   <string name="share_slide">Slide teilen</string>
-  <!-- Strings for alert dialogs -->
+  <string name="create_folder">Ordner erstellen</string>
+  <string name="folder_name">Ordnername</string>
+  <string name="sidebar_friends">Freunde</string>
+  <string name="draw_undo">Rückgängig</string>
 </resources>

@@ -17,7 +17,7 @@
   <!-- General information / information without a category -->
   <!-- General errors / errors without a category -->
   <!-- Gif -->
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <!-- Content types -->
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
@@ -27,23 +27,39 @@
   <!-- Backup -->
   <!-- Vote -->
   <!-- Moderation tools -->
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
+  <!-- View types -->
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <!-- Text in Donation-Activity -->
   <!-- Offline mode -->
   <!-- Website -->
-  <!-- Reorder subreddit activity -->
   <!-- Time -->
   <!-- Time: shorthand durations for example 1 hour → 1h -->
   <!-- Strings present during the login process -->
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <!-- Discover section: find -->
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <!-- Strings for widgets -->
   <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
 </resources>

@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">Potvrdi izlaz iz aplikacije</string>
   <string name="general_confirm_exit_msg">Stvarno želiš izaći iz Slide?</string>
   <string name="general_enable_shadowbox">Omogući Shadowbox način</string>
-  <string name="general_pro_msg">Odlučio sam napraviti nekoliko mogućnosti Slide-a (uključujući više-stupačni način) koje bi bile otključane kupnjom Pro ključa iz Play trgovine. \n\nTako bi se razvoj aplikacije nastavio, umjesto prikazivanja oglasa u besplatnoj verziji Slide-a! \n\nU ovo je uključeno MultiColumn način, Shadowbox način (slika podreddita) i još puno toga uskoro! \n\nŽelite li otključati Slide for Reddit Pro?</string>
   <string name="general_open_settings">Otvori postavke Podreddita</string>
   <string name="general_sub_sync">Sinkroniziram pretplate</string>
   <!-- Used when viewing a thread -->
@@ -31,7 +30,8 @@
   <string name="submission_tap_gif">Pritisni za učitiavanje GIF</string>
   <string name="submission_not_found">Uh, post nije pronađen!</string>
   <string name="submission_not_found_msg">Žao nam je, ovaj post nije moguće pronaći</string>
-  <string name="submission_copy">Kopiraj tekst</string>
+  <string name="submission_copy_text">Kopiraj tekst</string>
+  <string name="submission_share_permalink">Podijeli post</string>
   <plurals name="submission_points">
     <item quantity="one">%d bod</item>
     <item quantity="few">%d bod</item>
@@ -136,10 +136,11 @@
   <string name="err_permission">Dopuštenje odbijeno</string>
   <string name="err_permission_msg">Izgleda da ste uskratili pristup Slide-u za zapisivanje u vanjsku pohranu. Tako će cache slika, cache postova i spremanje slika biti neuspješno :(. \nŽelite li dopustiti Slide-u pristup vanjskoj pohrani?</string>
   <string name="err_authentication">Autentifikacija neuspješna</string>
+  <string name="err_something_wrong">Uh, nešto je pošlo krivo.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF nije pronađen</string>
   <string name="gif_err_msg">Došlo je do pogreške prilikom učitavanja ovoga GIFa. Molimo ponovno otvoriti GIF i pokušajte ponovno.</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_err_title">Nema Multireddita (još)!</string>
   <string name="multireddit_err_msg">Želite li stvoriti novi Multireddit?</string>
   <string name="multireddit_title_empty">Naslov ne može biti prazan</string>
@@ -215,6 +216,8 @@
   <string name="btn_refresh">Osvježi</string>
   <string name="btn_cache">Predmemoriraj komentare</string>
   <string name="btn_delete">Obriši</string>
+  <string name="btn_select">Odaberite</string>
+  <string name="btn_new">Novo</string>
   <!-- Backup -->
   <string name="backup_success">Sigurnosna kopija uspjela!</string>
   <string name="backup_restoring">Vraćanje postavki</string>
@@ -239,6 +242,8 @@
   <string name="mod_no_reports">Nema izvješća</string>
   <string name="mod_btn_approve">Dozvoli</string>
   <string name="mod_btn_remove">Ukloni</string>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Wiki nije pronađen</string>
   <string name="wiki_err_msg">Ovaj podreddit nema wiki!</string>
@@ -311,6 +316,33 @@
   <string name="settings_title_filter">Filteri</string>
   <string name="settings_title_font">Font</string>
   <string name="settings_section_general">Općenito</string>
+  <string name="settings_comment_color">Obojani indikatori podređenih komentara</string>
+  <string name="settings_volume_nav_comments">Navigacija komentarima pomoću tipki za glasnoću</string>
+  <string name="settings_synccit_remove">ODSPOJITE SE OD SYNCCIT</string>
+  <string name="settings_synccit_auth">Kod za autentifikaciju</string>
+  <string name="settings_synccit_username">Korisničko ime</string>
+  <string name="settings_synccit_delete">Zaista želite izbrisati Synccit račun?</string>
+  <string name="settings_synccit_authenticate">Provjeram autentičnost sa Synccit</string>
+  <string name="settings_synccit_connected">Uspješno povezano!</string>
+  <string name="settings_synccit_active">Synccit je sada aktivan za ovaj uređaj</string>
+  <string name="settings_synccit_failed">Nije bilo moguće provjeriti autentičnost</string>
+  <string name="settings_synccit_failed_msg">Provjerite je li ispravno vaše korisničko ime i autentifikacijski ključ!</string>
+  <string name="settings_synccit">Synccit integracija</string>
+  <string name="settings_comment_collapse">Potpuno sažmi komentare</string>
+  <string name="settings_comment_collapse_description">Također onemogućuje animacije komentara</string>
+  <string name="settings_general_comment_last_visit">Prikaži broj novih komentara od zadnjeg posjeta</string>
+  <!-- View types -->
+  <string name="view_type_tabs">Podreddit tabovi</string>
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_fab_subreddit">Podreddit</string>
+  <string name="btn_add_subreddit">Dodaj podreddit</string>
+  <string name="reorder_subreddits_title">Odaberite podreddit za dodati</string>
+  <string name="reorder_subreddit_name">Ime podreddita</string>
+  <string name="reorder_remove_title">Ukloniti ovaj subreddit?</string>
+  <string name="reorder_remove_msg">Vaša pretplata neće biti otkazana, ali nećete vidjeti ovaj podreddit u sidebaru!</string>
+  <string name="reorder_sync_complete">Sinkronizacija dovršena</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_subreddit_settings">Podreddit teme &amp; Izgledi</string>
@@ -346,13 +378,6 @@
   <!-- Website -->
   <string name="website_back">Vrati se</string>
   <string name="website_external">Otvori u vanjskom pregledniku</string>
-  <!-- Reorder subreddit activity -->
-  <string name="reorder_subreddits_title">Odaberite podreddit za dodati</string>
-  <string name="reorder_add_subreddit">Dodaj podreddit</string>
-  <string name="reorder_subreddit_name">Ime podreddita</string>
-  <string name="reorder_remove_title">Ukloniti ovaj subreddit?</string>
-  <string name="reorder_remove_msg">Vaša pretplata neće biti otkazana, ali nećete vidjeti ovaj podreddit u sidebaru!</string>
-  <string name="reorder_sync_complete">Sinkronizacija dovršena</string>
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="one">%d sata</item>
@@ -370,24 +395,23 @@
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Sinkronizacija dovršena</string>
   <!-- Discover section: find -->
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <!-- Strings for widgets -->
+  <string name="widget_subname_hint">Ime podreddita</string>
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Učitaj više komentara</string>
-  <string name="settings_comment_color">Obojani indikatori podređenih komentara</string>
-  <string name="settings_volume_nav_comments">Navigacija komentarima pomoću tipki za glasnoću</string>
-  <string name="settings_synccit_remove">ODSPOJITE SE OD SYNCCIT</string>
-  <string name="settings_synccit_auth">Kod za autentifikaciju</string>
-  <string name="settings_synccit_username">Korisničko ime</string>
-  <string name="settings_synccit_delete">Zaista želite izbrisati Synccit račun?</string>
-  <string name="settings_synccit_authenticate">Provjeram autentičnost sa Synccit</string>
-  <string name="settings_synccit_connected">Uspješno povezano!</string>
-  <string name="settings_synccit_active">Synccit je sada aktivan za ovaj uređaj</string>
-  <string name="settings_synccit_failed">Nije bilo moguće provjeriti autentičnost</string>
-  <string name="settings_synccit_failed_msg">Provjerite je li ispravno vaše korisničko ime i autentifikacijski ključ!</string>
-  <string name="settings_synccit">Synccit integracija</string>
   <string name="card_right_thumb">Desno poravnata minijatura</string>
-  <string name="submission_share_permalink">Podijeli post</string>
   <string name="setting_filter_subreddits">Podreddit filteri</string>
   <string name="subreddit_theme">Podreddit tema</string>
-  <string name="btn_select">Odaberite</string>
   <string name="dialog_choose_subreddits_to_edit">Odaberite podreddite za uređivanje</string>
   <string name="dialog_color_sync_title">Sinkronizacija boja</string>
   <string name="dialog_color_sync_message">Ovo će pokušati dohvatiti podreddit ključni skup boja od strane moderatora. To će prebrisati već obojane podreddite.</string>
@@ -396,8 +420,6 @@
   <string name="fab_disabled">Onemogućeno</string>
   <string name="handling_internal_browser">Koristi interni preglednik</string>
   <string name="handling_external_browser">Koristi eksterni preglednik</string>
-  <string name="settings_comment_collapse">Potpuno sažmi komentare</string>
-  <string name="settings_comment_collapse_description">Također onemogućuje animacije komentara</string>
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Kartice s centriranom slikom</string>
   <string name="mode_card">Kartica</string>
@@ -407,14 +429,9 @@
   <string name="sub_content_filter">Filter sadržaja podreddita</string>
   <string name="submission_share_reddit_url">Podijeli komentare</string>
   <string name="filter_content">Filtriraj ovaj sadržaj</string>
-  <string name="settings_general_comment_last_visit">Prikaži broj novih komentara od zadnjeg posjeta</string>
-  <string name="view_type_tabs">Podreddit tabovi</string>
   <string name="btn_report">Izvješće</string>
   <string name="subreddit_name_tint">Ime podreddita</string>
   <string name="content_deleted">[izbrisano]</string>
   <string name="open_externally">Otvori u eksternom pregledniku</string>
-  <string name="err_something_wrong">Uh, nešto je pošlo krivo.</string>
-  <string name="btn_add_subreddit">Dodaj podreddit</string>
-  <string name="btn_new">Novo</string>
-  <!-- Strings for alert dialogs -->
+  <string name="draw_undo">Poništi</string>
 </resources>

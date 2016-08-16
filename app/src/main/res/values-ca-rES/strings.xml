@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">Confirma la sortida</string>
   <string name="general_confirm_exit_msg">Realment voleu sortir de Slide?</string>
   <string name="general_enable_shadowbox">Activar Mode Shadowbox</string>
-  <string name="general_pro_msg">He optat per fer unes quantes característiques de Slide (incloent-hi mode de multi-columna) desdesbloquejable comprant una clau d\'activació Pro des de la Play Store. \n\nAixò és per mantenir el desenvolupament en marxa i en comptes de mostrar anuncis en la versió gratis de Slide! \n\nHi és inclòs el mode MultiColumn, mode Shadowbox (per a subreddits d\'imatges) i molt més ben aviat! \n\nVoldries desbloquejar Slide per Reddit Pro?</string>
   <string name="general_open_settings">Obriu la configuració de Subreddits</string>
   <string name="general_sub_sync">Sincronitzant Subscripcions</string>
   <!-- Used when viewing a thread -->
@@ -27,6 +26,7 @@
   <string name="submission_tap_gif">Prem per carregar GIF</string>
   <string name="submission_not_found">Post no trobat!</string>
   <string name="submission_not_found_msg">Ho sentim, no hem trobat aquest post</string>
+  <string name="submission_share_permalink">Compartir post</string>
   <plurals name="submission_points">
     <item quantity="one">%d punt</item>
     <item quantity="other">%d punts</item>
@@ -103,9 +103,10 @@
   <string name="err_general">Caram, s\'ha produït un error</string>
   <string name="err_no_connection">No hem arribat al Reddit. Vols tornar-ho a intentar?</string>
   <string name="err_retry_later">Reintenta-ho en un minut!</string>
+  <string name="err_something_wrong">Caram, quelcom ha fallat.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF no trobat</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_title_empty">El títol no pot quedar buit</string>
   <!-- Content types -->
   <string name="type_link">Enllaç</string>
@@ -161,6 +162,7 @@
   <string name="btn_sure">Clar!</string>
   <string name="btn_undo">Desfer</string>
   <string name="btn_yes">Si</string>
+  <string name="btn_new">Nou</string>
   <!-- Backup -->
   <string name="backup_success">Còpia de seguretat realitzada!</string>
   <string name="backup_restoring">Restaurant la teva configuració</string>
@@ -174,6 +176,8 @@
   <string name="mod_reports">Informes</string>
   <string name="mod_btn_approve">Aprova</string>
   <string name="mod_btn_remove">El·liminar</string>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
@@ -189,6 +193,11 @@
   <string name="settings_title_support">Dóna</string>
   <string name="settings_title_multi_column">Configuració de la multi-columna</string>
   <string name="settings_title_comments">comentaris</string>
+  <!-- View types -->
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_fab_subreddit">Subreddit</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_inbox">Bústia d\'entrada</string>
@@ -198,7 +207,6 @@
   <!-- Offline mode -->
   <!-- Website -->
   <string name="website_back">Tornar</string>
-  <!-- Reorder subreddit activity -->
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="one">%d hora</item>
@@ -213,11 +221,20 @@
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <!-- Discover section: find -->
-  <string name="submission_share_permalink">Compartir post</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <!-- Strings for widgets -->
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="mode_card">Targeta</string>
   <string name="btn_report">Informar</string>
   <string name="open_externally">Obrir externament</string>
-  <string name="err_something_wrong">Caram, quelcom ha fallat.</string>
-  <string name="btn_new">Nou</string>
-  <!-- Strings for alert dialogs -->
+  <string name="draw_undo">Desfer</string>
 </resources>

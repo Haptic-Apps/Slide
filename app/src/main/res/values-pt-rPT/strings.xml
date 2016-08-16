@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">Confirmar saída</string>
   <string name="general_confirm_exit_msg">Quer mesmo sair de Slide?</string>
   <string name="general_enable_shadowbox">Ativar Shadowbox Mode</string>
-  <string name="general_pro_msg">Eu optei por tornar alguns recursos do Slide (incluindo o modo multicolunas) desbloqueáveis comprando a versão Pro na Play Store. \n\n Isso é para manter o desenvolvimento sem exibir anúncios na versão gratuita do Slide! \n\nIncluídos na versão Pro estão o modo Multicolunas, o Modo de Apresentação (para subreddits com imagens) e muito mais em breve! \n\nVocê gostaria de desbloquear o Slide for Reddit Pro?</string>
   <string name="general_open_settings">Barra lateral</string>
   <string name="general_sub_sync">Sincronizando assinaturas</string>
   <!-- Used when viewing a thread -->
@@ -31,7 +30,8 @@
   <string name="submission_tap_gif">Toque para carregar o GIF</string>
   <string name="submission_not_found">Uh oh, postagem não encontrada!</string>
   <string name="submission_not_found_msg">Desculpe, esta postagem não pôde ser encontrada</string>
-  <string name="submission_copy">Copiar texto</string>
+  <string name="submission_copy_text">Copiar texto</string>
+  <string name="submission_share_permalink">Partilhar postagem</string>
   <plurals name="submission_points">
     <item quantity="one">%d ponto</item>
     <item quantity="other">%d pontos</item>
@@ -54,6 +54,7 @@
   <string name="theme_accent_color">Cor de acento</string>
   <string name="theme_base">Tema base</string>
   <string name="theme_card">Cartão</string>
+  <string name="theme_amoled_contrast">AMOLED com contraste</string>
   <!-- Font settings -->
   <string name="font_size">Tamanho da fonte</string>
   <string name="font_size_larger">Maior</string>
@@ -177,10 +178,17 @@
   <string name="err_permission">Permissão negada</string>
   <string name="err_permission_msg">Parece que você negou ao Slide acesso para escrever/salvar no armazenamento externo. Isso fará com que o cache de imagens, de posts e salvar imagens falhe :(. \n Gostaria de permitir acesso ao armazenamento externo?</string>
   <string name="err_authentication">Autenticação falhou</string>
+  <string name="error_video_not_found">Vídeo não encontrado</string>
+  <string name="error_video_message">Ocorreu um erro ao carregar este vídeo</string>
+  <string name="err_something_wrong">Uh oh, algo deu errado</string>
+  <string name="err_comment_post">Uh oh, o envio desse comentário falhou!</string>
+  <string name="err_comment_post_reason">"Motivo: "</string>
+  <string name="err_comment_post_message">\n\nSua mensagem foi salva como um rascunho. Por favor, tente novamente mais tarde.</string>
+  <string name="err_comment_post_copy">Copiar comentário</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF não encontrado</string>
   <string name="gif_err_msg">Ocorreu um erro ao carregar este GIF. Por favor, abra o GIF e tente novamente.</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_err_title">Sem multireddits (por enquanto)!</string>
   <string name="multireddit_err_msg">Gostaria de criar um novo multireddit?</string>
   <string name="multireddit_title_empty">Título não pode ficar em branco</string>
@@ -284,6 +292,10 @@
   <string name="btn_cache">Comentários em cache</string>
   <string name="btn_delete">Apagar</string>
   <string name="btn_time">Intervalo de tempo</string>
+  <string name="btn_select">Seleccionar</string>
+  <string name="btn_view">VISUALIZAR</string>
+  <string name="btn_changelog">Alterações</string>
+  <string name="btn_new">Novas</string>
   <!-- Backup -->
   <string name="backup_success">Cópia de segurança efetuada com êxito!</string>
   <string name="backup_restoring">Restaurar suas configurações</string>
@@ -316,8 +328,6 @@
   <string name="mod_btn_submission_flair">Definir Flair</string>
   <string name="mod_btn_mark_nsfw">Marcar como NSFW</string>
   <string name="mod_btn_unmark_nsfw">Desmarcar NSFW</string>
-  <string name="mod_btn_pin">Fixar</string>
-  <string name="mod_btn_unpin">Desafixar</string>
   <string name="mod_btn_remove">Eliminar</string>
   <string name="mod_btn_remove_reason">Remover com razão</string>
   <string name="mod_btn_author">Perfil do Autor</string>
@@ -325,6 +335,8 @@
     <item quantity="one">Visualizar %d denúncia</item>
     <item quantity="other">Visualizar %d denúncias</item>
   </plurals>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Nenhuma wiki encontrada</string>
   <string name="wiki_err_msg">Este subreddit não tem uma wiki!</string>
@@ -410,6 +422,64 @@
   <string name="settings_section_appearance">Aparência</string>
   <string name="settings_section_other">Outros</string>
   <string name="settings_section_save_history">Guardar histórico</string>
+  <string name="settings_comment_color">Indicadores coloridos para profundidade dos comentários</string>
+  <string name="settings_volume_nav_comments">Navegue pelos comentários usando os botões de volume</string>
+  <string name="settings_synccit_remove">DESCONECTAR DO SYNCCIT</string>
+  <string name="settings_synccit_auth">Código de autenticação</string>
+  <string name="settings_synccit_username">Nome de utilizador</string>
+  <string name="settings_synccit_delete">Você realmente quer excluir a conta do Synccit?</string>
+  <string name="settings_synccit_authenticate">Autenticando com o Synccit</string>
+  <string name="settings_synccit_connected">Conectado com sucesso!</string>
+  <string name="settings_synccit_active">Synccit agora está ativo para este dispositivo</string>
+  <string name="settings_synccit_failed">Não foi possível autenticar</string>
+  <string name="settings_synccit_failed_msg">Verifique se o seu nome de usuário e chave de autenticação estão corretos!</string>
+  <string name="settings_synccit">Integração com o Synccit</string>
+  <string name="settings_comment_collapse">Retrair comentários completamente</string>
+  <string name="settings_comment_collapse_description">Também desativa animações de comentários</string>
+  <string name="settings_comment_collapse_default">Retrair comentários subsequentes por padrão</string>
+  <string name="settings_subredditspecific_selftext">Sempre mostrar pré-visualizações de selftext neste subreddit</string>
+  <string name="settings_font_system">Sistema</string>
+  <string name="settings_comments_swap_long">Ações de deslize, longo aperto e toque</string>
+  <string name="settings_redditprefs_over18">Eu sou maior de 18 anos e quero ver conteúdo NSFW</string>
+  <string name="settings_layout_view">Modo de exibição</string>
+  <string name="settings_data_lowqaul_desc">Caso contrário, sempre abrir imagens de alta qualidade</string>
+  <string name="settings_data_lowqaul">Carregar imagem de qualidade inferior, se possível</string>
+  <string name="settings_subredditspecific_bigpic">Sempre mostrar imagens grandes neste subreddit</string>
+  <string name="settings_layout_picture_mode">Modo de imagem</string>
+  <string name="settings_general_expanded_toolbar">Barra de ferramentas expandida</string>
+  <string name="settings_general_expanded_toolbar_desc">Mostrar mais opções na barra de ferramentas do subreddit</string>
+  <string name="settings_theme_tinting">Modo de autorização colorido</string>
+  <string name="settings_reddit_thumbnail_mode">Modo miniatura</string>
+  <string name="settings_layout_actionbar_mode">Modo da barra de ação</string>
+  <string name="settings_theme_tint_outside_desc">Colorir apenas o plano de fundo em multireddits, primeira página, e tudo</string>
+  <string name="settings_layout_small_content_tag">Tag de conteúdo menor</string>
+  <string name="settings_links_force_external">Forçar abertura em um navegador externo</string>
+  <string name="settings_links_force_external_desc">Escolha domínios que sempre abrirão externamente</string>
+  <string name="settings_layout_show_domain">Mostrar domínio na linha de informação</string>
+  <string name="settings_general_swipeanywhere_description">Deslize em qualquer lugar no modo de exibição para sair</string>
+  <string name="settings_general_comment_last_visit">Mostrar contagem de comentários desde a última visita</string>
+  <string name="settings_right_handed_comment_menu">Opções da barra de resposta invertidas</string>
+  <string name="settings_comment_hide_selftext_image">Ocultar imagem principal em postagens de texto</string>
+  <string name="settings_data_low_quality">Carregar imagens de baixa qualidade</string>
+  <string name="settings_view_type">Tipo de visualização</string>
+  <string name="settings_data">Economia de dados</string>
+  <string name="settings_card_show_selftext">Mostrar o primeiro parágrafo do selftext</string>
+  <string name="settings_handling_external_desc">Domínios introduzidos abaixo sempre abrirão externamente</string>
+  <string name="settings_handling_enterdomain">Insira um domínio ou parte de um domínio</string>
+  <!-- View types -->
+  <string name="view_type_tabs">Abas de Subreddit</string>
+  <string name="view_type_none">Sem abas de subreddit</string>
+  <string name="view_type_comments">Painel de comentários</string>
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_fab_subreddit">Subreddit</string>
+  <string name="btn_add_subreddit">Adicionar um subreddit</string>
+  <string name="reorder_subreddits_title">Selecione um subreddit para adicionar</string>
+  <string name="reorder_subreddit_name">Nome de Subreddit</string>
+  <string name="reorder_remove_title">Remover este subreddit?</string>
+  <string name="reorder_remove_msg">Você não irá se desinscrever, porém não verá mais este subreddit em sua barra lateral!</string>
+  <string name="reorder_sync_complete">Sincronização completa</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <string name="sorting">Ordenação</string>
   <string name="display">Tela</string>
@@ -458,13 +528,6 @@
   <!-- Website -->
   <string name="website_back">Regressar</string>
   <string name="website_external">Aberto em um navegador externo</string>
-  <!-- Reorder subreddit activity -->
-  <string name="reorder_subreddits_title">Selecione um subreddit para adicionar</string>
-  <string name="reorder_add_subreddit">Adicionar um subreddit</string>
-  <string name="reorder_subreddit_name">Nome de Subreddit</string>
-  <string name="reorder_remove_title">Remover este subreddit?</string>
-  <string name="reorder_remove_msg">Você não irá se desinscrever, porém não verá mais este subreddit em sua barra lateral!</string>
-  <string name="reorder_sync_complete">Sincronização completa</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">%d subreddit adicionado</item>
     <item quantity="other">%d subreddits adicionados</item>
@@ -525,24 +588,28 @@
   <string name="discover_search">Pesquisa por termo ou tópico</string>
   <string name="discover_popular">Populares</string>
   <string name="discover_trending">Em destaque</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <string name="choose_draft">Selecione um rascunho</string>
+  <string name="dialog_no_drafts">Ainda não há rascunhos</string>
+  <string name="dialog_no_drafts_msg">Você pode adicionar um rascunho clicando no ícone \'salvar\' na barra de edições!</string>
+  <string name="msg_save_draft">Mensagem salva como rascunho</string>
+  <!-- Strings for widgets -->
+  <string name="widget_subname_hint">Nome de Subreddit</string>
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <string name="cache_wifi_only">Apenas fazer cache no WiFi</string>
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Carregar mais comentários</string>
-  <string name="settings_comment_color">Indicadores coloridos para profundidade dos comentários</string>
-  <string name="settings_volume_nav_comments">Navegue pelos comentários usando os botões de volume</string>
-  <string name="settings_synccit_remove">DESCONECTAR DO SYNCCIT</string>
-  <string name="settings_synccit_auth">Código de autenticação</string>
-  <string name="settings_synccit_username">Nome de utilizador</string>
-  <string name="settings_synccit_delete">Você realmente quer excluir a conta do Synccit?</string>
-  <string name="settings_synccit_authenticate">Autenticando com o Synccit</string>
-  <string name="settings_synccit_connected">Conectado com sucesso!</string>
-  <string name="settings_synccit_active">Synccit agora está ativo para este dispositivo</string>
-  <string name="settings_synccit_failed">Não foi possível autenticar</string>
-  <string name="settings_synccit_failed_msg">Verifique se o seu nome de usuário e chave de autenticação estão corretos!</string>
-  <string name="settings_synccit">Integração com o Synccit</string>
   <string name="card_right_thumb">Miniatura alinhada à direita</string>
-  <string name="submission_share_permalink">Partilhar postagem</string>
   <string name="setting_filter_subreddits">Filtros de Subreddit</string>
   <string name="subreddit_theme">Tema do Subreddit</string>
-  <string name="btn_select">Seleccionar</string>
   <string name="dialog_choose_subreddits_to_edit">Escolha subreddits para editar</string>
   <string name="dialog_color_sync_title">Sincronização de cor</string>
   <string name="dialog_color_sync_message">Isto vai tentar recuperar \'cor chave\' do subreddit definido pelos moderadores. Isso não irá substituir subreddits já coloridos.</string>
@@ -551,15 +618,11 @@
   <string name="fab_disabled">Desabilitado</string>
   <string name="handling_internal_browser">Usar navegador interno</string>
   <string name="handling_external_browser">Usar navegador externo</string>
-  <string name="settings_comment_collapse">Retrair comentários completamente</string>
-  <string name="settings_comment_collapse_description">Também desativa animações de comentários</string>
-  <string name="settings_comment_collapse_default">Retrair comentários subsequentes por padrão</string>
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Cartão com imagem centrada</string>
   <string name="mode_card">Cartão</string>
   <string name="mode_cropped">Imagem grande cortada</string>
   <string name="mode_bigpic">Imagem grande</string>
-  <string name="settings_general_swipeanywhere_description">Deslize em qualquer lugar no modo de exibição para sair</string>
   <string name="press_actionbar">Pressione a seta para mostrar a barra de ações</string>
   <string name="tap_actionbar">Aperte e segure para a barra de ações</string>
   <string name="always_actionbar">Sempre mostrar a barra de ação</string>
@@ -567,12 +630,6 @@
   <string name="submission_share_reddit_url">Partilhar comentários</string>
   <string name="filter_content">Filtrar esse conteúdo</string>
   <string name="content_to_hide">Conteúdo a se esconder em %1$s</string>
-  <string name="settings_general_comment_last_visit">Mostrar contagem de comentários desde a última visita</string>
-  <string name="error_video_not_found">Vídeo não encontrado</string>
-  <string name="error_video_message">Ocorreu um erro ao carregar este vídeo</string>
-  <string name="view_type_tabs">Abas de Subreddit</string>
-  <string name="view_type_none">Sem abas de subreddit</string>
-  <string name="view_type_comments">Painel de comentários</string>
   <string name="btn_collapse_children_all">Retrair comentários subsequentes</string>
   <string name="btn_open_content">Abrir conteúdo</string>
   <string name="btn_report">Reportar</string>
@@ -592,58 +649,22 @@
   <string name="submission_info_locked">Esta é uma postagem trancada. Você não poderá votar ou comentar.</string>
   <string name="card_background_tint">Fundo do cartão</string>
   <string name="subreddit_name_tint">Nome de Subreddit</string>
-  <string name="settings_comment_hide_selftext_image">Ocultar imagem principal em postagens de texto</string>
   <string name="login_failed_err_decline">Certifique-se de que você não selecione \'Rejeito\' na última tela e tente novamente em um minuto</string>
   <string name="thumb_type_always">Sempre mostrar</string>
   <string name="thumb_type_off">Nunca mostrar</string>
   <string name="thumb_type_sub">Mostrar configurações por subreddit</string>
   <string name="tutorial_swipe_navigation">Deslize para navegar</string>
   <string name="tutorial_swipe_description">Deslize a partir da borda esquerda para sair.\n\nIsso se aplica a imagens, GIFs, álbuns, configurações e muito mais!</string>
-  <string name="settings_data_low_quality">Carregar imagens de baixa qualidade</string>
-  <string name="settings_view_type">Tipo de visualização</string>
   <string name="handling_browser">Navegador</string>
-  <string name="settings_comments_swap_long">Ações de deslize, longo aperto e toque</string>
-  <string name="settings_redditprefs_over18">Eu sou maior de 18 anos e quero ver conteúdo NSFW</string>
-  <string name="settings_layout_view">Modo de exibição</string>
-  <string name="settings_data_lowqaul_desc">Caso contrário, sempre abrir imagens de alta qualidade</string>
-  <string name="settings_data_lowqaul">Carregar imagem de qualidade inferior, se possível</string>
-  <string name="settings_subredditspecific_bigpic">Sempre mostrar imagens grandes neste subreddit</string>
-  <string name="settings_layout_picture_mode">Modo de imagem</string>
-  <string name="settings_general_expanded_toolbar">Barra de ferramentas expandida</string>
-  <string name="settings_general_expanded_toolbar_desc">Mostrar mais opções na barra de ferramentas do subreddit</string>
-  <string name="settings_theme_tinting">Modo de autorização colorido</string>
-  <string name="settings_reddit_thumbnail_mode">Modo miniatura</string>
-  <string name="settings_layout_actionbar_mode">Modo da barra de ação</string>
-  <string name="settings_theme_tint_outside_desc">Colorir apenas o plano de fundo em multireddits, primeira página, e tudo</string>
-  <string name="settings_layout_small_content_tag">Tag de conteúdo menor</string>
-  <string name="settings_links_force_external">Forçar abertura em um navegador externo</string>
-  <string name="settings_links_force_external_desc">Escolha domínios que sempre abrirão externamente</string>
-  <string name="settings_layout_show_domain">Mostrar domínio na linha de informação</string>
   <string name="submit_replies_to_inbox">Enviar respostas para caixa de entrada</string>
-  <string name="settings_data">Economia de dados</string>
-  <string name="settings_card_show_selftext">Mostrar o primeiro parágrafo do selftext</string>
-  <string name="btn_view">VISUALIZAR</string>
   <string name="btn_open_comments">Abrir comentários</string>
   <string name="btn_preview">Pré-Visualização</string>
   <string name="sorting_default_comment">Ordenação padrão de comentários</string>
-  <string name="theme_amoled_contrast">AMOLED com contraste</string>
   <string name="content_deleted">[deletado]</string>
   <string name="thread_continue">Continuar esta discussão</string>
   <string name="type_selftext">Texto</string>
-  <string name="settings_fab_create">Mostrar botão de ação flutuante \"criar comentário\"</string>
-  <string name="settings_right_handed_comment_menu">Opções da barra de resposta invertidas</string>
   <string name="submission_unhide">Reexibir postagem</string>
   <string name="submission_info_unhidden">Envio restaurado</string>
-  <string name="settings_handling_external_desc">Domínios introduzidos abaixo sempre abrirão externamente</string>
-  <string name="settings_handling_enterdomain">Insira um domínio ou parte de um domínio</string>
-  <string name="err_comment_post">Uh oh, o envio desse comentário falhou!</string>
-  <string name="err_comment_post_reason">"Motivo: "</string>
-  <string name="err_comment_post_message">\n\nSua mensagem foi salva como um rascunho. Por favor, tente novamente mais tarde.</string>
-  <string name="err_comment_post_copy">Copiar comentário</string>
-  <string name="choose_draft">Selecione um rascunho</string>
-  <string name="dialog_no_drafts">Ainda não há rascunhos</string>
-  <string name="dialog_no_drafts_msg">Você pode adicionar um rascunho clicando no ícone \'salvar\' na barra de edições!</string>
-  <string name="msg_save_draft">Mensagem salva como rascunho</string>
   <string name="content_removed">[removido]</string>
   <string name="guest">Visitante</string>
   <string name="album_slide_view">Álbum deslizante</string>
@@ -653,17 +674,10 @@
   <string name="download_album">Baixar álbum</string>
   <string name="compose_message">Compor mensagem</string>
   <string name="mark_all_as_read">Marcar tudo como lido</string>
-  <string name="btn_changelog">Alterações</string>
   <string name="clear_subreddit_history">Limpar histórico do subreddit</string>
   <string name="clear_submission_history">Limpar histórico de envios</string>
   <string name="alert_history_cleared">Histórico apagado!</string>
-  <string name="settings_subredditspecific_selftext">Sempre mostrar pré-visualizações de selftext neste subreddit</string>
-  <string name="settings_font_system">Sistema</string>
   <string name="manage_offline_content">Gerenciar conteúdo offline</string>
   <string name="go_offline">Ficar off-line</string>
-  <string name="cache_wifi_only">Apenas fazer cache no WiFi</string>
-  <string name="err_something_wrong">Uh oh, algo deu errado</string>
-  <string name="btn_add_subreddit">Adicionar um subreddit</string>
-  <string name="btn_new">Novas</string>
-  <!-- Strings for alert dialogs -->
+  <string name="draw_undo">Desfazer</string>
 </resources>

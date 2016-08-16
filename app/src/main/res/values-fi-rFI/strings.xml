@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">Vahvista poistuminen</string>
   <string name="general_confirm_exit_msg">Haluatko varmasti poistua?</string>
   <string name="general_enable_shadowbox">Ota Shadowbox-tila käyttöön</string>
-  <string name="general_pro_msg">Olen päättänyt tehdä muutamista Sliden ominaisuuksista (sisältäen usean sarakkeen tilan) avattavia ostamalla Pro Unlock -avaimen Play kaupasta.\n\nTämä päätös mahdollistaa Sliden kehityksen jatkamisen lisäämättä mainoksia ilmaisversioon!\n\nPro-versio sisältää usean sarakkeen tilan, Shadowbox-tilan (kuvapohjaissille subredditeille) ja paljon muuta pian tulevaa!\n\nHaluaisitko avata käyttöösi Slide for Reddit Pro:n?</string>
   <string name="general_open_settings">Avaa Subreddit asetukset</string>
   <string name="general_sub_sync">Synkronoidaan tilauksia</string>
   <!-- Used when viewing a thread -->
@@ -27,7 +26,8 @@
   <string name="submission_tap_gif">Lataa GIF</string>
   <string name="submission_not_found">Ohhoh, viesti kateissa!</string>
   <string name="submission_not_found_msg">Pahoittelut, Viestiä ei löytynyt</string>
-  <string name="submission_copy">Kopioi teksti</string>
+  <string name="submission_copy_text">Kopioi teksti</string>
+  <string name="submission_share_permalink">Jaa postaus</string>
   <plurals name="submission_points">
     <item quantity="one">%d piste</item>
     <item quantity="other">%d pistettä</item>
@@ -118,9 +118,10 @@
   <string name="err_loading_content">Virhe sisällön lataamisessa</string>
   <string name="err_retry_later">Kokeile hetken päästä uudelleen!</string>
   <string name="err_authentication">Tunnistautuminen epäonnistui</string>
+  <string name="err_something_wrong">Ohhoh, jokin meni pieleen.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF:iä ei löytynyt</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <!-- Content types -->
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
@@ -154,10 +155,13 @@
   <string name="btn_undo">Kumoa</string>
   <string name="btn_yes">Kyllä</string>
   <string name="btn_refresh">Päivitä</string>
+  <string name="btn_new">Uudet</string>
   <!-- Backup -->
   <!-- Vote -->
   <!-- Moderation tools -->
   <string name="mod_btn_remove">Poista</string>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
@@ -181,6 +185,18 @@
   <string name="settings_title_comments">Kommentit</string>
   <string name="settings_title_font">Fontti</string>
   <string name="settings_section_general">Yleiset</string>
+  <string name="settings_synccit_username">Käyttäjänimi</string>
+  <!-- View types -->
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_fab_subreddit">Subredditti</string>
+  <string name="btn_add_subreddit">Lisää subredditti</string>
+  <string name="reorder_subreddits_title">Valitse lisättävä subredditti</string>
+  <string name="reorder_subreddit_name">Subredditin nimi</string>
+  <string name="reorder_remove_title">Poistetaanko tämä subredditti?</string>
+  <string name="reorder_remove_msg">Tilaustasi ei peruta, mutta et näe enää tätä subreddittiä sivupalkissasi!</string>
+  <string name="reorder_sync_complete">Synkronointi valmis</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_share">Jaa</string>
@@ -198,13 +214,6 @@
   <!-- Website -->
   <string name="website_back">Takaisin</string>
   <string name="website_external">Avaa ulkoisessa selaimessa</string>
-  <!-- Reorder subreddit activity -->
-  <string name="reorder_subreddits_title">Valitse lisättävä subredditti</string>
-  <string name="reorder_add_subreddit">Lisää subredditti</string>
-  <string name="reorder_subreddit_name">Subredditin nimi</string>
-  <string name="reorder_remove_title">Poistetaanko tämä subredditti?</string>
-  <string name="reorder_remove_msg">Tilaustasi ei peruta, mutta et näe enää tätä subreddittiä sivupalkissasi!</string>
-  <string name="reorder_sync_complete">Synkronointi valmis</string>
   <!-- Time -->
   <!-- Time: shorthand durations for example 1 hour → 1h -->
   <!-- Strings present during the login process -->
@@ -212,9 +221,20 @@
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <string name="color_sync_complete">Synkronointi valmis</string>
   <!-- Discover section: find -->
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <!-- Strings for widgets -->
+  <string name="widget_subname_hint">Subredditin nimi</string>
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Lataa lisää kommentteja</string>
-  <string name="settings_synccit_username">Käyttäjänimi</string>
-  <string name="submission_share_permalink">Jaa postaus</string>
   <string name="mode_card">Kortti</string>
   <string name="submission_share_reddit_url">Jaa kommentit</string>
   <string name="filter_content">Suodata sisältöä</string>
@@ -222,8 +242,5 @@
   <string name="subreddit_name_tint">Subredditin nimi</string>
   <string name="content_deleted">[poistettu]</string>
   <string name="open_externally">Avaa ulkoisesti</string>
-  <string name="err_something_wrong">Ohhoh, jokin meni pieleen.</string>
-  <string name="btn_add_subreddit">Lisää subredditti</string>
-  <string name="btn_new">Uudet</string>
-  <!-- Strings for alert dialogs -->
+  <string name="draw_undo">Kumoa</string>
 </resources>

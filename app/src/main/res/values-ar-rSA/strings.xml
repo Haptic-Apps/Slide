@@ -28,7 +28,8 @@
   <string name="submission_tap_gif">اضغط لتنزيل الـGIF</string>
   <string name="submission_not_found">أووه، لم يتم العثور على المنشور!</string>
   <string name="submission_not_found_msg">عذرًا، لا يمكن العثور على هذا المنشور</string>
-  <string name="submission_copy">نسخ الكتابه</string>
+  <string name="submission_copy_text">نسخ الكتابه</string>
+  <string name="submission_share_permalink">مشاركة المنشور</string>
   <!-- Theme settings -->
   <string name="theme_light">فاتح (ابيض)</string>
   <string name="theme_dark">غامق</string>
@@ -119,7 +120,7 @@
   <!-- Gif -->
   <string name="gif_err_title">لم يتم العثور على GIF</string>
   <string name="gif_err_msg">حدث خطأ عند تحميل ال GIF. الرجاء إعادة فتح GIF ثم أعد المحاولة.</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_title_empty">العنوان لا يمكن أن يكون فارغاً</string>
   <!-- Content types -->
   <string name="type_nsfw_img">صورة NSFW</string>
@@ -182,6 +183,7 @@
   <string name="btn_undo">ارجع</string>
   <string name="btn_yes">نعم</string>
   <string name="btn_refresh">تحديث</string>
+  <string name="btn_new">جديد</string>
   <!-- Backup -->
   <string name="backup_success">لقد نجحت عملية النسخ الإحتياطي!</string>
   <string name="backup_restoring">استعادة الإعدادات الخاصة بك</string>
@@ -196,9 +198,9 @@
   <string name="mod_no_reports">لا توجد تقارير</string>
   <string name="mod_btn_mark_nsfw">علّم محتوى غير صالح للعمل</string>
   <string name="mod_btn_unmark_nsfw">ألغ تعليم محتوى غير صالح للعمل</string>
-  <string name="mod_btn_pin">ثبّت</string>
-  <string name="mod_btn_unpin">ألغ التثبيت</string>
   <string name="mod_btn_remove">إزالة</string>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <string name="wiki_err">لم يتم العصور على wiki</string>
   <!-- Subreddits -->
@@ -239,6 +241,19 @@
   <string name="settings_title_font">الخط</string>
   <string name="settings_section_general">عامّ</string>
   <string name="settings_section_appearance">المظهر</string>
+  <string name="settings_synccit_username">إسم المستخدم</string>
+  <string name="settings_synccit_delete">حذف حساب synccit حقا ؟</string>
+  <string name="settings_synccit_connected">تم الاتصال بنجاح!</string>
+  <!-- View types -->
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_fab_subreddit">ريدّت فرعي</string>
+  <string name="btn_add_subreddit">إضافة سوبريديت</string>
+  <string name="reorder_subreddit_name">اسم السوبريديت</string>
+  <string name="reorder_remove_title">إزالة هذا سوبريديت؟</string>
+  <string name="reorder_remove_msg">لن يتم الغاء الاشتراك, لاكن لن ترى هذا السوبريديت بالقائمة الجانبيه الخاصه بك!</string>
+  <string name="reorder_sync_complete">تم أكمال المزامنة</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_submit_post">إرسال المنشورة</string>
@@ -263,12 +278,6 @@
   <!-- Offline mode -->
   <!-- Website -->
   <string name="website_back">رجوع</string>
-  <!-- Reorder subreddit activity -->
-  <string name="reorder_add_subreddit">إضافة سوبريديت</string>
-  <string name="reorder_subreddit_name">اسم السوبريديت</string>
-  <string name="reorder_remove_title">إزالة هذا سوبريديت؟</string>
-  <string name="reorder_remove_msg">لن يتم الغاء الاشتراك, لاكن لن ترى هذا السوبريديت بالقائمة الجانبيه الخاصه بك!</string>
-  <string name="reorder_sync_complete">تم أكمال المزامنة</string>
   <!-- Time -->
   <!-- Time: shorthand durations for example 1 hour → 1h -->
   <!-- Strings present during the login process -->
@@ -278,16 +287,23 @@
   <!-- Discover section: find -->
   <string name="discover_popular">الاكثر شعبية</string>
   <string name="discover_trending">رائج</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <!-- Strings for widgets -->
+  <string name="widget_subname_hint">اسم السوبريديت</string>
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">إظهار المزيد من التعليقات</string>
-  <string name="settings_synccit_username">إسم المستخدم</string>
-  <string name="settings_synccit_delete">حذف حساب synccit حقا ؟</string>
-  <string name="settings_synccit_connected">تم الاتصال بنجاح!</string>
-  <string name="submission_share_permalink">مشاركة المنشور</string>
   <string name="mode_card">بطاقة</string>
   <string name="btn_report">ابلاغ</string>
   <string name="subreddit_name_tint">اسم السوبريديت</string>
   <string name="open_externally">فتح بالخارج</string>
-  <string name="btn_add_subreddit">إضافة سوبريديت</string>
-  <string name="btn_new">جديد</string>
-  <!-- Strings for alert dialogs -->
+  <string name="draw_undo">ارجع</string>
 </resources>

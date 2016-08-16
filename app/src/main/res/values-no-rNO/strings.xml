@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">Bekreft avslutning</string>
   <string name="general_confirm_exit_msg">Vil du virkelig avslutte Slide?</string>
   <string name="general_enable_shadowbox">Aktiver skyggerammemodus</string>
-  <string name="general_pro_msg">Ekstra funksjoner i Slide er tilgjengelige med en Pro-nøkkel du kjøper fra Play Butikk. \n\nDette holder utviklingen gående, og unngår å vise reklame i gratisversjonen av Slide.\n\nInkludert i dette er flerkolonne, skyggerammemodus (nyttig for bildesubreddits), og mye mer kommer snart.\n\nVil du låse opp Slide for Reddit Pro?</string>
   <string name="general_open_settings">Åpne subredditinnstillinger</string>
   <string name="general_sub_sync">Synkroniserer abonnementer</string>
   <!-- Used when viewing a thread -->
@@ -31,7 +30,8 @@
   <string name="submission_tap_gif">Trykk for å laste inn GIF</string>
   <string name="submission_not_found">Uff da, fant ikke posten.</string>
   <string name="submission_not_found_msg">Fant ikke posten</string>
-  <string name="submission_copy">Kopier tekst</string>
+  <string name="submission_copy_text">Kopier tekst</string>
+  <string name="submission_share_permalink">Dele post</string>
   <plurals name="submission_points">
     <item quantity="one">%d poeng</item>
     <item quantity="other">%d poeng</item>
@@ -54,6 +54,7 @@
   <string name="theme_accent_color">Aksentfarge</string>
   <string name="theme_base">Basistema</string>
   <string name="theme_card">Kort</string>
+  <string name="theme_amoled_contrast">AMOLED med kontrast</string>
   <!-- Font settings -->
   <string name="font_size">Skriftstørrelse</string>
   <string name="font_size_larger">Større</string>
@@ -165,10 +166,17 @@
   <string name="err_permission">Tillatelse(r) var avvist</string>
   <string name="err_permission_msg">Det ser ut til at du ikke ga Slide adgang til å skrive til ekstern lagring. Dette vil forårsake problemer for bilde-cache, innleggs-cache og bildelagring :(. \nØnsker du å gi Slide tilgang til ekstern lagringsplass?</string>
   <string name="err_authentication">Godkjenning mislyktes</string>
+  <string name="error_video_not_found">Video ikke funnet</string>
+  <string name="error_video_message">En feil oppstod under lasting av videoen</string>
+  <string name="err_something_wrong">Uff da, noe gikk galt.</string>
+  <string name="err_comment_post">Oida, publisering av denne kommentaren mislyktes!</string>
+  <string name="err_comment_post_reason">"Årsak: "</string>
+  <string name="err_comment_post_message">\n\nKommentaren din er blitt lagret som en kladd. Vennligst prøv igjen senere.</string>
+  <string name="err_comment_post_copy">Kopier kommentar</string>
   <!-- Gif -->
   <string name="gif_err_title">Fant ikke GIF-en</string>
   <string name="gif_err_msg">Klarte ikke laste inn GIF-en. Prøv på nytt.</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_err_title">Ingen multireddits</string>
   <string name="multireddit_err_msg">Ønsker du å opprette en ny multireddit?</string>
   <string name="multireddit_title_empty">Tittel-feltet kan ikke stå tomt</string>
@@ -269,6 +277,10 @@
   <string name="btn_cache">Cache kommentarer</string>
   <string name="btn_delete">Slett</string>
   <string name="btn_time">Tidsperiode</string>
+  <string name="btn_select">Velg</string>
+  <string name="btn_view">VIS</string>
+  <string name="btn_changelog">Endringslogg</string>
+  <string name="btn_new">Nye</string>
   <!-- Backup -->
   <string name="backup_success">Sikkerhetskopiering vellykket.</string>
   <string name="backup_restoring">Gjenoppretter innstillinger</string>
@@ -301,8 +313,6 @@
   <string name="mod_btn_submission_flair">Angi \"flair\"</string>
   <string name="mod_btn_mark_nsfw">Merk NSFW</string>
   <string name="mod_btn_unmark_nsfw">Fjern NSFW-merking</string>
-  <string name="mod_btn_pin">Fest</string>
-  <string name="mod_btn_unpin">Løsne</string>
   <string name="mod_btn_remove">Fjern</string>
   <string name="mod_btn_remove_reason">Fjern med grunn</string>
   <string name="mod_btn_author">Brukerprofil</string>
@@ -310,6 +320,8 @@
     <item quantity="one">Vis %d rapport</item>
     <item quantity="other">Vis %d rapporter</item>
   </plurals>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <string name="wiki_err">Fant ingen wiki</string>
   <string name="wiki_err_msg">Denne subredditen har ingen wiki.</string>
@@ -395,6 +407,62 @@
   <string name="settings_section_appearance">Utseende</string>
   <string name="settings_section_other">Annet</string>
   <string name="settings_section_save_history">Lagringshistorikk</string>
+  <string name="settings_comment_color">Fargerike kommentarindikatorer</string>
+  <string name="settings_volume_nav_comments">Navigér i kommentarfeltet ved å bruke volumtastene</string>
+  <string name="settings_synccit_remove">KOBLE FRA SYNCCIT</string>
+  <string name="settings_synccit_auth">Auth-kode</string>
+  <string name="settings_synccit_username">Brukernavn</string>
+  <string name="settings_synccit_delete">Ønsker du å slette Synccit-kontoen?</string>
+  <string name="settings_synccit_authenticate">Autentiserer med Synccit</string>
+  <string name="settings_synccit_connected">Koblet til suksessfullt!</string>
+  <string name="settings_synccit_active">Synccit er nå aktiv for denne enheten</string>
+  <string name="settings_synccit_failed">Kunne ikke autorisere</string>
+  <string name="settings_synccit_failed_msg">Kontroller at brukernavn og autoriseringsnøkkelen er riktig!</string>
+  <string name="settings_synccit">Synccit-integrering</string>
+  <string name="settings_comment_collapse">Kollaps kommentarer helt</string>
+  <string name="settings_comment_collapse_description">Deaktiverer også kommentaranimasjoner</string>
+  <string name="settings_comment_collapse_default">Kollaps barnekommentarer som standard</string>
+  <string name="settings_comments_swap_long">Bytt langt trykk med korte trykk</string>
+  <string name="settings_redditprefs_over18">Jeg er over 18 år og vil se NSFW-innhold</string>
+  <string name="settings_layout_view">Visningsmodus</string>
+  <string name="settings_data_lowqaul_desc">Ellers, alltid åpne høykvalitetsbilder</string>
+  <string name="settings_data_lowqaul">Last inn lavere bildekvalitet hvis mulig</string>
+  <string name="settings_subredditspecific_bigpic">Vis alltid store bilder i denne subreddit</string>
+  <string name="settings_layout_picture_mode">Bildemodus</string>
+  <string name="settings_general_expanded_toolbar">Utvidet verktøylinjemeny</string>
+  <string name="settings_general_expanded_toolbar_desc">Vis flere alternativer på verktøylinjen til subredditen</string>
+  <string name="settings_theme_tinting">Fargelagte innlegg-modus</string>
+  <string name="settings_reddit_thumbnail_mode">Miniatyrbildemodus</string>
+  <string name="settings_layout_actionbar_mode">Verktøyslinjemodus</string>
+  <string name="settings_theme_tint_outside_desc">Legg til farge kun i multireddits, hovedsiden og alle</string>
+  <string name="settings_layout_small_content_tag">Mindre innholds-tag</string>
+  <string name="settings_links_force_external">Tving ekstern nettleser</string>
+  <string name="settings_links_force_external_desc">Velg domener som alltid vil åpnes eksternt</string>
+  <string name="settings_layout_show_domain">Vis domene i infolinjen</string>
+  <string name="settings_general_swipeanywhere_description">Dra hvor som helst for å avslutte</string>
+  <string name="settings_general_comment_last_visit">Vis antall kommentarer siden siste besøk</string>
+  <string name="settings_right_handed_comment_menu">Høyrehendt kommentarmeny</string>
+  <string name="settings_comment_hide_selftext_image">Skjul hovedbilde i selvtekst-innlegg</string>
+  <string name="settings_data_low_quality">Last inn lavkvalitetsbilder</string>
+  <string name="settings_view_type">Visningstype</string>
+  <string name="settings_data">Datalagring</string>
+  <string name="settings_card_show_selftext">Vis første avsnitt av selvtekster</string>
+  <string name="settings_handling_external_desc">Domener angitt nedenfor åpnes alltid eksternt</string>
+  <string name="settings_handling_enterdomain">Angi et domene eller en del av et domene</string>
+  <!-- View types -->
+  <string name="view_type_tabs">Subredditfaner</string>
+  <string name="view_type_none">Ingen subredditfaner</string>
+  <string name="view_type_comments">Kommentarrute</string>
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_fab_subreddit">Subreddit</string>
+  <string name="btn_add_subreddit">Legg til en subreddit</string>
+  <string name="reorder_subreddits_title">Velg en subreddit å legge til</string>
+  <string name="reorder_subreddit_name">Subreddit-navn</string>
+  <string name="reorder_remove_title">Fjern denne subredditen?</string>
+  <string name="reorder_remove_msg">Abonnementet vil ikke avsluttes, men du vil ikke se denne denne subredditen i sidemenyen!</string>
+  <string name="reorder_sync_complete">Synkronisering fullført</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <string name="sorting">Sortering</string>
   <string name="display">Visning</string>
@@ -443,13 +511,6 @@
   <!-- Website -->
   <string name="website_back">Tilbake</string>
   <string name="website_external">Åpne i ekstern nettleser</string>
-  <!-- Reorder subreddit activity -->
-  <string name="reorder_subreddits_title">Velg en subreddit å legge til</string>
-  <string name="reorder_add_subreddit">Legg til en subreddit</string>
-  <string name="reorder_subreddit_name">Subreddit-navn</string>
-  <string name="reorder_remove_title">Fjern denne subredditen?</string>
-  <string name="reorder_remove_msg">Abonnementet vil ikke avsluttes, men du vil ikke se denne denne subredditen i sidemenyen!</string>
-  <string name="reorder_sync_complete">Synkronisering fullført</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">%d subreddit lagt til</item>
     <item quantity="other">%d subreddits lagt til</item>
@@ -510,24 +571,27 @@
   <string name="discover_search">Søk etter tittel eller emne</string>
   <string name="discover_popular">Populær</string>
   <string name="discover_trending">Oppkommende</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <string name="choose_draft">Velg et utkast</string>
+  <string name="dialog_no_drafts">Ingen utkast ennå</string>
+  <string name="dialog_no_drafts_msg">Du kan legge til et utkast ved å klikke på \"lagre\"-ikonet i tekstbehandleren!</string>
+  <string name="msg_save_draft">Meldingen ble lagret som utkast</string>
+  <!-- Strings for widgets -->
+  <string name="widget_subname_hint">Subreddit-navn</string>
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Last inn flere kommentarer</string>
-  <string name="settings_comment_color">Fargerike kommentarindikatorer</string>
-  <string name="settings_volume_nav_comments">Navigér i kommentarfeltet ved å bruke volumtastene</string>
-  <string name="settings_synccit_remove">KOBLE FRA SYNCCIT</string>
-  <string name="settings_synccit_auth">Auth-kode</string>
-  <string name="settings_synccit_username">Brukernavn</string>
-  <string name="settings_synccit_delete">Ønsker du å slette Synccit-kontoen?</string>
-  <string name="settings_synccit_authenticate">Autentiserer med Synccit</string>
-  <string name="settings_synccit_connected">Koblet til suksessfullt!</string>
-  <string name="settings_synccit_active">Synccit er nå aktiv for denne enheten</string>
-  <string name="settings_synccit_failed">Kunne ikke autorisere</string>
-  <string name="settings_synccit_failed_msg">Kontroller at brukernavn og autoriseringsnøkkelen er riktig!</string>
-  <string name="settings_synccit">Synccit-integrering</string>
   <string name="card_right_thumb">Høyrejustert miniatyrbilde</string>
-  <string name="submission_share_permalink">Dele post</string>
   <string name="setting_filter_subreddits">Subreddit-filtre</string>
   <string name="subreddit_theme">Subreddit-temaer</string>
-  <string name="btn_select">Velg</string>
   <string name="dialog_choose_subreddits_to_edit">Velg subreddits å redigere</string>
   <string name="dialog_color_sync_title">Fargesynkronisering</string>
   <string name="dialog_color_sync_message">Dette vil prøve å hente subredditenes \'nøkkel farge\' satt av moderatorer. Subreddits som allerede er blitt farget overskrives ikke.</string>
@@ -536,27 +600,17 @@
   <string name="fab_disabled">Deaktivert</string>
   <string name="handling_internal_browser">Bruk intern nettleser</string>
   <string name="handling_external_browser">Bruk ekstern nettleser</string>
-  <string name="settings_comment_collapse">Kollaps kommentarer helt</string>
-  <string name="settings_comment_collapse_description">Deaktiverer også kommentaranimasjoner</string>
-  <string name="settings_comment_collapse_default">Kollaps barnekommentarer som standard</string>
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Kort med sentrert bilde</string>
   <string name="mode_card">Kort</string>
   <string name="mode_cropped">Stort bekjært bilde</string>
   <string name="mode_bigpic">Stort bilde</string>
-  <string name="settings_general_swipeanywhere_description">Dra hvor som helst for å avslutte</string>
   <string name="press_actionbar">Press pilen for å vise verktøyslinjen</string>
   <string name="tap_actionbar">Trykk og hold for å vise verktøyslinjen</string>
   <string name="always_actionbar">Vis alltid verktøyslinjen</string>
   <string name="sub_content_filter">Subreddit innholdsfilter</string>
   <string name="submission_share_reddit_url">Del kommentarer</string>
   <string name="filter_content">Filtrer dette innholdet</string>
-  <string name="settings_general_comment_last_visit">Vis antall kommentarer siden siste besøk</string>
-  <string name="error_video_not_found">Video ikke funnet</string>
-  <string name="error_video_message">En feil oppstod under lasting av videoen</string>
-  <string name="view_type_tabs">Subredditfaner</string>
-  <string name="view_type_none">Ingen subredditfaner</string>
-  <string name="view_type_comments">Kommentarrute</string>
   <string name="btn_collapse_children_all">Slå sammen barnekommentarer</string>
   <string name="btn_open_content">Åpne innhold</string>
   <string name="btn_report">Rapport</string>
@@ -573,58 +627,22 @@
   <string name="submission_info_locked">Dette er et arkivert innlegg. Du vil ikke kunne stemme eller kommentere.</string>
   <string name="card_background_tint">Kortbakgrunn</string>
   <string name="subreddit_name_tint">Subreddit-navn</string>
-  <string name="settings_comment_hide_selftext_image">Skjul hovedbilde i selvtekst-innlegg</string>
   <string name="login_failed_err_decline">Vær sikker på at du ikke valgte \"avslå\" på det forrige skjermbildet og prøv igjen om et par øyeblikk</string>
   <string name="thumb_type_always">Vis alltid</string>
   <string name="thumb_type_off">Vis aldri</string>
   <string name="thumb_type_sub">Vis per subreddit-innstillinger</string>
   <string name="tutorial_swipe_navigation">Swipe-navigasjon</string>
   <string name="tutorial_swipe_description">Dra fra venstre kant for å lukke.\n\nDette gjelder bilder, GIFs, albumer, innstillinger og mer!</string>
-  <string name="settings_data_low_quality">Last inn lavkvalitetsbilder</string>
-  <string name="settings_view_type">Visningstype</string>
   <string name="handling_browser">Nettleser</string>
-  <string name="settings_comments_swap_long">Bytt langt trykk med korte trykk</string>
-  <string name="settings_redditprefs_over18">Jeg er over 18 år og vil se NSFW-innhold</string>
-  <string name="settings_layout_view">Visningsmodus</string>
-  <string name="settings_data_lowqaul_desc">Ellers, alltid åpne høykvalitetsbilder</string>
-  <string name="settings_data_lowqaul">Last inn lavere bildekvalitet hvis mulig</string>
-  <string name="settings_subredditspecific_bigpic">Vis alltid store bilder i denne subreddit</string>
-  <string name="settings_layout_picture_mode">Bildemodus</string>
-  <string name="settings_general_expanded_toolbar">Utvidet verktøylinjemeny</string>
-  <string name="settings_general_expanded_toolbar_desc">Vis flere alternativer på verktøylinjen til subredditen</string>
-  <string name="settings_theme_tinting">Fargelagte innlegg-modus</string>
-  <string name="settings_reddit_thumbnail_mode">Miniatyrbildemodus</string>
-  <string name="settings_layout_actionbar_mode">Verktøyslinjemodus</string>
-  <string name="settings_theme_tint_outside_desc">Legg til farge kun i multireddits, hovedsiden og alle</string>
-  <string name="settings_layout_small_content_tag">Mindre innholds-tag</string>
-  <string name="settings_links_force_external">Tving ekstern nettleser</string>
-  <string name="settings_links_force_external_desc">Velg domener som alltid vil åpnes eksternt</string>
-  <string name="settings_layout_show_domain">Vis domene i infolinjen</string>
   <string name="submit_replies_to_inbox">Send svar til innboks</string>
-  <string name="settings_data">Datalagring</string>
-  <string name="settings_card_show_selftext">Vis første avsnitt av selvtekster</string>
-  <string name="btn_view">VIS</string>
   <string name="btn_open_comments">Åpne kommentarer</string>
   <string name="btn_preview">Forhåndsvis</string>
   <string name="sorting_default_comment">Standard kommentar-sortering</string>
-  <string name="theme_amoled_contrast">AMOLED med kontrast</string>
   <string name="content_deleted">[slettet]</string>
   <string name="thread_continue">Fortsett denne tråden</string>
   <string name="type_selftext">Selvtekst</string>
-  <string name="settings_fab_create">Vis \"opprette kommentar\" på flytende handlingsknapp (FAB)</string>
-  <string name="settings_right_handed_comment_menu">Høyrehendt kommentarmeny</string>
   <string name="submission_unhide">Vis skjult innlegg</string>
   <string name="submission_info_unhidden">Innlegg ikke skjult</string>
-  <string name="settings_handling_external_desc">Domener angitt nedenfor åpnes alltid eksternt</string>
-  <string name="settings_handling_enterdomain">Angi et domene eller en del av et domene</string>
-  <string name="err_comment_post">Oida, publisering av denne kommentaren mislyktes!</string>
-  <string name="err_comment_post_reason">"Årsak: "</string>
-  <string name="err_comment_post_message">\n\nKommentaren din er blitt lagret som en kladd. Vennligst prøv igjen senere.</string>
-  <string name="err_comment_post_copy">Kopier kommentar</string>
-  <string name="choose_draft">Velg et utkast</string>
-  <string name="dialog_no_drafts">Ingen utkast ennå</string>
-  <string name="dialog_no_drafts_msg">Du kan legge til et utkast ved å klikke på \"lagre\"-ikonet i tekstbehandleren!</string>
-  <string name="msg_save_draft">Meldingen ble lagret som utkast</string>
   <string name="content_removed">[fjernet]</string>
   <string name="guest">Gjest</string>
   <string name="album_slide_view">Horisontal albumvisning</string>
@@ -634,9 +652,5 @@
   <string name="download_album">Last ned album</string>
   <string name="compose_message">Skriv ny melding</string>
   <string name="mark_all_as_read">Merk alle som lest</string>
-  <string name="btn_changelog">Endringslogg</string>
-  <string name="err_something_wrong">Uff da, noe gikk galt.</string>
-  <string name="btn_add_subreddit">Legg til en subreddit</string>
-  <string name="btn_new">Nye</string>
-  <!-- Strings for alert dialogs -->
+  <string name="draw_undo">Angre</string>
 </resources>

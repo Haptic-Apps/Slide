@@ -5,7 +5,6 @@
   <string name="general_confirm_exit">Confirm exit</string>
   <string name="general_confirm_exit_msg">Do you really want to exit Slide?</string>
   <string name="general_enable_shadowbox">Shadowbox mode</string>
-  <string name="general_pro_msg">I have opted to make a few features of Slide (including multi-column mode) unlockable by purchasing a Pro unlock key from the Play Store. \n\nThis is to keep development going, and in lieu of displaying ads in the free version of Slide!\n\nIncluded in this is multi-column mode, Shadowbox mode (for image subreddits), and much more coming soon!\n\nWould you like to unlock Slide for Reddit Pro?</string>
   <string name="general_open_settings">Sidebar</string>
   <string name="general_sub_sync">Syncing Subscriptions</string>
   <!-- Used when viewing a thread -->
@@ -31,7 +30,8 @@
   <string name="submission_tap_gif">Tap to load GIF</string>
   <string name="submission_not_found">Uh oh, post not found!</string>
   <string name="submission_not_found_msg">Sorry, this post could not be found</string>
-  <string name="submission_copy">Copy text</string>
+  <string name="submission_copy_text">Copy text</string>
+  <string name="submission_share_permalink">Share post</string>
   <plurals name="submission_points">
     <item quantity="one">%d point</item>
     <item quantity="other">%d points</item>
@@ -54,8 +54,11 @@
   <string name="theme_accent_color">Accent colour</string>
   <string name="theme_base">Base theme</string>
   <string name="theme_card">Card</string>
+  <string name="theme_sepia">Sepia</string>
+  <string name="theme_amoled_contrast">AMOLED with contrast</string>
   <!-- Font settings -->
   <string name="font_size">Font size</string>
+  <string name="font_size_huge">Huge</string>
   <string name="font_size_larger">Larger</string>
   <string name="font_size_large">Large</string>
   <string name="font_size_medium">Medium</string>
@@ -84,6 +87,7 @@
   <string name="sidebar_wiki">Subreddit wiki</string>
   <string name="sidebar_mods">Subreddit moderators</string>
   <!-- User profile -->
+  <string name="profile_karma_link">Post karma</string>
   <string name="profile_karma_comment">Comment karma</string>
   <string name="profile_message">Private message</string>
   <string name="profile_saved">Saved</string>
@@ -122,6 +126,7 @@
   <string name="comment_deleted">[deleted]</string>
   <string name="comment_unsave">Unsave</string>
   <string name="comment_load_more">Load %1$d more</string>
+  <string name="comment_load_more_string">Load %1$s more</string>
   <string name="comment_loading_more">Loading more comments&#8230;</string>
   <string name="comment_permalink">Load comment permalink</string>
   <string name="comment_parent">Show parent comment</string>
@@ -167,6 +172,8 @@
   <string name="editor_hint_subreddit">Subreddit</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Photo saved</string>
+  <string name="video_saved">Video saved</string>
+  <string name="gif_saved">GIF saved</string>
   <!-- General errors / errors without a category -->
   <string name="err_title">Uh oh, something went wrong!</string>
   <string name="err_invalid_url">Invalid URL</string>
@@ -178,12 +185,30 @@
   <string name="err_permission">Permission was denied</string>
   <string name="err_permission_msg">It looks like you denied Slide access to write to external storage. This will cause image cache, post cache, and saving images to fail :(. \nWould you like to allow Slide to access external storage?</string>
   <string name="err_authentication">Authentication failed</string>
+  <string name="error_video_not_found">Video not found</string>
+  <string name="error_video_message">An error occurred whilst loading this video</string>
+  <string name="err_comment_post_nosave_message">\nPlease try again in a minute</string>
+  <string name="err_could_not_find_content_msg">Reddit could not find the requested content</string>
+  <string name="err_refused_request_msg">Reddit refused a request. Would you like to attempt to re-connect to Reddit?</string>
+  <string name="err_something_wrong">Uh oh, something went wrong</string>
+  <string name="err_couldnt_save_choose_new">Slide couldn\'t save to the selected directory. Would you like to choose a new save location?</string>
+  <string name="err_file_not_found">File not found</string>
+  <string name="err_not_valid_backup">Not a valid Slide backup file</string>
+  <string name="err_not_valid_backup_msg">The selected file is not a valid Slide backup file</string>
+  <string name="err_file_not_found_msg">The selected file could not be found. Please make sure it exists and Slide has permissions to access that file/folder</string>
+  <string name="err_comment_post">Uh oh, posting this comment failed!</string>
+  <string name="err_comment_post_reason">"Reason: "</string>
+  <string name="err_comment_post_message">\n\nYour message has been saved as a draft. Please try again later.</string>
+  <string name="err_comment_post_copy">Copy comment</string>
+  <string name="err_connection_failed_msg">The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF not found</string>
   <string name="gif_err_msg">An error occurred when loading this GIF. Please re-open the GIF and retry.</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <string name="multireddit_err_title">No multireddits (yet)!</string>
   <string name="multireddit_err_msg">Would you like to create a new multireddit?</string>
+  <string name="public_multireddit_err_title">No multireddits!</string>
+  <string name="public_multireddit_err_msg">This user has no public multireddits.</string>
   <string name="multireddit_title_empty">Title can\'t be empty</string>
   <string name="multireddit_title_empty_msg">Please enter a title for your multireddit</string>
   <string name="multireddit_no_subs">No subreddits are added</string>
@@ -192,6 +217,8 @@
   <string name="multireddit_create_hint">Multireddit name</string>
   <string name="multireddit_invalid_name">Invalid multireddit name</string>
   <string name="multireddit_invalid_name_msg">Multireddit names may only contain letters, numbers and underscores</string>
+  <string name="btn_import_multi">Import multireddit</string>
+  <string name="delete_multireddit_title">Do you really want to delete /m/</string>
   <!-- Content types -->
   <string name="type_nsfw_img">NSFW image</string>
   <string name="type_nsfw_gif">NSFW GIF</string>
@@ -250,6 +277,7 @@
   <string name="misc_err">Error</string>
   <string name="misc_none">None</string>
   <string name="misc_retry">Would you like to try again?</string>
+  <string name="misc_retry_draft">Would you like to try again? \nA draft of your submission has been saved</string>
   <string name="misc_score_hidden">score hidden</string>
   <string name="misc_nsfw">NSFW</string>
   <string name="misc_subscribed">Subscribed</string>
@@ -260,6 +288,8 @@
   <string name="misc_img_share">Share image with</string>
   <string name="misc_link_chooser">Open URL with</string>
   <string name="misc_copy_text">Copy text</string>
+  <string name="misc_rate_title">Like Slide?</string>
+  <string name="misc_rate_msg">Rate it!</string>
   <!-- Goto User -->
   <string name="user_enter">Enter username</string>
   <string name="user_btn_goto">Go to user</string>
@@ -286,6 +316,14 @@
   <string name="btn_cache">Cache comments</string>
   <string name="btn_delete">Delete</string>
   <string name="btn_time">Time period</string>
+  <string name="btn_message">Message</string>
+  <string name="btn_add_domain">Add a domain</string>
+  <string name="btn_select">Select</string>
+  <string name="btn_view">VIEW</string>
+  <string name="btn_changelog">Changelog</string>
+  <string name="btn_set">SET</string>
+  <string name="btn_create">Create</string>
+  <string name="btn_new">New</string>
   <!-- Backup -->
   <string name="backup_success">Backup successful!</string>
   <string name="backup_restoring">Restoring your Settings</string>
@@ -318,8 +356,6 @@
   <string name="mod_btn_submission_flair">Set flair</string>
   <string name="mod_btn_mark_nsfw">Mark NSFW</string>
   <string name="mod_btn_unmark_nsfw">Unmark NSFW</string>
-  <string name="mod_btn_pin">Pin</string>
-  <string name="mod_btn_unpin">Unpin</string>
   <string name="mod_btn_remove">Remove</string>
   <string name="mod_btn_remove_reason">Remove with reason</string>
   <string name="mod_btn_author">Author profile</string>
@@ -327,11 +363,16 @@
     <item quantity="one">View %d report</item>
     <item quantity="other">View %d reports</item>
   </plurals>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <string name="undistinguish_comment">Really un-distinguish this comment?</string>
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <string name="wiki_err">No wiki found</string>
   <string name="wiki_err_msg">This subreddit doesn\'t have a wiki!</string>
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d subscribers</string>
+  <string name="subreddit_subscribers_string">%1$s subscribers</string>
+  <string name="subreddit_active_users_string_new">%1$s here now</string>
   <string name="subreddit_err_msg">The subreddit %1$s could not be found. Perhaps it\'s spelled wrong?</string>
   <string name="subreddit_err_msg_new">The subreddit %1$s could not be found. Perhaps it\'s spelt wrong, or you do not have access to this subreddit.</string>
   <string name="subreddit_err">Subreddit not found</string>
@@ -353,6 +394,7 @@
   <!-- Settings -->
   <string name="settings_reddit_prefs">Reddit preferences</string>
   <string name="settings_accent_title">Edit accent colour</string>
+  <string name="settings_delete_sub_settings">Do you really want to delete settings for %1$s?</string>
   <string name="settings_layout_default">Post layout</string>
   <string name="settings_link_album">Internal album view</string>
   <string name="settings_link_gif">Internal GIF view</string>
@@ -412,7 +454,95 @@
   <string name="settings_section_general">General</string>
   <string name="settings_section_appearance">Appearance</string>
   <string name="settings_section_other">Other</string>
+  <string name="settings_section_browser">Browser</string>
+  <string name="settings_section_internal_viewers">Internal viewers</string>
+  <string name="settings_section_custom_domains">Custom domains</string>
   <string name="settings_section_save_history">Save history</string>
+  <string name="settings_section_clear_history">Clear history</string>
+  <string name="settings_section_data_saving_mode">Data saving mode</string>
+  <string name="settings_section_image_quality">Image quality</string>
+  <string name="settings_section_hide_images">Hide images</string>
+  <string name="settings_comment_color">Colourful comment depth indicators</string>
+  <string name="settings_volume_nav_comments">Navigate comments using volume buttons</string>
+  <string name="settings_synccit_remove">DISCONNECT SYNCCIT</string>
+  <string name="settings_synccit_auth">Auth code</string>
+  <string name="settings_synccit_username">Username</string>
+  <string name="settings_synccit_delete">Really delete Synccit account?</string>
+  <string name="settings_synccit_authenticate">Authenticating with Synccit</string>
+  <string name="settings_synccit_connected">Connected successfully!</string>
+  <string name="settings_synccit_active">Synccit is now active for this device</string>
+  <string name="settings_synccit_failed">Could not authenticate</string>
+  <string name="settings_synccit_failed_msg">Make sure your username and authentication key are correct!</string>
+  <string name="settings_synccit">Synccit integration</string>
+  <string name="settings_commentnav_description">Enables a bottom bar with navigation arrows</string>
+  <string name="settings_comment_collapse">Fully collapse comments</string>
+  <string name="settings_comment_collapse_description">Also disables comment animations</string>
+  <string name="settings_comment_collapse_default">Collapse child comments by default</string>
+  <string name="settings_subredditspecific_selftext">Always show selftext previews in this subreddit</string>
+  <string name="settings_font_system">System</string>
+  <string name="settings_manage_subscriptions">Manage your subscriptions</string>
+  <string name="settings_comments_swap_long">Swap long press and tap actions</string>
+  <string name="settings_redditprefs_over18">I am over 18 and want to see NSFW content</string>
+  <string name="settings_layout_view">View mode</string>
+  <string name="settings_data_lowqaul_desc">Otherwise, always open high quality images</string>
+  <string name="settings_data_lowqaul">Load lower quality image if possible</string>
+  <string name="settings_subredditspecific_bigpic">Always show big pictures in this subreddit</string>
+  <string name="settings_layout_picture_mode">Picture mode</string>
+  <string name="settings_general_expanded_toolbar">Expanded toolbar menu</string>
+  <string name="settings_general_expanded_toolbar_desc">Show more options on the subreddit toolbar</string>
+  <string name="settings_theme_tinting">Submission colour tinting mode</string>
+  <string name="settings_reddit_thumbnail_mode">Thumbnail mode</string>
+  <string name="settings_layout_actionbar_mode">Actionbar mode</string>
+  <string name="settings_theme_tint_outside_desc">Only colour background in multireddits, frontpage, and all</string>
+  <string name="settings_layout_small_content_tag">Smaller content tag</string>
+  <string name="settings_links_force_external">Force external browser</string>
+  <string name="settings_links_force_external_desc">Choose domains that will always open externally</string>
+  <string name="settings_layout_show_domain">Show domain in info line</string>
+  <string name="settings_layout_show_content_type">Show content type in info line</string>
+  <string name="settings_layout_show_votes_comments">Show votes/comments in info line</string>
+  <string name="settings_general_swipeanywhere_description">Swipe anywhere in view to exit</string>
+  <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
+  <string name="settings_right_handed_comment_menu">Right-handed comment reply menu</string>
+  <string name="settings_reddit_description">These settings change what the Reddit API returns to Slide.\n\nTo see thumbnails in all subreddits, change the Thumbnail Mode to \'Always Show\'\n\nTo see all NSFW content, turn off \'Hide NSFW photos\' and turn on \'I am over 18\'</string>
+  <string name="settings_description_synccit">Synccit allows you to sync your submission history between devices and your browser</string>
+  <string name="settings_description_view_type">View types affect both the main view and single subreddit views.\n\nComment pane: comments slide out from next to posts and the comment page state is saved after swiping back (so you don\'t lose your place)\n\nNo subreddit tabs: disables swiping between subreddits\n\nSubreddit tabs: slide between your subreddits</string>
+  <string name="settings_comment_hide_selftext_image">Hide lead image on selftext posts</string>
+  <string name="settings_data_low_quality">Load low quality images</string>
+  <string name="settings_view_type">View type</string>
+  <string name="settings_data">Data saving</string>
+  <string name="settings_card_show_selftext">Show first paragraph of selftext</string>
+  <string name="settings_handling_external_desc">Domains entered below will always open externally</string>
+  <string name="settings_handling_enterdomain">Enter a domain or part of a domain</string>
+  <string name="settings_section_content">Content</string>
+  <string name="settings_about_changelog_post">View changelog post</string>
+  <string name="settings_backup_include_personal_title">Include personal information?</string>
+  <string name="settings_backup_include_personal_text">This includes authentication tokens, usernames, tags, and history</string>
+  <!-- View types -->
+  <string name="view_type_tabs">Subreddit tabs</string>
+  <string name="view_type_none">No subreddit tabs</string>
+  <string name="view_type_comments">Comment pane</string>
+  <!--Search methods -->
+  <string name="subreddit_search_method_title">Subreddit search method</string>
+  <string name="subreddit_search_method_drawer">Search bar in the drawer</string>
+  <string name="subreddit_search_method_toolbar">Long press on the toolbar title</string>
+  <string name="subreddit_search_method_both">Both drawer and toolbar title</string>
+  <!-- Subscription managing -->
+  <string name="reorder_add_domain">Add a domain</string>
+  <string name="reorder_fab_subreddit">Subreddit</string>
+  <string name="FAQ">FAQ</string>
+  <string name="alphabetize_subreddits">Alphabetise subreddits</string>
+  <string name="sync_subscriptions">Sync subscriptions</string>
+  <string name="cannot_be_undone">This cannot be undone.</string>
+  <string name="create_or_import_multi">Would you like to create a new collection or import a multireddit?</string>
+  <string name="btn_add_subreddit">Add a subreddit</string>
+  <string name="btn_add_collection">Add a collection</string>
+  <string name="reorder_subs_FAQ">Reorder Subreddits FAQ</string>
+  <string name="reorder_subreddits_title">Select a subreddit to add</string>
+  <string name="reorder_subreddit_name">Subreddit name</string>
+  <string name="reorder_remove_title">Remove this subreddit?</string>
+  <string name="reorder_remove_msg">You will not be unsubscribed, but will not see this subreddit in your sidebar!</string>
+  <string name="reorder_sync_complete">Sync complete</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <string name="sorting">Sorting</string>
   <string name="display">Display</string>
@@ -461,13 +591,6 @@
   <!-- Website -->
   <string name="website_back">Go back</string>
   <string name="website_external">Open in external browser</string>
-  <!-- Reorder subreddit activity -->
-  <string name="reorder_subreddits_title">Select a subreddit to add</string>
-  <string name="reorder_add_subreddit">Add a subreddit</string>
-  <string name="reorder_subreddit_name">Subreddit name</string>
-  <string name="reorder_remove_title">Remove this subreddit?</string>
-  <string name="reorder_remove_msg">You will not be unsubscribed, but will not see this subreddit in your sidebar!</string>
-  <string name="reorder_sync_complete">Sync complete</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">%d subreddit added</item>
     <item quantity="other">%d subreddits added</item>
@@ -528,24 +651,45 @@
   <string name="discover_search">Search term or topic</string>
   <string name="discover_popular">Popular</string>
   <string name="discover_trending">Trending</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <string name="choose_draft">Select a draft</string>
+  <string name="dialog_no_drafts">No drafts yet</string>
+  <string name="dialog_no_drafts_msg">You can add a draft by clicking the \'save\' icon in the editor bar!</string>
+  <string name="msg_save_draft">Message saved as a draft</string>
+  <string name="manage_drafts">Manage drafts</string>
+  <string name="really_delete_drafts">Really delete these drafts?</string>
+  <!-- Strings for widgets -->
+  <string name="widget_subname_hint">Subreddit name</string>
+  <string name="widget_content">Content</string>
+  <!-- Strings for alert dialogs -->
+  <string name="force_change_subscription">Could not change subscription</string>
+  <string name="force_change_subscription_desc">Would you still like to change it locally?</string>
+  <string name="never_load_images">Don\'t load any images</string>
+  <string name="low_quality_images_in_image_viewer">Low quality images in image viewer</string>
+  <string name="load_high_quality_image_every_time">Otherwise, load high quality image every time</string>
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <string name="autocache_subreddits">Autocache subreddits</string>
+  <string name="autocache_time">Autocache time</string>
+  <string name="cache_subreddits_now">Cache subreddits now</string>
+  <string name="cache_wifi_only">Only cache on WiFi</string>
+  <!-- Saving location setting -->
+  <string name="set_gif_save_loc">Set GIF save location</string>
+  <string name="set_gif_save_loc_msg">Slide\'s GIF save location has not yet been set. Would you like to set this now?</string>
+  <string name="set_video_save_loc">Set video save location</string>
+  <string name="set_video_save_loc_msg">Slide\'s video save location has not been set yet. Would you like to set this now?</string>
+  <string name="set_save_location">Set image save location</string>
+  <string name="set_save_location_msg">Slide\'s image save location has not been set yet. Would you like to set this now?</string>
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Load more comments</string>
-  <string name="settings_comment_color">Colourful comment depth indicators</string>
-  <string name="settings_volume_nav_comments">Navigate comments using volume buttons</string>
-  <string name="settings_synccit_remove">DISCONNECT SYNCCIT</string>
-  <string name="settings_synccit_auth">Auth code</string>
-  <string name="settings_synccit_username">Username</string>
-  <string name="settings_synccit_delete">Really delete Synccit account?</string>
-  <string name="settings_synccit_authenticate">Authenticating with Synccit</string>
-  <string name="settings_synccit_connected">Connected successfully!</string>
-  <string name="settings_synccit_active">Synccit is now active for this device</string>
-  <string name="settings_synccit_failed">Could not authenticate</string>
-  <string name="settings_synccit_failed_msg">Make sure your username and authentication key are correct!</string>
-  <string name="settings_synccit">Synccit integration</string>
   <string name="card_right_thumb">Right-aligned thumbnail</string>
-  <string name="submission_share_permalink">Share post</string>
   <string name="setting_filter_subreddits">Subreddit filters</string>
   <string name="subreddit_theme">Subreddit theme</string>
-  <string name="btn_select">Select</string>
   <string name="dialog_choose_subreddits_to_edit">Choose subreddits to edit</string>
   <string name="dialog_color_sync_title">Colour syncing</string>
   <string name="dialog_color_sync_message">This will try to retrieve the subreddit’s ‘key colour’ set by the moderators. It will not overwrite already coloured subreddits.</string>
@@ -554,16 +698,13 @@
   <string name="fab_disabled">Disabled</string>
   <string name="handling_internal_browser">Use internal browser</string>
   <string name="handling_external_browser">Use external browser</string>
-  <string name="settings_commentnav_description">Enables a bottom bar with navigation arrows</string>
-  <string name="settings_comment_collapse">Fully collapse comments</string>
-  <string name="settings_comment_collapse_description">Also disables comment animations</string>
-  <string name="settings_comment_collapse_default">Collapse child comments by default</string>
   <string name="mode_list">List</string>
   <string name="mode_centered">Card with centred image</string>
   <string name="mode_card">Card</string>
+  <string name="mode_thumbnail">Thumbnail</string>
+  <string name="mode_big_thumbnails">Big Thumbnails</string>
   <string name="mode_cropped">Big picture cropped</string>
   <string name="mode_bigpic">Big picture</string>
-  <string name="settings_general_swipeanywhere_description">Swipe anywhere in view to exit</string>
   <string name="press_actionbar">Press arrow to show actionbar</string>
   <string name="tap_actionbar">Long press for actionbar</string>
   <string name="always_actionbar">Always show actionbar</string>
@@ -571,12 +712,6 @@
   <string name="submission_share_reddit_url">Share comments</string>
   <string name="filter_content">Filter this content</string>
   <string name="content_to_hide">Content to hide on %1$s</string>
-  <string name="settings_general_comment_last_visit">Show comment count since last visit</string>
-  <string name="error_video_not_found">Video not found</string>
-  <string name="error_video_message">An error occurred whilst loading this video</string>
-  <string name="view_type_tabs">Subreddit tabs</string>
-  <string name="view_type_none">No subreddit tabs</string>
-  <string name="view_type_comments">Comment pane</string>
   <string name="btn_collapse_children_all">Collapse child comments</string>
   <string name="btn_open_content">Open content</string>
   <string name="btn_report">Report</string>
@@ -596,61 +731,28 @@
   <string name="submission_info_locked">This is a locked post. You won\'t be able to vote or comment.</string>
   <string name="card_background_tint">Card background</string>
   <string name="subreddit_name_tint">Subreddit name</string>
-  <string name="settings_comment_hide_selftext_image">Hide lead image on selftext posts</string>
   <string name="login_failed_err_decline">Be sure you didn’t select ‘Decline’ on the last screen, and try again in a minute</string>
   <string name="thumb_type_always">Always show</string>
   <string name="thumb_type_off">Never show</string>
   <string name="thumb_type_sub">Show per subreddit settings</string>
   <string name="tutorial_swipe_navigation">Swipe navigation</string>
   <string name="tutorial_swipe_description">Swipe from the left edge to exit.\n\nThis applies to images, GIFs, albums, settings, and more!</string>
-  <string name="settings_data_low_quality">Load low quality images</string>
-  <string name="settings_view_type">View type</string>
   <string name="handling_browser">Web browser</string>
-  <string name="settings_comments_swap_long">Swap long press and tap actions</string>
-  <string name="settings_redditprefs_over18">I am over 18 and want to see NSFW content</string>
-  <string name="settings_layout_view">View mode</string>
-  <string name="settings_data_lowqaul_desc">Otherwise, always open high quality images</string>
-  <string name="settings_data_lowqaul">Load lower quality image if possible</string>
-  <string name="settings_subredditspecific_bigpic">Always show big pictures in this subreddit</string>
-  <string name="settings_layout_picture_mode">Picture mode</string>
-  <string name="settings_general_expanded_toolbar">Expanded toolbar menu</string>
-  <string name="settings_general_expanded_toolbar_desc">Show more options on the subreddit toolbar</string>
-  <string name="settings_theme_tinting">Submission colour tinting mode</string>
-  <string name="settings_reddit_thumbnail_mode">Thumbnail mode</string>
-  <string name="settings_layout_actionbar_mode">Actionbar mode</string>
-  <string name="settings_theme_tint_outside_desc">Only colour background in multireddits, frontpage, and all</string>
-  <string name="settings_layout_small_content_tag">Smaller content tag</string>
-  <string name="settings_links_force_external">Force external browser</string>
-  <string name="settings_links_force_external_desc">Choose domains that will always open externally</string>
-  <string name="settings_layout_show_domain">Show domain in info line</string>
   <string name="submit_replies_to_inbox">Send replies to inbox</string>
-  <string name="settings_data">Data saving</string>
-  <string name="settings_card_show_selftext">Show first paragraph of selftext</string>
-  <string name="btn_view">VIEW</string>
   <string name="btn_open_comments">Open comments</string>
   <string name="btn_preview">Preview</string>
   <string name="sorting_default_comment">Default comment sorting</string>
-  <string name="theme_amoled_contrast">AMOLED with contrast</string>
   <string name="content_deleted">[deleted]</string>
   <string name="thread_continue">Continue this thread</string>
   <string name="type_selftext">Selftext</string>
-  <string name="settings_fab_create">Show \"create comment\" floating action button</string>
-  <string name="settings_right_handed_comment_menu">Right-handed comment reply menu</string>
   <string name="submission_unhide">Unhide post</string>
   <string name="submission_info_unhidden">Submission unhidden</string>
-  <string name="settings_handling_external_desc">Domains entered below will always open externally</string>
-  <string name="settings_handling_enterdomain">Enter a domain or part of a domain</string>
-  <string name="err_comment_post">Uh oh, posting this comment failed!</string>
-  <string name="err_comment_post_reason">"Reason: "</string>
-  <string name="err_comment_post_message">\n\nYour message has been saved as a draft. Please try again later.</string>
-  <string name="err_comment_post_copy">Copy comment</string>
-  <string name="choose_draft">Select a draft</string>
-  <string name="dialog_no_drafts">No drafts yet</string>
-  <string name="dialog_no_drafts_msg">You can add a draft by clicking the \'save\' icon in the editor bar!</string>
-  <string name="msg_save_draft">Message saved as a draft</string>
+  <string name="msg_sent_success">Message sent</string>
+  <string name="msg_sent_failure">Message failed to send</string>
+  <string name="msg_send_user_dne">That user doesn\'t exist</string>
+  <string name="editor_actions_quote_comment">Select text to quote</string>
   <string name="content_removed">[removed]</string>
   <string name="guest">Guest</string>
-  <string name="err_comment_post_nosave_message">\nPlease try again in a minute</string>
   <string name="album_slide_view">Sliding album view</string>
   <string name="album_grid">Album grid</string>
   <string name="open_externally">Open externally</string>
@@ -658,57 +760,27 @@
   <string name="download_album">Download album</string>
   <string name="compose_message">Compose message</string>
   <string name="mark_all_as_read">Mark all as read</string>
-  <string name="btn_changelog">Changelog</string>
   <string name="clear_subreddit_history">Clear subreddit history</string>
   <string name="clear_submission_history">Clear submission history</string>
   <string name="alert_history_cleared">History cleared!</string>
-  <string name="settings_subredditspecific_selftext">Always show selftext previews in this subreddit</string>
-  <string name="settings_font_system">System</string>
   <string name="manage_offline_content">Manage offline content</string>
   <string name="go_offline">Go offline</string>
-  <string name="cache_wifi_only">Only cache on WiFi</string>
-  <string name="misc_rate_title">Like Slide?</string>
-  <string name="misc_rate_msg">Rate it!</string>
   <string name="sidebar_edit_flair">Edit your flair</string>
-  <string name="no_cached_comments_found">No cached comments found</string>
   <string name="go_online_view_content">Please go online to view this content</string>
-  <string name="FAQ">FAQ</string>
-  <string name="alphabetize_subreddits">Alphabetise subreddits</string>
-  <string name="sync_subscriptions">Sync subscriptions</string>
   <string name="help">Help</string>
   <string name="upvote_percentage">Show upvote percentage</string>
-  <string name="btn_set">SET</string>
   <string name="view_subreddits">View subreddits</string>
-  <string name="settings_about_changelog_post">View changelog post</string>
-  <string name="autocache_subreddits">Autocache subreddits</string>
-  <string name="autocache_time">Autocache time</string>
-  <string name="cache_subreddits_now">Cache subreddits now</string>
   <string name="clear_saved_subreddits">Clear all saved subreddits</string>
-  <string name="settings_section_content">Content</string>
   <string name="download_the_slide_video_player_plugin">Download the Slide Video Player plugin</string>
-  <string name="settings_reddit_description">These settings change what the Reddit API returns to Slide.\n\nTo see thumbnails in all subreddits, change the Thumbnail Mode to \'Always Show\'\n\nTo see all NSFW content, turn off \'Hide NSFW photos\' and turn on \'I am over 18\'</string>
-  <string name="settings_description_synccit">Synccit allows you to sync your submission history between devices and your browser</string>
-  <string name="settings_description_view_type">View types affect both the main view and single subreddit views.\n\nComment pane: comments slide out from next to posts and the comment page state is saved after swiping back (so you don\'t lose your place)\n\nNo subreddit tabs: disables swiping between subreddits\n\nSubreddit tabs: slide between your subreddits</string>
   <string name="btn_suggest_title">Suggest title</string>
   <string name="navigate_comments_since">Comments newer than&#8230;</string>
-  <string name="err_connection_failed_msg">The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.</string>
   <string name="btn_offline">Enter offline mode</string>
-  <string name="err_could_not_find_content_msg">Reddit could not find the requested content</string>
-  <string name="err_refused_request_msg">Reddit refused a request. Would you like to attempt to re-connect to Reddit?</string>
   <string name="discard_comment_title">Discard comment?</string>
   <string name="comment_discard_msg">Do you really want to discard your comment?</string>
   <string name="backup_complete">Backup complete!</string>
   <string name="backup_saved_downloads">Backup saved to downloads</string>
-  <string name="err_file_not_found">File not found</string>
-  <string name="err_not_valid_backup">Not a valid Slide backup file</string>
-  <string name="err_not_valid_backup_msg">The selected file is not a valid Slide backup file</string>
-  <string name="err_file_not_found_msg">The selected file could not be found. Please make sure it exists and Slide has permissions to access that file/folder</string>
   <string name="include_personal_info">Include personal information?</string>
   <string name="include_personal_info_msg">This includes authentication tokens, usernames, tags, and history</string>
-  <string name="err_something_wrong">Uh oh, something went wrong</string>
-  <string name="err_couldnt_save_choose_new">Slide couldn\'t save to the selected directory. Would you like to choose a new save location?</string>
-  <string name="set_save_location">Set image save location</string>
-  <string name="set_save_location_msg">Slide\'s image save location has not been set yet. Would you like to set this now?</string>
   <string name="really_remove_subreddit_title">Really remove this subreddit?</string>
   <string name="choose_sync_time">Choose a sync time</string>
   <string name="account_suspended">This account is suspended</string>
@@ -720,30 +792,21 @@
   <string name="comment_unstickied">Comment un-stickied</string>
   <string name="sticky_comment">Really sticky this comment?</string>
   <string name="comment_stickied">Comment stickied</string>
-  <string name="undistinguish_comment">Really un-distinguish this comment?</string>
   <string name="comment_undistinguished">Comment un-distinguished</string>
   <string name="distinguish_comment">Really distinguish this comment?</string>
   <string name="comment_distinguished">Comment distinguished</string>
   <string name="remove_comment">Really remove this comment?</string>
   <string name="comment_removed">Comment removed</string>
-  <string name="create_or_import_multi">Would you like to create a new collection or import a multireddit?</string>
-  <string name="btn_add_subreddit">Add a subreddit</string>
-  <string name="btn_add_collection">Add a collection</string>
-  <string name="btn_new">New</string>
-  <string name="btn_import_multi">Import multireddit</string>
-  <string name="reorder_subs_FAQ">Reorder Subreddits FAQ</string>
   <string name="set_nav_mode">Set navigation mode</string>
-  <string name="set_gif_save_loc">Set GIF save location</string>
-  <string name="set_gif_save_loc_msg">Slide\'s GIF save location has not yet been set. Would you like to set this now?</string>
-  <string name="gif_saved">GIF saved</string>
-  <string name="set_video_save_loc">Set video save location</string>
-  <string name="set_video_save_loc_msg">Slide\'s video save location has not been set yet. Would you like to set this now?</string>
-  <string name="video_saved">Video saved</string>
-  <string name="manage_drafts">Manage drafts</string>
-  <string name="really_delete_drafts">Really delete these drafts?</string>
   <string name="auto_hide_the_comment_nav_bar">Auto-hide the comment navigation bar</string>
   <string name="rate_slide">Rate Slide</string>
   <string name="edit_query">Edit query</string>
   <string name="share_slide">Share Slide</string>
-  <!-- Strings for alert dialogs -->
+  <string name="create_folder">Create folder</string>
+  <string name="folder_name">Folder name</string>
+  <string name="sidebar_friends">Friends</string>
+  <string name="get_lq_imgur_images_through_imgur_api">Get LQ Imgur images through Imgur API</string>
+  <string name="open_links_externally">Always open this host externally</string>
+  <string name="hide_read_posts">Hide read posts</string>
+  <string name="draw_undo">Undo</string>
 </resources>

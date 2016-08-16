@@ -15,7 +15,8 @@
   <string name="submission_gild">Malfermi en retumilo</string>
   <string name="submission_save">Konservi afiŝon</string>
   <string name="submission_share">Konigi afiŝon</string>
-  <string name="submission_copy">Kopii tekston</string>
+  <string name="submission_copy_text">Kopii tekston</string>
+  <string name="submission_share_permalink">Konigi afiŝon</string>
   <plurals name="submission_points">
     <item quantity="one">%d poento</item>
     <item quantity="other">%d poentoj</item>
@@ -74,7 +75,7 @@
   <string name="err_invalid_url">Malvalida ligilo</string>
   <!-- Gif -->
   <string name="gif_err_title">Movbildo ne trovita</string>
-  <!-- Multireddit errors -->
+  <!-- Multireddits -->
   <!-- Content types -->
   <string name="type_nsfw_img">MPL/NSFW-bildo</string>
   <string name="type_nsfw_gif">MPL/NSFW-movbildo</string>
@@ -123,6 +124,7 @@
   <string name="btn_undo">Malfari</string>
   <string name="btn_yes">Jes</string>
   <string name="btn_delete">Forigi</string>
+  <string name="btn_new">Novaj</string>
   <!-- Backup -->
   <string name="backup_btn">Savkopii</string>
   <string name="backup_btn_restore">Restaŭri</string>
@@ -131,6 +133,8 @@
   <string name="mod_approved">Afiŝo aprobita.</string>
   <string name="mod_btn_approve">Aprobi</string>
   <string name="mod_btn_remove">Forigi</string>
+  <!-- Pleasantly asking the user if he made his mind up -->
+  <!-- If he did -->
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <string name="subreddit_subscribers">%1$d abonantoj</string>
@@ -152,6 +156,11 @@
   <string name="settings_title_about">Pri</string>
   <string name="settings_title_comments">Komentoj</string>
   <string name="settings_section_general">Ĝenerala</string>
+  <!-- View types -->
+  <!--Search methods -->
+  <!-- Subscription managing -->
+  <string name="reorder_fab_subreddit">Subreddit</string>
+  <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
   <string name="title_edit_theme">Redakti etoson</string>
@@ -164,7 +173,6 @@
   <!-- Offline mode -->
   <!-- Website -->
   <string name="website_back">Reen</string>
-  <!-- Reorder subreddit activity -->
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="one">%d horo</item>
@@ -179,11 +187,21 @@
   <!-- Over 18 prompt when visiting a NSFW subreddit -->
   <!-- Subreddit color synchronization - https://redd.it/41054l -->
   <!-- Discover section: find -->
-  <string name="submission_share_permalink">Konigi afiŝon</string>
+  <!-- Subreddit post notifiactions -->
+  <!-- Internal browser -->
+  <!-- Live thread -->
+  <!-- Used when viewing media -->
+  <!-- Drafts -->
+  <!-- Strings for widgets -->
+  <!-- Strings for alert dialogs -->
+  <!-- Sidebar strings (multis, flairs) -->
+  <!--Filtering dialog -->
+  <!-- Caching -->
+  <!-- Saving location setting -->
+  <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="mode_card">Karto</string>
   <string name="btn_report">Raporti</string>
   <string name="content_deleted">[forigita]</string>
   <string name="open_externally">Malfermi ekstere</string>
-  <string name="btn_new">Novaj</string>
-  <!-- Strings for alert dialogs -->
+  <string name="draw_undo">Malfari</string>
 </resources>
