@@ -4590,7 +4590,7 @@ public class MainActivity extends BaseActivity {
                 }
                 NotificationManager notificationManager =
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.cancelAll();
+                notificationManager.cancel(0);
             } else if (count != -1) {
                 if (badge != null) {
                     badge.setVisibility(View.VISIBLE);
