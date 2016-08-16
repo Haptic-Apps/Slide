@@ -93,7 +93,7 @@ public class HasSeen {
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3, fullname.length());
         }
-        return seenTimes.containsKey(fullname) ? seenTimes.get(fullname) : System.currentTimeMillis();
+        return seenTimes.containsKey(fullname) ? seenTimes.get(fullname) : Long.valueOf(KVStore.getInstance().get(fullname));
     }
 
     public static void addSeen(String fullname) {

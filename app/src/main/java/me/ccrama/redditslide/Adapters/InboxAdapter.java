@@ -19,10 +19,14 @@ import android.os.AsyncTask;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,13 +56,14 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
-public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements BaseAdapter {
+public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements BaseAdapter {
 
     private static final int TOP_LEVEL = 1;
-    private final int SPACER = 6;
-    public final Context mContext;
-    private final RecyclerView listView;
-    public InboxMessages dataSet;
+    private final        int SPACER    = 6;
+    public final  Context       mContext;
+    private final RecyclerView  listView;
+    public        InboxMessages dataSet;
 
     public InboxAdapter(Context mContext, InboxMessages dataSet, RecyclerView listView) {
 
@@ -82,16 +87,22 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0 && !dataSet.posts.isEmpty() || position == dataSet.posts.size() +1  && dataSet.nomore && !dataSet.where.equalsIgnoreCase("where")) {
+        if (position == 0 && !dataSet.posts.isEmpty()
+                || position == dataSet.posts.size() + 1
+                && dataSet.nomore
+                && !dataSet.where.equalsIgnoreCase("where")) {
             return SPACER;
-        } else  {
+        } else {
             position -= 1;
         }
-        if (position == dataSet.posts.size()  && !dataSet.posts.isEmpty() && !dataSet.nomore) {
+        if (position == dataSet.posts.size() && !dataSet.posts.isEmpty() && !dataSet.nomore) {
             return 5;
         }
-        if (dataSet.posts.get(position).getSubject().toLowerCase().contains("re:") && dataSet.where.equalsIgnoreCase("messages"))//IS COMMENT IN MESSAGES
+        if (dataSet.posts.get(position).getSubject().toLowerCase().contains("re:")
+                && dataSet.where.equalsIgnoreCase("messages"))//IS COMMENT IN MESSAGES
+        {
             return 2;
+        }
 
         return TOP_LEVEL;
     }
@@ -99,16 +110,20 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if (i == SPACER) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.spacer, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.spacer, viewGroup, false);
             return new SpacerViewHolder(v);
         } else if (i == TOP_LEVEL) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.top_level_message, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.top_level_message, viewGroup, false);
             return new MessageViewHolder(v);
         } else if (i == 5) {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.loadingmore, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.loadingmore, viewGroup, false);
             return new ContributionAdapter.EmptyViewHolder(v);
         } else {
-            View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_reply, viewGroup, false);
+            View v = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.message_reply, viewGroup, false);
             return new MessageViewHolder(v);
 
         }
@@ -119,20 +134,26 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(final RecyclerView.ViewHolder viewHolder, int pos) {
         int i = pos != 0 ? pos - 1 : pos;
 
-        if (!(viewHolder instanceof ContributionAdapter.EmptyViewHolder) && !(viewHolder instanceof SpacerViewHolder)) {
+        if (!(viewHolder instanceof ContributionAdapter.EmptyViewHolder)
+                && !(viewHolder instanceof SpacerViewHolder)) {
             final MessageViewHolder messageViewHolder = (MessageViewHolder) viewHolder;
 
             final Message comment = dataSet.posts.get(i);
-            messageViewHolder.time.setText(TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
+            messageViewHolder.time.setText(
+                    TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext));
 
             SpannableStringBuilder titleString = new SpannableStringBuilder();
             String author = comment.getAuthor();
             String direction = "from ";
-            if(comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase( comment.getDataNode().get("dest").asText()) && !comment.getDataNode().get("dest").asText().equals("reddit")){
+            if (comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase(
+                    comment.getDataNode().get("dest").asText()) && !comment.getDataNode()
+                    .get("dest")
+                    .asText()
+                    .equals("reddit")) {
                 author = comment.getDataNode().get("dest").asText().replace("#", "/r/");
                 direction = "to ";
             }
-            if(comment.getDataNode().has("subreddit") && author == null || author.isEmpty()){
+            if (comment.getDataNode().has("subreddit") && author == null || author.isEmpty()) {
                 direction = "via /r/" + comment.getSubreddit();
             }
             titleString.append(direction);
@@ -140,40 +161,64 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 titleString.append(author);
                 titleString.append(" ");
                 if (UserTags.isUserTagged(author)) {
-                    SpannableStringBuilder pinned = new SpannableStringBuilder(" " + UserTags.getUserTag(author) + " ");
-                    pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    SpannableStringBuilder pinned =
+                            new SpannableStringBuilder(" " + UserTags.getUserTag(author) + " ");
+                    pinned.setSpan(
+                            new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500,
+                                    false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     titleString.append(pinned);
                     titleString.append(" ");
                 }
 
                 if (UserSubscriptions.friends.contains(author)) {
-                    SpannableStringBuilder pinned = new SpannableStringBuilder(" " + mContext.getString(R.string.profile_friend) + " ");
-                    pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    SpannableStringBuilder pinned = new SpannableStringBuilder(
+                            " " + mContext.getString(R.string.profile_friend) + " ");
+                    pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white,
+                                    R.color.md_deep_orange_500, false), 0, pinned.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     titleString.append(pinned);
                     titleString.append(" ");
                 }
             }
             String spacer = mContext.getString(R.string.submission_properties_seperator);
-            if (comment.getDataNode().has("subreddit") && !comment.getDataNode().get("subreddit").isNull()) {
+            if (comment.getDataNode().has("subreddit") && !comment.getDataNode()
+                    .get("subreddit")
+                    .isNull()) {
                 titleString.append(spacer);
                 String subname = comment.getDataNode().get("subreddit").asText();
                 SpannableStringBuilder subreddit = new SpannableStringBuilder("/r/" + subname);
-                if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
-                    subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                if ((SettingValues.colorSubName
+                        && Palette.getColor(subname) != Palette.getDefaultColor())) {
+                    subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0,
+                            subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(),
+                            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
 
                 titleString.append(subreddit);
             }
 
             messageViewHolder.user.setText(titleString);
-            messageViewHolder.title.setText(comment.getSubject());
+            SpannableStringBuilder b = new SpannableStringBuilder(comment.getSubject());
+            if(comment.getDataNode().has("link_title")){
+                SpannableStringBuilder link =
+                        new SpannableStringBuilder(" " + comment.getDataNode().get("link_title").asText() + " ");
+                link.setSpan(
+                        new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                link.setSpan(
+                        new RelativeSizeSpan(0.8f), 0, link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                b.append(link);
+            }
+            messageViewHolder.title.setText(b);
 
 
             if (comment.isRead()) {
-                messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
+                messageViewHolder.title.setTextColor(
+                        messageViewHolder.content.getCurrentTextColor());
             } else {
-                messageViewHolder.title.setTextColor(ContextCompat.getColor(mContext, R.color.md_red_500));
+                messageViewHolder.title.setTextColor(
+                        ContextCompat.getColor(mContext, R.color.md_red_400));
             }
 
 
@@ -200,14 +245,18 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                     ta.recycle();
 
-                    BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext)
-                            .title(Html.fromHtml(comment.getSubject()));
+                    BottomSheet.Builder b = new BottomSheet.Builder((Activity) mContext).title(
+                            Html.fromHtml(comment.getSubject()));
 
                     String author = comment.getAuthor();
-                    if(comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase( comment.getDataNode().get("dest").asText()) && !comment.getDataNode().get("dest").asText().equals("reddit")){
+                    if (comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase(
+                            comment.getDataNode().get("dest").asText()) && !comment.getDataNode()
+                            .get("dest")
+                            .asText()
+                            .equals("reddit")) {
                         author = comment.getDataNode().get("dest").asText().replace("#", "/r/");
                     }
-                    if (comment.getAuthor()!=null) {
+                    if (comment.getAuthor() != null) {
                         b.sheet(1, profile, "/u/" + author);
                     }
 
@@ -238,11 +287,14 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                     if (comment.isRead()) {
                                         comment.read = false;
                                         new AsyncSetRead(false).execute(comment);
-                                        messageViewHolder.title.setTextColor(ContextCompat.getColor(mContext, R.color.md_red_500));
+                                        messageViewHolder.title.setTextColor(
+                                                ContextCompat.getColor(mContext,
+                                                        R.color.md_red_400));
                                     } else {
                                         comment.read = true;
                                         new AsyncSetRead(true).execute(comment);
-                                        messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
+                                        messageViewHolder.title.setTextColor(
+                                                messageViewHolder.content.getCurrentTextColor());
                                     }
                                 }
                                 break;
@@ -254,20 +306,28 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                                         i.putExtra(Sendmessage.EXTRA_REPLY, true);
                                         mContext.startActivity(i);
                                     } else {
-                                        new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
+                                        new OpenRedditLink(mContext,
+                                                comment.getDataNode().get("context").asText());
                                     }
                                 }
                                 break;
                                 case 25: {
-                                    ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                    ClipData clip = ClipData.newPlainText("Message", comment.getBody());
+                                    ClipboardManager clipboard =
+                                            (ClipboardManager) mContext.getSystemService(
+                                                    Context.CLIPBOARD_SERVICE);
+                                    ClipData clip =
+                                            ClipData.newPlainText("Message", comment.getBody());
                                     clipboard.setPrimaryClip(clip);
-                                    Toast.makeText(mContext, mContext.getString(R.string.mail_message_copied), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext,
+                                            mContext.getString(R.string.mail_message_copied),
+                                            Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                                 case 30: {
                                     String context = comment.getDataNode().get("context").asText();
-                                    new OpenRedditLink(mContext, "https://reddit.com" + context.substring(0, context.lastIndexOf("/")));
+                                    new OpenRedditLink(mContext,
+                                            "https://reddit.com" + context.substring(0,
+                                                    context.lastIndexOf("/")));
                                 }
                                 break;
                             }
@@ -288,22 +348,27 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             i.putExtra(Sendmessage.EXTRA_REPLY, true);
                             mContext.startActivity(i);
                         } else {
-                            new OpenRedditLink(mContext, comment.getDataNode().get("context").asText());
+                            new OpenRedditLink(mContext,
+                                    comment.getDataNode().get("context").asText());
                         }
                     } else {
                         comment.read = true;
                         new AsyncSetRead(true).execute(comment);
 
-                        messageViewHolder.title.setTextColor(messageViewHolder.content.getCurrentTextColor());
+                        messageViewHolder.title.setTextColor(
+                                messageViewHolder.content.getCurrentTextColor());
                     }
                 }
             });
 
-            setViews(comment.getDataNode().get("body_html").asText(), "FORCE_LINK_CLICK", messageViewHolder);
+            setViews(comment.getDataNode().get("body_html").asText(), "FORCE_LINK_CLICK",
+                    messageViewHolder);
         }
 
         if (viewHolder instanceof SpacerViewHolder) {
-            viewHolder.itemView.findViewById(R.id.height).setLayoutParams(new LinearLayout.LayoutParams(viewHolder.itemView.getWidth(), ((Activity) mContext).findViewById(R.id.header).getHeight()));
+            viewHolder.itemView.findViewById(R.id.height)
+                    .setLayoutParams(new LinearLayout.LayoutParams(viewHolder.itemView.getWidth(),
+                            ((Activity) mContext).findViewById(R.id.header).getHeight()));
         }
     }
 
@@ -335,7 +400,8 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (startIndex == 0) {
                 holder.commentOverflow.setViews(blocks, subredditName);
             } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()),
+                        subredditName);
             }
         } else {
             holder.commentOverflow.removeAllViews();
@@ -348,7 +414,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (dataSet.posts == null || dataSet.posts.isEmpty()) {
             return 0;
         } else {
-            return dataSet.posts.size() +  2;
+            return dataSet.posts.size() + 2;
 
         }
     }

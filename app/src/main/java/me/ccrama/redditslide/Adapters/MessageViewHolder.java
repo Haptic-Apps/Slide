@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ public class MessageViewHolder extends RecyclerView.ViewHolder {
     public MessageViewHolder(View v) {
         super(v);
         title = (TextView) v.findViewById(R.id.title);
+        title.setMaxLines(1);
+        title.setEllipsize(TextUtils.TruncateAt.END);
         content = (SpoilerRobotoTextView) v.findViewById(R.id.content);
         time = (TextView) v.findViewById(R.id.time);
         commentOverflow = (CommentOverflow) v.findViewById(R.id.commentOverflow);
