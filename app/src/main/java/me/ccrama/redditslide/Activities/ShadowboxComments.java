@@ -7,11 +7,14 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import net.dean.jraw.models.Comment;
+import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Submission;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import me.ccrama.redditslide.Adapters.CommentUrlObject;
 import me.ccrama.redditslide.Adapters.MultiredditPosts;
 import me.ccrama.redditslide.Adapters.SubmissionDisplay;
 import me.ccrama.redditslide.Adapters.SubredditPosts;
@@ -29,12 +32,13 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.PostLoader;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
 public class ShadowboxComments extends FullScreenActivity {
-    public static ArrayList<Comment> comments;
+    public static ArrayList<CommentUrlObject> comments;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -43,7 +47,7 @@ public class ShadowboxComments extends FullScreenActivity {
         if(comments == null || comments.isEmpty()){
             finish();
         }
-        applyDarkColorTheme(comments.get(0).getSubredditName());
+        applyDarkColorTheme(comments.get(0).comment.getComment().getSubredditName());
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_slide);
 
@@ -64,11 +68,10 @@ public class ShadowboxComments extends FullScreenActivity {
         public Fragment getItem(int i) {
 
             Fragment f = null;
-            Comment comment = comments.get(i);
+            Comment comment = comments.get(i).comment.getComment();
 
-            String body = comment.getDataNode().get("body_html").asText();
-            int start = body.indexOf("&lt;a href=\"");
-            String url = body.substring(start + 12, body.indexOf("\"", start + 13));
+            String url = comments.get(i).url;
+
             ContentType.Type t = ContentType.getContentType(url);
 
             switch (t) {

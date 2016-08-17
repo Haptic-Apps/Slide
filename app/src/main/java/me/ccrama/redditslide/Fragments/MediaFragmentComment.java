@@ -28,6 +28,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Comment;
+import net.dean.jraw.models.CommentNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +41,7 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.ShadowboxComments;
 import me.ccrama.redditslide.Activities.Website;
+import me.ccrama.redditslide.Adapters.CommentUrlObject;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
@@ -77,7 +79,7 @@ public class MediaFragmentComment extends Fragment {
     private int                   stopPosition;
     public  boolean               isGif;
     private GifUtils.AsyncLoadGif gif;
-    private Comment               s;
+    private CommentUrlObject      s;
     private OkHttpClient          client;
     private Gson                  gson;
     private String                mashapeKey;
@@ -127,19 +129,19 @@ public class MediaFragmentComment extends Fragment {
             stopPosition = savedInstanceState.getInt("position");
         }
 
-        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
+        PopulateShadowboxInfo.doActionbar(s.comment, rootView, getActivity(), true);
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
 
         ContentType.Type type = ContentType.getContentType(contentUrl);
 
         if (!ContentType.fullImage(type)) {
             addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type,
-                    getActivity(), s);
+                    getActivity(), s.comment);
 
         } else {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
             addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type,
-                    getActivity(), s);
+                    getActivity(), s.comment);
         }
         doLoad(contentUrl);
 
@@ -173,13 +175,14 @@ public class MediaFragmentComment extends Fragment {
                             SlidingUpPanelLayout.PanelState previousState,
                             SlidingUpPanelLayout.PanelState newState) {
                         if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                            final Comment c = s.comment.getComment();
                             rootView.findViewById(R.id.base)
                                     .setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
                                             String url =  "https://reddit.com"
-                                                    + "/r/" + s.getSubredditName() + "/comments/"
-                                                    + s.getDataNode().get("link_id").asText().substring(3, s.getDataNode().get("link_id").asText().length())+"/nothing/" + s.getId()
+                                                    + "/r/" + c.getSubredditName() + "/comments/"
+                                                    + c.getDataNode().get("link_id").asText().substring(3, c.getDataNode().get("link_id").asText().length())+"/nothing/" + c.getId()
                                                     + "?context=3";
                                             new OpenRedditLink(getActivity(), url);
                                         }
@@ -198,7 +201,7 @@ public class MediaFragmentComment extends Fragment {
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page");
         s = ((ShadowboxComments) getActivity()).comments.get(i);
-        sub = s.getSubredditName();
+        sub = s.comment.getComment().getSubredditName();
         contentUrl = bundle.getString("contentUrl");
         client = new OkHttpClient();
         gson = new Gson();
@@ -225,7 +228,7 @@ public class MediaFragmentComment extends Fragment {
     }
 
     private void addClickFunctions(final View base, final View clickingArea, ContentType.Type type,
-            final Activity contextActivity, final Comment comment) {
+            final Activity contextActivity, final CommentNode comment) {
         switch (type) {
             case VID_ME:
             case STREAMABLE:
@@ -255,7 +258,7 @@ public class MediaFragmentComment extends Fragment {
 
                     @Override
                     public void onClick(View v2) {
-                        LinkUtil.openUrl(contentUrl, Palette.getColor(s.getSubredditName()),
+                        LinkUtil.openUrl(contentUrl, Palette.getColor(s.comment.getComment().getSubredditName()),
                                 contextActivity);
                     }
                 });
@@ -354,7 +357,7 @@ public class MediaFragmentComment extends Fragment {
         rootView.findViewById(R.id.progress).setVisibility(View.GONE);
         gif = new GifUtils.AsyncLoadGif(getActivity(),
                 (MediaVideoView) rootView.findViewById(R.id.gif), loader,
-                rootView.findViewById(R.id.placeholder), false, false, false);
+                rootView.findViewById(R.id.placeholder), false, false, true);
         gif.execute(dat);
     }
 

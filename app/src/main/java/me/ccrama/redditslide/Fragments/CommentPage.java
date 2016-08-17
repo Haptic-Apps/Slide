@@ -63,6 +63,7 @@ import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.CommentItem;
 import me.ccrama.redditslide.Adapters.CommentNavType;
 import me.ccrama.redditslide.Adapters.CommentObject;
+import me.ccrama.redditslide.Adapters.CommentUrlObject;
 import me.ccrama.redditslide.Adapters.MoreChildItem;
 import me.ccrama.redditslide.Adapters.SubmissionComments;
 import me.ccrama.redditslide.Authentication;
@@ -590,12 +591,27 @@ public class CommentPage extends Fragment {
                                                 .asText()
                                                 .contains("&lt;/a")) {
                                             String body = c.comment.getComment().getDataNode().get("body_html").asText();
-                                            int start = body.indexOf("&lt;a href=\"");
-                                            String url = body.substring(start + 12, body.indexOf("\"", start + 13));
-                                            ContentType.Type t = ContentType.getContentType(url);
+                                            String url;
+                                            String[] split = body.split("&lt;a href=\"");
+                                            if(split.length > 1){
+                                                for(String chunk : split){
+                                                    url = chunk.substring(0, chunk.indexOf("\"", 1));
+                                                    ContentType.Type t = ContentType.getContentType(url);
 
-                                            if(ContentType.mediaType(t)) {
-                                                ShadowboxComments.comments.add(c.comment.getComment());
+                                                    if(ContentType.mediaType(t)) {
+                                                        ShadowboxComments.comments.add(new CommentUrlObject(c.comment, url));
+                                                    }
+
+                                                }
+                                            } else {
+                                                int start = body.indexOf("&lt;a href=\"");
+                                                url = body.substring(start, body.indexOf("\"", start + 1));
+                                                ContentType.Type t = ContentType.getContentType(url);
+
+                                                if(ContentType.mediaType(t)) {
+                                                    ShadowboxComments.comments.add(new CommentUrlObject(c.comment, url));
+                                                }
+
                                             }
                                         }
                                     }

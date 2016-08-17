@@ -15,6 +15,7 @@ import android.view.ViewTreeObserver;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Comment;
+import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.Submission;
 
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +26,7 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.Shadowbox;
 import me.ccrama.redditslide.Activities.ShadowboxComments;
 import me.ccrama.redditslide.Adapters.AlbumView;
+import me.ccrama.redditslide.Adapters.CommentUrlObject;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
@@ -39,7 +41,7 @@ public class AlbumFullComments extends Fragment {
     boolean gallery = false;
     private View list;
     private int i = 0;
-    private Comment s;
+    private CommentUrlObject s;
     boolean hidden;
     View rootView;
 
@@ -49,11 +51,9 @@ public class AlbumFullComments extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(
                 R.layout.submission_albumcard, container, false);
-        PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
+        PopulateShadowboxInfo.doActionbar(s.comment, rootView, getActivity(), true);
 
-        String body = s.getDataNode().get("body_html").asText();
-        int start = body.indexOf("&lt;a href=\"");
-        String url = body.substring(start + 12, body.indexOf("\"", start + 13));
+        String url = s.url;
 
         if (url.contains("gallery")) {
             gallery = true;

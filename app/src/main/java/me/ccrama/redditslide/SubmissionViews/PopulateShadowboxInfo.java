@@ -15,9 +15,11 @@ import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +34,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Comment;
+import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
@@ -48,6 +51,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.AnimateHelper;
+import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Views.TitleTextView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
@@ -269,7 +273,8 @@ public class PopulateShadowboxInfo {
         }
     }
 
-    public static void doActionbar(final Comment s, final View rootView, final Activity c, boolean extras) {
+    public static void doActionbar(final CommentNode node, final View rootView, final Activity c, boolean extras) {
+        final Comment s = node.getComment();
         TitleTextView title = (TitleTextView) rootView.findViewById(R.id.title);
         TextView desc = (TextView) rootView.findViewById(R.id.desc);
         String distingush = "";
@@ -279,21 +284,33 @@ public class PopulateShadowboxInfo {
             else if (s.getDistinguishedStatus() == DistinguishedStatus.ADMIN)
                 distingush = "[A]";
 
-            title.setTextHtml(Html.fromHtml(s.getDataNode().get("body_html").asText()));
+            SpannableStringBuilder commentTitle = new SpannableStringBuilder();
+            SpannableStringBuilder level = new SpannableStringBuilder();
+            if(!node.isTopLevel()){
+                level.append("["+node.getDepth() + "] ");
+                level.setSpan(new RelativeSizeSpan(0.7f),0, level.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                commentTitle.append(level);
+            }
+            commentTitle.append(Html.fromHtml(s.getDataNode().get("body_html").asText().trim()));
+            title.setTextHtml(commentTitle);
             title.setMaxLines(3);
 
             String spacer = c.getString(R.string.submission_properties_seperator);
             SpannableStringBuilder titleString = new SpannableStringBuilder();
 
-            SpannableStringBuilder subreddit = new SpannableStringBuilder(" /r/" + s.getSubredditName() + " ");
+            SpannableStringBuilder author = new SpannableStringBuilder(" /u/" + s.getAuthor() + " ");
+            int authorcolor = Palette.getFontColorUser(s.getAuthor());
 
-            String subname = s.getSubredditName().toLowerCase();
-            if ((SettingValues.colorSubName && Palette.getColor(subname) != Palette.getDefaultColor())) {
-                subreddit.setSpan(new ForegroundColorSpan(Palette.getColor(subname)), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                subreddit.setSpan(new StyleSpan(Typeface.BOLD), 0, subreddit.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (Authentication.name != null && s.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
+                author.setSpan(new RoundedBackgroundSpan(c, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (s.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || s.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+                author.setSpan(new RoundedBackgroundSpan(c, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (authorcolor != 0) {
+                author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
-            titleString.append(subreddit);
+            titleString.append(author);
             titleString.append(distingush);
             titleString.append(spacer);
 

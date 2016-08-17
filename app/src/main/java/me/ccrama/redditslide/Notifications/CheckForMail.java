@@ -405,7 +405,6 @@ public class CheckForMail extends BroadcastReceiver {
                 unread.setSyntax(SubmissionSearchPaginator.SearchSyntax.CLOUDSEARCH);
                 unread.setSubreddit(first);
                 unread.setLimit(30);
-                LogUtil.v(unread.getSubreddit() + " AND " + unread.getQuery());
                 if (unread.hasNext()) {
                     for (Submission subm : unread.next()) {
                         if (subm.getScore() >= subThresholds.get(
