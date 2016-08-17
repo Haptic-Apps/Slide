@@ -28,16 +28,12 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Comment;
-import net.dean.jraw.models.CommentNode;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import me.ccrama.redditslide.Activities.Album;
-import me.ccrama.redditslide.Activities.AlbumPager;
-import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.ShadowboxComments;
 import me.ccrama.redditslide.Activities.Website;
@@ -49,14 +45,11 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateShadowboxInfo;
-import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
-import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
-import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import okhttp3.OkHttpClient;
@@ -128,6 +121,7 @@ public class MediaFragmentComment extends Fragment {
         if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
             stopPosition = savedInstanceState.getInt("position");
         }
+        final SlidingUpPanelLayout slideLayout = ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
 
         PopulateShadowboxInfo.doActionbar(s.comment, rootView, getActivity(), true);
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
@@ -135,13 +129,13 @@ public class MediaFragmentComment extends Fragment {
         ContentType.Type type = ContentType.getContentType(contentUrl);
 
         if (!ContentType.fullImage(type)) {
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type,
-                    getActivity(), s.comment);
+            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,rootView, type,
+                    getActivity(), s);
 
         } else {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type,
-                    getActivity(), s.comment);
+            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,rootView, type,
+                    getActivity(), s);
         }
         doLoad(contentUrl);
 
@@ -227,124 +221,36 @@ public class MediaFragmentComment extends Fragment {
         }
     }
 
-    private void addClickFunctions(final View base, final View clickingArea, ContentType.Type type,
-            final Activity contextActivity, final CommentNode comment) {
-        switch (type) {
-            case VID_ME:
-            case STREAMABLE:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (SettingValues.video) {
-                            Intent myIntent = new Intent(contextActivity, MediaView.class);
-                            myIntent.putExtra(MediaView.EXTRA_URL, contentUrl);
-                            contextActivity.startActivity(myIntent);
+    private static void addClickFunctions(final View base, final SlidingUpPanelLayout slidingPanel, final View clickingArea,
+            final ContentType.Type type, final Activity contextActivity, final CommentUrlObject submission) {
+        base.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                } else {
+                    switch (type) {
+                        case IMAGE:
+                            if (SettingValues.image) {
+                                Intent myIntent = new Intent(contextActivity, MediaView.class);
+                                String url;
+                                url = submission.getUrl();
+                                        myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
+                                myIntent.putExtra(MediaView.EXTRA_URL, url);
+                                myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 
-                        } else {
-                            Reddit.defaultShare(contentUrl, contextActivity);
-                        }
-                    }
-                });
-            case REDDIT:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openRedditContent(contentUrl, contextActivity);
-                    }
-                });
-                break;
-            case LINK:
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
-                        LinkUtil.openUrl(contentUrl, Palette.getColor(s.comment.getComment().getSubredditName()),
-                                contextActivity);
-                    }
-                });
-                break;
-            case SELF:
-
-                break;
-            case ALBUM:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-
-                        if (SettingValues.album) {
-                            if (SettingValues.albumSwipe) {
-                                Intent i = new Intent(contextActivity, AlbumPager.class);
-                                i.putExtra(Album.EXTRA_URL, contentUrl);
-                                contextActivity.startActivity(i);
-                                contextActivity.overridePendingTransition(R.anim.slideright,
-                                        R.anim.fade_out);
+                                contextActivity.startActivity(myIntent);
                             } else {
-                                Intent i = new Intent(contextActivity, Album.class);
-                                i.putExtra(Album.EXTRA_URL, contentUrl);
-                                contextActivity.startActivity(i);
-                                contextActivity.overridePendingTransition(R.anim.slideright,
-                                        R.anim.fade_out);
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
                             }
 
-
-                        } else {
-                            Reddit.defaultShare(contentUrl, contextActivity);
-                        }
-
+                            break;
                     }
-                });
-                break;
-            case DEVIANTART:
-            case IMAGE:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        Intent myIntent = new Intent(contextActivity, MediaView.class);
-                        String url;
-                        url = contentUrl;
-                        myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, contentUrl);
-                        myIntent.putExtra(MediaView.EXTRA_URL, url);
-                        myIntent.putExtra(MediaView.EXTRA_SHARE_URL, url);
-                        contextActivity.startActivity(myIntent);
-                    }
-                });
-                break;
-            case GIF:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        Intent myIntent = new Intent(contextActivity, MediaView.class);
-                        myIntent.putExtra(MediaView.EXTRA_URL, contentUrl);
-                        contextActivity.startActivity(myIntent);
-                    }
-                });
-                break;
-            case NONE:
-
-                break;
-            case VIDEO:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (Reddit.videoPlugin) {
-                            try {
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
-                                        "ccrama.me.slideyoutubeplugin.YouTubeView");
-                                sharingIntent.putExtra("url", contentUrl);
-                                contextActivity.startActivity(sharingIntent);
-
-                            } catch (Exception e) {
-                                Reddit.defaultShare(contentUrl, contextActivity);
-                            }
-                        } else {
-                            Reddit.defaultShare(contentUrl, contextActivity);
-                        }
-                    }
-                });
-        }
-
+                }
+            }
+        });
     }
+
 
     public void doLoadGif(final String dat) {
         isGif = true;
@@ -747,15 +653,6 @@ public class MediaFragmentComment extends Fragment {
                                     }
                                 });
             }
-
-            rootView.findViewById(R.id.submission_image)
-                    .setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            getActivity().finish();
-                        }
-                    });
         }
     }
 }

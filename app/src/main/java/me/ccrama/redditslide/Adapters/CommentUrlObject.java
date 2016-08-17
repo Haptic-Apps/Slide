@@ -14,4 +14,8 @@ public class CommentUrlObject {
         this.comment = comment;
         this.url = url;
     }
+
+    public String getUrl() {
+        return url;
+    }
 }

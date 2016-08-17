@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -136,6 +137,37 @@ public class MediaFragment extends Fragment {
 
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
 
+        ImageView typeImage = (ImageView) rootView.findViewById(R.id.type);
+        typeImage.setVisibility(View.VISIBLE);
+        View img = rootView.findViewById(R.id.submission_image);
+        final SlidingUpPanelLayout slideLayout = ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
+
+        img.setAlpha(1f);
+        switch (ContentType.getContentType(s)) {
+            case ALBUM:
+                typeImage.setImageResource(R.drawable.album);
+                break;
+            case EXTERNAL:
+            case LINK:
+            case REDDIT:
+                typeImage.setImageResource(R.drawable.world);
+                rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
+                break;
+            case SELF:
+                typeImage.setImageResource(R.drawable.fontsizedarker);
+                break;
+            case EMBEDDED:
+            case GIF:
+            case STREAMABLE:
+            case VIDEO:
+            case VID_ME:
+                typeImage.setImageResource(R.drawable.play);
+                rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
+                break;
+            default:
+                typeImage.setVisibility(View.GONE);
+                break;
+        }
 
         ContentType.Type type = ContentType.getContentType(s);
 
@@ -150,16 +182,16 @@ public class MediaFragment extends Fragment {
                 (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
                         R.drawable.web);
-                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), rootView, type,
+                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout,rootView, type,
                         getActivity(), s);
                 (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
             } else {
-                addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type,
+                addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,rootView, type,
                         getActivity(), s);
             }
         } else {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), rootView, type,
+            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,rootView, type,
                     getActivity(), s);
         }
         doLoad(contentUrl);
@@ -189,12 +221,11 @@ public class MediaFragment extends Fragment {
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
-                        ((SlidingUpPanelLayout) rootView.findViewById(
-                                R.id.sliding_layout)).setPanelHeight(title.getMeasuredHeight());
+                        slideLayout.setPanelHeight(title.getMeasuredHeight());
                         title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
-        ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout)).addPanelSlideListener(
+        slideLayout.addPanelSlideListener(
                 new SlidingUpPanelLayout.PanelSlideListener() {
                     @Override
                     public void onPanelSlide(View panel, float slideOffset) {
@@ -263,140 +294,110 @@ public class MediaFragment extends Fragment {
         }
     }
 
-    private static void addClickFunctions(final View base, final View clickingArea,
-            ContentType.Type type, final Activity contextActivity, final Submission submission) {
-        switch (type) {
-            case VID_ME:
-            case STREAMABLE:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (SettingValues.video) {
-                            Intent myIntent = new Intent(contextActivity, MediaView.class);
-                            myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
-                            contextActivity.startActivity(myIntent);
+    private static void addClickFunctions(final View base, final SlidingUpPanelLayout slidingPanel, final View clickingArea,
+            final ContentType.Type type, final Activity contextActivity, final Submission submission) {
+        base.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (slidingPanel.getPanelState() == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    slidingPanel.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                } else {
+                    switch (type) {
+                        case VID_ME:
+                        case STREAMABLE:
 
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-                    }
-                });
-            case EMBEDDED:
-                base.setOnClickListener(new View.OnClickListener() {
+                            if (SettingValues.video) {
+                                Intent myIntent = new Intent(contextActivity, MediaView.class);
+                                myIntent.putExtra(MediaView.EXTRA_URL, submission.getUrl());
+                                contextActivity.startActivity(myIntent);
 
-                    @Override
-                    public void onClick(View v2) {
-                        if (SettingValues.video) {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                            String data = submission.getDataNode()
-                                    .get("media_embed")
-                                    .get("content")
-                                    .asText();
-                            {
-                                Intent i = new Intent(contextActivity, FullscreenVideo.class);
-                                i.putExtra(FullscreenVideo.EXTRA_HTML, data);
-                                contextActivity.startActivity(i);
-                            }
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-                    }
-
-                });
-                break;
-            case REDDIT:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(),
-                                contextActivity);
-                    }
-                });
-                break;
-            case LINK:
-                base.setOnClickListener(new View.OnClickListener() {
-
-                    @Override
-                    public void onClick(View v2) {
-                        LinkUtil.openUrl(submission.getUrl(),
-                                Palette.getColor(submission.getSubredditName()), contextActivity);
-                    }
-                });
-                break;
-            case SELF:
-
-                break;
-            case ALBUM:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-
-                        if (SettingValues.album) {
-                            if (SettingValues.albumSwipe) {
-                                Intent i = new Intent(contextActivity, AlbumPager.class);
-                                i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                contextActivity.startActivity(i);
-                                contextActivity.overridePendingTransition(R.anim.slideright,
-                                        R.anim.fade_out);
                             } else {
-                                Intent i = new Intent(contextActivity, Album.class);
-                                i.putExtra(Album.EXTRA_URL, submission.getUrl());
-                                contextActivity.startActivity(i);
-                                contextActivity.overridePendingTransition(R.anim.slideright,
-                                        R.anim.fade_out);
-                            }
-
-
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-
-                    }
-                });
-                break;
-            case DEVIANTART:
-            case IMAGE:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openImage(contextActivity, submission, null,
-                                -1);
-                    }
-                });
-                break;
-            case GIF:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v2) {
-                        PopulateSubmissionViewHolder.openGif(contextActivity, submission, -1);
-                    }
-                });
-                break;
-            case NONE:
-
-                break;
-            case VIDEO:
-                base.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (Reddit.videoPlugin) {
-                            try {
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
-                                        "ccrama.me.slideyoutubeplugin.YouTubeView");
-                                sharingIntent.putExtra("url", submission.getUrl());
-                                contextActivity.startActivity(sharingIntent);
-
-                            } catch (Exception e) {
                                 Reddit.defaultShare(submission.getUrl(), contextActivity);
                             }
-                        } else {
-                            Reddit.defaultShare(submission.getUrl(), contextActivity);
-                        }
-                    }
-                });
-        }
 
+                        case EMBEDDED:
+
+                            if (SettingValues.video) {
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                String data = submission.getDataNode()
+                                        .get("media_embed")
+                                        .get("content")
+                                        .asText();
+                                {
+                                    Intent i = new Intent(contextActivity, FullscreenVideo.class);
+                                    i.putExtra(FullscreenVideo.EXTRA_HTML, data);
+                                    contextActivity.startActivity(i);
+                                }
+                            } else {
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            }
+                            break;
+                        case REDDIT:
+
+                            PopulateSubmissionViewHolder.openRedditContent(submission.getUrl(),
+                                    contextActivity);
+
+                            break;
+                        case LINK:
+
+                            LinkUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()),
+                                    contextActivity);
+
+                            break;
+                        case SELF:
+
+                            break;
+                        case ALBUM:
+
+                            if (SettingValues.album) {
+                                if (SettingValues.albumSwipe) {
+                                    Intent i = new Intent(contextActivity, AlbumPager.class);
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    contextActivity.startActivity(i);
+                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                } else {
+                                    Intent i = new Intent(contextActivity, Album.class);
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    contextActivity.startActivity(i);
+                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                }
+
+
+                            } else {
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            }
+
+                            break;
+                        case DEVIANTART:
+                        case IMAGE:
+                            PopulateSubmissionViewHolder.openImage(contextActivity, submission, null, -1);
+
+                            break;
+                        case GIF:
+                            PopulateSubmissionViewHolder.openGif(contextActivity, submission, -1);
+                            break;
+                        case NONE:
+
+                            break;
+                        case VIDEO:
+                            if (Reddit.videoPlugin) {
+                                try {
+                                    Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                    sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
+                                            "ccrama.me.slideyoutubeplugin.YouTubeView");
+                                    sharingIntent.putExtra("url", submission.getUrl());
+                                    contextActivity.startActivity(sharingIntent);
+
+                                } catch (Exception e) {
+                                    Reddit.defaultShare(submission.getUrl(), contextActivity);
+                                }
+                            } else {
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            }
+                    }
+                }
+            }
+        });
     }
 
     public void doLoadGif(final String dat) {
