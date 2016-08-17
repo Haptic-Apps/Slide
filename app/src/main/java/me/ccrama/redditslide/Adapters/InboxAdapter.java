@@ -5,6 +5,7 @@ package me.ccrama.redditslide.Adapters;
  */
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -16,7 +17,10 @@ import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
@@ -30,14 +34,23 @@ import android.text.style.TypefaceSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
 
+import net.dean.jraw.ApiException;
+import net.dean.jraw.managers.CaptchaHelper;
 import net.dean.jraw.managers.InboxManager;
+import net.dean.jraw.models.Captcha;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.PrivateMessage;
+
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.List;
 
@@ -46,12 +59,15 @@ import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Sendmessage;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DataShare;
+import me.ccrama.redditslide.Drafts;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
+import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -309,16 +325,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                                 }
                                 break;
                                 case 3: {
-                                    if (comment instanceof PrivateMessage) {
-                                        DataShare.sharedMessage = (PrivateMessage) comment;
-                                        Intent i = new Intent(mContext, Sendmessage.class);
-                                        i.putExtra(Sendmessage.EXTRA_NAME, comment.getAuthor());
-                                        i.putExtra(Sendmessage.EXTRA_REPLY, true);
-                                        mContext.startActivity(i);
-                                    } else {
-                                        new OpenRedditLink(mContext,
-                                                comment.getDataNode().get("context").asText());
-                                    }
+                                    doInboxReply(comment);
                                 }
                                 break;
                                 case 25: {
@@ -381,6 +388,129 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             ((Activity) mContext).findViewById(R.id.header).getHeight()));
         }
     }
+
+    private void doInboxReply(final Message replyTo) {
+        LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+
+        final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
+        final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+
+        final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
+
+        DoEditorActions.doActions(e, dialoglayout, ((AppCompatActivity)mContext).getSupportFragmentManager(), (Activity) mContext,
+                replyTo.getBody());
+
+        builder.setView(dialoglayout);
+        final Dialog d = builder.create();
+        d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        d.show();
+        dialoglayout.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        dialoglayout.findViewById(R.id.submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String text = e.getText().toString();
+                new AsyncReplyTask(replyTo, text).execute();
+                d.dismiss();
+            }
+        });
+
+
+    }
+
+    private class AsyncReplyTask extends AsyncTask<Void, Void, Void> {
+        String trying;
+
+        Message replyTo;
+        String text;
+
+        public AsyncReplyTask(Message replyTo, String text){
+            this.replyTo = replyTo;
+            this.text = text;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (new CaptchaHelper(Authentication.reddit).isNecessary()) {
+                //display capacha
+                final Captcha c;
+                try {
+                    c = new CaptchaHelper(Authentication.reddit).getNew();
+
+                    ((Activity)mContext).runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            LayoutInflater inflater = ((Activity)mContext).getLayoutInflater();
+
+                            final View dialoglayout = inflater.inflate(R.layout.capatcha, null);
+                            final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+
+                            ((Reddit)((Activity)mContext).getApplication()).getImageLoader().displayImage(c.getImageUrl().toString(),
+                                    (ImageView) dialoglayout.findViewById(R.id.cap));
+
+                            final Dialog dialog = builder.setView(dialoglayout).create();
+                            dialog.show();
+
+                            dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View d) {
+                                    trying = ((EditText) dialoglayout.findViewById(R.id.entry)).getText().toString();
+                                    dialog.dismiss();
+                                    new AsyncTask<Void, Void, Boolean>() {
+                                        @Override
+                                        protected Boolean doInBackground(Void... params) {
+                                            sendMessage(c, trying);
+                                            return true;
+                                        }
+
+
+                                    }.execute();
+                                }
+                            });
+                        }
+                    });
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    //todo fail
+                    sendMessage(null, null);
+                }
+            } else {
+                sendMessage(null, null);
+            }
+
+            return null;
+        }
+
+        boolean sent;
+
+        public void sendMessage(Captcha captcha, String captchaAttempt) {
+                try {
+                    new net.dean.jraw.managers.AccountManager(Authentication.reddit).reply(replyTo, text);
+                    sent = true;
+                } catch (ApiException e) {
+                    sent = false;
+                    e.printStackTrace();
+                }
+        }
+
+        @Override
+        public void onPostExecute(Void voids) {
+            if (sent) {
+                Snackbar.make(listView,"Reply sent!", Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(listView,"Sending failed! Reply saved as a draft.", Snackbar.LENGTH_LONG).show();
+                Drafts.addDraft(text);
+                sent = true;
+            }
+        }
+    }
+
+
 
     public class SpacerViewHolder extends RecyclerView.ViewHolder {
         public SpacerViewHolder(View itemView) {
