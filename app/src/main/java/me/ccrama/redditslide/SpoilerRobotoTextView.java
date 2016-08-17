@@ -143,7 +143,9 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         if (text.contains("[[d[")) {
             setStrikethrough(builder);
         }
-
+        if (text.contains("[[h[")) {
+            setHighlight(builder, subreddit);
+        }
         if (subreddit != null && !subreddit.isEmpty()) {
             setMovementMethod(new TextViewLinkHandler(this, subreddit, builder));
             setFocusable(false);
@@ -288,6 +290,24 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             } else if (builder.charAt(i) == ']' && builder.charAt(i + 1) == 'd' && builder.charAt(i + 2) == ']' && builder.charAt(i + 3) == ']') {
                 end = i;
                 builder.setSpan(new StrikethroughSpan(), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                builder.delete(end, end + offset);
+                builder.delete(start - offset, start);
+                i -= offset + (end - start); // length of text
+            }
+        }
+    }
+
+    private void setHighlight(SpannableStringBuilder builder, String subreddit) {
+        final int offset = "[[h[".length(); // == "]h]]".length()
+
+        int start = -1;
+        int end;
+        for (int i = 0; i < builder.length() - 4; i++) {
+            if (builder.charAt(i) == '[' && builder.charAt(i + 1) == '[' && builder.charAt(i + 2) == 'h' && builder.charAt(i + 3) == '[') {
+                start = i + offset;
+            } else if (builder.charAt(i) == ']' && builder.charAt(i + 1) == 'h' && builder.charAt(i + 2) == ']' && builder.charAt(i + 3) == ']') {
+                end = i;
+                builder.setSpan(new BackgroundColorSpan(Palette.getColor(subreddit)), start, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                 builder.delete(end, end + offset);
                 builder.delete(start - offset, start);
                 i -= offset + (end - start); // length of text

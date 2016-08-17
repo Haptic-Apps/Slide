@@ -49,17 +49,22 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
     private final Context mContext;
     private final List<CommentNode> originalDataSet;
+    private String search = "";
 
 
     ///... other methods
     private List<CommentNode> dataSet;
 
 
-    public CommentAdapterSearch(Context mContext, List<CommentNode> dataSet, RecyclerView listView, String subAuthor) {
+    public CommentAdapterSearch(Context mContext, List<CommentNode> dataSet) {
 
         this.mContext = mContext;
         this.originalDataSet = dataSet;
 
+    }
+
+    public void setResult(String result){
+        search = result;
     }
 
     @Override
@@ -178,7 +183,12 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
-        setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
+        String body = comment.getDataNode().get("body_html").asText();
+        if(!search.isEmpty()){
+            body = body.replace(search, "[[h[" + search + "]h]]");
+        }
+
+        setViews(body, comment.getSubredditName(), holder);
 
         holder.childrenNumber.setVisibility(View.GONE);
 

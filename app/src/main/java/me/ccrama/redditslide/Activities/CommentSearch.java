@@ -48,7 +48,7 @@ public class CommentSearch extends BaseActivityAnim {
             }
         else
             finish();
-        final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments, rv, DataShare.subAuthor);
+        final CommentAdapterSearch adapter = new CommentAdapterSearch(this, comments);
         rv.setAdapter(adapter);
         search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -64,6 +64,7 @@ public class CommentSearch extends BaseActivityAnim {
             @Override
             public void afterTextChanged(Editable editable) {
                 String result = search.getText().toString();
+                adapter.setResult(result);
                 adapter.getFilter().filter(result);
 
 
