@@ -1387,7 +1387,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int color;
 
         Comment c = baseNode.getComment();
-        if (lastSeen < c.getCreated().getTime()
+        if (lastSeen != 0 && lastSeen < c.getCreated().getTime()
                 && !dataSet.single
                 && SettingValues.commentLastVisit
                 && !Authentication.name.equals(c.getAuthor())) {

@@ -21,7 +21,7 @@ import net.dean.jraw.models.Message;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.InboxPaginator;
 import net.dean.jraw.paginators.Sorting;
-import net.dean.jraw.paginators.SubredditPaginator;
+import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.ArrayList;
@@ -39,6 +39,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 public class CheckForMail extends BroadcastReceiver {
@@ -135,7 +136,7 @@ public class CheckForMail extends BroadcastReceiver {
                                     .addAction(R.drawable.ic_check_all_black,
                                             c.getString(R.string.mail_mark_read), readPI)
                                     .build();
-                    if(SettingValues.notifSound) {
+                    if (SettingValues.notifSound) {
                         notification.defaults |= Notification.DEFAULT_SOUND;
                         notification.defaults |= Notification.DEFAULT_VIBRATE;
                     }
@@ -168,7 +169,7 @@ public class CheckForMail extends BroadcastReceiver {
                                     .addAction(R.drawable.ic_check_all_black,
                                             c.getString(R.string.mail_mark_read), readPI)
                                     .build();
-                    if(SettingValues.notifSound) {
+                    if (SettingValues.notifSound) {
                         notification.defaults |= Notification.DEFAULT_SOUND;
                         notification.defaults |= Notification.DEFAULT_VIBRATE;
                     }
@@ -237,7 +238,7 @@ public class CheckForMail extends BroadcastReceiver {
                                     .setContentText(Html.fromHtml(messages.get(0).getBody()))
                                     .setStyle(notiStyle)
                                     .build();
-                    if(SettingValues.notifSound) {
+                    if (SettingValues.notifSound) {
                         notification.defaults |= Notification.DEFAULT_SOUND;
                         notification.defaults |= Notification.DEFAULT_VIBRATE;
                     }
@@ -267,7 +268,7 @@ public class CheckForMail extends BroadcastReceiver {
                                             R.plurals.mod_mail_notification_title, amount, amount))
                                     .setStyle(notiStyle)
                                     .build();
-                    if(SettingValues.notifSound) {
+                    if (SettingValues.notifSound) {
                         notification.defaults |= Notification.DEFAULT_SOUND;
                         notification.defaults |= Notification.DEFAULT_VIBRATE;
                     }
@@ -303,7 +304,7 @@ public class CheckForMail extends BroadcastReceiver {
 
         public Context c;
 
-        public AsyncGetSubs(Context context){
+        public AsyncGetSubs(Context context) {
             this.c = context;
         }
 
@@ -339,7 +340,9 @@ public class CheckForMail extends BroadcastReceiver {
                         Notification notification =
                                 new NotificationCompat.Builder(c).setContentIntent(readPI)
                                         .setSmallIcon(R.drawable.notif)
-                                        .setTicker(c.getString(R.string.sub_post_notifs_notification_title) + s.getSubredditName())
+                                        .setTicker(c.getString(
+                                                R.string.sub_post_notifs_notification_title)
+                                                + s.getSubredditName())
                                         .setWhen(System.currentTimeMillis())
                                         .setAutoCancel(true)
                                         .setContentTitle("/r/"
@@ -352,9 +355,9 @@ public class CheckForMail extends BroadcastReceiver {
                                                 + s.getAuthor())
                                         .setColor(Palette.getColor(s.getSubredditName()))
                                         .setStyle(notiStyle)
-                                        .addAction(R.drawable.close,c.getString(R.string.sub_post_notifs_notification_btn)
-                                                 + s.getSubredditName(),
-                                                cancelPi)
+                                        .addAction(R.drawable.close, c.getString(
+                                                R.string.sub_post_notifs_notification_btn)
+                                                + s.getSubredditName(), cancelPi)
                                         .build();
                         notificationManager.notify((int) (s.getCreated().getTime() / 1000),
                                 notification);
@@ -376,11 +379,11 @@ public class CheckForMail extends BroadcastReceiver {
                 ArrayList<String> rawSubs =
                         Reddit.stringToArray(Reddit.appRestart.getString(SUBS_TO_GET, ""));
                 subThresholds = new HashMap<>();
-                for(String s : rawSubs){
+                for (String s : rawSubs) {
                     try {
                         String[] split = s.split(":");
                         subThresholds.put(split[0].toLowerCase(), Integer.valueOf(split[1]));
-                    } catch(Exception ignored){
+                    } catch (Exception ignored) {
 
                     }
                 }
@@ -389,26 +392,25 @@ public class CheckForMail extends BroadcastReceiver {
                 }
 
                 String first = "";
-                boolean skipFirst = false;
-                ArrayList<String> finalSubs = new ArrayList<>();
                 for (String s : subThresholds.keySet()) {
-                    if (!s.isEmpty() && !skipFirst) {
-                        finalSubs.add(s);
-                    } else {
-                        skipFirst = true;
-                        first = s;
-                    }
+                        first = first + s + "+";
                 }
-                SubredditPaginator unread = new SubredditPaginator(Authentication.reddit, first,
-                        finalSubs.toArray(new String[finalSubs.size()]));
-                unread.setSorting(Sorting.NEW);
-                unread.setTimePeriod(TimePeriod.HOUR);
-
+                first = first.substring(0, first.length()-1);
+                SubmissionSearchPaginator unread =
+                        new SubmissionSearchPaginator(Authentication.reddit, "timestamp:"
+                                + lastTime / 1000
+                                + ".."
+                                + System.currentTimeMillis() / 1000);
+                unread.setSearchSorting(SubmissionSearchPaginator.SearchSort.RELEVANCE);
+                unread.setSyntax(SubmissionSearchPaginator.SearchSyntax.CLOUDSEARCH);
+                unread.setSubreddit(first);
                 unread.setLimit(30);
+                LogUtil.v(unread.getSubreddit() + " AND " + unread.getQuery());
                 if (unread.hasNext()) {
                     for (Submission subm : unread.next()) {
-                        if (subm.getCreated().getTime() > lastTime && subm.getScore() >= subThresholds.get(subm.getSubredditName().toLowerCase()) && !HasSeen
-                                .getSeen(subm)) {
+                        if (subm.getScore() >= subThresholds.get(
+                                subm.getSubredditName().toLowerCase())
+                                && !HasSeen.getSeen(subm)) {
                             toReturn.add(subm);
                         }
                     }
