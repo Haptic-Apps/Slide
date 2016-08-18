@@ -38,6 +38,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
@@ -501,9 +502,17 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         @Override
         public void onPostExecute(Void voids) {
             if (sent) {
-                Snackbar.make(listView,"Reply sent!", Snackbar.LENGTH_LONG).show();
+                Snackbar s = Snackbar.make(listView,"Reply sent!", Snackbar.LENGTH_LONG);
+                View view = s.getView();
+                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.WHITE);
+                s.show();
             } else {
-                Snackbar.make(listView,"Sending failed! Reply saved as a draft.", Snackbar.LENGTH_LONG).show();
+                Snackbar s = Snackbar.make(listView,"Sending failed! Reply saved as a draft.", Snackbar.LENGTH_LONG);
+                View view = s.getView();
+                TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                tv.setTextColor(Color.WHITE);
+                s.show();
                 Drafts.addDraft(text);
                 sent = true;
             }

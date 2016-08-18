@@ -182,21 +182,16 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                                     }).show();
                         } else {
                             clearSeenPosts(true);
-
                         }
-                        /*
-                        ToDo Make a sncakbar with an undo option of the clear all
-                        View.OnClickListener undoAction = new View.OnClickListener() {
+                        Snackbar s = Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG);
+                       /*Todo a way to unhide
+                        s.setAction(R.string.btn_undo, new View.OnClickListener() {
+
                             @Override
                             public void onClick(View v) {
-                                adapter.dataSet.posts = original;
-                                for(Submission post : adapter.dataSet.posts){
-                                    if(HasSeen.getSeen(post.getFullName()))
-                                        Hidden.undoHidden(post);
-                                }
+
                             }
-                        };*/
-                        Snackbar s = Snackbar.make(rv, getResources().getString(R.string.posts_hidden_forever), Snackbar.LENGTH_LONG);
+                        });*/
                         View view = s.getView();
                         TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
                         tv.setTextColor(Color.WHITE);

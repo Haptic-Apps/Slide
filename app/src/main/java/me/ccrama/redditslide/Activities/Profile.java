@@ -647,7 +647,6 @@ public class Profile extends BaseActivityAnim {
                     } else {
                         for (final Trophy t : trophyCase) {
                             View view = getLayoutInflater().inflate(R.layout.trophy, null);
-                            // Edit
                             ((Reddit) getApplicationContext()).getImageLoader().displayImage(t.getIcon(), ((ImageView) view.findViewById(R.id.image)));
                             ((TextView) view.findViewById(R.id.trophyTitle)).setText(t.getFullName());
                             if (t.getAboutUrl() != null) {
