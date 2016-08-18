@@ -46,6 +46,7 @@ import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -56,7 +57,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import me.ccrama.redditslide.Adapters.ImageGridAdapter;
 import me.ccrama.redditslide.ColorPreferences;
@@ -563,6 +563,19 @@ public class AlbumPager extends FullScreenActivity
                     setTextWithLinks(description,
                             ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
                 }
+                final SlidingUpPanelLayout l = (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout);
+                rootView.findViewById(R.id.title).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        l.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    }
+                });
+                rootView.findViewById(R.id.body).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        l.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                    }
+                });
             }
             if (lq) {
                 rootView.findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
@@ -660,7 +673,7 @@ public class AlbumPager extends FullScreenActivity
                             }
                         });
     }
-    
+
     public void showFirstDialog() {
         runOnUiThread(new Runnable() {
             @Override
@@ -727,6 +740,7 @@ public class AlbumPager extends FullScreenActivity
                     }
                 });
     }
+
     /**
      * Deletes all files in a folder
      *
@@ -737,11 +751,11 @@ public class AlbumPager extends FullScreenActivity
             child.delete();
         }
     }
+
     /**
-     * Converts an image to a PNG, stores it to the cache, then shares it.
-     * Saves the image to /cache/shared_image for easy deletion.
-     * If the /cache/shared_image folder already exists, we clear it's contents as to avoid
-     * increasing the cache size unnecessarily.
+     * Converts an image to a PNG, stores it to the cache, then shares it. Saves the image to
+     * /cache/shared_image for easy deletion. If the /cache/shared_image folder already exists, we
+     * clear it's contents as to avoid increasing the cache size unnecessarily.
      *
      * @param bitmap image to share
      */
@@ -749,7 +763,8 @@ public class AlbumPager extends FullScreenActivity
         File image; //image to share
 
         //check to see if the cache/shared_images directory is present
-        final File imagesDir = new File(this.getCacheDir().toString() + File.separator + "shared_image");
+        final File imagesDir =
+                new File(this.getCacheDir().toString() + File.separator + "shared_image");
         if (!imagesDir.exists()) {
             imagesDir.mkdir(); //create the folder if it doesn't exist
         } else {
@@ -772,20 +787,25 @@ public class AlbumPager extends FullScreenActivity
                     /**
                      * If a user has both a debug build and a release build installed, the authority name needs to be unique
                      */
-                    final String authority = (this.getPackageName()).concat(".").concat(MediaView.class.getSimpleName());
+                    final String authority = (this.getPackageName()).concat(".")
+                            .concat(MediaView.class.getSimpleName());
 
                     final Uri contentUri = FileProvider.getUriForFile(this, authority, image);
 
                     if (contentUri != null) {
                         final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
-                        shareImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //temp permission for receiving app to read this file
+                        shareImageIntent.addFlags(
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION); //temp permission for receiving app to read this file
                         shareImageIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                        shareImageIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+                        shareImageIntent.setDataAndType(contentUri,
+                                getContentResolver().getType(contentUri));
 
                         //Select a share option
-                        startActivity(Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
+                        startActivity(Intent.createChooser(shareImageIntent,
+                                getString(R.string.misc_img_share)));
                     } else {
-                        Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG)
+                                .show();
                     }
                 }
             }

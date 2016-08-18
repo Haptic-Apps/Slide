@@ -18,6 +18,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import net.dean.jraw.models.Submission;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -200,12 +201,13 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         @Override
         protected String doInBackground(String... params) {
             try {
-                Submission s = Authentication.reddit.getSubmission(params[0]);
+                final Submission s = Authentication.reddit.getSubmission(params[0]);
                 if (SettingValues.storeHistory) {
                     if (SettingValues.storeNSFWHistory && s.isNsfw() || !s.isNsfw())
                         HasSeen.addSeen(s.getFullName());
                     LastComments.setComments(s);
                 }
+                HasSeen.setHasSeenSubmission(new ArrayList<Submission>(){{this.add(s);}});
                 locked = s.isLocked();
                 archived = s.isArchived();
                 return s.getSubredditName();

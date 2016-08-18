@@ -311,7 +311,8 @@ public class SubredditPosts implements PostLoader {
                         posts.add(s);
                     }
                 }
-
+                offline = false;
+                usedOffline = false;
                 displayer.updateSuccess(posts, start);
             } else {
                 if (!all.isEmpty() && !nomore && SettingValues.cache) {

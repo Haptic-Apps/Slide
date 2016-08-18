@@ -324,7 +324,7 @@ public class CheckForMail extends BroadcastReceiver {
 
                         Intent cancelIntent = new Intent(c, CancelSubNotifs.class);
                         cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB, s.getSubredditName());
-                        PendingIntent cancelPi = PendingIntent.getService(c, 2, cancelIntent,
+                        PendingIntent cancelPi = PendingIntent.getActivity(c, 2, cancelIntent,
                                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 

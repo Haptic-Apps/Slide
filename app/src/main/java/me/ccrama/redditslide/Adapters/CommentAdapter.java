@@ -606,6 +606,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             String text = currentlyEditing.getText().toString();
                             new ReplyTaskComment(submission).execute(text);
                             replyArea.setVisibility(View.GONE);
+                            currentlyEditing.setText("");
                             currentlyEditing = null;
                             editingPosition = -1;
                             //Hide soft keyboard
