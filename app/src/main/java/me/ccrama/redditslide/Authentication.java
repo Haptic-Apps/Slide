@@ -156,30 +156,38 @@ public class Authentication {
                             Log.v(LogUtil.getTag(), "REAUTH LOGGED IN");
 
                         } catch (Exception e) {
-                            ((Activity) context).runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
+                            try {
+                                ((Activity) context).runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
 
-                                        new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
-                                                .setMessage(R.string.err_no_connection)
-                                                .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        new UpdateToken(context).execute();
-                                                    }
-                                                }).setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Reddit.forceRestart(context);
+                                            new AlertDialogWrapper.Builder(context).setTitle(R.string.err_general)
+                                                    .setMessage(R.string.err_no_connection)
+                                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                            new UpdateToken(context).execute();
+                                                        }
+                                                    })
+                                                    .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                            Reddit.forceRestart(context);
 
-                                            }
-                                        }).show();
-                                    } catch (Exception ignored) {
+                                                        }
+                                                    })
+                                                    .show();
+                                        } catch (Exception ignored) {
 
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } catch (Exception e2){
+                                Toast.makeText(context, "Reddit could not be reached. Try again soon", Toast.LENGTH_SHORT).show();
+                            }
 
                             //TODO fail
                         }

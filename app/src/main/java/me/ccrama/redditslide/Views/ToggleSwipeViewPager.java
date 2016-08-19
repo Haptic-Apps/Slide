@@ -31,9 +31,13 @@ public class ToggleSwipeViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return (mEnableSwiping || swipeLeftOnly) && super.onInterceptTouchEvent(ev);
+        try {
+            return (mEnableSwiping || swipeLeftOnly) && super.onInterceptTouchEvent(ev);
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
-
 
     public void setSwipeLeftOnly(boolean enabled) {
         swipeLeftOnly = enabled;

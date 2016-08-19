@@ -18,7 +18,7 @@ import me.ccrama.redditslide.Synccit.SynccitRead;
  */
 public class HasSeen {
 
-    public static ArrayList<String> hasSeen;
+    public static ArrayList<String>     hasSeen;
     public static HashMap<String, Long> seenTimes;
 
     public static void setHasSeenContrib(List<Contribution> submissions) {
@@ -37,7 +37,7 @@ public class HasSeen {
                     hasSeen.add(fullname);
                     try {
                         seenTimes.put(fullname, Long.valueOf(m.get(fullname)));
-                    } catch(Exception e){
+                    } catch (Exception e) {
 
                     }
                 }
@@ -60,8 +60,7 @@ public class HasSeen {
                 hasSeen.add(fullname);
                 String value = m.get(fullname);
                 try {
-                    if (value != null)
-                        seenTimes.put(fullname, Long.valueOf(value));
+                    if (value != null) seenTimes.put(fullname, Long.valueOf(value));
                 } catch (Exception ignored) {
                 }
 
@@ -74,7 +73,8 @@ public class HasSeen {
             hasSeen = new ArrayList<>();
             seenTimes = new HashMap<>();
         }
-        if (s.getDataNode().has("visited") && s.getDataNode().get("visited").asBoolean() || s.getVote() != VoteDirection.NO_VOTE) {
+        if (s.getDataNode().has("visited") && s.getDataNode().get("visited").asBoolean()
+                || s.getVote() != VoteDirection.NO_VOTE) {
             return true;
         }
         String fullname = s.getFullName();
@@ -93,7 +93,15 @@ public class HasSeen {
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3, fullname.length());
         }
-        return seenTimes.containsKey(fullname) ? seenTimes.get(fullname) : Long.valueOf(KVStore.getInstance().get(fullname));
+        if (seenTimes.containsKey(fullname)) {
+            return seenTimes.get(fullname);
+        } else {
+            try {
+                return Long.valueOf(KVStore.getInstance().get(fullname));
+            } catch (NumberFormatException e) {
+                return 0;
+            }
+        }
     }
 
     public static void addSeen(String fullname) {
