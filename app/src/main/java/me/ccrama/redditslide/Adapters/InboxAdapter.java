@@ -229,7 +229,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             if(comment.getDataNode().has("link_title")){
                 SpannableStringBuilder link =
-                        new SpannableStringBuilder(" " + comment.getDataNode().get("link_title").asText() + " ");
+                        new SpannableStringBuilder(" " + Html.fromHtml(comment.getDataNode().get("link_title").asText()) + " ");
                 link.setSpan(
                         new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 link.setSpan(

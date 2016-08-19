@@ -24,7 +24,7 @@ android {
     defaultConfig {
         applicationId "me.ccrama.redditslide"
         targetSdkVersion 23
-        versionCode 228
+        versionCode 229
         multiDexEnabled = true
         versionName androidGitVersion.name()
     }
@@ -135,4 +135,5 @@ dependencies {
     compile 'com.theartofdev.edmodo:android-image-cropper:2.2.5'
     compile 'org.apache.httpcomponents:httpclient:4.5'
     compile 'com.github.ccrama:JReadability:bb291880a5'
+
 }
