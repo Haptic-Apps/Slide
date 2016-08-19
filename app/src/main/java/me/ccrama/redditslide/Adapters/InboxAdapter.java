@@ -218,7 +218,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             messageViewHolder.user.setText(titleString);
             SpannableStringBuilder b = new SpannableStringBuilder();
-            if (comment.getCreated().getTime() > ((Inbox)mContext).last && !comment.isRead()) {
+            if (mContext instanceof  Inbox && comment.getCreated().getTime() > ((Inbox)mContext).last && !comment.isRead()) {
                 SpannableStringBuilder tagNew = new SpannableStringBuilder("\u00A0NEW\u00A0");
                 tagNew.setSpan(new RoundedBackgroundSpan(Color.WHITE, mContext.getResources().getColor(R.color.md_green_400), true, mContext), 0, tagNew.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 b.append(tagNew);

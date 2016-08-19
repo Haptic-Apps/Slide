@@ -248,7 +248,7 @@ public class SettingValues {
         image = prefs.getBoolean(PREF_IMAGE, true);
         cache = true;
         cacheDefault = false;
-        customtabs = prefs.getBoolean(PREF_CUSTOMTABS, true);
+        customtabs = prefs.getBoolean(PREF_CUSTOMTABS, false);
         storeHistory = prefs.getBoolean(PREF_STORE_HISTORY, true);
         upvotePercentage = prefs.getBoolean(PREF_UPVOTE_PERCENTAGE, false);
         storeNSFWHistory = prefs.getBoolean(PREF_STORE_NSFW_HISTORY, true);

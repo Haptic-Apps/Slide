@@ -36,6 +36,7 @@
     </android.support.design.widget.AppBarLayout>
 
 
+
     <me.ccrama.redditslide.Views.NestedWebView
         android:id="@+id/web"
         android:layout_width="match_parent"

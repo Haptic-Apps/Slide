@@ -1,6 +1,5 @@
 package me.ccrama.redditslide.Activities;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,18 +7,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
+import android.webkit.DownloadListener;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 
 import java.net.URI;
@@ -32,9 +29,14 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.NestedWebView;
+import me.ccrama.redditslide.Views.WebViewOverScrollDecoratorAdapter;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
 import me.ccrama.redditslide.util.LogUtil;
+import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
+import me.everything.android.ui.overscroll.IOverScrollDecor;
+import me.everything.android.ui.overscroll.IOverScrollState;
+import me.everything.android.ui.overscroll.IOverScrollStateListener;
 
 public class Website extends BaseActivityAnim {
 
@@ -160,7 +162,7 @@ public class Website extends BaseActivityAnim {
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         p = (ProgressBar) findViewById(R.id.progress);
-        v = (WebView) findViewById(R.id.web);
+        v = (NestedWebView) findViewById(R.id.web);
 
         client = new MyWebViewClient();
         webClient = new AdBlockWebViewClient();
@@ -177,6 +179,34 @@ public class Website extends BaseActivityAnim {
             ws.setSavePassword(false);
         }
 
+        /* todo in the future, drag left and right to go back and forward in history
+
+        IOverScrollDecor decor = new HorizontalOverScrollBounceEffectDecorator(new WebViewOverScrollDecoratorAdapter(v));
+
+        decor.setOverScrollStateListener(new IOverScrollStateListener() {
+                                             @Override
+                                             public void onOverScrollStateChange(IOverScrollDecor decor, int oldState, int newState) {
+                                                 switch (newState) {
+                                                     case IOverScrollState.STATE_IDLE:
+                                                         // No over-scroll is in effect.
+                                                         break;
+                                                     case IOverScrollState.STATE_DRAG_START_SIDE:
+                                                         break;
+                                                     case IOverScrollState.STATE_DRAG_END_SIDE:
+                                                         break;
+                                                     case IOverScrollState.STATE_BOUNCE_BACK:
+                                                         if (oldState == IOverScrollState.STATE_DRAG_START_SIDE) {
+                                                             if(v.canGoBack())
+                                                                 v.goBack();
+                                                         } else { // i.e. (oldState == STATE_DRAG_END_SIDE)
+                                                             if(v.canGoForward())
+                                                                 v.goForward();
+                                                         }
+                                                         break;
+                                                 }
+                                             }
+                                         });
+                                         */
         v.setWebChromeClient(client);
         v.setWebViewClient(webClient);
         v.getSettings().setBuiltInZoomControls(true);
@@ -184,8 +214,17 @@ public class Website extends BaseActivityAnim {
         v.getSettings().setJavaScriptEnabled(true);
         v.getSettings().setLoadWithOverviewMode(true);
         v.getSettings().setUseWideViewPort(true);
+        v.setDownloadListener(new DownloadListener()
+        {
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength)
+            {
+                //Downloads using download manager on default browser
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
         v.loadUrl(url);
-
     }
 
     public void setValue(int newProgress) {
