@@ -1509,6 +1509,8 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.loader).setVisibility(View.GONE);
         if (subreddit.getSubredditType() != null) {
             canSubmit = !subreddit.getSubredditType().equals("RESTRICTED");
+        } else {
+            canSubmit = true;
         }
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
             findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
@@ -3460,9 +3462,7 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.submit: {
                 Intent i = new Intent(MainActivity.this, Submit.class);
-                if ((!subreddit.contains("/m/") || !subreddit.contains(".")) && canSubmit) {
-                    i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
-                }
+                i.putExtra(Submit.EXTRA_SUBREDDIT, subreddit);
                 startActivity(i);
             }
             return true;
