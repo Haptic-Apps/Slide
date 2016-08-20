@@ -112,7 +112,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private String backedText         = "";
     private String currentlyEditingId = "";
     public SubmissionViewHolder submissionViewHolder;
-    long lastSeen;
+    long lastSeen = 0;
 
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView,
             Submission submission, FragmentManager fm) {
@@ -139,12 +139,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Resources.Theme theme = this.mContext.getTheme();
         theme.resolveAttribute(R.attr.tint, typedValue, true);
         tintColor = typedValue.data;
-
+        doTimes();
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView,
             Submission submission, boolean reset) {
-
         this.mContext = mContext;
         this.listView = listView;
         this.dataSet = dataSet;
@@ -195,7 +194,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (mContext instanceof BaseActivity) {
             ((BaseActivity) mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
         }
-        doTimes();
     }
 
     @Override
