@@ -110,6 +110,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             setVisibility(View.GONE);
             if (wrapArea != null)
                 wrapArea.setVisibility(View.GONE);
+            thumbImage2.setVisibility(View.GONE);
         } else {
             if (submission.getThumbnails() != null) {
 
