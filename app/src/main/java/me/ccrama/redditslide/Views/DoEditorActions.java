@@ -336,7 +336,7 @@ public class DoEditorActions {
 
                         }
                     });
-                    int sixteen = Reddit.dpToPxVertical(16);
+                    int sixteen = Reddit.dpToPxVertical(24);
                     showText.setPadding(sixteen, 0, sixteen, 0);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
                     builder.setView(showText)

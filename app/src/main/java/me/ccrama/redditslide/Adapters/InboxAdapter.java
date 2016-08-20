@@ -375,6 +375,21 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
                         messageViewHolder.title.setTextColor(
                                 messageViewHolder.content.getCurrentTextColor());
+                        {
+                            SpannableStringBuilder b = new SpannableStringBuilder(comment.getSubject());
+
+                            if (comment.getDataNode().has("link_title")) {
+                                SpannableStringBuilder link = new SpannableStringBuilder(" "
+                                        + Html.fromHtml(comment.getDataNode().get("link_title").asText())
+                                        + " ");
+                                link.setSpan(new StyleSpan(Typeface.BOLD_ITALIC), 0, link.length(),
+                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                link.setSpan(new RelativeSizeSpan(0.8f), 0, link.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                                b.append(link);
+                            }
+                            messageViewHolder.title.setText(b);
+                        }
                     }
                 }
             });

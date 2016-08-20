@@ -26,7 +26,10 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.InputType;
 import android.util.TypedValue;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -437,7 +440,7 @@ public class PopulateSubmissionViewHolder {
                 b.sheet(5, hide, mContext.getString(R.string.submission_unhide));
             }
         }
-            b.sheet(7, open, mContext.getString(R.string.submission_link_extern));
+        b.sheet(7, open, mContext.getString(R.string.submission_link_extern));
 
         b.sheet(4, share, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url));
@@ -772,14 +775,74 @@ public class PopulateSubmissionViewHolder {
                     }
                     break;
                     case 25:
-                        ClipboardManager clipboard = (ClipboardManager) mContext.getSystemService(
-                                Context.CLIPBOARD_SERVICE);
-                        ClipData clip =
-                                ClipData.newPlainText("Selftext", submission.getTitle() + "\n" +
-                                        Html.fromHtml(submission.getSelftext()));
-                        clipboard.setPrimaryClip(clip);
-                        Toast.makeText(mContext, R.string.submission_text_copied,
-                                Toast.LENGTH_SHORT).show();
+                        final TextView showText = new TextView(mContext);
+                        showText.setText(submission.getTitle() + "\n\n" + submission.getSelftext(), TextView.BufferType.SPANNABLE);
+                        showText.setTextIsSelectable(true);
+                        showText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
+                            @Override
+                            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                                menu.clear();
+                                return true;
+                            }
+
+                            @Override
+                            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                                return false;
+                            }
+
+                            @Override
+                            public void onDestroyActionMode(ActionMode mode) {
+
+                            }
+                        });
+                        int sixteen = Reddit.dpToPxVertical(24);
+                        showText.setPadding(sixteen, 0, sixteen, 0);
+                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                        builder.setView(showText)
+                                .setTitle("Select text to copy")
+                                .setCancelable(true)
+                                .setPositiveButton("COPY SELECTED", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String selected = showText.getText()
+                                                .toString()
+                                                .substring(showText.getSelectionStart(),
+                                                        showText.getSelectionEnd());
+                                        ClipboardManager clipboard =
+                                                (ClipboardManager) mContext.getSystemService(
+                                                        Context.CLIPBOARD_SERVICE);
+                                        ClipData clip = ClipData.newPlainText("Selftext", selected);
+                                        clipboard.setPrimaryClip(clip);
+
+                                        Toast.makeText(mContext, R.string.submission_comment_copied,
+                                                Toast.LENGTH_SHORT).show();
+
+                                    }
+                                })
+                                .setNegativeButton(R.string.btn_cancel, null)
+                                .setNeutralButton("COPY ALL",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                ClipboardManager clipboard =
+                                                        (ClipboardManager) mContext.getSystemService(
+                                                                Context.CLIPBOARD_SERVICE);
+                                                ClipData clip = ClipData.newPlainText("Selftext",
+                                                        submission.getTitle() + "\n\n" + submission.getSelftext());
+                                                clipboard.setPrimaryClip(clip);
+
+                                                Toast.makeText(mContext,
+                                                        R.string.submission_comment_copied,
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                .show();
                         break;
                     case 26:
                         new CommentCacheAsync(Arrays.asList(submission), mContext,
