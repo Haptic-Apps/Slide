@@ -776,7 +776,7 @@ public class PopulateSubmissionViewHolder {
                     break;
                     case 25:
                         final TextView showText = new TextView(mContext);
-                        showText.setText(submission.getTitle() + "\n\n" + submission.getSelftext(), TextView.BufferType.SPANNABLE);
+                        showText.setText(Html.fromHtml(submission.getTitle() + "\n\n" + submission.getSelftext()), TextView.BufferType.SPANNABLE);
                         showText.setTextIsSelectable(true);
                         showText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
                             @Override
@@ -834,7 +834,7 @@ public class PopulateSubmissionViewHolder {
                                                         (ClipboardManager) mContext.getSystemService(
                                                                 Context.CLIPBOARD_SERVICE);
                                                 ClipData clip = ClipData.newPlainText("Selftext",
-                                                        submission.getTitle() + "\n\n" + submission.getSelftext());
+                                                        Html.fromHtml(submission.getTitle() + "\n\n" + submission.getSelftext()));
                                                 clipboard.setPrimaryClip(clip);
 
                                                 Toast.makeText(mContext,

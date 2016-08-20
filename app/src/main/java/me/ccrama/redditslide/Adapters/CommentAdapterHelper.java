@@ -203,7 +203,7 @@ public class CommentAdapterHelper {
                     case 7:
                         //Show select and copy text to clipboard
                         final TextView showText = new TextView(mContext);
-                        showText.setText(n.getBody(), TextView.BufferType.SPANNABLE);
+                        showText.setText(Html.fromHtml(n.getBody()), TextView.BufferType.SPANNABLE);
                         showText.setTextIsSelectable(true);
                         showText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
                             @Override
@@ -263,7 +263,7 @@ public class CommentAdapterHelper {
                                                                 Context.CLIPBOARD_SERVICE);
                                                 ClipData clip =
                                                         ClipData.newPlainText("Comment text",
-                                                                n.getBody());
+                                                                Html.fromHtml(n.getBody()));
                                                 clipboard.setPrimaryClip(clip);
 
                                                 Toast.makeText(mContext,
