@@ -398,10 +398,10 @@ public class CheckForMail extends BroadcastReceiver {
                 first = first.substring(0, first.length()-1);
                 SubmissionSearchPaginator unread =
                         new SubmissionSearchPaginator(Authentication.reddit, "timestamp:"
-                                + lastTime / 1000
+                                + ((lastTime  / 1000) - 3600) //Go an hour back just in case
                                 + ".."
                                 + System.currentTimeMillis() / 1000);
-                unread.setSearchSorting(SubmissionSearchPaginator.SearchSort.RELEVANCE);
+                unread.setSearchSorting(SubmissionSearchPaginator.SearchSort.NEW);
                 unread.setSyntax(SubmissionSearchPaginator.SearchSyntax.CLOUDSEARCH);
                 unread.setSubreddit(first);
                 unread.setLimit(30);
@@ -409,7 +409,7 @@ public class CheckForMail extends BroadcastReceiver {
                     for (Submission subm : unread.next()) {
                         if (subm.getScore() >= subThresholds.get(
                                 subm.getSubredditName().toLowerCase())
-                                && !HasSeen.getSeen(subm)) {
+                                && !HasSeen.getSeen(subm) && subm.getDataNode().get("1471642289").asLong() >= lastTime/1000) {
                             toReturn.add(subm);
                         }
                     }
