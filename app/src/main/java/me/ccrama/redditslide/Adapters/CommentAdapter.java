@@ -510,7 +510,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             final MoreChildItem baseNode = (MoreChildItem) currentComments.get(nextPos);
             if (baseNode.children.getCount() > 0) {
-                holder.content.setText(mContext.getString(R.string.comment_load_more_string,
+                holder.content.setText(mContext.getString(R.string.comment_load_more_string_new,
                         baseNode.children.getLocalizedCount()));
             } else if (!baseNode.children.getChildrenIds().isEmpty()) {
                 holder.content.setText(R.string.comment_load_more_number_unknown);

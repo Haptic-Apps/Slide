@@ -504,6 +504,9 @@ public class AlbumPager extends FullScreenActivity
             if (((AlbumPager) getActivity()).images == null) {
                 getActivity().finish();
             }
+            if (((AlbumPager) getActivity()).images == null) {
+                getActivity().finish();
+            }
             final Image current = ((AlbumPager) getActivity()).images.get(i);
             final String url = current.getImageUrl();
             boolean lq = false;
@@ -563,7 +566,8 @@ public class AlbumPager extends FullScreenActivity
                     setTextWithLinks(description,
                             ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
                 }
-                final SlidingUpPanelLayout l = (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout);
+                final SlidingUpPanelLayout l =
+                        (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout);
                 rootView.findViewById(R.id.title).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

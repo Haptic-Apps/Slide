@@ -522,9 +522,9 @@ public class MediaFragment extends Fragment {
                                     + "], apiUrl = ["
                                     + apiUrl
                                     + "]");
-                            Intent i = new Intent(getActivity(), Website.class);
+                            Intent i = new Intent(getContext(), Website.class);
                             i.putExtra(Website.EXTRA_URL, finalUrl);
-                            getActivity().startActivity(i);
+                            getContext().startActivity(i);
                         }
                     }
                 }

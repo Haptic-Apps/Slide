@@ -417,7 +417,7 @@ public class CreateCardView {
             picParams.setMargins(picParams.rightMargin, picParams.topMargin, picParams.leftMargin, picParams.bottomMargin);
 
             layoutParams.addRule(RelativeLayout.LEFT_OF, R.id.thumbimage2);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
                 layoutParams.removeRule(RelativeLayout.RIGHT_OF);
             } else {
                 layoutParams.addRule(RelativeLayout.RIGHT_OF, 0);

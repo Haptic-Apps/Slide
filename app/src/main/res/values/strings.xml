@@ -166,7 +166,7 @@
     <string name="comment_deleted">[deleted]</string>
     <string name="comment_unsave">Unsave</string>
     <string name="comment_load_more">Load %1$d more</string>
-    <string name="comment_load_more_string">Load %1$s more</string>
+    <string name="comment_load_more_string_new">Load %1$s more</string>
     <string name="comment_loading_more">Loading more comments…</string>
     <string name="comment_permalink">Load comment permalink</string>
     <string name="comment_parent">Show parent comment</string>

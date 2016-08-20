@@ -96,19 +96,19 @@ public class SubredditView extends BaseActivityAnim {
 
     public static final String  EXTRA_SUBREDDIT = "subreddit";
     public              boolean canSubmit       = true;
-    public  String       subreddit;
-    public  Submission   openingComments;
-    public  int          currentComment;
+    public String               subreddit;
+    public Submission           openingComments;
+    public int                  currentComment;
     public OverviewPagerAdapter adapter;
-    public String term;
+    public String               term;
     public ToggleSwipeViewPager pager;
-    public boolean singleMode;
-    public boolean commentPager;
-    public boolean loaded;
-    View header;
+    public boolean              singleMode;
+    public boolean              commentPager;
+    public boolean              loaded;
+    View      header;
     Subreddit sub;
     private DrawerLayout drawerLayout;
-    private boolean      currentlySubbed = false;
+    private boolean currentlySubbed = false;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -268,47 +268,49 @@ public class SubredditView extends BaseActivityAnim {
                         !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
                     new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
                             getString(R.string.sub_post_notifs_title) + sub)
-                            .setMessage(
-                                    R.string.sub_post_notifs_text)
-                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    new MaterialDialog.Builder(SubredditView.this).title(
-                                            R.string.sub_post_notifs_threshold)
-                                            .items(new String[]{"1", "5", "10", "20", "40", "50"})
-                                            .alwaysCallSingleChoiceCallback()
-                                            .itemsCallbackSingleChoice(0,
-                                                    new MaterialDialog.ListCallbackSingleChoice() {
-                                                        @Override
-                                                        public boolean onSelection(
-                                                                MaterialDialog dialog,
-                                                                View itemView, int which,
-                                                                CharSequence text) {
-                                                            ArrayList<String> subs =
-                                                                    Reddit.stringToArray(
-                                                                            Reddit.appRestart.getString(
-                                                                                    CheckForMail.SUBS_TO_GET,
-                                                                                    ""));
-                                                            subs.add(sub + ":" + text);
-                                                            Reddit.appRestart.edit()
-                                                                    .putString(
-                                                                            CheckForMail.SUBS_TO_GET,
-                                                                            Reddit.arrayToString(
-                                                                                    subs))
-                                                                    .commit();
-                                                            return true;
-                                                        }
+                            .setMessage(R.string.sub_post_notifs_text)
+                            .setPositiveButton(R.string.btn_ok,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            new MaterialDialog.Builder(SubredditView.this).title(
+                                                    R.string.sub_post_notifs_threshold)
+                                                    .items(new String[]{
+                                                            "1", "5", "10", "20", "40", "50"
                                                     })
-                                            .cancelable(false)
-                                            .show();
-                                }
-                            })
+                                                    .alwaysCallSingleChoiceCallback()
+                                                    .itemsCallbackSingleChoice(0,
+                                                            new MaterialDialog.ListCallbackSingleChoice() {
+                                                                @Override
+                                                                public boolean onSelection(
+                                                                        MaterialDialog dialog,
+                                                                        View itemView, int which,
+                                                                        CharSequence text) {
+                                                                    ArrayList<String> subs =
+                                                                            Reddit.stringToArray(
+                                                                                    Reddit.appRestart
+                                                                                            .getString(
+                                                                                                    CheckForMail.SUBS_TO_GET,
+                                                                                                    ""));
+                                                                    subs.add(sub + ":" + text);
+                                                                    Reddit.appRestart.edit()
+                                                                            .putString(
+                                                                                    CheckForMail.SUBS_TO_GET,
+                                                                                    Reddit.arrayToString(
+                                                                                            subs))
+                                                                            .commit();
+                                                                    return true;
+                                                                }
+                                                            })
+                                                    .cancelable(false)
+                                                    .show();
+                                        }
+                                    })
                             .setNegativeButton(R.string.btn_cancel, null)
                             .show();
                 } else {
 
-                    Toast.makeText(SubredditView.this,
-                            R.string.sub_post_notifs_err,
+                    Toast.makeText(SubredditView.this, R.string.sub_post_notifs_err,
                             Toast.LENGTH_SHORT).show();
                 }
                 return true;
@@ -346,7 +348,8 @@ public class SubredditView extends BaseActivityAnim {
                         startActivity(i2);
                     }
                 } else {
-                    new AlertDialogWrapper.Builder(this).setTitle(R.string.general_gallerymode_ispro)
+                    new AlertDialogWrapper.Builder(this).setTitle(
+                            R.string.general_gallerymode_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
                                     new DialogInterface.OnClickListener() {
@@ -710,8 +713,8 @@ public class SubredditView extends BaseActivityAnim {
                                                                 SubredditView.this).title(
                                                                 R.string.sidebar_select_flair_text)
                                                                 .input(getString(
-                                                                        R.string.mod_flair_hint), t.getText(),
-                                                                        true,
+                                                                        R.string.mod_flair_hint),
+                                                                        t.getText(), true,
                                                                         new MaterialDialog.InputCallback() {
                                                                             @Override
                                                                             public void onInput(
@@ -1129,19 +1132,24 @@ public class SubredditView extends BaseActivityAnim {
     }
 
     private void doSubOnlyStuff(final Subreddit subreddit) {
-        if (this != null && !isFinishing()) {
+        if (!isFinishing()) {
 
             findViewById(R.id.loader).setVisibility(View.GONE);
             if (subreddit.getDataNode().has("subreddit_type") && !subreddit.getDataNode()
                     .get("subreddit_type")
                     .isNull()) {
-                canSubmit = !subreddit.getDataNode().get("subreddit_type").asText().toUpperCase().equals("RESTRICTED");
+                canSubmit = !subreddit.getDataNode()
+                        .get("subreddit_type")
+                        .asText()
+                        .toUpperCase()
+                        .equals("RESTRICTED");
             }
             if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
                 findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
                 final String text = subreddit.getDataNode().get("description_html").asText();
-                final SpoilerRobotoTextView body = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
+                final SpoilerRobotoTextView body =
+                        (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
                 CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
                 setViews(text, subreddit.getDisplayName(), body, overflow);
             } else {
@@ -1153,7 +1161,8 @@ public class SubredditView extends BaseActivityAnim {
                     @Override
                     public void onClick(View v) {
                         new AsyncTask<Void, Void, Void>() {
-                            HashMap<String, MultiReddit> multis = new HashMap<String, MultiReddit>();
+                            HashMap<String, MultiReddit> multis =
+                                    new HashMap<String, MultiReddit>();
 
                             @Override
                             protected Void doInBackground(Void... params) {
@@ -1173,21 +1182,25 @@ public class SubredditView extends BaseActivityAnim {
                                         .items(multis.keySet())
                                         .itemsCallback(new MaterialDialog.ListCallback() {
                                             @Override
-                                            public void onSelection(MaterialDialog dialog, View itemView, final int which,
+                                            public void onSelection(MaterialDialog dialog,
+                                                    View itemView, final int which,
                                                     CharSequence text) {
                                                 new AsyncTask<Void, Void, Void>() {
                                                     @Override
                                                     protected Void doInBackground(Void... params) {
                                                         try {
                                                             final String multiName = multis.keySet()
-                                                                    .toArray(new String[multis.size()])[which];
-                                                            List<String> subs = new ArrayList<String>();
+                                                                    .toArray(
+                                                                            new String[multis.size()])[which];
+                                                            List<String> subs =
+                                                                    new ArrayList<String>();
                                                             for (MultiSubreddit sub : multis.get(
                                                                     multiName).getSubreddits()) {
                                                                 subs.add(sub.getDisplayName());
                                                             }
                                                             subs.add(subreddit.getDisplayName());
-                                                            new MultiRedditManager(Authentication.reddit).createOrUpdate(
+                                                            new MultiRedditManager(
+                                                                    Authentication.reddit).createOrUpdate(
                                                                     new MultiRedditUpdateRequest.Builder(
                                                                             Authentication.name,
                                                                             multiName).subreddits(
@@ -1201,9 +1214,11 @@ public class SubredditView extends BaseActivityAnim {
                                                                 public void run() {
                                                                     drawerLayout.closeDrawers();
                                                                     Snackbar.make(mToolbar,
-                                                                            getString(R.string.multi_subreddit_added)
+                                                                            getString(
+                                                                                    R.string.multi_subreddit_added)
                                                                                     + multiName,
-                                                                            Snackbar.LENGTH_LONG).show();
+                                                                            Snackbar.LENGTH_LONG)
+                                                                            .show();
                                                                 }
                                                             });
                                                         } catch (final NetworkException | ApiException e) {
@@ -1214,9 +1229,11 @@ public class SubredditView extends BaseActivityAnim {
                                                                         @Override
                                                                         public void run() {
                                                                             Snackbar.make(mToolbar,
-                                                                                    getString(R.string.multi_error),
+                                                                                    getString(
+                                                                                            R.string.multi_error),
                                                                                     Snackbar.LENGTH_LONG)
-                                                                                    .setAction(R.string.btn_ok,
+                                                                                    .setAction(
+                                                                                            R.string.btn_ok,
                                                                                             new View.OnClickListener() {
                                                                                                 @Override
                                                                                                 public void onClick(
@@ -1250,8 +1267,10 @@ public class SubredditView extends BaseActivityAnim {
             {
                 final TextView subscribe = (TextView) findViewById(R.id.subscribe);
 
-                currentlySubbed = (!Authentication.isLoggedIn && UserSubscriptions.getSubscriptions(this)
-                        .contains(subreddit.getDisplayName().toLowerCase())) || subreddit.isUserSubscriber();
+                currentlySubbed =
+                        (!Authentication.isLoggedIn && UserSubscriptions.getSubscriptions(this)
+                                .contains(subreddit.getDisplayName().toLowerCase()))
+                                || subreddit.isUserSubscriber();
                 doSubscribeButtonText(currentlySubbed, subscribe);
 
                 subscribe.setOnClickListener(new View.OnClickListener() {
@@ -1259,84 +1278,100 @@ public class SubredditView extends BaseActivityAnim {
                         if (Authentication.isLoggedIn) {
                             new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
                                     getString(R.string.subscribe_to) + subreddit.getDisplayName())
-                                    .setPositiveButton(R.string.reorder_add_subscribe, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            new AsyncTask<Void, Void, Boolean>() {
+                                    .setPositiveButton(R.string.reorder_add_subscribe,
+                                            new DialogInterface.OnClickListener() {
                                                 @Override
-                                                public void onPostExecute(Boolean success) {
-                                                    if (!success) { // If subreddit was removed from account or not
+                                                public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                                    new AsyncTask<Void, Void, Boolean>() {
+                                                        @Override
+                                                        public void onPostExecute(Boolean success) {
+                                                            if (!success) { // If subreddit was removed from account or not
 
-                                                        new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                                                                R.string.force_change_subscription)
-                                                                .setMessage(R.string.force_change_subscription_desc)
-                                                                .setPositiveButton(R.string.btn_yes,
-                                                                        new DialogInterface.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(
-                                                                                    DialogInterface dialog,
-                                                                                    int which) {
-                                                                                changeSubscription(
-                                                                                        subreddit,
-                                                                                        true); // Force add the subscription
-                                                                                Snackbar s =
-                                                                                        Snackbar.make(
-                                                                                                mToolbar,
-                                                                                                getString(
-                                                                                                        R.string.misc_subscribed),
-                                                                                                Snackbar.LENGTH_SHORT);
-                                                                                View view = s.getView();
-                                                                                TextView tv = (TextView) view
-                                                                                        .findViewById(
-                                                                                                android.support.design.R.id.snackbar_text);
-                                                                                tv.setTextColor(
-                                                                                        Color.WHITE);
-                                                                                s.show();
-                                                                            }
-                                                                        })
-                                                                .setNegativeButton(R.string.btn_no,
-                                                                        new DialogInterface.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(
-                                                                                    DialogInterface dialog,
-                                                                                    int which) {
+                                                                new AlertDialogWrapper.Builder(
+                                                                        SubredditView.this).setTitle(
+                                                                        R.string.force_change_subscription)
+                                                                        .setMessage(
+                                                                                R.string.force_change_subscription_desc)
+                                                                        .setPositiveButton(
+                                                                                R.string.btn_yes,
+                                                                                new DialogInterface.OnClickListener() {
+                                                                                    @Override
+                                                                                    public void onClick(
+                                                                                            DialogInterface dialog,
+                                                                                            int which) {
+                                                                                        changeSubscription(
+                                                                                                subreddit,
+                                                                                                true); // Force add the subscription
+                                                                                        Snackbar s =
+                                                                                                Snackbar.make(
+                                                                                                        mToolbar,
+                                                                                                        getString(
+                                                                                                                R.string.misc_subscribed),
+                                                                                                        Snackbar.LENGTH_SHORT);
+                                                                                        View view =
+                                                                                                s.getView();
+                                                                                        TextView
+                                                                                                tv =
+                                                                                                (TextView) view
+                                                                                                        .findViewById(
+                                                                                                                android.support.design.R.id.snackbar_text);
+                                                                                        tv.setTextColor(
+                                                                                                Color.WHITE);
+                                                                                        s.show();
+                                                                                    }
+                                                                                })
+                                                                        .setNegativeButton(
+                                                                                R.string.btn_no,
+                                                                                new DialogInterface.OnClickListener() {
+                                                                                    @Override
+                                                                                    public void onClick(
+                                                                                            DialogInterface dialog,
+                                                                                            int which) {
 
-                                                                            }
-                                                                        })
-                                                                .setCancelable(false)
-                                                                .show();
-                                                    } else {
-                                                        changeSubscription(subreddit, true);
-                                                    }
+                                                                                    }
+                                                                                })
+                                                                        .setCancelable(false)
+                                                                        .show();
+                                                            } else {
+                                                                changeSubscription(subreddit, true);
+                                                            }
 
+                                                        }
+
+                                                        @Override
+                                                        protected Boolean doInBackground(
+                                                                Void... params) {
+                                                            try {
+                                                                new AccountManager(
+                                                                        Authentication.reddit).subscribe(
+                                                                        subreddit);
+                                                            } catch (NetworkException e) {
+                                                                return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
+                                                            }
+                                                            return true;
+                                                        }
+                                                    }.execute();
                                                 }
-
-                                                @Override
-                                                protected Boolean doInBackground(Void... params) {
-                                                    try {
-                                                        new AccountManager(Authentication.reddit).subscribe(
-                                                                subreddit);
-                                                    } catch (NetworkException e) {
-                                                        return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
-                                                    }
-                                                    return true;
-                                                }
-                                            }.execute();
-                                        }
-                                    })
+                                            })
                                     .setNegativeButton(R.string.btn_cancel, null)
-                                    .setNeutralButton(R.string.btn_add_to_sublist, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            changeSubscription(subreddit, true); // Force add the subscription
-                                            Snackbar s = Snackbar.make(mToolbar, R.string.sub_added,
-                                                    Snackbar.LENGTH_SHORT);
-                                            View view = s.getView();
-                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                            tv.setTextColor(Color.WHITE);
-                                            s.show();
-                                        }
-                                    })
+                                    .setNeutralButton(R.string.btn_add_to_sublist,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                                    changeSubscription(subreddit,
+                                                            true); // Force add the subscription
+                                                    Snackbar s = Snackbar.make(mToolbar,
+                                                            R.string.sub_added,
+                                                            Snackbar.LENGTH_SHORT);
+                                                    View view = s.getView();
+                                                    TextView tv = (TextView) view.findViewById(
+                                                            android.support.design.R.id.snackbar_text);
+                                                    tv.setTextColor(Color.WHITE);
+                                                    s.show();
+                                                }
+                                            })
                                     .show();
                         } else {
                             changeSubscription(subreddit, true);
@@ -1357,84 +1392,102 @@ public class SubredditView extends BaseActivityAnim {
                     private void doUnsubscribe() {
                         if (Authentication.didOnline) {
                             new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                                    getString(R.string.unsubscribe_from) + subreddit.getDisplayName())
-                                    .setPositiveButton(R.string.reorder_remove_unsubsribe, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            new AsyncTask<Void, Void, Boolean>() {
+                                    getString(R.string.unsubscribe_from)
+                                            + subreddit.getDisplayName())
+                                    .setPositiveButton(R.string.reorder_remove_unsubsribe,
+                                            new DialogInterface.OnClickListener() {
                                                 @Override
-                                                public void onPostExecute(Boolean success) {
-                                                    if (!success) { // If subreddit was removed from account or not
+                                                public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                                    new AsyncTask<Void, Void, Boolean>() {
+                                                        @Override
+                                                        public void onPostExecute(Boolean success) {
+                                                            if (!success) { // If subreddit was removed from account or not
 
-                                                        new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                                                                R.string.force_change_subscription)
-                                                                .setMessage(R.string.force_change_subscription_desc)
-                                                                .setPositiveButton(R.string.btn_yes,
-                                                                        new DialogInterface.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(
-                                                                                    DialogInterface dialog,
-                                                                                    int which) {
-                                                                                changeSubscription(
-                                                                                        subreddit,
-                                                                                        false); // Force add the subscription
-                                                                                Snackbar s =
-                                                                                        Snackbar.make(
-                                                                                                mToolbar,
-                                                                                                getString(
-                                                                                                        R.string.misc_unsubscribed),
-                                                                                                Snackbar.LENGTH_SHORT);
-                                                                                View view = s.getView();
-                                                                                TextView tv = (TextView) view
-                                                                                        .findViewById(
-                                                                                                android.support.design.R.id.snackbar_text);
-                                                                                tv.setTextColor(
-                                                                                        Color.WHITE);
-                                                                                s.show();
-                                                                            }
-                                                                        })
-                                                                .setNegativeButton(R.string.btn_no,
-                                                                        new DialogInterface.OnClickListener() {
-                                                                            @Override
-                                                                            public void onClick(
-                                                                                    DialogInterface dialog,
-                                                                                    int which) {
+                                                                new AlertDialogWrapper.Builder(
+                                                                        SubredditView.this).setTitle(
+                                                                        R.string.force_change_subscription)
+                                                                        .setMessage(
+                                                                                R.string.force_change_subscription_desc)
+                                                                        .setPositiveButton(
+                                                                                R.string.btn_yes,
+                                                                                new DialogInterface.OnClickListener() {
+                                                                                    @Override
+                                                                                    public void onClick(
+                                                                                            DialogInterface dialog,
+                                                                                            int which) {
+                                                                                        changeSubscription(
+                                                                                                subreddit,
+                                                                                                false); // Force add the subscription
+                                                                                        Snackbar s =
+                                                                                                Snackbar.make(
+                                                                                                        mToolbar,
+                                                                                                        getString(
+                                                                                                                R.string.misc_unsubscribed),
+                                                                                                        Snackbar.LENGTH_SHORT);
+                                                                                        View view =
+                                                                                                s.getView();
+                                                                                        TextView
+                                                                                                tv =
+                                                                                                (TextView) view
+                                                                                                        .findViewById(
+                                                                                                                android.support.design.R.id.snackbar_text);
+                                                                                        tv.setTextColor(
+                                                                                                Color.WHITE);
+                                                                                        s.show();
+                                                                                    }
+                                                                                })
+                                                                        .setNegativeButton(
+                                                                                R.string.btn_no,
+                                                                                new DialogInterface.OnClickListener() {
+                                                                                    @Override
+                                                                                    public void onClick(
+                                                                                            DialogInterface dialog,
+                                                                                            int which) {
 
-                                                                            }
-                                                                        })
-                                                                .setCancelable(false)
-                                                                .show();
-                                                    } else {
-                                                        changeSubscription(subreddit, false);
-                                                    }
+                                                                                    }
+                                                                                })
+                                                                        .setCancelable(false)
+                                                                        .show();
+                                                            } else {
+                                                                changeSubscription(subreddit,
+                                                                        false);
+                                                            }
 
+                                                        }
+
+                                                        @Override
+                                                        protected Boolean doInBackground(
+                                                                Void... params) {
+                                                            try {
+                                                                new AccountManager(
+                                                                        Authentication.reddit).unsubscribe(
+                                                                        subreddit);
+                                                            } catch (NetworkException e) {
+                                                                return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
+                                                            }
+                                                            return true;
+                                                        }
+                                                    }.execute();
                                                 }
-
+                                            })
+                                    .setNeutralButton(R.string.just_unsub,
+                                            new DialogInterface.OnClickListener() {
                                                 @Override
-                                                protected Boolean doInBackground(Void... params) {
-                                                    try {
-                                                        new AccountManager(Authentication.reddit).unsubscribe(
-                                                                subreddit);
-                                                    } catch (NetworkException e) {
-                                                        return false; // Either network crashed or trying to unsubscribe to a subreddit that the account isn't subscribed to
-                                                    }
-                                                    return true;
+                                                public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                                    changeSubscription(subreddit,
+                                                            false); // Force add the subscription
+                                                    Snackbar s = Snackbar.make(mToolbar,
+                                                            R.string.misc_unsubscribed,
+                                                            Snackbar.LENGTH_SHORT);
+                                                    View view = s.getView();
+                                                    TextView tv = (TextView) view.findViewById(
+                                                            android.support.design.R.id.snackbar_text);
+                                                    tv.setTextColor(Color.WHITE);
+                                                    s.show();
                                                 }
-                                            }.execute();
-                                        }
-                                    })
-                                    .setNeutralButton(R.string.just_unsub, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            changeSubscription(subreddit, false); // Force add the subscription
-                                            Snackbar s = Snackbar.make(mToolbar, R.string.misc_unsubscribed,
-                                                    Snackbar.LENGTH_SHORT);
-                                            View view = s.getView();
-                                            TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-                                            tv.setTextColor(Color.WHITE);
-                                            s.show();
-                                        }
-                                    })
+                                            })
                                     .setNegativeButton(R.string.btn_cancel, null)
                                     .show();
                         } else {
@@ -1449,7 +1502,8 @@ public class SubredditView extends BaseActivityAnim {
             if (!subreddit.getPublicDescription().isEmpty()) {
                 findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
                 setViews(subreddit.getDataNode().get("public_description_html").asText(),
-                        subreddit.getDisplayName().toLowerCase(), ((SpoilerRobotoTextView) findViewById(R.id.sub_title)),
+                        subreddit.getDisplayName().toLowerCase(),
+                        ((SpoilerRobotoTextView) findViewById(R.id.sub_title)),
                         (CommentOverflow) findViewById(R.id.sub_title_overflow));
             } else {
                 findViewById(R.id.sub_title).setVisibility(View.GONE);
@@ -1459,16 +1513,19 @@ public class SubredditView extends BaseActivityAnim {
                     .asText()
                     .isEmpty()) {
                 ((Reddit) getApplication()).getImageLoader()
-                        .displayImage(subreddit.getDataNode().get("icon_img").asText(), (ImageView) findViewById(R.id.subimage));
+                        .displayImage(subreddit.getDataNode().get("icon_img").asText(),
+                                (ImageView) findViewById(R.id.subimage));
             } else {
                 findViewById(R.id.subimage).setVisibility(View.GONE);
             }
             ((TextView) findViewById(R.id.subscribers)).setText(
-                    getString(R.string.subreddit_subscribers_string, subreddit.getLocalizedSubscriberCount()));
+                    getString(R.string.subreddit_subscribers_string,
+                            subreddit.getLocalizedSubscriberCount()));
             findViewById(R.id.subscribers).setVisibility(View.VISIBLE);
 
             ((TextView) findViewById(R.id.active_users)).setText(
-                    getString(R.string.subreddit_active_users_string_new, subreddit.getLocalizedAccountsActive()));
+                    getString(R.string.subreddit_active_users_string_new,
+                            subreddit.getLocalizedAccountsActive()));
             findViewById(R.id.active_users).setVisibility(View.VISIBLE);
         }
     }
@@ -1723,7 +1780,9 @@ public class SubredditView extends BaseActivityAnim {
                 }
             }
 
-        }        @Override
+        }
+
+        @Override
         public int getItemPosition(Object object) {
             if (object != storedFragment) return POSITION_NONE;
             return POSITION_UNCHANGED;
@@ -1765,9 +1824,6 @@ public class SubredditView extends BaseActivityAnim {
         }
 
 
-
-
-
     }
 
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
@@ -1777,9 +1833,13 @@ public class SubredditView extends BaseActivityAnim {
 
             if (subreddit != null) {
                 sub = subreddit;
-                doSubSidebarNoLoad(sub.getDisplayName());
-                doSubSidebar(sub.getDisplayName());
-                doSubOnlyStuff(sub);
+                try {
+                    doSubSidebarNoLoad(sub.getDisplayName());
+                    doSubSidebar(sub.getDisplayName());
+                    doSubOnlyStuff(sub);
+                } catch (NullPointerException e) { //activity has been killed
+                    if (!isFinishing()) finish();
+                }
                 SubredditView.this.subreddit = sub.getDisplayName();
 
                 if (subreddit.isNsfw()

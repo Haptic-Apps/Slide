@@ -75,15 +75,8 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 import com.lusfold.androidkeyvaluestore.KVStore;
 import com.lusfold.androidkeyvaluestore.core.KVManger;
-import com.neovisionaries.ws.client.WebSocketException;
-import com.neovisionaries.ws.client.WebSocketFactory;
-import com.neovisionaries.ws.client.WebSocketFrame;
-import com.neovisionaries.ws.client.WebSocketListener;
-import com.neovisionaries.ws.client.WebSocketState;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.http.MultiRedditUpdateRequest;
@@ -92,7 +85,6 @@ import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.managers.ModerationManager;
 import net.dean.jraw.managers.MultiRedditManager;
 import net.dean.jraw.models.FlairTemplate;
-import net.dean.jraw.models.LiveUpdate;
 import net.dean.jraw.models.LoggedInAccount;
 import net.dean.jraw.models.MultiReddit;
 import net.dean.jraw.models.MultiSubreddit;
@@ -111,7 +103,6 @@ import org.ligi.snackengage.conditions.WithLimitedNumberOfTimes;
 import org.ligi.snackengage.snacks.BaseSnack;
 import org.ligi.snackengage.snacks.RateSnack;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -542,7 +533,7 @@ public class MainActivity extends BaseActivity {
                                 }
                             }
                         }.execute();
-                      //todo this  new AsyncStartNotifSocket().execute();
+                        //todo this  new AsyncStartNotifSocket().execute();
                     }
                 };
 
@@ -587,36 +578,57 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onGlobalLayout() {
                             headerHeight = header.getHeight();
-                            header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            try {
+                                header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            } catch (NoSuchMethodError x) {
+                                header.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                            }
                         }
                     });
         }
 
-        pager = (ToggleSwipeViewPager) findViewById(R.id.content_view);
+        pager = (ToggleSwipeViewPager)
+
+                findViewById(R.id.content_view);
 
         singleMode = SettingValues.single;
-        if (singleMode) {
+        if (singleMode)
+
+        {
             commentPager = SettingValues.commentPager;
         }
         // Inflate tabs if single mode is disabled
-        if (!singleMode) {
+        if (!singleMode)
+
+        {
             mTabLayout = (TabLayout) ((ViewStub) findViewById(R.id.stub_tabs)).inflate();
         }
         // Disable swiping if single mode is enabled
-        if (singleMode) {
+        if (singleMode)
+
+        {
             pager.setSwipingEnabled(false);
         }
 
-        sidebarBody = (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
-        sidebarOverflow = (CommentOverflow) findViewById(R.id.commentOverflow);
+        sidebarBody = (SpoilerRobotoTextView)
+
+                findViewById(R.id.sidebar_text);
+
+        sidebarOverflow = (CommentOverflow)
+
+                findViewById(R.id.commentOverflow);
 
         if (!Reddit.appRestart.getBoolean("isRestarting", false) && Reddit.colors.contains(
-                "Tutorial")) {
+                "Tutorial"))
+
+        {
             LogUtil.v("Starting main " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
             UserSubscriptions.doMainActivitySubs(this);
-        } else if (!first) {
+        } else if (!first)
+
+        {
             LogUtil.v("Starting main 2 " + Authentication.name);
             Authentication.isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             Authentication.name = Reddit.appRestart.getString("name", "LOGGEDOUT");
@@ -627,8 +639,13 @@ public class MainActivity extends BaseActivity {
 
 
         final SharedPreferences seen = getSharedPreferences("SEEN", 0);
-        if (!seen.contains("isCleared") && !seen.getAll().isEmpty() || !Reddit.appRestart.contains(
-                "hasCleared")) {
+        if (!seen.contains("isCleared") && !seen.getAll().
+
+                isEmpty()
+
+                || !Reddit.appRestart.contains("hasCleared"))
+
+        {
 
             new AsyncTask<Void, Void, Void>() {
                 @Override
@@ -671,8 +688,8 @@ public class MainActivity extends BaseActivity {
 
                 @Override
                 protected void onPreExecute() {
-                    d = new MaterialDialog.Builder(MainActivity.this)
-                            .title(R.string.misc_setting_up)
+                    d = new MaterialDialog.Builder(MainActivity.this).title(
+                            R.string.misc_setting_up)
                             .content(R.string.misc_setting_up_message)
                             .progress(true, 100)
                             .cancelable(false)
@@ -684,7 +701,9 @@ public class MainActivity extends BaseActivity {
         }
 
 
-        if (Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this)) {
+        if (Authentication.isLoggedIn && NetworkUtil.isConnected(MainActivity.this))
+
+        {
             // Display an snackbar that asks the user to rate the app after this
             // activity was created 6 times, never again when once clicked or with a maximum of
             // two times.
@@ -703,7 +722,9 @@ public class MainActivity extends BaseActivity {
         }
 
         if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
-                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
+
+        {
             setupSubredditSearchToolbar();
         }
 
@@ -711,7 +732,17 @@ public class MainActivity extends BaseActivity {
          * int for the current base theme selected.
          * 0 = Dark, 1 = Light, 2 = AMOLED, 3 = Dark blue, 4 = AMOLED with contrast, 5 = Sepia
          */
-        SettingValues.currentTheme = new ColorPreferences(this).getFontStyle().getThemeType();
+        SettingValues.currentTheme = new
+
+                ColorPreferences(this)
+
+                .
+
+                        getFontStyle()
+
+                .
+
+                        getThemeType();
     }
 
     public void updateSubs(ArrayList<String> subs) {
@@ -1353,7 +1384,9 @@ public class MainActivity extends BaseActivity {
     public void updateColor(int color, String subreddit) {
         hea.setBackgroundColor(color);
         header.setBackgroundColor(color);
-        if (accountsArea != null) accountsArea.setBackgroundColor(Palette.getDarkerColor(color));
+        if (accountsArea != null) {
+            accountsArea.setBackgroundColor(Palette.getDarkerColor(color));
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.setStatusBarColor(Palette.getDarkerColor(color));
@@ -1693,7 +1726,7 @@ public class MainActivity extends BaseActivity {
                                         })
 
                                 .setNeutralButton(R.string.btn_add_to_sublist,
-                                new DialogInterface.OnClickListener() {
+                                        new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
                                                 changeSubscription(subreddit,
@@ -3063,7 +3096,9 @@ public class MainActivity extends BaseActivity {
                     menu.findItem(R.id.sidebar).setVisible(false);
                 }
             } else {
-                if (menu.findItem(R.id.submit) != null) menu.findItem(R.id.submit).setVisible(true);
+                if (menu.findItem(R.id.submit) != null) {
+                    menu.findItem(R.id.submit).setVisible(true);
+                }
                 if (menu.findItem(R.id.sidebar) != null) {
                     menu.findItem(R.id.sidebar).setVisible(true);
                 }
@@ -3373,46 +3408,48 @@ public class MainActivity extends BaseActivity {
                         !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
                     new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
                             getString(R.string.sub_post_notifs_title) + sub)
-                            .setMessage(
-                                    R.string.sub_post_notifs_text)
-                            .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    new MaterialDialog.Builder(MainActivity.this).title(
-                                            R.string.sub_post_notifs_threshold)
-                                            .items(new String[]{"1", "5", "10", "20", "40", "50"})
-                                            .alwaysCallSingleChoiceCallback()
-                                            .itemsCallbackSingleChoice(0,
-                                                    new MaterialDialog.ListCallbackSingleChoice() {
-                                                        @Override
-                                                        public boolean onSelection(
-                                                                MaterialDialog dialog,
-                                                                View itemView, int which,
-                                                                CharSequence text) {
-                                                            ArrayList<String> subs =
-                                                                    Reddit.stringToArray(
-                                                                            Reddit.appRestart.getString(
-                                                                                    CheckForMail.SUBS_TO_GET,
-                                                                                    ""));
-                                                            subs.add(sub + ":" + text);
-                                                            Reddit.appRestart.edit()
-                                                                    .putString(
-                                                                            CheckForMail.SUBS_TO_GET,
-                                                                            Reddit.arrayToString(
-                                                                                    subs))
-                                                                    .commit();
-                                                            return true;
-                                                        }
+                            .setMessage(R.string.sub_post_notifs_text)
+                            .setPositiveButton(R.string.btn_ok,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            new MaterialDialog.Builder(MainActivity.this).title(
+                                                    R.string.sub_post_notifs_threshold)
+                                                    .items(new String[]{
+                                                            "1", "5", "10", "20", "40", "50"
                                                     })
-                                            .cancelable(false)
-                                            .show();
-                                }
-                            })
+                                                    .alwaysCallSingleChoiceCallback()
+                                                    .itemsCallbackSingleChoice(0,
+                                                            new MaterialDialog.ListCallbackSingleChoice() {
+                                                                @Override
+                                                                public boolean onSelection(
+                                                                        MaterialDialog dialog,
+                                                                        View itemView, int which,
+                                                                        CharSequence text) {
+                                                                    ArrayList<String> subs =
+                                                                            Reddit.stringToArray(
+                                                                                    Reddit.appRestart
+                                                                                            .getString(
+                                                                                                    CheckForMail.SUBS_TO_GET,
+                                                                                                    ""));
+                                                                    subs.add(sub + ":" + text);
+                                                                    Reddit.appRestart.edit()
+                                                                            .putString(
+                                                                                    CheckForMail.SUBS_TO_GET,
+                                                                                    Reddit.arrayToString(
+                                                                                            subs))
+                                                                            .commit();
+                                                                    return true;
+                                                                }
+                                                            })
+                                                    .cancelable(false)
+                                                    .show();
+                                        }
+                                    })
                             .setNegativeButton(R.string.btn_cancel, null)
                             .show();
                 } else {
-                    Toast.makeText(MainActivity.this,
-                            R.string.sub_post_notifs_err,
+                    Toast.makeText(MainActivity.this, R.string.sub_post_notifs_err,
                             Toast.LENGTH_SHORT).show();
                 }
                 return true;
