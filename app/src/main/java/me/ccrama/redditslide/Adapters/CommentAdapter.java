@@ -134,6 +134,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         toCollapse = new ArrayList<>();
 
         shifted = 0;
+
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = this.mContext.getTheme();
+        theme.resolveAttribute(R.attr.tint, typedValue, true);
+        tintColor = typedValue.data;
+
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView,
@@ -241,7 +247,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void doScoreText(CommentViewHolder holder, Comment comment) {
         holder.content.setText(
-                CommentAdapterHelper.getScoreString(comment, mContext, holder, submission));
+                CommentAdapterHelper.getScoreString(comment, mContext, holder, submission, tintColor));
     }
 
     public void doTimes() {
@@ -921,6 +927,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
         mAnimator.start();
     }
+
+    public int tintColor;
 
     CommentNode currentBaseNode;
 

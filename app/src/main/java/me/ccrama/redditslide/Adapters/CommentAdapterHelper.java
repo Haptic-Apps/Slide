@@ -1166,7 +1166,7 @@ public class CommentAdapterHelper {
     }
 
     public static Spannable getScoreString(Comment comment, Context mContext,
-            CommentViewHolder holder, Submission submission) {
+            CommentViewHolder holder, Submission submission, int tintColor) {
         final String spacer =
                 " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString =
@@ -1178,6 +1178,8 @@ public class CommentAdapterHelper {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        author.setSpan(new ForegroundColorSpan(tintColor), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR
                 || comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
