@@ -73,142 +73,37 @@
                 android:layout_height="wrap_content" />
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="16dp">
+                    android:id="@+id/datasavequality"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
 
                 <LinearLayout
-                    android:layout_marginEnd="64dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
+                        android:layout_marginEnd="64dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/never_load_images"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Image quality when Data Saving enabled"
+                            android:textColor="?attr/font"
+                            android:textSize="14sp" />
 
+                    <TextView
+                            android:id="@+id/currentmode"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha=".86"
+                            android:textColor="?attr/font"
+                            android:textSize="13sp" />
                 </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/noload"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingEnd="16dp"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:alpha=".25"
-                android:background="?attr/tint" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="16dp">
-
-                <LinearLayout
-                    android:layout_marginEnd="64dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/imagelq_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/low_quality_images_in_image_viewer"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/imagelq_subtext"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:text="@string/load_high_quality_image_every_time"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp" />
-                </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/imagelq"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingEnd="16dp"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
-
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.25dp"
-                android:alpha=".25"
-                android:background="?attr/tint" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="16dp">
-
-                <LinearLayout
-                    android:layout_marginEnd="64dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/load_medium_quality_imgur_images"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".86"
-                        android:text="@string/load_lower_quality_imgur"
-                        android:textColor="?attr/font"
-                        android:textSize="13sp" />
-                </LinearLayout>
-
-                <android.support.v7.widget.SwitchCompat
-                    android:id="@+id/imgurlq"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingEnd="16dp"
-                    android:backgroundTint="?attr/tint"
-                    android:button="@null"
-                    android:buttonTint="?attr/tint"
-                    android:hapticFeedbackEnabled="true"
-                    android:textColor="?attr/font"
-                    android:textColorHint="?attr/font" />
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>

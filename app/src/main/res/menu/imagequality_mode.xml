@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/never"
+        android:title="@string/never_load_images"/>
+
+    <item
+        android:id="@+id/imgur"
+        android:title="@string/low_quality_through_imgur_higher_resolution"/>
+
+    <item
+        android:id="@+id/reddit"
+        android:title="@string/low_quality_through_reddit_lower_resolution"/>
+
+</menu>
