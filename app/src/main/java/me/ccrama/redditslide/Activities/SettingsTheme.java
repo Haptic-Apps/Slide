@@ -118,6 +118,10 @@ public class SettingsTheme extends BaseActivityAnim {
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
+                if(SettingValues.isNight()){
+                    dialoglayout.findViewById(R.id.nightmsg).setVisibility(View.VISIBLE);
+                }
+
                 dialoglayout.findViewById(R.id.black)
                         .setOnClickListener(new View.OnClickListener() {
                             @Override

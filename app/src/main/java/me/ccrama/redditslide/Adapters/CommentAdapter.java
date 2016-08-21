@@ -1173,6 +1173,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                     Color.WHITE);
                             ((ImageView) replyArea.findViewById(R.id.numlist)).setColorFilter(
                                     Color.WHITE);
+                            ((ImageView) replyArea.findViewById(R.id.draw)).setColorFilter(
+                                    Color.WHITE);
                             ((ImageView) replyArea.findViewById(R.id.quote)).setColorFilter(
                                     Color.WHITE);
                             ((ImageView) replyArea.findViewById(R.id.size)).setColorFilter(

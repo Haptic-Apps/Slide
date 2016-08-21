@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.OpenRedditLink;
+import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -32,6 +36,7 @@ import me.ccrama.redditslide.Views.NestedWebView;
 import me.ccrama.redditslide.Views.WebViewOverScrollDecoratorAdapter;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
+import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
 import me.everything.android.ui.overscroll.IOverScrollDecor;
@@ -289,6 +294,89 @@ public class Website extends BaseActivityAnim {
             }
             return ad && SettingValues.tabletUI ? AdBlocker.createEmptyResource() :
                     super.shouldInterceptRequest(view, url);
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            ContentType.Type type = ContentType.getContentType(url);
+            if (!PostMatch.openExternal(url) || type == ContentType.Type.VIDEO) {
+                switch (type) {
+                    case DEVIANTART:
+                    case IMGUR:
+                        if (SettingValues.image) {
+                            Intent intent2 = new Intent(view.getContext(), MediaView.class);
+                            intent2.putExtra(MediaView.EXTRA_URL, url);
+                            view.getContext().startActivity(intent2);
+                            view.goBack();
+                        }
+                        break;
+                    case REDDIT:
+                        new OpenRedditLink(view.getContext(), url);
+                        view.goBack();
+                        break;
+                    case STREAMABLE:
+                    case VID_ME:
+                        if (SettingValues.video) {
+                            Intent myIntent = new Intent(view.getContext(), MediaView.class);
+                            myIntent.putExtra(MediaView.EXTRA_URL, url);
+                            view.getContext().startActivity(myIntent);
+                            view.goBack();
+                        }
+                        break;
+                    case ALBUM:
+                        if (SettingValues.album) {
+                            if (SettingValues.albumSwipe) {
+                                Intent i = new Intent(view.getContext(), AlbumPager.class);
+                                i.putExtra(Album.EXTRA_URL, url);
+                                view.getContext().startActivity(i);
+                            } else {
+                                Intent i = new Intent(view.getContext(), Album.class);
+                                i.putExtra(Album.EXTRA_URL, url);
+                                view.getContext().startActivity(i);
+                            }
+                            view.goBack();
+                        }
+                        break;
+                    case IMAGE:
+                        if (SettingValues.image) {
+                            Intent myIntent = new Intent(view.getContext(), MediaView.class);
+                            myIntent.putExtra(MediaView.EXTRA_URL, url);
+                            view.getContext().startActivity(myIntent);
+                            view.goBack();
+                        }
+                        break;
+                    case GIF:
+                        if (SettingValues.gif) {
+                            Intent myIntent = new Intent(view.getContext(), MediaView.class);
+                            myIntent.putExtra(MediaView.EXTRA_URL, url);
+                            view.getContext().startActivity(myIntent);
+                            view.goBack();
+                        }
+                        break;
+                    case NONE:
+                        break;
+                    case VIDEO:
+                        if (Reddit.videoPlugin) {
+                            try {
+                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                                sharingIntent.setClassName("ccrama.me.slideyoutubeplugin",
+                                        "ccrama.me.slideyoutubeplugin.YouTubeView");
+                                sharingIntent.putExtra("url", url);
+                                view.getContext().startActivity(sharingIntent);
+                                view.goBack();
+                            } catch (Exception e) {
+                            }
+                        }
+                    case EXTERNAL:
+                        view.goBack();
+                        Reddit.defaultShare(url, view.getContext());
+                        break;
+                }
+            } else {
+                view.goBack();
+                Reddit.defaultShare(url, view.getContext());
+            }
         }
     }
 }

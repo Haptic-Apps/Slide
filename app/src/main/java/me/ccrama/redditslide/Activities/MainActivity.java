@@ -3190,7 +3190,9 @@ public class MainActivity extends BaseActivity {
                 builder.setView(dialoglayout);
                 final Dialog d = builder.show();
                 back = new ColorPreferences(MainActivity.this).getFontStyle().getThemeType();
-
+                if(SettingValues.isNight()){
+                    dialoglayout.findViewById(R.id.nightmsg).setVisibility(View.VISIBLE);
+                }
                 dialoglayout.findViewById(R.id.black)
                         .setOnClickListener(new View.OnClickListener() {
                             @Override

@@ -32,6 +32,16 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
+                <TextView
+                        android:layout_width="match_parent"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="-24dp"
+                        android:id="@+id/nightmsg"
+                        android:visibility="gone"
+                        android:padding="24dp"
+                        android:text="Night Mode is currently enabled, you won't see the theme change until night mode is off!"
+                        android:layout_height="wrap_content"/>
+
 
                 <LinearLayout
                     android:id="@+id/body2"
