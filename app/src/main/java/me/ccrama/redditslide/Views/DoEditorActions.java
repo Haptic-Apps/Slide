@@ -507,12 +507,12 @@ public class DoEditorActions {
                                         int start = Math.max(editText.getSelectionStart(), 0);
                                         int end = Math.max(editText.getSelectionEnd(), 0);
 
+                                        editText.getText().insert(Math.max(start, end), s);
+
                                         //delete the selected text to avoid duplication
                                         if (selectedTextNotEmpty) {
                                             editText.getText().delete(start, end);
                                         }
-
-                                        editText.getText().insert(Math.max(start, end), s);
                                     }
                                 })
                                 .build();
