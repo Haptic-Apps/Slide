@@ -76,12 +76,14 @@ import me.ccrama.redditslide.util.SubmissionParser;
  */
 public class DoEditorActions {
 
-    public static void doActions(final EditText editText, final View baseView, final FragmentManager fm, final Activity a, final String oldComment) {
+    public static void doActions(final EditText editText, final View baseView,
+            final FragmentManager fm, final Activity a, final String oldComment) {
         baseView.findViewById(R.id.bold).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (editText.hasSelection()) {
-                    wrapString("**", editText); //If the user has text selected, wrap that text in the symbols
+                    wrapString("**",
+                            editText); //If the user has text selected, wrap that text in the symbols
                 } else {
                     //If the user doesn't have text selected, put the symbols around the cursor's position
                     int pos = editText.getSelectionStart();
@@ -95,7 +97,8 @@ public class DoEditorActions {
             @Override
             public void onClick(View v) {
                 if (editText.hasSelection()) {
-                    wrapString("*", editText); //If the user has text selected, wrap that text in the symbols
+                    wrapString("*",
+                            editText); //If the user has text selected, wrap that text in the symbols
                 } else {
                     //If the user doesn't have text selected, put the symbols around the cursor's position
                     int pos = editText.getSelectionStart();
@@ -109,7 +112,8 @@ public class DoEditorActions {
             @Override
             public void onClick(View v) {
                 if (editText.hasSelection()) {
-                    wrapString("~~", editText); //If the user has text selected, wrap that text in the symbols
+                    wrapString("~~",
+                            editText); //If the user has text selected, wrap that text in the symbols
                 } else {
                     //If the user doesn't have text selected, put the symbols around the cursor's position
                     int pos = editText.getSelectionStart();
@@ -124,7 +128,8 @@ public class DoEditorActions {
             public void onClick(View v) {
                 LogUtil.v("Saving draft");
                 Drafts.addDraft(editText.getText().toString());
-                Snackbar s =  Snackbar.make(baseView.findViewById(R.id.savedraft), "Draft saved", Snackbar.LENGTH_SHORT);
+                Snackbar s = Snackbar.make(baseView.findViewById(R.id.savedraft), "Draft saved",
+                        Snackbar.LENGTH_SHORT);
                 View view = s.getView();
                 TextView tv =
                         (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -147,51 +152,79 @@ public class DoEditorActions {
                             .setPositiveButton(R.string.btn_ok, null)
                             .show();
                 } else {
-                    new AlertDialogWrapper.Builder(a)
-                            .setTitle(R.string.choose_draft)
+                    new AlertDialogWrapper.Builder(a).setTitle(R.string.choose_draft)
                             .setItems(draftText, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    editText.setText(editText.getText().toString() + draftText[which]);
+                                    editText.setText(
+                                            editText.getText().toString() + draftText[which]);
                                 }
                             })
                             .setNeutralButton(R.string.btn_cancel, null)
-                            .setPositiveButton(R.string.manage_drafts, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    final boolean[] selected = new boolean[drafts.size()];
-                                    new AlertDialogWrapper.Builder(a)
-                                            .setTitle(R.string.choose_draft)
-                                            .setNeutralButton(R.string.btn_cancel, null)
-                                            .alwaysCallMultiChoiceCallback()
-                                            .setNegativeButton(R.string.btn_delete, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    new AlertDialogWrapper.Builder(a).setTitle(R.string.really_delete_drafts)
-                                                            .setCancelable(false)
-                                                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.manage_drafts,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            final boolean[] selected = new boolean[drafts.size()];
+                                            new AlertDialogWrapper.Builder(a).setTitle(
+                                                    R.string.choose_draft)
+                                                    .setNeutralButton(R.string.btn_cancel, null)
+                                                    .alwaysCallMultiChoiceCallback()
+                                                    .setNegativeButton(R.string.btn_delete,
+                                                            new DialogInterface.OnClickListener() {
                                                                 @Override
-                                                                public void onClick(DialogInterface dialog, int which) {
-                                                                    ArrayList<String> draf = new ArrayList<>();
-                                                                    for (int i = 0; i < draftText.length; i++) {
-                                                                        if (!selected[i]) {
-                                                                            draf.add(draftText[i]);
-                                                                        }
-                                                                    }
-                                                                    Drafts.save(draf);
+                                                                public void onClick(
+                                                                        DialogInterface dialog,
+                                                                        int which) {
+                                                                    new AlertDialogWrapper.Builder(
+                                                                            a).setTitle(
+                                                                            R.string.really_delete_drafts)
+                                                                            .setCancelable(false)
+                                                                            .setPositiveButton(
+                                                                                    R.string.btn_yes,
+                                                                                    new DialogInterface.OnClickListener() {
+                                                                                        @Override
+                                                                                        public void onClick(
+                                                                                                DialogInterface dialog,
+                                                                                                int which) {
+                                                                                            ArrayList<String>
+                                                                                                    draf =
+                                                                                                    new ArrayList<>();
+                                                                                            for (int
+                                                                                                    i =
+                                                                                                    0;
+                                                                                                    i
+                                                                                                            < draftText.length;
+                                                                                                    i++) {
+                                                                                                if (!selected[i]) {
+                                                                                                    draf.add(
+                                                                                                            draftText[i]);
+                                                                                                }
+                                                                                            }
+                                                                                            Drafts.save(
+                                                                                                    draf);
+                                                                                        }
+                                                                                    })
+                                                                            .setNegativeButton(
+                                                                                    R.string.btn_no,
+                                                                                    null)
+                                                                            .show();
                                                                 }
-                                                            }).setNegativeButton(R.string.btn_no, null)
-                                                            .show();
-                                                }
-                                            })
-                                            .setMultiChoiceItems(draftText, selected, new DialogInterface.OnMultiChoiceClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                                    selected[which] = isChecked;
-                                                }
-                                            }).show();
-                                }
-                            }).show();
+                                                            })
+                                                    .setMultiChoiceItems(draftText, selected,
+                                                            new DialogInterface.OnMultiChoiceClickListener() {
+                                                                @Override
+                                                                public void onClick(
+                                                                        DialogInterface dialog,
+                                                                        int which,
+                                                                        boolean isChecked) {
+                                                                    selected[which] = isChecked;
+                                                                }
+                                                            })
+                                                    .show();
+                                        }
+                                    })
+                            .show();
                 }
             }
         });
@@ -218,15 +251,20 @@ public class DoEditorActions {
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                                 try {
                                     File f = new File(selectedImageUri.getPath());
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                    new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(
+                                            editText.getContext().getContentResolver(),
+                                            selectedImageUri);
+                                    new UploadImgur(editText,
+                                            f != null && f.getName().contains(".jpg") || f.getName()
+                                                    .contains(".jpeg")).execute(bitmap);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             }
                         }
                     };
-                    a.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
+                    a.startActivityForResult(Intent.createChooser(intent,
+                            Integer.toString(R.string.editor_select_img)), 3333);
                 } else {
                     Fragment auxiliary = new Fragment() {
                         @Override
@@ -238,8 +276,12 @@ public class DoEditorActions {
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                                 try {
                                     File f = new File(selectedImageUri.getPath());
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                                    new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(
+                                            editText.getContext().getContentResolver(),
+                                            selectedImageUri);
+                                    new UploadImgur(editText,
+                                            f != null && f.getName().contains(".jpg") || f.getName()
+                                                    .contains(".jpeg")).execute(bitmap);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -250,7 +292,8 @@ public class DoEditorActions {
                     fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
                     fm.executePendingTransactions();
 
-                    auxiliary.startActivityForResult(Intent.createChooser(intent, Integer.toString(R.string.editor_select_img)), 3333);
+                    auxiliary.startActivityForResult(Intent.createChooser(intent,
+                            Integer.toString(R.string.editor_select_img)), 3333);
                 }
             }
         });
@@ -266,28 +309,41 @@ public class DoEditorActions {
                             .setPositiveButton(R.string.btn_yes_exclaim,
 
                                     new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    try {
-                                        a.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    } catch (ActivityNotFoundException e) {
-                                        a.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
-                                    }
-                                }
-                            }).setNegativeButton(R.string.btn_no_danks,
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
+                                            try {
+                                                a.startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "market://details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            } catch (ActivityNotFoundException e) {
+                                                a.startActivity(new Intent(Intent.ACTION_VIEW,
+                                                        Uri.parse(
+                                                                "http://play.google.com/store/apps/details?id=me.ccrama.slideforreddittabletuiunlock")));
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(R.string.btn_no_danks,
                                     new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                        public void onClick(DialogInterface dialog,
+                                                int whichButton) {
                                             dialog.dismiss();
                                         }
                                     });
                     if (SettingValues.previews > 0) {
-                        b.setNeutralButton(a.getString(R.string.pro_previews, SettingValues.previews), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                SettingValues.prefs.edit().putInt(SettingValues.PREVIEWS_LEFT, SettingValues.previews - 1).apply();
-                                SettingValues.previews = SettingValues.prefs.getInt(SettingValues.PREVIEWS_LEFT, 10);
-                                doDraw(a, editText, fm);
-                            }
-                        });
+                        b.setNeutralButton(
+                                a.getString(R.string.pro_previews, SettingValues.previews),
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        SettingValues.prefs.edit()
+                                                .putInt(SettingValues.PREVIEWS_LEFT,
+                                                        SettingValues.previews - 1)
+                                                .apply();
+                                        SettingValues.previews = SettingValues.prefs.getInt(
+                                                SettingValues.PREVIEWS_LEFT, 10);
+                                        doDraw(a, editText, fm);
+                                    }
+                                });
                     }
                     b.show();
                 }
@@ -342,17 +398,22 @@ public class DoEditorActions {
                     builder.setView(showText)
                             .setTitle(R.string.editor_actions_quote_comment)
                             .setCancelable(true)
-                            .setPositiveButton(a.getString(R.string.btn_select), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String selected = showText.getText().toString().substring(showText.getSelectionStart(), showText.getSelectionEnd());
-                                    if (selected.equals("")) {
-                                        insertBefore("> " + oldComment, editText);
-                                    } else {
-                                        insertBefore("> " + selected + "\n\n", editText);
-                                    }
-                                }
-                            }).setNegativeButton(a.getString(R.string.btn_cancel), null)
+                            .setPositiveButton(a.getString(R.string.btn_select),
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String selected = showText.getText()
+                                                    .toString()
+                                                    .substring(showText.getSelectionStart(),
+                                                            showText.getSelectionEnd());
+                                            if (selected.equals("")) {
+                                                insertBefore("> " + oldComment, editText);
+                                            } else {
+                                                insertBefore("> " + selected + "\n\n", editText);
+                                            }
+                                        }
+                                    })
+                            .setNegativeButton(a.getString(R.string.btn_cancel), null)
                             .show();
                 } else {
                     insertBefore("> ", editText);
@@ -374,7 +435,8 @@ public class DoEditorActions {
         baseView.findViewById(R.id.preview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Extension> extensions = Arrays.asList(TablesExtension.create(), StrikethroughExtension.create());
+                List<Extension> extensions =
+                        Arrays.asList(TablesExtension.create(), StrikethroughExtension.create());
                 Parser parser = Parser.builder().extensions(extensions).build();
                 HtmlRenderer renderer = HtmlRenderer.builder().extensions(extensions).build();
                 Node document = parser.parse(editText.getText().toString());
@@ -382,7 +444,9 @@ public class DoEditorActions {
                 LayoutInflater inflater = a.getLayoutInflater();
                 final View dialoglayout = inflater.inflate(R.layout.parent_comment_dialog, null);
                 final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);
-                setViews(html, "NO sub", (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView), (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
+                setViews(html, "NO sub",
+                        (SpoilerRobotoTextView) dialoglayout.findViewById(R.id.firstTextView),
+                        (CommentOverflow) dialoglayout.findViewById(R.id.commentOverflow));
                 builder.setView(dialoglayout);
                 builder.show();
             }
@@ -391,45 +455,59 @@ public class DoEditorActions {
             @Override
             public void onClick(View v) {
                 final LayoutInflater inflater = LayoutInflater.from(a);
-                final LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.insert_link, null);
+                final LinearLayout layout =
+                        (LinearLayout) inflater.inflate(R.layout.insert_link, null);
 
                 int[] attrs = {R.attr.font};
 
-                TypedArray ta = baseView.getContext().obtainStyledAttributes(new ColorPreferences(baseView.getContext()).getFontStyle().getBaseId(), attrs);
+                TypedArray ta = baseView.getContext()
+                        .obtainStyledAttributes(
+                                new ColorPreferences(baseView.getContext()).getFontStyle()
+                                        .getBaseId(), attrs);
                 ta.recycle();
 
-                final MaterialDialog dialog = new MaterialDialog.Builder(editText.getContext())
-                        .title(R.string.editor_title_link)
-                        .customView(layout, false)
-                        .positiveColorAttr(R.attr.tint)
-                        .positiveText(R.string.editor_action_link)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                final EditText titleBox = (EditText) dialog.findViewById(R.id.title_box);
-                                final EditText descriptionBox = (EditText) dialog.findViewById(R.id.description_box);
-                                dialog.dismiss();
+                final MaterialDialog dialog =
+                        new MaterialDialog.Builder(editText.getContext()).title(
+                                R.string.editor_title_link)
+                                .customView(layout, false)
+                                .positiveColorAttr(R.attr.tint)
+                                .positiveText(R.string.editor_action_link)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog,
+                                            @NonNull DialogAction which) {
+                                        final EditText titleBox =
+                                                (EditText) dialog.findViewById(R.id.title_box);
+                                        final EditText descriptionBox =
+                                                (EditText) dialog.findViewById(
+                                                        R.id.description_box);
+                                        dialog.dismiss();
 
-                                String s = "[" + descriptionBox.getText().toString() + "](" + titleBox.getText().toString() + ")";
-                                int start = Math.max(editText.getSelectionStart(), 0);
-                                int end = Math.max(editText.getSelectionEnd(), 0);
-                                editText.getText().insert(Math.max(start, end), s);
-                            }
-                        }).build();
+                                        String s = "["
+                                                + descriptionBox.getText().toString()
+                                                + "]("
+                                                + titleBox.getText().toString()
+                                                + ")";
+                                        int start = Math.max(editText.getSelectionStart(), 0);
+                                        int end = Math.max(editText.getSelectionEnd(), 0);
+                                        editText.getText().insert(Math.max(start, end), s);
+                                    }
+                                })
+                                .build();
 
                 //Tint the hint text if the base theme is Sepia
                 if (SettingValues.currentTheme == 5) {
-                    ((EditText) dialog.findViewById(R.id.title_box))
-                            .setHintTextColor(ContextCompat.getColor(dialog.getContext(), R.color.md_grey_600));
-                    ((EditText) dialog.findViewById(R.id.description_box))
-                            .setHintTextColor(ContextCompat.getColor(dialog.getContext(), R.color.md_grey_600));
+                    ((EditText) dialog.findViewById(R.id.title_box)).setHintTextColor(
+                            ContextCompat.getColor(dialog.getContext(), R.color.md_grey_600));
+                    ((EditText) dialog.findViewById(R.id.description_box)).setHintTextColor(
+                            ContextCompat.getColor(dialog.getContext(), R.color.md_grey_600));
                 }
                 dialog.show();
             }
         });
     }
 
-    public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm){
+    public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm) {
         Intent intent = new Intent(a, Draw.class);
         if (a instanceof MainActivity) {
             LogUtil.v("Running on main");
@@ -442,8 +520,11 @@ public class DoEditorActions {
                         Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                         try {
                             File f = new File(selectedImageUri.getPath());
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                            new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(
+                                    editText.getContext().getContentResolver(), selectedImageUri);
+                            new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f
+                                    .getName()
+                                    .contains(".jpeg")).execute(bitmap);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -462,8 +543,11 @@ public class DoEditorActions {
                         Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                         try {
                             File f = new File(selectedImageUri.getPath());
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(editText.getContext().getContentResolver(), selectedImageUri);
-                            new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f.getName().contains(".jpeg")).execute(bitmap);
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(
+                                    editText.getContext().getContentResolver(), selectedImageUri);
+                            new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f
+                                    .getName()
+                                    .contains(".jpeg")).execute(bitmap);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -478,11 +562,11 @@ public class DoEditorActions {
         }
     }
 
-    public static void wrapString(String wrapText, EditText editText) {
-        int start = Math.max(editText.getSelectionStart(), 0);
-        int end = Math.max(editText.getSelectionEnd(), 0);
-        editText.getText().insert(Math.min(start, end), wrapText);
-        editText.getText().insert(Math.max(start, end) + wrapText.length(), wrapText);
+    public static String getImageLink(Bitmap b) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        b.compress(Bitmap.CompressFormat.JPEG, 100,
+                baos); // Not sure whether this should be jpeg or png, try both and see which works best
+        return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
     }
 
     public static void insertBefore(String wrapText, EditText editText) {
@@ -500,13 +584,15 @@ public class DoEditorActions {
 //        editText.getText().replace(Math.min(start, end), Math.max(start, end), s);
 //    }
 
-    public static String getImageLink(Bitmap b) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        b.compress(Bitmap.CompressFormat.JPEG, 100, baos); // Not sure whether this should be jpeg or png, try both and see which works best
-        return Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
+    public static void wrapString(String wrapText, EditText editText) {
+        int start = Math.max(editText.getSelectionStart(), 0);
+        int end = Math.max(editText.getSelectionEnd(), 0);
+        editText.getText().insert(Math.min(start, end), wrapText);
+        editText.getText().insert(Math.max(start, end) + wrapText.length(), wrapText);
     }
 
-    private static void setViews(String rawHTML, String subredditName, SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
+    private static void setViews(String rawHTML, String subredditName,
+            SpoilerRobotoTextView firstTextView, CommentOverflow commentOverflow) {
         if (rawHTML.isEmpty()) {
             return;
         }
@@ -518,7 +604,8 @@ public class DoEditorActions {
         if (!blocks.get(0).equals("<div class=\"md\">")) {
             firstTextView.setVisibility(View.VISIBLE);
             firstTextView.setTextHtml(blocks.get(0), subredditName);
-            firstTextView.setLinkTextColor(new ColorPreferences(firstTextView.getContext()).getColor(subredditName));
+            firstTextView.setLinkTextColor(
+                    new ColorPreferences(firstTextView.getContext()).getColor(subredditName));
             startIndex = 1;
         } else {
             firstTextView.setText("");
@@ -538,10 +625,10 @@ public class DoEditorActions {
 
     private static class UploadImgur extends AsyncTask<Bitmap, Void, JSONObject> {
 
-        final Context c;
-        final EditText editText;
+        final         Context        c;
+        final         EditText       editText;
         private final ProgressDialog dialog;
-        public Bitmap b;
+        public        Bitmap         b;
         boolean jpg;
 
         public UploadImgur(EditText editText, boolean jpg) {
@@ -552,11 +639,70 @@ public class DoEditorActions {
         }
 
         @Override
+        protected JSONObject doInBackground(Bitmap... sub) {
+            Bitmap bitmap = sub[0];
+            URL url;
+
+            // Creates Byte Array from picture
+            try {
+                url = new URL("https://imgur-apiv3.p.mashape.com/3/image");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
+                conn.setRequestMethod("POST");
+                conn.addRequestProperty("X-Mashape-Key", SecretConstants.getImgurApiKey(c));
+                conn.addRequestProperty("Authorization",
+                        "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+                conn.connect();
+                OutputStream output = conn.getOutputStream();
+                if (jpg) {
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
+                } else {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+                }
+
+                output.close();
+
+                StringBuilder stb = new StringBuilder();
+
+                // Get the response
+                BufferedReader rd =
+                        new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line;
+                while ((line = rd.readLine()) != null) {
+                    stb.append(line).append("\n");
+                }
+                rd.close();
+                return new JSONObject(stb.toString());
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.setMessage(c.getString(R.string.editor_uploading_image));
+            dialog.setCancelable(false);
+            dialog.show();
+        }
+
+        @Override
         protected void onPostExecute(final JSONObject result) {
             dialog.dismiss();
             try {
                 int[] attrs = {R.attr.font};
-                TypedArray ta = editText.getContext().obtainStyledAttributes(new ColorPreferences(editText.getContext()).getFontStyle().getBaseId(), attrs);
+                TypedArray ta = editText.getContext()
+                        .obtainStyledAttributes(
+                                new ColorPreferences(editText.getContext()).getFontStyle()
+                                        .getBaseId(), attrs);
                 final String url = result.getJSONObject("data").getString("link");
                 LinearLayout layout = new LinearLayout(editText.getContext());
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -576,81 +722,37 @@ public class DoEditorActions {
                 ta.recycle();
                 layout.setPadding(16, 16, 16, 16);
                 layout.addView(descriptionBox);
-                new AlertDialogWrapper.Builder(editText.getContext()).setTitle(R.string.editor_title_link)
-                        .setView(layout).setPositiveButton(R.string.editor_action_link, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        String s = "[" + descriptionBox.getText().toString() + "](" + url + ")";
-                        int start = Math.max(editText.getSelectionStart(), 0);
-                        int end = Math.max(editText.getSelectionEnd(), 0);
-                        editText.getText().insert(Math.max(start, end), s);
-                    }
-                }).show();
+                new AlertDialogWrapper.Builder(editText.getContext()).setTitle(
+                        R.string.editor_title_link)
+                        .setView(layout)
+                        .setPositiveButton(R.string.editor_action_link,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        String s = "["
+                                                + descriptionBox.getText().toString()
+                                                + "]("
+                                                + url
+                                                + ")";
+                                        int start = Math.max(editText.getSelectionStart(), 0);
+                                        int end = Math.max(editText.getSelectionEnd(), 0);
+                                        editText.getText().insert(Math.max(start, end), s);
+                                    }
+                                })
+                        .show();
 
             } catch (Exception e) {
-                new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title).setMessage(R.string.editor_err_msg).setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                }).show();
+                new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                        .setMessage(R.string.editor_err_msg)
+                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
                 e.printStackTrace();
             }
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog.setMessage(c.getString(R.string.editor_uploading_image));
-            dialog.setCancelable(false);
-            dialog.show();
-        }
-
-        @Override
-        protected JSONObject doInBackground(Bitmap... sub) {
-            Bitmap bitmap = sub[0];
-            URL url;
-
-            // Creates Byte Array from picture
-            try {
-                url = new URL("https://imgur-apiv3.p.mashape.com/3/image");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-                conn.setRequestMethod("POST");
-                conn.addRequestProperty("X-Mashape-Key", SecretConstants.getImgurApiKey(c));
-                conn.addRequestProperty("Authorization", "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID);
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Content-Type",
-                        "application/x-www-form-urlencoded");
-
-                conn.connect();
-                OutputStream output = conn.getOutputStream();
-                if (jpg)
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
-                else
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
-
-                output.close();
-
-                StringBuilder stb = new StringBuilder();
-
-                // Get the response
-                BufferedReader rd = new BufferedReader(
-                        new InputStreamReader(conn.getInputStream()));
-                String line;
-                while ((line = rd.readLine()) != null) {
-                    stb.append(line).append("\n");
-                }
-                rd.close();
-                return new JSONObject(stb.toString());
-
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
         }
     }
 }
