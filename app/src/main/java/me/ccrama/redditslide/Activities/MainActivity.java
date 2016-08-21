@@ -1636,6 +1636,7 @@ public class MainActivity extends BaseActivity {
                     subreddit.getDisplayName().toLowerCase())) || subreddit.isUserSubscriber();
             doSubscribeButtonText(currentlySubbed, subscribe);
 
+            assert subscribe != null;
             subscribe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1681,7 +1682,7 @@ public class MainActivity extends BaseActivity {
                                                                                                     mToolbar,
                                                                                                     getString(
                                                                                                             R.string.misc_subscribed),
-                                                                                                    Snackbar.LENGTH_SHORT);
+                                                                                                    Snackbar.LENGTH_LONG);
                                                                                     View view =
                                                                                             s.getView();
                                                                                     TextView tv =
@@ -1735,7 +1736,7 @@ public class MainActivity extends BaseActivity {
                                                         true); // Force add the subscription
                                                 Snackbar s =
                                                         Snackbar.make(mToolbar, R.string.sub_added,
-                                                                Snackbar.LENGTH_SHORT);
+                                                                Snackbar.LENGTH_LONG);
                                                 View view = s.getView();
                                                 TextView tv = (TextView) view.findViewById(
                                                         android.support.design.R.id.snackbar_text);
@@ -1783,7 +1784,7 @@ public class MainActivity extends BaseActivity {
                                                                                                     mToolbar,
                                                                                                     getString(
                                                                                                             R.string.misc_unsubscribed),
-                                                                                                    Snackbar.LENGTH_SHORT);
+                                                                                                    Snackbar.LENGTH_LONG);
                                                                                     View view =
                                                                                             s.getView();
                                                                                     TextView tv =
@@ -1836,7 +1837,7 @@ public class MainActivity extends BaseActivity {
                                                         false); // Force add the subscription
                                                 Snackbar s = Snackbar.make(mToolbar,
                                                         R.string.misc_unsubscribed,
-                                                        Snackbar.LENGTH_SHORT);
+                                                        Snackbar.LENGTH_LONG);
                                                 View view = s.getView();
                                                 TextView tv = (TextView) view.findViewById(
                                                         android.support.design.R.id.snackbar_text);
