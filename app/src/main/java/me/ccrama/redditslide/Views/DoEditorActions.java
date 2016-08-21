@@ -32,8 +32,6 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import net.dean.jraw.models.Submission;
-
 import org.commonmark.Extension;
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
@@ -57,12 +55,10 @@ import java.util.Collections;
 import java.util.List;
 
 import me.ccrama.redditslide.Activities.Draw;
-import me.ccrama.redditslide.Activities.Gallery;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
-import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
@@ -93,6 +89,7 @@ public class DoEditorActions {
                 }
             }
         });
+
         baseView.findViewById(R.id.italics).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +105,7 @@ public class DoEditorActions {
                 }
             }
         });
+
         baseView.findViewById(R.id.strike).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,6 +121,7 @@ public class DoEditorActions {
                 }
             }
         });
+
         baseView.findViewById(R.id.savedraft).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -297,6 +296,7 @@ public class DoEditorActions {
                 }
             }
         });
+
         baseView.findViewById(R.id.draw).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -361,6 +361,7 @@ public class DoEditorActions {
                 insertBefore("#", editText);
             }
         });
+
         baseView.findViewById(R.id.quote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -420,18 +421,21 @@ public class DoEditorActions {
                 }
             }
         });
+
         baseView.findViewById(R.id.bulletlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 insertBefore("* ", editText);
             }
         });
+
         baseView.findViewById(R.id.numlist).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 insertBefore("1. ", editText);
             }
         });
+
         baseView.findViewById(R.id.preview).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -451,6 +455,7 @@ public class DoEditorActions {
                 builder.show();
             }
         });
+
         baseView.findViewById(R.id.link).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -466,6 +471,18 @@ public class DoEditorActions {
                                         .getBaseId(), attrs);
                 ta.recycle();
 
+                String selectedText = "";
+                //if the user highlighted text before inputting a URL, use that text for the descriptionBox
+                if (editText.hasSelection()) {
+                    final int startSelection = editText.getSelectionStart();
+                    final int endSelection = editText.getSelectionEnd();
+
+                    selectedText =
+                            editText.getText().toString().substring(startSelection, endSelection);
+                }
+
+                final boolean selectedTextNotEmpty = !selectedText.isEmpty();
+
                 final MaterialDialog dialog =
                         new MaterialDialog.Builder(editText.getContext()).title(
                                 R.string.editor_title_link)
@@ -476,20 +493,25 @@ public class DoEditorActions {
                                     @Override
                                     public void onClick(@NonNull MaterialDialog dialog,
                                             @NonNull DialogAction which) {
-                                        final EditText titleBox =
-                                                (EditText) dialog.findViewById(R.id.title_box);
-                                        final EditText descriptionBox =
-                                                (EditText) dialog.findViewById(
-                                                        R.id.description_box);
+                                        final EditText urlBox =
+                                                (EditText) dialog.findViewById(R.id.url_box);
+                                        final EditText textBox =
+                                                (EditText) dialog.findViewById(R.id.text_box);
                                         dialog.dismiss();
 
-                                        String s = "["
-                                                + descriptionBox.getText().toString()
-                                                + "]("
-                                                + titleBox.getText().toString()
-                                                + ")";
+                                        final String s = "[".concat(textBox.getText().toString())
+                                                .concat("](")
+                                                .concat(urlBox.getText().toString())
+                                                .concat(")");
+
                                         int start = Math.max(editText.getSelectionStart(), 0);
                                         int end = Math.max(editText.getSelectionEnd(), 0);
+
+                                        //delete the selected text to avoid duplication
+                                        if (selectedTextNotEmpty) {
+                                            editText.getText().delete(start, end);
+                                        }
+
                                         editText.getText().insert(Math.max(start, end), s);
                                     }
                                 })
@@ -497,11 +519,17 @@ public class DoEditorActions {
 
                 //Tint the hint text if the base theme is Sepia
                 if (SettingValues.currentTheme == 5) {
-                    ((EditText) dialog.findViewById(R.id.title_box)).setHintTextColor(
+                    ((EditText) dialog.findViewById(R.id.url_box)).setHintTextColor(
                             ContextCompat.getColor(dialog.getContext(), R.color.md_grey_600));
-                    ((EditText) dialog.findViewById(R.id.description_box)).setHintTextColor(
+                    ((EditText) dialog.findViewById(R.id.text_box)).setHintTextColor(
                             ContextCompat.getColor(dialog.getContext(), R.color.md_grey_600));
                 }
+
+                //use the selected text as the text for the link
+                if (!selectedText.isEmpty()) {
+                    ((EditText) dialog.findViewById(R.id.text_box)).setText(selectedText);
+                }
+
                 dialog.show();
             }
         });
