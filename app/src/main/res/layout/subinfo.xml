@@ -26,7 +26,7 @@
             android:id="@+id/header_sub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/md_light_green_500"
+            android:background="?attr/colorAccent"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -40,7 +40,6 @@
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@+id/subimage"
                     android:paddingStart="16dp"
-                    android:text="/r/Android"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -111,6 +110,7 @@
 
                     <TextView
                         android:id="@+id/subscribe"
+                        android:text="@string/subscribe_caps"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginBottom="8dp"
