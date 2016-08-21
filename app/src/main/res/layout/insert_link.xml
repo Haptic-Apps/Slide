@@ -7,7 +7,7 @@
     android:paddingEnd="16dp">
 
     <EditText
-        android:id="@+id/title_box"
+        android:id="@+id/url_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/editor_url"
@@ -16,7 +16,7 @@
         android:theme="@style/ReplyEditTextTheme"/>
 
     <EditText
-        android:id="@+id/description_box"
+        android:id="@+id/text_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/editor_text"
