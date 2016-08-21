@@ -354,8 +354,6 @@ public class Website extends BaseActivityAnim {
                             view.goBack();
                         }
                         break;
-                    case NONE:
-                        break;
                     case VIDEO:
                         if (Reddit.videoPlugin) {
                             try {

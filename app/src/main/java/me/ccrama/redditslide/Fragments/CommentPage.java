@@ -680,6 +680,7 @@ public class CommentPage extends Fragment {
                                         }
                                         break;
                                     case IMGUR:
+                                    case XKCD:
                                         Intent i2 = new Intent(getActivity(), MediaView.class);
                                         if (adapter.submission.getDataNode().has("preview")
                                                 && adapter.submission.getDataNode()

@@ -211,6 +211,7 @@ public class PopulateSubmissionViewHolder {
                                 }
                                 break;
                             case DEVIANTART:
+                            case XKCD:
                             case IMAGE:
                                 openImage(contextActivity, submission, holder.leadImage,
                                         holder.getAdapterPosition());

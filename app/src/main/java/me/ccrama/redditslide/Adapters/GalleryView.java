@@ -246,6 +246,7 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                 }
                                 break;
                             case DEVIANTART:
+                            case XKCD:
                             case IMAGE:
                                 PopulateSubmissionViewHolder.openImage(main, submission, null, holder.getAdapterPosition());
                                 break;

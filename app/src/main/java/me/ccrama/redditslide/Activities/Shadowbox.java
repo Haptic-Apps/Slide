@@ -163,6 +163,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                 case SPOILER:
                 case DEVIANTART:
                 case EMBEDDED:
+                case XKCD:
                 case LINK:
                 case VID_ME:
                 case STREAMABLE:

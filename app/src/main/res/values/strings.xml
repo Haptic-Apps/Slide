@@ -300,6 +300,7 @@
     <string name="type_gif">GIF</string>
     <string name="type_title_only">Title post</string>
     <string name="type_album">Album</string>
+    <string name="type_xkcd">XKCD</string>
     <string name="type_nsfw_album">NSFW album</string>
     <string name="type_img">Image</string>
     <string name="type_vid">Video</string>

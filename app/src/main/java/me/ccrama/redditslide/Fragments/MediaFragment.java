@@ -286,6 +286,9 @@ public class MediaFragment extends Fragment {
             case IMGUR:
                 doLoadImgur(contentUrl);
                 break;
+            case XKCD:
+                doLoadXKCD(contentUrl);
+                break;
             case VID_ME:
             case STREAMABLE:
             case GIF:
@@ -369,9 +372,9 @@ public class MediaFragment extends Fragment {
 
                             break;
                         case DEVIANTART:
+                        case XKCD:
                         case IMAGE:
                             PopulateSubmissionViewHolder.openImage(contextActivity, submission, null, -1);
-
                             break;
                         case GIF:
                             PopulateSubmissionViewHolder.openGif(contextActivity, submission, -1);
@@ -531,6 +534,49 @@ public class MediaFragment extends Fragment {
             }.execute();
         }
     }
+
+    public void doLoadXKCD(String url) {
+        if (!url.endsWith("/")) {
+            url = url + "/";
+        }
+
+        if (NetworkUtil.isConnected(getContext())) {
+            final String apiUrl = url + "info.0.json";
+            LogUtil.v(apiUrl);
+
+            final String finalUrl = url;
+            new AsyncTask<Void, Void, JsonObject>() {
+                @Override
+                protected JsonObject doInBackground(Void... params) {
+                    return HttpUtil.getJsonObject(client, gson, apiUrl);
+                }
+
+                @Override
+                protected void onPostExecute(JsonObject result) {
+                    if (result != null && !result.isJsonNull() && result.has("error")) {
+                        LogUtil.v("Error loading content");
+                    } else {
+                        try {
+                            if (result != null && !result.isJsonNull() && result.has("img")) {
+                               if(!imageShown) doLoadImage(result.get("img").getAsString());
+                            }  else {
+                                Intent i = new Intent(getContext(), Website.class);
+                                i.putExtra(Website.EXTRA_URL, finalUrl);
+                                getContext().startActivity(i);
+                            }
+                        } catch (Exception e2) {
+                            e2.printStackTrace();
+                            Intent i = new Intent(getContext(), Website.class);
+                            i.putExtra(Website.EXTRA_URL, finalUrl);
+                            getContext().startActivity(i);
+                        }
+                    }
+
+                }
+            }.execute();
+        }
+    }
+
 
     public void doLoadImage(String contentUrl) {
         if (contentUrl != null && contentUrl.contains("bildgur.de")) {

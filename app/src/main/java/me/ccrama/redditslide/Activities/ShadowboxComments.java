@@ -80,6 +80,7 @@ public class ShadowboxComments extends FullScreenActivity {
                 case IMGUR:
                 case REDDIT:
                 case EXTERNAL:
+                case XKCD:
                 case SPOILER:
                 case DEVIANTART:
                 case EMBEDDED:

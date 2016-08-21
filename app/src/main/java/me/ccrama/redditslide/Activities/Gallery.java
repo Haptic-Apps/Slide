@@ -219,6 +219,7 @@ public class Gallery extends FullScreenActivity implements SubmissionDisplay {
                 case REDDIT:
                 case EXTERNAL:
                 case SPOILER:
+                case XKCD:
                 case DEVIANTART:
                 case EMBEDDED:
                 case LINK:

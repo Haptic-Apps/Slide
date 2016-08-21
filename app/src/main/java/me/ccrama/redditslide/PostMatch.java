@@ -172,6 +172,7 @@ public class PostMatch {
             case IMAGE:
             case DEVIANTART:
             case IMGUR:
+            case XKCD:
                 if (images) {
                     contentMatch = true;
                 }

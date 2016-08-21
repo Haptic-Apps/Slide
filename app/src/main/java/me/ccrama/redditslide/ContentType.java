@@ -165,6 +165,9 @@ public class ContentType {
             if (hostContains(host, "imgur.com", "bildgur.de")) {
                 return Type.IMGUR;
             }
+            if (hostContains(host, "xkcd.com") && !hostContains("imgs.xkcd.com") && !hostContains("what-if.xkcd.com")) {
+                return Type.XKCD;
+            }
             if (hostContains(host, "reddit.com", "redd.it")) {
                 return Type.REDDIT;
             }
@@ -220,6 +223,7 @@ public class ContentType {
             case ALBUM:
             case DEVIANTART:
             case IMAGE:
+            case XKCD:
             case IMGUR:
             case SELF:
                 return true;
@@ -238,6 +242,7 @@ public class ContentType {
             case IMAGE:
             case IMGUR:
             case STREAMABLE:
+            case XKCD:
             case VIDEO:
             case SELF:
             case VID_ME:
@@ -261,6 +266,7 @@ public class ContentType {
             case DEVIANTART:
             case GIF:
             case IMAGE:
+            case XKCD:
             case IMGUR:
             case STREAMABLE:
             case VID_ME:
@@ -306,6 +312,8 @@ public class ContentType {
             switch (contentType) {
                 case ALBUM:
                     return R.string.type_album;
+                case XKCD:
+                    return R.string.type_xkcd;
                 case DEVIANTART:
                     return R.string.type_deviantart;
                 case EMBEDDED:
@@ -412,6 +420,7 @@ public class ContentType {
         SPOILER,
         STREAMABLE,
         VIDEO,
+        XKCD,
         VID_ME
     }
 }
