@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SwitchCompat;
@@ -15,13 +14,19 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.R;
@@ -118,7 +123,7 @@ public class SettingsTheme extends BaseActivityAnim {
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
-                if(SettingValues.isNight()){
+                if (SettingValues.isNight()) {
                     dialoglayout.findViewById(R.id.nightmsg).setVisibility(View.VISIBLE);
                 }
 
@@ -524,7 +529,9 @@ public class SettingsTheme extends BaseActivityAnim {
 
             }
         });
-        findViewById(R.id.night).setOnClickListener(new OnSingleClickListener() {
+        LinearLayout nightMode = (LinearLayout) findViewById(R.id.night);
+        assert nightMode != null;
+        nightMode.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 if (SettingValues.tabletUI) {
@@ -648,72 +655,105 @@ public class SettingsTheme extends BaseActivityAnim {
                                 }
                             });
                     {
-                        final TextView start = (TextView) dialoglayout.findViewById(R.id.start);
-                        start.setText(getString(R.string.settings_theme_night_start_at) + SettingValues.nightStart + "PM");
-                        final String[] timesStart = new String[]{"6", "7", "8", "9", "10", "11"};
-                        selectionStart = SettingValues.nightStart - 6;
-                        start.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                new MaterialDialog.Builder(SettingsTheme.this).title(
-                                        R.string.settings_theme_night_start_title)
-                                        .itemsCallback(new MaterialDialog.ListCallback() {
-                                                    @Override
-                                                    public void onSelection(
-                                                            MaterialDialog dialog, View itemView,
-                                                            int which, CharSequence text) {
-                                                        selectionStart = which + 6;
-                                                        SettingValues.nightStart = selectionStart;
-                                                        SettingValues.prefs.edit()
-                                                                .putInt(SettingValues.PREF_NIGHT_START,
-                                                                        selectionStart)
-                                                                .apply();
-                                                        start.setText(getString(R.string.settings_theme_night_start_at)
-                                                                + SettingValues.nightStart
-                                                                + "PM");
-                                                    }
-                                                })
-                                        .items(timesStart)
-                                        .alwaysCallSingleChoiceCallback()
-                                        .show();
-                            }
-                        });
+                        final List<String> timesStart = new ArrayList<String>() {{
+                            add("6pm");
+                            add("7pm");
+                            add("8pm");
+                            add("9pm");
+                            add("10pm");
+                            add("11pm");
+                        }};
+                        final Spinner startSpinner =
+                                (Spinner) dialoglayout.findViewById(R.id.start_spinner);
+                        final ArrayAdapter<String> startAdapter = new ArrayAdapter<>(SettingsTheme.this,
+                                android.R.layout.simple_spinner_item, timesStart);
+                        startAdapter.setDropDownViewResource(
+                                android.R.layout.simple_spinner_dropdown_item);
+                        startSpinner.setAdapter(startAdapter);
+
+                        //set the currently selected pref
+                        startSpinner.setSelection(startAdapter.getPosition(Integer.toString(SettingValues.nightStart).concat("pm")));
+
+                        startSpinner.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                                        //get the time, but remove the "pm" from the string when parsing
+                                        final int time = Integer.parseInt(
+                                                ((String) startSpinner.getItemAtPosition(
+                                                        position)).replaceAll("pm", ""));
+
+                                        SettingValues.nightStart = time;
+                                        SettingValues.prefs.edit()
+                                                .putInt(SettingValues.PREF_NIGHT_START, time)
+                                                .apply();
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
+
+                                    }
+                                });
                     }
                     {
-                        final TextView end = (TextView) dialoglayout.findViewById(R.id.end);
-                        end.setText(getString(R.string.settings_theme_night_end_at) + SettingValues.nightEnd + "AM");
-                        final String[] timesStart = new String[]{
-                                "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
-                        };
-                        selectionEnd = SettingValues.nightEnd == 12 ? 0 : SettingValues.nightEnd;
-                        end.setOnClickListener(new View.OnClickListener() {
+                        final List<String> timesEnd = new ArrayList<String>() {{
+                            add("12am");
+                            add("1am");
+                            add("2am");
+                            add("3am");
+                            add("4am");
+                            add("5am");
+                            add("6am");
+                            add("7am");
+                            add("8am");
+                            add("9am");
+                            add("10am");
+                        }};
+                        final Spinner endSpinner =
+                                (Spinner) dialoglayout.findViewById(R.id.end_spinner);
+                        final ArrayAdapter<String> endAdapter = new ArrayAdapter<>(SettingsTheme.this,
+                                android.R.layout.simple_spinner_item, timesEnd);
+                        endAdapter.setDropDownViewResource(
+                                android.R.layout.simple_spinner_dropdown_item);
+                        endSpinner.setAdapter(endAdapter);
+
+                        //set the currently selected pref
+                        endSpinner.setSelection(endAdapter.getPosition(Integer.toString(SettingValues.nightEnd).concat("am")));
+
+                        endSpinner.setOnItemSelectedListener(
+                                new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view,
+                                            int position, long id) {
+                                        //get the time, but remove the "am" from the string when parsing
+                                        final int time = Integer.parseInt(
+                                                ((String) endSpinner.getItemAtPosition(
+                                                        position)).replaceAll("am", ""));
+
+                                        SettingValues.nightEnd = time;
+                                        SettingValues.prefs.edit()
+                                                .putInt(SettingValues.PREF_NIGHT_END, time)
+                                                .apply();
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
+
+                                    }
+                                });
+                    }
+                    {
+                        Button okayButton = (Button) dialoglayout.findViewById(R.id.ok);
+                        okayButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                new MaterialDialog.Builder(SettingsTheme.this).title(
-                                        R.string.settings_theme_night_end_title)
-                                        .itemsCallback(new MaterialDialog.ListCallback() {
-                                                    @Override
-                                                    public void onSelection(
-                                                            MaterialDialog dialog, View itemView,
-                                                            int which, CharSequence text) {
-                                                        selectionEnd = which == 0 ? 12 : which;
-                                                        SettingValues.nightEnd = selectionEnd;
-                                                        SettingValues.prefs.edit()
-                                                                .putInt(SettingValues.PREF_NIGHT_END,
-                                                                        selectionEnd)
-                                                                .apply();
-                                                        end.setText(
-                                                                getString(R.string.settings_theme_night_end_at) + SettingValues.nightEnd + "AM");
-                                                    }
-                                                })
-                                        .items(timesStart)
-                                        .alwaysCallSingleChoiceCallback()
-                                        .show();
+                                dialog.dismiss();
                             }
                         });
                     }
                 } else {
-                     new AlertDialogWrapper.Builder(SettingsTheme.this).setTitle(
+                    new AlertDialogWrapper.Builder(SettingsTheme.this).setTitle(
                             R.string.general_nighttheme_ispro)
                             .setMessage(R.string.pro_upgrade_msg)
                             .setPositiveButton(R.string.btn_yes_exclaim,
@@ -744,6 +784,4 @@ public class SettingsTheme extends BaseActivityAnim {
             }
         });
     }
-
-
 }
