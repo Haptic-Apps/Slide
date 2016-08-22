@@ -5,12 +5,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MarginLayoutParamsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.RecyclerView;
@@ -100,9 +102,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
 
         if (!(getActivity() instanceof SubredditView)) {
-            try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 v.findViewById(R.id.back).setBackground(null);
-            } catch (Exception e){
+            } else {
                 v.findViewById(R.id.back).setBackgroundDrawable(null);
             }
         }
@@ -124,7 +126,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
             RelativeLayout.LayoutParams params =
                     new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT);
-            params.setMarginStart(0);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                params.setMarginStart(0);
+            } else {
+                MarginLayoutParamsCompat.setMarginStart(params, 0);
+            }
             rv.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
             mSwipeRefreshLayout.setLayoutParams(params);
         }
