@@ -234,7 +234,7 @@
   <string name="mail_hint_body">Texto</string>
   <string name="mail_send_to">Enviar uma mensagem para %1$s</string>
   <string name="mail_send">Envie uma mensagem</string>
-  <string name="mail_notification_msg">Nova mensagem de %1$s</string>
+  <string name="mail_notification_msg_from">Nova mensagem de %1$s</string>
   <string name="mod_mail_notification_msg">Nova mensagem de moderação de %1$s</string>
   <string name="mail_reply_to">Responda a %1$s</string>
   <string name="mail_notification_author">%1$s de %2$s</string>

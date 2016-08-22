@@ -91,7 +91,7 @@
   <string name="mail_hint_body">Isi</string>
   <string name="mail_send_to">Kirim pesan ke %1$s</string>
   <string name="mail_send">Kirim sebuah pesan</string>
-  <string name="mail_notification_msg">Pesan baru dari %1$s</string>
+  <string name="mail_notification_msg_from">Pesan baru dari %1$s</string>
   <string name="mail_reply_to">Balas ke %1$s</string>
   <string name="mail_notification_author">%1$s dari %2$s</string>
   <plurals name="mail_notification_title">

@@ -123,7 +123,7 @@
   <string name="mail_hint_body">Cos</string>
   <string name="mail_send_to">Envia un missatge a %1$s</string>
   <string name="mail_send">Envia un missatge</string>
-  <string name="mail_notification_msg">Nou missatge de %1$s</string>
+  <string name="mail_notification_msg_from">Nou missatge de %1$s</string>
   <string name="mail_reply_to">Respon a %1$s</string>
   <string name="mail_notification_author">%1$s de %2$s</string>
   <string name="mail_theirs">Mostra el seu missatge</string>

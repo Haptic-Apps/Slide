@@ -20,9 +20,7 @@ import android.text.Html;
 import net.dean.jraw.models.Message;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.InboxPaginator;
-import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
-import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +37,6 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 public class CheckForMail extends BroadcastReceiver {
@@ -116,8 +113,20 @@ public class CheckForMail extends BroadcastReceiver {
 
                     NotificationCompat.BigTextStyle notiStyle =
                             new NotificationCompat.BigTextStyle();
-                    notiStyle.setBigContentTitle(c.getString(R.string.mail_notification_msg,
-                            messages.get(0).getAuthor()));
+                    String contentTitle;
+                    if (messages.get(0).getAuthor() != null) {
+                        notiStyle.setBigContentTitle(c.getString(R.string.mail_notification_msg_from,
+                                messages.get(0).getAuthor()));
+                        contentTitle = c.getString(R.string.mail_notification_author,
+                                messages.get(0).getSubject(),
+                                messages.get(0).getAuthor());
+                    } else {
+                        notiStyle.setBigContentTitle(c.getString(R.string.mail_notification_msg_via,
+                                messages.get(0).getSubreddit()));
+                        contentTitle = c.getString(R.string.mail_notification_subreddit,
+                                messages.get(0).getSubject(),
+                                messages.get(0).getSubreddit());
+                    }
                     notiStyle.bigText(Html.fromHtml(messages.get(0).getBody()));
 
                     Notification notification =
@@ -128,9 +137,7 @@ public class CheckForMail extends BroadcastReceiver {
                                                     1, 1))
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
-                                    .setContentTitle(c.getString(R.string.mail_notification_author,
-                                            messages.get(0).getSubject(),
-                                            messages.get(0).getAuthor()))
+                                    .setContentTitle(contentTitle)
                                     .setContentText(Html.fromHtml(messages.get(0).getBody()))
                                     .setStyle(notiStyle)
                                     .addAction(R.drawable.ic_check_all_black,
@@ -150,8 +157,12 @@ public class CheckForMail extends BroadcastReceiver {
                                     amount));
                     notiStyle.setSummaryText("");
                     for (Message m : messages) {
-                        notiStyle.addLine(
-                                c.getString(R.string.mail_notification_msg, m.getAuthor()));
+                        if (messages.get(0).getAuthor() != null) {
+                            notiStyle.addLine(c.getString(R.string.mail_notification_msg_from, m.getAuthor()));
+                        } else {
+                            notiStyle.addLine(c.getString(R.string.mail_notification_msg_via, m.getSubreddit()));
+
+                        }
                     }
 
                     Notification notification =

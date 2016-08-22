@@ -173,7 +173,7 @@
   <string name="mail_hint_body">Sadržaj</string>
   <string name="mail_send_to">Pošaljite poruku korisniku</string>
   <string name="mail_send">Pošalji poruku</string>
-  <string name="mail_notification_msg">Nova poruka od %1$s</string>
+  <string name="mail_notification_msg_from">Nova poruka od %1$s</string>
   <string name="mail_reply_to">Odgovori %1$s</string>
   <string name="mail_notification_author">%1$s iz %2$s</string>
   <string name="mail_theirs">Pogledaj njihovu poruku</string>

@@ -213,7 +213,7 @@
   <string name="mail_hint_body">Текст</string>
   <string name="mail_send_to">Отправить сообщение %1$s</string>
   <string name="mail_send">Отправить сообщение</string>
-  <string name="mail_notification_msg">Новое сообщение от %1$s</string>
+  <string name="mail_notification_msg_from">Новое сообщение от %1$s</string>
   <string name="mail_reply_to">Ответ %1$s</string>
   <string name="mail_notification_author">%1$s от %2$s</string>
   <string name="mail_theirs">Просмотреть их сообщение</string>

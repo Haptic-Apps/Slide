@@ -139,7 +139,7 @@
   <string name="mail_hint_body">Text zprávy</string>
   <string name="mail_send_to">Pošlete zprávu %1$s</string>
   <string name="mail_send">Poslat zprávu</string>
-  <string name="mail_notification_msg">Nová zpáva od %1$s</string>
+  <string name="mail_notification_msg_from">Nová zpáva od %1$s</string>
   <string name="mail_reply_to">Odpověď pro %1$s</string>
   <string name="mail_notification_author">%1$s od %2$s</string>
   <plurals name="mail_notification_title">

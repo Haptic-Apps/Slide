@@ -259,7 +259,7 @@
   <string name="mail_hint_body">Inhoud</string>
   <string name="mail_send_to">Verstuur een bericht naar %1$s</string>
   <string name="mail_send">Stuur een bericht</string>
-  <string name="mail_notification_msg">Nieuw bericht van %1$s</string>
+  <string name="mail_notification_msg_from">Nieuw bericht van %1$s</string>
   <string name="mod_mail_notification_msg">Nieuwe modmail van %1$s</string>
   <string name="mail_reply_to">%1$s beantwoorden</string>
   <string name="mail_notification_author">%1$s van %2$s</string>

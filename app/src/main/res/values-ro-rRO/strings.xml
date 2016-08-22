@@ -232,7 +232,7 @@
   <string name="mail_hint_body">Text</string>
   <string name="mail_send_to">Trimite un mesaj lui %1$s</string>
   <string name="mail_send">Trimite un mesaj</string>
-  <string name="mail_notification_msg">Mesaj nou de la %1$s</string>
+  <string name="mail_notification_msg_from">Mesaj nou de la %1$s</string>
   <string name="mod_mail_notification_msg">Modmail nou de la %1$s</string>
   <string name="mail_reply_to">Răspunde-i lui %1$s</string>
   <string name="mail_notification_author">%1$s de la %2$s</string>

@@ -110,7 +110,7 @@
   <string name="mail_hint_body">Тело</string>
   <string name="mail_send_to">Пошаљи поруку кориснику %1$s</string>
   <string name="mail_send">Пошаљи поруку</string>
-  <string name="mail_notification_msg">Нова порука од %1$s</string>
+  <string name="mail_notification_msg_from">Нова порука од %1$s</string>
   <string name="mail_reply_to">Одговори кориснику %1$s</string>
   <string name="mail_notification_author">%1$s од %2$s</string>
   <string name="mail_theirs">Погледај њихову поруку</string>
