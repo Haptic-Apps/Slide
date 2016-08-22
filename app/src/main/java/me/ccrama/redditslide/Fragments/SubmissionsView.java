@@ -100,7 +100,11 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                 createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
 
         if (!(getActivity() instanceof SubredditView)) {
-            v.findViewById(R.id.back).setBackground(null);
+            try {
+                v.findViewById(R.id.back).setBackground(null);
+            } catch (Exception e){
+                v.findViewById(R.id.back).setBackgroundDrawable(null);
+            }
         }
         rv.setLayoutManager(mLayoutManager);
         rv.setItemAnimator(new SlideUpAlphaAnimator());

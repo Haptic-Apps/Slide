@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -30,7 +29,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -56,21 +54,22 @@ import me.ccrama.redditslide.Views.PreCachingLayoutManager;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
 
 /**
- * Created by ccrama on 3/5/2015.
- * <p/>
- * This class is responsible for accessing the Imgur api to get the album json data
- * from a URL or Imgur hash. It extends FullScreenActivity and supports swipe from anywhere.
+ * Created by ccrama on 3/5/2015. <p/> This class is responsible for accessing the Imgur api to get
+ * the album json data from a URL or Imgur hash. It extends FullScreenActivity and supports swipe
+ * from anywhere.
  */
 public class Album extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
     public static final String EXTRA_URL = "url";
     private List<Image> images;
-    private int adapterPosition;
+    private int         adapterPosition;
 
     @Override
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this, getString(R.string.settings_set_image_location, folder.getAbsolutePath()), Toast.LENGTH_LONG).show();
+            Toast.makeText(this,
+                    getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -87,8 +86,10 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             Intent i = new Intent(Album.this, AlbumPager.class);
             int adapterPosition = getIntent().getIntExtra(MediaView.ADAPTER_POSITION, -1);
             i.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);
-            if (getIntent().hasExtra(MediaView.SUBMISSION_URL))
-                i.putExtra(MediaView.SUBMISSION_URL, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
+            if (getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
+                i.putExtra(MediaView.SUBMISSION_URL,
+                        getIntent().getStringExtra(MediaView.SUBMISSION_URL));
+            }
             i.putExtra("url", url);
             startActivity(i);
             finish();
@@ -111,6 +112,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
         return super.onOptionsItemSelected(item);
     }
+
     public void doImageSave(boolean isGif, String contentUrl) {
         if (!isGif) {
             if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
@@ -127,17 +129,18 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
             MediaView.doOnClick.run();
         }
     }
+
     public void showFirstDialog() {
         try {
-            new AlertDialogWrapper.Builder(this)
-                    .setTitle(R.string.set_save_location)
+            new AlertDialogWrapper.Builder(this).setTitle(R.string.set_save_location)
                     .setMessage(R.string.set_save_location_msg)
                     .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            new FolderChooserDialogCreate.Builder(Album.this)
-                                    .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                    .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
+                            new FolderChooserDialogCreate.Builder(Album.this).chooseButton(
+                                    R.string.btn_select)  // changes label of the choose button
+                                    .initialPath(Environment.getExternalStorageDirectory()
+                                            .getPath())  // changes initial path, defaults to external storage directory
                                     .show();
                         }
                     })
@@ -149,42 +152,49 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     }
 
     public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
-        MediaScannerConnection.scanFile(Album.this, new String[]{localAbsoluteFilePath.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
-            public void onScanCompleted(String path, Uri uri) {
+        MediaScannerConnection.scanFile(Album.this,
+                new String[]{localAbsoluteFilePath.getAbsolutePath()}, null,
+                new MediaScannerConnection.OnScanCompletedListener() {
+                    public void onScanCompleted(String path, Uri uri) {
 
-                final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath), "image/*");
-                PendingIntent contentIntent = PendingIntent.getActivity(Album.this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-
-                Notification notif = new NotificationCompat.Builder(Album.this)
-                        .setContentTitle(getString(R.string.info_photo_saved))
-                        .setSmallIcon(R.drawable.notif)
-                        .setLargeIcon(loadedImage)
-                        .setContentIntent(contentIntent)
-                        .setStyle(new NotificationCompat.BigPictureStyle()
-                                .bigPicture(loadedImage)).build();
+                        final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
+                        shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath), "image/*");
+                        PendingIntent contentIntent =
+                                PendingIntent.getActivity(Album.this, 0, shareIntent,
+                                        PendingIntent.FLAG_CANCEL_CURRENT);
 
 
-                NotificationManager mNotificationManager =
-                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                mNotificationManager.notify(1, notif);
-                loadedImage.recycle();
-            }
+                        Notification notif =
+                                new NotificationCompat.Builder(Album.this).setContentTitle(
+                                        getString(R.string.info_photo_saved))
+                                        .setSmallIcon(R.drawable.notif)
+                                        .setLargeIcon(loadedImage)
+                                        .setContentIntent(contentIntent)
+                                        .setStyle(
+                                                new NotificationCompat.BigPictureStyle().bigPicture(
+                                                        loadedImage))
+                                        .build();
 
-        });
+
+                        NotificationManager mNotificationManager =
+                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                        mNotificationManager.notify(1, notif);
+                        loadedImage.recycle();
+                    }
+
+                });
     }
 
     public void showErrorDialog() {
-        new AlertDialogWrapper.Builder(Album.this)
-                .setTitle(R.string.err_something_wrong)
+        new AlertDialogWrapper.Builder(Album.this).setTitle(R.string.err_something_wrong)
                 .setMessage(R.string.err_couldnt_save_choose_new)
                 .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        new FolderChooserDialogCreate.Builder(Album.this)
-                                .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
+                        new FolderChooserDialogCreate.Builder(Album.this).chooseButton(
+                                R.string.btn_select)  // changes label of the choose button
+                                .initialPath(Environment.getExternalStorageDirectory()
+                                        .getPath())  // changes initial path, defaults to external storage directory
                                 .show();
                     }
                 })
@@ -198,7 +208,10 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
             showErrorDialog();
         } else {
-            File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".png");
+            File f = new File(Reddit.appRestart.getString("imagelocation", "")
+                    + File.separator
+                    + UUID.randomUUID().toString()
+                    + ".png");
 
 
             FileOutputStream out = null;
@@ -241,7 +254,9 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
     public void onCreate(Bundle savedInstanceState) {
         overrideSwipeFromAnywhere();
         super.onCreate(savedInstanceState);
-        getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE), true);
+        getTheme().applyStyle(
+                new ColorPreferences(this).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE),
+                true);
         setContentView(R.layout.album);
 
         //Keep the screen on
@@ -254,14 +269,20 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
         pager.setCurrentItem(1);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                           @Override
-                                          public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                          public void onPageScrolled(int position, float positionOffset,
+                                                  int positionOffsetPixels) {
                                               if (position == 0 && positionOffsetPixels == 0) {
                                                   finish();
                                               }
-                                              if (position == 0 && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
-                                                  if (((OverviewPagerAdapter) pager.getAdapter()).blankPage != null)
-                                                      ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
-                                                  ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
+                                              if (position == 0
+                                                      && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
+                                                  if (((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                          != null) {
+                                                      ((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                              .doOffset(positionOffset);
+                                                  }
+                                                  ((OverviewPagerAdapter) pager.getAdapter()).blankPage.realBack.setBackgroundColor(
+                                                          adjustAlpha(positionOffset * 0.7f));
                                               }
                                           }
 
@@ -292,7 +313,7 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
         public BlankFragment blankPage;
-        public AlbumFrag album;
+        public AlbumFrag     album;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -332,26 +353,29 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            rootView = inflater.inflate(
-                    R.layout.fragment_verticalalbum, container, false);
+                Bundle savedInstanceState) {
+            rootView = inflater.inflate(R.layout.fragment_verticalalbum, container, false);
 
             final PreCachingLayoutManager mLayoutManager;
             mLayoutManager = new PreCachingLayoutManager(getActivity());
             recyclerView = (RecyclerView) rootView.findViewById(R.id.images);
             recyclerView.setLayoutManager(mLayoutManager);
-            ((Album) getActivity()).url = getActivity().getIntent().getExtras().getString(EXTRA_URL, "");
+            ((Album) getActivity()).url =
+                    getActivity().getIntent().getExtras().getString(EXTRA_URL, "");
 
             ((BaseActivity) getActivity()).setShareUrl(((Album) getActivity()).url);
 
             new LoadIntoRecycler(((Album) getActivity()).url, getActivity()).execute();
             ((Album) getActivity()).mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
             ((Album) getActivity()).mToolbar.setTitle(R.string.type_album);
-            ToolbarColorizeHelper.colorizeToolbar(((Album) getActivity()).mToolbar, Color.WHITE, (getActivity()));
+            ToolbarColorizeHelper.colorizeToolbar(((Album) getActivity()).mToolbar, Color.WHITE,
+                    (getActivity()));
             ((Album) getActivity()).setSupportActionBar(((Album) getActivity()).mToolbar);
             ((Album) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-            ((Album) getActivity()).mToolbar.setPopupTheme(new ColorPreferences(getActivity()).getDarkThemeSubreddit(ColorPreferences.FONT_STYLE));
+            ((Album) getActivity()).mToolbar.setPopupTheme(
+                    new ColorPreferences(getActivity()).getDarkThemeSubreddit(
+                            ColorPreferences.FONT_STYLE));
             return rootView;
         }
 
@@ -366,33 +390,42 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
 
             @Override
             public void onError() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            new AlertDialogWrapper.Builder(getActivity())
-                                    .setTitle(R.string.error_album_not_found)
-                                    .setMessage(R.string.error_album_not_found_text)
-                                    .setNegativeButton(R.string.btn_no, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            getActivity().finish();
-                                        }
-                                    }).setCancelable(false)
-                                    .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent i = new Intent(getActivity(), Website.class);
-                                            i.putExtra(Website.EXTRA_URL, url);
-                                            startActivity(i);
-                                            getActivity().finish();
-                                        }
-                                    }).show();
-                        } catch (Exception e) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                                        R.string.error_album_not_found)
+                                        .setMessage(R.string.error_album_not_found_text)
+                                        .setNegativeButton(R.string.btn_no,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                                        getActivity().finish();
+                                                    }
+                                                })
+                                        .setCancelable(false)
+                                        .setPositiveButton(R.string.btn_yes,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                                        Intent i = new Intent(getActivity(),
+                                                                Website.class);
+                                                        i.putExtra(Website.EXTRA_URL, url);
+                                                        startActivity(i);
+                                                        getActivity().finish();
+                                                    }
+                                                })
+                                        .show();
+                            } catch (Exception e) {
 
+                            }
                         }
-                    }
-                });
+                    });
+                }
 
             }
 
@@ -402,7 +435,8 @@ public class Album extends FullScreenActivity implements FolderChooserDialogCrea
                 if (getActivity() != null) {
                     getActivity().findViewById(R.id.progress).setVisibility(View.GONE);
                     ((Album) getActivity()).images = new ArrayList<>(jsonElements);
-                    AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images, getActivity().findViewById(R.id.toolbar).getHeight());
+                    AlbumView adapter = new AlbumView(baseActivity, ((Album) getActivity()).images,
+                            getActivity().findViewById(R.id.toolbar).getHeight());
                     recyclerView.setAdapter(adapter);
                 }
             }

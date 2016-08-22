@@ -838,7 +838,6 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                             //set the color of the text back to what it should be
                             holder.text.setTextColor(textColor);
-                            ta.recycle();
 
                             chosen.remove(origPos);
 

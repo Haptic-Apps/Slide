@@ -83,7 +83,7 @@ public class Website extends BaseActivityAnim {
     public void onBackPressed() {
         if (v.canGoBack()) {
             v.goBack();
-        } else {
+        } else if(!isFinishing()) {
             super.onBackPressed();
         }
     }

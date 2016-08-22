@@ -538,7 +538,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         t.printStackTrace();
                     } else if(t instanceof MaterialDialog.DialogException){
                         t.printStackTrace();
-                    } else {
+                    } else if(t instanceof  IllegalArgumentException && t.getMessage().contains("pointerIndex out of range")){
+                        t.printStackTrace();
+                    }else {
                         appRestart.edit()
                                 .putString("startScreen", "a")
                                 .apply(); //Force reload of data after crash incase state was not saved
