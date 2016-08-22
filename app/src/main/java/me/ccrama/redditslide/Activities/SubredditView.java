@@ -199,6 +199,8 @@ public class SubredditView extends BaseActivityAnim {
                 && !subreddit.equals("nsfwrandom")
                 && !subreddit.contains("+")) {
             executeAsyncSubreddit(subreddit);
+        } else {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
         }
     }
 

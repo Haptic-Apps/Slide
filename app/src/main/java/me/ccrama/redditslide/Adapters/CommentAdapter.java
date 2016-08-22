@@ -343,7 +343,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onSingleClick(View v) {
                     SpoilerRobotoTextView SpoilerRobotoTextView = (SpoilerRobotoTextView) v;
                     if (SettingValues.swap) {
-                        doLongClick(holder, comment, baseNode);
+                        if (!SpoilerRobotoTextView.isSpoilerClicked()) {
+                            doLongClick(holder, comment, baseNode);
+                        } else if (SpoilerRobotoTextView.isSpoilerClicked()) {
+                            SpoilerRobotoTextView.resetSpoilerClicked();
+                        }
                     } else if (!SpoilerRobotoTextView.isSpoilerClicked()) {
                         doOnClick(holder, comment, baseNode);
                     } else if (SpoilerRobotoTextView.isSpoilerClicked()) {

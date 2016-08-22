@@ -574,13 +574,19 @@ public class ReorderSubreddits extends BaseActivityAnim {
         @Override
         public void onPostExecute(Subreddit subreddit) {
             if (subreddit != null) doAddSub(subreddit.getDisplayName());
+            else if(sub.equalsIgnoreCase("all")
+                    || sub.equalsIgnoreCase("friends")
+                    || sub.equalsIgnoreCase("mod")
+                    || sub.equalsIgnoreCase("frontpage")){
+                doAddSub(sub);
+            }
         }
 
         ArrayList<Subreddit> otherSubs;
-
+        String sub;
         @Override
         protected Subreddit doInBackground(final String... params) {
-            String sub = params[0];
+            sub = params[0];
             if (!sub.equalsIgnoreCase("all")
                     && !sub.equalsIgnoreCase("friends")
                     && !sub.equalsIgnoreCase("mod")
