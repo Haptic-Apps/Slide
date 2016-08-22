@@ -1,378 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="AppTheme" parent="swipestyle">
-        <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
-    </style>
-
-    <style name="Ripple" tools:keep="@style/Ripple" />
-
-    <style name="Ripple.List" tools:keep="@style/Ripple_List">
-        <item name="android:background">?android:selectableItemBackground</item>
-    </style>
-
-    <!-- From SwipeBackLayout !-->
-    <style name="SwipeBackLayout">
-        <item name="edge_size">50dip</item>
-        <item name="shadow_left">@drawable/shadow_left</item>
-        <item name="shadow_right">@drawable/shadow_right</item>
-        <item name="shadow_bottom">@drawable/shadow_bottom</item>
-    </style>
-
-    <style name="swipeable" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
-
-    <style name="swipestyle" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorAccent">@color/md_amber_A700</item>
-    </style>
-
-    <style name="swipestylelight" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorAccent">@color/md_amber_A700</item>
-    </style>
-
-    <style name="popup" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="android:background">@color/transparent</item>
-    </style>
-
-    <style name="spinnerItemStyle">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-
-    <style name="white_amoled" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_blue_grey_200</item>
-    </style>
-
-    <style name="white_light" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_blue_grey_200</item>
-    </style>
-
-    <style name="white_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_blue_grey_200</item>
-    </style>
-
-    <style name="teal_light" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_teal_A200</item>
-    </style>
-
-    <style name="teal_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_teal_A200</item>
-    </style>
-
-    <style name="teal_amoled" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_teal_A200</item>
-    </style>
-
-    <style name="teal_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_teal_A200</item>
-    </style>
-
-    <style name="teal_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_teal_A200</item>
-    </style>
-
-    <style name="teal_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_teal_A200</item>
-    </style>
-
-    <style name="pink_amoled" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_pink_A200</item>
-    </style>
-
-    <style name="pink_light" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_pink_A200</item>
-    </style>
-
-    <style name="pink_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_pink_A200</item>
-    </style>
-
-    <style name="pink_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_pink_A200</item>
-    </style>
-
-    <style name="yellow_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_yellow_A700</item>
-    </style>
-
-    <style name="white_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_blue_grey_200</item>
-    </style>
-
-    <style name="amber_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_amber_A700</item>
-    </style>
-
-    <style name="blue_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_blue_A700</item>
-    </style>
-
-    <style name="lightblue_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
-    </style>
-
-    <style name="deeporange_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
-    </style>
-
-    <style name="cyan_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_cyan_A700</item>
-    </style>
-
-    <style name="green_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_green_A700</item>
-    </style>
-
-    <style name="indigo_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_indigo_A700</item>
-    </style>
-
-    <style name="lime_dark" parent="Theme.DARK">
-        <item name="colorAccent">@color/md_lime_A700</item>
-    </style>
-
-    <style name="yellow_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_yellow_A700</item>
-    </style>
-
-    <style name="amber_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_amber_A700</item>
-    </style>
-
-    <style name="blue_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_blue_A700</item>
-    </style>
-
-    <style name="lightblue_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
-    </style>
-
-    <style name="deeporange_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
-    </style>
-
-    <style name="cyan_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_cyan_A700</item>
-    </style>
-
-    <style name="green_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_green_A700</item>
-    </style>
-
-    <style name="indigo_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_indigo_A700</item>
-    </style>
-
-    <style name="lime_sepia" parent="Theme.SEPIA">
-        <item name="colorAccent">@color/md_lime_A700</item>
-    </style>
-
-    <style name="pink_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_pink_A200</item>
-    </style>
-
-    <style name="yellow_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_yellow_A700</item>
-    </style>
-
-    <style name="white_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_blue_grey_200</item>
-    </style>
-
-    <style name="amber_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_amber_A700</item>
-    </style>
-
-    <style name="blue_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_blue_A700</item>
-    </style>
-
-    <style name="lightblue_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
-    </style>
-
-    <style name="deeporange_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
-    </style>
-
-    <style name="cyan_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_cyan_A700</item>
-    </style>
-
-    <style name="green_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_green_A700</item>
-    </style>
-
-    <style name="indigo_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_indigo_A700</item>
-    </style>
-
-    <style name="lime_blue" parent="Theme.DARK_BLUE">
-        <item name="colorAccent">@color/md_lime_A700</item>
-    </style>
-
-    <style name="pink_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_pink_A200</item>
-    </style>
-
-    <style name="yellow_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_yellow_A700</item>
-    </style>
-
-    <style name="white_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_blue_grey_200</item>
-    </style>
-
-    <style name="amber_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_amber_A700</item>
-    </style>
-
-    <style name="blue_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_blue_A700</item>
-    </style>
-
-    <style name="lightblue_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
-    </style>
-
-    <style name="deeporange_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
-    </style>
-
-    <style name="cyan_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_cyan_A700</item>
-    </style>
-
-    <style name="green_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_green_A700</item>
-    </style>
-
-    <style name="indigo_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_indigo_A700</item>
-    </style>
-
-    <style name="lime_AMOLED_lighter" parent="Theme.AMOLED_lighter">
-        <item name="colorAccent">@color/md_lime_A700</item>
-    </style>
-
-    <style name="yellow_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_yellow_A700</item>
-    </style>
-
-    <style name="amber_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_amber_A700</item>
-    </style>
-
-    <style name="blue_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_blue_A700</item>
-    </style>
-
-    <style name="lightblue_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
-    </style>
-
-    <style name="deeporange_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
-    </style>
-
-    <style name="cyan_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_cyan_A700</item>
-    </style>
-
-    <style name="green_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_green_A700</item>
-    </style>
-
-    <style name="indigo_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_indigo_A700</item>
-    </style>
-
-    <style name="lime_LIGHT" parent="Theme.LIGHT">
-        <item name="colorAccent">@color/md_lime_A700</item>
-    </style>
-
-    <style name="yellow_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_yellow_A700</item>
-    </style>
-
-    <style name="amber_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_amber_A700</item>
-    </style>
-
-    <style name="blue_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_blue_A700</item>
-    </style>
-
-    <style name="lightblue_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
-    </style>
-
-    <style name="deeporange_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
-    </style>
-
-    <style name="cyan_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_cyan_A700</item>
-    </style>
-
-    <style name="green_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_green_A700</item>
-    </style>
-
-    <style name="indigo_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_indigo_A700</item>
-    </style>
-
-    <style name="lime_AMOLED" parent="Theme.AMOLED">
-        <item name="colorAccent">@color/md_lime_A700</item>
-    </style>
-
-    <style name="FontStyle.MediumPost">
-        <item name="font_cardtitle">20sp</item>
-        <item name="font_cardinfo">12sp</item>
-    </style>
-
-    <style name="FontStyle.MediumComment">
-        <item name="font_commenttitle">12sp</item>
-        <item name="font_commentinfo">12sp</item>
-        <item name="font_commentbody">14sp</item>
+    <!-- From SwipeBackLayout !-->    <style name="SwipeBackLayout">
+    <item name="edge_size">50dip</item>
+    <item name="shadow_left">@drawable/shadow_left</item>
+    <item name="shadow_right">@drawable/shadow_right</item>
+    <item name="shadow_bottom">@drawable/shadow_bottom</item>
+</style>
+
+    <style name="ActionBarCompat">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
     </style>
 
     <style name="FontStyle"></style>
 
-    <style name="FontStyle.SmallPost">
-        <item name="font_cardtitle">18sp</item>
-        <item name="font_cardinfo">10sp</item>
+    <style name="FontStyle.HugeComment">
+        <item name="font_commenttitle">20sp</item>
+        <item name="font_commentinfo">20sp</item>
+        <item name="font_commentbody">22sp</item>
     </style>
 
-    <style name="FontStyle.SmallComment">
-        <item name="font_commenttitle">10sp</item>
-        <item name="font_commentinfo">10sp</item>
-        <item name="font_commentbody">12sp</item>
-    </style>
-
-    <style name="FontStyle.SmallerPost">
-        <item name="font_cardtitle">16sp</item>
-        <item name="font_cardinfo">10sp</item>
-    </style>
-
-    <style name="FontStyle.SmallerComment">
-        <item name="font_commenttitle">8sp</item>
-        <item name="font_commentinfo">8sp</item>
-        <item name="font_commentbody">10sp</item>
-    </style>
-
-    <style name="FontStyle.TinyPost">
-        <item name="font_cardtitle">14sp</item>
-        <item name="font_cardinfo">10sp</item>
-    </style>
-
-    <style name="FontStyle.LargePost">
-        <item name="font_cardtitle">22sp</item>
-        <item name="font_cardinfo">14sp</item>
+    <style name="FontStyle.HugePost">
+        <item name="font_cardtitle">28sp</item>
+        <item name="font_cardinfo">20sp</item>
     </style>
 
     <style name="FontStyle.LargeComment">
@@ -381,9 +32,9 @@
         <item name="font_commentbody">16sp</item>
     </style>
 
-    <style name="FontStyle.LargerPost">
-        <item name="font_cardtitle">24sp</item>
-        <item name="font_cardinfo">16sp</item>
+    <style name="FontStyle.LargePost">
+        <item name="font_cardtitle">22sp</item>
+        <item name="font_cardinfo">14sp</item>
     </style>
 
     <style name="FontStyle.LargerComment">
@@ -392,178 +43,66 @@
         <item name="font_commentbody">18sp</item>
     </style>
 
-    <style name="FontStyle.HugePost">
-        <item name="font_cardtitle">28sp</item>
-        <item name="font_cardinfo">20sp</item>
+    <style name="FontStyle.LargerPost">
+        <item name="font_cardtitle">24sp</item>
+        <item name="font_cardinfo">16sp</item>
     </style>
 
-    <style name="FontStyle.HugeComment">
-        <item name="font_commenttitle">20sp</item>
-        <item name="font_commentinfo">20sp</item>
-        <item name="font_commentbody">22sp</item>
+    <style name="FontStyle.MediumComment">
+        <item name="font_commenttitle">12sp</item>
+        <item name="font_commentinfo">12sp</item>
+        <item name="font_commentbody">14sp</item>
     </style>
 
-    <style name="Theme.LIGHT" parent="swipestylelight">
-        <item name="activity_background">#dedede</item>
-        <item name="card_background">#FFFFFF</item>
-        <item name="list_background">#FFFFFF</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
-
-        <item name="font">#DE000000</item> <!-- 87% black -->
-        <item name="tint">#8A000000</item> <!-- 54% black -->
-
-        <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
-        <item name="android:textColorSecondary">#8A000000</item> <!-- 54% black -->
-        <item name="android:textColor">#DE000000</item> <!-- 87% black -->
-        <item name="android:windowBackground">@null</item>
-        <item name="actionMenuTextColor">#DE000000</item>
-        <item name="android:actionMenuTextColor">#DE000000</item>
-        <item name="android:colorBackground">#dedede</item>
-
-        <item name="tp_selectionColor">?android:colorAccent</item>
-        <item name="tp_textColor">?attr/font</item>
-        <item name="tp_backgroundColor">?attr/card_background</item>
+    <style name="FontStyle.MediumPost">
+        <item name="font_cardtitle">20sp</item>
+        <item name="font_cardinfo">12sp</item>
     </style>
 
-    <style name="Theme.SEPIA" parent="swipestyle">
-        <item name="activity_background">#cac5ad</item>
-        <item name="card_background">#e2dfd7</item>
-        <item name="list_background">#cac5ad</item>
-        <item name="android:colorBackground">#e2dfd7</item>
-        <item name="md_background_color">#e2dfd7</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Sepia</item>
-
-        <item name="font">#de3e3d36</item> <!-- 87% black -->
-        <item name="tint">#8A3e3d36</item> <!-- 54% black -->
-
-        <item name="android:textColorPrimary">#DE3e3d36</item> <!-- 87% black -->
-        <item name="android:textColorSecondary">#8A3e3d36</item> <!-- 54% black -->
-        <item name="android:textColor">#DE3e3d36</item> <!-- 87% black -->
-        <item name="android:windowBackground">@null</item>
-        <item name="actionMenuTextColor">#DE3e3d36</item>
-        <item name="android:actionMenuTextColor">#DE3e3d36</item>
-        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
-
-        <item name="tp_selectionColor">?android:colorAccent</item>
-        <item name="tp_textColor">?attr/font</item>
-        <item name="tp_backgroundColor">?attr/card_background</item>
+    <style name="FontStyle.SmallComment">
+        <item name="font_commenttitle">10sp</item>
+        <item name="font_commentinfo">10sp</item>
+        <item name="font_commentbody">12sp</item>
     </style>
 
-    <style name="Theme.DARK" parent="swipestyle">
-        <item name="activity_background">#212121</item>
-        <item name="card_background">#303030</item>
-        <item name="list_background">#212121</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark</item>
-
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
-        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
-
-        <item name="android:windowBackground">@null</item>
-        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
-
-        <item name="tp_selectionColor">?android:colorAccent</item>
-        <item name="tp_textColor">?attr/font</item>
-        <item name="tp_backgroundColor">?attr/card_background</item>
+    <style name="FontStyle.SmallerComment">
+        <item name="font_commenttitle">8sp</item>
+        <item name="font_commentinfo">8sp</item>
+        <item name="font_commentbody">10sp</item>
     </style>
 
-    <style name="Theme.DARK_BLUE" parent="swipestyle">
-        <item name="activity_background">#2F3D44</item>
-        <item name="card_background">#37474F</item>
-        <item name="android:colorBackground">#37474F</item>
-        <item name="md_background_color">#37474F</item>
-        <item name="list_background">#263238</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark_Blue</item>
-
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
-        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
-
-        <item name="android:windowBackground">@null</item>
-        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
-
-        <item name="tp_selectionColor">?android:colorAccent</item>
-        <item name="tp_textColor">?attr/font</item>
-        <item name="tp_backgroundColor">?attr/card_background</item>
+    <style name="FontStyle.SmallerPost">
+        <item name="font_cardtitle">16sp</item>
+        <item name="font_cardinfo">10sp</item>
     </style>
 
-    <style name="Theme.AMOLED" parent="swipestyle">
-        <item name="activity_background">#000000</item>
-        <item name="card_background">#000000</item>
-        <item name="android:colorBackground">#000000</item>
-        <item name="md_background_color">#000000</item>
-        <item name="list_background">#000000</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
-
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
-        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
-
-        <item name="android:windowBackground">@null</item>
-        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
-
-        <item name="tp_selectionColor">?android:colorAccent</item>
-        <item name="tp_textColor">?attr/font</item>
-        <item name="tp_backgroundColor">?attr/card_background</item>
+    <style name="FontStyle.SmallPost">
+        <item name="font_cardtitle">18sp</item>
+        <item name="font_cardinfo">10sp</item>
     </style>
 
-    <style name="Theme.AMOLED_lighter" parent="swipestyle">
-        <item name="activity_background">#121212</item>
-        <item name="card_background">#000000</item>
-        <item name="android:colorBackground">#121212</item>
-        <item name="md_background_color">#121212</item>
-        <item name="list_background">#000000</item>
-        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
-
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
-        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
-
-        <item name="android:windowBackground">@null</item>
-        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
-
-        <item name="tp_selectionColor">?android:colorAccent</item>
-        <item name="tp_textColor">?attr/font</item>
-        <item name="tp_backgroundColor">?attr/card_background</item>
+    <style name="FontStyle.TinyPost">
+        <item name="font_cardtitle">14sp</item>
+        <item name="font_cardinfo">10sp</item>
     </style>
 
-    <style name="ActionBarCompat">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="BottomSheetLight.StyleList" parent="BottomSheet.List">
-        <item name="android:layoutAnimation">@null</item>
+    <style name="Ripple" tools:keep="@style/Ripple"/>
+
+    <style name="Ripple.List" tools:keep="@style/Ripple_List">
+        <item name="android:background">?android:selectableItemBackground</item>
     </style>
 
-    <style name="BottomSheetDark.StyleList" parent="BottomSheet.List.Dark">
-        <item name="android:layoutAnimation">@null</item>
+    <style name="spinnerItemStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="BottomSheet.StyleDialog.Dark" parent="BottomSheet.Dialog.Dark">
-        <item name="android:textColorPrimary">#FFFFFFFF</item>
-        <item name="android:textColorSecondary">#8Affffff</item>
-        <item name="android:textColorHint">#42ffffff</item>
-        <item name="bs_dialogBackground">#424242</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
-    </style>
-
-    <style name="BottomSheet.StyleDialog.Dark_Blue" parent="BottomSheet.Dialog.Dark">
-        <item name="android:textColorPrimary">#FFFFFFFF</item>
-        <item name="android:textColorSecondary">#8Affffff</item>
-        <item name="android:textColorHint">#42ffffff</item>
-        <item name="bs_dialogBackground">#37474F</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
-    </style>
-
-    <style name="BottomSheet.StyleDialog.Sepia" parent="BottomSheet.Dialog">
-        <item name="android:textColorPrimary">#DE3e3d36</item>
-        <item name="android:textColorSecondary">#8A3e3d36</item>
-        <item name="android:textColorHint">#8A3e3d36</item>
-        <item name="bs_dialogBackground">#b1ad9b</item>
-        <item name="bs_dividerColor">#00000000</item>
-        <item name="bs_listStyle">@style/BottomSheetLight.StyleList</item>
-    </style>
-
-    <style name="BottomSheet.StyleDialog.Light" parent="BottomSheet.Dialog">
+    <style parent="BottomSheet.Dialog" name="BottomSheet.StyleDialog.Light">
         <item name="android:textColorPrimary">#DE000000</item>
         <item name="android:textColorSecondary">#8A000000</item>
         <item name="android:textColorHint">#8A000000</item>
@@ -572,7 +111,16 @@
         <item name="bs_listStyle">@style/BottomSheetLight.StyleList</item>
     </style>
 
-    <style name="BottomSheet.StyleDialog.AMOLED" parent="BottomSheet.Dialog.Dark">
+    <style parent="BottomSheet.Dialog" name="BottomSheet.StyleDialog.Sepia">
+        <item name="android:textColorPrimary">#DE3e3d36</item>
+        <item name="android:textColorSecondary">#8A3e3d36</item>
+        <item name="android:textColorHint">#8A3e3d36</item>
+        <item name="bs_dialogBackground">#b1ad9b</item>
+        <item name="bs_dividerColor">#00000000</item>
+        <item name="bs_listStyle">@style/BottomSheetLight.StyleList</item>
+    </style>
+
+    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.AMOLED">
         <item name="android:textColorPrimary">#FFFFFFFF</item>
         <item name="android:textColorSecondary">#8Affffff</item>
         <item name="android:textColorHint">#42ffffff</item>
@@ -581,8 +129,527 @@
         <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
     </style>
 
-    <style name="menu_labels_style">
-        <item name="android:background">@drawable/fab_label_background</item>
-        <item name="android:textColor">@color/white</item>
+    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.Dark">
+        <item name="android:textColorPrimary">#FFFFFFFF</item>
+        <item name="android:textColorSecondary">#8Affffff</item>
+        <item name="android:textColorHint">#42ffffff</item>
+        <item name="bs_dialogBackground">#424242</item>
+        <item name="bs_dividerColor">#00000000</item>
+        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
+    </style>
+
+    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.Dark_Blue">
+        <item name="android:textColorPrimary">#FFFFFFFF</item>
+        <item name="android:textColorSecondary">#8Affffff</item>
+        <item name="android:textColorHint">#42ffffff</item>
+        <item name="bs_dialogBackground">#37474F</item>
+        <item name="bs_dividerColor">#00000000</item>
+        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
+    </style>
+
+    <style parent="BottomSheet.Dialog.Dark" name="BottomSheet.StyleDialog.Night_Red">
+        <item name="android:textColorPrimary">#FFFFFFFF</item>
+        <item name="android:textColorSecondary">#8Affffff</item>
+        <item name="android:textColorHint">#42ffd4d4</item>
+        <item name="bs_dialogBackground">#44302f</item>
+        <item name="bs_dividerColor">#00000000</item>
+        <item name="bs_listStyle">@style/BottomSheetDark.StyleList</item>
+    </style>
+
+    <style parent="BottomSheet.List" name="BottomSheetLight.StyleList">
+        <item name="android:layoutAnimation">@null</item>
+    </style>
+
+    <style parent="BottomSheet.List.Dark" name="BottomSheetDark.StyleList">
+        <item name="android:layoutAnimation">@null</item>
+    </style>
+
+    <style parent="swipestyle" name="AppTheme">
+        <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
+    </style>
+
+    <style parent="swipestyle" name="Theme.AMOLED">
+        <item name="activity_background">#000000</item>
+        <item name="card_background">#000000</item>
+        <item name="android:colorBackground">#000000</item>
+        <item name="md_background_color">#000000</item>
+        <item name="list_background">#000000</item>
+        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
+        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
+    </style>
+
+    <style parent="swipestyle" name="Theme.AMOLED_lighter">
+        <item name="activity_background">#121212</item>
+        <item name="card_background">#000000</item>
+        <item name="android:colorBackground">#121212</item>
+        <item name="md_background_color">#121212</item>
+        <item name="list_background">#000000</item>
+        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
+        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
+    </style>
+
+    <style parent="swipestyle" name="Theme.DARK">
+        <item name="activity_background">#212121</item>
+        <item name="card_background">#303030</item>
+        <item name="list_background">#212121</item>
+        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark</item>
+        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
+    </style>
+
+    <style parent="swipestyle" name="Theme.DARK_BLUE">
+        <item name="activity_background">#2F3D44</item>
+        <item name="card_background">#37474F</item>
+        <item name="android:colorBackground">#37474F</item>
+        <item name="md_background_color">#37474F</item>
+        <item name="list_background">#263238</item>
+        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark_Blue</item>
+        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
+    </style>
+
+    <style parent="swipestyle" name="Theme.NIGHT_RED">
+        <item name="activity_background">#44302f</item>
+        <item name="card_background">#4f3737</item>
+        <item name="android:colorBackground">#4f3737</item>
+        <item name="md_background_color">#4f3837</item>
+        <item name="list_background">#382626</item>
+        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Night_Red</item>
+        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
+        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
+    </style>
+
+    <style parent="swipestyle" name="Theme.SEPIA">
+        <item name="activity_background">#cac5ad</item>
+        <item name="card_background">#e2dfd7</item>
+        <item name="list_background">#cac5ad</item>
+        <item name="android:colorBackground">#e2dfd7</item>
+        <item name="md_background_color">#e2dfd7</item>
+        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Sepia</item>
+        <item name="font">#de3e3d36</item> <!-- 87% black -->
+        <item name="tint">#8A3e3d36</item> <!-- 54% black -->
+        <item name="android:textColorPrimary">#DE3e3d36</item> <!-- 87% black -->
+        <item name="android:textColorSecondary">#8A3e3d36</item> <!-- 54% black -->
+        <item name="android:textColor">#DE3e3d36</item> <!-- 87% black -->
+        <item name="android:windowBackground">@null</item>
+        <item name="actionMenuTextColor">#DE3e3d36</item>
+        <item name="android:actionMenuTextColor">#DE3e3d36</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
+    </style>
+
+    <style parent="swipestylelight" name="Theme.LIGHT">
+        <item name="activity_background">#dedede</item>
+        <item name="card_background">#FFFFFF</item>
+        <item name="list_background">#FFFFFF</item>
+        <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
+        <item name="font">#DE000000</item> <!-- 87% black -->
+        <item name="tint">#8A000000</item> <!-- 54% black -->
+        <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
+        <item name="android:textColorSecondary">#8A000000</item> <!-- 54% black -->
+        <item name="android:textColor">#DE000000</item> <!-- 87% black -->
+        <item name="android:windowBackground">@null</item>
+        <item name="actionMenuTextColor">#DE000000</item>
+        <item name="android:actionMenuTextColor">#DE000000</item>
+        <item name="android:colorBackground">#dedede</item>
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
+    </style>
+
+    <!-- AMOLED Theme Subthemes !-->
+
+    <style parent="Theme.AMOLED" name="amber_AMOLED">
+        <item name="colorAccent">@color/md_amber_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="blue_AMOLED">
+        <item name="colorAccent">@color/md_blue_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="cyan_AMOLED">
+        <item name="colorAccent">@color/md_cyan_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="deeporange_AMOLED">
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="green_AMOLED">
+        <item name="colorAccent">@color/md_green_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="indigo_AMOLED">
+        <item name="colorAccent">@color/md_indigo_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="lightblue_AMOLED">
+        <item name="colorAccent">@color/md_light_blue_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="lime_AMOLED">
+        <item name="colorAccent">@color/md_lime_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="pink_amoled">
+        <item name="colorAccent">@color/md_pink_A200</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="teal_amoled">
+        <item name="colorAccent">@color/md_teal_A200</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="white_amoled">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+    </style>
+
+    <style parent="Theme.AMOLED" name="yellow_AMOLED">
+        <item name="colorAccent">@color/md_yellow_A700</item>
+    </style>
+
+    <!-- AMOLED with Contrast Theme Subthemes !-->
+
+    <style parent="Theme.AMOLED_lighter" name="amber_AMOLED_lighter">
+        <item name="colorAccent">@color/md_amber_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="blue_AMOLED_lighter">
+        <item name="colorAccent">@color/md_blue_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="cyan_AMOLED_lighter">
+        <item name="colorAccent">@color/md_cyan_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="deeporange_AMOLED_lighter">
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="green_AMOLED_lighter">
+        <item name="colorAccent">@color/md_green_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="indigo_AMOLED_lighter">
+        <item name="colorAccent">@color/md_indigo_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="lightblue_AMOLED_lighter">
+        <item name="colorAccent">@color/md_light_blue_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="lime_AMOLED_lighter">
+        <item name="colorAccent">@color/md_lime_A700</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="pink_AMOLED_lighter">
+        <item name="colorAccent">@color/md_pink_A200</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="teal_AMOLED_lighter">
+        <item name="colorAccent">@color/md_teal_A200</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="white_AMOLED_lighter">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+    </style>
+
+    <style parent="Theme.AMOLED_lighter" name="yellow_AMOLED_lighter">
+        <item name="colorAccent">@color/md_yellow_A700</item>
+    </style>
+
+    <style parent="Theme.AppCompat.Dialog.Alert" name="popup">
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style parent="Theme.AppCompat.Light.NoActionBar" name="swipestylelight">
+        <item name="colorAccent">@color/md_amber_A700</item>
+    </style>
+
+    <style parent="Theme.AppCompat.NoActionBar" name="swipeable">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style parent="Theme.AppCompat.NoActionBar" name="swipestyle">
+        <item name="colorAccent">@color/md_amber_A700</item>
+    </style>
+
+    <!-- Dark Theme Subthemes !-->
+
+    <style parent="Theme.DARK" name="amber_dark">
+        <item name="colorAccent">@color/md_amber_A700</item>
+    </style>
+
+    <style parent="Theme.DARK" name="blue_dark">
+        <item name="colorAccent">@color/md_blue_A700</item>
+    </style>
+
+    <style parent="Theme.DARK" name="cyan_dark">
+        <item name="colorAccent">@color/md_cyan_A700</item>
+    </style>
+
+    <style parent="Theme.DARK" name="deeporange_dark">
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
+    </style>
+
+    <style parent="Theme.DARK" name="green_dark">
+        <item name="colorAccent">@color/md_green_A700</item>
+    </style>
+
+    <style parent="Theme.DARK" name="indigo_dark">
+        <item name="colorAccent">@color/md_indigo_A700</item>
+    </style>
+
+    <style parent="Theme.DARK" name="lightblue_dark">
+        <item name="colorAccent">@color/md_light_blue_A700</item>
+    </style>
+
+    <style parent="Theme.DARK" name="lime_dark">
+        <item name="colorAccent">@color/md_lime_A700</item>
+    </style>
+
+    <style parent="Theme.DARK" name="pink_dark">
+        <item name="colorAccent">@color/md_pink_A200</item>
+    </style>
+
+    <style parent="Theme.DARK" name="teal_dark">
+        <item name="colorAccent">@color/md_teal_A200</item>
+    </style>
+
+    <style parent="Theme.DARK" name="white_dark">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+    </style>
+
+    <style parent="Theme.DARK" name="yellow_dark">
+        <item name="colorAccent">@color/md_yellow_A700</item>
+    </style>
+
+    <!-- Night Red Blue Theme Subthemes !-->
+
+    <style parent="Theme.NIGHT_RED" name="amber_night_red">
+        <item name="colorAccent">@color/md_amber_A700</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="blue_night_red">
+        <item name="colorAccent">@color/md_blue_A700</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="cyan_night_red">
+        <item name="colorAccent">@color/md_cyan_A700</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="deeporange_night_red">
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="green_night_red">
+        <item name="colorAccent">@color/md_green_A700</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="indigo_night_red">
+        <item name="colorAccent">@color/md_indigo_A700</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="lightblue_night_red">
+        <item name="colorAccent">@color/md_light_blue_A700</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="lime_night_red">
+        <item name="colorAccent">@color/md_lime_A700</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="pink_night_red">
+        <item name="colorAccent">@color/md_pink_A200</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="teal_night_red">
+        <item name="colorAccent">@color/md_teal_A200</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="white_night_red">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+    </style>
+
+    <style parent="Theme.NIGHT_RED" name="yellow_night_red">
+        <item name="colorAccent">@color/md_yellow_A700</item>
+    </style>
+
+    <!-- Dark Blue Theme Subthemes !-->
+
+    <style parent="Theme.DARK_BLUE" name="amber_blue">
+        <item name="colorAccent">@color/md_amber_A700</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="blue_blue">
+        <item name="colorAccent">@color/md_blue_A700</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="cyan_blue">
+        <item name="colorAccent">@color/md_cyan_A700</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="deeporange_blue">
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="green_blue">
+        <item name="colorAccent">@color/md_green_A700</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="indigo_blue">
+        <item name="colorAccent">@color/md_indigo_A700</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="lightblue_blue">
+        <item name="colorAccent">@color/md_light_blue_A700</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="lime_blue">
+        <item name="colorAccent">@color/md_lime_A700</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="pink_blue">
+        <item name="colorAccent">@color/md_pink_A200</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="teal_blue">
+        <item name="colorAccent">@color/md_teal_A200</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="white_blue">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+    </style>
+
+    <style parent="Theme.DARK_BLUE" name="yellow_blue">
+        <item name="colorAccent">@color/md_yellow_A700</item>
+    </style>
+
+    <!-- Light Theme Subthemes !-->
+
+    <style parent="Theme.LIGHT" name="amber_LIGHT">
+        <item name="colorAccent">@color/md_amber_A700</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="blue_LIGHT">
+        <item name="colorAccent">@color/md_blue_A700</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="cyan_LIGHT">
+        <item name="colorAccent">@color/md_cyan_A700</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="deeporange_LIGHT">
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="green_LIGHT">
+        <item name="colorAccent">@color/md_green_A700</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="indigo_LIGHT">
+        <item name="colorAccent">@color/md_indigo_A700</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="lightblue_LIGHT">
+        <item name="colorAccent">@color/md_light_blue_A700</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="lime_LIGHT">
+        <item name="colorAccent">@color/md_lime_A700</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="pink_light">
+        <item name="colorAccent">@color/md_pink_A200</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="teal_light">
+        <item name="colorAccent">@color/md_teal_A200</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="white_light">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+    </style>
+
+    <style parent="Theme.LIGHT" name="yellow_LIGHT">
+        <item name="colorAccent">@color/md_yellow_A700</item>
+    </style>
+
+    <!--Sepia Theme Subthemes !-->
+
+    <style parent="Theme.SEPIA" name="amber_sepia">
+        <item name="colorAccent">@color/md_amber_A700</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="blue_sepia">
+        <item name="colorAccent">@color/md_blue_A700</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="cyan_sepia">
+        <item name="colorAccent">@color/md_cyan_A700</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="deeporange_sepia">
+        <item name="colorAccent">@color/md_deep_orange_A700</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="green_sepia">
+        <item name="colorAccent">@color/md_green_A700</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="indigo_sepia">
+        <item name="colorAccent">@color/md_indigo_A700</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="lightblue_sepia">
+        <item name="colorAccent">@color/md_light_blue_A700</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="lime_sepia">
+        <item name="colorAccent">@color/md_lime_A700</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="pink_sepia">
+        <item name="colorAccent">@color/md_pink_A200</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="teal_sepia">
+        <item name="colorAccent">@color/md_teal_A200</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="white_sepia">
+        <item name="colorAccent">@color/md_blue_grey_200</item>
+    </style>
+
+    <style parent="Theme.SEPIA" name="yellow_sepia">
+        <item name="colorAccent">@color/md_yellow_A700</item>
     </style>
 </resources>

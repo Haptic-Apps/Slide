@@ -229,7 +229,36 @@
                             android:textSize="16sp" />
 
                     </LinearLayout>
+                    <LinearLayout
+                            android:id="@+id/red"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="#44302f"
+                            android:gravity="center_vertical"
 
+                            android:orientation="horizontal"
+                            android:paddingEnd="16dp">
+
+                        <ImageView
+                                android:layout_width="56dp"
+                                android:layout_height="match_parent"
+                                android:alpha=".86"
+                                android:padding="12dp"
+                                android:tint="#ffffff"
+                                app:srcCompat="@drawable/theme" />
+
+                        <TextView
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+
+                                android:text="@string/theme_red_shift"
+
+                                android:textColor="#ffffff"
+
+                                android:textSize="16sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

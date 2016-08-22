@@ -220,7 +220,7 @@ public class Tutorial extends AppCompatActivity {
 
                     final LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker3);
 
-                    int[] arrs = new int[ColorPreferences.Theme.values().length / 6];
+                    int[] arrs = new int[ColorPreferences.Theme.values().length / 7];
                     int i = 0;
                     for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                         if (type.getThemeType() == 0) {
@@ -384,6 +384,31 @@ public class Tutorial extends AppCompatActivity {
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 5) {
+                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
+                                    back = theme.getThemeType();
+
+                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    i.putExtra("page", 1);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                    startActivity(i);
+                                    overridePendingTransition(0, 0);
+
+                                    finish();
+                                    overridePendingTransition(0, 0);
+
+                                    break;
+                                }
+                            }
+                        }
+                    });
+                    dialoglayout.findViewById(R.id.sepia).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String name = names[names.length - 1];
+                            final String newName = name.replace("(", "");
+                            for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                                if (theme.toString().contains(newName) && theme.getThemeType() == 6) {
                                     new ColorPreferences(Tutorial.this).setFontStyle(theme);
                                     back = theme.getThemeType();
 

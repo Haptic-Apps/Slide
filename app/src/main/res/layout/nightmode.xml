@@ -89,6 +89,13 @@
                             android:background="?android:selectableItemBackground"
                             android:text="@string/theme_amoled_contrast"
                             android:textColor="?attr/font"/>
+                    <RadioButton
+                            android:id="@+id/red"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="?android:selectableItemBackground"
+                            android:text="@string/theme_red_shift"
+                            android:textColor="?attr/font"/>
                 </RadioGroup>
                 <TextView
                         android:layout_width="match_parent"

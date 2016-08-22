@@ -306,7 +306,7 @@ public class SettingsSubAdapter extends RecyclerView.Adapter<SettingsSubAdapter.
 
             {
                 //Get all possible accent colors (for day theme)
-                int[] arrs = new int[ColorPreferences.Theme.values().length / 6];
+                int[] arrs = new int[ColorPreferences.Theme.values().length / 7];
                 int i = 0;
                 for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                     if (type.getThemeType() == 0) {

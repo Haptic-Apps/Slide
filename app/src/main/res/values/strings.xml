@@ -1127,6 +1127,7 @@
     <string name="empty_preview_text">Nothing to see here ¯\\_(ツ)_/¯</string>
     <string name="low_quality_through_imgur_higher_resolution">Low Quality through Imgur (higher resolution)</string>
     <string name="low_quality_through_reddit_lower_resolution">Low Quality through Reddit (lower resolution)</string>
+    <string name="theme_red_shift">Red shift</string>
 
 
 </resources>
