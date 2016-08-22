@@ -477,18 +477,18 @@ public class ColorPreferences {
         sepia_blue(R.style.blue_sepia, "sepia_blue", R.color.md_blue_A700, 5),
         sepia_indigo(R.style.indigo_sepia, "sepia_indigo", R.color.md_indigo_A700, 5),
 
-        night_red_white(R.style.white_sepia, "night_red_white", R.color.md_blue_grey_200, 6),
-        night_red_pink(R.style.pink_sepia, "night_red_pink", R.color.md_pink_A200, 6),
-        night_red_deeporange(R.style.deeporange_sepia, "night_red_deeporange", R.color.md_deep_orange_A700, 6),
-        night_red_amber(R.style.amber_sepia, "night_red_amber", R.color.md_amber_A700, 6),
-        night_red_yellow(R.style.yellow_sepia, "night_red_yellow", R.color.md_yellow_A700, 6),
-        night_red_lime(R.style.lime_sepia, "night_red_lime", R.color.md_lime_A700, 6),
-        night_red_green(R.style.green_sepia, "night_red_green", R.color.md_green_A700, 6),
-        night_red_teal(R.style.teal_sepia, "night_red_teal", R.color.md_teal_A200, 6),
-        night_red_cyan(R.style.cyan_sepia, "night_red_cyan", R.color.md_cyan_A700, 6),
-        night_red_lightblue(R.style.lightblue_sepia, "night_red_lightblue", R.color.md_light_blue_A700, 6),
-        night_red_blue(R.style.blue_sepia, "night_red_blue", R.color.md_blue_A700, 6),
-        night_red_indigo(R.style.indigo_sepia, "night_red_indigo", R.color.md_indigo_A700, 6);
+        night_red_white(R.style.white_night_red, "night_red_white", R.color.md_blue_grey_200, 6),
+        night_red_pink(R.style.pink_night_red, "night_red_pink", R.color.md_pink_A200, 6),
+        night_red_deeporange(R.style.deeporange_night_red, "night_red_deeporange", R.color.md_deep_orange_A700, 6),
+        night_red_amber(R.style.amber_night_red, "night_red_amber", R.color.md_amber_A700, 6),
+        night_red_yellow(R.style.yellow_night_red, "night_red_yellow", R.color.md_yellow_A700, 6),
+        night_red_lime(R.style.lime_night_red, "night_red_lime", R.color.md_lime_A700, 6),
+        night_red_green(R.style.green_night_red, "night_red_green", R.color.md_green_A700, 6),
+        night_red_teal(R.style.teal_night_red, "night_red_teal", R.color.md_teal_A200, 6),
+        night_red_cyan(R.style.cyan_night_red, "night_red_cyan", R.color.md_cyan_A700, 6),
+        night_red_lightblue(R.style.lightblue_night_red, "night_red_lightblue", R.color.md_light_blue_A700, 6),
+        night_red_blue(R.style.blue_night_red, "night_red_blue", R.color.md_blue_A700, 6),
+        night_red_indigo(R.style.indigo_night_red, "night_red_indigo", R.color.md_indigo_A700, 6);
 
         private int baseId;
         private String title;

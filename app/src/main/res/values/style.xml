@@ -231,14 +231,14 @@
     </style>
 
     <style parent="swipestyle" name="Theme.NIGHT_RED">
-        <item name="activity_background">#44302f</item>
-        <item name="card_background">#4f3737</item>
-        <item name="android:colorBackground">#4f3737</item>
-        <item name="md_background_color">#4f3837</item>
-        <item name="list_background">#382626</item>
+        <item name="activity_background">#312322</item>
+        <item name="card_background">#402c2c</item>
+        <item name="android:colorBackground">#402c2c</item>
+        <item name="md_background_color">#402c2c</item>
+        <item name="list_background">#261a1a</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Night_Red</item>
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
-        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="font">#defff7ed</item> <!-- 87% white -->
+        <item name="tint">#8affebcf</item> <!-- 54% white -->
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
         <item name="tp_selectionColor">?android:colorAccent</item>
