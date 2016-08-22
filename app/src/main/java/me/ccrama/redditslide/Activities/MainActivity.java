@@ -578,9 +578,9 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onGlobalLayout() {
                             headerHeight = header.getHeight();
-                            try {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                                 header.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                            } catch (NoSuchMethodError x) {
+                            } else {
                                 header.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                             }
                         }
