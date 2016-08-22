@@ -255,7 +255,7 @@
   <string name="mail_hint_body">Text</string>
   <string name="mail_send_to">Send a message to %1$s</string>
   <string name="mail_send">Send a message</string>
-  <string name="mail_notification_msg">New message from %1$s</string>
+  <string name="mail_notification_msg_from">New message from %1$s</string>
   <string name="mod_mail_notification_msg">New modmail from %1$s</string>
   <string name="mail_reply_to">Reply to %1$s</string>
   <string name="mail_notification_author">%1$s from %2$s</string>

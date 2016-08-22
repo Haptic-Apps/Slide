@@ -255,7 +255,7 @@
   <string name="mail_hint_body">本文</string>
   <string name="mail_send_to">%1$s にメッセージを送信</string>
   <string name="mail_send">メッセージを送信</string>
-  <string name="mail_notification_msg">%1$s から新しいメッセージ</string>
+  <string name="mail_notification_msg_from">%1$s から新しいメッセージ</string>
   <string name="mod_mail_notification_msg">モデレーター%1$sからメッセージが届いています</string>
   <string name="mail_reply_to">%1$s へ返信</string>
   <string name="mail_notification_author">%2$s から %1$s</string>

@@ -221,7 +221,7 @@
   <string name="mail_hint_body">Mesaj Metni</string>
   <string name="mail_send_to">%1$s kişisine bir mesaj gönder</string>
   <string name="mail_send">Bir mesaj gönder</string>
-  <string name="mail_notification_msg">%1$s kişisinden yeni mesaj</string>
+  <string name="mail_notification_msg_from">%1$s kişisinden yeni mesaj</string>
   <string name="mod_mail_notification_msg">%1$s\'dan yeni modmail</string>
   <string name="mail_reply_to">%1$s kişisine cevapla</string>
   <string name="mail_notification_author">%2$s kişisinden %1$s</string>

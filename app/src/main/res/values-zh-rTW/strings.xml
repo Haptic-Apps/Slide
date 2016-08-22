@@ -241,7 +241,7 @@
   <string name="mail_hint_body">內文</string>
   <string name="mail_send_to">發訊息予 %1$s</string>
   <string name="mail_send">發送訊息</string>
-  <string name="mail_notification_msg">%1$s 發了訊息給你</string>
+  <string name="mail_notification_msg_from">%1$s 發了訊息給你</string>
   <string name="mod_mail_notification_msg">%1$s 發了版主訊息給你</string>
   <string name="mail_reply_to">回覆 %1$s</string>
   <string name="mail_notification_author">來自 %2$s 的 %1$s</string>

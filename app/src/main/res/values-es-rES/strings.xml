@@ -247,7 +247,7 @@
   <string name="mail_hint_body">Cuerpo</string>
   <string name="mail_send_to">Enviar un mensaje a %1$s</string>
   <string name="mail_send">Enviar un mensaje</string>
-  <string name="mail_notification_msg">Nuevo mensaje de %1$s</string>
+  <string name="mail_notification_msg_from">Nuevo mensaje de %1$s</string>
   <string name="mod_mail_notification_msg">Nuevo modmail de %1$s</string>
   <string name="mail_reply_to">Responder a %1$s</string>
   <string name="mail_notification_author">%1$s de %2$s</string>

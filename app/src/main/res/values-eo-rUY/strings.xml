@@ -94,7 +94,7 @@
   <string name="mail_hint_body">Teksto</string>
   <string name="mail_send_to">Sendi mesaĝon al %1$s</string>
   <string name="mail_send">Sendi mesaĝon</string>
-  <string name="mail_notification_msg">Nova mesaĝo de %1$s</string>
+  <string name="mail_notification_msg_from">Nova mesaĝo de %1$s</string>
   <string name="mail_reply_to">Respondi al %1$s</string>
   <string name="mail_notification_author">%1$s de %2$s</string>
   <plurals name="mail_notification_title">

@@ -170,7 +170,7 @@
   <string name="mail_hint_body">内容</string>
   <string name="mail_send_to">发送一条信息给 %1$s</string>
   <string name="mail_send">发送一条信息</string>
-  <string name="mail_notification_msg">来自 %1$s 的新消息</string>
+  <string name="mail_notification_msg_from">来自 %1$s 的新消息</string>
   <string name="mail_reply_to">回复 %1$s</string>
   <string name="mail_notification_author">%2$s 的 %1$s</string>
   <string name="mail_theirs">查看他们的消息</string>

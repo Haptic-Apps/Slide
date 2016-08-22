@@ -229,7 +229,7 @@
   <string name="mail_hint_body">Szöveg</string>
   <string name="mail_send_to">Üzenet küldése neki: %1$s</string>
   <string name="mail_send">Üzenet küldése</string>
-  <string name="mail_notification_msg">Új üzenet tőle: %1$s</string>
+  <string name="mail_notification_msg_from">Új üzenet tőle: %1$s</string>
   <string name="mod_mail_notification_msg">Új modmail tőle: %1$s</string>
   <string name="mail_reply_to">Válasz neki: %1$s</string>
   <string name="mail_notification_author">%1$s / %2$s</string>
