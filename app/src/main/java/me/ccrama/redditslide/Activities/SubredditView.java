@@ -1272,7 +1272,7 @@ public class SubredditView extends BaseActivityAnim {
                 currentlySubbed =
                         (!Authentication.isLoggedIn && UserSubscriptions.getSubscriptions(this)
                                 .contains(subreddit.getDisplayName().toLowerCase()))
-                                || subreddit.isUserSubscriber();
+                                || (Authentication.isLoggedIn && subreddit.isUserSubscriber());
                 doSubscribeButtonText(currentlySubbed, subscribe);
 
                 subscribe.setOnClickListener(new View.OnClickListener() {
