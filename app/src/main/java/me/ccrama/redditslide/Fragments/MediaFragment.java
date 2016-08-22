@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -94,9 +93,14 @@ public class MediaFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && videoView != null) {
-            videoView.seekTo(0);
-            videoView.start();
+
+        if (videoView != null) {
+            if (isVisibleToUser) {
+                videoView.seekTo(0);
+                videoView.start();
+            } else {
+                videoView.pause();
+            }
         }
     }
 
