@@ -1358,7 +1358,7 @@ public class CommentAdapterHelper {
         DoEditorActions.doActions(e, dialoglayout, fm, (Activity) mContext,
                 baseNode.getComment().getBody());
 
-        builder.setView(dialoglayout);
+        builder.setCancelable(false).setView(dialoglayout);
         final Dialog d = builder.create();
         d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 

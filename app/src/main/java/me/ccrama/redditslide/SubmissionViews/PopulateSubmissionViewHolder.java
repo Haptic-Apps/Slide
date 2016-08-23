@@ -2828,7 +2828,7 @@ public class PopulateSubmissionViewHolder {
                                                     ((AppCompatActivity) mContext).getSupportFragmentManager(),
                                                     (Activity) mContext, null);
 
-                                            builder.setView(dialoglayout);
+                                            builder.setCancelable(false).setView(dialoglayout);
                                             final Dialog d = builder.create();
                                             d.getWindow()
                                                     .setSoftInputMode(
