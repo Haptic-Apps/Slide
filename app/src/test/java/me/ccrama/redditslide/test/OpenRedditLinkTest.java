@@ -96,6 +96,7 @@ public class OpenRedditLinkTest {
         assertThat(formatURL("https://beta.reddit.com/"), is(""));
         assertThat(formatURL("https://blog.reddit.com/"), is(""));
         assertThat(formatURL("https://code.reddit.com/"), is(""));
+        assertThat(formatURL("https://mod.reddit.com/"), is(""));
         assertThat(formatURL("https://store.reddit.com/"), is(""));
         assertThat(formatURL("https://pay.reddit.com/"), is("reddit.com"));
         assertThat(formatURL("https://ssl.reddit.com/"), is("reddit.com"));
