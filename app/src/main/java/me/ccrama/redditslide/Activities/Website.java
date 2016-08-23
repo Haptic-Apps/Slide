@@ -318,7 +318,10 @@ public class Website extends BaseActivityAnim {
                         }
                         return super.shouldOverrideUrlLoading(view, url);
                     case REDDIT:
-                        new OpenRedditLink(view.getContext(), url);
+                        boolean opened = OpenRedditLink.openUrl(view.getContext(), url, false);
+                        if(!opened){
+                            return super.shouldOverrideUrlLoading(view, url);
+                        }
                         return true;
                     case STREAMABLE:
                     case VID_ME:

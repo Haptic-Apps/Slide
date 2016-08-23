@@ -3,7 +3,6 @@ package me.ccrama.redditslide;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import java.util.Arrays;
 
@@ -21,6 +20,15 @@ import me.ccrama.redditslide.util.LogUtil;
 public class OpenRedditLink {
 
     public OpenRedditLink(Context context, String url) {
+        openUrl(context, url, true);
+    }
+
+    public OpenRedditLink(Context context, String url, boolean openIfOther) {
+        openUrl(context, url, openIfOther);
+    }
+
+    //Returns true if link was in fact handled by this method. If false, further action should be taken
+    public static boolean openUrl(Context context, String url, boolean openIfOther) {
         String oldUrl = url;
         boolean np = false;
 
@@ -28,7 +36,7 @@ public class OpenRedditLink {
         url = formatRedditUrl(url);
         if (url.isEmpty()) {
             LinkUtil.openExternally(oldUrl, context, false);
-            return;
+            return false;
         } else if (url.startsWith("np")) {
             np = true;
             url = url.substring(2);
@@ -37,8 +45,7 @@ public class OpenRedditLink {
         RedditLinkType type = getRedditLinkType(url);
 
         String[] parts = url.split("/");
-        if (parts[parts.length - 1].startsWith("?"))
-            parts = Arrays.copyOf(parts, parts.length - 1);
+        if (parts[parts.length - 1].startsWith("?")) parts = Arrays.copyOf(parts, parts.length - 1);
 
         switch (type) {
             case SHORTENED: {
@@ -50,7 +57,7 @@ public class OpenRedditLink {
                 context.startActivity(i);
                 break;
             }
-            case LIVE:{
+            case LIVE: {
                 Intent i = new Intent(context, LiveThread.class);
                 i.putExtra(LiveThread.EXTRA_LIVEURL, parts[2]);
                 context.startActivity(i);
@@ -84,7 +91,9 @@ public class OpenRedditLink {
                     String querry;
                     int index = end.indexOf("q=");
                     if (end.contains("&") && end.contains("+")) {
-                        querry = end.substring(index + 2, end.contains("+") ? Math.max(end.lastIndexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                        querry = end.substring(index + 2,
+                                end.contains("+") ? Math.max(end.lastIndexOf("+", index),
+                                        end.indexOf("&", index)) : end.indexOf("&", index));
                     } else if (end.contains("&")) {
                         querry = end.substring(index + 2, end.indexOf("&", index));
                     } else {
@@ -96,7 +105,9 @@ public class OpenRedditLink {
                     String author;
                     int index = end.indexOf("author:");
                     if (end.contains("&") && end.contains("+")) {
-                        author = end.substring(index + 7, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                        author = end.substring(index + 7,
+                                end.contains("+") ? Math.max(end.indexOf("+", index),
+                                        end.indexOf("&", index)) : end.indexOf("&", index));
                     } else if (end.contains("&")) {
                         author = end.substring(index + 7, end.indexOf("&", index));
                     } else {
@@ -108,7 +119,10 @@ public class OpenRedditLink {
                     boolean nsfw;
                     int index = end.indexOf("nsfw:");
                     if (end.contains("&") && end.contains("+")) {
-                        nsfw = end.substring(index + 5, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
+                        nsfw = end.substring(index + 5,
+                                end.contains("+") ? Math.max(end.indexOf("+", index),
+                                        end.indexOf("&", index)) : end.indexOf("&", index))
+                                .equals("yes");
                     } else if (end.contains("&")) {
                         nsfw = end.substring(index + 5, end.indexOf("&", index)).equals("yes");
                     } else {
@@ -120,7 +134,10 @@ public class OpenRedditLink {
                     boolean self;
                     int index = end.indexOf("self:");
                     if (end.contains("&") && end.contains("+")) {
-                        self = end.substring(index + 5, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
+                        self = end.substring(index + 5,
+                                end.contains("+") ? Math.max(end.indexOf("+", index),
+                                        end.indexOf("&", index)) : end.indexOf("&", index))
+                                .equals("yes");
                     } else if (end.contains("&")) {
                         self = end.substring(index + 5, end.indexOf("&", index)).equals("yes");
                     } else {
@@ -132,7 +149,10 @@ public class OpenRedditLink {
                     boolean selftext;
                     int index = end.indexOf("selftext:");
                     if (end.contains("&") && end.contains("+")) {
-                        selftext = end.substring(index + 5, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index)).equals("yes");
+                        selftext = end.substring(index + 5,
+                                end.contains("+") ? Math.max(end.indexOf("+", index),
+                                        end.indexOf("&", index)) : end.indexOf("&", index))
+                                .equals("yes");
                     } else if (end.contains("&")) {
                         selftext = end.substring(index + 5, end.indexOf("&", index)).equals("yes");
                     } else {
@@ -144,7 +164,9 @@ public class OpenRedditLink {
                     String s_url;
                     int index = end.indexOf("url:");
                     if (end.contains("&") && end.contains("+")) {
-                        s_url = end.substring(index + 4, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                        s_url = end.substring(index + 4,
+                                end.contains("+") ? Math.max(end.indexOf("+", index),
+                                        end.indexOf("&", index)) : end.indexOf("&", index));
                     } else if (end.contains("&")) {
                         s_url = end.substring(index + 4, end.indexOf("&", index));
                     } else {
@@ -156,7 +178,9 @@ public class OpenRedditLink {
                     String site;
                     int index = end.indexOf("site:");
                     if (end.contains("&") && end.contains("+")) {
-                        site = end.substring(index + 5, end.contains("+") ? Math.max(end.indexOf("+", index), end.indexOf("&", index)) : end.indexOf("&", index));
+                        site = end.substring(index + 5,
+                                end.contains("+") ? Math.max(end.indexOf("+", index),
+                                        end.indexOf("&", index)) : end.indexOf("&", index));
                     } else if (end.contains("&")) {
                         site = end.substring(index + 5, end.indexOf("&", index));
                     } else {
@@ -177,8 +201,7 @@ public class OpenRedditLink {
                     String end = parts[6];
                     if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
 
-                    if (end.length() >= 3)
-                        i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
+                    if (end.length() >= 3) i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
 
                 }
                 context.startActivity(i);
@@ -217,57 +240,22 @@ public class OpenRedditLink {
                 break;
             }
             case OTHER: {
-                if (context instanceof Activity) {
-                    LinkUtil.openUrl(oldUrl, Palette.getStatusBarColor(), (Activity) context);
+                if (openIfOther) {
+                    if (context instanceof Activity) {
+                        LinkUtil.openUrl(oldUrl, Palette.getStatusBarColor(), (Activity) context);
+                    } else {
+                        Intent i = new Intent(context, Website.class);
+                        i.putExtra(Website.EXTRA_URL, oldUrl);
+                        context.startActivity(i);
+                    }
                 } else {
-                    Intent i = new Intent(context, Website.class);
-                    i.putExtra(Website.EXTRA_URL, oldUrl);
-                    context.startActivity(i);
+                    return false;
                 }
                 break;
             }
         }
+        return true;
     }
-
-    public OpenRedditLink(Context context, String url, boolean continued) {
-        String oldUrl = url;
-        boolean np = false;
-
-        url = formatRedditUrl(url);
-        if (url.isEmpty()) {
-            LinkUtil.openExternally(oldUrl, context, false);
-            return;
-        } else if (url.startsWith("np")) {
-            np = true;
-            url = url.substring(2);
-        }
-        Log.v(LogUtil.getTag(), "Opening URL " + url);
-
-        RedditLinkType type = getRedditLinkType(url);
-
-        String[] parts = url.split("/");
-        if (parts[parts.length - 1].startsWith("?"))
-            parts = Arrays.copyOf(parts, parts.length - 1);
-
-
-        Intent i = new Intent(context, CommentsScreenSingle.class);
-        i.putExtra(CommentsScreenSingle.EXTRA_SUBREDDIT, parts[2]);
-        i.putExtra(CommentsScreenSingle.EXTRA_SUBMISSION, parts[4]);
-        i.putExtra(CommentsScreenSingle.EXTRA_NP, false);
-        if (parts.length >= 7) {
-            i.putExtra(CommentsScreenSingle.EXTRA_LOADMORE, false);
-            String end = parts[6];
-            if (end.contains("?")) end = end.substring(0, end.indexOf("?"));
-
-            if (end.length() >= 3)
-                i.putExtra(CommentsScreenSingle.EXTRA_CONTEXT, end);
-
-        }
-        context.startActivity(i);
-
-
-    }
-
 
     public OpenRedditLink(Context c, String submission, String subreddit, String id) {
         Intent i = new Intent(c, CommentsScreenSingle.class);
