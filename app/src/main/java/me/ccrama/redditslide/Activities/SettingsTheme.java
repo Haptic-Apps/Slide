@@ -1,8 +1,10 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -280,37 +282,32 @@ public class SettingsTheme extends BaseActivityAnim {
                                 }
                             }
                         });
-                dialoglayout.findViewById(R.id.red)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                SettingsTheme.changed = true;
-                                String[] names =
-                                        new ColorPreferences(SettingsTheme.this).getFontStyle()
-                                                .getTitle()
-                                                .split("_");
-                                String name = names[names.length - 1];
-                                final String newName = name.replace("(", "");
-                                for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
-                                    if (theme.toString().contains(newName)
-                                            && theme.getThemeType() == 6) {
-                                        back = theme.getThemeType();
-                                        new ColorPreferences(SettingsTheme.this).setFontStyle(
-                                                theme);
-                                        Intent i =
-                                                new Intent(SettingsTheme.this, SettingsTheme.class);
-                                        i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                                        startActivity(i);
-                                        overridePendingTransition(0, 0);
+                dialoglayout.findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SettingsTheme.changed = true;
+                        String[] names = new ColorPreferences(SettingsTheme.this).getFontStyle()
+                                .getTitle()
+                                .split("_");
+                        String name = names[names.length - 1];
+                        final String newName = name.replace("(", "");
+                        for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
+                            if (theme.toString().contains(newName) && theme.getThemeType() == 6) {
+                                back = theme.getThemeType();
+                                new ColorPreferences(SettingsTheme.this).setFontStyle(theme);
+                                Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
+                                i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                                startActivity(i);
+                                overridePendingTransition(0, 0);
 
-                                        finish();
-                                        overridePendingTransition(0, 0);
+                                finish();
+                                overridePendingTransition(0, 0);
 
-                                        break;
-                                    }
-                                }
+                                break;
                             }
-                        });
+                        }
+                    }
+                });
                 dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -355,7 +352,7 @@ public class SettingsTheme extends BaseActivityAnim {
                 final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                 title.setBackgroundColor(Palette.getDefaultColor());
 
-                LineColorPicker colorPicker =
+                final LineColorPicker colorPicker =
                         (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                 final LineColorPicker colorPicker2 =
                         (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
@@ -403,9 +400,25 @@ public class SettingsTheme extends BaseActivityAnim {
                 dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (SettingValues.colorIcon) {
+                            getPackageManager().setComponentEnabledSetting(
+                                    new ComponentName(SettingsTheme.this,
+                                            ColorPreferences.getIconName(SettingsTheme.this,
+                                                    Reddit.colors.getInt("DEFAULTCOLOR", 0))),
+                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                                    PackageManager.DONT_KILL_APP);
+
+                            getPackageManager().setComponentEnabledSetting(
+                                    new ComponentName(SettingsTheme.this,
+                                            ColorPreferences.getIconName(SettingsTheme.this,
+                                                    colorPicker2.getColor())),
+                                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                                    PackageManager.DONT_KILL_APP);
+                        }
                         Reddit.colors.edit()
                                 .putInt("DEFAULTCOLOR", colorPicker2.getColor())
                                 .apply();
+
                         Intent i = new Intent(SettingsTheme.this, SettingsTheme.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                         startActivity(i);
@@ -529,6 +542,47 @@ public class SettingsTheme extends BaseActivityAnim {
 
             }
         });
+        final SwitchCompat colorIcon = (SwitchCompat) findViewById(R.id.color_icon);
+
+        colorIcon.setChecked(SettingValues.colorIcon);
+        colorIcon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingValues.colorIcon = isChecked;
+                SettingValues.prefs.edit()
+                        .putBoolean(SettingValues.PREF_COLOR_ICON, isChecked)
+                        .apply();
+                if (isChecked) {
+                    getPackageManager().setComponentEnabledSetting(
+                            new ComponentName(SettingsTheme.this,
+                                    Slide.class.getPackage().getName()
+                                            + ".SlideDefault"),
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP);
+                    getPackageManager().setComponentEnabledSetting(
+                            new ComponentName(SettingsTheme.this,
+                                    ColorPreferences.getIconName(SettingsTheme.this,
+                                            Reddit.colors.getInt("DEFAULTCOLOR", 0))),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP);
+                } else {
+                    getPackageManager().setComponentEnabledSetting(
+                            new ComponentName(SettingsTheme.this,
+                                    ColorPreferences.getIconName(SettingsTheme.this,
+                                            Reddit.colors.getInt("DEFAULTCOLOR", 0))),
+                            PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                            PackageManager.DONT_KILL_APP);
+
+                    getPackageManager().setComponentEnabledSetting(
+                            new ComponentName(SettingsTheme.this,
+                                    Slide.class.getPackage().getName()
+                                            + ".SlideDefault"),
+                            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                            PackageManager.DONT_KILL_APP);
+                }
+            }
+        });
         LinearLayout nightMode = (LinearLayout) findViewById(R.id.night);
         assert nightMode != null;
         nightMode.setOnClickListener(new OnSingleClickListener() {
@@ -610,8 +664,7 @@ public class SettingsTheme extends BaseActivityAnim {
                                     }
                                 }
                             });
-                    ((RadioButton) dialoglayout.findViewById(
-                            R.id.red)).setOnCheckedChangeListener(
+                    ((RadioButton) dialoglayout.findViewById(R.id.red)).setOnCheckedChangeListener(
                             new CompoundButton.OnCheckedChangeListener() {
                                 @Override
                                 public void onCheckedChanged(CompoundButton buttonView,
@@ -665,14 +718,16 @@ public class SettingsTheme extends BaseActivityAnim {
                         }};
                         final Spinner startSpinner =
                                 (Spinner) dialoglayout.findViewById(R.id.start_spinner);
-                        final ArrayAdapter<String> startAdapter = new ArrayAdapter<>(SettingsTheme.this,
-                                android.R.layout.simple_spinner_item, timesStart);
+                        final ArrayAdapter<String> startAdapter =
+                                new ArrayAdapter<>(SettingsTheme.this,
+                                        android.R.layout.simple_spinner_item, timesStart);
                         startAdapter.setDropDownViewResource(
                                 android.R.layout.simple_spinner_dropdown_item);
                         startSpinner.setAdapter(startAdapter);
 
                         //set the currently selected pref
-                        startSpinner.setSelection(startAdapter.getPosition(Integer.toString(SettingValues.nightStart).concat("pm")));
+                        startSpinner.setSelection(startAdapter.getPosition(
+                                Integer.toString(SettingValues.nightStart).concat("pm")));
 
                         startSpinner.setOnItemSelectedListener(
                                 new AdapterView.OnItemSelectedListener() {
@@ -712,14 +767,16 @@ public class SettingsTheme extends BaseActivityAnim {
                         }};
                         final Spinner endSpinner =
                                 (Spinner) dialoglayout.findViewById(R.id.end_spinner);
-                        final ArrayAdapter<String> endAdapter = new ArrayAdapter<>(SettingsTheme.this,
-                                android.R.layout.simple_spinner_item, timesEnd);
+                        final ArrayAdapter<String> endAdapter =
+                                new ArrayAdapter<>(SettingsTheme.this,
+                                        android.R.layout.simple_spinner_item, timesEnd);
                         endAdapter.setDropDownViewResource(
                                 android.R.layout.simple_spinner_dropdown_item);
                         endSpinner.setAdapter(endAdapter);
 
                         //set the currently selected pref
-                        endSpinner.setSelection(endAdapter.getPosition(Integer.toString(SettingValues.nightEnd).concat("am")));
+                        endSpinner.setSelection(endAdapter.getPosition(
+                                Integer.toString(SettingValues.nightEnd).concat("am")));
 
                         endSpinner.setOnItemSelectedListener(
                                 new AdapterView.OnItemSelectedListener() {

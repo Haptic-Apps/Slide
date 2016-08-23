@@ -567,6 +567,8 @@
     <string name="settings_fabclear">FAB clear actions</string>
     <string name="settings_notifdisabled">Notifications disabled</string>
     <string name="settings_colored_navigation_bar">Colored navigation bar</string>
+    <string name="settings_colored_icon">Color app icon (experimental)</string>
+    <string name="settings_colored_icon_desc">May require a phone restart to work. This will also remove the icon from your homescreen.</string>
     <string name="settings_filter_domain">Domain filters</string>
     <string name="settings_filter_selfttext">Selftext filters</string>
     <string name="settings_filter_title">Title filters</string>

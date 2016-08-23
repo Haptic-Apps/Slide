@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 
+import me.ccrama.redditslide.Activities.Slide;
+
 /**
  * Created by ccrama on 7/9/2015.
  */
@@ -249,6 +251,199 @@ public class ColorPreferences {
             };
 
         }
+    }
+
+    public static String getIconName(Context context, int c) {
+        String result = Slide.class.getPackage().getName() + ".Slide";
+        if (c == ContextCompat.getColor(context, R.color.md_red_200)
+                || c == ContextCompat.getColor(context, R.color.md_red_300)
+                || c == ContextCompat.getColor(context, R.color.md_red_400)
+                || c == ContextCompat.getColor(context, R.color.md_red_500)
+                || c == ContextCompat.getColor(context, R.color.md_red_600)
+                || c == ContextCompat.getColor(context, R.color.md_red_700)
+                || c == ContextCompat.getColor(context, R.color.md_red_800)
+                || c == ContextCompat.getColor(context, R.color.md_red_900)) {
+            result += "Red";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_pink_200)
+                || c == ContextCompat.getColor(context, R.color.md_pink_300)
+                || c == ContextCompat.getColor(context, R.color.md_pink_400)
+                || c == ContextCompat.getColor(context, R.color.md_pink_500)
+                || c == ContextCompat.getColor(context, R.color.md_pink_600)
+                || c == ContextCompat.getColor(context, R.color.md_pink_700)
+                || c == ContextCompat.getColor(context, R.color.md_pink_800)
+                || c == ContextCompat.getColor(context, R.color.md_pink_900)) {
+            result += "Pink";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_purple_200) || c == ContextCompat
+                .getColor(context, R.color.md_purple_300) || c == ContextCompat.getColor(context,
+                R.color.md_purple_400) || c == ContextCompat.getColor(context,
+                R.color.md_purple_500) || c == ContextCompat.getColor(context,
+                R.color.md_purple_600) || c == ContextCompat.getColor(context,
+                R.color.md_purple_700) || c == ContextCompat.getColor(context,
+                R.color.md_purple_800) || c == ContextCompat.getColor(context,
+                R.color.md_purple_900)) {
+            result += "Purple";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_deep_purple_200)
+                || c == ContextCompat.getColor(context, R.color.md_deep_purple_300)
+                || c == ContextCompat.getColor(context, R.color.md_deep_purple_400)
+                || c == ContextCompat.getColor(context, R.color.md_deep_purple_500)
+                || c == ContextCompat.getColor(context, R.color.md_deep_purple_600)
+                || c == ContextCompat.getColor(context, R.color.md_deep_purple_700)
+                || c == ContextCompat.getColor(context, R.color.md_deep_purple_800)
+                || c == ContextCompat.getColor(context, R.color.md_deep_purple_900)) {
+            result += "DeepPurple";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_indigo_200) || c == ContextCompat
+                .getColor(context, R.color.md_indigo_300) || c == ContextCompat.getColor(context,
+                R.color.md_indigo_400) || c == ContextCompat.getColor(context,
+                R.color.md_indigo_500) || c == ContextCompat.getColor(context,
+                R.color.md_indigo_600) || c == ContextCompat.getColor(context,
+                R.color.md_indigo_700) || c == ContextCompat.getColor(context,
+                R.color.md_indigo_800) || c == ContextCompat.getColor(context,
+                R.color.md_indigo_900)) {
+            result += "Indigo";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_blue_200)
+                || c == ContextCompat.getColor(context, R.color.md_blue_300)
+                || c == ContextCompat.getColor(context, R.color.md_blue_400)
+                || c == ContextCompat.getColor(context, R.color.md_blue_500)
+                || c == ContextCompat.getColor(context, R.color.md_blue_600)
+                || c == ContextCompat.getColor(context, R.color.md_blue_700)
+                || c == ContextCompat.getColor(context, R.color.md_blue_800)
+                || c == ContextCompat.getColor(context, R.color.md_blue_900)) {
+            result += "Blue";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_light_blue_200)
+                || c == ContextCompat.getColor(context, R.color.md_light_blue_300)
+                || c == ContextCompat.getColor(context, R.color.md_light_blue_400)
+                || c == ContextCompat.getColor(context, R.color.md_light_blue_500)
+                || c == ContextCompat.getColor(context, R.color.md_light_blue_600)
+                || c == ContextCompat.getColor(context, R.color.md_light_blue_700)
+                || c == ContextCompat.getColor(context, R.color.md_light_blue_800)
+                || c == ContextCompat.getColor(context, R.color.md_light_blue_900)) {
+            result += "LightBlue";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_cyan_200)
+                || c == ContextCompat.getColor(context, R.color.md_cyan_300)
+                || c == ContextCompat.getColor(context, R.color.md_cyan_400)
+                || c == ContextCompat.getColor(context, R.color.md_cyan_500)
+                || c == ContextCompat.getColor(context, R.color.md_cyan_600)
+                || c == ContextCompat.getColor(context, R.color.md_cyan_700)
+                || c == ContextCompat.getColor(context, R.color.md_cyan_800)
+                || c == ContextCompat.getColor(context, R.color.md_cyan_900)) {
+            result += "Cyan";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_teal_200)
+                || c == ContextCompat.getColor(context, R.color.md_teal_300)
+                || c == ContextCompat.getColor(context, R.color.md_teal_400)
+                || c == ContextCompat.getColor(context, R.color.md_teal_500)
+                || c == ContextCompat.getColor(context, R.color.md_teal_600)
+                || c == ContextCompat.getColor(context, R.color.md_teal_700)
+                || c == ContextCompat.getColor(context, R.color.md_teal_800)
+                || c == ContextCompat.getColor(context, R.color.md_teal_900)) {
+            result += "Teal";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_green_200)
+                || c == ContextCompat.getColor(context, R.color.md_green_300)
+                || c == ContextCompat.getColor(context, R.color.md_green_400)
+                || c == ContextCompat.getColor(context, R.color.md_green_500)
+                || c == ContextCompat.getColor(context, R.color.md_green_600)
+                || c == ContextCompat.getColor(context, R.color.md_green_700)
+                || c == ContextCompat.getColor(context, R.color.md_green_800)
+                || c == ContextCompat.getColor(context, R.color.md_green_900)) {
+            result += "Green";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_light_green_200)
+                || c == ContextCompat.getColor(context, R.color.md_light_green_300)
+                || c == ContextCompat.getColor(context, R.color.md_light_green_400)
+                || c == ContextCompat.getColor(context, R.color.md_light_green_500)
+                || c == ContextCompat.getColor(context, R.color.md_light_green_600)
+                || c == ContextCompat.getColor(context, R.color.md_light_green_700)
+                || c == ContextCompat.getColor(context, R.color.md_light_green_800)
+                || c == ContextCompat.getColor(context, R.color.md_light_green_900)) {
+            result += "LightGreen";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_lime_200)
+                || c == ContextCompat.getColor(context, R.color.md_lime_300)
+                || c == ContextCompat.getColor(context, R.color.md_lime_400)
+                || c == ContextCompat.getColor(context, R.color.md_lime_500)
+                || c == ContextCompat.getColor(context, R.color.md_lime_600)
+                || c == ContextCompat.getColor(context, R.color.md_lime_700)
+                || c == ContextCompat.getColor(context, R.color.md_lime_800)
+                || c == ContextCompat.getColor(context, R.color.md_lime_900)) {
+            result += "Lime";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_yellow_400) || c == ContextCompat
+                .getColor(context, R.color.md_yellow_500) || c == ContextCompat.getColor(context,
+                R.color.md_yellow_600) || c == ContextCompat.getColor(context,
+                R.color.md_yellow_700) || c == ContextCompat.getColor(context,
+                R.color.md_yellow_800) || c == ContextCompat.getColor(context,
+                R.color.md_yellow_900)) {
+            result += "Yellow";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_amber_200)
+                || c == ContextCompat.getColor(context, R.color.md_amber_300)
+                || c == ContextCompat.getColor(context, R.color.md_amber_400)
+                || c == ContextCompat.getColor(context, R.color.md_amber_500)
+                || c == ContextCompat.getColor(context, R.color.md_amber_600)
+                || c == ContextCompat.getColor(context, R.color.md_amber_700)
+                || c == ContextCompat.getColor(context, R.color.md_amber_800)
+                || c == ContextCompat.getColor(context, R.color.md_amber_900)) {
+            result += "Amber";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_orange_200) || c == ContextCompat
+                .getColor(context, R.color.md_orange_300) || c == ContextCompat.getColor(context,
+                R.color.md_orange_400) || c == ContextCompat.getColor(context,
+                R.color.md_orange_500) || c == ContextCompat.getColor(context,
+                R.color.md_orange_600) || c == ContextCompat.getColor(context,
+                R.color.md_orange_700) || c == ContextCompat.getColor(context,
+                R.color.md_orange_800) || c == ContextCompat.getColor(context,
+                R.color.md_orange_900)) {
+            result += "Orange";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_deep_orange_200)
+                || c == ContextCompat.getColor(context, R.color.md_deep_orange_300)
+                || c == ContextCompat.getColor(context, R.color.md_deep_orange_400)
+                || c == ContextCompat.getColor(context, R.color.md_deep_orange_500)
+                || c == ContextCompat.getColor(context, R.color.md_deep_orange_600)
+                || c == ContextCompat.getColor(context, R.color.md_deep_orange_700)
+                || c == ContextCompat.getColor(context, R.color.md_deep_orange_800)
+                || c == ContextCompat.getColor(context, R.color.md_deep_orange_900)) {
+            result += "DeepOrange";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_brown_200)
+                || c == ContextCompat.getColor(context, R.color.md_brown_300)
+                || c == ContextCompat.getColor(context, R.color.md_brown_400)
+                || c == ContextCompat.getColor(context, R.color.md_brown_500)
+                || c == ContextCompat.getColor(context, R.color.md_brown_600)
+                || c == ContextCompat.getColor(context, R.color.md_brown_700)
+                || c == ContextCompat.getColor(context, R.color.md_brown_800)
+                || c == ContextCompat.getColor(context, R.color.md_brown_900)) {
+            result += "Brown";
+
+        } else if (c == ContextCompat.getColor(context, R.color.md_grey_300)
+                || c == ContextCompat.getColor(context, R.color.md_grey_400)
+                || c == ContextCompat.getColor(context, R.color.md_grey_500)
+                || c == ContextCompat.getColor(context, R.color.md_grey_600)
+                || c == ContextCompat.getColor(context, R.color.md_grey_700)
+                || c == ContextCompat.getColor(context, R.color.md_grey_800)
+                || c == ContextCompat.getColor(context, R.color.md_grey_900)) {
+            result += "Grey";
+        } else if (c == ContextCompat.getColor(context, R.color.md_blue_grey_200)
+                || c == ContextCompat.getColor(context, R.color.md_blue_grey_300)
+                || c == ContextCompat.getColor(context, R.color.md_blue_grey_400)
+                || c == ContextCompat.getColor(context, R.color.md_blue_grey_500)
+                || c == ContextCompat.getColor(context, R.color.md_blue_grey_600)
+                || c == ContextCompat.getColor(context, R.color.md_blue_grey_700)
+                || c == ContextCompat.getColor(context, R.color.md_blue_grey_800)
+                || c == ContextCompat.getColor(context, R.color.md_blue_grey_900)) {
+            result += "BlueGrey";
+        } else {
+            result += "Default";
+        }
+        return result;
     }
 
     public static int[] getBaseColors(Context context) {
