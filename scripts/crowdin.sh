@@ -2,7 +2,9 @@
 
 basedir=$(git rev-parse --show-toplevel)
 apikey=$(tr -d ' \r\n' < "$basedir/scripts/crowdin.key")
+apiurl="https://api.crowdin.com/api/project/slide-for-reddit"
 location='app/src/main/res'
+branch=${1:-application}
 
 if [ -z "$basedir" -o -z "$apikey" ]; then
     echo 'API key missing'
@@ -15,12 +17,12 @@ if [ -n "$(git status --porcelain $basedir/$location)" ]; then
     exit 1
 fi
 
-response=$(curl -sS "https://api.crowdin.com/api/project/slide-for-reddit/export?key=$apikey" | grep '<success')
+response=$(curl -sS "$apiurl/export?key=$apikey&branch=$branch" | grep '<success')
 echo $response
 
 if [ -n "$response" ]; then
     tempfile=$(mktemp)
-    wget -qO "$tempfile" "https://api.crowdin.com/api/project/slide-for-reddit/download/all.zip?key=$apikey"
+    wget -qO "$tempfile" "$apiurl/download/all.zip?key=$apikey&branch=$branch"
     unzip -oqd "$basedir/$location" "$tempfile"
     rm "$tempfile"
     git --no-pager diff --stat --no-ext-diff "$basedir/$location"
