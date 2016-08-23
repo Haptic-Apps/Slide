@@ -1393,7 +1393,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int color;
 
         Comment c = baseNode.getComment();
-        if (lastSeen != 0 && lastSeen < c.getCreated().getTime()
+        if (lastSeen != 0
+                && lastSeen < c.getCreated().getTime()
                 && !dataSet.single
                 && SettingValues.commentLastVisit
                 && !Authentication.name.equals(c.getAuthor())) {
@@ -1811,7 +1812,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int diff = 0;
         for (int i = 0; i < hElements; i++) {
             diff++;
-            if (hidden.contains(currentComments.get(position + diff).getName())) {
+            if ((currentComments.size() > position + diff) && hidden.contains(
+                    currentComments.get(position + diff).getName())) {
                 i--;
             }
         }

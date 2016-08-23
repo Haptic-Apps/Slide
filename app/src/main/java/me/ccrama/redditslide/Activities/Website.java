@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -278,6 +279,8 @@ public class Website extends BaseActivityAnim {
 
     }
 
+    public static ArrayList<String> triedURLS;
+
 
     //Method adapted from http://www.hidroh.com/2016/05/19/hacking-up-ad-blocker-android/
     public class AdBlockWebViewClient extends WebViewClient{
@@ -297,10 +300,13 @@ public class Website extends BaseActivityAnim {
         }
 
         @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
             ContentType.Type type = ContentType.getContentType(url);
-            if (!PostMatch.openExternal(url) || type == ContentType.Type.VIDEO) {
+
+            if (triedURLS == null) {
+                triedURLS = new ArrayList<>();
+            }
+            if ((!PostMatch.openExternal(url) || type == ContentType.Type.VIDEO) && !triedURLS.contains(url)) {
                 switch (type) {
                     case DEVIANTART:
                     case IMGUR:
@@ -308,22 +314,21 @@ public class Website extends BaseActivityAnim {
                             Intent intent2 = new Intent(view.getContext(), MediaView.class);
                             intent2.putExtra(MediaView.EXTRA_URL, url);
                             view.getContext().startActivity(intent2);
-                            view.goBack();
+                            return true;
                         }
-                        break;
+                        return super.shouldOverrideUrlLoading(view, url);
                     case REDDIT:
                         new OpenRedditLink(view.getContext(), url);
-                        view.goBack();
-                        break;
+                        return true;
                     case STREAMABLE:
                     case VID_ME:
                         if (SettingValues.video) {
                             Intent myIntent = new Intent(view.getContext(), MediaView.class);
                             myIntent.putExtra(MediaView.EXTRA_URL, url);
                             view.getContext().startActivity(myIntent);
-                            view.goBack();
+                            return true;
                         }
-                        break;
+                        return super.shouldOverrideUrlLoading(view, url);
                     case ALBUM:
                         if (SettingValues.album) {
                             if (SettingValues.albumSwipe) {
@@ -335,25 +340,25 @@ public class Website extends BaseActivityAnim {
                                 i.putExtra(Album.EXTRA_URL, url);
                                 view.getContext().startActivity(i);
                             }
-                            view.goBack();
+                            return true;
                         }
-                        break;
+                        return super.shouldOverrideUrlLoading(view, url);
                     case IMAGE:
                         if (SettingValues.image) {
                             Intent myIntent = new Intent(view.getContext(), MediaView.class);
                             myIntent.putExtra(MediaView.EXTRA_URL, url);
                             view.getContext().startActivity(myIntent);
-                            view.goBack();
+                            return true;
                         }
-                        break;
+                        return super.shouldOverrideUrlLoading(view, url);
                     case GIF:
                         if (SettingValues.gif) {
                             Intent myIntent = new Intent(view.getContext(), MediaView.class);
                             myIntent.putExtra(MediaView.EXTRA_URL, url);
                             view.getContext().startActivity(myIntent);
-                            view.goBack();
+                            return true;
                         }
-                        break;
+                        return super.shouldOverrideUrlLoading(view, url);
                     case VIDEO:
                         if (Reddit.videoPlugin) {
                             try {
@@ -362,18 +367,18 @@ public class Website extends BaseActivityAnim {
                                         "ccrama.me.slideyoutubeplugin.YouTubeView");
                                 sharingIntent.putExtra("url", url);
                                 view.getContext().startActivity(sharingIntent);
-                                view.goBack();
                             } catch (Exception e) {
+                                return super.shouldOverrideUrlLoading(view, url);
                             }
+                            return true;
                         }
+                        return super.shouldOverrideUrlLoading(view, url);
                     case EXTERNAL:
-                        view.goBack();
-                        Reddit.defaultShare(url, view.getContext());
-                        break;
+                    default:
+                        return super.shouldOverrideUrlLoading(view, url);
                 }
             } else {
-                view.goBack();
-                Reddit.defaultShare(url, view.getContext());
+                return super.shouldOverrideUrlLoading(view, url);
             }
         }
     }

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -74,7 +75,7 @@ public class HttpUtil {
             String json = responseBody.string();
             responseBody.close();
             return gson.fromJson(json, JsonObject.class);
-        } catch (IOException e) {
+        } catch (JsonSyntaxException | IOException e) {
             LogUtil.e(e, "Error " + apiUrl);
         }
         return null;

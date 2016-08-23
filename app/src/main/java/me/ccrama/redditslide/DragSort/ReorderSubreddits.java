@@ -193,14 +193,19 @@ public class ReorderSubreddits extends BaseActivityAnim {
         isSubscribed = new HashMap<>();
         if (Authentication.isLoggedIn) {
             new AsyncTask<Void, Void, Void>() {
-
+                boolean success = true;
                 @Override
                 protected Void doInBackground(Void... params) {
                     ArrayList<Subreddit> subs = new ArrayList<>();
                     UserSubredditsPaginator p =
                             new UserSubredditsPaginator(Authentication.reddit, "subscriber");
-                    while (p.hasNext()) {
-                        subs.addAll(p.next());
+                    try {
+                        while (p.hasNext()) {
+                            subs.addAll(p.next());
+                        }
+                    } catch(Exception e){
+                        success = false;
+                        return null;
                     }
 
                     for (Subreddit s : subs) {
@@ -211,8 +216,19 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
-                    d.dismiss();
-                    doShowSubs();
+                    if(success) {
+                        d.dismiss();
+                        doShowSubs();
+                    } else {
+                        new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(R.string.err_title)
+                                .setMessage(R.string.misc_please_try_again_soon).setCancelable(false).setPositiveButton(
+                                R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).show();
+                    }
                 }
 
                 Dialog d;
