@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -265,29 +266,10 @@ public class DoEditorActions {
                     a.startActivityForResult(Intent.createChooser(intent,
                             Integer.toString(R.string.editor_select_img)), 3333);
                 } else {
-                    Fragment auxiliary = new Fragment() {
-                        @Override
-                        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                            super.onActivityResult(requestCode, resultCode, data);
-
-                            if (data != null) {
-                                Uri selectedImageUri = data.getData();
-                                Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
-                                try {
-                                    File f = new File(selectedImageUri.getPath());
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(
-                                            editText.getContext().getContentResolver(),
-                                            selectedImageUri);
-                                    new UploadImgur(editText,
-                                            f != null && f.getName().contains(".jpg") || f.getName()
-                                                    .contains(".jpeg")).execute(bitmap);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                fm.beginTransaction().remove(this).commit();
-                            }
-                        }
-                    };
+                    Fragment auxiliary = new AuxiliaryFragment();
+                    Bundle data = new Bundle();
+                    data.putInt("textId", editText.getId());
+                    auxiliary.setArguments(data);
                     fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
                     fm.executePendingTransactions();
 
@@ -561,28 +543,10 @@ public class DoEditorActions {
             };
             a.startActivityForResult(intent, 3333);
         } else {
-            Fragment auxiliary = new Fragment() {
-                @Override
-                public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                    super.onActivityResult(requestCode, resultCode, data);
-
-                    if (data != null) {
-                        Uri selectedImageUri = data.getData();
-                        Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
-                        try {
-                            File f = new File(selectedImageUri.getPath());
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(
-                                    editText.getContext().getContentResolver(), selectedImageUri);
-                            new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f
-                                    .getName()
-                                    .contains(".jpeg")).execute(bitmap);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        fm.beginTransaction().remove(this).commit();
-                    }
-                }
-            };
+            Fragment auxiliary = new AuxiliaryFragment();
+            Bundle data = new Bundle();
+            data.putInt("textId", editText.getId());
+            auxiliary.setArguments(data);
             fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
             fm.executePendingTransactions();
 
@@ -783,4 +747,29 @@ public class DoEditorActions {
             }
         }
     }
+
+    public static class AuxiliaryFragment extends Fragment {
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (data != null) {
+                Uri selectedImageUri = data.getData();
+                Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
+                try {
+                    File f = new File(selectedImageUri.getPath());
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(
+                            getContext().getContentResolver(),
+                            selectedImageUri);
+                    new UploadImgur(((EditText) getActivity().findViewById(getArguments().getInt("textId", 0))),
+                            f != null && f.getName().contains(".jpg") || f.getName()
+                                    .contains(".jpeg")).execute(bitmap);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            }
+        }
+    }
+
 }
