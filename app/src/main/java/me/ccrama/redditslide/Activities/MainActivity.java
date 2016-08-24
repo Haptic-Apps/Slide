@@ -1351,20 +1351,6 @@ public class MainActivity extends BaseActivity {
         //Only refresh the view if a Setting was altered
         if (Settings.changed || SettingsTheme.changed) {
 
-            int current = pager.getCurrentItem();
-            if (commentPager && current == currentComment) {
-                current = current - 1;
-            }
-            if (current < 0) {
-                current = 0;
-            }
-            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-            pager.setAdapter(adapter);
-            pager.setCurrentItem(current);
-            if (mTabLayout != null) {
-                mTabLayout.setupWithViewPager(pager);
-                scrollToTabAfterLayout(current);
-            }
             reloadSubs();
             //If the user changed a Setting regarding the app's theme, restartTheme()
             if (SettingsTheme.changed /* todo maybe later || (usedArray != null && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())*/) {
