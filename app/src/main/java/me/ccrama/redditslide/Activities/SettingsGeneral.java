@@ -65,7 +65,9 @@ public class SettingsGeneral extends BaseActivityAnim
         sound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_SOUND_NOTIFS, isChecked).apply();
+                SettingValues.prefs.edit()
+                        .putBoolean(SettingValues.PREF_SOUND_NOTIFS, isChecked)
+                        .apply();
                 SettingValues.notifSound = isChecked;
             }
         });
@@ -436,62 +438,19 @@ public class SettingsGeneral extends BaseActivityAnim
                                             break;
                                         case 3:
                                             Reddit.defaultSorting = Sorting.TOP;
-                                            Reddit.timePeriod = TimePeriod.HOUR;
-                                            break;
+                                            askTimePeriod();
+                                            return;
                                         case 4:
-                                            Reddit.defaultSorting = Sorting.TOP;
-                                            Reddit.timePeriod = TimePeriod.DAY;
-                                            break;
-                                        case 5:
-                                            Reddit.defaultSorting = Sorting.TOP;
-                                            Reddit.timePeriod = TimePeriod.WEEK;
-                                            break;
-                                        case 6:
-                                            Reddit.defaultSorting = Sorting.TOP;
-                                            Reddit.timePeriod = TimePeriod.MONTH;
-                                            break;
-                                        case 7:
-                                            Reddit.defaultSorting = Sorting.TOP;
-                                            Reddit.timePeriod = TimePeriod.YEAR;
-                                            break;
-                                        case 8:
-                                            Reddit.defaultSorting = Sorting.TOP;
-                                            Reddit.timePeriod = TimePeriod.ALL;
-                                            break;
-                                        case 9:
                                             Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                                            Reddit.timePeriod = TimePeriod.HOUR;
-                                            break;
-                                        case 10:
-                                            Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                                            Reddit.timePeriod = TimePeriod.DAY;
-                                            break;
-                                        case 11:
-                                            Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                                            Reddit.timePeriod = TimePeriod.WEEK;
-                                            break;
-                                        case 12:
-                                            Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                                            Reddit.timePeriod = TimePeriod.MONTH;
-                                            break;
-                                        case 13:
-                                            Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                                            Reddit.timePeriod = TimePeriod.YEAR;
-                                            break;
-                                        case 14:
-                                            Reddit.defaultSorting = Sorting.CONTROVERSIAL;
-                                            Reddit.timePeriod = TimePeriod.ALL;
-                                            break;
+                                            askTimePeriod();
+                                            return;
                                     }
                                     SettingValues.prefs.edit()
                                             .putString("defaultSorting",
                                                     Reddit.defaultSorting.name())
                                             .apply();
-                                    SettingValues.prefs.edit()
-                                            .putString("timePeriod", Reddit.timePeriod.name())
-                                            .apply();
                                     SettingValues.defaultSorting = Reddit.defaultSorting;
-                                    SettingValues.timePeriod = Reddit.timePeriod;
+
                                     ((TextView) findViewById(R.id.sorting_current)).setText(
                                             Reddit.getSortingStrings(getBaseContext(), "",
                                                     false)[Reddit.getSortingId("")]);
@@ -577,6 +536,52 @@ public class SettingsGeneral extends BaseActivityAnim
         }
     }
 
+    private void askTimePeriod() {
+        final DialogInterface.OnClickListener l2 = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                switch (i) {
+                    case 0:
+                        Reddit.timePeriod = TimePeriod.HOUR;
+                        break;
+                    case 1:
+                        Reddit.timePeriod = TimePeriod.DAY;
+                        break;
+                    case 2:
+                        Reddit.timePeriod = TimePeriod.WEEK;
+                        break;
+                    case 3:
+                        Reddit.timePeriod = TimePeriod.MONTH;
+                        break;
+                    case 4:
+                        Reddit.timePeriod = TimePeriod.YEAR;
+                        break;
+                    case 5:
+                        Reddit.timePeriod = TimePeriod.ALL;
+                        break;
+                }
+                SettingValues.prefs.edit()
+                        .putString("defaultSorting", Reddit.defaultSorting.name())
+                        .apply();
+                SettingValues.prefs.edit()
+                        .putString("timePeriod", Reddit.timePeriod.name())
+                        .apply();
+                SettingValues.defaultSorting = Reddit.defaultSorting;
+                SettingValues.timePeriod = Reddit.timePeriod;
+                ((TextView) findViewById(R.id.sorting_current)).setText(
+                        Reddit.getSortingStrings(getBaseContext(), "", false)[Reddit.getSortingId(
+                                "")] + " > " + Reddit.getSortingStringsTime(getBaseContext(), "",
+                                false)[Reddit.getSortingIdTime("")]);
+            }
+        };
+        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsGeneral.this);
+        builder.setTitle(R.string.sorting_choose);
+        builder.setSingleChoiceItems(Reddit.getSortingStringsTime(getBaseContext(), "", false),
+                Reddit.getSortingIdTime(""), l2);
+        builder.show();
+    }
+
     private void setSubText() {
         ArrayList<String> rawSubs =
                 Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
@@ -595,7 +600,7 @@ public class SettingsGeneral extends BaseActivityAnim
             }
         }
         if (!subs.toString().isEmpty()) {
-            subText = subs.toString().substring(0, subs.toString().length() -2);
+            subText = subs.toString().substring(0, subs.toString().length() - 2);
         }
         ((TextView) findViewById(R.id.sub_notifs_current)).setText(subText);
     }
@@ -631,8 +636,11 @@ public class SettingsGeneral extends BaseActivityAnim
         //Remove special subreddits from list and store it in "all"
         int i = 0;
         for (String s : sorted) {
-            if (!s.equals("all") &&!s.equals("frontpage") && !s.contains("+") && !s.contains(".") && !s.contains(
-                    "/m/")) {
+            if (!s.equals("all")
+                    && !s.equals("frontpage")
+                    && !s.contains("+")
+                    && !s.contains(".")
+                    && !s.contains("/m/")) {
                 all[i] = s.toLowerCase();
                 i++;
             }
@@ -723,17 +731,17 @@ public class SettingsGeneral extends BaseActivityAnim
         if (!search) {
             //NOT a sub searched for, was instead a list of all subs
             for (String raw : new ArrayList<>(subsRaw)) {
-               if(!strings.contains(raw.split(":")[0])){
-                   subsRaw.remove(raw);
-               }
+                if (!strings.contains(raw.split(":")[0])) {
+                    subsRaw.remove(raw);
+                }
             }
         }
 
         final ArrayList<String> subs = new ArrayList<>();
-        for(String s : subsRaw){
-            try{
+        for (String s : subsRaw) {
+            try {
                 subs.add(s.split(":")[0].toLowerCase());
-            } catch(Exception e){
+            } catch (Exception e) {
 
             }
         }
@@ -745,7 +753,8 @@ public class SettingsGeneral extends BaseActivityAnim
             }
         }
         if (!toAdd.isEmpty()) {
-            new MaterialDialog.Builder(SettingsGeneral.this).title(R.string.sub_post_notifs_threshold)
+            new MaterialDialog.Builder(SettingsGeneral.this).title(
+                    R.string.sub_post_notifs_threshold)
                     .items(new String[]{"1", "5", "10", "20", "40", "50"})
                     .alwaysCallSingleChoiceCallback()
                     .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {

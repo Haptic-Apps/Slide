@@ -1953,105 +1953,82 @@ public class MainActivity extends BaseActivity {
                         Reddit.setSorting(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.TOP);
-                        Reddit.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                TimePeriod.HOUR);
-                        reloadSubs();
+                        openPopupTime();
                         break;
                     case 4:
                         Reddit.setSorting(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                Sorting.TOP);
-                        Reddit.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                TimePeriod.DAY);
-                        reloadSubs();
-                        break;
-                    case 5:
-                        Reddit.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                Sorting.TOP);
-                        Reddit.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                TimePeriod.WEEK);
-                        reloadSubs();
-                        break;
-                    case 6:
-                        Reddit.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                Sorting.TOP);
-                        Reddit.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                TimePeriod.MONTH);
-                        reloadSubs();
-                        break;
-                    case 7:
-                        Reddit.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                Sorting.TOP);
-                        Reddit.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                TimePeriod.YEAR);
-                        reloadSubs();
-                        break;
-                    case 8:
-                        Reddit.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                Sorting.TOP);
-                        Reddit.setTime(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                TimePeriod.ALL);
-                        reloadSubs();
-                        break;
-                    case 9:
-                        Reddit.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 Sorting.CONTROVERSIAL);
+                        openPopupTime();
+                        break;
+                }
+                return true;
+            }
+        });
+        popup.show();
+
+
+    }
+
+    public void openPopupTime() {
+        PopupMenu popup =
+                new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        String id =
+                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
+        final String[] base = Reddit.getSortingStringsTime(getBaseContext(), id, true);
+        for (String s : base) {
+            MenuItem m = popup.getMenu().add(s);
+            if (s.startsWith("» ")) {
+                SpannableString spanString = new SpannableString(s.replace("» ", ""));
+                spanString.setSpan(new ForegroundColorSpan(
+                                new ColorPreferences(MainActivity.this).getColor(id)), 0,
+                        spanString.length(), 0);
+                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+                m.setTitle(spanString);
+            }
+        }
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                LogUtil.v("Chosen is " + item.getOrder());
+                int i = 0;
+                for (String s : base) {
+                    if (s.equals(item.getTitle())) {
+                        break;
+                    }
+                    i++;
+                }
+                switch (i) {
+                    case 0:
                         Reddit.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.HOUR);
                         reloadSubs();
                         break;
-                    case 10:
-                        Reddit.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                Sorting.CONTROVERSIAL);
+                    case 1:
                         Reddit.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.DAY);
                         reloadSubs();
                         break;
-                    case 11:
-                        Reddit.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                Sorting.CONTROVERSIAL);
+                    case 2:
                         Reddit.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.WEEK);
                         reloadSubs();
                         break;
-                    case 12:
-                        Reddit.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                Sorting.CONTROVERSIAL);
+                    case 3:
                         Reddit.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.MONTH);
                         reloadSubs();
                         break;
-                    case 13:
-                        Reddit.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                Sorting.CONTROVERSIAL);
+                    case 4:
                         Reddit.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.YEAR);
                         reloadSubs();
                         break;
-                    case 14:
-                        Reddit.setSorting(
-                                ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
-                                Sorting.CONTROVERSIAL);
+                    case 5:
                         Reddit.setTime(
                                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id,
                                 TimePeriod.ALL);
