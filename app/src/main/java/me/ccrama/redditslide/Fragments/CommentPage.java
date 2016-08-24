@@ -702,8 +702,8 @@ public class CommentPage extends Fragment {
                     case R.id.content: {
                         if (adapter != null && adapter.submission != null) {
                             if (!PostMatch.openExternal(adapter.submission.getUrl())) {
-
-                                switch (ContentType.getContentType(adapter.submission)) {
+                                ContentType.Type type = ContentType.getContentType(adapter.submission);
+                                switch (type) {
                                     case VID_ME:
                                     case STREAMABLE:
                                         if (SettingValues.video) {
@@ -728,7 +728,7 @@ public class CommentPage extends Fragment {
                                                 .get("images")
                                                 .get(0)
                                                 .get("source")
-                                                .has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                                                .has("height")&& type != ContentType.Type.XKCD) { //Load the preview image which has probably already been cached in memory instead of the direct link
                                             String previewUrl = adapter.submission.getDataNode()
                                                     .get("preview")
                                                     .get("images")
@@ -826,7 +826,7 @@ public class CommentPage extends Fragment {
                                         }
                                         break;
                                     case IMAGE:
-                                        PopulateSubmissionViewHolder.openImage(getActivity(),
+                                        PopulateSubmissionViewHolder.openImage(type, getActivity(),
                                                 adapter.submission, null, -1);
                                         break;
                                     case GIF:

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -121,7 +122,8 @@ public class MediaFragmentComment extends Fragment {
         if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
             stopPosition = savedInstanceState.getInt("position");
         }
-        final SlidingUpPanelLayout slideLayout = ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
+        final SlidingUpPanelLayout slideLayout =
+                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
 
         PopulateShadowboxInfo.doActionbar(s.comment, rootView, getActivity(), true);
         (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
@@ -129,13 +131,13 @@ public class MediaFragmentComment extends Fragment {
         ContentType.Type type = ContentType.getContentType(contentUrl);
 
         if (!ContentType.fullImage(type)) {
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,rootView, type,
-                    getActivity(), s);
+            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
+                    type, getActivity(), s);
 
         } else {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,rootView, type,
-                    getActivity(), s);
+            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
+                    type, getActivity(), s);
         }
         doLoad(contentUrl);
 
@@ -174,9 +176,19 @@ public class MediaFragmentComment extends Fragment {
                                     .setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            String url =  "https://reddit.com"
-                                                    + "/r/" + c.getSubredditName() + "/comments/"
-                                                    + c.getDataNode().get("link_id").asText().substring(3, c.getDataNode().get("link_id").asText().length())+"/nothing/" + c.getId()
+                                            String url = "https://reddit.com"
+                                                    + "/r/"
+                                                    + c.getSubredditName()
+                                                    + "/comments/"
+                                                    + c.getDataNode()
+                                                    .get("link_id")
+                                                    .asText()
+                                                    .substring(3, c.getDataNode()
+                                                            .get("link_id")
+                                                            .asText()
+                                                            .length())
+                                                    + "/nothing/"
+                                                    + c.getId()
                                                     + "?context=3";
                                             new OpenRedditLink(getActivity(), url);
                                         }
@@ -213,6 +225,9 @@ public class MediaFragmentComment extends Fragment {
             case IMGUR:
                 doLoadImgur(contentUrl);
                 break;
+            case XKCD:
+                doLoadXKCD(contentUrl);
+                break;
             case VID_ME:
             case STREAMABLE:
             case GIF:
@@ -221,8 +236,69 @@ public class MediaFragmentComment extends Fragment {
         }
     }
 
-    private static void addClickFunctions(final View base, final SlidingUpPanelLayout slidingPanel, final View clickingArea,
-            final ContentType.Type type, final Activity contextActivity, final CommentUrlObject submission) {
+    public void doLoadXKCD(String url) {
+        if (!url.endsWith("/")) {
+            url = url + "/";
+        }
+
+        if (NetworkUtil.isConnected(getContext())) {
+            final String apiUrl = url + "info.0.json";
+            LogUtil.v(apiUrl);
+
+            final String finalUrl = url;
+            new AsyncTask<Void, Void, JsonObject>() {
+                @Override
+                protected JsonObject doInBackground(Void... params) {
+                    return HttpUtil.getJsonObject(client, gson, apiUrl);
+                }
+
+                @Override
+                protected void onPostExecute(final JsonObject result) {
+                    if (result != null && !result.isJsonNull() && result.has("error")) {
+                        LogUtil.v("Error loading content");
+                    } else {
+                        try {
+                            if (result != null && !result.isJsonNull() && result.has("img")) {
+                                doLoadImage(result.get("img").getAsString());
+                                rootView.findViewById(R.id.submission_image)
+                                        .setOnLongClickListener(new View.OnLongClickListener() {
+                                            @Override
+                                            public boolean onLongClick(View v) {
+                                                try {
+                                                    new AlertDialogWrapper.Builder(
+                                                            getContext()).setTitle(
+                                                            result.get("safe_title").getAsString())
+                                                            .setMessage(
+                                                                    result.get("alt").getAsString())
+                                                            .show();
+                                                } catch (Exception ignored) {
+
+                                                }
+                                                return true;
+                                            }
+                                        });
+                            } else {
+                                Intent i = new Intent(getContext(), Website.class);
+                                i.putExtra(Website.EXTRA_URL, finalUrl);
+                                getContext().startActivity(i);
+                            }
+                        } catch (Exception e2) {
+                            e2.printStackTrace();
+                            Intent i = new Intent(getContext(), Website.class);
+                            i.putExtra(Website.EXTRA_URL, finalUrl);
+                            getContext().startActivity(i);
+                        }
+                    }
+
+                }
+            }.execute();
+        }
+    }
+
+
+    private static void addClickFunctions(final View base, final SlidingUpPanelLayout slidingPanel,
+            final View clickingArea, final ContentType.Type type, final Activity contextActivity,
+            final CommentUrlObject submission) {
         base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,7 +311,7 @@ public class MediaFragmentComment extends Fragment {
                                 Intent myIntent = new Intent(contextActivity, MediaView.class);
                                 String url;
                                 url = submission.getUrl();
-                                        myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
+                                myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, submission.getUrl());
                                 myIntent.putExtra(MediaView.EXTRA_URL, url);
                                 myIntent.putExtra(MediaView.EXTRA_SHARE_URL, submission.getUrl());
 

@@ -681,14 +681,28 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 }
 
                 @Override
-                protected void onPostExecute(JsonObject result) {
+                protected void onPostExecute(final JsonObject result) {
                     if (result != null && !result.isJsonNull() && result.has("error")) {
                         LogUtil.v("Error loading content");
                         (MediaView.this).finish();
                     } else {
                         try {
                             if (result != null && !result.isJsonNull() && result.has("img")) {
-                                if(!imageShown)doLoadImage(result.get("img").getAsString());
+                                doLoadImage(result.get("img").getAsString());
+                                findViewById(R.id.submission_image).setOnLongClickListener(new View.OnLongClickListener() {
+                                    @Override
+                                    public boolean onLongClick(View v) {
+                                        try {
+                                            new AlertDialogWrapper.Builder(MediaView.this).setTitle(
+                                                    result.get("safe_title").getAsString())
+                                                    .setMessage(result.get("alt").getAsString())
+                                                    .show();
+                                        } catch(Exception ignored){
+
+                                        }
+                                        return true;
+                                    }
+                                });
                             }  else {
                                 Intent i = new Intent(MediaView.this, Website.class);
                                 i.putExtra(Website.EXTRA_URL, finalUrl);

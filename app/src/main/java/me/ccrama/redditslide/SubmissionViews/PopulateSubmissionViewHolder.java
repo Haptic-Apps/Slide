@@ -158,7 +158,7 @@ public class PopulateSubmissionViewHolder {
                                 }
                                 break;
                             case IMGUR:
-                                openImage(contextActivity, submission, holder.leadImage,
+                                openImage(type, contextActivity, submission, holder.leadImage,
                                         holder.getAdapterPosition());
                                 break;
                             case EMBEDDED:
@@ -213,7 +213,7 @@ public class PopulateSubmissionViewHolder {
                             case DEVIANTART:
                             case XKCD:
                             case IMAGE:
-                                openImage(contextActivity, submission, holder.leadImage,
+                                openImage(type, contextActivity, submission, holder.leadImage,
                                         holder.getAdapterPosition());
                                 break;
                             case GIF:
@@ -261,7 +261,7 @@ public class PopulateSubmissionViewHolder {
         new OpenRedditLink(c, url);
     }
 
-    public static void openImage(Activity contextActivity, Submission submission,
+    public static void openImage(ContentType.Type type, Activity contextActivity, Submission submission,
             HeaderImageLinkView baseView, int adapterPosition) {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
@@ -269,7 +269,7 @@ public class PopulateSubmissionViewHolder {
             String previewUrl;
             url = submission.getUrl();
 
-            if (baseView != null && baseView.lq && SettingValues.loadImageLq) {
+            if (baseView != null && baseView.lq && SettingValues.loadImageLq && type != ContentType.Type.XKCD) {
                 myIntent.putExtra(MediaView.EXTRA_LQ, true);
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, baseView.loadedUrl);
             } else if (submission.getDataNode().has("preview") && submission.getDataNode()
@@ -277,7 +277,7 @@ public class PopulateSubmissionViewHolder {
                     .get("images")
                     .get(0)
                     .get("source")
-                    .has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                    .has("height")&& type != ContentType.Type.XKCD) { //Load the preview image which has probably already been cached in memory instead of the direct link
                 previewUrl = submission.getDataNode()
                         .get("preview")
                         .get("images")

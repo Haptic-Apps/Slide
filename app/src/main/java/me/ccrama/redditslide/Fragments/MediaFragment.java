@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -198,8 +199,8 @@ public class MediaFragment extends Fragment {
             addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,rootView, type,
                     getActivity(), s);
         }
-        doLoad(contentUrl);
 
+        doLoad(contentUrl);
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -378,7 +379,7 @@ public class MediaFragment extends Fragment {
                         case DEVIANTART:
                         case XKCD:
                         case IMAGE:
-                            PopulateSubmissionViewHolder.openImage(contextActivity, submission, null, -1);
+                            PopulateSubmissionViewHolder.openImage(type, contextActivity, submission, null, -1);
                             break;
                         case GIF:
                             PopulateSubmissionViewHolder.openGif(contextActivity, submission, -1);
@@ -556,13 +557,27 @@ public class MediaFragment extends Fragment {
                 }
 
                 @Override
-                protected void onPostExecute(JsonObject result) {
+                protected void onPostExecute(final JsonObject result) {
                     if (result != null && !result.isJsonNull() && result.has("error")) {
                         LogUtil.v("Error loading content");
                     } else {
                         try {
                             if (result != null && !result.isJsonNull() && result.has("img")) {
-                               if(!imageShown) doLoadImage(result.get("img").getAsString());
+                               doLoadImage(result.get("img").getAsString());
+                                rootView.findViewById(R.id.submission_image).setOnLongClickListener(new View.OnLongClickListener() {
+                                    @Override
+                                    public boolean onLongClick(View v) {
+                                        try {
+                                            new AlertDialogWrapper.Builder(getContext()).setTitle(
+                                                    result.get("safe_title").getAsString())
+                                                    .setMessage(result.get("alt").getAsString())
+                                                    .show();
+                                        } catch(Exception ignored){
+
+                                        }
+                                        return true;
+                                    }
+                                });
                             }  else {
                                 Intent i = new Intent(getContext(), Website.class);
                                 i.putExtra(Website.EXTRA_URL, finalUrl);
