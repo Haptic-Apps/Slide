@@ -11,8 +11,8 @@ plugins {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.1'
     lintOptions {
         quiet true
         abortOnError false
@@ -23,7 +23,7 @@ android {
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "me.ccrama.redditslide"
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 234
         multiDexEnabled = true
         versionName androidGitVersion.name()
@@ -108,7 +108,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'com.github.rey5137:material:1.2.4'
-    withGPlayCompile 'com.google.android.gms:play-services-drive:8.4.0'
+    withGPlayCompile 'com.google.android.gms:play-services-drive:9.4.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.4.1'
     // ↑ minor
