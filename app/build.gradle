@@ -98,9 +98,8 @@ repositories {
 
 dependencies {
     compile 'com.github.ccrama:JRAW:206c8156d3'
-    compile('com.github.afollestad.material-dialogs:commons:0.8.5.8@aar') {
-        transitive = true
-    }
+    //Updating material-dialogs to any newer version will break all AlertDialogWrapper
+    compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
     compile 'com.jakewharton:process-phoenix:1.0.2'
     compile 'org.ligi:snackengage:0.5'
     compile 'com.android.support:design:24.2.0'
