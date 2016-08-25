@@ -96,7 +96,10 @@ public class OpenRedditLinkTest {
         assertThat(formatURL("https://beta.reddit.com/"), is(""));
         assertThat(formatURL("https://blog.reddit.com/"), is(""));
         assertThat(formatURL("https://code.reddit.com/"), is(""));
+        // https://www.reddit.com/r/modnews/comments/4z2nic/upcoming_change_updates_to_modredditcom/
         assertThat(formatURL("https://mod.reddit.com/"), is(""));
+        // https://www.reddit.com/r/changelog/comments/49jjb7/reddit_change_click_events_on_outbound_links/
+        assertThat(formatURL("https://out.reddit.com/"), is(""));
         assertThat(formatURL("https://store.reddit.com/"), is(""));
         assertThat(formatURL("https://pay.reddit.com/"), is("reddit.com"));
         assertThat(formatURL("https://ssl.reddit.com/"), is("reddit.com"));
