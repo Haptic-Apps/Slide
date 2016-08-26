@@ -313,6 +313,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         posts = new SubredditPosts(id, getContext());
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
+        adapter.setHasStableIds(true);
         rv.setAdapter(adapter);
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -333,6 +334,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
         posts = new SubredditPosts(id, getContext(), force18);
         adapter = new SubmissionAdapter(getActivity(), posts, rv, id, this);
+        adapter.setHasStableIds(true);
         rv.setAdapter(adapter);
         posts.loadMore(mSwipeRefreshLayout.getContext(), this, true);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -441,6 +443,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
 
                     if (startIndex != -1 && !forced) {
                         adapter.notifyItemRangeInserted(startIndex + 1, posts.posts.size());
+                        adapter.notifyDataSetChanged();
                     } else {
                         forced = false;
                         adapter.notifyDataSetChanged();

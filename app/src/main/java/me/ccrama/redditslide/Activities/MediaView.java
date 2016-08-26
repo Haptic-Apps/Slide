@@ -99,15 +99,15 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public String actuallyLoaded;
     public boolean isGif;
 
-    private NotificationManager mNotifyManager;
+    private NotificationManager        mNotifyManager;
     private NotificationCompat.Builder mBuilder;
-    private int stopPosition;
-    private GifUtils.AsyncLoadGif gif;
-    private String contentUrl;
-    private MediaVideoView videoView;
-    private OkHttpClient client;
-    private Gson gson;
-    private String mashapeKey;
+    private int                        stopPosition;
+    private GifUtils.AsyncLoadGif      gif;
+    private String                     contentUrl;
+    private MediaVideoView             videoView;
+    private OkHttpClient               client;
+    private Gson                       gson;
+    private String                     mashapeKey;
 
     public static void animateIn(View l) {
         l.setVisibility(View.VISIBLE);

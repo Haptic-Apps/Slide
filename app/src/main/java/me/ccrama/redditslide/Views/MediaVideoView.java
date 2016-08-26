@@ -30,7 +30,7 @@ import java.util.Vector;
  */
 public class MediaVideoView extends SurfaceView
         implements MediaController.MediaPlayerControl {
-    // all possible internal states
+    // all possible internal statfes
     private static final int STATE_ERROR = -1;
     private static final int STATE_IDLE = 0;
     private static final int STATE_PREPARING = 1;

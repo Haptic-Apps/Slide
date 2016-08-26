@@ -261,23 +261,29 @@ public class PopulateSubmissionViewHolder {
         new OpenRedditLink(c, url);
     }
 
-    public static void openImage(ContentType.Type type, Activity contextActivity, Submission submission,
-            HeaderImageLinkView baseView, int adapterPosition) {
+    public static void openImage(ContentType.Type type, Activity contextActivity,
+            Submission submission, HeaderImageLinkView baseView, int adapterPosition) {
         if (SettingValues.image) {
             Intent myIntent = new Intent(contextActivity, MediaView.class);
             String url;
             String previewUrl;
             url = submission.getUrl();
 
-            if (baseView != null && baseView.lq && SettingValues.loadImageLq && type != ContentType.Type.XKCD) {
+            if (baseView != null
+                    && baseView.lq
+                    && SettingValues.loadImageLq
+                    && type != ContentType.Type.XKCD) {
                 myIntent.putExtra(MediaView.EXTRA_LQ, true);
                 myIntent.putExtra(MediaView.EXTRA_DISPLAY_URL, baseView.loadedUrl);
-            } else if (submission.getDataNode().has("preview") && submission.getDataNode()
+            } else if (submission.getDataNode().has("preview")
+                    && submission.getDataNode()
                     .get("preview")
                     .get("images")
                     .get(0)
                     .get("source")
-                    .has("height")&& type != ContentType.Type.XKCD) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                    .has("height")
+                    && type
+                    != ContentType.Type.XKCD) { //Load the preview image which has probably already been cached in memory instead of the direct link
                 previewUrl = submission.getDataNode()
                         .get("preview")
                         .get("images")
@@ -777,7 +783,9 @@ public class PopulateSubmissionViewHolder {
                     break;
                     case 25:
                         final TextView showText = new TextView(mContext);
-                        showText.setText(Html.fromHtml(submission.getTitle() + "\n\n" + submission.getSelftext()), TextView.BufferType.SPANNABLE);
+                        showText.setText(Html.fromHtml(
+                                submission.getTitle() + "\n\n" + submission.getSelftext()),
+                                TextView.BufferType.SPANNABLE);
                         showText.setTextIsSelectable(true);
                         showText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
                             @Override
@@ -804,28 +812,32 @@ public class PopulateSubmissionViewHolder {
                         });
                         int sixteen = Reddit.dpToPxVertical(24);
                         showText.setPadding(sixteen, 0, sixteen, 0);
-                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                        AlertDialogWrapper.Builder builder =
+                                new AlertDialogWrapper.Builder(mContext);
                         builder.setView(showText)
                                 .setTitle("Select text to copy")
                                 .setCancelable(true)
-                                .setPositiveButton("COPY SELECTED", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        String selected = showText.getText()
-                                                .toString()
-                                                .substring(showText.getSelectionStart(),
-                                                        showText.getSelectionEnd());
-                                        ClipboardManager clipboard =
-                                                (ClipboardManager) mContext.getSystemService(
-                                                        Context.CLIPBOARD_SERVICE);
-                                        ClipData clip = ClipData.newPlainText("Selftext", selected);
-                                        clipboard.setPrimaryClip(clip);
+                                .setPositiveButton("COPY SELECTED",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                String selected = showText.getText()
+                                                        .toString()
+                                                        .substring(showText.getSelectionStart(),
+                                                                showText.getSelectionEnd());
+                                                ClipboardManager clipboard =
+                                                        (ClipboardManager) mContext.getSystemService(
+                                                                Context.CLIPBOARD_SERVICE);
+                                                ClipData clip =
+                                                        ClipData.newPlainText("Selftext", selected);
+                                                clipboard.setPrimaryClip(clip);
 
-                                        Toast.makeText(mContext, R.string.submission_comment_copied,
-                                                Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mContext,
+                                                        R.string.submission_comment_copied,
+                                                        Toast.LENGTH_SHORT).show();
 
-                                    }
-                                })
+                                            }
+                                        })
                                 .setNegativeButton(R.string.btn_cancel, null)
                                 .setNeutralButton("COPY ALL",
                                         new DialogInterface.OnClickListener() {
@@ -835,7 +847,9 @@ public class PopulateSubmissionViewHolder {
                                                         (ClipboardManager) mContext.getSystemService(
                                                                 Context.CLIPBOARD_SERVICE);
                                                 ClipData clip = ClipData.newPlainText("Selftext",
-                                                        Html.fromHtml(submission.getTitle() + "\n\n" + submission.getSelftext()));
+                                                        Html.fromHtml(submission.getTitle()
+                                                                + "\n\n"
+                                                                + submission.getSelftext()));
                                                 clipboard.setPrimaryClip(clip);
 
                                                 Toast.makeText(mContext,
@@ -1133,6 +1147,7 @@ public class PopulateSubmissionViewHolder {
                     success = false;
                     s = null;
                 }
+
                 recyclerview.getAdapter().notifyItemRemoved(pos + 1);
 
                 final boolean finalSuccess = success;

@@ -71,6 +71,21 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
+    public long getItemId(int position) {
+        if (position <= 0 && !dataSet.posts.isEmpty()) {
+            return SPACER;
+        } else if (!dataSet.posts.isEmpty()) {
+            position -= (1);
+        }
+        if (position == dataSet.posts.size() && !dataSet.posts.isEmpty() && !dataSet.offline && !dataSet.nomore) {
+            return LOADING_SPINNER;
+        } else if (position == dataSet.posts.size() && (dataSet.offline || dataSet.nomore)) {
+            return NO_MORE;
+        }
+        return dataSet.posts.get(position).getCreated().getTime();
+    }
+
+    @Override
     public void undoSetError() {
         listView.setAdapter(this);
     }
@@ -279,7 +294,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             );
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(holder, submission, context, false, false, dataSet.posts, listView, custom, dataSet.offline, dataSet.subreddit.toLowerCase(), null);
-        }
+       }
         if (holder2 instanceof SubmissionFooterViewHolder) {
             Handler handler = new Handler();
 

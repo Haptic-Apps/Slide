@@ -296,7 +296,16 @@ public class GifUtils {
                     try {
                         writeGif(new URL(url), progressBar, c, AsyncLoadGif.this);
                     } catch (Exception e) {
-                        LogUtil.e(e, "Error loading URL " + url);
+                        LogUtil.e(e, "Error loading URL " + url); //Most likely is an image, not a gif!
+                        if(c instanceof MediaView){
+                            c.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    (c).startActivity(new Intent(c, MediaView.class).putExtra(MediaView.EXTRA_URL,url.replace(".mp4", "h.png") ));//Load the high quality thumbnail, which is a JPG
+                                    (c).finish();
+                                }
+                            });
+                        }
                     }
                     break;
                 case STREAMABLE:
@@ -473,7 +482,8 @@ public class GifUtils {
             return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
         }
 
-        public void writeGif(final URL url, final ProgressBar progressBar, final Activity c, final AsyncLoadGif afterDone) {
+        public void writeGif(final URL url, final ProgressBar progressBar, final Activity c, final AsyncLoadGif afterDone)
+                throws Exception {
             try {
                 if (!GifCache.fileExists(url)) {
                     ucon = url.openConnection();
@@ -532,6 +542,7 @@ public class GifUtils {
                 }
             } catch (Exception e) {
                 LogUtil.e("Error writing GIF: url = [" + url + "], progressBar = [" + progressBar + "], c = [" + c + "], afterDone = [" + afterDone + "]");
+                throw(e);
             }
         }
     }

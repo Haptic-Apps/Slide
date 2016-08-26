@@ -1333,9 +1333,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } else {
                         new Vote(false, v, mContext).execute(n);
                         ActionStates.setVoteDirection(comment, VoteDirection.DOWNVOTE);
-                        downvote.clearColorFilter(); // reset colour
+                        upvote.clearColorFilter(); // reset colour
                         doScoreText(holder, n);
-                        upvote.setColorFilter(holder.textColorUp, PorterDuff.Mode.MULTIPLY);
+                        downvote.setColorFilter(holder.textColorDown, PorterDuff.Mode.MULTIPLY);
                     }
                 }
             });

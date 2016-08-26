@@ -420,7 +420,7 @@ public class CheckForMail extends BroadcastReceiver {
                     for (Submission subm : unread.next()) {
                         if (subm.getScore() >= subThresholds.get(
                                 subm.getSubredditName().toLowerCase())
-                                && !HasSeen.getSeen(subm) && subm.getDataNode().get("1471642289").asLong() >= lastTime/1000) {
+                                && !HasSeen.getSeen(subm) && subm.getDataNode().get("created_utc").asLong() >= lastTime/1000) {
                             toReturn.add(subm);
                         }
                     }
