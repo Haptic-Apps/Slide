@@ -39,7 +39,6 @@
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -47,6 +46,227 @@
                 android:name=".Activities.MainActivity"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
                 android:label="@string/app_name"></activity>
+
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/ic_launcher"
+                android:name=".Activities.SlideDefault"
+                android:enabled="true"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_red"
+                android:name=".Activities.SlideRed"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_pink"
+                android:name=".Activities.SlidePink"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_purple"
+                android:name=".Activities.SlidePurple"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_deep_purple"
+                android:name=".Activities.SlideDeepPurple"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_indigo"
+                android:name=".Activities.SlideIndigo"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_blue"
+                android:name=".Activities.SlideBlue"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_light_blue"
+                android:name=".Activities.SlideLightBlue"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_cyan"
+                android:name=".Activities.SlideCyan"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_teal"
+                android:name=".Activities.SlideTeal"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_green"
+                android:name=".Activities.SlideGreen"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_light_green"
+                android:name=".Activities.SlideLightGreen"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_lime"
+                android:name=".Activities.SlideLime"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_yellow"
+                android:name=".Activities.SlideYellow"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_amber"
+                android:name=".Activities.SlideAmber"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_orange"
+                android:name=".Activities.SlideOrange"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_deep_orange"
+                android:name=".Activities.SlideDeepOrange"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_brown"
+                android:name=".Activities.SlideBrown"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_blue_grey"
+                android:name=".Activities.SlideBlueGrey"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+        <activity-alias
+                android:label="@string/app_name"
+                android:icon="@mipmap/icon_grey"
+                android:name=".Activities.SlideGrey"
+                android:enabled="false"
+                android:targetActivity=".Activities.Slide">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <receiver android:name=".CheckInstall">
             <intent-filter>

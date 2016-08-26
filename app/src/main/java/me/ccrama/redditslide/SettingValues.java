@@ -93,6 +93,7 @@ public class SettingValues {
     public static final String COMMENT_DEPTH = "commentDepth";
     public static final String COMMENT_COUNT = "commentcount";
     public static final String PREF_USER_FILTERS = "userFilters";
+    public static final String PREF_COLOR_ICON = "colorIcon";
 
     public static CreateCardView.CardEnum defaultCardView;
     public static Sorting defaultSorting;
@@ -189,6 +190,7 @@ public class SettingValues {
     public static String userFilters;
     public static boolean notifSound;
     public static boolean cookies;
+    public static boolean colorIcon;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
@@ -293,6 +295,7 @@ public class SettingValues {
         saveButton = prefs.getBoolean(PREF_SAVE_BUTTON, false);
         actionbarVisible = prefs.getBoolean(PREF_ACTIONBAR_VISIBLE, true);
         actionbarTap = prefs.getBoolean(PREF_ACTIONBAR_TAP, false);
+        colorIcon = prefs.getBoolean(PREF_COLOR_ICON, false);
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
