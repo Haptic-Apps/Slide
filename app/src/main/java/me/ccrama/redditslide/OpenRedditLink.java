@@ -283,7 +283,7 @@ public class OpenRedditLink {
                 // no participation link: https://www.reddit.com/r/NoParticipation/wiki/index
                 url = url.replaceFirst(domainRegex, "reddit.com");
                 url = "np" + url;
-            } else if (subdomain.matches("beta|blog|code|mod|store")) {
+            } else if (subdomain.matches("beta|blog|code|mod|out|store")) {
                 return "";
             } else if (subdomain.matches("(?i)([_a-z0-9]{2}-)?[_a-z0-9]{1,2}")) {
                 /*
