@@ -1178,8 +1178,17 @@ public class CommentAdapterHelper {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR
-                || comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+        if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+            author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+            author.setSpan(
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
+                    0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (comment.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
+            author.replace(0, author.length(), " " + comment.getAuthor() + " ");
+            author.setSpan(
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_900, false),
+                    0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),

@@ -105,7 +105,11 @@ public class SubmissionCache {
         if (submission.getAuthor() != null) {
             if (Authentication.name != null && submission.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
                 author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } else if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+            } else if (submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
+                author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (submission.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
+                author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_900, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
                 author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (authorcolor != 0) {
                 author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
