@@ -10,12 +10,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
@@ -312,15 +317,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         : search == SubmissionSearchPaginator.SearchSort.NEW ? 2 : 3;
     }
 
-    public static String[] getSortingStrings(Context c, String currentSub, boolean arrows) {
-        return getSortingStrings(c, getSortingId(currentSub), arrows);
-    }
-
-    public static String[] getSortingStrings(Context c, Sorting currentSort, boolean arrows) {
-        return getSortingStrings(c, getSortingId(currentSort), arrows);
-    }
-
-    public static String[] getSortingStrings(Context c, int index, boolean arrows) {
+    public static String[] getSortingStrings(Context c) {
         String[] current = new String[]{
                 c.getString(R.string.sorting_hot),
                 c.getString(R.string.sorting_new),
@@ -328,19 +325,35 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 c.getString(R.string.sorting_top),
                 c.getString(R.string.sorting_controversial),
         };
-        current[index] = (arrows ? "» " : "") + current[index];
         return  current;
     }
 
-    public static String[] getSortingStringsTime(Context c, String currentSub, boolean arrows) {
-        return getSortingStringsTime(c, getSortingIdTime(currentSub), arrows);
+    public static Spannable[] getSortingSpannables(Context c, String currentSub) {
+        return getSortingSpannables(c, getSortingId(currentSub), currentSub);
+
     }
 
-    public static String[] getSortingStringsTime(Context c, TimePeriod currentTime, boolean arrows) {
-        return getSortingStringsTime(c, getSortingIdTime(currentTime), arrows);
+    public static Spannable[] getSortingSpannables(Context c, Sorting sorting) {
+        return getSortingSpannables(c, getSortingId(sorting), " ");
     }
 
-    private static String[] getSortingStringsTime(Context c, int index, boolean arrows) {
+    private static Spannable[] getSortingSpannables(Context c, int sortingId, String sub) {
+        ArrayList<Spannable> spannables = new ArrayList<>();
+        String[] sortingStrings = getSortingStrings(c);
+        for (int i = 0; i < sortingStrings.length; i++) {
+            SpannableString spanString = new SpannableString(sortingStrings[i]);
+            if (i == sortingId) {
+                spanString.setSpan(new ForegroundColorSpan(
+                                new ColorPreferences(c).getColor(sub)), 0,
+                        spanString.length(), 0);
+                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+            }
+            spannables.add(spanString);
+        }
+        return spannables.toArray(new Spannable[spannables.size()]);
+    }
+
+    public static String[] getSortingStringsTime(Context c) {
         String[] current = new String[]{
                 c.getString(R.string.sorting_hour),
                 c.getString(R.string.sorting_day),
@@ -349,8 +362,31 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                 c.getString(R.string.sorting_year),
                 c.getString(R.string.sorting_all),
         };
-        current[index] = (arrows ? "» " : "") + current[index];
         return current;
+    }
+
+    public static Spannable[] getSortingSpannablesTime(Context c, String currentSub) {
+        return getSortingSpannablesTime(c, getSortingIdTime(currentSub), currentSub);
+    }
+
+    public static Spannable[] getSortingSpannablesTime(Context c, TimePeriod time) {
+        return getSortingSpannablesTime(c, getSortingIdTime(time), " ");
+    }
+
+    private static Spannable[] getSortingSpannablesTime(Context c, int sortingId, String sub) {
+        ArrayList<Spannable> spannables = new ArrayList<>();
+        String[] sortingStrings = getSortingStringsTime(c);
+        for (int i = 0; i < sortingStrings.length; i++) {
+            SpannableString spanString = new SpannableString(sortingStrings[i]);
+            if (i == sortingId) {
+                spanString.setSpan(new ForegroundColorSpan(
+                                new ColorPreferences(c).getColor(sub)), 0,
+                        spanString.length(), 0);
+                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+            }
+            spannables.add(spanString);
+        }
+        return spannables.toArray(new Spannable[spannables.size()]);
     }
 
     public static String[] getSortingStringsComments(Context c) {

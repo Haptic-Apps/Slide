@@ -15,7 +15,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -42,10 +41,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.SpannableString;
+import android.text.Spannable;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -1908,23 +1905,15 @@ public class MainActivity extends BaseActivity {
                 new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
         String id =
                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), id, true);
-        for (String s : base) {
+        final Spannable[] base = Reddit.getSortingSpannables(getBaseContext(), id);
+        for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
-            if (s.startsWith("» ")) {
-                SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(
-                                new ColorPreferences(MainActivity.this).getColor(id)), 0,
-                        spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                m.setTitle(spanString);
-            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 LogUtil.v("Chosen is " + item.getOrder());
                 int i = 0;
-                for (String s : base) {
+                for (Spannable s : base) {
                     if (s.equals(item.getTitle())) {
                         break;
                     }
@@ -1975,23 +1964,15 @@ public class MainActivity extends BaseActivity {
                 new PopupMenu(MainActivity.this, findViewById(R.id.anchor), Gravity.RIGHT);
         String id =
                 ((SubmissionsView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).id;
-        final String[] base = Reddit.getSortingStringsTime(getBaseContext(), id, true);
-        for (String s : base) {
+        final Spannable[] base = Reddit.getSortingSpannablesTime(getBaseContext(), id);
+        for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
-            if (s.startsWith("» ")) {
-                SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(
-                                new ColorPreferences(MainActivity.this).getColor(id)), 0,
-                        spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                m.setTitle(spanString);
-            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 LogUtil.v("Chosen is " + item.getOrder());
                 int i = 0;
-                for (String s : base) {
+                for (Spannable s : base) {
                     if (s.equals(item.getTitle())) {
                         break;
                     }

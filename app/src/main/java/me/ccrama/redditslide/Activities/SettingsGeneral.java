@@ -415,7 +415,7 @@ public class SettingsGeneral extends BaseActivityAnim
         }
 
         ((TextView) findViewById(R.id.sorting_current)).setText(
-                Reddit.getSortingStrings(getBaseContext(), "", false)[Reddit.getSortingId("")]);
+                Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId("")]);
         {
             findViewById(R.id.sorting).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -452,15 +452,14 @@ public class SettingsGeneral extends BaseActivityAnim
                                     SettingValues.defaultSorting = Reddit.defaultSorting;
 
                                     ((TextView) findViewById(R.id.sorting_current)).setText(
-                                            Reddit.getSortingStrings(getBaseContext(), "",
-                                                    false)[Reddit.getSortingId("")]);
+                                            Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId("")]);
                                 }
                             };
                     AlertDialogWrapper.Builder builder =
                             new AlertDialogWrapper.Builder(SettingsGeneral.this);
                     builder.setTitle(R.string.sorting_choose);
                     builder.setSingleChoiceItems(
-                            Reddit.getSortingStrings(getBaseContext(), "", false),
+                            Reddit.getSortingStrings(getBaseContext()),
                             Reddit.getSortingId(""), l2);
                     builder.show();
                 }
@@ -570,14 +569,13 @@ public class SettingsGeneral extends BaseActivityAnim
                 SettingValues.defaultSorting = Reddit.defaultSorting;
                 SettingValues.timePeriod = Reddit.timePeriod;
                 ((TextView) findViewById(R.id.sorting_current)).setText(
-                        Reddit.getSortingStrings(getBaseContext(), "", false)[Reddit.getSortingId(
-                                "")] + " > " + Reddit.getSortingStringsTime(getBaseContext(), "",
-                                false)[Reddit.getSortingIdTime("")]);
+                        Reddit.getSortingStrings(getBaseContext())[Reddit.getSortingId(
+                                "")] + " > " + Reddit.getSortingStringsTime(getBaseContext())[Reddit.getSortingIdTime("")]);
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SettingsGeneral.this);
         builder.setTitle(R.string.sorting_choose);
-        builder.setSingleChoiceItems(Reddit.getSortingStringsTime(getBaseContext(), "", false),
+        builder.setSingleChoiceItems(Reddit.getSortingStringsTime(getBaseContext()),
                 Reddit.getSortingIdTime(""), l2);
         builder.show();
     }

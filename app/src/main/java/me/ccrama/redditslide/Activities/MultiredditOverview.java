@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,9 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
+import android.text.Spannable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -458,22 +455,14 @@ public class MultiredditOverview extends BaseActivityAnim {
                 ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit
                         .getDisplayName()
                         .toLowerCase();
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), "multi" + id, true);
-        for (String s : base) {
+        final Spannable[] base = Reddit.getSortingSpannables(getBaseContext(), "multi" + id);
+        for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
-            if (s.startsWith("» ")) {
-                SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(
-                                new ColorPreferences(MultiredditOverview.this).getColor(id)), 0,
-                        spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                m.setTitle(spanString);
-            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 int i = 0;
-                for (String s : base) {
+                for (Spannable s : base) {
                     if (s.equals(item.getTitle())) {
                         break;
                     }
@@ -534,22 +523,14 @@ public class MultiredditOverview extends BaseActivityAnim {
                 ((MultiredditView) (((OverviewPagerAdapter) pager.getAdapter()).getCurrentFragment())).posts.multiReddit
                         .getDisplayName()
                         .toLowerCase();
-        final String[] base = Reddit.getSortingStringsTime(getBaseContext(), "multi" + id, true);
-        for (String s : base) {
+        final Spannable[] base = Reddit.getSortingSpannablesTime(getBaseContext(), "multi" + id);
+        for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
-            if (s.startsWith("» ")) {
-                SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(
-                                new ColorPreferences(MultiredditOverview.this).getColor(id)), 0,
-                        spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                m.setTitle(spanString);
-            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 int i = 0;
-                for (String s : base) {
+                for (Spannable s : base) {
                     if (s.equals(item.getTitle())) {
                         break;
                     }

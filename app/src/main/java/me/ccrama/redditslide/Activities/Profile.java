@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,9 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
+import android.text.Spannable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -371,21 +368,15 @@ public class Profile extends BaseActivityAnim {
 
     public void openPopup() {
         PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), profSort, true);
-        for (String s : base) {
+        final Spannable[] base = Reddit.getSortingSpannables(getBaseContext(), profSort);
+        for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
-            if (s.startsWith("» ")) {
-                SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(Profile.this).getColor(" ")), 0, spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                m.setTitle(spanString);
-            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 LogUtil.v("Chosen is " + item.getOrder());
                 int i = 0;
-                for (String s : base) {
+                for (Spannable s : base) {
                     if (s.equals(item.getTitle())) {
                         break;
                     }
@@ -428,21 +419,15 @@ public class Profile extends BaseActivityAnim {
 
     public void openPopupTime() {
         PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStringsTime(getBaseContext(), profTime, true);
-        for (String s : base) {
+        final Spannable[] base = Reddit.getSortingSpannablesTime(getBaseContext(), profTime);
+        for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
-            if (s.startsWith("» ")) {
-                SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(Profile.this).getColor(" ")), 0, spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                m.setTitle(spanString);
-            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 LogUtil.v("Chosen is " + item.getOrder());
                 int i = 0;
-                for (String s : base) {
+                for (Spannable s : base) {
                     if (s.equals(item.getTitle())) {
                         break;
                     }

@@ -129,7 +129,7 @@ public class SetupWidget extends BaseActivity {
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
                     builder.setTitle(R.string.sorting_choose);
                     builder.setSingleChoiceItems(
-                            Reddit.getSortingStringsTime(getBaseContext(), "", false), Reddit.getSortingIdTime(""), new DialogInterface.OnClickListener() {
+                            Reddit.getSortingStringsTime(getBaseContext()), Reddit.getSortingIdTime(""), new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     SubredditWidgetProvider.setSortingTime(appWidgetId, i, SetupWidget.this);
@@ -169,7 +169,7 @@ public class SetupWidget extends BaseActivity {
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(
-                Reddit.getSortingStrings(getBaseContext(), "", false), Reddit.getSortingId(""), l2);
+                Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(""), l2);
         builder.show();
         // this intent is essential to show the widget
         // if this intent is not included,you can't show
