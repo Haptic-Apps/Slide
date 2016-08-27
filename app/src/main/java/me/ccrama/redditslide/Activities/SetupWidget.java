@@ -121,28 +121,55 @@ public class SetupWidget extends BaseActivity {
                         view = 2;
                         break;
                 }
-                SubredditWidgetProvider.setSorting(appWidgetId, i, SetupWidget.this);
+
                 SubredditWidgetProvider.setThemeToId(appWidgetId, theme, SetupWidget.this);
                 SubredditWidgetProvider.setViewType(appWidgetId, view, SetupWidget.this);
+                SubredditWidgetProvider.setSorting(appWidgetId, i, SetupWidget.this);
+                if (i == 3 || i == 4) {
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
+                    builder.setTitle(R.string.sorting_choose);
+                    builder.setSingleChoiceItems(
+                            Reddit.getSortingStringsTime(getBaseContext()), Reddit.getSortingIdTime(""), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    SubredditWidgetProvider.setSortingTime(appWidgetId, i, SetupWidget.this);
 
-                {
-                    Intent intent = new Intent();
-                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-                    setResult(Activity.RESULT_OK, intent);
+                                    {
+                                        Intent intent = new Intent();
+                                        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                                        setResult(Activity.RESULT_OK, intent);
+                                    }
+
+                                    Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
+                                            SetupWidget.this, SubredditWidgetProvider.class);
+                                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[]{appWidgetId});
+                                    sendBroadcast(intent);
+
+                                    finish();
+                                }
+                            });
+                    builder.show();
+                } else {
+                    {
+                        Intent intent = new Intent();
+                        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+                        setResult(Activity.RESULT_OK, intent);
+                    }
+
+                    Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null,
+                            SetupWidget.this, SubredditWidgetProvider.class);
+                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[]{appWidgetId});
+                    sendBroadcast(intent);
+
+                    finish();
                 }
-
-                Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, SetupWidget.this, SubredditWidgetProvider.class);
-                intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, new int[] {appWidgetId});
-                sendBroadcast(intent);
-
-                finish();
 
             }
         };
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(SetupWidget.this);
         builder.setTitle(R.string.sorting_choose);
         builder.setSingleChoiceItems(
-                Reddit.getSortingStrings(getBaseContext(), "", false), Reddit.getSortingId(""), l2);
+                Reddit.getSortingStrings(getBaseContext()), Reddit.getSortingId(""), l2);
         builder.show();
         // this intent is essential to show the widget
         // if this intent is not included,you can't show

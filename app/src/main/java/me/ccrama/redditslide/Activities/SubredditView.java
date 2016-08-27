@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -26,9 +25,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
+import android.text.Spannable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -1006,23 +1003,15 @@ public class SubredditView extends BaseActivityAnim {
     public void openPopup() {
         PopupMenu popup =
                 new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), subreddit, true);
-        for (String s : base) {
+        final Spannable[] base = Reddit.getSortingSpannables(getBaseContext(), subreddit);
+        for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
-            if (s.startsWith("» ")) {
-                SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(
-                                new ColorPreferences(SubredditView.this).getColor(subreddit)), 0,
-                        spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                m.setTitle(spanString);
-            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 LogUtil.v("Chosen is " + item.getOrder());
                 int i = 0;
-                for (String s : base) {
+                for (Spannable s : base) {
                     if (s.equals(item.getTitle())) {
                         break;
                     }
@@ -1043,61 +1032,58 @@ public class SubredditView extends BaseActivityAnim {
                         break;
                     case 3:
                         Reddit.setSorting(subreddit, Sorting.TOP);
+                        openPopupTime();
+                        break;
+                    case 4:
+                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
+                        openPopupTime();
+                        break;
+                }
+                return true;
+            }
+        });
+        popup.show();
+    }
+
+    public void openPopupTime() {
+        PopupMenu popup =
+                new PopupMenu(SubredditView.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        final Spannable[] base = Reddit.getSortingSpannablesTime(getBaseContext(), subreddit);
+        for (Spannable s : base) {
+            MenuItem m = popup.getMenu().add(s);
+        }
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                LogUtil.v("Chosen is " + item.getOrder());
+                int i = 0;
+                for (Spannable s : base) {
+                    if (s.equals(item.getTitle())) {
+                        break;
+                    }
+                    i++;
+                }
+                switch (i) {
+                    case 0:
                         Reddit.setTime(subreddit, TimePeriod.HOUR);
+                        reloadSubs();
+                        break;
+                    case 1:
+                        Reddit.setTime(subreddit, TimePeriod.DAY);
+                        reloadSubs();
+                        break;
+                    case 2:
+                        Reddit.setTime(subreddit, TimePeriod.WEEK);
+                        reloadSubs();
+                        break;
+                    case 3:
+                        Reddit.setTime(subreddit, TimePeriod.MONTH);
                         reloadSubs();
                         break;
                     case 4:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.DAY);
+                        Reddit.setTime(subreddit, TimePeriod.YEAR);
                         reloadSubs();
                         break;
                     case 5:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.WEEK);
-                        reloadSubs();
-                        break;
-                    case 6:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.MONTH);
-                        reloadSubs();
-                        break;
-                    case 7:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.YEAR);
-                        reloadSubs();
-                        break;
-                    case 8:
-                        Reddit.setSorting(subreddit, Sorting.TOP);
-                        Reddit.setTime(subreddit, TimePeriod.ALL);
-                        reloadSubs();
-                        break;
-                    case 9:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.HOUR);
-                        reloadSubs();
-                        break;
-                    case 10:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.DAY);
-                        reloadSubs();
-                        break;
-                    case 11:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.WEEK);
-                        reloadSubs();
-                        break;
-                    case 12:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.MONTH);
-                        reloadSubs();
-                        break;
-                    case 13:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
-                        Reddit.setTime(subreddit, TimePeriod.YEAR);
-                        reloadSubs();
-                        break;
-                    case 14:
-                        Reddit.setSorting(subreddit, Sorting.CONTROVERSIAL);
                         Reddit.setTime(subreddit, TimePeriod.ALL);
                         reloadSubs();
                         break;

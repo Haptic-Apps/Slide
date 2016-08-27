@@ -89,6 +89,12 @@ public class SubredditWidgetProvider extends AppWidgetProvider {
     public static int getSorting(int id, Context mContext) {
         return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_sort", 0);
     }
+    public static void setSortingTime(int id, int sorting, SetupWidget mContext) {
+        mContext.getSharedPreferences("widget", 0).edit().putInt(id + "_sub_time", sorting).apply();
+    }
+    public static int getSortingTime(int id, Context mContext) {
+        return mContext.getSharedPreferences("widget", 0).getInt(id + "_sub_time", 0);
+    }
     public void onUpdate(Context context, AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
         // update each of the app widgets with the remote adapter

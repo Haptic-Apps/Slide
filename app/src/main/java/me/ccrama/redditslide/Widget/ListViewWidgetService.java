@@ -130,53 +130,32 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                             break;
                         case 3:
                             p.setSorting(Sorting.TOP);
-                            p.setTimePeriod(TimePeriod.HOUR);
                             break;
                         case 4:
-                            p.setSorting(Sorting.TOP);
-                            p.setTimePeriod(TimePeriod.DAY);
-                            break;
-                        case 5:
-                            p.setSorting(Sorting.TOP);
-                            p.setTimePeriod(TimePeriod.WEEK);
-                            break;
-                        case 6:
-                            p.setSorting(Sorting.TOP);
-                            p.setTimePeriod(TimePeriod.MONTH);
-                            break;
-                        case 7:
-                            p.setSorting(Sorting.TOP);
-                            p.setTimePeriod(TimePeriod.YEAR);
-                            break;
-                        case 8:
-                            p.setSorting(Sorting.TOP);
-                            p.setTimePeriod(TimePeriod.ALL);
-                            break;
-                        case 9:
                             p.setSorting(Sorting.CONTROVERSIAL);
+                            break;
+                    }
+                    switch (SubredditWidgetProvider.getSortingTime(id, mContext)) {
+                        case 0:
                             p.setTimePeriod(TimePeriod.HOUR);
                             break;
-                        case 10:
-                            p.setSorting(Sorting.CONTROVERSIAL);
+                        case 1:
                             p.setTimePeriod(TimePeriod.DAY);
                             break;
-                        case 11:
-                            p.setSorting(Sorting.CONTROVERSIAL);
+                        case 2:
                             p.setTimePeriod(TimePeriod.WEEK);
                             break;
-                        case 12:
-                            p.setSorting(Sorting.CONTROVERSIAL);
+                        case 3:
                             p.setTimePeriod(TimePeriod.MONTH);
                             break;
-                        case 13:
-                            p.setSorting(Sorting.CONTROVERSIAL);
+                        case 4:
                             p.setTimePeriod(TimePeriod.YEAR);
                             break;
-                        case 14:
-                            p.setSorting(Sorting.CONTROVERSIAL);
+                        case 5:
                             p.setTimePeriod(TimePeriod.ALL);
                             break;
                     }
+
                     try {
                         ArrayList<Submission> s = new ArrayList<>(p.next());
                         records = new ArrayList<>();

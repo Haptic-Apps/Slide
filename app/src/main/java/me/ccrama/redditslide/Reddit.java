@@ -10,12 +10,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
@@ -248,18 +253,51 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static Integer getSortingId(String subreddit) {
         Sorting sort =
                 sorting.containsKey(subreddit) ? sorting.get(subreddit) : Reddit.defaultSorting;
-        TimePeriod time = sorting.containsKey(subreddit) ? times.get(subreddit) : Reddit.timePeriod;
 
-        return sort == Sorting.HOT ? 0 : sort == Sorting.NEW ? 1 : sort == Sorting.RISING ? 2
-                : sort == Sorting.TOP ? (time == TimePeriod.HOUR ? 3 : time == TimePeriod.DAY ? 4
-                        : time == TimePeriod.WEEK ? 5
-                                : time == TimePeriod.MONTH ? 6 : time == TimePeriod.YEAR ? 7 : 8)
-                        : sort == Sorting.CONTROVERSIAL ? (time == TimePeriod.HOUR ? 9
-                                : time == TimePeriod.DAY ? 10 : time == TimePeriod.WEEK ? 11
-                                        : time == TimePeriod.MONTH ? 12
-                                                : time == TimePeriod.YEAR ? 13 : 14) : 0;
+        return getSortingId(sort);
     }
 
+    public static Integer getSortingId(Sorting sort) {
+        switch (sort) {
+            case HOT:
+                return 0;
+            case NEW:
+                return 1;
+            case RISING:
+                return 2;
+            case TOP:
+                return 3;
+            case CONTROVERSIAL:
+                return 4;
+            default:
+                return 0;
+        }
+    }
+
+    public static Integer getSortingIdTime(String subreddit) {
+        TimePeriod time = times.containsKey(subreddit) ? times.get(subreddit) : Reddit.timePeriod;
+
+        return getSortingIdTime(time);
+    }
+
+    public static Integer getSortingIdTime(TimePeriod time) {
+        switch (time) {
+            case HOUR:
+                return 0;
+            case DAY:
+                return 1;
+            case WEEK:
+                return 2;
+            case MONTH:
+                return 3;
+            case YEAR:
+                return 4;
+            case ALL:
+                return 5;
+            default:
+                return 0;
+        }
+    }
 
     public static Integer getSortingIdSearch() {
         return timePeriod == TimePeriod.HOUR ? 0 : timePeriod == TimePeriod.DAY ? 1
@@ -279,82 +317,76 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         : search == SubmissionSearchPaginator.SearchSort.NEW ? 2 : 3;
     }
 
-    public static String[] getSortingStrings(Context c, String currentSub, boolean arrows) {
-        return getSortingStrings(c, getSorting(currentSub), getTime(currentSub), arrows);
+    public static String[] getSortingStrings(Context c) {
+        String[] current = new String[]{
+                c.getString(R.string.sorting_hot),
+                c.getString(R.string.sorting_new),
+                c.getString(R.string.sorting_rising),
+                c.getString(R.string.sorting_top),
+                c.getString(R.string.sorting_controversial),
+        };
+        return  current;
     }
 
-    public static String[] getSortingStrings(Context c, Sorting currentSort, TimePeriod currentTime,
-            boolean arrows) {
-        String[] current = new String[]{
-                c.getString(R.string.sorting_hot), c.getString(R.string.sorting_new),
-                c.getString(R.string.sorting_rising),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_hour)
-                        .toLowerCase(),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_day)
-                        .toLowerCase(),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_week)
-                        .toLowerCase(),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_month)
-                        .toLowerCase(),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_year)
-                        .toLowerCase(),
-                c.getString(R.string.sorting_top) + " " + c.getString(R.string.sorting_all)
-                        .toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(
-                        R.string.sorting_hour).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(
-                        R.string.sorting_day).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(
-                        R.string.sorting_week).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(
-                        R.string.sorting_month).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(
-                        R.string.sorting_year).toLowerCase(),
-                c.getString(R.string.sorting_controversial) + " " + c.getString(
-                        R.string.sorting_all).toLowerCase(),
-        };
-        int pos = 0;
-        switch (currentSort) {
+    public static Spannable[] getSortingSpannables(Context c, String currentSub) {
+        return getSortingSpannables(c, getSortingId(currentSub), currentSub);
 
-            case HOT:
-                pos = 0;
-                break;
-            case NEW:
-                pos = 1;
-                break;
-            case RISING:
-                pos = 2;
-                break;
-            case CONTROVERSIAL:
-                pos = 9;
-                break;
-            case TOP:
-                pos = 3;
-                break;
-        }
-        if (pos > 2) {
-            switch (currentTime) {
-                case HOUR:
-                    break;
-                case DAY:
-                    pos += 1;
-                    break;
-                case WEEK:
-                    pos += 2;
-                    break;
-                case MONTH:
-                    pos += 3;
-                    break;
-                case YEAR:
-                    pos += 4;
-                    break;
-                case ALL:
-                    pos += 5;
-                    break;
+    }
+
+    public static Spannable[] getSortingSpannables(Context c, Sorting sorting) {
+        return getSortingSpannables(c, getSortingId(sorting), " ");
+    }
+
+    private static Spannable[] getSortingSpannables(Context c, int sortingId, String sub) {
+        ArrayList<Spannable> spannables = new ArrayList<>();
+        String[] sortingStrings = getSortingStrings(c);
+        for (int i = 0; i < sortingStrings.length; i++) {
+            SpannableString spanString = new SpannableString(sortingStrings[i]);
+            if (i == sortingId) {
+                spanString.setSpan(new ForegroundColorSpan(
+                                new ColorPreferences(c).getColor(sub)), 0,
+                        spanString.length(), 0);
+                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
             }
+            spannables.add(spanString);
         }
-        current[pos] = (arrows ? "» " : "") + current[pos] + "";
+        return spannables.toArray(new Spannable[spannables.size()]);
+    }
+
+    public static String[] getSortingStringsTime(Context c) {
+        String[] current = new String[]{
+                c.getString(R.string.sorting_hour),
+                c.getString(R.string.sorting_day),
+                c.getString(R.string.sorting_week),
+                c.getString(R.string.sorting_month),
+                c.getString(R.string.sorting_year),
+                c.getString(R.string.sorting_all),
+        };
         return current;
+    }
+
+    public static Spannable[] getSortingSpannablesTime(Context c, String currentSub) {
+        return getSortingSpannablesTime(c, getSortingIdTime(currentSub), currentSub);
+    }
+
+    public static Spannable[] getSortingSpannablesTime(Context c, TimePeriod time) {
+        return getSortingSpannablesTime(c, getSortingIdTime(time), " ");
+    }
+
+    private static Spannable[] getSortingSpannablesTime(Context c, int sortingId, String sub) {
+        ArrayList<Spannable> spannables = new ArrayList<>();
+        String[] sortingStrings = getSortingStringsTime(c);
+        for (int i = 0; i < sortingStrings.length; i++) {
+            SpannableString spanString = new SpannableString(sortingStrings[i]);
+            if (i == sortingId) {
+                spanString.setSpan(new ForegroundColorSpan(
+                                new ColorPreferences(c).getColor(sub)), 0,
+                        spanString.length(), 0);
+                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
+            }
+            spannables.add(spanString);
+        }
+        return spannables.toArray(new Spannable[spannables.size()]);
     }
 
     public static String[] getSortingStringsComments(Context c) {

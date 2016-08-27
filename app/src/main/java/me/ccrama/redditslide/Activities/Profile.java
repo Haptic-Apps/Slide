@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,9 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
+import android.text.Spannable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -371,21 +368,15 @@ public class Profile extends BaseActivityAnim {
 
     public void openPopup() {
         PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
-        final String[] base = Reddit.getSortingStrings(getBaseContext(), profSort, profTime, true);
-        for (String s : base) {
+        final Spannable[] base = Reddit.getSortingSpannables(getBaseContext(), profSort);
+        for (Spannable s : base) {
             MenuItem m = popup.getMenu().add(s);
-            if (s.startsWith("» ")) {
-                SpannableString spanString = new SpannableString(s.replace("» ", ""));
-                spanString.setSpan(new ForegroundColorSpan(new ColorPreferences(Profile.this).getColor(" ")), 0, spanString.length(), 0);
-                spanString.setSpan(new StyleSpan(Typeface.BOLD), 0, spanString.length(), 0);
-                m.setTitle(spanString);
-            }
         }
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 LogUtil.v("Chosen is " + item.getOrder());
                 int i = 0;
-                for (String s : base) {
+                for (Spannable s : base) {
                     if (s.equals(item.getTitle())) {
                         break;
                     }
@@ -403,50 +394,62 @@ public class Profile extends BaseActivityAnim {
                         break;
                     case 3:
                         profSort = (Sorting.TOP);
+                        openPopupTime();
+                        return true;
+                    case 4:
+                        profSort = (Sorting.CONTROVERSIAL);
+                        openPopupTime();
+                        return true;
+                }
+
+                Reddit.sorting.put(name.toLowerCase(), profSort);
+
+                int current = pager.getCurrentItem();
+                ProfilePagerAdapter adapter = new ProfilePagerAdapter(getSupportFragmentManager());
+                pager.setAdapter(adapter);
+                pager.setOffscreenPageLimit(1);
+
+                tabs.setupWithViewPager(pager);
+                pager.setCurrentItem(current);
+                return true;
+            }
+        });
+        popup.show();
+    }
+
+    public void openPopupTime() {
+        PopupMenu popup = new PopupMenu(Profile.this, findViewById(R.id.anchor), Gravity.RIGHT);
+        final Spannable[] base = Reddit.getSortingSpannablesTime(getBaseContext(), profTime);
+        for (Spannable s : base) {
+            MenuItem m = popup.getMenu().add(s);
+        }
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                LogUtil.v("Chosen is " + item.getOrder());
+                int i = 0;
+                for (Spannable s : base) {
+                    if (s.equals(item.getTitle())) {
+                        break;
+                    }
+                    i++;
+                }
+                switch (i) {
+                    case 0:
                         profTime = (TimePeriod.HOUR);
+                        break;
+                    case 1:
+                        profTime = (TimePeriod.DAY);
+                        break;
+                    case 2:
+                        profTime = (TimePeriod.WEEK);
+                        break;
+                    case 3:
+                        profTime = (TimePeriod.MONTH);
                         break;
                     case 4:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.DAY);
+                        profTime = (TimePeriod.YEAR);
                         break;
                     case 5:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.WEEK);
-                        break;
-                    case 6:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.MONTH);
-                        break;
-                    case 7:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.YEAR);
-                        break;
-                    case 8:
-                        profSort = (Sorting.TOP);
-                        profTime = (TimePeriod.ALL);
-                        break;
-                    case 9:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.HOUR);
-                        break;
-                    case 10:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.DAY);
-                        break;
-                    case 11:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.WEEK);
-                        break;
-                    case 12:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.MONTH);
-                        break;
-                    case 13:
-                        profSort = (Sorting.CONTROVERSIAL);
-                        profTime = (TimePeriod.YEAR);
-                        break;
-                    case 14:
-                        profSort = (Sorting.CONTROVERSIAL);
                         profTime = (TimePeriod.ALL);
                         break;
                 }
