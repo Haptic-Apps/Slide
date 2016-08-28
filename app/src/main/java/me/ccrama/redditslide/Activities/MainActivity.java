@@ -1628,6 +1628,69 @@ public class MainActivity extends BaseActivity {
             }
         }
         {
+            final TextView newPostsNotif = (TextView) findViewById(R.id.notified_new_posts);
+
+            assert newPostsNotif != null;
+            newPostsNotif.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final String sub =
+                            ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
+
+                    if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("frontpage") &&
+                            !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
+                            !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
+                        new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
+                                getString(R.string.sub_post_notifs_title, sub))
+                                .setMessage(R.string.sub_post_notifs_text)
+                                .setPositiveButton(R.string.btn_ok,
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                new MaterialDialog.Builder(MainActivity.this).title(
+                                                        R.string.sub_post_notifs_threshold)
+                                                        .items(new String[]{
+                                                                "1", "5", "10", "20", "40", "50"
+                                                        })
+                                                        .alwaysCallSingleChoiceCallback()
+                                                        .itemsCallbackSingleChoice(0,
+                                                                new MaterialDialog.ListCallbackSingleChoice() {
+                                                                    @Override
+                                                                    public boolean onSelection(
+                                                                            MaterialDialog dialog,
+                                                                            View itemView,
+                                                                            int which,
+                                                                            CharSequence text) {
+                                                                        ArrayList<String> subs =
+                                                                                Reddit.stringToArray(
+                                                                                        Reddit.appRestart
+                                                                                                .getString(
+                                                                                                        CheckForMail.SUBS_TO_GET,
+                                                                                                        ""));
+                                                                        subs.add(sub + ":" + text);
+                                                                        Reddit.appRestart.edit()
+                                                                                .putString(
+                                                                                        CheckForMail.SUBS_TO_GET,
+                                                                                        Reddit.arrayToString(
+                                                                                                subs))
+                                                                                .commit();
+                                                                        return true;
+                                                                    }
+                                                                })
+                                                        .cancelable(false)
+                                                        .show();
+                                            }
+                                        })
+                                .setNegativeButton(R.string.btn_cancel, null)
+                                .show();
+                    } else {
+                        Toast.makeText(MainActivity.this, R.string.sub_post_notifs_err,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+        {
             final TextView subscribe = (TextView) findViewById(R.id.subscribe);
             currentlySubbed = (!Authentication.isLoggedIn && usedArray.contains(
                     subreddit.getDisplayName().toLowerCase())) || subreddit.isUserSubscriber();
@@ -3385,58 +3448,6 @@ public class MainActivity extends BaseActivity {
                 return true;
             case R.id.hide_posts:
                 ((SubmissionsView) adapter.getCurrentFragment()).clearSeenPosts(false);
-                return true;
-            case R.id.schedule:
-                final String sub = ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
-                if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("frontpage") &&
-                        !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
-                        !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
-                    new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                            getString(R.string.sub_post_notifs_title) + sub)
-                            .setMessage(R.string.sub_post_notifs_text)
-                            .setPositiveButton(R.string.btn_ok,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            new MaterialDialog.Builder(MainActivity.this).title(
-                                                    R.string.sub_post_notifs_threshold)
-                                                    .items(new String[]{
-                                                            "1", "5", "10", "20", "40", "50"
-                                                    })
-                                                    .alwaysCallSingleChoiceCallback()
-                                                    .itemsCallbackSingleChoice(0,
-                                                            new MaterialDialog.ListCallbackSingleChoice() {
-                                                                @Override
-                                                                public boolean onSelection(
-                                                                        MaterialDialog dialog,
-                                                                        View itemView, int which,
-                                                                        CharSequence text) {
-                                                                    ArrayList<String> subs =
-                                                                            Reddit.stringToArray(
-                                                                                    Reddit.appRestart
-                                                                                            .getString(
-                                                                                                    CheckForMail.SUBS_TO_GET,
-                                                                                                    ""));
-                                                                    subs.add(sub + ":" + text);
-                                                                    Reddit.appRestart.edit()
-                                                                            .putString(
-                                                                                    CheckForMail.SUBS_TO_GET,
-                                                                                    Reddit.arrayToString(
-                                                                                            subs))
-                                                                            .commit();
-                                                                    return true;
-                                                                }
-                                                            })
-                                                    .cancelable(false)
-                                                    .show();
-                                        }
-                                    })
-                            .setNegativeButton(R.string.btn_cancel, null)
-                            .show();
-                } else {
-                    Toast.makeText(MainActivity.this, R.string.sub_post_notifs_err,
-                            Toast.LENGTH_SHORT).show();
-                }
                 return true;
             case R.id.share:
                 Reddit.defaultShareText("Slide for Reddit",

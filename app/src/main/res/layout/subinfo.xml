@@ -127,16 +127,40 @@
                         android:textColorHint="?attr/font" />
 
                     <ImageView
-                        android:id="@+id/collection"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:padding="4dp"
-                        android:src="@drawable/collection"
-                        android:theme="@style/Ripple.List"
-                        android:tint="?attr/tint" />
+                            android:id="@+id/collection"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:padding="4dp"
+                            android:src="@drawable/collection"
+                            android:theme="@style/Ripple.List"
+                            android:tint="?attr/tint"
+                            android:layout_alignTop="@+id/subscribe"
+                            android:layout_alignParentEnd="true"/>
+
+                    <TextView
+                            android:id="@+id/notified_new_posts"
+                            android:text="@string/sub_post_notifs_menu"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:background="?android:selectableItemBackground"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:hapticFeedbackEnabled="true"
+                            android:gravity="center_vertical"
+                            android:padding="8dp"
+                            android:layout_below="@+id/subscribe"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/font"
+                            android:textColorHint="?attr/font" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
                 </RelativeLayout>
 
                 <View

@@ -69,10 +69,6 @@
         android:title="@string/hide_read_posts"
         app:showAsAction="never" />
 
-    <item android:id="@+id/schedule"
-          android:title="@string/sub_post_notifs_menu"
-          app:showAsAction="never"/>
-
     <item
         android:id="@+id/share"
         android:title="@string/share_slide"
