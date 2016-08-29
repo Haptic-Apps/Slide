@@ -886,7 +886,9 @@
 
     <!-- Subreddit post notifiactions -->
     <string name="sub_post_notifs_title">Be notified of new posts in\n/r/%1$s?</string>
+    <string name="sub_post_notifs_title_settings">Be notified of new posts?</string>
     <string name="sub_post_notifs_menu">Be notified of new posts</string>
+    <string name="sub_post_notify">Notify</string>
     <string name="sub_post_notifs_text">Slide will check for new posts every 10 minutes. You can cancel this in the post notifications</string>
     <string name="sub_post_notifs_threshold">Score threshold</string>
     <string name="sub_post_notifs_err">You can only add notifications to single subreddits</string>

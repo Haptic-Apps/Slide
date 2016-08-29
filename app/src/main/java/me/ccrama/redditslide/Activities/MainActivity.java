@@ -60,6 +60,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -1514,6 +1515,10 @@ public class MainActivity extends BaseActivity {
 
             final String text = subreddit.getDataNode().get("description_html").asText();
             setViews(text, subreddit.getDisplayName(), sidebarBody, sidebarOverflow);
+
+            CheckBox notifyStateCheckBox = (CheckBox) findViewById(R.id.notify_posts_state);
+            assert notifyStateCheckBox != null;
+            notifyStateCheckBox.setChecked(false);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
