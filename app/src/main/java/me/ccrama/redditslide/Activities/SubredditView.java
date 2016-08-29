@@ -23,6 +23,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.text.Spannable;
@@ -1068,7 +1069,6 @@ public class SubredditView extends BaseActivityAnim {
 
     private void doSubOnlyStuff(final Subreddit subreddit) {
         if (!isFinishing()) {
-
             findViewById(R.id.loader).setVisibility(View.GONE);
             if (subreddit.getDataNode().has("subreddit_type") && !subreddit.getDataNode()
                     .get("subreddit_type")
@@ -1087,6 +1087,23 @@ public class SubredditView extends BaseActivityAnim {
                         (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
                 CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);
                 setViews(text, subreddit.getDisplayName(), body, overflow);
+
+                //get all subs that have Notifications enabled
+                ArrayList<String> rawSubs =
+                        Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
+                HashMap<String, Integer> subThresholds = new HashMap<>();
+                for (String s : rawSubs) {
+                    try {
+                        String[] split = s.split(":");
+                        subThresholds.put(split[0].toLowerCase(), Integer.valueOf(split[1]));
+                    } catch (Exception ignored) {
+                        //do nothing
+                    }
+                }
+
+                //whether or not this subreddit was in the keySet
+                boolean isNotified = subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase());
+                ((AppCompatCheckBox) findViewById(R.id.notify_posts_state)).setChecked(isNotified);
             } else {
                 findViewById(R.id.sidebar_text).setVisibility(View.GONE);
             }
@@ -1194,7 +1211,6 @@ public class SubredditView extends BaseActivityAnim {
                         }.execute();
                     }
                 });
-
             } else {
                 collection.setVisibility(View.GONE);
             }
@@ -1208,6 +1224,7 @@ public class SubredditView extends BaseActivityAnim {
                                 || (Authentication.isLoggedIn && subreddit.isUserSubscriber());
                 doSubscribeButtonText(currentlySubbed, subscribe);
 
+                assert subscribe != null;
                 subscribe.setOnClickListener(new View.OnClickListener() {
                     private void doSubscribe() {
                         if (Authentication.isLoggedIn) {
@@ -1434,64 +1451,86 @@ public class SubredditView extends BaseActivityAnim {
                 });
             }
             {
-                final TextView newPostsNotif = (TextView) findViewById(R.id.notified_new_posts);
+                final AppCompatCheckBox notifyStateCheckBox = (AppCompatCheckBox) findViewById(R.id.notify_posts_state);
+                assert notifyStateCheckBox != null;
 
-                assert newPostsNotif != null;
-                newPostsNotif.setOnClickListener(new View.OnClickListener() {
+                notifyStateCheckBox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        final String sub =
-                                ((SubmissionsView) adapter.getCurrentFragment()).posts.subreddit;
+                        if (notifyStateCheckBox.isChecked()) {
+                            final String sub = subreddit.getDisplayName();
 
-                        if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("frontpage") &&
-                                !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
-                                !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
-                            new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                                    getString(R.string.sub_post_notifs_title, sub))
-                                    .setMessage(R.string.sub_post_notifs_text)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    new MaterialDialog.Builder(SubredditView.this).title(
-                                                            R.string.sub_post_notifs_threshold)
-                                                            .items(new String[]{
-                                                                    "1", "5", "10", "20", "40", "50"
-                                                            })
-                                                            .alwaysCallSingleChoiceCallback()
-                                                            .itemsCallbackSingleChoice(0,
-                                                                    new MaterialDialog.ListCallbackSingleChoice() {
-                                                                        @Override
-                                                                        public boolean onSelection(
-                                                                                MaterialDialog dialog,
-                                                                                View itemView,
-                                                                                int which,
-                                                                                CharSequence text) {
-                                                                            ArrayList<String> subs =
-                                                                                    Reddit.stringToArray(
-                                                                                            Reddit.appRestart
-                                                                                                    .getString(
-                                                                                                            CheckForMail.SUBS_TO_GET,
-                                                                                                            ""));
-                                                                            subs.add(sub + ":" + text);
-                                                                            Reddit.appRestart.edit()
-                                                                                    .putString(
-                                                                                            CheckForMail.SUBS_TO_GET,
-                                                                                            Reddit.arrayToString(
-                                                                                                    subs))
-                                                                                    .commit();
-                                                                            return true;
-                                                                        }
-                                                                    })
-                                                            .cancelable(false)
-                                                            .show();
-                                                }
-                                            })
-                                    .setNegativeButton(R.string.btn_cancel, null)
-                                    .show();
+                            if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("frontpage") &&
+                                    !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
+                                    !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
+                                new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
+                                        getString(R.string.sub_post_notifs_title, sub))
+                                        .setMessage(R.string.sub_post_notifs_text)
+                                        .setPositiveButton(R.string.btn_ok,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                                        new MaterialDialog.Builder(
+                                                                SubredditView.this).title(
+                                                                R.string.sub_post_notifs_threshold)
+                                                                .items(new String[]{
+                                                                        "1", "5", "10", "20", "40", "50"
+                                                                })
+                                                                .alwaysCallSingleChoiceCallback()
+                                                                .itemsCallbackSingleChoice(0,
+                                                                        new MaterialDialog.ListCallbackSingleChoice() {
+                                                                            @Override
+                                                                            public boolean onSelection(
+                                                                                    MaterialDialog dialog,
+                                                                                    View itemView,
+                                                                                    int which,
+                                                                                    CharSequence text) {
+                                                                                ArrayList<String> subs =
+                                                                                        Reddit.stringToArray(
+                                                                                                Reddit.appRestart
+                                                                                                        .getString(
+                                                                                                                CheckForMail.SUBS_TO_GET,
+                                                                                                                ""));
+                                                                                subs.add(sub
+                                                                                        + ":"
+                                                                                        + text);
+                                                                                Reddit.appRestart.edit()
+                                                                                        .putString(
+                                                                                                CheckForMail.SUBS_TO_GET,
+                                                                                                Reddit.arrayToString(
+                                                                                                        subs))
+                                                                                        .commit();
+                                                                                return true;
+                                                                            }
+                                                                        })
+                                                                .cancelable(false)
+                                                                .show();
+                                                    }
+                                                })
+                                        .setNegativeButton(R.string.btn_cancel, null)
+                                        .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                notifyStateCheckBox.setChecked(false);
+                                            }
+                                        })
+                                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                                            @Override
+                                            public void onCancel(DialogInterface dialog) {
+                                                notifyStateCheckBox.setChecked(false);
+                                            }
+                                        })
+                                        .show();
+                            } else {
+                                notifyStateCheckBox.setChecked(false);
+                                Toast.makeText(SubredditView.this, R.string.sub_post_notifs_err,
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            Toast.makeText(SubredditView.this, R.string.sub_post_notifs_err,
-                                    Toast.LENGTH_SHORT).show();
+                            Intent cancelIntent = new Intent(SubredditView.this, CancelSubNotifs.class);
+                            cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB, subreddit.getDisplayName());
+                            startActivity(cancelIntent);
                         }
                     }
                 });
