@@ -674,7 +674,7 @@ public class SettingsGeneral extends BaseActivityAnim
                     }
                 })
                 .alwaysCallMultiChoiceCallback()
-                .setTitle(R.string.sub_post_notifs_title_settings)
+                .setTitle(R.string.sub_post_notifs_title)
                 .setPositiveButton(getString(R.string.btn_add).toUpperCase(),
                         new DialogInterface.OnClickListener() {
                             @Override
