@@ -358,10 +358,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             //Set typeface for body
             int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+            Typeface typeface;
             if (type >= 0) {
-                Typeface typeface = RobotoTypefaceManager.obtainTypeface(mContext, type);
-                holder.firstTextView.setTypeface(typeface);
+                typeface = RobotoTypefaceManager.obtainTypeface(mContext, type);
+            } else {
+                typeface = Typeface.DEFAULT;
             }
+            holder.firstTextView.setTypeface(typeface);
+
 
             //Show padding on top
             if (baseNode.isTopLevel()) {

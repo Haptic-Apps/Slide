@@ -2563,10 +2563,14 @@ public class PopulateSubmissionViewHolder {
             holder.body.setVisibility(View.VISIBLE);
             String text = submission.getDataNode().get("selftext_html").asText();
             int typef = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+            Typeface typeface;
             if (typef >= 0) {
-                Typeface typeface = RobotoTypefaceManager.obtainTypeface(mContext, typef);
-                holder.body.setTypeface(typeface);
+                typeface = RobotoTypefaceManager.obtainTypeface(mContext, typef);
+            } else {
+                typeface = Typeface.DEFAULT;
             }
+            holder.body.setTypeface(typeface);
+
             holder.body.setTextHtml(Html.fromHtml(
                     text.substring(0, text.contains("\n") ? text.indexOf("\n") : text.length()))
                     .toString()
@@ -2592,10 +2596,13 @@ public class PopulateSubmissionViewHolder {
         if (full) {
             if (!submission.getSelftext().isEmpty()) {
                 int typef = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+                Typeface typeface;
                 if (typef >= 0) {
-                    Typeface typeface = RobotoTypefaceManager.obtainTypeface(mContext, typef);
-                    holder.firstTextView.setTypeface(typeface);
+                    typeface = RobotoTypefaceManager.obtainTypeface(mContext, typef);
+                } else {
+                    typeface = Typeface.DEFAULT;
                 }
+                holder.firstTextView.setTypeface(typeface);
 
                 setViews(submission.getDataNode().get("selftext_html").asText(),
                         submission.getSubredditName(), holder);
