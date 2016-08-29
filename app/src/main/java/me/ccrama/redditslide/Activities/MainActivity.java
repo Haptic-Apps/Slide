@@ -1516,9 +1516,25 @@ public class MainActivity extends BaseActivity {
             final String text = subreddit.getDataNode().get("description_html").asText();
             setViews(text, subreddit.getDisplayName(), sidebarBody, sidebarOverflow);
 
+            //get all subs that have Notifications enabled
+            ArrayList<String> rawSubs =
+                    Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
+            HashMap<String, Integer> subThresholds = new HashMap<>();
+            for (String s : rawSubs) {
+                try {
+                    String[] split = s.split(":");
+                    subThresholds.put(split[0].toLowerCase(), Integer.valueOf(split[1]));
+                } catch (Exception ignored) {
+                    //do nothing
+                }
+            }
+
+            //whether or not this subreddit was in the keySet
+            boolean isNotified = subThresholds.keySet().contains(subreddit.getDisplayName());
+
             CheckBox notifyStateCheckBox = (CheckBox) findViewById(R.id.notify_posts_state);
             assert notifyStateCheckBox != null;
-            notifyStateCheckBox.setChecked(false);
+            notifyStateCheckBox.setChecked(isNotified);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
         }
