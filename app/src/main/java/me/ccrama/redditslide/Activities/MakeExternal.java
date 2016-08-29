@@ -1,9 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -37,7 +34,9 @@ public class MakeExternal extends Activity {
                     }
                 }
 
-                domains.add(u.getHost());
+                if (!domains.contains(u.getHost())) {
+                    domains.add(u.getHost());
+                }
 
                 SharedPreferences.Editor e = SettingValues.prefs.edit();
                 e.putString(SettingValues.PREF_ALWAYS_EXTERNAL, Reddit.arrayToString(domains));
