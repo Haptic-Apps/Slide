@@ -1,7 +1,6 @@
 package me.ccrama.redditslide.Activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -34,15 +33,9 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.NestedWebView;
-import me.ccrama.redditslide.Views.WebViewOverScrollDecoratorAdapter;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.AdBlocker;
-import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
-import me.everything.android.ui.overscroll.HorizontalOverScrollBounceEffectDecorator;
-import me.everything.android.ui.overscroll.IOverScrollDecor;
-import me.everything.android.ui.overscroll.IOverScrollState;
-import me.everything.android.ui.overscroll.IOverScrollStateListener;
 
 public class Website extends BaseActivityAnim {
 
@@ -104,7 +97,7 @@ public class Website extends BaseActivityAnim {
                 return true;
             case R.id.external:
                 Intent inte = new Intent(this, MakeExternal.class);
-                inte.putExtra("url", v.getUrl());
+                inte.putExtra("url", url);
                 startActivity(inte);
                 return true;
             case R.id.store_cookies:
