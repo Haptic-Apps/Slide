@@ -1283,13 +1283,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 if (reply.getVisibility() == View.VISIBLE) {
                     reply.setVisibility(View.GONE);
                 }
-                if (!submission.isArchived()
+                if (submission.isArchived()
                         && Authentication.isLoggedIn
                         && Authentication.didOnline
                         && upvote.getVisibility() == View.VISIBLE) {
                     upvote.setVisibility(View.GONE);
                 }
-                if (!submission.isArchived()
+                if (submission.isArchived()
                         && Authentication.isLoggedIn
                         && Authentication.didOnline
                         && downvote.getVisibility() == View.VISIBLE) {

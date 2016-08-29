@@ -66,13 +66,7 @@ public class CommentSearch extends BaseActivityAnim {
                 String result = search.getText().toString();
                 adapter.setResult(result);
                 adapter.getFilter().filter(result);
-
-
             }
         });
-
-
     }
-
-
 }

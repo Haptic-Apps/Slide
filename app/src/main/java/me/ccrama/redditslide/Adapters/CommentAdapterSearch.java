@@ -30,6 +30,8 @@ import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.DistinguishedStatus;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -183,9 +185,9 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
-        String body = comment.getDataNode().get("body_html").asText();
+        String body = StringEscapeUtils.unescapeHtml4(comment.getDataNode().get("body_html").asText());
         if(!search.isEmpty()){
-            body = body.replace(search, "[[h[" + search + "]h]]");
+            body = body.replaceAll(search, "[[h[" + search + "]h]]");
         }
 
         setViews(body, comment.getSubredditName(), holder);
