@@ -212,6 +212,10 @@ public class SubredditView extends BaseActivityAnim {
             inflater.inflate(R.menu.menu_single_subreddit, menu);
         }
 
+        if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_DISMISS) {
+            menu.findItem(R.id.hide_posts).setVisible(false);
+        }
+
         return true;
     }
 
@@ -372,6 +376,9 @@ public class SubredditView extends BaseActivityAnim {
                 return true;
             case R.id.sidebar:
                 drawerLayout.openDrawer(Gravity.RIGHT);
+                return true;
+            case R.id.hide_posts:
+                ((SubmissionsView) adapter.getCurrentFragment()).clearSeenPosts(false);
                 return true;
             case R.id.action_shadowbox:
                 if (SettingValues.tabletUI) {

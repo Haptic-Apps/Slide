@@ -53,4 +53,9 @@
             android:id="@+id/filter"
             android:title="@string/sub_content_filter"
             app:showAsAction="never"/>
+
+    <item
+            android:id="@+id/hide_posts"
+            android:title="@string/hide_read_posts"
+            app:showAsAction="never" />
 </menu>
