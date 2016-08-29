@@ -1,320 +1,356 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sidebar_scroll"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/card_background">
-
-    <LinearLayout
-        android:id="@+id/sidebarsub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ProgressBar
-            android:id="@+id/loader"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="-7dp"
-            android:layout_marginTop="-7dp"
-            android:indeterminate="true"
-            android:padding="0dp" />
-
-        <LinearLayout
-            android:id="@+id/header_sub"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorAccent"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/sub_infotitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toStartOf="@+id/subimage"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/subscribers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/sub_infotitle"
-                    android:layout_toStartOf="@+id/subimage"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/active_users"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/subscribers"
-                    android:layout_toStartOf="@+id/subimage"
-                    android:paddingStart="16dp"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="italic" />
-
-                <ImageView
-                    android:id="@+id/subimage"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
-            </RelativeLayout>
-
-            <me.ccrama.redditslide.SpoilerRobotoTextView
-                android:id="@+id/sub_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <me.ccrama.redditslide.Views.CommentOverflow
-                android:id="@+id/sub_title_overflow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp" />
-        </LinearLayout>
-
-        <LinearLayout
+<ScrollView android:id="@+id/sidebar_scroll"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/sub_stuff"
+            android:background="?attr/card_background">
+
+    <LinearLayout
+            android:id="@+id/sidebarsub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/body"
+        <ProgressBar
+                android:id="@+id/loader"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="-7dp"
+                android:layout_marginTop="-7dp"
+                android:indeterminate="true"
+                android:padding="0dp"/>
 
-                <RelativeLayout
+        <LinearLayout
+                android:id="@+id/header_sub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorAccent"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+            <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/subscribe"
-                        android:text="@string/subscribe_caps"
+                <TextView
+                        android:id="@+id/sub_infotitle"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_toStartOf="@id/collection"
-                        android:background="?android:selectableItemBackground"
-                        android:textStyle="bold"
-                        android:textSize="16sp"
-                        android:hapticFeedbackEnabled="true"
-                        android:gravity="center_vertical"
-                        android:padding="8dp"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:layout_height="wrap_content"
+                        android:layout_toStartOf="@+id/subimage"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                <TextView
+                        android:id="@+id/subscribers"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sub_infotitle"
+                        android:layout_toStartOf="@+id/subimage"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"/>
+
+                <TextView
+                        android:id="@+id/active_users"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/subscribers"
+                        android:layout_toStartOf="@+id/subimage"
+                        android:paddingStart="16dp"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="italic"/>
+
+                <ImageView
+                        android:id="@+id/subimage"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"/>
+            </RelativeLayout>
+
+            <me.ccrama.redditslide.SpoilerRobotoTextView
+                    android:id="@+id/sub_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+
+            <me.ccrama.redditslide.Views.CommentOverflow
+                    android:id="@+id/sub_title_overflow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+                android:id="@+id/sub_stuff"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <LinearLayout
+                    android:id="@+id/body"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp">
+
+                <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:id="@+id/subscribe"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_toStartOf="@id/collection"
+                            android:background="?android:selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:hapticFeedbackEnabled="true"
+                            android:padding="8dp"
+                            android:text="@string/subscribe_caps"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/font"
+                            android:textColorHint="?attr/font"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
 
                     <ImageView
-                        android:id="@+id/collection"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="20dp"
-                        android:padding="4dp"
-                        android:src="@drawable/collection"
-                        android:theme="@style/Ripple.List"
-                        android:tint="?attr/tint" />
+                            android:id="@+id/collection"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignTop="@+id/subscribe"
+                            android:padding="4dp"
+                            android:src="@drawable/collection"
+                            android:theme="@style/Ripple.List"
+                            android:tint="?attr/tint"/>
                 </RelativeLayout>
 
+                <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatCheckBox
+                            android:id="@+id/notify_posts_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:selectableItemBackground"
+                            android:backgroundTint="?attr/tint"
+                            android:button="@null"
+                            android:buttonTint="?attr/colorAccent"
+                            android:checked="false"
+                            android:drawableEnd="?android:attr/listChoiceIndicatorMultiple"
+                            android:hapticFeedbackEnabled="true"
+                            android:textColor="?attr/font"
+                            android:textColorHint="?attr/font"/>
+
+                    <TextView
+                            android:id="@+id/notified_new_posts"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginTop="8dp"
+                            android:enabled="false"
+                            android:gravity="center_vertical"
+                            android:padding="8dp"
+                            android:text="@string/sub_post_notify"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/font"
+                            android:textColorHint="?attr/font"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
+                </LinearLayout>
+
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
-                    android:alpha=".8"
-                    android:background="?attr/tint" />
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8dp"
+                        android:alpha=".8"
+                        android:background="?attr/tint"/>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp">
-
-                <RelativeLayout
-                    android:id="@+id/theme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground">
+                    android:orientation="vertical"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
+
+                <RelativeLayout
+                        android:id="@+id/theme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:tint="?attr/tint"
-                        app:srcCompat="@drawable/theme" />
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="12dp"
+                            android:tint="?attr/tint"
+                            app:srcCompat="@drawable/theme"/>
 
                     <TextView
-                        android:id="@+id/theme_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:height="48dp"
-                        android:drawablePadding="16dp"
-                        android:gravity="center_vertical"
-                        android:paddingStart="52dp"
-                        android:text="@string/subreddit_theme"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/colorAccent"
-                        android:textStyle="bold" />
+                            android:id="@+id/theme_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:height="48dp"
+                            android:drawablePadding="16dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="52dp"
+                            android:text="@string/subreddit_theme"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/colorAccent"
+                            android:textStyle="bold"/>
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/wiki"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground">
+                        android:id="@+id/wiki"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:tint="?attr/tint"
-                        app:srcCompat="@drawable/wiki" />
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="12dp"
+                            android:tint="?attr/tint"
+                            app:srcCompat="@drawable/wiki"/>
 
                     <TextView
-                        android:id="@+id/wiki_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:height="48dp"
-                        android:drawablePadding="16dp"
-                        android:gravity="center_vertical"
-                        android:paddingStart="52dp"
-                        android:text="@string/sidebar_wiki"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/colorAccent"
-                        android:textStyle="bold" />
+                            android:id="@+id/wiki_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:height="48dp"
+                            android:drawablePadding="16dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="52dp"
+                            android:text="@string/sidebar_wiki"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/colorAccent"
+                            android:textStyle="bold"/>
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/submit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground">
+                        android:id="@+id/submit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:tint="?attr/tint"
-                        app:srcCompat="@drawable/send" />
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="12dp"
+                            android:tint="?attr/tint"
+                            app:srcCompat="@drawable/send"/>
 
                     <TextView
-                        android:id="@+id/post_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:height="48dp"
-                        android:drawablePadding="16dp"
-                        android:gravity="center_vertical"
-                        android:paddingStart="52dp"
-                        android:text="@string/editor_submit"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/colorAccent"
-                        android:textStyle="bold" />
+                            android:id="@+id/post_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:height="48dp"
+                            android:drawablePadding="16dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="52dp"
+                            android:text="@string/editor_submit"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/colorAccent"
+                            android:textStyle="bold"/>
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/mods"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground">
+                        android:id="@+id/mods"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:tint="?attr/tint"
-                        app:srcCompat="@drawable/mod" />
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="12dp"
+                            android:tint="?attr/tint"
+                            app:srcCompat="@drawable/mod"/>
 
                     <TextView
-                        android:id="@+id/mods_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:height="48dp"
-                        android:drawablePadding="16dp"
-                        android:gravity="center_vertical"
-                        android:paddingStart="52dp"
-                        android:text="@string/sidebar_mods"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/colorAccent"
-                        android:textStyle="bold" />
+                            android:id="@+id/mods_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:height="48dp"
+                            android:drawablePadding="16dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="52dp"
+                            android:text="@string/sidebar_mods"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/colorAccent"
+                            android:textStyle="bold"/>
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/flair"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:visibility="gone">
+                        android:id="@+id/flair"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:visibility="gone">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:tint="?attr/tint"
-                        app:srcCompat="@drawable/fontsizedarker" />
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="12dp"
+                            android:tint="?attr/tint"
+                            app:srcCompat="@drawable/fontsizedarker"/>
 
                     <TextView
-                        android:id="@+id/flair_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:drawablePadding="16dp"
-                        android:gravity="center_vertical"
-                        android:minHeight="48dp"
-                        android:paddingStart="52dp"
-                        android:text="@string/sidebar_edit_flair"
-                        android:textAllCaps="true"
-                        android:textColor="?attr/colorAccent"
-                        android:textStyle="bold" />
+                            android:id="@+id/flair_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:drawablePadding="16dp"
+                            android:gravity="center_vertical"
+                            android:minHeight="48dp"
+                            android:paddingStart="52dp"
+                            android:text="@string/sidebar_edit_flair"
+                            android:textAllCaps="true"
+                            android:textColor="?attr/colorAccent"
+                            android:textStyle="bold"/>
                 </RelativeLayout>
 
                 <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:alpha=".8"
-                    android:background="?attr/tint" />
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:alpha=".8"
+                        android:background="?attr/tint"/>
             </LinearLayout>
         </LinearLayout>
 
-        <me.ccrama.redditslide.SpoilerRobotoTextView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/sidebar_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:textColor="?attr/font"
-            android:textSize="?attr/font_commentbody" />
+        <me.ccrama.redditslide.SpoilerRobotoTextView android:id="@+id/sidebar_text"
+                                                     xmlns:android="http://schemas.android.com/apk/res/android"
+                                                     android:layout_width="match_parent"
+                                                     android:layout_height="match_parent"
+                                                     android:padding="16dp"
+                                                     android:textColor="?attr/font"
+                                                     android:textSize="?attr/font_commentbody"/>
 
         <me.ccrama.redditslide.Views.CommentOverflow
-            android:id="@+id/commentOverflow"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
-            android:visibility="gone" />
+                android:id="@+id/commentOverflow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:visibility="gone"/>
     </LinearLayout>
 </ScrollView>
