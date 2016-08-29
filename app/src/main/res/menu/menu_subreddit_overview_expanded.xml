@@ -70,10 +70,6 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/schedule"
-        android:title="@string/sub_post_notifs_menu"
-        app:showAsAction="never" />
-    <item
         android:id="@+id/share"
         android:title="@string/share_slide"
         app:showAsAction="never" />
