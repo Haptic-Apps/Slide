@@ -15,40 +15,44 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 public class TitleTextView extends SpoilerRobotoTextView {
     public TitleTextView(Context c) {
         super(c);
-        if(!isInEditMode()) {
+        if (!isInEditMode()) {
             int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
+            Typeface typeface;
             if (type >= 0) {
-                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                        c,
-                        type);
-                setTypeface(typeface);
+                typeface = RobotoTypefaceManager.obtainTypeface(c, type);
+            } else {
+                typeface = Typeface.DEFAULT;
             }
+            setTypeface(typeface);
+
         }
     }
 
     public TitleTextView(Context c, AttributeSet attrs) {
         super(c, attrs);
-        if(!isInEditMode()) {
+        if (!isInEditMode()) {
             int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
+            Typeface typeface;
             if (type >= 0) {
-                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                        c,
-                        type);
-                setTypeface(typeface);
+                typeface = RobotoTypefaceManager.obtainTypeface(c, type);
+            } else {
+                typeface = Typeface.DEFAULT;
             }
+            setTypeface(typeface);
         }
     }
 
     public TitleTextView(Context c, AttributeSet attrs, int defStyle) {
         super(c, attrs, defStyle);
-        if(!isInEditMode()) {
+        if (!isInEditMode()) {
             int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
+            Typeface typeface;
             if (type >= 0) {
-                Typeface typeface = RobotoTypefaceManager.obtainTypeface(
-                        c,
-                        type);
-                setTypeface(typeface);
+                typeface = RobotoTypefaceManager.obtainTypeface(c, type);
+            } else {
+                typeface = Typeface.DEFAULT;
             }
+            setTypeface(typeface);
         }
     }
 }

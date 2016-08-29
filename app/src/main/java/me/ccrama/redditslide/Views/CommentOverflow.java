@@ -87,9 +87,9 @@ public class CommentOverflow extends LinearLayout {
         Context context = getContext();
         int type = new FontPreferences(context).getFontTypeComment().getTypeface();
         if (type >= 0) {
-            typeface = RobotoTypefaceManager.obtainTypeface(
-                    context,
-                    type);
+            typeface = RobotoTypefaceManager.obtainTypeface(context, type);
+        } else {
+            typeface = Typeface.DEFAULT;
         }
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();
