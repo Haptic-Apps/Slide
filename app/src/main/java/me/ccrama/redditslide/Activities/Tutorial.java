@@ -90,7 +90,7 @@ public class Tutorial extends AppCompatActivity {
         }
     }
 
-    public class Welcome extends Fragment {
+    public static class Welcome extends Fragment {
         @Override
         public void onResume() {
             super.onResume();
@@ -104,7 +104,7 @@ public class Tutorial extends AppCompatActivity {
             v.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPager.setCurrentItem(1);
+                    ((Tutorial)getActivity()).mPager.setCurrentItem(1);
                 }
             });
 
@@ -114,7 +114,7 @@ public class Tutorial extends AppCompatActivity {
     }
     int back;
 
-    public class Personalize extends Fragment {
+    public static class Personalize extends Fragment {
         @Override
         public void onResume() {
             super.onResume();
@@ -123,25 +123,25 @@ public class Tutorial extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                                  Bundle savedInstanceState) {
-            back = new ColorPreferences(getContext()).getFontStyle().getThemeType();
+            ((Tutorial)getActivity()).back = new ColorPreferences(getContext()).getFontStyle().getThemeType();
 
             View v = inflater.inflate(R.layout.fragment_basicinfo, container, false);
             final View header = v.findViewById(R.id.header);
 
-            ((ImageView)v.findViewById(R.id.tint_accent)).setColorFilter(Tutorial.this.getResources().getColor(new ColorPreferences(Tutorial.this).getFontStyle().getColor()));
+            ((ImageView)v.findViewById(R.id.tint_accent)).setColorFilter(getActivity().getResources().getColor(new ColorPreferences(getContext()).getFontStyle().getColor()));
             ((ImageView) v.findViewById(R.id.tint_primary)).setColorFilter(Palette.getDefaultColor());
             header.setBackgroundColor(Palette.getDefaultColor());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getWindow();
+                Window window = getActivity().getWindow();
                 window.setStatusBarColor(Palette.getDarkerColor(Palette.getDefaultColor()));
             }
             v.findViewById(R.id.primary).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    LayoutInflater inflater = Tutorial.this.getLayoutInflater();
+                    LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.choosemain, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Tutorial.this);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getContext());
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -149,13 +149,13 @@ public class Tutorial extends AppCompatActivity {
                     LineColorPicker colorPicker = (LineColorPicker) dialoglayout.findViewById(R.id.picker);
                     final LineColorPicker colorPicker2 = (LineColorPicker) dialoglayout.findViewById(R.id.picker2);
 
-                    colorPicker.setColors(ColorPreferences.getBaseColors(Tutorial.this));
+                    colorPicker.setColors(ColorPreferences.getBaseColors(getContext()));
                     int currentColor = Palette.getDefaultColor();
                     for (int i : colorPicker.getColors()) {
-                        for (int i2 : ColorPreferences.getColors(getBaseContext(), i)) {
+                        for (int i2 : ColorPreferences.getColors(getContext(), i)) {
                             if (i2 == currentColor) {
                                 colorPicker.setSelectedColor(i);
-                                colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), i));
+                                colorPicker2.setColors(ColorPreferences.getColors(getContext(), i));
                                 colorPicker2.setSelectedColor(i2);
                                 break;
                             }
@@ -167,7 +167,7 @@ public class Tutorial extends AppCompatActivity {
                         @Override
                         public void onColorChanged(int c) {
 
-                            colorPicker2.setColors(ColorPreferences.getColors(getBaseContext(), c));
+                            colorPicker2.setColors(ColorPreferences.getColors(getContext(), c));
                             colorPicker2.setSelectedColor(c);
 
 
@@ -181,7 +181,7 @@ public class Tutorial extends AppCompatActivity {
                             header.setBackgroundColor(colorPicker2.getColor());
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                Window window = getWindow();
+                                Window window = getActivity().getWindow();
                                 window.setStatusBarColor(Palette.getDarkerColor(colorPicker2.getColor()));
                             }
 
@@ -193,14 +193,14 @@ public class Tutorial extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             Reddit.colors.edit().putInt("DEFAULTCOLOR", colorPicker2.getColor()).apply();
-                            Intent i = new Intent(Tutorial.this, Tutorial.class);
+                            Intent i = new Intent( getActivity(), Tutorial.class);
                             i.putExtra("page", 1);
                             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(i);
-                            overridePendingTransition(0, 0);
+                            getActivity().overridePendingTransition(0, 0);
 
-                            finish();
-                            overridePendingTransition(0, 0);
+                            getActivity().finish();
+                            getActivity().overridePendingTransition(0, 0);
 
                         }
                     });
@@ -212,9 +212,9 @@ public class Tutorial extends AppCompatActivity {
             v.findViewById(R.id.secondary).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LayoutInflater inflater = Tutorial.this.getLayoutInflater();
+                    LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.chooseaccent, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Tutorial.this);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
@@ -224,14 +224,14 @@ public class Tutorial extends AppCompatActivity {
                     int i = 0;
                     for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
                         if (type.getThemeType() == 0) {
-                            arrs[i] = ContextCompat.getColor(Tutorial.this, type.getColor());
+                            arrs[i] = ContextCompat.getColor(getActivity(), type.getColor());
 
                             i++;
                         }
                     }
 
                     colorPicker.setColors(arrs);
-                    colorPicker.setSelectedColor(new ColorPreferences(Tutorial.this).getColor(""));
+                    colorPicker.setSelectedColor(new ColorPreferences(getActivity()).getColor(""));
 
 
                     dialoglayout.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
@@ -240,23 +240,23 @@ public class Tutorial extends AppCompatActivity {
                             int color = colorPicker.getColor();
                             ColorPreferences.Theme t = null;
                             for (ColorPreferences.Theme type : ColorPreferences.Theme.values()) {
-                                if (ContextCompat.getColor(Tutorial.this, type.getColor()) == color && back == type.getThemeType()) {
+                                if (ContextCompat.getColor(getActivity(), type.getColor()) == color && ((Tutorial)getActivity()).back == type.getThemeType()) {
                                     t = type;
                                     break;
                                 }
                             }
 
 
-                            new ColorPreferences(Tutorial.this).setFontStyle(t);
+                            new ColorPreferences(getActivity()).setFontStyle(t);
 
-                            Intent i = new Intent(Tutorial.this, Tutorial.class);
+                            Intent i = new Intent(getActivity(), Tutorial.class);
                             i.putExtra("page", 1);
                             i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                             startActivity(i);
-                            overridePendingTransition(0, 0);
+                            getActivity().overridePendingTransition(0, 0);
 
-                            finish();
-                            overridePendingTransition(0, 0);
+                            getActivity().finish();
+                            getActivity().overridePendingTransition(0, 0);
 
 
                         }
@@ -270,31 +270,31 @@ public class Tutorial extends AppCompatActivity {
             v.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LayoutInflater inflater = Tutorial.this.getLayoutInflater();
+                    LayoutInflater inflater = getActivity().getLayoutInflater();
                     final View dialoglayout = inflater.inflate(R.layout.choosethemesmall, null);
-                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(Tutorial.this);
+                    AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(getActivity());
                     final TextView title = (TextView) dialoglayout.findViewById(R.id.title);
                     title.setBackgroundColor(Palette.getDefaultColor());
 
                     dialoglayout.findViewById(R.id.black).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
                             String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 2) {
-                                    back = theme.getThemeType();
-                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
+                                    ((Tutorial)getActivity()).back = theme.getThemeType();
+                                    new ColorPreferences(getActivity()).setFontStyle(theme);
 
-                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
                                     i.putExtra("page", 1);
                                     i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                     startActivity(i);
-                                    overridePendingTransition(0, 0);
+                                    getActivity().overridePendingTransition(0, 0);
 
-                                    finish();
-                                    overridePendingTransition(0, 0);
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
 
                                     break;
                                 }
@@ -304,22 +304,22 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.light).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
                             String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 1) {
-                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
-                                    back = theme.getThemeType();
+                                    new ColorPreferences(getActivity()).setFontStyle(theme);
+                                    ((Tutorial)getActivity()).back = theme.getThemeType();
 
-                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
                                     i.putExtra("page", 1);
                                     i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                     startActivity(i);
-                                    overridePendingTransition(0, 0);
+                                    getActivity().overridePendingTransition(0, 0);
 
-                                    finish();
-                                    overridePendingTransition(0, 0);
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
 
                                     break;
                                 }
@@ -329,22 +329,22 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.dark).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
                             String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 0) {
-                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
-                                    back = theme.getThemeType();
+                                    new ColorPreferences(getActivity()).setFontStyle(theme);
+                                    ((Tutorial)getActivity()).back = theme.getThemeType();
 
-                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
                                     i.putExtra("page", 1);
                                     i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                     startActivity(i);
-                                    overridePendingTransition(0, 0);
+                                    getActivity().overridePendingTransition(0, 0);
 
-                                    finish();
-                                    overridePendingTransition(0, 0);
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
 
                                     break;
                                 }
@@ -354,22 +354,22 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.blacklighter).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
                             String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 4) {
-                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
-                                    back = theme.getThemeType();
+                                    new ColorPreferences(getActivity()).setFontStyle(theme);
+                                    ((Tutorial)getActivity()).back = theme.getThemeType();
 
-                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
                                     i.putExtra("page", 1);
                                     i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                     startActivity(i);
-                                    overridePendingTransition(0, 0);
+                                    getActivity().overridePendingTransition(0, 0);
 
-                                    finish();
-                                    overridePendingTransition(0, 0);
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
 
                                     break;
                                 }
@@ -379,22 +379,22 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.sepia).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
                             String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 5) {
-                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
-                                    back = theme.getThemeType();
+                                    new ColorPreferences(getActivity()).setFontStyle(theme);
+                                    ((Tutorial)getActivity()).back = theme.getThemeType();
 
-                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
                                     i.putExtra("page", 1);
                                     i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                     startActivity(i);
-                                    overridePendingTransition(0, 0);
+                                    getActivity().overridePendingTransition(0, 0);
 
-                                    finish();
-                                    overridePendingTransition(0, 0);
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
 
                                     break;
                                 }
@@ -404,22 +404,22 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.sepia).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
                             String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 6) {
-                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
-                                    back = theme.getThemeType();
+                                    new ColorPreferences(getActivity()).setFontStyle(theme);
+                                    ((Tutorial)getActivity()).back = theme.getThemeType();
 
-                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
                                     i.putExtra("page", 1);
                                     i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                     startActivity(i);
-                                    overridePendingTransition(0, 0);
+                                    getActivity().overridePendingTransition(0, 0);
 
-                                    finish();
-                                    overridePendingTransition(0, 0);
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
 
                                     break;
                                 }
@@ -429,22 +429,22 @@ public class Tutorial extends AppCompatActivity {
                     dialoglayout.findViewById(R.id.blue).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            String[] names = new ColorPreferences(Tutorial.this).getFontStyle().getTitle().split("_");
+                            String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
                             String name = names[names.length - 1];
                             final String newName = name.replace("(", "");
                             for (ColorPreferences.Theme theme : ColorPreferences.Theme.values()) {
                                 if (theme.toString().contains(newName) && theme.getThemeType() == 3) {
-                                    new ColorPreferences(Tutorial.this).setFontStyle(theme);
-                                    back = theme.getThemeType();
+                                    new ColorPreferences(getActivity()).setFontStyle(theme);
+                                    ((Tutorial)getActivity()).back = theme.getThemeType();
 
-                                    Intent i = new Intent(Tutorial.this, Tutorial.class);
+                                    Intent i = new Intent(getActivity(), Tutorial.class);
                                     i.putExtra("page", 1);
                                     i.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                                     startActivity(i);
-                                    overridePendingTransition(0, 0);
+                                    getActivity().overridePendingTransition(0, 0);
 
-                                    finish();
-                                    overridePendingTransition(0, 0);
+                                    getActivity().finish();
+                                    getActivity().overridePendingTransition(0, 0);
                                     break;
                                 }
                             }
@@ -460,7 +460,7 @@ public class Tutorial extends AppCompatActivity {
                 public void onClick(View v) {
                     Reddit.colors.edit().putString("Tutorial", "S").commit();
                     Reddit.appRestart.edit().putString("startScreen", "a").apply();
-                    Reddit.forceRestart(Tutorial.this);
+                    Reddit.forceRestart(getActivity());
                 }
             });
             return v;
