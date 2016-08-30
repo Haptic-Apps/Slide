@@ -1752,19 +1752,7 @@ public class MainActivity extends BaseActivity {
                     }
                 }
             });
-            header.findViewById(R.id.godownsettings).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    LinearLayout body = (LinearLayout) header.findViewById(R.id.expand_settings);
-                    if (body.getVisibility() == View.GONE) {
-                        expand(body);
-                        flipAnimator(false, view).start();
-                    } else {
-                        collapse(body);
-                        flipAnimator(true, view).start();
-                    }
-                }
-            });
+
             header.findViewById(R.id.add).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
