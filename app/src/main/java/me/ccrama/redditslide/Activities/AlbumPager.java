@@ -41,7 +41,9 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.imageaware.ImageViewAware;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
@@ -651,7 +653,11 @@ public class AlbumPager extends FullScreenActivity
                 new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
         fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ((Reddit) f.getActivity().getApplication()).getImageLoader()
-                .displayImage(url, new ImageViewAware(fakeImage), ImageLoaderUtils.options,
+                .displayImage(url, new ImageViewAware(fakeImage), new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
+                                .cacheOnDisk(true)
+                                .imageScaleType(ImageScaleType.NONE)
+                                .cacheInMemory(false)
+                                .build(),
                         new ImageLoadingListener() {
                             private View mView;
 

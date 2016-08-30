@@ -1355,7 +1355,7 @@ public class CommentAdapterHelper {
     }
 
     public static void doCommentEdit(final CommentAdapter adapter, final Context mContext,
-            FragmentManager fm, final CommentNode baseNode) {
+            FragmentManager fm, final CommentNode baseNode, String replyText) {
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
@@ -1365,7 +1365,7 @@ public class CommentAdapterHelper {
         e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
 
         DoEditorActions.doActions(e, dialoglayout, fm, (Activity) mContext,
-                baseNode.getComment().getBody());
+                StringEscapeUtils.unescapeHtml4(replyText));
 
         builder.setCancelable(false).setView(dialoglayout);
         final Dialog d = builder.create();

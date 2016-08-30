@@ -1066,7 +1066,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onSingleClick(View v) {
                         CommentAdapterHelper.doCommentEdit(CommentAdapter.this, mContext, fm,
-                                baseNode);
+                                baseNode, baseNode.isTopLevel()?submission.getSelftext():baseNode.getParent().getComment().getBody());
                     }
                 });
             } else {
