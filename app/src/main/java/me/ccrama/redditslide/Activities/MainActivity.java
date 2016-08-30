@@ -3682,7 +3682,7 @@ public class MainActivity extends BaseActivity {
         drawerSubList.setAdapter(sideArrayAdapter);
 
         if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
-                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH || SettingValues.subredditSearchMethod != R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
             drawerSearch = ((EditText) headerMain.findViewById(R.id.sort));
             drawerSearch.setVisibility(View.VISIBLE);
 

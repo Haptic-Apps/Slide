@@ -269,17 +269,20 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
     private void setLinkTypes(SpannableStringBuilder builder, URLSpan span) {
         String url = span.getURL();
+        if (url.endsWith("/")) {
+            url = url.substring(0, url.length() - 1);
+        }
         String text = builder.subSequence(builder.getSpanStart(span), builder.getSpanEnd(span))
                 .toString();
         if (!text.equalsIgnoreCase(url)) {
             ContentType.Type contentType = ContentType.getContentType(url);
             String bod;
             try {
-                bod = " ("
-                        + getContext().getString(ContentType.getContentID(contentType, false))
-                        + (contentType == ContentType.Type.LINK ? " " + Uri.parse(url).getHost()
-                        : "")
-                        + ")";
+                bod = " (" + ((url.contains("/") && url.startsWith("/") && !(url.split("/").length
+                        > 2)) ? url
+                        : (getContext().getString(ContentType.getContentID(contentType, false)) + (
+                                contentType == ContentType.Type.LINK ? " " + Uri.parse(url)
+                                        .getHost() : ""))) + ")";
             } catch (Exception e) {
                 bod = " ("
                         + getContext().getString(ContentType.getContentID(contentType, false))
