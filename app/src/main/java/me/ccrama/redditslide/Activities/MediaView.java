@@ -77,26 +77,29 @@ import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import okhttp3.OkHttpClient;
 
+import static me.ccrama.redditslide.Activities.AlbumPager.readableFileSize;
+
 
 /**
  * Created by ccrama on 3/5/2015.
  */
-public class MediaView extends FullScreenActivity implements FolderChooserDialogCreate.FolderCallback {
-    public static final String EXTRA_URL = "url";
-    public static final String ADAPTER_POSITION = "adapter_position";
-    public static final String SUBMISSION_URL = "submission";
+public class MediaView extends FullScreenActivity
+        implements FolderChooserDialogCreate.FolderCallback {
+    public static final String EXTRA_URL         = "url";
+    public static final String ADAPTER_POSITION  = "adapter_position";
+    public static final String SUBMISSION_URL    = "submission";
     public static final String EXTRA_DISPLAY_URL = "displayUrl";
-    public static final String EXTRA_LQ = "lq";
-    public static final String EXTRA_SHARE_URL = "urlShare";
+    public static final String EXTRA_LQ          = "lq";
+    public static final String EXTRA_SHARE_URL   = "urlShare";
 
-    public static String fileLoc;
+    public static String   fileLoc;
     public static Runnable doOnClick;
-    public static boolean didLoadGif;
+    public static boolean  didLoadGif;
 
-    public float previous;
+    public float   previous;
     public boolean hidden;
     public boolean imageShown;
-    public String actuallyLoaded;
+    public String  actuallyLoaded;
     public boolean isGif;
 
     private NotificationManager        mNotifyManager;
@@ -192,9 +195,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             final URI uri = new URI(url);
             final String path = uri.getPath();
 
-            return !ContentType.isGif(uri)
-                    && !ContentType.isImage(uri)
-                    && path.contains(".");
+            return !ContentType.isGif(uri) && !ContentType.isImage(uri) && path.contains(".");
         } catch (URISyntaxException e) {
             return false;
         }
@@ -228,17 +229,20 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
 
         ta.recycle();
 
-        BottomSheet.Builder b = new BottomSheet.Builder(this)
-                .title(contentUrl);
+        BottomSheet.Builder b = new BottomSheet.Builder(this).title(contentUrl);
 
         b.sheet(2, external, getString(R.string.submission_link_extern));
         b.sheet(5, share, getString(R.string.submission_link_share));
 
-        if (!isGif)
-            b.sheet(3, image, getString(R.string.share_image));
+        if (!isGif) b.sheet(3, image, getString(R.string.share_image));
         b.sheet(4, save, "Save " + (isGif ? "MP4" : "image"));
-        if (isGif && !contentUrl.contains(".mp4") && !contentUrl.contains("streamable.com") && !contentUrl.contains("gfycat.com") && !contentUrl.contains("vid.me")) {
-            String type = contentUrl.substring(contentUrl.lastIndexOf(".") + 1, contentUrl.length()).toUpperCase();
+        if (isGif
+                && !contentUrl.contains(".mp4")
+                && !contentUrl.contains("streamable.com")
+                && !contentUrl.contains("gfycat.com")
+                && !contentUrl.contains("vid.me")) {
+            String type = contentUrl.substring(contentUrl.lastIndexOf(".") + 1, contentUrl.length())
+                    .toUpperCase();
             try {
                 if (type.equals("GIFV") && new URL(contentUrl).getHost().equals("i.imgur.com")) {
                     type = "GIF";
@@ -309,7 +313,10 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 } else if (!new File(Reddit.appRestart.getString("imagelocation", "")).exists()) {
                     showErrorDialog();
                 } else {
-                    final File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + baseUrl.substring(baseUrl.lastIndexOf(".")));
+                    final File f = new File(
+                            Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID
+                                    .randomUUID()
+                                    .toString() + baseUrl.substring(baseUrl.lastIndexOf(".")));
                     mNotifyManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(MediaView.this);
@@ -317,7 +324,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                             .setSmallIcon(R.drawable.save);
                     try {
 
-                        final URL url = new URL(baseUrl); //wont exist on server yet, just load the full version
+                        final URL url =
+                                new URL(baseUrl); //wont exist on server yet, just load the full version
                         URLConnection ucon = url.openConnection();
                         ucon.setReadTimeout(5000);
                         ucon.setConnectTimeout(10000);
@@ -342,30 +350,37 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         outStream.flush();
                         outStream.close();
                         inStream.close();
-                        MediaScannerConnection.scanFile(MediaView.this, new String[]{f.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
-                            public void onScanCompleted(String path, Uri uri) {
-                                Intent mediaScanIntent = new Intent(
-                                        Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                                Uri contentUri = Uri.parse("file://" + f.getAbsolutePath());
-                                mediaScanIntent.setData(contentUri);
-                                MediaView.this.sendBroadcast(mediaScanIntent);
+                        MediaScannerConnection.scanFile(MediaView.this,
+                                new String[]{f.getAbsolutePath()}, null,
+                                new MediaScannerConnection.OnScanCompletedListener() {
+                                    public void onScanCompleted(String path, Uri uri) {
+                                        Intent mediaScanIntent =
+                                                new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                        Uri contentUri = Uri.parse("file://" + f.getAbsolutePath());
+                                        mediaScanIntent.setData(contentUri);
+                                        MediaView.this.sendBroadcast(mediaScanIntent);
 
-                                final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                                shareIntent.setDataAndType(contentUri, "image/gif");
-                                PendingIntent contentIntent = PendingIntent.getActivity(MediaView.this, 0, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                                        final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
+                                        shareIntent.setDataAndType(contentUri, "image/gif");
+                                        PendingIntent contentIntent =
+                                                PendingIntent.getActivity(MediaView.this, 0,
+                                                        shareIntent,
+                                                        PendingIntent.FLAG_CANCEL_CURRENT);
 
 
-                                Notification notif = new NotificationCompat.Builder(MediaView.this)
-                                        .setContentTitle(getString(R.string.gif_saved))
-                                        .setSmallIcon(R.drawable.savecontent)
-                                        .setContentIntent(contentIntent)
-                                        .build();
+                                        Notification notif = new NotificationCompat.Builder(
+                                                MediaView.this).setContentTitle(
+                                                getString(R.string.gif_saved))
+                                                .setSmallIcon(R.drawable.savecontent)
+                                                .setContentIntent(contentIntent)
+                                                .build();
 
-                                NotificationManager mNotificationManager =
-                                        (NotificationManager) getSystemService(Activity.NOTIFICATION_SERVICE);
-                                mNotificationManager.notify(1, notif);
-                            }
-                        });
+                                        NotificationManager mNotificationManager =
+                                                (NotificationManager) getSystemService(
+                                                        Activity.NOTIFICATION_SERVICE);
+                                        mNotificationManager.notify(1, notif);
+                                    }
+                                });
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -380,8 +395,7 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public void onDestroy() {
         super.onDestroy();
         ((SubsamplingScaleImageView) findViewById(R.id.submission_image)).recycle();
-        if (gif != null)
-            gif.cancel(true);
+        if (gif != null) gif.cancel(true);
         doOnClick = null;
         if (!didLoadGif && fileLoc != null && !fileLoc.isEmpty()) {
             new File(fileLoc).delete();
@@ -409,7 +423,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 } else {
                     animateOut(findViewById(R.id.gifheader));
                     fadeIn(findViewById(R.id.black));
-                    getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+                    getWindow().getDecorView()
+                            .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
                 }
             }
         });
@@ -438,8 +453,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         gson = new Gson();
         mashapeKey = SecretConstants.getImgurApiKey(this);
 
-        if (savedInstanceState != null && savedInstanceState.containsKey("position"))
+        if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
             stopPosition = savedInstanceState.getInt("position");
+        }
 
         doOnClick = new Runnable() {
             @Override
@@ -488,9 +504,14 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     findViewById(R.id.hq).setVisibility(View.GONE);
                 }
             });
-        } else if (ContentType.isImgurImage(contentUrl) && SettingValues.imgurLq && SettingValues.loadImageLq && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(this) && SettingValues.lowResMobile))) {
+        } else if (ContentType.isImgurImage(contentUrl)
+                && SettingValues.imgurLq
+                && SettingValues.loadImageLq
+                && (SettingValues.lowResAlways || (!NetworkUtil.isConnectedWifi(this)
+                && SettingValues.lowResMobile))) {
             String url = contentUrl;
-            url = url.substring(0, url.lastIndexOf(".")) + "m" + url.substring(url.lastIndexOf("."), url.length());
+            url = url.substring(0, url.lastIndexOf(".")) + "m" + url.substring(url.lastIndexOf("."),
+                    url.length());
 
             displayImage(url);
             findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
@@ -502,7 +523,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 }
             });
         } else {
-            if (!firstUrl.isEmpty() && contentUrl != null && ContentType.displayImage(ContentType.getContentType(contentUrl))) {
+            if (!firstUrl.isEmpty() && contentUrl != null && ContentType.displayImage(
+                    ContentType.getContentType(contentUrl))) {
                 ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
                 displayImage(firstUrl);
             } else if (firstUrl.isEmpty()) {
@@ -572,7 +594,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) findViewById(R.id.gifprogress);
         findViewById(R.id.progress).setVisibility(View.GONE);
-        gif = new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder), doOnClick, true, false, true, ((TextView) findViewById(R.id.size)));
+        gif = new GifUtils.AsyncLoadGif(this, (MediaVideoView) findViewById(R.id.gif), loader,
+                findViewById(R.id.placeholder), doOnClick, true, false, true,
+                ((TextView) findViewById(R.id.size)));
         gif.execute(dat);
         findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -689,21 +713,24 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         try {
                             if (result != null && !result.isJsonNull() && result.has("img")) {
                                 doLoadImage(result.get("img").getAsString());
-                                findViewById(R.id.submission_image).setOnLongClickListener(new View.OnLongClickListener() {
-                                    @Override
-                                    public boolean onLongClick(View v) {
-                                        try {
-                                            new AlertDialogWrapper.Builder(MediaView.this).setTitle(
-                                                    result.get("safe_title").getAsString())
-                                                    .setMessage(result.get("alt").getAsString())
-                                                    .show();
-                                        } catch(Exception ignored){
+                                findViewById(R.id.submission_image).setOnLongClickListener(
+                                        new View.OnLongClickListener() {
+                                            @Override
+                                            public boolean onLongClick(View v) {
+                                                try {
+                                                    new AlertDialogWrapper.Builder(
+                                                            MediaView.this).setTitle(
+                                                            result.get("safe_title").getAsString())
+                                                            .setMessage(
+                                                                    result.get("alt").getAsString())
+                                                            .show();
+                                                } catch (Exception ignored) {
 
-                                        }
-                                        return true;
-                                    }
-                                });
-                            }  else {
+                                                }
+                                                return true;
+                                            }
+                                        });
+                            } else {
                                 Intent i = new Intent(MediaView.this, Website.class);
                                 i.putExtra(Website.EXTRA_URL, finalUrl);
                                 MediaView.this.startActivity(i);
@@ -733,7 +760,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             @Override
             protected void onPostExecute(JsonObject result) {
                 LogUtil.v("doLoad onPostExecute() called with: " + "result = [" + result + "]");
-                if (result != null && !result.isJsonNull() && (result.has("fullsize_url") || result.has("url"))) {
+                if (result != null && !result.isJsonNull() && (result.has("fullsize_url")
+                        || result.has("url"))) {
                     String url;
                     if (result.has("fullsize_url")) {
                         url = result.get("fullsize_url").getAsString();
@@ -751,23 +779,29 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     }
 
     public void doLoadImage(String contentUrl) {
-        if (contentUrl != null && contentUrl.contains("bildgur.de"))
+        if (contentUrl != null && contentUrl.contains("bildgur.de")) {
             contentUrl = contentUrl.replace("b.bildgur.de", "i.imgur.com");
+        }
         if (contentUrl != null && ContentType.isImgurLink(contentUrl)) {
             contentUrl = contentUrl + ".png";
         }
 
         findViewById(R.id.gifprogress).setVisibility(View.GONE);
 
-        if (contentUrl != null && contentUrl.contains("m.imgur.com"))
+        if (contentUrl != null && contentUrl.contains("m.imgur.com")) {
             contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
+        }
         if (contentUrl == null) {
             finish();
             //todo maybe something better
 
         }
 
-        if ((contentUrl != null && !contentUrl.startsWith("https://i.redditmedia.com") && !contentUrl.startsWith("https://i.reddituploads.com") && !contentUrl.contains("imgur.com"))) { //we can assume redditmedia and imgur links are to direct images and not websites
+        if ((contentUrl != null
+                && !contentUrl.startsWith("https://i.redditmedia.com")
+                && !contentUrl.startsWith("https://i.reddituploads.com")
+                && !contentUrl.contains(
+                "imgur.com"))) { //we can assume redditmedia and imgur links are to direct images and not websites
             findViewById(R.id.progress).setVisibility(View.VISIBLE);
             ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
 
@@ -782,10 +816,14 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                if (!imageShown && type != null && !type.isEmpty() && type.startsWith("image/")) {
+                                if (!imageShown
+                                        && type != null
+                                        && !type.isEmpty()
+                                        && type.startsWith("image/")) {
                                     //is image
                                     if (type.contains("gif")) {
-                                        doLoadGif(finalUrl2.replace(".jpg", ".gif").replace(".png", ".gif"));
+                                        doLoadGif(finalUrl2.replace(".jpg", ".gif")
+                                                .replace(".png", ".gif"));
                                     } else if (!imageShown) {
                                         displayImage(finalUrl2);
                                     }
@@ -827,7 +865,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public void displayImage(final String url) {
         if (!imageShown) {
             actuallyLoaded = url;
-            final SubsamplingScaleImageView i = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
+            final SubsamplingScaleImageView i =
+                    (SubsamplingScaleImageView) findViewById(R.id.submission_image);
 
             i.setMinimumDpi(70);
             i.setMinimumTileDpi(240);
@@ -864,83 +903,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                 i.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        i.setOnZoomChangedListener(new SubsamplingScaleImageView.OnZoomChangedListener() {
-                            @Override
-                            public void onZoomLevelChanged(float zoom) {
-                                if (zoom > previous && !hidden && zoom > base) {
-                                    hidden = true;
-                                    final View base = findViewById(R.id.gifheader);
-
-                                    ValueAnimator va = ValueAnimator.ofFloat(1.0f, 0.2f);
-                                    int mDuration = 250; //in millis
-                                    va.setDuration(mDuration);
-                                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                        public void onAnimationUpdate(ValueAnimator animation) {
-                                            Float value = (Float) animation.getAnimatedValue();
-                                            base.setAlpha(value);
-                                        }
-                                    });
-                                    va.start();
-                                    //hide
-                                } else if (zoom <= previous && hidden) {
-                                    hidden = false;
-                                    final View base = findViewById(R.id.gifheader);
-
-                                    ValueAnimator va = ValueAnimator.ofFloat(0.2f, 1.0f);
-                                    int mDuration = 250; //in millis
-                                    va.setDuration(mDuration);
-                                    va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                        public void onAnimationUpdate(ValueAnimator animation) {
-                                            Float value = (Float) animation.getAnimatedValue();
-                                            base.setAlpha(value);
-                                        }
-                                    });
-                                    va.start();
-                                    //unhide
-                                }
-                                previous = zoom;
-                            }
-                        });
-                    }
-                }, 2000);
-
-            } else {
-                ((Reddit) getApplication()).getImageLoader()
-                        .displayImage(url, new ImageViewAware(fakeImage), new DisplayImageOptions.Builder()
-                                .resetViewBeforeLoading(true)
-                                .cacheOnDisk(true)
-                                .imageScaleType(ImageScaleType.NONE)
-                                .cacheInMemory(false)
-                                .build(), new ImageLoadingListener() {
-                            private View mView;
-
-                            @Override
-                            public void onLoadingStarted(String imageUri, View view) {
-                                imageShown = true;
-                                mView = view;
-                            }
-
-                            @Override
-                            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                                Log.v(LogUtil.getTag(), "LOADING FAILED");
-
-                            }
-
-                            @Override
-                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                                imageShown = true;
-                                File f = ((Reddit) getApplicationContext()).getImageLoader().getDiscCache().get(url);
-                                if (f != null && f.exists()) {
-                                    i.setImage(ImageSource.uri(f.getAbsolutePath()));
-                                } else {
-                                    i.setImage(ImageSource.bitmap(loadedImage));
-                                }
-                                (findViewById(R.id.progress)).setVisibility(View.GONE);
-                                handler.removeCallbacks(progressBarDelayRunner);
-
-                                previous = i.scale;
-                                final float base = i.scale;
-                                i.setOnZoomChangedListener(new SubsamplingScaleImageView.OnZoomChangedListener() {
+                        i.setOnZoomChangedListener(
+                                new SubsamplingScaleImageView.OnZoomChangedListener() {
                                     @Override
                                     public void onZoomLevelChanged(float zoom) {
                                         if (zoom > previous && !hidden && zoom > base) {
@@ -950,12 +914,15 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                             ValueAnimator va = ValueAnimator.ofFloat(1.0f, 0.2f);
                                             int mDuration = 250; //in millis
                                             va.setDuration(mDuration);
-                                            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                                public void onAnimationUpdate(ValueAnimator animation) {
-                                                    Float value = (Float) animation.getAnimatedValue();
-                                                    base.setAlpha(value);
-                                                }
-                                            });
+                                            va.addUpdateListener(
+                                                    new ValueAnimator.AnimatorUpdateListener() {
+                                                        public void onAnimationUpdate(
+                                                                ValueAnimator animation) {
+                                                            Float value =
+                                                                    (Float) animation.getAnimatedValue();
+                                                            base.setAlpha(value);
+                                                        }
+                                                    });
                                             va.start();
                                             //hide
                                         } else if (zoom <= previous && hidden) {
@@ -965,31 +932,140 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                                             ValueAnimator va = ValueAnimator.ofFloat(0.2f, 1.0f);
                                             int mDuration = 250; //in millis
                                             va.setDuration(mDuration);
-                                            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                                                public void onAnimationUpdate(ValueAnimator animation) {
-                                                    Float value = (Float) animation.getAnimatedValue();
-                                                    base.setAlpha(value);
-                                                }
-                                            });
+                                            va.addUpdateListener(
+                                                    new ValueAnimator.AnimatorUpdateListener() {
+                                                        public void onAnimationUpdate(
+                                                                ValueAnimator animation) {
+                                                            Float value =
+                                                                    (Float) animation.getAnimatedValue();
+                                                            base.setAlpha(value);
+                                                        }
+                                                    });
                                             va.start();
                                             //unhide
                                         }
                                         previous = zoom;
                                     }
                                 });
-                            }
+                    }
+                }, 2000);
 
-                            @Override
-                            public void onLoadingCancelled(String imageUri, View view) {
-                                Log.v(LogUtil.getTag(), "LOADING CANCELLED");
+            } else {
+                final TextView size = (TextView) findViewById(R.id.size);
 
-                            }
-                        }, new ImageLoadingProgressListener() {
-                            @Override
-                            public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                                ((ProgressBar) findViewById(R.id.progress)).setProgress(Math.round(100.0f * current / total));
-                            }
-                        });
+                ((Reddit) getApplication()).getImageLoader()
+                        .displayImage(url, new ImageViewAware(fakeImage),
+                                new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
+                                        .cacheOnDisk(true)
+                                        .imageScaleType(ImageScaleType.NONE)
+                                        .cacheInMemory(false)
+                                        .build(), new ImageLoadingListener() {
+                                    private View mView;
+
+                                    @Override
+                                    public void onLoadingStarted(String imageUri, View view) {
+                                        imageShown = true;
+                                        size.setVisibility(View.VISIBLE);
+                                        mView = view;
+                                    }
+
+                                    @Override
+                                    public void onLoadingFailed(String imageUri, View view,
+                                            FailReason failReason) {
+                                        Log.v(LogUtil.getTag(), "LOADING FAILED");
+
+                                    }
+
+                                    @Override
+                                    public void onLoadingComplete(String imageUri, View view,
+                                            Bitmap loadedImage) {
+                                        imageShown = true;
+                                        size.setVisibility(View.GONE);
+
+                                        File f = ((Reddit) getApplicationContext()).getImageLoader()
+                                                .getDiscCache()
+                                                .get(url);
+                                        if (f != null && f.exists()) {
+                                            i.setImage(ImageSource.uri(f.getAbsolutePath()));
+                                        } else {
+                                            i.setImage(ImageSource.bitmap(loadedImage));
+                                        }
+                                        (findViewById(R.id.progress)).setVisibility(View.GONE);
+                                        handler.removeCallbacks(progressBarDelayRunner);
+
+                                        previous = i.scale;
+                                        final float base = i.scale;
+                                        i.setOnZoomChangedListener(
+                                                new SubsamplingScaleImageView.OnZoomChangedListener() {
+                                                    @Override
+                                                    public void onZoomLevelChanged(float zoom) {
+                                                        if (zoom > previous
+                                                                && !hidden
+                                                                && zoom > base) {
+                                                            hidden = true;
+                                                            final View base =
+                                                                    findViewById(R.id.gifheader);
+
+                                                            ValueAnimator va =
+                                                                    ValueAnimator.ofFloat(1.0f,
+                                                                            0.2f);
+                                                            int mDuration = 250; //in millis
+                                                            va.setDuration(mDuration);
+                                                            va.addUpdateListener(
+                                                                    new ValueAnimator.AnimatorUpdateListener() {
+                                                                        public void onAnimationUpdate(
+                                                                                ValueAnimator animation) {
+                                                                            Float value =
+                                                                                    (Float) animation
+                                                                                            .getAnimatedValue();
+                                                                            base.setAlpha(value);
+                                                                        }
+                                                                    });
+                                                            va.start();
+                                                            //hide
+                                                        } else if (zoom <= previous && hidden) {
+                                                            hidden = false;
+                                                            final View base =
+                                                                    findViewById(R.id.gifheader);
+
+                                                            ValueAnimator va =
+                                                                    ValueAnimator.ofFloat(0.2f,
+                                                                            1.0f);
+                                                            int mDuration = 250; //in millis
+                                                            va.setDuration(mDuration);
+                                                            va.addUpdateListener(
+                                                                    new ValueAnimator.AnimatorUpdateListener() {
+                                                                        public void onAnimationUpdate(
+                                                                                ValueAnimator animation) {
+                                                                            Float value =
+                                                                                    (Float) animation
+                                                                                            .getAnimatedValue();
+                                                                            base.setAlpha(value);
+                                                                        }
+                                                                    });
+                                                            va.start();
+                                                            //unhide
+                                                        }
+                                                        previous = zoom;
+                                                    }
+                                                });
+                                    }
+
+                                    @Override
+                                    public void onLoadingCancelled(String imageUri, View view) {
+                                        Log.v(LogUtil.getTag(), "LOADING CANCELLED");
+
+                                    }
+                                }, new ImageLoadingProgressListener() {
+                                    @Override
+                                    public void onProgressUpdate(String imageUri, View view,
+                                            int current, int total) {
+                                        size.setText(readableFileSize(total));
+
+                                        ((ProgressBar) findViewById(R.id.progress)).setProgress(
+                                                Math.round(100.0f * current / total));
+                                    }
+                                });
             }
         }
     }
@@ -1000,18 +1076,22 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
             public void run() {
                 try {
 
-                    new AlertDialogWrapper.Builder(MediaView.this)
-                            .setTitle(R.string.set_save_location)
+                    new AlertDialogWrapper.Builder(MediaView.this).setTitle(
+                            R.string.set_save_location)
                             .setMessage(R.string.set_save_location_msg)
-                            .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    new FolderChooserDialogCreate.Builder(MediaView.this)
-                                            .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                            .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
-                                            .show();
-                                }
-                            })
+                            .setPositiveButton(R.string.btn_yes,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            new FolderChooserDialogCreate.Builder(
+                                                    MediaView.this).chooseButton(
+                                                    R.string.btn_select)  // changes label of the choose button
+                                                    .initialPath(
+                                                            Environment.getExternalStorageDirectory()
+                                                                    .getPath())  // changes initial path, defaults to external storage directory
+                                                    .show();
+                                        }
+                                    })
                             .setNegativeButton(R.string.btn_no, null)
                             .show();
                 } catch (Exception ignored) {
@@ -1026,15 +1106,16 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                new AlertDialogWrapper.Builder(MediaView.this)
-                        .setTitle(R.string.err_something_wrong)
+                new AlertDialogWrapper.Builder(MediaView.this).setTitle(
+                        R.string.err_something_wrong)
                         .setMessage(R.string.err_couldnt_save_choose_new)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                new FolderChooserDialogCreate.Builder(MediaView.this)
-                                        .chooseButton(R.string.btn_select)  // changes label of the choose button
-                                        .initialPath(Environment.getExternalStorageDirectory().getPath())  // changes initial path, defaults to external storage directory
+                                new FolderChooserDialogCreate.Builder(MediaView.this).chooseButton(
+                                        R.string.btn_select)  // changes label of the choose button
+                                        .initialPath(Environment.getExternalStorageDirectory()
+                                                .getPath())  // changes initial path, defaults to external storage directory
                                         .show();
                             }
                         })
@@ -1055,10 +1136,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     }
 
     /**
-     * Converts an image to a PNG, stores it to the cache, then shares it.
-     * Saves the image to /cache/shared_image for easy deletion.
-     * If the /cache/shared_image folder already exists, we clear it's contents as to avoid
-     * increasing the cache size unnecessarily.
+     * Converts an image to a PNG, stores it to the cache, then shares it. Saves the image to
+     * /cache/shared_image for easy deletion. If the /cache/shared_image folder already exists, we
+     * clear it's contents as to avoid increasing the cache size unnecessarily.
      *
      * @param bitmap image to share
      */
@@ -1066,7 +1146,8 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
         File image; //image to share
 
         //check to see if the cache/shared_images directory is present
-        final File imagesDir = new File(this.getCacheDir().toString() + File.separator + "shared_image");
+        final File imagesDir =
+                new File(this.getCacheDir().toString() + File.separator + "shared_image");
         if (!imagesDir.exists()) {
             imagesDir.mkdir(); //create the folder if it doesn't exist
         } else {
@@ -1089,20 +1170,25 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
                     /**
                      * If a user has both a debug build and a release build installed, the authority name needs to be unique
                      */
-                    final String authority = (this.getPackageName()).concat(".").concat(MediaView.class.getSimpleName());
+                    final String authority = (this.getPackageName()).concat(".")
+                            .concat(MediaView.class.getSimpleName());
 
                     final Uri contentUri = FileProvider.getUriForFile(this, authority, image);
 
                     if (contentUri != null) {
                         final Intent shareImageIntent = new Intent(Intent.ACTION_SEND);
-                        shareImageIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); //temp permission for receiving app to read this file
+                        shareImageIntent.addFlags(
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION); //temp permission for receiving app to read this file
                         shareImageIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
-                        shareImageIntent.setDataAndType(contentUri, getContentResolver().getType(contentUri));
+                        shareImageIntent.setDataAndType(contentUri,
+                                getContentResolver().getType(contentUri));
 
                         //Select a share option
-                        startActivity(Intent.createChooser(shareImageIntent, getString(R.string.misc_img_share)));
+                        startActivity(Intent.createChooser(shareImageIntent,
+                                getString(R.string.misc_img_share)));
                     } else {
-                        Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, getString(R.string.err_share_image), Toast.LENGTH_LONG)
+                                .show();
                     }
                 }
             }
@@ -1127,7 +1213,9 @@ public class MediaView extends FullScreenActivity implements FolderChooserDialog
     public void onFolderSelection(FolderChooserDialogCreate dialog, File folder) {
         if (folder != null) {
             Reddit.appRestart.edit().putString("imagelocation", folder.getAbsolutePath()).apply();
-            Toast.makeText(this, getString(R.string.settings_set_image_location, folder.getAbsolutePath()), Toast.LENGTH_LONG).show();
+            Toast.makeText(this,
+                    getString(R.string.settings_set_image_location, folder.getAbsolutePath()),
+                    Toast.LENGTH_LONG).show();
         }
     }
 }
