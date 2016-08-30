@@ -12,6 +12,7 @@ import android.view.animation.LinearInterpolator;
 
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.InboxPage;
+import me.ccrama.redditslide.Fragments.ModLog;
 import me.ccrama.redditslide.Fragments.ModPage;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.UserSubscriptions;
@@ -113,6 +114,13 @@ public class ModQueue extends BaseActivityAnim {
                 f.setArguments(args);
 
                 return f;
+            } else if (i == 4) {
+                Fragment f = new ModLog();
+                Bundle args = new Bundle();
+
+                f.setArguments(args);
+
+                return f;
             } else if (i == 2) {
                 Fragment f = new ModPage();
                 Bundle args = new Bundle();
@@ -141,7 +149,7 @@ public class ModQueue extends BaseActivityAnim {
 
         @Override
         public int getCount() {
-            return UserSubscriptions.modOf == null ? 2 : UserSubscriptions.modOf.size() + 4;
+            return UserSubscriptions.modOf == null ? 2 : UserSubscriptions.modOf.size() + 5;
         }
 
 
@@ -155,8 +163,10 @@ public class ModQueue extends BaseActivityAnim {
                 return getString(R.string.mod_modqueue);
             } else if (position == 3) {
                 return getString(R.string.mod_unmoderated);
+            } else if (position == 4) {
+                return getString(R.string.mod_log);
             } else {
-                return UserSubscriptions.modOf.get(position - 4);
+                return UserSubscriptions.modOf.get(position - 5);
             }
         }
     }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        android:id="@+id/card"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:cardview="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:theme="@style/Ripple.List"
+        cardview:cardBackgroundColor="?attr/card_background"
+        cardview:cardCornerRadius="1dp"
+        cardview:cardElevation="0dp"
+        cardview:cardMaxElevation="0dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content"
+            >
+
+        <ImageView
+                android:id="@+id/action"
+                android:layout_width="28dp"
+                android:layout_marginLeft="4dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true"
+                android:padding="4dp"
+                android:src="@drawable/support"/>
+
+        <me.ccrama.redditslide.SpoilerRobotoTextView
+                android:id="@+id/body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:text="test"
+                android:textColor="?attr/tint"
+                android:textSize="?attr/font_commentbody"/>
+    </LinearLayout>
+</android.support.v7.widget.CardView>

@@ -1135,6 +1135,7 @@
     <string name="low_quality_through_reddit_lower_resolution">Low Quality through Reddit (lower resolution)</string>
     <string name="theme_red_shift">Red shift</string>
     <string name="view_sub_sidebar">View sub sidebar</string>
+    <string name="mod_log">Mod log</string>
 
 
 </resources>
