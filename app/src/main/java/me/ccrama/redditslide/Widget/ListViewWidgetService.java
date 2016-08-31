@@ -178,6 +178,11 @@ class ListViewRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactor
                     mContext.sendBroadcast(widgetUpdateIntent);
                 }
             }.execute();
+        } else {
+            Intent widgetUpdateIntent = new Intent(mContext, SubredditWidgetProvider.class);
+            widgetUpdateIntent.setAction(SubredditWidgetProvider.UPDATE_MEETING_ACTION);
+            widgetUpdateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, id);
+            mContext.sendBroadcast(widgetUpdateIntent);
         }
     }
 
