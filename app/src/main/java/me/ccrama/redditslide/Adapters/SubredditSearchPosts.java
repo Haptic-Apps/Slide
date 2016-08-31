@@ -165,9 +165,10 @@ public class SubredditSearchPosts extends GeneralPosts {
 
                 } else if (!nomore) {
                     for (Submission s : paginator.next()) {
-
                         newSubmissions.add(s);
-
+                    }
+                    if (newSubmissions.isEmpty()) {
+                        nomore = true;
                     }
                 } else {
                     adapter.notifyDataSetChanged();
