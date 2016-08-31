@@ -1351,20 +1351,6 @@ public class MainActivity extends BaseActivity {
         //Only refresh the view if a Setting was altered
         if (Settings.changed || SettingsTheme.changed) {
 
-            int current = pager.getCurrentItem();
-            if (commentPager && current == currentComment) {
-                current = current - 1;
-            }
-            if (current < 0) {
-                current = 0;
-            }
-            adapter = new OverviewPagerAdapter(getSupportFragmentManager());
-            pager.setAdapter(adapter);
-            pager.setCurrentItem(current);
-            if (mTabLayout != null) {
-                mTabLayout.setupWithViewPager(pager);
-                scrollToTabAfterLayout(current);
-            }
             reloadSubs();
             //If the user changed a Setting regarding the app's theme, restartTheme()
             if (SettingsTheme.changed /* todo maybe later || (usedArray != null && usedArray.size() != UserSubscriptions.getSubscriptions(this).size())*/) {
@@ -2004,7 +1990,7 @@ public class MainActivity extends BaseActivity {
             header.findViewById(R.id.online).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    Reddit.appRestart.edit().remove("forceoffline").apply();
+                    Reddit.appRestart.edit().remove("forceoffline").commit();
                     Reddit.forceRestart(MainActivity.this);
                 }
             });
@@ -3687,7 +3673,9 @@ public class MainActivity extends BaseActivity {
             drawerSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    drawerSubList.smoothScrollToPositionFromTop(1, drawerSearch.getHeight(), 100);
+                    if(hasFocus) {
+                        drawerSubList.smoothScrollToPositionFromTop(1, drawerSearch.getHeight(), 100);
+                    }
                 }
             });
             drawerSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -3827,7 +3815,7 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog,
                                 @NonNull DialogAction which) {
-                            Reddit.appRestart.edit().remove("forceoffline").apply();
+                            Reddit.appRestart.edit().remove("forceoffline").commit();
                             Reddit.forceRestart(MainActivity.this);
                         }
                     })

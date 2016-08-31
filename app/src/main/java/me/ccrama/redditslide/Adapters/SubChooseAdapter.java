@@ -3,7 +3,6 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.AvoidXfermode;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -27,6 +26,7 @@ import me.ccrama.redditslide.Activities.Shortcut;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Widget.SubredditWidgetProvider;
+import me.ccrama.redditslide.util.ImageUtil;
 import me.ccrama.redditslide.util.LogUtil;
 
 
@@ -115,9 +115,10 @@ public class SubChooseAdapter extends ArrayAdapter<String> {
                         paint.setColorFilter(new PorterDuffColorFilter(overlayColor, PorterDuff.Mode.SRC_ATOP));
                         c.drawBitmap(src, 0, 0, paint);
 
-                        paint.setColorFilter(null);
-                        paint.setXfermode(new AvoidXfermode(overlayColor, 0, AvoidXfermode.Mode.TARGET));
-                        c.drawBitmap(bm1, 0, 0, paint);
+                        //paint.setColorFilter(null);
+                        //paint.setXfermode(new AvoidXfermode(overlayColor, 0, AvoidXfermode.Mode.TARGET));
+                        //c.drawBitmap(bm1, 0, 0, paint);
+                        ImageUtil.drawWithTargetColor(bm2, bm1, overlayColor, 0);
                     }
 
                     final float scale = ((Shortcut)getContext()).getResources().getDisplayMetrics().density;
