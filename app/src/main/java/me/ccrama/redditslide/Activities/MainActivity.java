@@ -3673,7 +3673,9 @@ public class MainActivity extends BaseActivity {
             drawerSearch.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    drawerSubList.smoothScrollToPositionFromTop(1, drawerSearch.getHeight(), 100);
+                    if(hasFocus) {
+                        drawerSubList.smoothScrollToPositionFromTop(1, drawerSearch.getHeight(), 100);
+                    }
                 }
             });
             drawerSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
