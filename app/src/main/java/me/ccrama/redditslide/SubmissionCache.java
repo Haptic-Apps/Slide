@@ -349,6 +349,7 @@ public class SubmissionCache {
                     (int) Math.ceil(fontsize * aspectRatio),
                     (int) Math.ceil(fontsize), true);
             gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(" ");
             titleString.append(gilded);
         }

@@ -21,6 +21,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -416,6 +417,7 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         (int) Math.ceil(fontsize * aspectRatio),
                         (int) Math.ceil(fontsize), true);
                 gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.gild.setVisibility(View.VISIBLE);
                 ((TextView) holder.gild).setText(gilded);
             } else if (holder.gild.getVisibility() == View.VISIBLE)
