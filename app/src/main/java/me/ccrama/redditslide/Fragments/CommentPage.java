@@ -908,7 +908,7 @@ public class CommentPage extends Fragment {
                     .setPositiveButton(R.string.btn_offline, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Reddit.appRestart.edit().putBoolean("forceoffline", true).apply();
+                            Reddit.appRestart.edit().putBoolean("forceoffline", true).commit();
                             Reddit.forceRestart(getActivity());
                         }
                     })

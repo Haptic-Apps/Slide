@@ -1990,7 +1990,7 @@ public class MainActivity extends BaseActivity {
             header.findViewById(R.id.online).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
-                    Reddit.appRestart.edit().remove("forceoffline").apply();
+                    Reddit.appRestart.edit().remove("forceoffline").commit();
                     Reddit.forceRestart(MainActivity.this);
                 }
             });
@@ -3813,7 +3813,7 @@ public class MainActivity extends BaseActivity {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog,
                                 @NonNull DialogAction which) {
-                            Reddit.appRestart.edit().remove("forceoffline").apply();
+                            Reddit.appRestart.edit().remove("forceoffline").commit();
                             Reddit.forceRestart(MainActivity.this);
                         }
                     })
