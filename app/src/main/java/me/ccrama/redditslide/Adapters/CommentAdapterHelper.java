@@ -203,31 +203,8 @@ public class CommentAdapterHelper {
                     case 7:
                         //Show select and copy text to clipboard
                         final TextView showText = new TextView(mContext);
-                        showText.setText(Html.fromHtml(n.getBody()), TextView.BufferType.SPANNABLE);
+                        showText.setText(Html.fromHtml(n.getBody()));
                         showText.setTextIsSelectable(true);
-                        showText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
-                            @Override
-                            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                                menu.clear();
-                                return true;
-                            }
-
-                            @Override
-                            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                                return false;
-                            }
-
-                            @Override
-                            public void onDestroyActionMode(ActionMode mode) {
-
-                            }
-                        });
                         int sixteen = Reddit.dpToPxVertical(24);
                         showText.setPadding(sixteen, 0, sixteen, 0);
                         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);

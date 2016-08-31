@@ -350,31 +350,8 @@ public class DoEditorActions {
 
                 if (oldComment != null) {
                     final TextView showText = new TextView(a);
-                    showText.setText(oldComment, TextView.BufferType.SPANNABLE);
+                    showText.setText(oldComment);
                     showText.setTextIsSelectable(true);
-                    showText.setCustomSelectionActionModeCallback(new ActionMode.Callback() {
-                        @Override
-                        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                            menu.clear();
-                            return true;
-                        }
-
-                        @Override
-                        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                            return false;
-                        }
-
-                        @Override
-                        public void onDestroyActionMode(ActionMode mode) {
-
-                        }
-                    });
                     int sixteen = Reddit.dpToPxVertical(24);
                     showText.setPadding(sixteen, 0, sixteen, 0);
                     AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(a);

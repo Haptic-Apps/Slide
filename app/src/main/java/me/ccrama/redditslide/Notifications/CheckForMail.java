@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.SystemClock;
 import android.support.v7.app.NotificationCompat;
 import android.text.Html;
 
@@ -23,6 +24,7 @@ import net.dean.jraw.paginators.InboxPaginator;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,7 +39,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.NetworkUtil;
+import me.ccrama.redditslide.util.LogUtil;
 
 public class CheckForMail extends BroadcastReceiver {
 
@@ -48,13 +50,12 @@ public class CheckForMail extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         c = context;
-        if (NetworkUtil.isConnected(c)) {
-            new AsyncGetMail().execute();
-            if (Authentication.mod) new AsyncGetModmail().execute();
-            if (!Reddit.appRestart.getString(SUBS_TO_GET, "").isEmpty()) {
-                new AsyncGetSubs(c).execute();
-            }
+        new AsyncGetMail().execute();
+        if (Authentication.mod) new AsyncGetModmail().execute();
+        if (!Reddit.appRestart.getString(SUBS_TO_GET, "").isEmpty()) {
+            new AsyncGetSubs(c).execute();
         }
+
         new NotificationJobScheduler(context).start(context);
     }
 
@@ -115,17 +116,16 @@ public class CheckForMail extends BroadcastReceiver {
                             new NotificationCompat.BigTextStyle();
                     String contentTitle;
                     if (messages.get(0).getAuthor() != null) {
-                        notiStyle.setBigContentTitle(c.getString(R.string.mail_notification_msg_from,
-                                messages.get(0).getAuthor()));
+                        notiStyle.setBigContentTitle(
+                                c.getString(R.string.mail_notification_msg_from,
+                                        messages.get(0).getAuthor()));
                         contentTitle = c.getString(R.string.mail_notification_author,
-                                messages.get(0).getSubject(),
-                                messages.get(0).getAuthor());
+                                messages.get(0).getSubject(), messages.get(0).getAuthor());
                     } else {
                         notiStyle.setBigContentTitle(c.getString(R.string.mail_notification_msg_via,
                                 messages.get(0).getSubreddit()));
                         contentTitle = c.getString(R.string.mail_notification_subreddit,
-                                messages.get(0).getSubject(),
-                                messages.get(0).getSubreddit());
+                                messages.get(0).getSubject(), messages.get(0).getSubreddit());
                     }
                     notiStyle.bigText(Html.fromHtml(messages.get(0).getBody()));
 
@@ -158,9 +158,11 @@ public class CheckForMail extends BroadcastReceiver {
                     notiStyle.setSummaryText("");
                     for (Message m : messages) {
                         if (messages.get(0).getAuthor() != null) {
-                            notiStyle.addLine(c.getString(R.string.mail_notification_msg_from, m.getAuthor()));
+                            notiStyle.addLine(c.getString(R.string.mail_notification_msg_from,
+                                    m.getAuthor()));
                         } else {
-                            notiStyle.addLine(c.getString(R.string.mail_notification_msg_via, m.getSubreddit()));
+                            notiStyle.addLine(c.getString(R.string.mail_notification_msg_via,
+                                    m.getSubreddit()));
 
                         }
                     }
@@ -205,7 +207,6 @@ public class CheckForMail extends BroadcastReceiver {
                 }
             } catch (Exception ignored) {
                 ignored.printStackTrace();
-
             }
             return null;
         }
@@ -329,7 +330,8 @@ public class CheckForMail extends BroadcastReceiver {
                         Intent readIntent = new Intent(c, OpenContent.class);
                         readIntent.putExtra(OpenContent.EXTRA_URL,
                                 "https://reddit.com" + s.getPermalink());
-                        PendingIntent readPI = PendingIntent.getActivity(c, 1, readIntent,
+                        PendingIntent readPI = PendingIntent.getActivity(c,
+                                (int) (s.getCreated().getTime()/1000), readIntent,
                                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -385,7 +387,8 @@ public class CheckForMail extends BroadcastReceiver {
         protected List<Submission> doInBackground(Void... params) {
             try {
                 long lastTime =
-                        (System.currentTimeMillis() - (1000 * Reddit.notificationTime * 60));
+                        (System.currentTimeMillis() - (60000 * Reddit.notificationTime));
+                int offsetSeconds = 28800; //8 hours in seconds
                 ArrayList<Submission> toReturn = new ArrayList<>();
                 ArrayList<String> rawSubs =
                         Reddit.stringToArray(Reddit.appRestart.getString(SUBS_TO_GET, ""));
@@ -404,14 +407,20 @@ public class CheckForMail extends BroadcastReceiver {
 
                 String first = "";
                 for (String s : subThresholds.keySet()) {
-                        first = first + s + "+";
+                    first = first + s + "+";
                 }
-                first = first.substring(0, first.length()-1);
+                first = first.substring(0, first.length() - 1);
                 SubmissionSearchPaginator unread =
                         new SubmissionSearchPaginator(Authentication.reddit, "timestamp:"
-                                + ((lastTime  / 1000) - 3600) //Go an hour back just in case
+                                + ((lastTime / 1000) + offsetSeconds)
+                                //Go an hour back just in case
                                 + ".."
-                                + System.currentTimeMillis() / 1000);
+                                + ((System.currentTimeMillis() / 1000) + offsetSeconds));
+                LogUtil.v("timestamp:"
+                        + ((lastTime / 1000) + offsetSeconds)
+                        //Go an hour back just in case
+                        + ".."
+                        + ((System.currentTimeMillis() / 1000)+offsetSeconds));
                 unread.setSearchSorting(SubmissionSearchPaginator.SearchSort.NEW);
                 unread.setSyntax(SubmissionSearchPaginator.SearchSyntax.CLOUDSEARCH);
                 unread.setSubreddit(first);
@@ -420,20 +429,18 @@ public class CheckForMail extends BroadcastReceiver {
                     for (Submission subm : unread.next()) {
                         if (subm.getScore() >= subThresholds.get(
                                 subm.getSubredditName().toLowerCase())
-                                && !HasSeen.getSeen(subm) && subm.getDataNode().get("created_utc").asLong() >= lastTime/1000) {
+                                && !HasSeen.getSeen(subm)
+                                && subm.getDataNode().get("created").asLong() + offsetSeconds
+                                >= lastTime / 1000) {
                             toReturn.add(subm);
                         }
                     }
                 }
                 return toReturn;
 
-            } catch (Exception ignored)
-
-            {
+            } catch (Exception ignored) {
                 ignored.printStackTrace();
-
             }
-
             return null;
         }
     }
