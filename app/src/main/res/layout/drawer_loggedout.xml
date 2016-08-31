@@ -246,15 +246,10 @@
             android:visibility="gone"/>
 
     <RelativeLayout
-<<<<<<< 94e4dc8173fc9d13e5a529c967c2a11b3df5da9f
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:descendantFocusability="beforeDescendants"
         android:focusableInTouchMode="true">
-=======
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
->>>>>>> Improve remove and approve comment tools for moderators, Allow mods to look at removed comments for approval
 
         <EditText
                 android:id="@+id/sort"
