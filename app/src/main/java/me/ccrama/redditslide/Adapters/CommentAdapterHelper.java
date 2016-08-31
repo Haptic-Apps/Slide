@@ -25,6 +25,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.util.TypedValue;
@@ -207,7 +208,8 @@ public class CommentAdapterHelper {
                         showText.setTextIsSelectable(true);
                         int sixteen = Reddit.dpToPxVertical(24);
                         showText.setPadding(sixteen, 0, sixteen, 0);
-                        AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
+                        AlertDialogWrapper.Builder builder =
+                                new AlertDialogWrapper.Builder(mContext);
                         builder.setView(showText)
                                 .setTitle("Select text to copy")
                                 .setCancelable(true)
@@ -559,7 +561,7 @@ public class CommentAdapterHelper {
 
         boolean approved = false;
         String whoApproved = "";
-        if (comment.getDataNode().get("approved_by").asText().equals("null")) {
+        if (adapter.removed.contains(comment.getFullName()) || comment.getDataNode().get("approved_by").asText().equals("null")) {
             b.sheet(1, approve, mContext.getString(R.string.mod_btn_approve));
         } else {
             approved = true;
@@ -605,7 +607,7 @@ public class CommentAdapterHelper {
                                 break;
                             case 1:
                                 doApproval(finalApproved, mContext, finalWhoApproved, holder,
-                                        comment);
+                                        comment, adapter);
                                 break;
                             case 4:
                                 if (stickied) {
@@ -982,7 +984,7 @@ public class CommentAdapterHelper {
     }
 
     public static void doApproval(boolean approved, final Context mContext, String whoApproved,
-            final CommentViewHolder holder, final Comment comment) {
+            final CommentViewHolder holder, final Comment comment, final CommentAdapter adapter) {
         if (approved) {
             Intent i = new Intent(mContext, Profile.class);
             i.putExtra(Profile.EXTRA_PROFILE, whoApproved);
@@ -998,7 +1000,13 @@ public class CommentAdapterHelper {
                                 @Override
                                 public void onPostExecute(Boolean b) {
                                     if (b) {
+                                        adapter.approved.add(comment.getFullName());
+                                        adapter.removed.remove(comment.getFullName());
                                         dialog.dismiss();
+                                        holder.content.setText(
+                                                CommentAdapterHelper.getScoreString(comment,
+                                                        mContext, holder, adapter.submission,
+                                                        adapter));
                                         Snackbar.make(holder.itemView, R.string.mod_approved,
                                                 Snackbar.LENGTH_LONG).show();
 
@@ -1110,10 +1118,11 @@ public class CommentAdapterHelper {
                                     tv.setTextColor(Color.WHITE);
                                     s.show();
 
-                                    adapter.deleted.add(comment.getFullName());
-                                    holder.firstTextView.setTextHtml(
-                                            mContext.getString(R.string.content_removed));
-                                    holder.content.setText(R.string.content_removed);
+                                    adapter.removed.add(comment.getFullName());
+                                    adapter.approved.remove(comment.getFullName());
+                                    holder.content.setText(
+                                            CommentAdapterHelper.getScoreString(comment, mContext,
+                                                    holder, adapter.submission, adapter));
                                 } else {
                                     new AlertDialogWrapper.Builder(mContext).setTitle(
                                             R.string.err_general)
@@ -1142,8 +1151,36 @@ public class CommentAdapterHelper {
                 .show();
     }
 
+    public static SpannableStringBuilder createRemovedLine(String removedBy, Context c) {
+        SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
+        SpannableStringBuilder mod = new SpannableStringBuilder("Removed by ");
+        mod.append(removedBy);
+        mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_red_300)), 0,
+                mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        removedString.append(mod);
+        return removedString;
+    }
+
+    public static SpannableStringBuilder createApprovedLine(String removedBy, Context c) {
+        SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
+        SpannableStringBuilder mod = new SpannableStringBuilder("Approved by ");
+        mod.append(removedBy);
+        mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_green_300)), 0,
+                mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        removedString.append(mod);
+        return removedString;
+    }
+
     public static Spannable getScoreString(Comment comment, Context mContext,
-            CommentViewHolder holder, Submission submission) {
+            CommentViewHolder holder, Submission submission, CommentAdapter adapter) {
         final String spacer =
                 " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString =
@@ -1158,12 +1195,12 @@ public class CommentAdapterHelper {
         if (comment.getDistinguishedStatus() == DistinguishedStatus.ADMIN) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_300, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (comment.getDistinguishedStatus() == DistinguishedStatus.SPECIAL) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
             author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_900, false),
+                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_red_500, false),
                     0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (comment.getDistinguishedStatus() == DistinguishedStatus.MODERATOR) {
             author.replace(0, author.length(), " " + comment.getAuthor() + " ");
@@ -1300,6 +1337,17 @@ public class CommentAdapterHelper {
                             false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
+        }
+        if (adapter.removed.contains(comment.getFullName()) || (comment.getBannedBy() != null
+                && !adapter.approved.contains(comment.getFullName()))) {
+            titleString.append(CommentAdapterHelper.createRemovedLine(
+                    (comment.getBannedBy() == null) ? Authentication.name : comment.getBannedBy(),
+                    mContext));
+        } else if (adapter.approved.contains(comment.getFullName()) || (comment.getApprovedBy()
+                != null && !adapter.removed.contains(comment.getFullName()))) {
+            titleString.append(CommentAdapterHelper.createApprovedLine(
+                    (comment.getApprovedBy() == null) ? Authentication.name
+                            : comment.getApprovedBy(), mContext));
         }
         return titleString;
     }

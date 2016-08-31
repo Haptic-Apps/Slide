@@ -419,7 +419,9 @@ public class MediaFragment extends Fragment {
         rootView.findViewById(R.id.progress).setVisibility(View.GONE);
         gif = new GifUtils.AsyncLoadGif(getActivity(),
                 (MediaVideoView) rootView.findViewById(R.id.gif), loader,
-                rootView.findViewById(R.id.placeholder), false, false, false);
+                rootView.findViewById(R.id.placeholder), false, false,
+                !(getActivity() instanceof Shadowbox)
+                        || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i);
         gif.execute(dat);
     }
 

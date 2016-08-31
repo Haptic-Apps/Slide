@@ -191,7 +191,7 @@ public class MainActivity extends BaseActivity {
     public int        currentComment;
     public Submission openingComments;
     public int toOpenComments = -1;
-    public  boolean inNightMode;
+    public boolean inNightMode;
     boolean                     changed;
     String                      term;
     View                        headerMain;
@@ -203,10 +203,10 @@ public class MainActivity extends BaseActivity {
     SideArrayAdapter            sideArrayAdapter;
     Menu                        menu;
     AsyncTask                   caching;
-    boolean currentlySubbed;
-    int back;
+    boolean                     currentlySubbed;
+    int                         back;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
-    private int     headerHeight; //height of the header
+    private int headerHeight; //height of the header
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -2288,7 +2288,8 @@ public class MainActivity extends BaseActivity {
             }
 
             //whether or not this subreddit was in the keySet
-            boolean isNotified = subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase());
+            boolean isNotified =
+                    subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase());
             ((AppCompatCheckBox) findViewById(R.id.notify_posts_state)).setChecked(isNotified);
         } else {
             findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -2404,7 +2405,8 @@ public class MainActivity extends BaseActivity {
             }
         }
         {
-            final AppCompatCheckBox notifyStateCheckBox = (AppCompatCheckBox) findViewById(R.id.notify_posts_state);
+            final AppCompatCheckBox notifyStateCheckBox =
+                    (AppCompatCheckBox) findViewById(R.id.notify_posts_state);
             assert notifyStateCheckBox != null;
 
             notifyStateCheckBox.setOnClickListener(new View.OnClickListener() {
@@ -2462,12 +2464,14 @@ public class MainActivity extends BaseActivity {
                                                 }
                                             })
                                     .setNegativeButton(R.string.btn_cancel, null)
-                                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            notifyStateCheckBox.setChecked(false);
-                                        }
-                                    })
+                                    .setNegativeButton(R.string.btn_cancel,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                                    notifyStateCheckBox.setChecked(false);
+                                                }
+                                            })
                                     .setOnCancelListener(new DialogInterface.OnCancelListener() {
                                         @Override
                                         public void onCancel(DialogInterface dialog) {
@@ -2482,7 +2486,8 @@ public class MainActivity extends BaseActivity {
                         }
                     } else {
                         Intent cancelIntent = new Intent(MainActivity.this, CancelSubNotifs.class);
-                        cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB, subreddit.getDisplayName());
+                        cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB,
+                                subreddit.getDisplayName());
                         startActivity(cancelIntent);
                     }
                 }
@@ -2596,15 +2601,6 @@ public class MainActivity extends BaseActivity {
                     } else {
                         changeSubscription(subreddit, true);
                     }
-                }                @Override
-                public void onClick(View v) {
-                    if (!currentlySubbed) {
-                        doSubscribe();
-                        doSubscribeButtonText(currentlySubbed, subscribe);
-                    } else {
-                        doUnsubscribe();
-                        doSubscribeButtonText(currentlySubbed, subscribe);
-                    }
                 }
 
                 private void doUnsubscribe() {
@@ -2706,7 +2702,17 @@ public class MainActivity extends BaseActivity {
                     } else {
                         changeSubscription(subreddit, false);
                     }
+                }                @Override
+                public void onClick(View v) {
+                    if (!currentlySubbed) {
+                        doSubscribe();
+                        doSubscribeButtonText(currentlySubbed, subscribe);
+                    } else {
+                        doUnsubscribe();
+                        doSubscribeButtonText(currentlySubbed, subscribe);
+                    }
                 }
+
 
 
 
@@ -3571,6 +3577,8 @@ public class MainActivity extends BaseActivity {
     public void scrollToTop() {
         int[] firstVisibleItems;
         int pastVisiblesItems = 0;
+
+        if (((adapter.getCurrentFragment()) == null)) return;
         firstVisibleItems =
                 ((CatchStaggeredGridLayoutManager) (((SubmissionsView) adapter.getCurrentFragment()).rv
                         .getLayoutManager())).findFirstVisibleItemPositions(null);
@@ -3656,10 +3664,12 @@ public class MainActivity extends BaseActivity {
         drawerSubList.setAdapter(sideArrayAdapter);
 
         if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
-                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH || SettingValues.subredditSearchMethod != R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH
+                || SettingValues.subredditSearchMethod
+                != R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
             drawerSearch = ((EditText) headerMain.findViewById(R.id.sort));
             drawerSearch.setVisibility(View.VISIBLE);
-            
+
             drawerSubList.setFocusable(false);
 
             headerMain.findViewById(R.id.close_search_drawer)
@@ -4712,35 +4722,12 @@ public class MainActivity extends BaseActivity {
         }
 
         @Override
-        public Parcelable saveState() {
-            return null;
-        }
-
-        public Fragment getCurrentFragment() {
-            return mCurrentFragment;
-        }
-
-        @Override
-        public void doSetPrimary(Object object, int position) {
-            if (position != toOpenComments) {
-                if (multiNameToSubsMap.containsKey(usedArray.get(position))) {
-                    shouldLoad = multiNameToSubsMap.get(usedArray.get(position));
-                } else {
-                    shouldLoad = usedArray.get(position);
-                }
-
-                if (getCurrentFragment() != object) {
-                    mCurrentFragment = ((SubmissionsView) object);
-                    if (mCurrentFragment != null
-                            && mCurrentFragment.posts == null
-                            && mCurrentFragment.isAdded()) {
-                        mCurrentFragment.doAdapter();
-                    }
-                }
-            } else if (object instanceof CommentPage) {
-                mCurrentComments = (CommentPage) object;
+        public int getCount() {
+            if (usedArray == null) {
+                return 1;
+            } else {
+                return size;
             }
-
         }
 
         @Override
@@ -4775,19 +4762,42 @@ public class MainActivity extends BaseActivity {
             }
 
 
+        }
+
+        @Override
+        public Parcelable saveState() {
+            return null;
+        }
+
+        @Override
+        public void doSetPrimary(Object object, int position) {
+            if (position != toOpenComments) {
+                if (multiNameToSubsMap.containsKey(usedArray.get(position))) {
+                    shouldLoad = multiNameToSubsMap.get(usedArray.get(position));
+                } else {
+                    shouldLoad = usedArray.get(position);
+                }
+
+                if (getCurrentFragment() != object) {
+                    mCurrentFragment = ((SubmissionsView) object);
+                    if (mCurrentFragment != null
+                            && mCurrentFragment.posts == null
+                            && mCurrentFragment.isAdded()) {
+                        mCurrentFragment.doAdapter();
+                    }
+                }
+            } else if (object instanceof CommentPage) {
+                mCurrentComments = (CommentPage) object;
+            }
+
+        }
+
+        public Fragment getCurrentFragment() {
+            return mCurrentFragment;
         }        @Override
         public int getItemPosition(Object object) {
             if (object != storedFragment) return POSITION_NONE;
             return POSITION_UNCHANGED;
-        }
-
-        @Override
-        public int getCount() {
-            if (usedArray == null) {
-                return 1;
-            } else {
-                return size;
-            }
         }
 
         @Override
@@ -4801,6 +4811,7 @@ public class MainActivity extends BaseActivity {
 
 
         }
+
 
 
 

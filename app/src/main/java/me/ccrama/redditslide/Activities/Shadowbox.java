@@ -38,6 +38,8 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
     public String subreddit;
     int firstPage;
 
+    public ViewPager pager;
+
     @Override
     public void onCreate(Bundle savedInstance) {
         overrideSwipeFromAnywhere();
@@ -69,7 +71,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
         subredditPosts.getPosts().addAll(submissions.submissions);
 
-        ViewPager pager = (ViewPager) findViewById(R.id.content_view);
+        pager = (ViewPager) findViewById(R.id.content_view);
         submissionsPager = new OverviewPagerAdapter(getSupportFragmentManager());
         pager.setAdapter(submissionsPager);
         pager.setCurrentItem(firstPage);
