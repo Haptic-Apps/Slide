@@ -18,17 +18,23 @@ import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
  */
 public class HistoryPosts extends GeneralPosts {
-    private SwipeRefreshLayout refreshLayout;
+    private SwipeRefreshLayout  refreshLayout;
     private ContributionAdapter adapter;
-    public boolean loading;
+    public  boolean             loading;
+    String prefix = "";
 
     public HistoryPosts() {
+    }
+
+    public HistoryPosts(String prefix) {
+        this.prefix = prefix;
     }
 
     public void bindAdapter(ContributionAdapter a, SwipeRefreshLayout layout) {
@@ -108,46 +114,68 @@ public class HistoryPosts extends GeneralPosts {
                 if (reset || paginator == null) {
                     ArrayList<String> ids = new ArrayList<>();
                     HashMap<Long, String> idsSorted = new HashMap<>();
-                    Map<String,String> values = KVStore.getInstance().getByContains("");
+                    Map<String, String> values;
+                    if (prefix.isEmpty()) {
+                        values = KVStore.getInstance().getByContains("");
+                    } else {
+                        values = KVStore.getInstance().getByPrefix(prefix);
+                    }
+
                     for (Map.Entry<String, String> entry : values.entrySet()) {
                         Object done;
-                        if(entry.getValue().equals("true") || entry.getValue().equals("false")){
+                        if (entry.getValue().equals("true") || entry.getValue().equals("false")) {
                             done = Boolean.valueOf(entry.getValue());
                         } else {
                             done = Long.valueOf(entry.getValue());
                         }
-                        if (entry.getKey().length() == 6 && done instanceof Boolean){
-                            ids.add("t3_" + entry.getKey());
-                        } else if(done instanceof Long){
-                            if(entry.getKey().contains("_")){
-                                idsSorted.put((Long)done, entry.getKey());
-                            } else {
-                                idsSorted.put((Long) done, "t3_" + entry.getKey());
+                        if (prefix.isEmpty()) {
+                            if (!entry.getKey().contains("readLater")) {
+                                if (entry.getKey().length() == 6 && done instanceof Boolean) {
+                                    ids.add("t3_" + entry.getKey());
+                                } else if (done instanceof Long) {
+                                    if (entry.getKey().contains("_")) {
+                                        idsSorted.put((Long) done, entry.getKey());
+                                    } else {
+                                        idsSorted.put((Long) done, "t3_" + entry.getKey());
+                                    }
+                                }
                             }
+                        } else {
+                            String key = entry.getKey();
+                            if(!key.contains("_")){
+                                key = "t3_" + key;
+                            }
+                            ids.add(key.replace(prefix, ""));
                         }
                     }
 
-                    if(!idsSorted.isEmpty()) {
+                    if (!idsSorted.isEmpty()) {
                         TreeMap<Long, String> result2 = new TreeMap<>(Collections.reverseOrder());
                         result2.putAll(idsSorted);
-                        LogUtil.v("Size is " + result2.size());
                         ids.addAll(0, result2.values());
                     }
 
-                    paginator = new FullnamesPaginator(Authentication.reddit, ids.toArray(new String[ids.size()]));
-                    if (!paginator.hasNext()) {
-                        nomore = true;
-                        return new ArrayList<>();
-                    }
+                    paginator = new FullnamesPaginator(Authentication.reddit,
+                            ids.toArray(new String[ids.size()-1]));
+
+
                 }
+                if (!paginator.hasNext()) {
+                    nomore = true;
+                    return new ArrayList<>();
+                }
+
                 for (Thing c : paginator.next()) {
+                    LogUtil.v("Thing");
                     if (c instanceof Contribution) {
-                        newData.add((Contribution)c);
+                        newData.add((Contribution) c);
                     }
                 }
+                LogUtil.v("Size is " + newData.size());
 
                 return newData;
             } catch (Exception e) {
+                e.printStackTrace();
                 return null;
             }
         }

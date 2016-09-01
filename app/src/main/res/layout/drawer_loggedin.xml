@@ -208,7 +208,16 @@
                   android:orientation="vertical"
                   android:visibility="gone"
                   android:weightSum="5">
-
+        <TextView
+                android:id="@+id/later"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="?android:selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="24dp"
+                android:text="Read later"
+                android:textSize="14sp"/>
         <TextView
                 android:id="@+id/saved"
                 android:layout_width="match_parent"

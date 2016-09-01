@@ -338,6 +338,10 @@
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>
         <activity
+                android:name=".Activities.PostReadLater"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+                android:theme="@style/swipeable"/>
+        <activity
                 android:name=".Activities.SettingsComments"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"/>

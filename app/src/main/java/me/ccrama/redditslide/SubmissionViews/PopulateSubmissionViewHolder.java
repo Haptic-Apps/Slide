@@ -70,6 +70,7 @@ import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.ModQueue;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
+import me.ccrama.redditslide.Activities.PostReadLater;
 import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Reauthenticate;
 import me.ccrama.redditslide.Activities.Search;
@@ -88,6 +89,7 @@ import me.ccrama.redditslide.OfflineSubreddit;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.ReadLater;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionCache;
@@ -386,7 +388,11 @@ public class PopulateSubmissionViewHolder {
         Drawable copy =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
                         null);
+        //todo: The saveOffline needs to be replaced with a new system that works off of the ReadLater system
         Drawable saveOffline =
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
+        //
+        final Drawable readLater =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
         Drawable open =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.openexternal, null);
@@ -408,6 +414,7 @@ public class PopulateSubmissionViewHolder {
         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        readLater.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         filter.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
@@ -427,12 +434,17 @@ public class PopulateSubmissionViewHolder {
                 b.sheet(3, saved, save);
 
             }
+            //see above todo
             b.sheet(26, saveOffline, mContext.getString(R.string.submission_save_offline));
+            b.sheet(28, readLater, "Read later");
             if (Authentication.isLoggedIn) {
                 b.sheet(12, report, mContext.getString(R.string.btn_report));
             }
 
         }
+
+        final boolean isReadLater = mContext instanceof PostReadLater;
+
         if (submission.getSelftext() != null && !submission.getSelftext().isEmpty() && full) {
             b.sheet(25, copy, mContext.getString(R.string.submission_copy_text));
         }
@@ -712,6 +724,53 @@ public class PopulateSubmissionViewHolder {
                     break;
                     case 7:
                         LinkUtil.openExternally(submission.getUrl(), mContext, true);
+                        break;
+                    case 28:
+                        if (!isReadLater) {
+                            ReadLater.setReadLater(submission, true);
+                            Snackbar s = Snackbar.make(holder.itemView, "Added to read later!",
+                                    Snackbar.LENGTH_SHORT);
+                            View view = s.getView();
+                            TextView tv = (TextView) view.findViewById(
+                                    android.support.design.R.id.snackbar_text);
+                            tv.setTextColor(Color.WHITE);
+                            s.setAction(R.string.btn_undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    ReadLater.setReadLater(submission, false);
+                                    Snackbar s2 = Snackbar.make(holder.itemView,
+                                            "Removed from read later", Snackbar.LENGTH_SHORT);
+                                    View view2 = s2.getView();
+                                    TextView tv2 = (TextView) view2.findViewById(
+                                            android.support.design.R.id.snackbar_text);
+                                    tv2.setTextColor(Color.WHITE);
+                                    s2.show();
+                                }
+                            });
+                            s.show();
+                        } else {
+                            ReadLater.setReadLater(submission, false);
+                            final int pos = posts.indexOf(submission);
+                            posts.remove(submission);
+
+                            recyclerview.getAdapter()
+                                    .notifyItemRemoved(holder.getAdapterPosition());
+
+                            Snackbar s2 = Snackbar.make(holder.itemView, "Removed from read later",
+                                    Snackbar.LENGTH_SHORT);
+                            View view2 = s2.getView();
+                            TextView tv2 = (TextView) view2.findViewById(
+                                    android.support.design.R.id.snackbar_text);
+                            tv2.setTextColor(Color.WHITE);
+                            s2.setAction(R.string.btn_undo, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    posts.add(pos, (T) submission);
+                                    recyclerview.getAdapter().notifyDataSetChanged();
+                                }
+                            });
+                            s2.show();
+                        }
                         break;
                     case 4:
                         Reddit.defaultShareText(Html.fromHtml(submission.getTitle()).toString(),
@@ -1182,7 +1241,8 @@ public class PopulateSubmissionViewHolder {
         final Drawable spam =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.spam, null);
         final Drawable distinguish =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.iconstarfilled, null);
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.iconstarfilled,
+                        null);
 
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -1211,7 +1271,10 @@ public class PopulateSubmissionViewHolder {
 
         boolean approved = false;
         String whoApproved = "";
-        if (SubmissionCache.removed.contains(submission.getFullName()) || (submission.getDataNode().get("approved_by").asText().equals("null") && !SubmissionCache.approved.contains(submission.getFullName()) )) {
+        if (SubmissionCache.removed.contains(submission.getFullName()) || (submission.getDataNode()
+                .get("approved_by")
+                .asText()
+                .equals("null") && !SubmissionCache.approved.contains(submission.getFullName()))) {
             b.sheet(1, approve, res.getString(R.string.mod_btn_approve));
         } else {
             approved = true;
@@ -1247,8 +1310,10 @@ public class PopulateSubmissionViewHolder {
             b.sheet(4, pin, res.getString(R.string.mod_btn_pin));
         }
 
-        final boolean distinguished = submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN;
-        if(submission.getAuthor().equalsIgnoreCase(Authentication.name)) {
+        final boolean distinguished =
+                submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR
+                        || submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN;
+        if (submission.getAuthor().equalsIgnoreCase(Authentication.name)) {
             if (distinguished) {
                 b.sheet(5, distinguish, "Undistingiush");
             } else {
@@ -1333,7 +1398,7 @@ public class PopulateSubmissionViewHolder {
                         }
                         break;
                     case 5:
-                        if(distinguished){
+                        if (distinguished) {
                             unDistinguishSubmission(mContext, submission, holder);
                         } else {
                             distinguishSubmission(mContext, submission, holder);
@@ -1417,7 +1482,8 @@ public class PopulateSubmissionViewHolder {
                     SubmissionCache.removed.add(submission.getFullName());
                     SubmissionCache.approved.remove(submission.getFullName());
 
-                    SubmissionCache.updateInfoSpannable(submission, mContext, submission.getSubredditName());
+                    SubmissionCache.updateInfoSpannable(submission, mContext,
+                            submission.getSubredditName());
 
                     if (mContext instanceof ModQueue) {
                         final int pos = posts.indexOf(submission);
@@ -1475,7 +1541,8 @@ public class PopulateSubmissionViewHolder {
                 SubmissionCache.removed.add(submission.getFullName());
                 SubmissionCache.approved.remove(submission.getFullName());
 
-                SubmissionCache.updateInfoSpannable(submission, mContext, submission.getSubredditName());
+                SubmissionCache.updateInfoSpannable(submission, mContext,
+                        submission.getSubredditName());
 
                 if (b) {
                     if (mContext instanceof ModQueue) {
@@ -1520,7 +1587,6 @@ public class PopulateSubmissionViewHolder {
             }
         }.execute();
     }
-
 
 
     private void doSetFlair(final Activity mContext, final Submission submission,
@@ -1732,8 +1798,7 @@ public class PopulateSubmissionViewHolder {
             public void onPostExecute(Boolean b) {
                 if (b) {
                     Snackbar s =
-                            Snackbar.make(holder.itemView,"Thread locked",
-                                    Snackbar.LENGTH_LONG);
+                            Snackbar.make(holder.itemView, "Thread locked", Snackbar.LENGTH_LONG);
                     View view = s.getView();
                     TextView tv =
                             (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -1769,8 +1834,7 @@ public class PopulateSubmissionViewHolder {
             public void onPostExecute(Boolean b) {
                 if (b) {
                     Snackbar s =
-                            Snackbar.make(holder.itemView, "Thread unlocked",
-                                    Snackbar.LENGTH_LONG);
+                            Snackbar.make(holder.itemView, "Thread unlocked", Snackbar.LENGTH_LONG);
                     View view = s.getView();
                     TextView tv =
                             (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -1805,9 +1869,8 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onPostExecute(Boolean b) {
                 if (b) {
-                    Snackbar s =
-                            Snackbar.make(holder.itemView, "Submission distinguished",
-                                    Snackbar.LENGTH_LONG);
+                    Snackbar s = Snackbar.make(holder.itemView, "Submission distinguished",
+                            Snackbar.LENGTH_LONG);
                     View view = s.getView();
                     TextView tv =
                             (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -1824,7 +1887,8 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(submission, DistinguishedStatus.MODERATOR);
+                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(submission,
+                            DistinguishedStatus.MODERATOR);
                 } catch (ApiException e) {
                     e.printStackTrace();
                     return false;
@@ -1842,9 +1906,8 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onPostExecute(Boolean b) {
                 if (b) {
-                    Snackbar s =
-                            Snackbar.make(holder.itemView, "Submission distinguish removed",
-                                    Snackbar.LENGTH_LONG);
+                    Snackbar s = Snackbar.make(holder.itemView, "Submission distinguish removed",
+                            Snackbar.LENGTH_LONG);
                     View view = s.getView();
                     TextView tv =
                             (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -1861,7 +1924,8 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(submission, DistinguishedStatus.MODERATOR);
+                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(submission,
+                            DistinguishedStatus.MODERATOR);
                 } catch (ApiException e) {
                     e.printStackTrace();
                     return false;
@@ -1872,15 +1936,15 @@ public class PopulateSubmissionViewHolder {
         }.execute();
     }
 
-    private void setPostNsfw(final Activity mContext, final Submission submission, final SubmissionViewHolder holder) {
+    private void setPostNsfw(final Activity mContext, final Submission submission,
+            final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             public void onPostExecute(Boolean b) {
                 if (b) {
                     Snackbar s =
-                            Snackbar.make(holder.itemView, "NSFW status set",
-                                    Snackbar.LENGTH_LONG);
+                            Snackbar.make(holder.itemView, "NSFW status set", Snackbar.LENGTH_LONG);
                     View view = s.getView();
                     TextView tv =
                             (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -1909,16 +1973,16 @@ public class PopulateSubmissionViewHolder {
         }.execute();
     }
 
-    private void unNsfwSubmission(final Context mContext, final Submission submission, final SubmissionViewHolder holder) {
+    private void unNsfwSubmission(final Context mContext, final Submission submission,
+            final SubmissionViewHolder holder) {
         //todo update view with NSFW tag
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             public void onPostExecute(Boolean b) {
                 if (b) {
-                    Snackbar s =
-                            Snackbar.make(holder.itemView, "NSFW status removed",
-                                    Snackbar.LENGTH_LONG);
+                    Snackbar s = Snackbar.make(holder.itemView, "NSFW status removed",
+                            Snackbar.LENGTH_LONG);
                     View view = s.getView();
                     TextView tv =
                             (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -1957,7 +2021,8 @@ public class PopulateSubmissionViewHolder {
                 if (b) {
                     SubmissionCache.approved.add(submission.getFullName());
                     SubmissionCache.removed.remove(submission.getFullName());
-                    SubmissionCache.updateInfoSpannable(submission, mContext, submission.getSubredditName());
+                    SubmissionCache.updateInfoSpannable(submission, mContext,
+                            submission.getSubredditName());
 
                     if (mContext instanceof ModQueue) {
                         final int pos = posts.indexOf(submission);

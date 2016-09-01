@@ -1516,6 +1516,13 @@ public class MainActivity extends BaseActivity {
                     MainActivity.this.startActivity(inte);
                 }
             });
+            header.findViewById(R.id.later).setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, PostReadLater.class);
+                    MainActivity.this.startActivity(inte);
+                }
+            });
             header.findViewById(R.id.history).setOnClickListener(new OnSingleClickListener() {
                 @Override
                 public void onSingleClick(View view) {
@@ -1993,6 +2000,13 @@ public class MainActivity extends BaseActivity {
                 public void onSingleClick(View view) {
                     Reddit.appRestart.edit().remove("forceoffline").commit();
                     Reddit.forceRestart(MainActivity.this);
+                }
+            });
+            header.findViewById(R.id.later).setOnClickListener(new OnSingleClickListener() {
+                @Override
+                public void onSingleClick(View view) {
+                    Intent inte = new Intent(MainActivity.this, PostReadLater.class);
+                    MainActivity.this.startActivity(inte);
                 }
             });
 
