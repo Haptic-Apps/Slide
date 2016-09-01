@@ -62,6 +62,15 @@
     *;
 }
 
+-keep class * extends net.dean.jraw.models.meta.JsonSerializer$Base {
+    *;
+}
+
+-keep class * extends net.dean.jraw.models.JsonModel {
+    *;
+}
+
+
 #To avoid changing names of methods invoked on layout's onClick.
 # Uncomment and add specific method names if using onClick on layouts
 #-keepclassmembers class * {
