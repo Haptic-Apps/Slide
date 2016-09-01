@@ -412,7 +412,7 @@ public class CommentPage extends Fragment {
                         }
                         new AlertDialogWrapper.Builder(getActivity()).setTitle(
                                 R.string.set_nav_mode).setSingleChoiceItems(new String[]{
-                                "Parent comment (" + parentCount + ")", "OP (" + opCount + ")",
+                                "Parent comment (" + parentCount + ")","Children comment (highlight child comment & navigate)", "OP (" + opCount + ")",
                                 "Time", "Link (" + linkCount + ")", "Gilded (" + gildCount + ")"
                         }, getCurrentSort(), new DialogInterface.OnClickListener() {
                             @Override
@@ -422,9 +422,11 @@ public class CommentPage extends Fragment {
                                         currentSort = CommentNavType.PARENTS;
                                         break;
                                     case 1:
+                                        currentSort = CommentNavType.CHILDREN;
+                                    case 2:
                                         currentSort = CommentNavType.OP;
                                         break;
-                                    case 2:
+                                    case 3:
                                         currentSort = CommentNavType.TIME;
                                         LayoutInflater inflater = getActivity().getLayoutInflater();
                                         final View dialoglayout =
@@ -470,10 +472,10 @@ public class CommentPage extends Fragment {
                                         builder.setPositiveButton(R.string.btn_set, null).show();
                                         break;
 
-                                    case 3:
+                                    case 4:
                                         currentSort = CommentNavType.LINK;
                                         break;
-                                    case 4:
+                                    case 5:
                                         currentSort = CommentNavType.GILDED;
                                         break;
 
@@ -702,7 +704,8 @@ public class CommentPage extends Fragment {
                     case R.id.content: {
                         if (adapter != null && adapter.submission != null) {
                             if (!PostMatch.openExternal(adapter.submission.getUrl())) {
-                                ContentType.Type type = ContentType.getContentType(adapter.submission);
+                                ContentType.Type type =
+                                        ContentType.getContentType(adapter.submission);
                                 switch (type) {
                                     case VID_ME:
                                     case STREAMABLE:
@@ -728,7 +731,9 @@ public class CommentPage extends Fragment {
                                                 .get("images")
                                                 .get(0)
                                                 .get("source")
-                                                .has("height")&& type != ContentType.Type.XKCD) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                                                .has("height")
+                                                && type
+                                                != ContentType.Type.XKCD) { //Load the preview image which has probably already been cached in memory instead of the direct link
                                             String previewUrl = adapter.submission.getDataNode()
                                                     .get("preview")
                                                     .get("images")
@@ -934,7 +939,7 @@ public class CommentPage extends Fragment {
         public void onPostExecute(final Subreddit baseSub) {
             try {
                 d.dismiss();
-            } catch(Exception e){
+            } catch (Exception e) {
 
             }
             if (baseSub != null) {
@@ -1539,7 +1544,8 @@ public class CommentPage extends Fragment {
                         sidebar.findViewById(R.id.active_users).setVisibility(View.VISIBLE);
                     }
 
-                   new AlertDialogWrapper.Builder(getContext()).setPositiveButton(R.string.btn_close, null).setView(sidebar).show();
+                    new AlertDialogWrapper.Builder(getContext()).setPositiveButton(
+                            R.string.btn_close, null).setView(sidebar).show();
                 } catch (NullPointerException e) { //activity has been killed
                 }
             }
@@ -1918,6 +1924,9 @@ public class CommentPage extends Fragment {
                     switch (currentSort) {
 
                         case PARENTS:
+                            matches = o.comment.isTopLevel();
+                            break;
+                        case CHILDREN:
                             if (depth == -1) {
                                 matches = o.comment.isTopLevel();
                             } else {
@@ -2045,6 +2054,9 @@ public class CommentPage extends Fragment {
                         switch (currentSort) {
 
                             case PARENTS:
+                                matches = o.comment.isTopLevel();
+                                break;
+                            case CHILDREN:
                                 if (depth == -1) {
                                     matches = o.comment.isTopLevel();
                                 } else {
