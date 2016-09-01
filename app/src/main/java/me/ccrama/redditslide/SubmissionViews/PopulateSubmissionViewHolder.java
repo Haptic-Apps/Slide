@@ -1165,12 +1165,11 @@ public class PopulateSubmissionViewHolder {
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.report, null);
         final Drawable approve =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.support, null);
-        final Drawable spam =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.fontsizedarker,
-                        null);
         final Drawable nsfw =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.hide, null);
         final Drawable pin =
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.sub, null);
+        final Drawable lock =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.lock, null);
         final Drawable flair = ResourcesCompat.getDrawable(mContext.getResources(),
                 R.drawable.ic_format_quote_white_48dp, null);
@@ -1180,6 +1179,10 @@ public class PopulateSubmissionViewHolder {
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.reportreason, null);
         final Drawable ban =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ban, null);
+        final Drawable spam =
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.spam, null);
+        final Drawable distinguish =
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.iconstarfilled, null);
 
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -1192,6 +1195,9 @@ public class PopulateSubmissionViewHolder {
         remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         remove_reason.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        distinguish.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        lock.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -1214,7 +1220,8 @@ public class PopulateSubmissionViewHolder {
         }
 
         b.sheet(6, remove, mContext.getString(R.string.mod_btn_remove))
-                .sheet(7, remove_reason, res.getString(R.string.mod_btn_remove_reason));
+                .sheet(7, remove_reason, res.getString(R.string.mod_btn_remove_reason))
+                .sheet(30, spam, "Mark as spam");
 
         // b.sheet(2, spam, mContext.getString(R.string.mod_btn_spam)) todo this
         b.sheet(20, flair, res.getString(R.string.mod_btn_submission_flair));
@@ -1226,11 +1233,27 @@ public class PopulateSubmissionViewHolder {
             b.sheet(3, nsfw, res.getString(R.string.mod_btn_mark_nsfw));
         }
 
+        final boolean locked = submission.isLocked();
+        if (locked) {
+            b.sheet(9, lock, "Unlock thread");
+        } else {
+            b.sheet(9, lock, "Lock thread");
+        }
+
         final boolean stickied = submission.isStickied();
         if (stickied) {
             b.sheet(4, pin, res.getString(R.string.mod_btn_unpin));
         } else {
             b.sheet(4, pin, res.getString(R.string.mod_btn_pin));
+        }
+
+        final boolean distinguished = submission.getDistinguishedStatus() == DistinguishedStatus.MODERATOR || submission.getDistinguishedStatus() == DistinguishedStatus.ADMIN;
+        if(submission.getAuthor().equalsIgnoreCase(Authentication.name)) {
+            if (distinguished) {
+                b.sheet(5, distinguish, "Undistingiush");
+            } else {
+                b.sheet(5, distinguish, "Distinguish");
+            }
         }
 
         final String finalWhoApproved = whoApproved;
@@ -1290,9 +1313,16 @@ public class PopulateSubmissionViewHolder {
                         break;
                     case 3:
                         if (isNsfw) {
-                            unNsfwSubmission(mContext, submission);
+                            unNsfwSubmission(mContext, submission, holder);
                         } else {
-                            setPostNsfw(mContext, submission);
+                            setPostNsfw(mContext, submission, holder);
+                        }
+                        break;
+                    case 9:
+                        if (locked) {
+                            unLockSubmission(mContext, submission, holder);
+                        } else {
+                            lockSubmission(mContext, submission, holder);
                         }
                         break;
                     case 4:
@@ -1301,13 +1331,22 @@ public class PopulateSubmissionViewHolder {
                         } else {
                             stickySubmission(mContext, submission, holder);
                         }
-
+                        break;
+                    case 5:
+                        if(distinguished){
+                            unDistinguishSubmission(mContext, submission, holder);
+                        } else {
+                            distinguishSubmission(mContext, submission, holder);
+                        }
                         break;
                     case 6:
-                        removeSubmission(mContext, submission, posts, recyclerview, holder);
+                        removeSubmission(mContext, submission, posts, recyclerview, holder, false);
                         break;
                     case 7:
                         doRemoveSubmissionReason(mContext, submission, posts, recyclerview, holder);
+                        break;
+                    case 30:
+                        removeSubmission(mContext, submission, posts, recyclerview, holder, true);
                         break;
                     case 8:
                         Intent i = new Intent(mContext, Profile.class);
@@ -1419,7 +1458,7 @@ public class PopulateSubmissionViewHolder {
 
     private <T extends Contribution> void removeSubmission(final Activity mContext,
             final Submission submission, final List<T> posts, final RecyclerView recyclerview,
-            final SubmissionViewHolder holder) {
+            final SubmissionViewHolder holder, final boolean spam) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1453,7 +1492,7 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    new ModerationManager(Authentication.reddit).remove(submission, false);
+                    new ModerationManager(Authentication.reddit).remove(submission, spam);
                 } catch (ApiException e) {
                     e.printStackTrace();
                     return false;
@@ -1464,7 +1503,10 @@ public class PopulateSubmissionViewHolder {
         }.execute();
     }
 
-    private void doSetFlair(final Activity mContext, final Submission submission, final SubmissionViewHolder holder) {
+
+
+    private void doSetFlair(final Activity mContext, final Submission submission,
+            final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, ArrayList<String>>() {
             ArrayList<FlairTemplate> flair;
 
@@ -1495,7 +1537,7 @@ public class PopulateSubmissionViewHolder {
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .show();
                     } else {
-                        showFlairSelectionDialog(mContext, submission, data,flair,holder);
+                        showFlairSelectionDialog(mContext, submission, data, flair, holder);
                     }
                 } catch (Exception ignored) {
 
@@ -1664,14 +1706,174 @@ public class PopulateSubmissionViewHolder {
         }.execute();
     }
 
-    private void setPostNsfw(final Activity mContext, final Submission submission) {
+    private void lockSubmission(final Activity mContext, final Submission submission,
+            final SubmissionViewHolder holder) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             public void onPostExecute(Boolean b) {
-                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
-                        .setMessage(R.string.err_retry_later)
-                        .show();
+                if (b) {
+                    Snackbar s =
+                            Snackbar.make(holder.itemView,"Thread locked",
+                                    Snackbar.LENGTH_LONG);
+                    View view = s.getView();
+                    TextView tv =
+                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+
+                } else {
+                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                            .setMessage(R.string.err_retry_later)
+                            .show();
+                }
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    new ModerationManager(Authentication.reddit).setLocked(submission);
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    return false;
+
+                }
+                return true;
+            }
+        }.execute();
+    }
+
+    private void unLockSubmission(final Activity mContext, final Submission submission,
+            final SubmissionViewHolder holder) {
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            public void onPostExecute(Boolean b) {
+                if (b) {
+                    Snackbar s =
+                            Snackbar.make(holder.itemView, "Thread unlocked",
+                                    Snackbar.LENGTH_LONG);
+                    View view = s.getView();
+                    TextView tv =
+                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+
+                } else {
+                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                            .setMessage(R.string.err_retry_later)
+                            .show();
+                }
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    new ModerationManager(Authentication.reddit).setUnlocked(submission);
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    return false;
+
+                }
+                return true;
+            }
+        }.execute();
+    }
+
+    private void distinguishSubmission(final Activity mContext, final Submission submission,
+            final SubmissionViewHolder holder) {
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            public void onPostExecute(Boolean b) {
+                if (b) {
+                    Snackbar s =
+                            Snackbar.make(holder.itemView, "Submission distinguished",
+                                    Snackbar.LENGTH_LONG);
+                    View view = s.getView();
+                    TextView tv =
+                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+
+                } else {
+                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                            .setMessage(R.string.err_retry_later)
+                            .show();
+                }
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(submission, DistinguishedStatus.MODERATOR);
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    return false;
+
+                }
+                return true;
+            }
+        }.execute();
+    }
+
+    private void unDistinguishSubmission(final Activity mContext, final Submission submission,
+            final SubmissionViewHolder holder) {
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            public void onPostExecute(Boolean b) {
+                if (b) {
+                    Snackbar s =
+                            Snackbar.make(holder.itemView, "Submission distinguish removed",
+                                    Snackbar.LENGTH_LONG);
+                    View view = s.getView();
+                    TextView tv =
+                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+
+                } else {
+                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                            .setMessage(R.string.err_retry_later)
+                            .show();
+                }
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(submission, DistinguishedStatus.MODERATOR);
+                } catch (ApiException e) {
+                    e.printStackTrace();
+                    return false;
+
+                }
+                return true;
+            }
+        }.execute();
+    }
+
+    private void setPostNsfw(final Activity mContext, final Submission submission, final SubmissionViewHolder holder) {
+        new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            public void onPostExecute(Boolean b) {
+                if (b) {
+                    Snackbar s =
+                            Snackbar.make(holder.itemView, "NSFW status set",
+                                    Snackbar.LENGTH_LONG);
+                    View view = s.getView();
+                    TextView tv =
+                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
+
+                } else {
+                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                            .setMessage(R.string.err_retry_later)
+                            .show();
+                }
 
             }
 
@@ -1689,16 +1891,27 @@ public class PopulateSubmissionViewHolder {
         }.execute();
     }
 
-    private void unNsfwSubmission(final Context mContext, final Submission submission) {
+    private void unNsfwSubmission(final Context mContext, final Submission submission, final SubmissionViewHolder holder) {
         //todo update view with NSFW tag
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             public void onPostExecute(Boolean b) {
+                if (b) {
+                    Snackbar s =
+                            Snackbar.make(holder.itemView, "NSFW status removed",
+                                    Snackbar.LENGTH_LONG);
+                    View view = s.getView();
+                    TextView tv =
+                            (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    s.show();
 
-                new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
-                        .setMessage(R.string.err_retry_later)
-                        .show();
+                } else {
+                    new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_general)
+                            .setMessage(R.string.err_retry_later)
+                            .show();
+                }
 
             }
 

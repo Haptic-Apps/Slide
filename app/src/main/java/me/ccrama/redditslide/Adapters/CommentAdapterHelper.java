@@ -529,10 +529,11 @@ public class CommentAdapterHelper {
         final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
         final Drawable approve = mContext.getResources().getDrawable(R.drawable.support);
         final Drawable nsfw = mContext.getResources().getDrawable(R.drawable.hide);
-        final Drawable pin = mContext.getResources().getDrawable(R.drawable.lock);
+        final Drawable pin = mContext.getResources().getDrawable(R.drawable.sub);
         final Drawable distinguish = mContext.getResources().getDrawable(R.drawable.iconstarfilled);
         final Drawable remove = mContext.getResources().getDrawable(R.drawable.close);
         final Drawable ban = mContext.getResources().getDrawable(R.drawable.ban);
+        final Drawable spam = mContext.getResources().getDrawable(R.drawable.spam);
 
         //Tint drawables
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -543,6 +544,7 @@ public class CommentAdapterHelper {
         remove.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         pin.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         ban.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        spam.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
 
@@ -596,7 +598,7 @@ public class CommentAdapterHelper {
 
         final String finalWhoApproved = whoApproved;
         final boolean finalApproved = approved;
-        b.sheet(6, remove, mContext.getString(R.string.btn_remove))
+        b.sheet(6, remove, mContext.getString(R.string.btn_remove)).sheet(10, spam, "Mark as spam")
                 .sheet(8, profile, mContext.getString(R.string.mod_btn_author))
                 .listener(new DialogInterface.OnClickListener() {
                     @Override
@@ -624,7 +626,10 @@ public class CommentAdapterHelper {
                                 }
                                 break;
                             case 6:
-                                removeComment(mContext, holder, comment, adapter);
+                                removeComment(mContext, holder, comment, adapter, false);
+                                break;
+                            case 10:
+                                removeComment(mContext, holder, comment, adapter, true);
                                 break;
                             case 8:
                                 Intent i = new Intent(mContext, Profile.class);
@@ -1027,7 +1032,7 @@ public class CommentAdapterHelper {
     }
 
     public static void removeComment(final Context mContext, final CommentViewHolder holder,
-            final Comment comment, final CommentAdapter adapter) {
+            final Comment comment, final CommentAdapter adapter, final boolean spam) {
         new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -1059,7 +1064,7 @@ public class CommentAdapterHelper {
             protected Boolean doInBackground(Void... params) {
                 try {
                     new ModerationManager(Authentication.reddit).remove(comment,
-                            false);
+                            spam);
                 } catch (ApiException e) {
                     e.printStackTrace();
                     return false;
