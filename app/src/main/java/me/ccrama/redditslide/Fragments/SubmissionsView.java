@@ -80,6 +80,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         mLayoutManager.setSpanCount(getNumColumns(currentOrientation));
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {

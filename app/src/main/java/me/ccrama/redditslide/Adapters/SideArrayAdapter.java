@@ -148,8 +148,10 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                             ((MainActivity) getContext()).openingComments = null;
                             ((MainActivity) getContext()).toOpenComments = -1;
                             ((MainActivity.OverviewPagerAdapterComment) ((MainActivity) getContext()).adapter).size = (((MainActivity) getContext()).usedArray.size() + 1);
+                            ((MainActivity) getContext()).reloadItemNumber = ((MainActivity) getContext()).usedArray.indexOf(base);
                             ((MainActivity) getContext()).adapter.notifyDataSetChanged();
                             ((MainActivity) getContext()).doPageSelectedComments(((MainActivity) getContext()).usedArray.indexOf(base));
+                            ((MainActivity) getContext()).reloadItemNumber = -2;
                         }
                         try {
                             //Hide the toolbar search UI with an animation because we're just changing tabs
