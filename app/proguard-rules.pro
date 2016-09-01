@@ -41,6 +41,30 @@
     public static *** v(...);
 }
 
+#Fix com.fasterxml.jackson
+-keepattributes *Annotation*,EnclosingMethod,Signature
+-keepnames class com.fasterxml.jackson.** { *; }
+-keep class com.fasterxml.jackson.databind.ObjectMapper {
+    public <methods>;
+    protected <methods>;
+}
+-keep class com.fasterxml.jackson.databind.ObjectWriter {
+    public ** writeValueAsString(**);
+}
+
+#Fix net.dean.jraw.models.meta.ModelManager
+-keep enum net.dean.jraw.models.meta.Model$Kind {
+    public *;
+}
+-keep class * implements net.dean.jraw.models.meta.JsonSerializer {
+    public <init>(...);
+}
+
+-keep class * extends net.dean.jraw.models.JsonModel {
+    public <init>(...);
+}
+
+
 #To avoid changing names of methods invoked on layout's onClick.
 # Uncomment and add specific method names if using onClick on layouts
 #-keepclassmembers class * {
