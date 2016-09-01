@@ -4,19 +4,23 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.util.TypedValue;
 
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.Submission;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.WeakHashMap;
 
+import me.ccrama.redditslide.Adapters.CommentAdapterHelper;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
 import me.ccrama.redditslide.Visuals.Palette;
 
@@ -39,6 +43,10 @@ public class SubmissionCache {
             titles.put(submission.getFullName(), getTitleSpannable(submission, mContext));
             info.put(submission.getFullName(), getInfoSpannable(submission, mContext, baseSub));
         }
+    }
+    
+    public static void updateInfoSpannable(Submission changed, Context mContext, String baseSub){
+        info.put(changed.getFullName(), getInfoSpannable(changed,mContext, baseSub));
     }
 
     public static void updateTitleFlair(Submission s, String flair, Context c) {
@@ -371,9 +379,53 @@ public class SubmissionCache {
             titleString.append(" ");
             titleString.append(pinned);
         }
+
+        if (removed.contains(submission.getFullName()) || (submission.getBannedBy() != null
+                && !approved.contains(submission.getFullName()))) {
+            titleString.append(createRemovedLine(
+                    (submission.getBannedBy() == null) ? Authentication.name : submission.getBannedBy(),
+                    mContext));
+        } else if (approved.contains(submission.getFullName()) || (submission.getApprovedBy()
+                != null && !removed.contains(submission.getFullName()))) {
+            titleString.append(createApprovedLine(
+                    (submission.getApprovedBy() == null) ? Authentication.name
+                            : submission.getApprovedBy(), mContext));
+        }
+        
         return titleString;
 
     }
+
+    public static SpannableStringBuilder createRemovedLine(String removedBy, Context c) {
+        SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
+        SpannableStringBuilder mod = new SpannableStringBuilder("Removed by ");
+        mod.append(removedBy);
+        mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_red_300)), 0,
+                mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        removedString.append(mod);
+        return removedString;
+    }
+
+    public static SpannableStringBuilder createApprovedLine(String removedBy, Context c) {
+        SpannableStringBuilder removedString = new SpannableStringBuilder("\n");
+        SpannableStringBuilder mod = new SpannableStringBuilder("Approved by ");
+        mod.append(removedBy);
+        mod.setSpan(new StyleSpan(Typeface.BOLD), 0, mod.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new RelativeSizeSpan(0.8f), 0, mod.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mod.setSpan(new ForegroundColorSpan(c.getResources().getColor(R.color.md_green_300)), 0,
+                mod.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        removedString.append(mod);
+        return removedString;
+    }
+
+    public static ArrayList<String> removed  = new ArrayList<>();
+    public static ArrayList<String> approved = new ArrayList<>();
 
     private static SpannableStringBuilder getTitleSpannable(Submission submission,
             Context mContext) {

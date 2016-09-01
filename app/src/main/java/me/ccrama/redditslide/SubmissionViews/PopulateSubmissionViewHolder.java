@@ -1414,6 +1414,11 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onPostExecute(Boolean b) {
                 if (b) {
+                    SubmissionCache.removed.add(submission.getFullName());
+                    SubmissionCache.approved.remove(submission.getFullName());
+
+                    SubmissionCache.updateInfoSpannable(submission, mContext, submission.getSubredditName());
+
                     if (mContext instanceof ModQueue) {
                         final int pos = posts.indexOf(submission);
                         posts.remove(submission);
@@ -1423,9 +1428,12 @@ public class PopulateSubmissionViewHolder {
                         } else {
                             recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                         }
+                    } else {
+                        recyclerview.getAdapter().notifyItemChanged(holder.getAdapterPosition());
                     }
                     Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
                             Snackbar.LENGTH_LONG);
+
                     View view = s.getView();
                     TextView tv =
                             (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
@@ -1463,6 +1471,12 @@ public class PopulateSubmissionViewHolder {
 
             @Override
             public void onPostExecute(Boolean b) {
+
+                SubmissionCache.removed.add(submission.getFullName());
+                SubmissionCache.approved.remove(submission.getFullName());
+
+                SubmissionCache.updateInfoSpannable(submission, mContext, submission.getSubredditName());
+
                 if (b) {
                     if (mContext instanceof ModQueue) {
                         final int pos = posts.indexOf(submission);
@@ -1473,7 +1487,11 @@ public class PopulateSubmissionViewHolder {
                         } else {
                             recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                         }
+                    } else {
+                        recyclerview.getAdapter().notifyItemChanged(holder.getAdapterPosition());
                     }
+
+
                     Snackbar s = Snackbar.make(holder.itemView, R.string.submission_removed,
                             Snackbar.LENGTH_LONG);
                     View view = s.getView();
@@ -1937,6 +1955,10 @@ public class PopulateSubmissionViewHolder {
             @Override
             public void onPostExecute(Boolean b) {
                 if (b) {
+                    SubmissionCache.approved.add(submission.getFullName());
+                    SubmissionCache.removed.remove(submission.getFullName());
+                    SubmissionCache.updateInfoSpannable(submission, mContext, submission.getSubredditName());
+
                     if (mContext instanceof ModQueue) {
                         final int pos = posts.indexOf(submission);
                         posts.remove(submission);
@@ -1946,6 +1968,8 @@ public class PopulateSubmissionViewHolder {
                         } else {
                             recyclerview.getAdapter().notifyItemRemoved(pos + 1);
                         }
+                    } else {
+                        recyclerview.getAdapter().notifyItemChanged(holder.getAdapterPosition());
                     }
 
                     try {
