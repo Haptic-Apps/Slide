@@ -52,6 +52,13 @@
     public ** writeValueAsString(**);
 }
 
+#Fix net.dean.jraw.models.meta.ModelManager
+-keep @interface * { *; }
+-keep enum net.dean.jraw.models.meta.Model$Kind {
+    **[] $VALUES;
+    public *;
+}
+
 #To avoid changing names of methods invoked on layout's onClick.
 # Uncomment and add specific method names if using onClick on layouts
 #-keepclassmembers class * {
