@@ -35,6 +35,9 @@ import me.ccrama.redditslide.util.NetworkUtil;
 public class UserSubscriptions {
     public static final String SUB_NAME_TO_PROPERTIES = "multiNameToSubs";
     public static final List<String> defaultSubs = Arrays.asList("frontpage", "all", "announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts");
+    public static final List<String> specialSubreddits = Arrays.asList(
+            "frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod"
+    );
     public static SharedPreferences subscriptions;
     public static SharedPreferences multiNameToSubs;
 
@@ -571,9 +574,6 @@ public class UserSubscriptions {
     public static ArrayList<String> sortNoExtras(ArrayList<String> unsorted) {
         List<String> subs = new ArrayList<>(unsorted);
         ArrayList<String> finals = new ArrayList<>();
-        final List<String> specialSubreddits = Arrays.asList(
-                "frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod"
-        );
 
         for (String subreddit : specialSubreddits) {
             if (subs.contains(subreddit)) {
@@ -585,7 +585,6 @@ public class UserSubscriptions {
         java.util.Collections.sort(subs, String.CASE_INSENSITIVE_ORDER);
         finals.addAll(subs);
         return finals;
-
     }
 
     public static boolean isSubscriber(String s, Context c) {
