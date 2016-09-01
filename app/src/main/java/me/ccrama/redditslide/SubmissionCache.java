@@ -302,6 +302,17 @@ public class SubmissionCache {
             }
             titleString.append(s);
         }
+        if (removed.contains(submission.getFullName()) || (submission.getBannedBy() != null
+                && !approved.contains(submission.getFullName()))) {
+            titleString.append(createRemovedLine(
+                    (submission.getBannedBy() == null) ? Authentication.name : submission.getBannedBy(),
+                    mContext));
+        } else if (approved.contains(submission.getFullName()) || (submission.getApprovedBy()
+                != null && !removed.contains(submission.getFullName()))) {
+            titleString.append(createApprovedLine(
+                    (submission.getApprovedBy() == null) ? Authentication.name
+                            : submission.getApprovedBy(), mContext));
+        }
         return titleString;
     }
 
@@ -314,18 +325,6 @@ public class SubmissionCache {
             SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0"
                     + mContext.getString(R.string.submission_stickied).toUpperCase()
                     + "\u00A0");
-            pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true),
-                    0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleString.append(" ");
-            titleString.append(pinned);
-        }
-        if (!submission.getDataNode().get("approved_by").asText().equals("null")) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(
-                    mContext.getString(R.string.mod_approved_by, submission.getDataNode()
-                            .get("approved_by")
-                            .asText()
-                            .trim() + "\u00A0"));
             pinned.setSpan(
                     new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, true),
                     0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -379,19 +378,6 @@ public class SubmissionCache {
             titleString.append(" ");
             titleString.append(pinned);
         }
-
-        if (removed.contains(submission.getFullName()) || (submission.getBannedBy() != null
-                && !approved.contains(submission.getFullName()))) {
-            titleString.append(createRemovedLine(
-                    (submission.getBannedBy() == null) ? Authentication.name : submission.getBannedBy(),
-                    mContext));
-        } else if (approved.contains(submission.getFullName()) || (submission.getApprovedBy()
-                != null && !removed.contains(submission.getFullName()))) {
-            titleString.append(createApprovedLine(
-                    (submission.getApprovedBy() == null) ? Authentication.name
-                            : submission.getApprovedBy(), mContext));
-        }
-        
         return titleString;
 
     }

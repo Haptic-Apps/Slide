@@ -1211,7 +1211,7 @@ public class PopulateSubmissionViewHolder {
 
         boolean approved = false;
         String whoApproved = "";
-        if (submission.getDataNode().get("approved_by").asText().equals("null")) {
+        if (SubmissionCache.removed.contains(submission.getFullName()) || (submission.getDataNode().get("approved_by").asText().equals("null") && !SubmissionCache.approved.contains(submission.getFullName()) )) {
             b.sheet(1, approve, res.getString(R.string.mod_btn_approve));
         } else {
             approved = true;

@@ -461,7 +461,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             submissionViewHolder = (SubmissionViewHolder) firstHolder;
             new PopulateSubmissionViewHolder().populateSubmissionViewHolder(
                     (SubmissionViewHolder) firstHolder, submission, (Activity) mContext, true, true,
-                    null, null, false, false, null, this);
+                    null, listView, false, false, null, this);
             if (Authentication.isLoggedIn && Authentication.didOnline) {
                 if (submission.isArchived() || submission.isLocked()) {
                     firstHolder.itemView.findViewById(R.id.reply).setVisibility(View.GONE);
