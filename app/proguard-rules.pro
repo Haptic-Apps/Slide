@@ -53,21 +53,15 @@
 }
 
 #Fix net.dean.jraw.models.meta.ModelManager
--keep @interface * { *; }
 -keep enum net.dean.jraw.models.meta.Model$Kind {
-    **[] $VALUES;
     public *;
 }
 -keep class * implements net.dean.jraw.models.meta.JsonSerializer {
-    *;
-}
-
--keep class * extends net.dean.jraw.models.meta.JsonSerializer$Base {
-    *;
+    public <init>(...);
 }
 
 -keep class * extends net.dean.jraw.models.JsonModel {
-    *;
+    public <init>(...);
 }
 
 
