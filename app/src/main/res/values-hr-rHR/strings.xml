@@ -30,8 +30,6 @@
   <string name="submission_tap_gif">Pritisni za učitiavanje GIF</string>
   <string name="submission_not_found">Uh, post nije pronađen!</string>
   <string name="submission_not_found_msg">Žao nam je, ovaj post nije moguće pronaći</string>
-  <string name="submission_copy_text">Kopiraj tekst</string>
-  <string name="submission_share_permalink">Podijeli post</string>
   <plurals name="submission_points">
     <item quantity="one">%d bod</item>
     <item quantity="few">%d bod</item>
@@ -91,7 +89,6 @@
   <string name="comment_delete">Izbriši komentar</string>
   <string name="comment_delete_msg">Da li stvarno želite izbrisati ovaj komentar? Ovo se ne može poništiti.</string>
   <string name="comment_delete_err">Uh, nešto je pošlo krivo.</string>
-  <string name="comment_delete_err_msg">Želite li pokušati ponovno?</string>
   <string name="comment_deleted">[izbrisano]</string>
   <string name="comment_unsave">Poništi spremanje</string>
   <string name="comment_load_more">Učitaj %1$d više</string>
@@ -136,7 +133,6 @@
   <string name="err_permission">Dopuštenje odbijeno</string>
   <string name="err_permission_msg">Izgleda da ste uskratili pristup Slide-u za zapisivanje u vanjsku pohranu. Tako će cache slika, cache postova i spremanje slika biti neuspješno :(. \nŽelite li dopustiti Slide-u pristup vanjskoj pohrani?</string>
   <string name="err_authentication">Autentifikacija neuspješna</string>
-  <string name="err_something_wrong">Uh, nešto je pošlo krivo.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF nije pronađen</string>
   <string name="gif_err_msg">Došlo je do pogreške prilikom učitavanja ovoga GIFa. Molimo ponovno otvoriti GIF i pokušajte ponovno.</string>
@@ -166,14 +162,12 @@
   <string name="type_imgur">Imgur sadržaj</string>
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Ulazna pošta</string>
   <string name="mail_author_wrote">%1$s je napisao&#8230;</string>
   <string name="mail_hint_recipient">Primatelj</string>
   <string name="mail_hint_subject">Tema</string>
   <string name="mail_hint_body">Sadržaj</string>
   <string name="mail_send_to">Pošaljite poruku korisniku</string>
   <string name="mail_send">Pošalji poruku</string>
-  <string name="mail_notification_msg_from">Nova poruka od %1$s</string>
   <string name="mail_reply_to">Odgovori %1$s</string>
   <string name="mail_notification_author">%1$s iz %2$s</string>
   <string name="mail_theirs">Pogledaj njihovu poruku</string>
@@ -217,7 +211,6 @@
   <string name="btn_cache">Predmemoriraj komentare</string>
   <string name="btn_delete">Obriši</string>
   <string name="btn_select">Odaberite</string>
-  <string name="btn_new">Novo</string>
   <!-- Backup -->
   <string name="backup_success">Sigurnosna kopija uspjela!</string>
   <string name="backup_restoring">Vraćanje postavki</string>
@@ -241,7 +234,6 @@
   <string name="mod_flair_hint">Tekst značke</string>
   <string name="mod_no_reports">Nema izvješća</string>
   <string name="mod_btn_approve">Dozvoli</string>
-  <string name="mod_btn_remove">Ukloni</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -259,9 +251,6 @@
   <string name="search_msg">Što tražite?</string>
   <string name="search_all">Pretraži sve</string>
   <string name="search_subreddit">Traži %1$s</string>
-  <string name="search_top">Vrh</string>
-  <string name="search_new">Novo</string>
-  <string name="search_comments">komentari</string>
   <!-- Captcha -->
   <string name="captcha">Unesite kod prikazan iznad</string>
   <string name="captcha_title">Dokažite da niste robot</string>
@@ -305,17 +294,14 @@
   <string name="settings_title_default_theme">Glavna tema</string>
   <string name="settings_title_general">Općenito</string>
   <string name="settings_title_notifications">Obavijesti</string>
-  <string name="settings_title_pro">Kupi Pro</string>
   <string name="settings_title_sub_theme">Podreddit teme</string>
   <string name="settings_title_sorting">Zadano sortiranje</string>
   <string name="settings_title_support">Doniraj</string>
   <string name="settings_title_about">O nama</string>
-  <string name="settings_title_multi_column">Više-stupačni način</string>
   <string name="settings_title_fab">Plutajući akcijski gumb</string>
   <string name="settings_title_comments">Komentari</string>
   <string name="settings_title_filter">Filteri</string>
   <string name="settings_title_font">Font</string>
-  <string name="settings_section_general">Općenito</string>
   <string name="settings_comment_color">Obojani indikatori podređenih komentara</string>
   <string name="settings_volume_nav_comments">Navigacija komentarima pomoću tipki za glasnoću</string>
   <string name="settings_synccit_remove">ODSPOJITE SE OD SYNCCIT</string>
@@ -335,13 +321,11 @@
   <string name="view_type_tabs">Podreddit tabovi</string>
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Podreddit</string>
   <string name="btn_add_subreddit">Dodaj podreddit</string>
   <string name="reorder_subreddits_title">Odaberite podreddit za dodati</string>
   <string name="reorder_subreddit_name">Ime podreddita</string>
   <string name="reorder_remove_title">Ukloniti ovaj subreddit?</string>
   <string name="reorder_remove_msg">Vaša pretplata neće biti otkazana, ali nećete vidjeti ovaj podreddit u sidebaru!</string>
-  <string name="reorder_sync_complete">Sinkronizacija dovršena</string>
   <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
@@ -376,7 +360,6 @@
   <string name="offline_last_update">Posljednje ažurirano %1$s</string>
   <string name="offline_comments_not_loaded">Idite Online i odaberite \'Predmemoriraj komentare\' iz izbornika 3 točkice za prikaz komentara izvanmrežno.</string>
   <!-- Website -->
-  <string name="website_back">Vrati se</string>
   <string name="website_external">Otvori u vanjskom pregledniku</string>
   <!-- Time -->
   <plurals name="time_hours">
@@ -401,7 +384,6 @@
   <!-- Used when viewing media -->
   <!-- Drafts -->
   <!-- Strings for widgets -->
-  <string name="widget_subname_hint">Ime podreddita</string>
   <!-- Strings for alert dialogs -->
   <!-- Sidebar strings (multis, flairs) -->
   <!--Filtering dialog -->
@@ -422,7 +404,6 @@
   <string name="handling_external_browser">Koristi eksterni preglednik</string>
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Kartice s centriranom slikom</string>
-  <string name="mode_card">Kartica</string>
   <string name="press_actionbar">Pritisnite strelicu za prikaz akcijske trake</string>
   <string name="tap_actionbar">Dugi pritisak za prikaz akcijske trake</string>
   <string name="always_actionbar">Uvijek pokaži akcijsku traku</string>
@@ -430,8 +411,4 @@
   <string name="submission_share_reddit_url">Podijeli komentare</string>
   <string name="filter_content">Filtriraj ovaj sadržaj</string>
   <string name="btn_report">Izvješće</string>
-  <string name="subreddit_name_tint">Ime podreddita</string>
-  <string name="content_deleted">[izbrisano]</string>
-  <string name="open_externally">Otvori u eksternom pregledniku</string>
-  <string name="draw_undo">Poništi</string>
 </resources>

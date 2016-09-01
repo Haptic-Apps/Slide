@@ -211,7 +211,7 @@ public class ManageHistory extends BaseActivityAnim {
         cal.set(Calendar.HOUR_OF_DAY, Reddit.cachedData.getInt("hour", 0));
         cal.set(Calendar.MINUTE, Reddit.cachedData.getInt("minute", 0));
         if (text != null) {
-            text.setText(getString(R.string.settings_backup_occurs) + new SimpleDateFormat("hh:mm a").format(cal.getTime()));
+            text.setText(getString(R.string.settings_backup_occurs, new SimpleDateFormat("hh:mm a").format(cal.getTime())));
         }
     }
 

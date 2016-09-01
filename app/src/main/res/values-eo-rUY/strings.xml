@@ -15,8 +15,6 @@
   <string name="submission_gild">Malfermi en retumilo</string>
   <string name="submission_save">Konservi afiŝon</string>
   <string name="submission_share">Konigi afiŝon</string>
-  <string name="submission_copy_text">Kopii tekston</string>
-  <string name="submission_share_permalink">Konigi afiŝon</string>
   <plurals name="submission_points">
     <item quantity="one">%d poento</item>
     <item quantity="other">%d poentoj</item>
@@ -91,10 +89,8 @@
   <string name="mail_author_wrote">%1$s skribis&#8230;</string>
   <string name="mail_hint_recipient">Ricevonto</string>
   <string name="mail_hint_subject">Temo</string>
-  <string name="mail_hint_body">Teksto</string>
   <string name="mail_send_to">Sendi mesaĝon al %1$s</string>
   <string name="mail_send">Sendi mesaĝon</string>
-  <string name="mail_notification_msg_from">Nova mesaĝo de %1$s</string>
   <string name="mail_reply_to">Respondi al %1$s</string>
   <string name="mail_notification_author">%1$s de %2$s</string>
   <plurals name="mail_notification_title">
@@ -124,7 +120,6 @@
   <string name="btn_undo">Malfari</string>
   <string name="btn_yes">Jes</string>
   <string name="btn_delete">Forigi</string>
-  <string name="btn_new">Novaj</string>
   <!-- Backup -->
   <string name="backup_btn">Savkopii</string>
   <string name="backup_btn_restore">Restaŭri</string>
@@ -132,7 +127,6 @@
   <!-- Moderation tools -->
   <string name="mod_approved">Afiŝo aprobita.</string>
   <string name="mod_btn_approve">Aprobi</string>
-  <string name="mod_btn_remove">Forigi</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -140,9 +134,6 @@
   <string name="subreddit_subscribers">%1$d abonantoj</string>
   <!-- Search -->
   <string name="search_title">Serĉi</string>
-  <string name="search_top">Supraj</string>
-  <string name="search_new">Novaj</string>
-  <string name="search_comments">komentoj</string>
   <!-- Captcha -->
   <!-- Settings -->
   <string name="share_link">Konigi ligilon</string>
@@ -155,11 +146,9 @@
   <string name="settings_title_support">Donaci</string>
   <string name="settings_title_about">Pri</string>
   <string name="settings_title_comments">Komentoj</string>
-  <string name="settings_section_general">Ĝenerala</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
@@ -172,7 +161,6 @@
   <string name="donate_btn">Donaci</string>
   <!-- Offline mode -->
   <!-- Website -->
-  <string name="website_back">Reen</string>
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="one">%d horo</item>
@@ -199,9 +187,5 @@
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="mode_card">Karto</string>
   <string name="btn_report">Raporti</string>
-  <string name="content_deleted">[forigita]</string>
-  <string name="open_externally">Malfermi ekstere</string>
-  <string name="draw_undo">Malfari</string>
 </resources>

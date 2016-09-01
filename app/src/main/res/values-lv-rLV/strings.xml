@@ -37,7 +37,6 @@
   <!-- General information / information without a category -->
   <!-- General errors / errors without a category -->
   <string name="err_retry_later">Pēc minūtes mēģini vēlreiz!</string>
-  <string name="err_something_wrong">Ak vai, kaut kas nogājis greizi.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF netika atrasts</string>
   <!-- Multireddits -->
@@ -47,7 +46,6 @@
   <!-- Content types -->
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Iesūtne</string>
   <string name="mail_hint_subject">Tēma</string>
   <string name="mail_hint_body">Galvenā sadaļa</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
@@ -70,7 +68,6 @@
   <!-- Vote -->
   <!-- Moderation tools -->
   <string name="mod_mark_nsfw">Vai tiešām vēlaties šo marķēt NSFW?</string>
-  <string name="mod_btn_remove">Noņemt</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -82,7 +79,6 @@
   <string name="search_msg">Ko jūs vēlaties meklēt?</string>
   <string name="search_all">Meklēt visos</string>
   <string name="search_subreddit">Meklēt %1$s</string>
-  <string name="search_comments">komentāri</string>
   <!-- Captcha -->
   <string name="captcha_title">Pierādiet ka neesat robots</string>
   <!-- Settings -->
@@ -96,7 +92,6 @@
   <string name="settings_title_pro">Pirkt Pro versiju</string>
   <string name="settings_title_support">Ziedot</string>
   <string name="settings_title_about">Par aplikāciju</string>
-  <string name="settings_title_comments">komentāri</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
@@ -132,5 +127,4 @@
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="btn_report">Ziņo</string>
-  <string name="draw_undo">Atsaukt</string>
 </resources>

@@ -23,8 +23,6 @@
   <string name="submission_load_full">Hap postimin e plote</string>
   <string name="submission_tap_gif">Shtyp per te hapur GIF</string>
   <string name="submission_not_found">Uh oh, postimi nuk u gjet!</string>
-  <string name="submission_copy_text">Kopjo tekstin</string>
-  <string name="submission_share_permalink">Shperndaje</string>
   <!-- Theme settings -->
   <!-- Font settings -->
   <!-- For editing the submission card layout -->
@@ -85,5 +83,4 @@
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="open_externally">Hape jashte</string>
 </resources>

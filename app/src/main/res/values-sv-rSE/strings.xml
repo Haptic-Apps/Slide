@@ -30,8 +30,6 @@
   <string name="submission_tap_gif">Tryck för att ladda GIF</string>
   <string name="submission_not_found">Inlägget kunde inte hittas!</string>
   <string name="submission_not_found_msg">Detta inlägg kunde inte hittas</string>
-  <string name="submission_copy_text">Kopiera text</string>
-  <string name="submission_share_permalink">Dela inlägg</string>
   <plurals name="submission_points">
     <item quantity="one">%d poäng</item>
     <item quantity="other">%d poäng</item>
@@ -87,7 +85,6 @@
   <string name="comment_delete">Ta bort kommentar</string>
   <string name="comment_delete_msg">Vill du verkligen ta bort denna kommentar? Du kan inte ångra sig efter.</string>
   <string name="comment_delete_err">Hoppsan, något gick fel.</string>
-  <string name="comment_delete_err_msg">Vill du försöka igen?</string>
   <string name="comment_deleted">[borttagen]</string>
   <string name="comment_unsave">Ospara</string>
   <string name="comment_load_more">Ladda %1$d fler</string>
@@ -131,7 +128,6 @@
   <string name="err_permission">Tillstånd nekades</string>
   <string name="err_permission_msg">Det ser ut som du nekade Slide tillgång att skriva till extern lagring. Detta kommer att orsaka bild cache, inläggs cache och spara bilder att misslyckas :(. \n Skulle du vilja att Slide ska få tillgång till extern lagring?</string>
   <string name="err_authentication">Verifiering misslyckades</string>
-  <string name="err_something_wrong">Hoppsan, något gick fel.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIFen hittades inte</string>
   <string name="gif_err_msg">Ett fel uppstod vid inläsning av denna GIF. Vänligen öppna GIFen på nytt och försök igen.</string>
@@ -161,14 +157,12 @@
   <string name="type_imgur">Innehåll från Imgur</string>
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Inkorgen</string>
   <string name="mail_author_wrote">%1$s skrev&#8230;</string>
   <string name="mail_hint_recipient">Mottagare</string>
   <string name="mail_hint_subject">Ämne</string>
   <string name="mail_hint_body">Innehåll</string>
   <string name="mail_send_to">Skicka ett meddelande till %1$s</string>
   <string name="mail_send">Skicka ett meddelande</string>
-  <string name="mail_notification_msg_from">Nytt meddelande från %1$s</string>
   <string name="mail_reply_to">Svara %1$s</string>
   <string name="mail_notification_author">%1$s från %2$s</string>
   <string name="mail_theirs">Visa deras meddelande</string>
@@ -214,7 +208,6 @@
   <string name="btn_yes">Ja</string>
   <string name="btn_refresh">Uppdatera</string>
   <string name="btn_delete">Ta bort</string>
-  <string name="btn_new">Nya</string>
   <!-- Backup -->
   <string name="backup_success">Säkerhetskopieringen lyckades!</string>
   <string name="backup_restoring">Återställer dina inställningar</string>
@@ -238,7 +231,6 @@
   <string name="mod_flair_hint">Flair-text</string>
   <string name="mod_no_reports">Inga rapporter</string>
   <string name="mod_btn_approve">Godkänn</string>
-  <string name="mod_btn_remove">Ta bort</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -256,9 +248,6 @@
   <string name="search_msg">Vad söker du efter?</string>
   <string name="search_all">Sök alla</string>
   <string name="search_subreddit">Sök %1$s</string>
-  <string name="search_top">Högsta poäng</string>
-  <string name="search_new">Nya</string>
-  <string name="search_comments">kommentarer</string>
   <!-- Captcha -->
   <string name="captcha">Ange koden ovan</string>
   <string name="captcha_title">Bevisa att du inte är en robot</string>
@@ -303,19 +292,14 @@
   <string name="settings_title_default_theme">Huvudtema</string>
   <string name="settings_title_general">Allmänt</string>
   <string name="settings_title_notifications">Notifieringsinställningar</string>
-  <string name="settings_title_pro">Bli pro</string>
   <string name="settings_title_sub_theme">Subreddit-teman</string>
   <string name="settings_title_sorting">Standard sortering</string>
-  <string name="settings_title_support">Donera</string>
   <string name="settings_title_about">Om</string>
-  <string name="settings_title_multi_column">Flerkolumnsinställningar</string>
   <string name="settings_title_fab">Flytande action-knapp</string>
   <string name="settings_title_comments">Kommentarer</string>
-  <string name="settings_section_general">Allmänt</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
@@ -347,7 +331,6 @@
   <string name="offline_caching">Lagrar bidrag i cache</string>
   <string name="offline_msg">Gå online och uppdatera subreddit</string>
   <!-- Website -->
-  <string name="website_back">Gå tillbaka</string>
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="one">%d timme</item>
@@ -374,9 +357,5 @@
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="mode_card">Kort</string>
   <string name="btn_report">Rapportera</string>
-  <string name="content_deleted">[borttagen]</string>
-  <string name="open_externally">Öppna externt</string>
-  <string name="draw_undo">Ångra</string>
 </resources>

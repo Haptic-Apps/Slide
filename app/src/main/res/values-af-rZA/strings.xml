@@ -14,8 +14,6 @@
   <string name="submission_share">Deel artikel</string>
   <string name="submission_not_found">Oeps, onderwerp nie gevind nie!</string>
   <string name="submission_not_found_msg">Jammer, kon nie onderwerp vind nie</string>
-  <string name="submission_copy_text">Kopie teks</string>
-  <string name="submission_share_permalink">Deel artikel</string>
   <plurals name="submission_points">
     <item quantity="one">%d punt</item>
     <item quantity="other">%d punte</item>
@@ -85,12 +83,10 @@
   <!-- Content types -->
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
-  <string name="mail_hint_body">Teks</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_copy_text">Kopie teks</string>
   <!-- Goto User -->
   <!-- Buttons -->
-  <string name="btn_new">Nuwe</string>
   <!-- Backup -->
   <!-- Vote -->
   <!-- Moderation tools -->
@@ -99,14 +95,9 @@
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
-  <string name="search_new">Nuwe</string>
-  <string name="search_comments">Kommentaar</string>
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
-  <string name="settings_title_pro">Gaan Pro</string>
-  <string name="settings_title_multi_column">Multi-kolom</string>
-  <string name="settings_title_comments">Kommentaar</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
@@ -134,5 +125,4 @@
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="mode_card">Kaart</string>
 </resources>

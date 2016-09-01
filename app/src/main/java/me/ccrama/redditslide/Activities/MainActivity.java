@@ -2356,8 +2356,8 @@ public class MainActivity extends BaseActivity {
                                                                     drawerLayout.closeDrawers();
                                                                     Snackbar.make(mToolbar,
                                                                             getString(
-                                                                                    R.string.multi_subreddit_added)
-                                                                                    + multiName,
+                                                                                    R.string.multi_subreddit_added,
+                                                                                    multiName),
                                                                             Snackbar.LENGTH_LONG)
                                                                             .show();
                                                                 }
@@ -2504,7 +2504,7 @@ public class MainActivity extends BaseActivity {
                 private void doSubscribe() {
                     if (Authentication.isLoggedIn) {
                         new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                                getString(R.string.subscribe_to) + subreddit.getDisplayName())
+                                getString(R.string.subscribe_to, subreddit.getDisplayName()))
                                 .setPositiveButton(R.string.reorder_add_subscribe,
                                         new DialogInterface.OnClickListener() {
                                             @Override
@@ -2606,7 +2606,7 @@ public class MainActivity extends BaseActivity {
                 private void doUnsubscribe() {
                     if (Authentication.didOnline) {
                         new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                                getString(R.string.unsubscribe_from) + subreddit.getDisplayName())
+                                getString(R.string.unsubscribe_from, subreddit.getDisplayName()))
                                 .setPositiveButton(R.string.reorder_remove_unsubsribe,
                                         new DialogInterface.OnClickListener() {
                                             @Override
@@ -2938,7 +2938,7 @@ public class MainActivity extends BaseActivity {
                             flair.setVisibility(View.VISIBLE);
                             if (current != null) {
                                 ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText(
-                                        getString(R.string.sidebar_flair) + current);
+                                        getString(R.string.sidebar_flair, current));
                             }
                             flair.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -3025,8 +3025,8 @@ public class MainActivity extends BaseActivity {
                                                                                                                 R.id.flair_text))
                                                                                                         .setText(
                                                                                                                 getString(
-                                                                                                                        R.string.sidebar_flair)
-                                                                                                                        + current);
+                                                                                                                        R.string.sidebar_flair,
+                                                                                                                        current));
                                                                                             }
                                                                                             s =
                                                                                                     Snackbar.make(
@@ -3098,8 +3098,8 @@ public class MainActivity extends BaseActivity {
                                                                         ((TextView) dialoglayout.findViewById(
                                                                                 R.id.flair_text)).setText(
                                                                                 getString(
-                                                                                        R.string.sidebar_flair)
-                                                                                        + current);
+                                                                                        R.string.sidebar_flair,
+                                                                                        current));
                                                                     }
                                                                     s = Snackbar.make(mToolbar,
                                                                             R.string.snackbar_flair_success,

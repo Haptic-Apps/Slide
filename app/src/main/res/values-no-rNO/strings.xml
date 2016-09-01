@@ -30,8 +30,6 @@
   <string name="submission_tap_gif">Trykk for å laste inn GIF</string>
   <string name="submission_not_found">Uff da, fant ikke posten.</string>
   <string name="submission_not_found_msg">Fant ikke posten</string>
-  <string name="submission_copy_text">Kopier tekst</string>
-  <string name="submission_share_permalink">Dele post</string>
   <plurals name="submission_points">
     <item quantity="one">%d poeng</item>
     <item quantity="other">%d poeng</item>
@@ -148,7 +146,6 @@
   <string name="editor_title">Tittel</string>
   <string name="editor_err_msg">Prøv igjen om noen sekunder.</string>
   <string name="editor_uploading_image">Laster opp bilde til Imgur</string>
-  <string name="editor_self">Selvtekst</string>
   <string name="editor_select_img">Velg bilde</string>
   <string name="editor_hint_optional_body">Tekst (valgfritt)</string>
   <string name="editor_submit">Send inn en post</string>
@@ -168,9 +165,7 @@
   <string name="err_authentication">Godkjenning mislyktes</string>
   <string name="error_video_not_found">Video ikke funnet</string>
   <string name="error_video_message">En feil oppstod under lasting av videoen</string>
-  <string name="err_something_wrong">Uff da, noe gikk galt.</string>
   <string name="err_comment_post">Oida, publisering av denne kommentaren mislyktes!</string>
-  <string name="err_comment_post_reason">"Årsak: "</string>
   <string name="err_comment_post_message">\n\nKommentaren din er blitt lagret som en kladd. Vennligst prøv igjen senere.</string>
   <string name="err_comment_post_copy">Kopier kommentar</string>
   <!-- Gif -->
@@ -206,9 +201,7 @@
   <string name="type_nsfw_imgur">NSFW Imgur-innhold</string>
   <string name="type_external">Ekstern</string>
   <!-- Content types plural (Content filters) -->
-  <string name="type_nsfw_content">NSFW-innhold</string>
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Innboks</string>
   <string name="mail_tab_unread">Ulest</string>
   <string name="mail_tab_messages">Meldinger</string>
   <string name="mail_tab_sent">Sendt</string>
@@ -219,7 +212,6 @@
   <string name="mail_hint_body">Tekst</string>
   <string name="mail_send_to">Send en melding til %1$s</string>
   <string name="mail_send">Send en melding</string>
-  <string name="mail_notification_msg_from">Ny melding fra %1$s</string>
   <string name="mod_mail_notification_msg">Ny modpost fra %1$s</string>
   <string name="mail_reply_to">Svar til %1$s</string>
   <string name="mail_notification_author">%1$s fra %2$s</string>
@@ -280,7 +272,6 @@
   <string name="btn_select">Velg</string>
   <string name="btn_view">VIS</string>
   <string name="btn_changelog">Endringslogg</string>
-  <string name="btn_new">Nye</string>
   <!-- Backup -->
   <string name="backup_success">Sikkerhetskopiering vellykket.</string>
   <string name="backup_restoring">Gjenoppretter innstillinger</string>
@@ -313,7 +304,6 @@
   <string name="mod_btn_submission_flair">Angi \"flair\"</string>
   <string name="mod_btn_mark_nsfw">Merk NSFW</string>
   <string name="mod_btn_unmark_nsfw">Fjern NSFW-merking</string>
-  <string name="mod_btn_remove">Fjern</string>
   <string name="mod_btn_remove_reason">Fjern med grunn</string>
   <string name="mod_btn_author">Brukerprofil</string>
   <plurals name="mod_btn_reports">
@@ -339,9 +329,6 @@
   <string name="search_all">Søk alle</string>
   <string name="search_subreddit">Søk %1$s</string>
   <string name="search_relevance">Relevanse</string>
-  <string name="search_top">Topp</string>
-  <string name="search_new">Nye</string>
-  <string name="search_comments">kommentarer</string>
   <!-- Captcha -->
   <string name="captcha">Skriv inn koden ovenfor</string>
   <string name="captcha_title">Vis at du ikke er en robot</string>
@@ -393,20 +380,14 @@
   <string name="settings_title_general">Generelt</string>
   <string name="settings_title_history">Logg</string>
   <string name="settings_title_notifications">Varselinnstillinger</string>
-  <string name="settings_title_pro">Gå Pro</string>
   <string name="settings_title_sub_theme">Subreddit-temaer</string>
   <string name="settings_title_sorting">Standardsortering</string>
-  <string name="settings_title_support">Doner</string>
   <string name="settings_title_about">Om</string>
-  <string name="settings_title_multi_column">Flerkolonneinnstillinger</string>
   <string name="settings_title_fab">Flytende handlingsknapp</string>
-  <string name="settings_title_comments">kommentarer</string>
   <string name="settings_title_filter">Filtre</string>
   <string name="settings_title_font">Skrifttype</string>
-  <string name="settings_section_general">Generelt</string>
   <string name="settings_section_appearance">Utseende</string>
   <string name="settings_section_other">Annet</string>
-  <string name="settings_section_save_history">Lagringshistorikk</string>
   <string name="settings_comment_color">Fargerike kommentarindikatorer</string>
   <string name="settings_volume_nav_comments">Navigér i kommentarfeltet ved å bruke volumtastene</string>
   <string name="settings_synccit_remove">KOBLE FRA SYNCCIT</string>
@@ -455,7 +436,6 @@
   <string name="view_type_comments">Kommentarrute</string>
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <string name="btn_add_subreddit">Legg til en subreddit</string>
   <string name="reorder_subreddits_title">Velg en subreddit å legge til</string>
   <string name="reorder_subreddit_name">Subreddit-navn</string>
@@ -509,7 +489,6 @@
   <string name="offline_last_update">Sist oppdatert %1$s</string>
   <string name="offline_comments_not_loaded">Vennligst gå tilbake og velg \'Cache kommentarer\' fra 3 punkts-menyen for å vise kommentarer i frakoblet modus</string>
   <!-- Website -->
-  <string name="website_back">Tilbake</string>
   <string name="website_external">Åpne i ekstern nettleser</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">%d subreddit lagt til</item>
@@ -581,7 +560,6 @@
   <string name="dialog_no_drafts_msg">Du kan legge til et utkast ved å klikke på \"lagre\"-ikonet i tekstbehandleren!</string>
   <string name="msg_save_draft">Meldingen ble lagret som utkast</string>
   <!-- Strings for widgets -->
-  <string name="widget_subname_hint">Subreddit-navn</string>
   <!-- Strings for alert dialogs -->
   <!-- Sidebar strings (multis, flairs) -->
   <!--Filtering dialog -->
@@ -602,7 +580,6 @@
   <string name="handling_external_browser">Bruk ekstern nettleser</string>
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Kort med sentrert bilde</string>
-  <string name="mode_card">Kort</string>
   <string name="mode_cropped">Stort bekjært bilde</string>
   <string name="mode_bigpic">Stort bilde</string>
   <string name="press_actionbar">Press pilen for å vise verktøyslinjen</string>
@@ -626,7 +603,6 @@
   <string name="multi_column_force_full">Tving full kommentarvisning</string>
   <string name="submission_info_locked">Dette er et arkivert innlegg. Du vil ikke kunne stemme eller kommentere.</string>
   <string name="card_background_tint">Kortbakgrunn</string>
-  <string name="subreddit_name_tint">Subreddit-navn</string>
   <string name="login_failed_err_decline">Vær sikker på at du ikke valgte \"avslå\" på det forrige skjermbildet og prøv igjen om et par øyeblikk</string>
   <string name="thumb_type_always">Vis alltid</string>
   <string name="thumb_type_off">Vis aldri</string>
@@ -638,7 +614,6 @@
   <string name="btn_open_comments">Åpne kommentarer</string>
   <string name="btn_preview">Forhåndsvis</string>
   <string name="sorting_default_comment">Standard kommentar-sortering</string>
-  <string name="content_deleted">[slettet]</string>
   <string name="thread_continue">Fortsett denne tråden</string>
   <string name="type_selftext">Selvtekst</string>
   <string name="submission_unhide">Vis skjult innlegg</string>
@@ -647,10 +622,8 @@
   <string name="guest">Gjest</string>
   <string name="album_slide_view">Horisontal albumvisning</string>
   <string name="album_grid">Albumrutenett</string>
-  <string name="open_externally">Åpne eksternt</string>
   <string name="vertical_album_view">Vertikal albumvisning</string>
   <string name="download_album">Last ned album</string>
   <string name="compose_message">Skriv ny melding</string>
   <string name="mark_all_as_read">Merk alle som lest</string>
-  <string name="draw_undo">Angre</string>
 </resources>

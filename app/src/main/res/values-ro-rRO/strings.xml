@@ -30,8 +30,6 @@
   <string name="submission_tap_gif">Apasă pentru a salva</string>
   <string name="submission_not_found">Oh, Publicarea nu există!</string>
   <string name="submission_not_found_msg">Ne pare rău, dar nu am găsit publicarea</string>
-  <string name="submission_copy_text">Copiază textul</string>
-  <string name="submission_share_permalink">Distribuiți postarea</string>
   <plurals name="submission_points">
     <item quantity="one">%d punct</item>
     <item quantity="few">%d punct</item>
@@ -112,7 +110,6 @@
   <string name="comment_delete">Șterge comentariul</string>
   <string name="comment_delete_msg">Ești sigur ca vrei sa ștergi comentariul acesta? Acțiunea aceasta nu poate fi anulată.</string>
   <string name="comment_delete_err">O! Ceva nu merge cum trebuie.</string>
-  <string name="comment_delete_err_msg">Dorești sa încerci din nou?</string>
   <string name="comment_deleted">[deleted]</string>
   <string name="comment_unsave">Anulează salvarea</string>
   <string name="comment_load_more">Încarcă încă %1$d</string>
@@ -134,12 +131,6 @@
   <string name="sorting_old">Vechi</string>
   <string name="sorting_controversial">Controversate</string>
   <string name="sorting_rising">În creştere</string>
-  <string name="sorting_hour">> oră</string>
-  <string name="sorting_day">> 24 de ore</string>
-  <string name="sorting_week">> săptămână</string>
-  <string name="sorting_month">> lună</string>
-  <string name="sorting_year">> an</string>
-  <string name="sorting_all">> tot timpul</string>
   <string name="sorting_search_hour">Ultima oră</string>
   <string name="sorting_search_day">Ultimele 24 de ore</string>
   <string name="sorting_search_week">Săptămâna trecută</string>
@@ -176,10 +167,8 @@
   <string name="error_video_message">O eroare s-a produs la încărcarea acestui video</string>
   <string name="err_could_not_find_content_msg">Reddit nu a găsit conținutul cerut</string>
   <string name="err_refused_request_msg">Reddit a refuzat o cerere. Doriți să încercați reconectarea la Reddit?</string>
-  <string name="err_something_wrong">O! Ceva nu merge cum trebuie.</string>
   <string name="err_file_not_found">Fișierul nu a fost găsit</string>
   <string name="err_comment_post">Oh, postarea acestui comentariu este eșuată!</string>
-  <string name="err_comment_post_reason">"Motiv: "</string>
   <string name="err_comment_post_copy">Copiază comentariu</string>
   <string name="err_connection_failed_msg">Conexiunea la Reddit a eșuat. Te rugăm să verifici conexiunea la internet și să încerci din nou, sau intră întră în modul offline.</string>
   <!-- Gif -->
@@ -221,7 +210,6 @@
   <string name="type_nsfw_content">Conținut NSFW</string>
   <string name="type_links">Link-uri</string>
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Inbox</string>
   <string name="mail_tab_unread">Necitit</string>
   <string name="mail_tab_messages">Mesaje</string>
   <string name="mail_tab_sent">Trimis</string>
@@ -229,10 +217,8 @@
   <string name="mail_author_wrote">%1$s a scris&#8230;</string>
   <string name="mail_hint_recipient">Destinatar</string>
   <string name="mail_hint_subject">Subiect</string>
-  <string name="mail_hint_body">Text</string>
   <string name="mail_send_to">Trimite un mesaj lui %1$s</string>
   <string name="mail_send">Trimite un mesaj</string>
-  <string name="mail_notification_msg_from">Mesaj nou de la %1$s</string>
   <string name="mod_mail_notification_msg">Modmail nou de la %1$s</string>
   <string name="mail_reply_to">Răspunde-i lui %1$s</string>
   <string name="mail_notification_author">%1$s de la %2$s</string>
@@ -291,7 +277,6 @@
   <string name="btn_time">Perioada de timp</string>
   <string name="btn_select">Selectează</string>
   <string name="btn_view">VEZI</string>
-  <string name="btn_new">Noi</string>
   <!-- Backup -->
   <string name="backup_success">Copia de siguranță s-a realizat!</string>
   <string name="backup_restoring">Restaurând setări</string>
@@ -324,7 +309,6 @@
   <string name="mod_btn_submission_flair">Setează flair</string>
   <string name="mod_btn_mark_nsfw">Marchează NSFW</string>
   <string name="mod_btn_unmark_nsfw">Demarchează NSFW</string>
-  <string name="mod_btn_remove">Elimină</string>
   <string name="mod_btn_remove_reason">Elimină cu motiv</string>
   <string name="mod_btn_author">Profilul autorului</string>
   <!-- Pleasantly asking the user if he made his mind up -->
@@ -346,9 +330,6 @@
   <string name="search_all">Caută tot</string>
   <string name="search_subreddit">Caută %1$s</string>
   <string name="search_relevance">Relevanță</string>
-  <string name="search_top">Top</string>
-  <string name="search_new">Noi</string>
-  <string name="search_comments">Comentarii</string>
   <!-- Captcha -->
   <string name="captcha">Introdu codul de mai sus</string>
   <string name="captcha_title">Demonstrează că nu ești un robot</string>
@@ -401,20 +382,16 @@
   <string name="settings_title_general">Generale</string>
   <string name="settings_title_history">Istoric</string>
   <string name="settings_title_notifications">Notificări</string>
-  <string name="settings_title_pro">Cumpără Pro</string>
   <string name="settings_title_sub_theme">Teme subreddits</string>
   <string name="settings_title_sorting">Modul implicit pentru sortare</string>
-  <string name="settings_title_support">Donează</string>
   <string name="settings_title_about">Desde</string>
   <string name="settings_title_multi_column">Coloane multiple</string>
   <string name="settings_title_fab">Butonul flotant de acțiuni</string>
-  <string name="settings_title_comments">Comentarii</string>
   <string name="settings_title_filter">Filtre</string>
   <string name="settings_title_font">Font</string>
   <string name="settings_section_general">General</string>
   <string name="settings_section_appearance">Aspect</string>
   <string name="settings_section_other">Altele</string>
-  <string name="settings_section_save_history">Salvează istoric</string>
   <string name="settings_comment_color">Indicatoare colorate pentru profunditatea comentariilor</string>
   <string name="settings_volume_nav_comments">Navighează între comentarii folosind butoanele de volum</string>
   <string name="settings_synccit_remove">DECONECTARE SYNCCIT</string>
@@ -451,7 +428,6 @@
   <string name="view_type_comments">Panou de comentarii</string>
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <string name="FAQ">Întrebări frecvente</string>
   <string name="alphabetize_subreddits">Alfabetizează subreddit-urile</string>
   <string name="sync_subscriptions">Sincronizează abonamentele</string>
@@ -460,7 +436,6 @@
   <string name="reorder_subreddit_name">Numele subreddit-ului</string>
   <string name="reorder_remove_title">Elimini acest subreddit?</string>
   <string name="reorder_remove_msg">Nu vei fi dezabonat, dar nu vei mai vedea subredditul acesta în bara laterală!</string>
-  <string name="reorder_sync_complete">Sincronizare reușită</string>
   <!-- Save categories -->
   <!-- Setting subheaders -->
   <string name="sorting">Sortare</string>
@@ -508,7 +483,6 @@
   <string name="offline_last_update">Ultima actualizare: %1$s</string>
   <string name="offline_comments_not_loaded">Ca să vezi comentariile offline, trebuie să te conectezi și sa selectezi „Salvează comentariile în cache” din meniul cu 3 puncte din dreapta.</string>
   <!-- Website -->
-  <string name="website_back">Înapoi</string>
   <string name="website_external">Deschide în browser extern</string>
   <!-- Time -->
   <string name="time_just_now">Chiar acum</string>
@@ -554,8 +528,6 @@
   <!-- Used when viewing media -->
   <!-- Drafts -->
   <!-- Strings for widgets -->
-  <string name="widget_subname_hint">Numele subreddit-ului</string>
-  <string name="widget_content">Conținut</string>
   <!-- Strings for alert dialogs -->
   <!-- Sidebar strings (multis, flairs) -->
   <!--Filtering dialog -->
@@ -578,7 +550,6 @@
   <string name="handling_external_browser">Deschide în browser extern</string>
   <string name="mode_list">Listă</string>
   <string name="mode_centered">Card cu imagine centrată</string>
-  <string name="mode_card">Card</string>
   <string name="mode_cropped">Imagine mare tăiată</string>
   <string name="mode_bigpic">Imagine mare</string>
   <string name="tap_actionbar">Apasă lung pentru bara de acțiuni</string>
@@ -601,7 +572,6 @@
   <string name="multi_column_force_full">Forțează afișarea completă a comentariilor</string>
   <string name="submission_info_locked">Această postare este blocată. Nu puteți vota sau comenta.</string>
   <string name="card_background_tint">Fundal card</string>
-  <string name="subreddit_name_tint">Numele subreddit-ului</string>
   <string name="thumb_type_always">Afișează întotdeauna</string>
   <string name="thumb_type_off">Nu arată</string>
   <string name="thumb_type_sub">Afișează setări subreddit</string>
@@ -610,9 +580,7 @@
   <string name="btn_open_comments">Deschide comentariile</string>
   <string name="btn_preview">Previzualizare</string>
   <string name="sorting_default_comment">Mod implicit de sortare a comentariilor</string>
-  <string name="content_deleted">[deleted]</string>
   <string name="submission_unhide">Reafișare postare</string>
-  <string name="open_externally">Deschideți extern</string>
   <string name="alert_history_cleared">Istoric șters!</string>
   <string name="manage_offline_content">Gestionează conţinutul offline</string>
   <string name="go_offline">Modul offline</string>
@@ -633,5 +601,4 @@
   <string name="clear_all_sub_themes">Ștergeți toate temele subreddit-urilor?</string>
   <string name="clear_all_sub_themes_msg">Nu puteți recupera această acțiune</string>
   <string name="title_not_found">Titlul nu a fost găsit</string>
-  <string name="draw_undo">Anulează</string>
 </resources>

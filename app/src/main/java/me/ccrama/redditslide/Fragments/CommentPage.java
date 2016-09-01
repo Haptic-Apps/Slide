@@ -1204,8 +1204,8 @@ public class CommentPage extends Fragment {
                                                                                                 Snackbar.make(
                                                                                                         toolbar,
                                                                                                         getString(
-                                                                                                                R.string.multi_subreddit_added)
-                                                                                                                + multiName,
+                                                                                                                R.string.multi_subreddit_added,
+                                                                                                                multiName),
                                                                                                         Snackbar.LENGTH_LONG)
                                                                                                         .show();
                                                                                             }
@@ -1272,8 +1272,7 @@ public class CommentPage extends Fragment {
                                 private void doSubscribe() {
                                     if (Authentication.isLoggedIn) {
                                         new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                                                getString(R.string.subscribe_to)
-                                                        + baseSub.getDisplayName())
+                                                getString(R.string.subscribe_to, baseSub.getDisplayName()))
                                                 .setPositiveButton(R.string.reorder_add_subscribe,
                                                         new DialogInterface.OnClickListener() {
                                                             @Override
@@ -1397,8 +1396,7 @@ public class CommentPage extends Fragment {
                                 private void doUnsubscribe() {
                                     if (Authentication.didOnline) {
                                         new AlertDialogWrapper.Builder(getContext()).setTitle(
-                                                getString(R.string.unsubscribe_from)
-                                                        + baseSub.getDisplayName())
+                                                getString(R.string.unsubscribe_from, baseSub.getDisplayName()))
                                                 .setPositiveButton(
                                                         R.string.reorder_remove_unsubsribe,
                                                         new DialogInterface.OnClickListener() {
@@ -1895,7 +1893,7 @@ public class CommentPage extends Fragment {
                     reloadSubs();
                 }
             })
-                    .setNeutralButton(getString(R.string.sorting_defaultfor) + subreddit,
+                    .setNeutralButton(getString(R.string.sorting_defaultfor, subreddit),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

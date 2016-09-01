@@ -201,7 +201,7 @@
     <string name="sorting_search_month">Past month</string>
     <string name="sorting_search_year">Past year</string>
     <string name="sorting_search_all">All time</string>
-    <string name="sorting_defaultfor">Default for /r/</string>
+    <string name="sorting_defaultfor">Default for /r/%1$s</string>
 
 
     <!-- Editor (save/submit a post) actions -->
@@ -259,7 +259,7 @@
     <string name="err_not_valid_backup_msg">The selected file is not a valid Slide backup file</string>
     <string name="err_file_not_found_msg">The selected file could not be found. Please make sure it exists and Slide has permissions to access that file/folder</string>
     <string name="err_comment_post">Uh oh, posting this comment failed!</string>
-    <string name="err_comment_post_reason">"Reason: "</string>
+    <string name="err_comment_post_reason">Reason: %1$s</string>
     <string name="err_comment_post_message">\n\nYour message has been saved as a draft. Please try again later.</string>
     <string name="err_comment_post_copy">Copy comment</string>
     <string name="err_connection_failed_msg">The connection to Reddit failed. Please check your internet connection and try again, or enter offline mode.</string>
@@ -283,12 +283,12 @@
     <string name="multireddit_invalid_name">Invalid multireddit name</string>
     <string name="multireddit_invalid_name_msg">Multireddit names may only contain letters, numbers and underscores</string>
     <string name="multi_add_to">Add /r/%s to</string>
-    <string name="multi_subreddit_added">Subreddit added to /m/</string>
+    <string name="multi_subreddit_added">Subreddit added to /m/%1$s</string>
     <string name="multi_error">An error occurred, please try again later</string>
     <string name="btn_import_multi">Import multireddit</string>
     <string name="multi_submit_which_sub">Which sub would you like to submit to?</string>
     <string name="multi_saved_successfully">Saved successfully</string>
-    <string name="delete_multireddit_title">Do you really want to delete /m/</string>
+    <string name="delete_multireddit_title">Do you really want to delete /m/%1$s?</string>
 
 
     <!-- Content types -->
@@ -472,14 +472,14 @@
     <string name="mod_ban_note_mod">Moderator note (optional)</string>
     <string name="mod_ban_note_user">User message (optional)</string>
     <string name="mod_ban_time">Ban time (days)</string>
-    <string name="mod_ban_title">Ban /u/</string>
+    <string name="mod_ban_title">Ban /u/%1$s</string>
     <string name="mod_ban_requirements">Reason and time are required</string>
     <string name="mod_remove_template">Removed for\u0020</string>
     <string name="mod_remove_hint">Removal reason</string>
     <string name="mod_remove_title">What is the reason for removing this submission?</string>
     <string name="mod_remove_insert_draft">Insert draft</string>
     <string name="mod_flair_none_found">No flair found for this subreddit</string>
-    <string name="mod_approved_by">\u00A0Approved by\u0020</string>
+    <string name="mod_approved_by">\u00A0Approved by %1$s</string>
     <string name="mod_distinguish">Distinguish</string>
     <string name="mod_undistinguish">Un-distinguish</string>
     <string name="mod_sticky">Sticky</string>
@@ -628,7 +628,7 @@
     <string name="settings_comment_collapse_description">Also disables comment animations</string>
     <string name="settings_comment_collapse_default">Collapse child comments by default</string>
     <string name="settings_data_enable">Enable datasaving settings</string>
-    <string name="settings_backup_occurs">Backup will occur at\u0020</string>
+    <string name="settings_backup_occurs">Backup will occur at %1$s</string>
     <string name="settings_backup_none">No subreddits will back up</string>
     <string name="settings_backup_will_backup">\u0020will back up</string>
     <string name="settings_backup_submission_only">submission only</string>
@@ -678,7 +678,7 @@
     <string name="settings_backup_include_personal_title">Include personal information?</string>
     <string name="settings_backup_include_personal_text">This includes authentication tokens, usernames, tags, and history</string>
     <string name="settings_backup_view">View backup</string>
-    <string name="settings_backup_err_no_explorer">No file explorer found, file located at\u0020</string>
+    <string name="settings_backup_err_no_explorer">No file explorer found, file located at %1$s</string>
     <string name="settings_about_version_copied_toast">Version number copied to clipboard</string>
     <string name="settings_about_stacktrace_copied_toast">Stacktrace copied to clipboard</string>
     <string name="settings_support_slide">Support Slide for Reddit by Going Pro!</string>
@@ -712,8 +712,8 @@
     <string name="reorder_move">Move to Top</string>
     <string name="reorder_domain_placeholder">\u0020(only the domain name)</string>
     <string name="reorder_not_found_err">Subreddit not found, here are some suggestions</string>
-    <string name="reorder_subscribed_toast">Subscribed to /r/</string>
-    <string name="reorder_unsubscribed_toast">Unsubscribed from /r/</string>
+    <string name="reorder_subscribed_toast">Subscribed to /r/%1$s</string>
+    <string name="reorder_unsubscribed_toast">Unsubscribed from /r/%1$s</string>
     <string name="sorting_faq"><b>How do I refresh subreddits?</b>\nTo refresh subreddits, click the refresh icon in the toolbar!\n\n<b>I unsubscribed from some subreddits but they are still in the list!</b>\nSlide will convert unsubscribed subs from the browser into casual subscriptions. To remove them, long press on the subreddit(s) and click remove!\n\n<b>How do I use collections?</b>\nTo create a collection, click the + FAB and select \'Create a collection\'. This allows you to have multiple subs acting as one subreddit in the main screen!</string>
     <string name="FAQ">FAQ</string>
     <string name="alphabetize_subreddits">Alphabetize subreddits</string>
@@ -726,8 +726,8 @@
     <string name="add_to_subs">ADD TO SUBSCRIPTIONS</string>
     <string name="sub_added">Subreddit added!</string>
     <string name="reorder_subs_FAQ">Reorder Subreddits FAQ</string>
-    <string name="subscribe_to">Subscribe to /r/</string>
-    <string name="unsubscribe_from">Unsubscribe from /r/</string>
+    <string name="subscribe_to">Subscribe to /r/%1$s</string>
+    <string name="unsubscribe_from">Unsubscribe from /r/%1$s</string>
     <string name="btn_add_to_sublist">ADD TO SUB LIST</string>
     <string name="btn_remove_from_sublist">REMOVE FROM SUB LIST</string>
     <string name="just_unsub">JUST UNSUBSCRIBE</string>
@@ -804,7 +804,7 @@
     <string name="offline_comments_not_loaded">Please go back online and select ‘Cache comments’ from the 3 dot menu to view comments offline</string>
     <string name="offline_no_content_found">No offline content found</string>
     <string name="offline_enter_online">Enter online mode</string>
-    <string name="offline_caching_title">Caching\u0020</string>
+    <string name="offline_caching_title">Caching %1$s</string>
     <string name="offline_caching_complete">Caching complete</string>
 
     <!-- Website -->
@@ -895,8 +895,8 @@
     <string name="sub_post_notifs_settings_none">No subreddits to notify</string>
     <string name="sub_post_notifs_settings_title">Subreddits to check</string>
     <string name="sub_post_notifs_settings_search">Search sub name</string>
-    <string name="sub_post_notifs_notification_title">New post in /r/</string>
-    <string name="sub_post_notifs_notification_btn">Stop tracking /r/</string>
+    <string name="sub_post_notifs_notification_title">New post in /r/%1$s</string>
+    <string name="sub_post_notifs_notification_btn">Stop tracking /r/%1$s</string>
     <string name="title_sub_post_notifs">Subreddit post notifications</string>
 
     <!-- Internal browser -->
@@ -908,14 +908,14 @@
     <!-- Live thread -->
     <string name="livethread_loading_title">Loading live thread…</string>
     <string name="livethread_not_found">Live thread not found</string>
-    <string name="livethread_recents_title">Live thread:\u0020</string>
+    <string name="livethread_recents_title">Live thread: %1$s</string>
 
     <!-- Used when viewing media -->
     <string name="mediaview_notif_title">Downloading image…</string>
     <string name="mediaview_notif_text">Download in progress</string>
     <string name="mediaview_converting_fail">Converting the gif through Gfycat did not work</string>
     <string name="mediaview_converting_fail_btn">Open in web</string>
-    <string name="mediaview_save">Save\u0020</string>
+    <string name="mediaview_save">Save %1$s</string>
     <string name="mediaview_saving">Saving</string>
 
     <!-- Drafts -->
@@ -965,7 +965,7 @@
     <string name="snackbar_flair_success">Flair set successfully</string>
     <string name="snackbar_flair_error">Error setting flair, try again soon</string>
     <string name="sidebar_submods">/r/%s mods</string>
-    <string name="sidebar_flair">Flair:\u0020</string>
+    <string name="sidebar_flair">Flair: %1$s</string>
     <string name="sidebar_notfound">No sidebar found</string>
     <plurals name="reorder_selected">
         <item quantity="other">"%d selected"</item>
@@ -973,9 +973,9 @@
 
     <!--Filtering dialog -->
     <string name="filter_title">What would you like to filter?</string>
-    <string name="filter_posts_sub">Posts from /r/</string>
-    <string name="filter_posts_user">Posts by /u/</string>
-    <string name="filter_posts_urls">Posts linking to\u0020</string>
+    <string name="filter_posts_sub">Posts from /r/%1$s</string>
+    <string name="filter_posts_user">Posts by /u/%1$s</string>
+    <string name="filter_posts_urls">Posts linking to %1$s</string>
     <string name="filter_open_externally">Open %s URLs externally</string>
     <string name="filter_posts_flair">Flair \"%1$s\" from %2$s</string>
     <string name="filter_btn">Filter</string>

@@ -328,8 +328,8 @@ public class SettingsBackup extends BaseActivityAnim {
                                         } else {
                                             Snackbar s =
                                                     Snackbar.make(findViewById(R.id.restorefile),
-                                                            getString(R.string.settings_backup_err_no_explorer) + file.getAbsolutePath()
-                                                                    + file,
+                                                            getString(R.string.settings_backup_err_no_explorer,
+                                                                    file.getAbsolutePath() + file),
                                                             Snackbar.LENGTH_INDEFINITE);
                                             View view = s.getView();
                                             TextView tv = (TextView) view.findViewById(

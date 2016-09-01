@@ -26,7 +26,6 @@
   <string name="submission_tap_gif">Prem per carregar GIF</string>
   <string name="submission_not_found">Post no trobat!</string>
   <string name="submission_not_found_msg">Ho sentim, no hem trobat aquest post</string>
-  <string name="submission_share_permalink">Compartir post</string>
   <plurals name="submission_points">
     <item quantity="one">%d punt</item>
     <item quantity="other">%d punts</item>
@@ -103,7 +102,6 @@
   <string name="err_general">Caram, s\'ha produït un error</string>
   <string name="err_no_connection">No hem arribat al Reddit. Vols tornar-ho a intentar?</string>
   <string name="err_retry_later">Reintenta-ho en un minut!</string>
-  <string name="err_something_wrong">Caram, quelcom ha fallat.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF no trobat</string>
   <!-- Multireddits -->
@@ -116,14 +114,12 @@
   <string name="type_vid">Vídeo</string>
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Bústia d\'entrada</string>
   <string name="mail_author_wrote">%1$s ha escrit&#8230;</string>
   <string name="mail_hint_recipient">Destinatari</string>
   <string name="mail_hint_subject">Tema</string>
   <string name="mail_hint_body">Cos</string>
   <string name="mail_send_to">Envia un missatge a %1$s</string>
   <string name="mail_send">Envia un missatge</string>
-  <string name="mail_notification_msg_from">Nou missatge de %1$s</string>
   <string name="mail_reply_to">Respon a %1$s</string>
   <string name="mail_notification_author">%1$s de %2$s</string>
   <string name="mail_theirs">Mostra el seu missatge</string>
@@ -162,7 +158,6 @@
   <string name="btn_sure">Clar!</string>
   <string name="btn_undo">Desfer</string>
   <string name="btn_yes">Si</string>
-  <string name="btn_new">Nou</string>
   <!-- Backup -->
   <string name="backup_success">Còpia de seguretat realitzada!</string>
   <string name="backup_restoring">Restaurant la teva configuració</string>
@@ -175,28 +170,19 @@
   <!-- Moderation tools -->
   <string name="mod_reports">Informes</string>
   <string name="mod_btn_approve">Aprova</string>
-  <string name="mod_btn_remove">El·liminar</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
   <string name="search_goto">Vés a</string>
-  <string name="search_top">Millor</string>
-  <string name="search_new">Nou</string>
-  <string name="search_comments">comentaris</string>
   <!-- Captcha -->
   <!-- Settings -->
   <string name="share_image">Comparteix l\'imatge</string>
   <!-- Settings titles displayed in settings activity-->
-  <string name="settings_title_pro">Passar-se a Pro</string>
-  <string name="settings_title_support">Dóna</string>
-  <string name="settings_title_multi_column">Configuració de la multi-columna</string>
-  <string name="settings_title_comments">comentaris</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
@@ -206,7 +192,6 @@
   <string name="donate_btn">Dóna</string>
   <!-- Offline mode -->
   <!-- Website -->
-  <string name="website_back">Tornar</string>
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="one">%d hora</item>
@@ -233,8 +218,5 @@
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="mode_card">Targeta</string>
   <string name="btn_report">Informar</string>
-  <string name="open_externally">Obrir externament</string>
-  <string name="draw_undo">Desfer</string>
 </resources>
