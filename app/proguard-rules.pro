@@ -58,6 +58,9 @@
     **[] $VALUES;
     public *;
 }
+-keep class * implements net.dean.jraw.models.meta.JsonSerializer {
+    *;
+}
 
 #To avoid changing names of methods invoked on layout's onClick.
 # Uncomment and add specific method names if using onClick on layouts
