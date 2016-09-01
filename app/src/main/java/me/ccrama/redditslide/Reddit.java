@@ -434,6 +434,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @Override
     public void onActivityResumed(Activity activity) {
+        doLanguages();
         if (authentication != null
                 && Authentication.didOnline
                 && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance()
@@ -607,6 +608,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        doLanguages();
     }
 
     @Override
@@ -654,13 +656,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         colors = getSharedPreferences("COLOR", 0);
         tags = getSharedPreferences("TAGS", 0);
         KVStore.init(this, "SEEN");
-        if (SettingValues.overrideLanguage) {
-            Locale locale = new Locale("en_US");
-            Locale.setDefault(locale);
-            Configuration config = new Configuration();
-            config.locale = locale;
-            getResources().updateConfiguration(config, null);
-        }
+       doLanguages();
         lastposition = new ArrayList<>();
 
         new SetupIAB().execute();
@@ -705,6 +701,16 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         videoPlugin = isVideoPluginInstalled(this);
 
         GifCache.init(this);
+    }
+
+    public void doLanguages(){
+        if (SettingValues.overrideLanguage) {
+            Locale locale = new Locale("en_US");
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            getResources().updateConfiguration(config, null);
+        }
     }
 
     public static void setSorting(String s, Sorting sort) {
