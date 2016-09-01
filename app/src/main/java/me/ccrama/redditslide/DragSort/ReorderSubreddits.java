@@ -515,7 +515,7 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
         ArrayList<String> toRemove = new ArrayList<>();
         for (String s : subs2) {
-            if (s.contains(".") || s.contains("/m/")) {
+            if (s.contains(".") || s.contains(MULTI_REDDIT)) {
                 toRemove.add(s);
             }
         }
@@ -556,23 +556,17 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
     public void doAddSub(String subreddit) {
         subreddit = subreddit.toLowerCase();
-        if (subreddit != null
-                || subreddit.equalsIgnoreCase("friends")
-                || subreddit.equalsIgnoreCase("all")
-                || subreddit.equalsIgnoreCase("frontpage")
-                || subreddit.equalsIgnoreCase("mod")) {
-            List<String> sortedSubs = UserSubscriptions.sortNoExtras(subs);
+        List<String> sortedSubs = UserSubscriptions.sortNoExtras(subs);
 
-            if (sortedSubs.equals(subs)) {
-                subs.add(subreddit);
-                subs = UserSubscriptions.sortNoExtras(subs);
-                adapter = new CustomAdapter(subs);
-                recyclerView.setAdapter(adapter);
-            } else {
-                int pos = addSubAlphabetically(subreddit);
-                adapter.notifyDataSetChanged();
-                recyclerView.smoothScrollToPosition(pos);
-            }
+        if (sortedSubs.equals(subs)) {
+            subs.add(subreddit);
+            subs = UserSubscriptions.sortNoExtras(subs);
+            adapter = new CustomAdapter(subs);
+            recyclerView.setAdapter(adapter);
+        } else {
+            int pos = addSubAlphabetically(subreddit);
+            adapter.notifyDataSetChanged();
+            recyclerView.smoothScrollToPosition(pos);
         }
     }
 
@@ -589,11 +583,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
     private class AsyncGetSubreddit extends AsyncTask<String, Void, Subreddit> {
         @Override
         public void onPostExecute(Subreddit subreddit) {
-            if (subreddit != null) doAddSub(subreddit.getDisplayName());
-            else if(sub.equalsIgnoreCase("all")
-                    || sub.equalsIgnoreCase("friends")
-                    || sub.equalsIgnoreCase("mod")
-                    || sub.equalsIgnoreCase("frontpage")){
+            if (subreddit != null) {
+                doAddSub(subreddit.getDisplayName());
+            } else if (isSpecial(sub)) {
                 doAddSub(sub);
             }
         }
@@ -603,76 +595,72 @@ public class ReorderSubreddits extends BaseActivityAnim {
         @Override
         protected Subreddit doInBackground(final String... params) {
             sub = params[0];
-            if (!sub.equalsIgnoreCase("all")
-                    && !sub.equalsIgnoreCase("friends")
-                    && !sub.equalsIgnoreCase("mod")
-                    && !sub.equalsIgnoreCase("frontpage")) {
-                try {
-                    return (subs.contains(params[0]) ? null
-                            : Authentication.reddit.getSubreddit(params[0]));
-                } catch (Exception e) {
-                    otherSubs = new ArrayList<>();
-                    SubredditSearchPaginator p =
-                            new SubredditSearchPaginator(Authentication.reddit, sub);
-                    while (p.hasNext()) {
-                        otherSubs.addAll((p.next()));
-                    }
-                    if (otherSubs.isEmpty()) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
-                                            R.string.subreddit_err)
-                                            .setMessage(getString(R.string.subreddit_err_msg,
-                                                    params[0]))
-                                            .setPositiveButton(R.string.btn_ok,
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            dialog.dismiss();
+            if (isSpecial(sub)) return null;
+            try {
+                return (subs.contains(params[0]) ? null
+                        : Authentication.reddit.getSubreddit(params[0]));
+            } catch (Exception e) {
+                otherSubs = new ArrayList<>();
+                SubredditSearchPaginator p =
+                        new SubredditSearchPaginator(Authentication.reddit, sub);
+                while (p.hasNext()) {
+                    otherSubs.addAll((p.next()));
+                }
+                if (otherSubs.isEmpty()) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
+                                        R.string.subreddit_err)
+                                        .setMessage(getString(R.string.subreddit_err_msg,
+                                                params[0]))
+                                        .setPositiveButton(R.string.btn_ok,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                                        dialog.dismiss();
 
-                                                        }
-                                                    })
-                                            .setOnDismissListener(
-                                                    new DialogInterface.OnDismissListener() {
-                                                        @Override
-                                                        public void onDismiss(
-                                                                DialogInterface dialog) {
-                                                        }
-                                                    })
-                                            .show();
-                                } catch (Exception ignored) {
-                                }
+                                                    }
+                                                })
+                                        .setOnDismissListener(
+                                                new DialogInterface.OnDismissListener() {
+                                                    @Override
+                                                    public void onDismiss(
+                                                            DialogInterface dialog) {
+                                                    }
+                                                })
+                                        .show();
+                            } catch (Exception ignored) {
                             }
-                        });
-                    } else {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    final ArrayList<String> subs = new ArrayList<>();
-                                    for (Subreddit s : otherSubs) {
-                                        subs.add(s.getDisplayName());
-                                    }
-                                    new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
-                                            R.string.reorder_not_found_err)
-                                            .setItems(subs.toArray(new String[subs.size()]),
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                            doAddSub(subs.get(which));
-                                                        }
-                                                    })
-                                            .setPositiveButton(R.string.btn_cancel, null)
-                                            .show();
-                                } catch (Exception ignored) {
+                        }
+                    });
+                } else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                final ArrayList<String> subs = new ArrayList<>();
+                                for (Subreddit s : otherSubs) {
+                                    subs.add(s.getDisplayName());
                                 }
+                                new AlertDialogWrapper.Builder(ReorderSubreddits.this).setTitle(
+                                        R.string.reorder_not_found_err)
+                                        .setItems(subs.toArray(new String[subs.size()]),
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                                        doAddSub(subs.get(which));
+                                                    }
+                                                })
+                                        .setPositiveButton(R.string.btn_cancel, null)
+                                        .show();
+                            } catch (Exception ignored) {
                             }
-                        });
-                    }
+                        }
+                    });
                 }
             }
             return null;
@@ -981,18 +969,41 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
     }
 
-    private boolean isSingle(ArrayList<String> chosen) {
-        for(String s : chosen){
-            if(!isSingle(s)){
-                return false;
-            }
+    /**
+     * Check if all of the subreddits are single
+     * @param subreddits list of subreddits to check
+     * @return if all of the subreddits are single
+     * @see #isSingle(java.lang.String)
+     */
+    private boolean isSingle(List<String> subreddits) {
+        for (String subreddit : subreddits) {
+            if (!isSingle(subreddit)) return false;
         }
         return true;
     }
 
-    private boolean isSingle(String origPos) {
-        return !(origPos.equalsIgnoreCase("all") || origPos.equalsIgnoreCase("frontpage") ||
-                origPos.equalsIgnoreCase("friends") || origPos.equalsIgnoreCase("mod") ||
-                origPos.contains("+") || origPos.contains(".") || origPos.contains("/m/"));
+    /**
+     * If the subreddit isn't special, combined, or a multireddit - can attempt to be subscribed
+     * to
+     * @param subreddit name of a subreddit
+     * @return if the subreddit is single
+     */
+    private boolean isSingle(String subreddit) {
+        return !(isSpecial(subreddit)
+                || subreddit.contains("+")
+                || subreddit.contains(".")
+                || subreddit.contains(MULTI_REDDIT));
+    }
+
+    /**
+     * Subreddits with important behaviour - frontpage, all, random, etc.
+     * @param subreddit name of a subreddit
+     * @return if the subreddit is special
+     */
+    private boolean isSpecial(String subreddit) {
+        for (String specialSubreddit : UserSubscriptions.specialSubreddits) {
+            if (subreddit.equalsIgnoreCase(specialSubreddit)) return true;
+        }
+        return false;
     }
 }
