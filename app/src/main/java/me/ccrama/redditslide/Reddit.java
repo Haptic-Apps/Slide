@@ -251,6 +251,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static Integer getSortingId(String subreddit) {
+        subreddit = subreddit.toLowerCase();
         Sorting sort =
                 sorting.containsKey(subreddit) ? sorting.get(subreddit) : Reddit.defaultSorting;
 
@@ -275,6 +276,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     }
 
     public static Integer getSortingIdTime(String subreddit) {
+        subreddit = subreddit.toLowerCase();
         TimePeriod time = times.containsKey(subreddit) ? times.get(subreddit) : Reddit.timePeriod;
 
         return getSortingIdTime(time);
