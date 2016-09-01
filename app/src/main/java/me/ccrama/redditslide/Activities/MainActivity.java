@@ -206,7 +206,8 @@ public class MainActivity extends BaseActivity {
     boolean                     currentlySubbed;
     int                         back;
     private AsyncGetSubreddit mAsyncGetSubreddit = null;
-    private int headerHeight; //height of the header
+    private int     headerHeight; //height of the header
+    public int     reloadItemNumber = -2;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -3472,14 +3473,16 @@ public class MainActivity extends BaseActivity {
         if (current < 0) {
             current = 0;
         }
+        reloadItemNumber = current;
         if (adapter instanceof OverviewPagerAdapterComment) {
+            pager.setAdapter(null);
             adapter = new OverviewPagerAdapterComment(getSupportFragmentManager());
             pager.setAdapter(adapter);
         } else {
             adapter = new OverviewPagerAdapter(getSupportFragmentManager());
             pager.setAdapter(adapter);
         }
-
+        reloadItemNumber = -2;
         shouldLoad = usedArray.get(current);
         pager.setCurrentItem(current);
         if (mTabLayout != null) {
@@ -4507,7 +4510,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-        private SubmissionsView mCurrentFragment;
+        protected SubmissionsView mCurrentFragment;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -4616,8 +4619,17 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            super.setPrimaryItem(container, position, object);
-            if (usedArray.size() >= position) doSetPrimary(object, position);
+            if (reloadItemNumber == position || reloadItemNumber < 0) {
+                super.setPrimaryItem(container, position, object);
+                if (usedArray.size() >= position) doSetPrimary(object, position);
+            } else {
+                shouldLoad = usedArray.get(reloadItemNumber);
+                if (multiNameToSubsMap.containsKey(usedArray.get(reloadItemNumber))) {
+                    shouldLoad = multiNameToSubsMap.get(usedArray.get(reloadItemNumber));
+                } else {
+                    shouldLoad = usedArray.get(reloadItemNumber);
+                }
+            }
         }
 
         @Override
@@ -4666,7 +4678,6 @@ public class MainActivity extends BaseActivity {
     public class OverviewPagerAdapterComment extends OverviewPagerAdapter {
         public int size = usedArray.size();
         public  Fragment        storedFragment;
-        private SubmissionsView mCurrentFragment;
         private CommentPage     mCurrentComments;
 
         public OverviewPagerAdapterComment(FragmentManager fm) {
@@ -4713,12 +4724,6 @@ public class MainActivity extends BaseActivity {
 
                 }
             });
-            if (pager.getAdapter() != null) {
-                pager.getAdapter().notifyDataSetChanged();
-                pager.setCurrentItem(1);
-                pager.setCurrentItem(0);
-
-            }
         }
 
         @Override
