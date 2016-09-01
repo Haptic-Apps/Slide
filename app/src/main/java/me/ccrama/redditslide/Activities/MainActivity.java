@@ -2269,6 +2269,7 @@ public class MainActivity extends BaseActivity {
         if (SettingValues.single) {
             getSupportActionBar().setTitle(usedArray.get(position));
         } else {
+            if(mTabLayout != null)
             mTabLayout.setSelectedTabIndicatorColor(
                     new ColorPreferences(MainActivity.this).getColor(usedArray.get(position)));
         }

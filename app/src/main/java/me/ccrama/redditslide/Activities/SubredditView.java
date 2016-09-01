@@ -116,6 +116,23 @@ public class SubredditView extends BaseActivityAnim {
             pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         } else if (requestCode == 1) {
             restartTheme();
+        }  else if (requestCode == 940) {
+            if (adapter != null && adapter.getCurrentFragment() != null) {
+                if (resultCode == RESULT_OK) {
+                    LogUtil.v("Doing hide posts");
+                    ArrayList<Integer> posts = data.getIntegerArrayListExtra("seen");
+                    ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView(posts);
+                    if (data.hasExtra("lastPage")
+                            && data.getIntExtra("lastPage", 0) != 0
+                            && ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager() instanceof LinearLayoutManager) {
+                        ((LinearLayoutManager) ((SubmissionsView) adapter.getCurrentFragment()).rv.getLayoutManager())
+                                .scrollToPositionWithOffset(data.getIntExtra("lastPage", 0) + 1,
+                                        mToolbar.getHeight());
+                    }
+                } else {
+                    ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
+                }
+            }
         }
     }
 
@@ -457,6 +474,9 @@ public class SubredditView extends BaseActivityAnim {
         header.animate().translationY(0).setInterpolator(new LinearInterpolator()).setDuration(180);
         pager.setSwipeLeftOnly(false);
         Reddit.currentPosition = position;
+        if (position == 1 && adapter != null && adapter.getCurrentFragment() != null) {
+            ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
+        }
     }
 
     public void doSubSidebar(final String subOverride) {
@@ -1756,11 +1776,6 @@ public class SubredditView extends BaseActivityAnim {
                     } else if (positionOffset == 0) {
                         if (position == 1) {
                             doPageSelectedComments(position);
-                            if (position == 2
-                                    && adapter != null
-                                    && adapter.getCurrentFragment() != null) {
-                                ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView();
-                            }
                         } else {
                             //todo if (mAsyncGetSubreddit != null) {
                             //mAsyncGetSubreddit.cancel(true);
@@ -1783,7 +1798,7 @@ public class SubredditView extends BaseActivityAnim {
                 }
 
                 @Override
-                public void onPageSelected(final int position) {
+                public void onPageSelected(int position) {
 
                 }
 
