@@ -30,7 +30,6 @@
   <string name="submission_tap_gif">GIF\'i yüklemek için dokunun</string>
   <string name="submission_not_found">Hay aksi, gönderi bulunamadı!</string>
   <string name="submission_not_found_msg">Üzgünüz, bu yazı bulunamadı</string>
-  <string name="submission_copy_text">Yazıyı kopyala</string>
   <string name="submission_share_permalink">Gönderiyi paylaş</string>
   <plurals name="submission_points">
     <item quantity="one">%d puan</item>
@@ -123,12 +122,6 @@
   <string name="sorting_old">Eski</string>
   <string name="sorting_controversial">Tartışmalı</string>
   <string name="sorting_rising">Yükselen</string>
-  <string name="sorting_hour">› saat</string>
-  <string name="sorting_day">› 24 saat</string>
-  <string name="sorting_week">› hafta</string>
-  <string name="sorting_month">› ay</string>
-  <string name="sorting_year">› yıl</string>
-  <string name="sorting_all">› ezelden beri</string>
   <string name="sorting_search_hour">Son 1 saat</string>
   <string name="sorting_search_day">Son 24 saat</string>
   <string name="sorting_search_week">Geçen hafta</string>
@@ -164,12 +157,10 @@
   <string name="error_video_message">Video yüklenirken bir sorun oluştu</string>
   <string name="err_could_not_find_content_msg">Reddit istenilen içeriği bulamadı</string>
   <string name="err_refused_request_msg">Reddit isteği reddetti. Reddit\'e tekrar bağlanmaya calismak ister misiniz?</string>
-  <string name="err_something_wrong">Hay aksi, bir şeyler ters gitti</string>
   <string name="err_file_not_found">Dosya bulunamadı</string>
   <string name="err_not_valid_backup">Geçerli bir Slide yedek dosyası değil</string>
   <string name="err_not_valid_backup_msg">Seçili dosya geçerli bir Slide yedek dosyası değil</string>
   <string name="err_comment_post">Hay aksi, yorumu gönderme başarısız oldu!</string>
-  <string name="err_comment_post_reason">"Sebep: "</string>
   <string name="err_comment_post_message">\n\nİletiniz taslak olarak kaydedildi. Lütfen daha sonra tekrar deneyin.</string>
   <string name="err_comment_post_copy">Yorumu kopyala</string>
   <string name="err_connection_failed_msg">Reddit\'le bağlantı kurulamadı. Lütfen internet bağlantınız kontrol edip tekrar deneyin veya çevrimdışı moda geçin.</string>
@@ -221,7 +212,6 @@
   <string name="mail_hint_body">Mesaj Metni</string>
   <string name="mail_send_to">%1$s kişisine bir mesaj gönder</string>
   <string name="mail_send">Bir mesaj gönder</string>
-  <string name="mail_notification_msg_from">%1$s kişisinden yeni mesaj</string>
   <string name="mod_mail_notification_msg">%1$s\'dan yeni modmail</string>
   <string name="mail_reply_to">%1$s kişisine cevapla</string>
   <string name="mail_notification_author">%2$s kişisinden %1$s</string>
@@ -284,7 +274,6 @@
   <string name="btn_view">GÖRÜNÜM</string>
   <string name="btn_changelog">Sürüm bilgileri</string>
   <string name="btn_set">AYARLA</string>
-  <string name="btn_new">Yeni</string>
   <!-- Backup -->
   <string name="backup_success">Yedekleme başarılı!</string>
   <string name="backup_restoring">Ayarlarınız geri yükleniyor</string>
@@ -330,8 +319,6 @@
   <string name="search_goto">Şuraya git</string>
   <string name="search_title">Ara</string>
   <string name="search_msg">Ne aramıştınız?</string>
-  <string name="search_top">En üst</string>
-  <string name="search_new">Yeni</string>
   <string name="search_comments">Yorumlar</string>
   <!-- Captcha -->
   <string name="captcha">Yukarıdaki kodu girin</string>
@@ -381,7 +368,6 @@
   <string name="settings_title_font">Yazı tipi</string>
   <string name="settings_section_general">Genel</string>
   <string name="settings_section_appearance">Görünüm</string>
-  <string name="settings_section_save_history">Geçmişi kaydet</string>
   <string name="settings_comment_color">Renkli yorum derinliği göstergeleri</string>
   <string name="settings_volume_nav_comments">Yorumlarda ses butonlarını kullanarak gezin</string>
   <string name="settings_synccit_remove">SYNCCIT BAĞLANTISINI KES</string>
@@ -420,14 +406,12 @@
   <string name="settings_data">Veri tasarrufu</string>
   <string name="settings_handling_external_desc">Aşağıda girili domainler hep başka uygulamalarla açılacak</string>
   <string name="settings_handling_enterdomain">Domainin tam adını veya bir kısmını girin</string>
-  <string name="settings_backup_include_personal_title">Kişisel bilgileri de içer?</string>
   <!-- View types -->
   <string name="view_type_tabs">Subreddit sekmeleri</string>
   <string name="view_type_none">Subreddit sekmeleri yok</string>
   <string name="view_type_comments">Yorum bölmesi</string>
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <string name="FAQ">S.S.S</string>
   <string name="alphabetize_subreddits">Subredditleri alfabetik sıraya diz</string>
   <string name="btn_add_subreddit">Subreddit ekle</string>
@@ -543,7 +527,6 @@
   <string name="dialog_no_drafts_msg">Editör çubuğundaki \'Kaydet\' simgesini tıklayarak bir taslak oluşturabilirsiniz!</string>
   <string name="msg_save_draft">Mesaj taslak olarak kaydedildi</string>
   <!-- Strings for widgets -->
-  <string name="widget_subname_hint">Subreddit adı</string>
   <!-- Strings for alert dialogs -->
   <!-- Sidebar strings (multis, flairs) -->
   <!--Filtering dialog -->
@@ -616,5 +599,4 @@
   <string name="backup_saved_downloads">Yedek dosyası indirilenlere kaydedildi</string>
   <string name="include_personal_info">Kişisel bilgileri de içer?</string>
   <string name="share_slide">Slide\'ı paylaş</string>
-  <string name="draw_undo">Geri al</string>
 </resources>

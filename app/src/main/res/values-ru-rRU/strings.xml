@@ -30,8 +30,6 @@
   <string name="submission_tap_gif">Нажмите для загрузки GIF</string>
   <string name="submission_not_found">Ох, пост не найден!</string>
   <string name="submission_not_found_msg">Извините, пост не может быть найден</string>
-  <string name="submission_copy_text">Копировать текст</string>
-  <string name="submission_share_permalink">Поделиться постом</string>
   <plurals name="submission_points">
     <item quantity="one">%d очко</item>
     <item quantity="few">%d очка</item>
@@ -100,7 +98,6 @@
   <string name="profile_manage_accounts">Управление аккаунтами</string>
   <string name="profile_remove_account">Вы действительно хотите удалить эту учетную запись?</string>
   <string name="profile_remove">Удалить аккаунт</string>
-  <string name="profile_history">История</string>
   <string name="profile_share">Пользователь %s</string>
   <string name="profile_age">Redditor для %s</string>
   <string name="profile_tag">Тег</string>
@@ -137,12 +134,6 @@
   <string name="sorting_old">Старое</string>
   <string name="sorting_controversial">Спорное</string>
   <string name="sorting_rising">Набирающее популярность</string>
-  <string name="sorting_hour">› час</string>
-  <string name="sorting_day">› 24 часа</string>
-  <string name="sorting_week">› Неделя</string>
-  <string name="sorting_month">› месяц</string>
-  <string name="sorting_year">› год</string>
-  <string name="sorting_all">› всё время</string>
   <string name="sorting_search_hour">За последний час</string>
   <string name="sorting_search_day">За последние 24 часа</string>
   <string name="sorting_search_week">За последнюю неделю</string>
@@ -175,7 +166,6 @@
   <string name="err_permission">Отказано в доступе</string>
   <string name="err_permission_msg">Похоже, вы отказали Slided в записи данных на внешнее хранилище. Это не даст возможности сохранят кэш и изображения :(. \nОткроете Slide доступ на внешнее хранилище?</string>
   <string name="err_authentication">Ошибка аутентификации</string>
-  <string name="err_something_wrong">Ох, что-то пошло не так.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF не найдена</string>
   <string name="gif_err_msg">Произошла ошибка при загрузке этого GIF. Пожалуйста, повторите попытку.</string>
@@ -204,16 +194,13 @@
   <string name="type_emb">Встроенное</string>
   <!-- Content types plural (Content filters) -->
   <string name="type_gifs">GIF</string>
-  <string name="type_nsfw_content">Ненормативное содержание</string>
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Входящие</string>
   <string name="mail_author_wrote">%1$s написал&#8230;</string>
   <string name="mail_hint_recipient">Получатель</string>
   <string name="mail_hint_subject">Тема</string>
   <string name="mail_hint_body">Текст</string>
   <string name="mail_send_to">Отправить сообщение %1$s</string>
   <string name="mail_send">Отправить сообщение</string>
-  <string name="mail_notification_msg_from">Новое сообщение от %1$s</string>
   <string name="mail_reply_to">Ответ %1$s</string>
   <string name="mail_notification_author">%1$s от %2$s</string>
   <string name="mail_theirs">Просмотреть их сообщение</string>
@@ -263,7 +250,6 @@
   <string name="btn_delete">Удалить</string>
   <string name="btn_time">Период</string>
   <string name="btn_select">Выбрать</string>
-  <string name="btn_new">Новое</string>
   <!-- Backup -->
   <string name="backup_success">Резервное копир-е успешно!</string>
   <string name="backup_restoring">Восстановление настроек</string>
@@ -293,7 +279,6 @@
   <string name="mod_btn_approve">Подтвердить</string>
   <string name="mod_btn_mark_nsfw">Отметить как непристойное содержание</string>
   <string name="mod_btn_unmark_nsfw">Снять пометку непристойного содержания</string>
-  <string name="mod_btn_remove">Удалить</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -311,9 +296,6 @@
   <string name="search_msg">Что вы ищете?</string>
   <string name="search_all">Искать все</string>
   <string name="search_subreddit">Искать %1$s</string>
-  <string name="search_top">Лучшее</string>
-  <string name="search_new">Новое</string>
-  <string name="search_comments">комментарии</string>
   <!-- Captcha -->
   <string name="captcha">Введите код выше</string>
   <string name="captcha_title">Докажите, что вы не робот</string>
@@ -354,14 +336,11 @@
   <string name="settings_title_pro">Перейти на Pro</string>
   <string name="settings_title_sub_theme">Темы сабреддитов</string>
   <string name="settings_title_sorting">Сортировка по умолчанию</string>
-  <string name="settings_title_support">Пожертвовать</string>
   <string name="settings_title_about">О приложении</string>
-  <string name="settings_title_multi_column">Многостолбцовый</string>
   <string name="settings_title_fab">Поведение плавающей кнопки</string>
   <string name="settings_title_comments">Коментарии</string>
   <string name="settings_title_filter">Фильтры</string>
   <string name="settings_title_font">Шрифт</string>
-  <string name="settings_section_general">Основное</string>
   <string name="settings_section_appearance">Вид</string>
   <string name="settings_section_other">Другое</string>
   <string name="settings_synccit_remove">ОТКЛЮЧИТЬ SYNCCIT</string>
@@ -370,7 +349,6 @@
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Сабреддит</string>
   <string name="btn_add_subreddit">Добавить сабреддит</string>
   <string name="reorder_subreddits_title">Выберите сабреддиты для добавления</string>
   <string name="reorder_subreddit_name">Название сабреддита</string>
@@ -424,7 +402,6 @@
   <string name="offline_last_update">Последнее обновление %1$s</string>
   <string name="offline_comments_not_loaded">Подключитесь к Интернету и выберите \"Загрузить комментарии\" в меню с тремя точками, чтобы просматривать комментарии оффлайн</string>
   <!-- Website -->
-  <string name="website_back">Назад</string>
   <string name="website_external">Открыть во внешнем браузере</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">Добавлен %d subreddit</item>
@@ -458,7 +435,6 @@
   <!-- Used when viewing media -->
   <!-- Drafts -->
   <!-- Strings for widgets -->
-  <string name="widget_subname_hint">Название сабреддита</string>
   <!-- Strings for alert dialogs -->
   <!-- Sidebar strings (multis, flairs) -->
   <!--Filtering dialog -->
@@ -467,10 +443,5 @@
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="comment_load_more_number_unknown">Загрузить больше комментариев</string>
   <string name="dialog_color_sync_title">Синхронизация цветов</string>
-  <string name="mode_card">Карточка</string>
   <string name="btn_report">Отчет</string>
-  <string name="subreddit_name_tint">Название сабреддита</string>
-  <string name="content_deleted">[deleted]</string>
-  <string name="open_externally">Открыть в другом приложении</string>
-  <string name="draw_undo">Отменить</string>
 </resources>

@@ -6,7 +6,6 @@
   <!-- Used when viewing a thread -->
   <string name="submission_gild">Oscail i brabhsálaí</string>
   <string name="submission_not_found">Ó, ní faigh an posta!</string>
-  <string name="submission_copy_text">Cóipeáil na téacs</string>
   <!-- Theme settings -->
   <string name="theme_light">Gile</string>
   <string name="theme_dark">Dorcha</string>
@@ -51,7 +50,6 @@
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
   <string name="mail_author_wrote">Scríobh %1$s&#8230;</string>
-  <string name="mail_hint_body">Téacs</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Earráid</string>
   <string name="misc_copy_text">Cóipeáil na téacs</string>
@@ -64,7 +62,6 @@
   <string name="btn_undo">Cealaigh</string>
   <string name="btn_yes">Tá</string>
   <string name="btn_refresh">Athnuaigh</string>
-  <string name="btn_new">Nua</string>
   <!-- Backup -->
   <!-- Vote -->
   <!-- Moderation tools -->
@@ -74,7 +71,6 @@
   <!-- Subreddits -->
   <!-- Search -->
   <string name="search_goto">Téigh go dtí</string>
-  <string name="search_new">Nua</string>
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
@@ -82,7 +78,6 @@
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
@@ -109,6 +104,4 @@
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
   <string name="mode_list">Liosta</string>
-  <string name="mode_card">Cárta</string>
-  <string name="draw_undo">Cealaigh</string>
 </resources>

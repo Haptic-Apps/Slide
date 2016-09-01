@@ -21,8 +21,6 @@
   <string name="submission_tap_gif">Tap untuk memuat GIF</string>
   <string name="submission_not_found">Uh oh, post tidak ditemukan!</string>
   <string name="submission_not_found_msg">Maaf, post ini tidak dapat ditemukan</string>
-  <string name="submission_copy_text">Salin teks</string>
-  <string name="submission_share_permalink">Bagikan post</string>
   <plurals name="submission_points">
     <item quantity="other">%d poin</item>
   </plurals>
@@ -68,7 +66,6 @@
   <string name="editor_hint_optional_body">Tubuh (opsional)</string>
   <!-- General information / information without a category -->
   <!-- General errors / errors without a category -->
-  <string name="err_something_wrong">Uh oh, ada sesuatu yang tidak beres.</string>
   <!-- Gif -->
   <!-- Multireddits -->
   <!-- Content types -->
@@ -84,14 +81,12 @@
   <string name="type_vid">Video</string>
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Pesan Masuk</string>
   <string name="mail_author_wrote">%1$s menulis&#8230;</string>
   <string name="mail_hint_recipient">Penerima</string>
   <string name="mail_hint_subject">Subjek</string>
   <string name="mail_hint_body">Isi</string>
   <string name="mail_send_to">Kirim pesan ke %1$s</string>
   <string name="mail_send">Kirim sebuah pesan</string>
-  <string name="mail_notification_msg_from">Pesan baru dari %1$s</string>
   <string name="mail_reply_to">Balas ke %1$s</string>
   <string name="mail_notification_author">%1$s dari %2$s</string>
   <plurals name="mail_notification_title">
@@ -121,11 +116,9 @@
   <string name="btn_no">Tidak</string>
   <string name="btn_ok">OKE</string>
   <string name="btn_remove">Hapus</string>
-  <string name="btn_new">Baru</string>
   <!-- Backup -->
   <!-- Vote -->
   <!-- Moderation tools -->
-  <string name="mod_btn_remove">Hapus</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -140,8 +133,6 @@
   <string name="search_msg">Apa yang Anda cari?</string>
   <string name="search_all">Cari Semua</string>
   <string name="search_subreddit">Cari %1$s</string>
-  <string name="search_top">Teratas</string>
-  <string name="search_new">Baru</string>
   <!-- Captcha -->
   <string name="captcha">Masukan kode diatas</string>
   <string name="captcha_title">Buktikan bahwa Anda bukan robot</string>
@@ -157,7 +148,6 @@
   <string name="settings_changelog">Lihat daftar perubahan</string>
   <string name="settings_google">Menyambungkan ke Google</string>
   <!-- Settings titles displayed in settings activity-->
-  <string name="settings_title_support">Donasi</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
@@ -174,7 +164,6 @@
   <string name="donate_success_title">Donasi berhasil!</string>
   <!-- Offline mode -->
   <!-- Website -->
-  <string name="website_back">Kembali</string>
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="other">%d jam</item>
@@ -199,6 +188,4 @@
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="mode_card">Kartu</string>
-  <string name="content_deleted">[deleted]</string>
 </resources>

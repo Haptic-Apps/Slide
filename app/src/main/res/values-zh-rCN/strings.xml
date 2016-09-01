@@ -30,8 +30,6 @@
   <string name="submission_tap_gif">点击来载入动图</string>
   <string name="submission_not_found">噢，帖子未找到！</string>
   <string name="submission_not_found_msg">抱歉，此帖未找到</string>
-  <string name="submission_copy_text">复制文字</string>
-  <string name="submission_share_permalink">分享告示</string>
   <plurals name="submission_points">
     <item quantity="other">%d 积分</item>
   </plurals>
@@ -98,7 +96,6 @@
   <string name="comment_delete">删除评论</string>
   <string name="comment_delete_msg">你真的想删除此评论？此操作不可撤消。</string>
   <string name="comment_delete_err">噢，出问题了。</string>
-  <string name="comment_delete_err_msg">你想再试一次吗？</string>
   <string name="comment_deleted">[deleted]</string>
   <string name="comment_loading_more">正在加载更多评论...</string>
   <!-- Welcome view (first time setup) -->
@@ -137,7 +134,6 @@
   <string name="err_retry_later">一分钟后再试！</string>
   <string name="err_permission">权限被拒绝</string>
   <string name="err_permission_msg">似乎您拒绝了 Slide 在外置存储的写入权限。这会引起图片缓存、帖子缓存和保存图片失败 :(。\n您想让 Slide 访问外部存储吗？</string>
-  <string name="err_something_wrong">噢，出问题了。</string>
   <!-- Gif -->
   <string name="gif_err_title">动图未找到</string>
   <string name="gif_err_msg">载入此动图时出现错误。请将其重新打开并再试。</string>
@@ -163,14 +159,12 @@
   <string name="type_imgur">Imgur 内容</string>
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">站内信</string>
   <string name="mail_author_wrote">%1$s 写道&#8230;</string>
   <string name="mail_hint_recipient">接收者</string>
   <string name="mail_hint_subject">主题</string>
   <string name="mail_hint_body">内容</string>
   <string name="mail_send_to">发送一条信息给 %1$s</string>
   <string name="mail_send">发送一条信息</string>
-  <string name="mail_notification_msg_from">来自 %1$s 的新消息</string>
   <string name="mail_reply_to">回复 %1$s</string>
   <string name="mail_notification_author">%2$s 的 %1$s</string>
   <string name="mail_theirs">查看他们的消息</string>
@@ -216,7 +210,6 @@
   <string name="btn_refresh">刷新</string>
   <string name="btn_cache">缓存的评论</string>
   <string name="btn_delete">删除</string>
-  <string name="btn_new">新的</string>
   <!-- Backup -->
   <string name="backup_success">备份成功！</string>
   <string name="backup_restoring">正在还原你的设置</string>
@@ -240,7 +233,6 @@
   <string name="mod_flair_hint">签名文字</string>
   <string name="mod_no_reports">没有报告</string>
   <string name="mod_btn_approve">赞同</string>
-  <string name="mod_btn_remove">移除</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -258,9 +250,6 @@
   <string name="search_msg">你在搜索什么？</string>
   <string name="search_all">全部搜索</string>
   <string name="search_subreddit">搜索 %1$s</string>
-  <string name="search_top">置顶</string>
-  <string name="search_new">新的</string>
-  <string name="search_comments">评论</string>
   <!-- Captcha -->
   <string name="captcha">输入上面的代码</string>
   <string name="captcha_title">证明你不是个机器人</string>
@@ -302,21 +291,16 @@
   <string name="settings_title_default_theme">主要主题</string>
   <string name="settings_title_general">通用</string>
   <string name="settings_title_notifications">通知设置</string>
-  <string name="settings_title_pro">升级为专业版</string>
   <string name="settings_title_sub_theme">版块主题</string>
   <string name="settings_title_sorting">默认排序</string>
-  <string name="settings_title_support">捐赠</string>
   <string name="settings_title_about">关于</string>
-  <string name="settings_title_multi_column">多栏目设置</string>
   <string name="settings_title_fab">浮动操作按钮</string>
   <string name="settings_title_comments">评论</string>
   <string name="settings_title_filter">过滤</string>
   <string name="settings_title_font">字体</string>
-  <string name="settings_section_general">通用</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">版块</string>
   <string name="btn_add_subreddit">添加板块</string>
   <string name="reorder_subreddits_title">选择要添加的板块</string>
   <string name="reorder_subreddit_name">板块名称</string>
@@ -353,7 +337,6 @@
   <string name="offline_msg">请先联网，刷新板块</string>
   <string name="offline_last_update">最后更新于 %1$s</string>
   <!-- Website -->
-  <string name="website_back">返回</string>
   <string name="website_external">在外部浏览器中打开</string>
   <!-- Time -->
   <plurals name="time_hours">
@@ -373,17 +356,11 @@
   <!-- Used when viewing media -->
   <!-- Drafts -->
   <!-- Strings for widgets -->
-  <string name="widget_subname_hint">板块名称</string>
   <!-- Strings for alert dialogs -->
   <!-- Sidebar strings (multis, flairs) -->
   <!--Filtering dialog -->
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="mode_card">卡片</string>
   <string name="btn_report">报告</string>
-  <string name="subreddit_name_tint">板块名称</string>
-  <string name="content_deleted">[deleted]</string>
-  <string name="open_externally">外部打开</string>
-  <string name="draw_undo">撤销</string>
 </resources>

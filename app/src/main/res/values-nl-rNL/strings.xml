@@ -30,8 +30,6 @@
   <string name="submission_tap_gif">Tik om GIF te laden</string>
   <string name="submission_not_found">Oh oh, bericht niet gevonden!</string>
   <string name="submission_not_found_msg">Sorry, dit bericht kan niet worden gevonden</string>
-  <string name="submission_copy_text">Tekst kopiëren</string>
-  <string name="submission_share_permalink">Bericht delen</string>
   <plurals name="submission_points">
     <item quantity="one">%d punt</item>
     <item quantity="other">%d punten</item>
@@ -126,11 +124,9 @@
   <string name="comment_delete">Reactie verwijderen</string>
   <string name="comment_delete_msg">Weet je zeker dat je deze reactie wilt verwijderen? Dit kan niet ongedaan worden gemaakt</string>
   <string name="comment_delete_err">Oh oh, er is iets misgegaan</string>
-  <string name="comment_delete_err_msg">Wil je het nog een keer proberen?</string>
   <string name="comment_deleted">[verwijderd]</string>
   <string name="comment_unsave">Verwijderen</string>
   <string name="comment_load_more">Laad er %1$d meer</string>
-  <string name="comment_load_more_string">Nog %1$s meer laden</string>
   <string name="comment_loading_more">Meer reacties aan het laden&#8230;</string>
   <string name="comment_permalink">Laad de reactie permalink</string>
   <string name="comment_parent">Toon bovenliggende reactie</string>
@@ -149,12 +145,6 @@
   <string name="sorting_old">Oud</string>
   <string name="sorting_controversial">Controversieel</string>
   <string name="sorting_rising">Stijgende</string>
-  <string name="sorting_hour">uur</string>
-  <string name="sorting_day">24 uur</string>
-  <string name="sorting_week">week</string>
-  <string name="sorting_month">maand</string>
-  <string name="sorting_year">jaar</string>
-  <string name="sorting_all">altijd</string>
   <string name="sorting_search_hour">Afgelopen uur</string>
   <string name="sorting_search_day">Afgelopen 24 uur</string>
   <string name="sorting_search_week">Afgelopen week</string>
@@ -169,7 +159,6 @@
   <string name="editor_title">Titel</string>
   <string name="editor_err_msg">Probeer het over een paar seconden opnieuw.</string>
   <string name="editor_uploading_image">Afbeelding uploaden naar Imgur</string>
-  <string name="editor_self">Zelftekst</string>
   <string name="editor_select_img">Afbeelding selecteren</string>
   <string name="editor_hint_optional_body">Inhoud (optioneel)</string>
   <string name="editor_submit">Een bericht plaatsen</string>
@@ -194,14 +183,12 @@
   <string name="err_comment_post_nosave_message">\nProbeer het over een minuut nogmaals</string>
   <string name="err_could_not_find_content_msg">Reddit kon de opgevraagde inhoud niet vinden</string>
   <string name="err_refused_request_msg">Reddit weigerde het verzoek. Wil je probeer nogmaals te verbinden met Reddit?</string>
-  <string name="err_something_wrong">Oh oh, er is iets misgegaan</string>
   <string name="err_couldnt_save_choose_new">Slide kon niet opslaan naar de geselecteerde map. Wil je een nieuwe map kiezen voor het opslaan?</string>
   <string name="err_file_not_found">Bestand niet gevonden</string>
   <string name="err_not_valid_backup">Dit is geen geldig back-up bestand van Slide</string>
   <string name="err_not_valid_backup_msg">Het geselecteerde bestand is geen geldig back-up bestand van Slide</string>
   <string name="err_file_not_found_msg">Het geselecteerde bestand kan niet worden gevonden. Zorg ervoor dat het bestand bestaat en dat Slide toestemming heeft voor het benaderen dat bestand/die map</string>
   <string name="err_comment_post">Ai, het plaatsen van deze reactie is mislukt!</string>
-  <string name="err_comment_post_reason">"Reden: "</string>
   <string name="err_comment_post_message">\n\nJouw bericht is opgeslagen als concept. Probeer het later nogmaals.</string>
   <string name="err_comment_post_copy">Kopieer reactie</string>
   <string name="err_connection_failed_msg">Verbinding met Reddit is mislukt. Controleer de internetverbinding en probeer nogmaals of ga in offlinemodus.</string>
@@ -222,7 +209,6 @@
   <string name="multireddit_invalid_name">Ongeldige multiredditnaam</string>
   <string name="multireddit_invalid_name_msg">De titel van een multireddit mag alleen letters, nummers of underscores bevatten</string>
   <string name="btn_import_multi">Multireddit importeren</string>
-  <string name="delete_multireddit_title">Wil je echt /m/ verwijderen</string>
   <!-- Content types -->
   <string name="type_nsfw_img">NSFW-afbeelding</string>
   <string name="type_nsfw_gif">NSFW-GIF</string>
@@ -245,10 +231,8 @@
   <!-- Content types plural (Content filters) -->
   <string name="type_gifs">GIF\'s</string>
   <string name="type_albums">Albums</string>
-  <string name="type_nsfw_content">NSFW-inhoud</string>
   <string name="type_links">Links</string>
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Inbox</string>
   <string name="mail_tab_unread">Ongelezen</string>
   <string name="mail_tab_messages">Berichten</string>
   <string name="mail_tab_sent">Verzonden</string>
@@ -259,7 +243,6 @@
   <string name="mail_hint_body">Inhoud</string>
   <string name="mail_send_to">Verstuur een bericht naar %1$s</string>
   <string name="mail_send">Stuur een bericht</string>
-  <string name="mail_notification_msg_from">Nieuw bericht van %1$s</string>
   <string name="mod_mail_notification_msg">Nieuwe modmail van %1$s</string>
   <string name="mail_reply_to">%1$s beantwoorden</string>
   <string name="mail_notification_author">%1$s van %2$s</string>
@@ -328,7 +311,6 @@
   <string name="btn_changelog">Wijzigingen</string>
   <string name="btn_set">INSTELLEN</string>
   <string name="btn_create">Creër</string>
-  <string name="btn_new">Nieuw</string>
   <!-- Backup -->
   <string name="backup_success">Back-up gelukt!</string>
   <string name="backup_restoring">Je instellingen herstellen</string>
@@ -361,7 +343,6 @@
   <string name="mod_btn_submission_flair">Kies flair</string>
   <string name="mod_btn_mark_nsfw">Markeer NSFW</string>
   <string name="mod_btn_unmark_nsfw">Demarkeer NSFW</string>
-  <string name="mod_btn_remove">Verwijderen</string>
   <string name="mod_btn_remove_reason">Verwijder met reden</string>
   <string name="mod_btn_author">Profiel auteur</string>
   <plurals name="mod_btn_reports">
@@ -390,9 +371,6 @@
   <string name="search_all">Doorzoek alles</string>
   <string name="search_subreddit">Zoek %1$s</string>
   <string name="search_relevance">Relevantie</string>
-  <string name="search_top">Top</string>
-  <string name="search_new">Nieuw</string>
-  <string name="search_comments">Reacties</string>
   <!-- Captcha -->
   <string name="captcha">Voer de bovenstaande code in</string>
   <string name="captcha_title">Bewijs dat je geen robot bent</string>
@@ -446,23 +424,18 @@
   <string name="settings_title_general">Algemeen</string>
   <string name="settings_title_history">Geschiedenis</string>
   <string name="settings_title_notifications">Notificaties</string>
-  <string name="settings_title_pro">Neem Pro</string>
   <string name="settings_title_sub_theme">Subredditthema \'s</string>
   <string name="settings_title_sorting">Standaardsortering</string>
-  <string name="settings_title_support">Doneren</string>
   <string name="settings_title_about">Over</string>
-  <string name="settings_title_multi_column">Multikolom-instellingen</string>
   <string name="settings_title_fab">Zwevende actieknop</string>
   <string name="settings_title_comments">Reacties</string>
   <string name="settings_title_filter">Filters</string>
   <string name="settings_title_font">Lettertype</string>
-  <string name="settings_section_general">Algemeen</string>
   <string name="settings_section_appearance">Uiterlijk</string>
   <string name="settings_section_other">Overig</string>
   <string name="settings_section_browser">Browser</string>
   <string name="settings_section_internal_viewers">Interne viewer</string>
   <string name="settings_section_custom_domains">Aangepaste domeinen</string>
-  <string name="settings_section_save_history">Geschiedenis bewaren</string>
   <string name="settings_section_clear_history">Geschiedenis wissen</string>
   <string name="settings_section_data_saving_mode">Databesparende modus</string>
   <string name="settings_section_image_quality">Afbeeldingskwaliteit</string>
@@ -520,8 +493,6 @@
   <string name="settings_handling_enterdomain">Voer (gedeelte van) een domein in</string>
   <string name="settings_section_content">Inhoud</string>
   <string name="settings_about_changelog_post">Bekijk wijzigingen</string>
-  <string name="settings_backup_include_personal_title">Persoonlijke gegevens toevoegen?</string>
-  <string name="settings_backup_include_personal_text">Dit houd in: authenticatie-tokens, gebruikersnamen, tags en geschiedenis</string>
   <!-- View types -->
   <string name="view_type_tabs">Subreddit tabbladen</string>
   <string name="view_type_none">Geen subreddit tabbladen</string>
@@ -532,8 +503,6 @@
   <string name="subreddit_search_method_toolbar">Lang drukken op de titelbar</string>
   <string name="subreddit_search_method_both">In zowel het uitschuifbaar menu als in de titelbalk</string>
   <!-- Subscription managing -->
-  <string name="reorder_add_domain">Domein toevoegen</string>
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <string name="FAQ">VGV</string>
   <string name="alphabetize_subreddits">Alfabetiseer subreddits</string>
   <string name="sync_subscriptions">Synchroniseer abonnementen</string>
@@ -594,7 +563,6 @@
   <string name="offline_last_update">Laatst bijgewerkt: %1$s</string>
   <string name="offline_comments_not_loaded">Ga online en selecteer \'Cache reacties\' in het menu om reacties offline te bekijken</string>
   <!-- Website -->
-  <string name="website_back">Terug</string>
   <string name="website_external">Weergeven in externe browser</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">%d subreddit toegevoegd</item>
@@ -668,8 +636,6 @@
   <string name="manage_drafts">Concepten beheren</string>
   <string name="really_delete_drafts">Ben je zeker dat je deze concepten wilt verwijderen?</string>
   <!-- Strings for widgets -->
-  <string name="widget_subname_hint">Subredditnaam</string>
-  <string name="widget_content">Inhoud</string>
   <!-- Strings for alert dialogs -->
   <string name="force_change_subscription">Kon abonnement niet wijzigen</string>
   <string name="force_change_subscription_desc">Wil je het nog steeds lokaal aanpassen?</string>
@@ -707,7 +673,6 @@
   <string name="handling_external_browser">Gebruik de externe browser</string>
   <string name="mode_list">Lijst</string>
   <string name="mode_centered">Kaart met gecentreerde afbeelding</string>
-  <string name="mode_card">Kaart</string>
   <string name="mode_thumbnail">Miniatuur</string>
   <string name="mode_big_thumbnails">Grote miniaturen</string>
   <string name="mode_cropped">Grote bijgesneden afbeelding</string>
@@ -749,7 +714,6 @@
   <string name="btn_open_comments">Toon reacties</string>
   <string name="btn_preview">Voorbeeld</string>
   <string name="sorting_default_comment">Standaard reactiesortering</string>
-  <string name="content_deleted">[verwijderd]</string>
   <string name="thread_continue">Verdergaan met deze thread</string>
   <string name="type_selftext">Zelftekst</string>
   <string name="submission_unhide">Bericht weer tonen</string>
@@ -762,7 +726,6 @@
   <string name="guest">Gast</string>
   <string name="album_slide_view">Horizontaal album</string>
   <string name="album_grid">Gridalbum</string>
-  <string name="open_externally">Extern openen</string>
   <string name="vertical_album_view">Verticaal album</string>
   <string name="download_album">Download album</string>
   <string name="compose_message">Bericht opstellen</string>
@@ -815,5 +778,4 @@
   <string name="get_lq_imgur_images_through_imgur_api">Verkrijg LQ Imgur afbeeldingen via de Imgur API</string>
   <string name="open_links_externally">Altijd deze host extern openen</string>
   <string name="hide_read_posts">Verberg gelezen posts</string>
-  <string name="draw_undo">Ongedaan maken</string>
 </resources>

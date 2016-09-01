@@ -30,8 +30,6 @@
   <string name="submission_tap_gif">Appuyez pour charger le GIF</string>
   <string name="submission_not_found">Publication non trouvée !</string>
   <string name="submission_not_found_msg">Désolé, cette publication est introuvable</string>
-  <string name="submission_copy_text">Copier le texte</string>
-  <string name="submission_share_permalink">Partager la publication</string>
   <plurals name="submission_points">
     <item quantity="one">%d point</item>
     <item quantity="other">%d points</item>
@@ -126,11 +124,9 @@
   <string name="comment_delete">Supprimer le commentaire</string>
   <string name="comment_delete_msg">Voulez-vous vraiment supprimer ce commentaire ? Cela ne peut pas être annulée.</string>
   <string name="comment_delete_err">Oh oh, quelque chose a mal tourné</string>
-  <string name="comment_delete_err_msg">Voulez-vous réessayer ?</string>
   <string name="comment_deleted">[supprimé]</string>
   <string name="comment_unsave">Désenregistrer</string>
   <string name="comment_load_more">Charger %1$d de plus</string>
-  <string name="comment_load_more_string">Charger %1$s de plus</string>
   <string name="comment_loading_more">Chargement de plus de commentaires&#8230;</string>
   <string name="comment_permalink">Charger le permalien du commentaire</string>
   <string name="comment_parent">Montrer le commentaire parent</string>
@@ -149,12 +145,6 @@
   <string name="sorting_old">Ancien</string>
   <string name="sorting_controversial">Controversé</string>
   <string name="sorting_rising">En hausse</string>
-  <string name="sorting_hour">› heure</string>
-  <string name="sorting_day">› 24 heures</string>
-  <string name="sorting_week">› la semaine</string>
-  <string name="sorting_month">› mois</string>
-  <string name="sorting_year">› année</string>
-  <string name="sorting_all">› depuis toujours</string>
   <string name="sorting_search_hour">La dernière heure</string>
   <string name="sorting_search_day">Dernières 24 heures</string>
   <string name="sorting_search_week">La semaine dernière</string>
@@ -169,7 +159,6 @@
   <string name="editor_title">Titre </string>
   <string name="editor_err_msg">Veuillez réessayer dans quelques secondes.</string>
   <string name="editor_uploading_image">Envoi de l\'image sur imgur</string>
-  <string name="editor_self">Texte brut</string>
   <string name="editor_select_img">Sélectionner une image</string>
   <string name="editor_hint_optional_body">Corps de texte (facultatif)</string>
   <string name="editor_submit">Soumettre une publication</string>
@@ -194,14 +183,12 @@
   <string name="err_comment_post_nosave_message">\nVeuillez réessayer dans quelques minutes</string>
   <string name="err_could_not_find_content_msg">Reddit n\'a pas pu trouver le contenu demandé</string>
   <string name="err_refused_request_msg">Reddit a rejeté une requête. Désirez vous tenter de vous re-connecter à Reddit ?</string>
-  <string name="err_something_wrong">Oh oh, quelque chose a mal tourné</string>
   <string name="err_couldnt_save_choose_new">Slide ne peux pas sauvegarder à l\'emplacement sélectionné. Voulez-vous choisir un autre emplacement ?</string>
   <string name="err_file_not_found">Fichier non trouvé</string>
   <string name="err_not_valid_backup">Ce n\'est pas un fichier de sauvegarde Slide valide</string>
   <string name="err_not_valid_backup_msg">Le fichier sélectionné n\'est pas une archive Slide valide</string>
   <string name="err_file_not_found_msg">Le fichier sélectionné est introuvable. Assurez-vous qu\'il existe et que Slide dispose de l\'autorisation d\'accéder à ce fichier/dossier</string>
   <string name="err_comment_post">Oh oh, poster ce commentaire a échoué !</string>
-  <string name="err_comment_post_reason">"Raison : "</string>
   <string name="err_comment_post_message">\n\nVotre message a été enregistré comme brouillon. Veuillez réessayer ultérieurement.</string>
   <string name="err_comment_post_copy">Copier le commentaire</string>
   <string name="err_connection_failed_msg">Échec de la connexion à Reddit. Veuillez vérifiez votre connexion internet et réessayez ou passer en mode hors connexion.</string>
@@ -222,7 +209,6 @@
   <string name="multireddit_invalid_name">Nom de multireddit invalide</string>
   <string name="multireddit_invalid_name_msg">Les multireddits ne peuvent contenir que des lettres, des chiffres et des tirets.</string>
   <string name="btn_import_multi">Importer un multireddit</string>
-  <string name="delete_multireddit_title">Voulez-vous vraiment supprimer /m/</string>
   <!-- Content types -->
   <string name="type_nsfw_img">Image NSFW</string>
   <string name="type_nsfw_gif">GIF NSFW</string>
@@ -248,7 +234,6 @@
   <string name="type_nsfw_content">Contenu NSFW</string>
   <string name="type_links">Liens</string>
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Boîte de réception</string>
   <string name="mail_tab_unread">Non lus</string>
   <string name="mail_tab_messages">Messages</string>
   <string name="mail_tab_sent">Envoyés</string>
@@ -259,7 +244,6 @@
   <string name="mail_hint_body">Message</string>
   <string name="mail_send_to">Envoyer un message à %1$s</string>
   <string name="mail_send">Envoyer un message</string>
-  <string name="mail_notification_msg_from">Nouveau message de %1$s</string>
   <string name="mod_mail_notification_msg">Nouveau message du modérateur %1$s</string>
   <string name="mail_reply_to">Répondre à %1$s</string>
   <string name="mail_notification_author">%1$s de %2$s</string>
@@ -328,7 +312,6 @@
   <string name="btn_changelog">Journal des modifications</string>
   <string name="btn_set">Appliquer</string>
   <string name="btn_create">Créer</string>
-  <string name="btn_new">Nouveau</string>
   <!-- Backup -->
   <string name="backup_success">Sauvegarde réussie!</string>
   <string name="backup_restoring">Restauration de vous paramètres</string>
@@ -391,8 +374,6 @@
   <string name="search_subreddit">Rechercher %1$s</string>
   <string name="search_relevance">Pertinence</string>
   <string name="search_top">Le meilleur</string>
-  <string name="search_new">Nouveau</string>
-  <string name="search_comments">commentaires</string>
   <!-- Captcha -->
   <string name="captcha">Entrez le code ci-dessus</string>
   <string name="captcha_title">Prouvez que vous n\'êtes pas un robot</string>
@@ -446,23 +427,17 @@
   <string name="settings_title_general">Général</string>
   <string name="settings_title_history">Historique</string>
   <string name="settings_title_notifications">Notifications</string>
-  <string name="settings_title_pro">Passez à la version Pro</string>
   <string name="settings_title_sub_theme">Thèmes de subreddit</string>
   <string name="settings_title_sorting">Tri par défaut</string>
-  <string name="settings_title_support">Faire un don</string>
   <string name="settings_title_about">À propos</string>
-  <string name="settings_title_multi_column">Paramètres multi-colonnes</string>
   <string name="settings_title_fab">Bouton d\'action flottant</string>
-  <string name="settings_title_comments">commentaires</string>
   <string name="settings_title_filter">Filtres</string>
   <string name="settings_title_font">Polices</string>
-  <string name="settings_section_general">Général</string>
   <string name="settings_section_appearance">Apparence</string>
   <string name="settings_section_other">Autres</string>
   <string name="settings_section_browser">Navigateur</string>
   <string name="settings_section_internal_viewers">Navigateurs internes</string>
   <string name="settings_section_custom_domains">Domaines personnalisés</string>
-  <string name="settings_section_save_history">Sauvegarder l\'historique</string>
   <string name="settings_section_clear_history">Effacer l\'historique</string>
   <string name="settings_section_data_saving_mode">Mode économie de données</string>
   <string name="settings_section_image_quality">Qualité d’image</string>
@@ -520,8 +495,6 @@
   <string name="settings_handling_enterdomain">Entrez un domaine ou une partie d\'un domaine</string>
   <string name="settings_section_content">Contenu</string>
   <string name="settings_about_changelog_post">Voir le rapport de version</string>
-  <string name="settings_backup_include_personal_title">Inclure vos informations personnelles ?</string>
-  <string name="settings_backup_include_personal_text">Cela comprend l\'historique, les noms d\'utilisateur, tags et jetons d\'authentification</string>
   <!-- View types -->
   <string name="view_type_tabs">Tableaux subreddit</string>
   <string name="view_type_none">Aucun onglet de subreddit</string>
@@ -532,8 +505,6 @@
   <string name="subreddit_search_method_toolbar">Appui long sur le titre de la barre d’outils</string>
   <string name="subreddit_search_method_both">Dans le menu et la barre d\'outils</string>
   <!-- Subscription managing -->
-  <string name="reorder_add_domain">Ajouter un domaine</string>
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <string name="FAQ">FAQ</string>
   <string name="alphabetize_subreddits">Classer les subreddits par ordre alphabétique</string>
   <string name="sync_subscriptions">Synchroniser les abonnements</string>
@@ -546,7 +517,6 @@
   <string name="reorder_subreddit_name">Nom de la subreddit</string>
   <string name="reorder_remove_title">Supprimer cette subreddit ?</string>
   <string name="reorder_remove_msg">Vous ne serez pas désabonné, mais vous ne verrez pas la subreddit dans votre barre latérale !</string>
-  <string name="reorder_sync_complete">Synchronisation réussie</string>
   <!-- Save categories -->
   <!-- Setting subheaders -->
   <string name="sorting">Trier par</string>
@@ -594,7 +564,6 @@
   <string name="offline_last_update">Dernière mise à jour: %1$s</string>
   <string name="offline_comments_not_loaded">Rendez-vous en ligne et sélectionnez « Cacher les Commentaires de » dans le menu avec les 3 points pour voir les commentaires en mode hors connexion.</string>
   <!-- Website -->
-  <string name="website_back">Retour</string>
   <string name="website_external">Ouvrir dans un navigateur externe</string>
   <plurals name="reorder_subs_added">
     <item quantity="one">%d subreddit ajouté</item>
@@ -668,8 +637,6 @@
   <string name="manage_drafts">Gérer les brouillons</string>
   <string name="really_delete_drafts">Voulez-vous vraiment supprimer ces brouillons ?</string>
   <!-- Strings for widgets -->
-  <string name="widget_subname_hint">Nom de la subreddit</string>
-  <string name="widget_content">Contenu</string>
   <!-- Strings for alert dialogs -->
   <string name="force_change_subscription">Impossible de changer l\'abonnement</string>
   <string name="force_change_subscription_desc">Voulez-vous le changer localement?</string>
@@ -707,7 +674,6 @@
   <string name="handling_external_browser">Visionner dans un navigateur externe</string>
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Carte avec image centrée</string>
-  <string name="mode_card">Cartes</string>
   <string name="mode_thumbnail">Vignette</string>
   <string name="mode_big_thumbnails">Grandes vignettes</string>
   <string name="mode_cropped">Grandes images recadrées</string>
@@ -737,7 +703,6 @@
   <string name="multi_column_force_full">Forcer l\'affichage complet des commentaires</string>
   <string name="submission_info_locked">Cette publication est verrouillée. Vous ne pourrez pas voter ou commenter.</string>
   <string name="card_background_tint">Arrière-plan des cartes</string>
-  <string name="subreddit_name_tint">Nom de la subreddit</string>
   <string name="login_failed_err_decline">Merci de vérifier que vous n\'avez pas choisi \'Refuser\' sur l\'écran précédent, et réessayez dans une minute</string>
   <string name="thumb_type_always">Toujours afficher</string>
   <string name="thumb_type_off">Ne jamais afficher</string>
@@ -749,7 +714,6 @@
   <string name="btn_open_comments">Ouvrir les commentaires</string>
   <string name="btn_preview">Prévisualiser</string>
   <string name="sorting_default_comment">Tri des commentaires par défaut</string>
-  <string name="content_deleted">[supprimé]</string>
   <string name="thread_continue">Continuer ce fil</string>
   <string name="type_selftext">Texte brut</string>
   <string name="submission_unhide">Afficher le post</string>
@@ -762,7 +726,6 @@
   <string name="guest">Invité</string>
   <string name="album_slide_view">Album horizontal</string>
   <string name="album_grid">Grille d\'album</string>
-  <string name="open_externally">Ouvrir à l\'externe</string>
   <string name="vertical_album_view">Album vertical</string>
   <string name="download_album">Télécharger l\'album</string>
   <string name="compose_message">Composer le message</string>
@@ -815,5 +778,4 @@
   <string name="get_lq_imgur_images_through_imgur_api">Obtenir les images Imgur en basse résolution via l\'API Imgur</string>
   <string name="open_links_externally">Toujours ouvrir cet hôte à l\'externe</string>
   <string name="hide_read_posts">Masquer les publications lues</string>
-  <string name="draw_undo">Annuler</string>
 </resources>

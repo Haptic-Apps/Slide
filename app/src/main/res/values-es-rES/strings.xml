@@ -24,14 +24,18 @@
   <string name="submission_report">Reportar post</string>
   <string name="submission_gild">Abrir en navegador</string>
   <string name="submission_save">Guardar post</string>
+  <string name="submission_save_image">Guardar imagen</string>
   <string name="submission_share">Compartir post</string>
   <string name="submission_load_full">Cargar el hilo completo</string>
   <string name="submission_np_link">Este es un enlace sin participación. Por favor, no vote ni comente.</string>
   <string name="submission_tap_gif">Pulsa para cargar el GIF</string>
   <string name="submission_not_found">¡Oh oh, post no encontrado!</string>
   <string name="submission_not_found_msg">Lo siento, no he encontrado el post</string>
-  <string name="submission_copy_text">Copiar texto</string>
+  <string name="submission_save_offline">Guardar sin conexión</string>
+  <string name="submission_comment_saved">Comentario guardado</string>
+  <string name="submission_comment_unsaved">Comentario no guardado</string>
   <string name="submission_share_permalink">Compartir post</string>
+  <string name="submission_link_copied">Enlace copiado</string>
   <plurals name="submission_points">
     <item quantity="one">%d punto</item>
     <item quantity="other">%d puntos</item>
@@ -125,7 +129,6 @@
   <string name="comment_deleted">[eliminado]</string>
   <string name="comment_unsave">Eliminar de guardados</string>
   <string name="comment_load_more">Carga %1$d más</string>
-  <string name="comment_load_more_string">Carga %1$d más</string>
   <string name="comment_loading_more">Cargando mas comentarios&#8230;</string>
   <string name="comment_permalink">Carga link permanente de comentario</string>
   <string name="comment_parent">Muestra comentario pariente</string>
@@ -144,12 +147,6 @@
   <string name="sorting_old">Antiguo</string>
   <string name="sorting_controversial">Polémico</string>
   <string name="sorting_rising">Subiendo</string>
-  <string name="sorting_hour">› hora</string>
-  <string name="sorting_day">› 24 horas</string>
-  <string name="sorting_week">semana ›</string>
-  <string name="sorting_month">mes ›</string>
-  <string name="sorting_year">año ›</string>
-  <string name="sorting_all">› todos los tiempos</string>
   <string name="sorting_search_hour">Hace una hora</string>
   <string name="sorting_search_day">Últimas 24 horas</string>
   <string name="sorting_search_week">La Semana pasada</string>
@@ -171,6 +168,7 @@
   <string name="editor_hint_subreddit">Subreddit</string>
   <!-- General information / information without a category -->
   <string name="info_photo_saved">Foto guardada</string>
+  <string name="gif_saved">GIF guardado</string>
   <!-- General errors / errors without a category -->
   <string name="err_title">Vaya... algo ha salido mal...</string>
   <string name="err_invalid_url">URL inválida</string>
@@ -187,13 +185,11 @@
   <string name="err_comment_post_nosave_message">\nPor favor inténtalo de nuevo en un minuto</string>
   <string name="err_could_not_find_content_msg">Reddit no ha podido encontrar el contenido solicitado</string>
   <string name="err_refused_request_msg">Reddit ha rechazado una solicitud. Quieres intentar reconectarte a Reddit?</string>
-  <string name="err_something_wrong">Vaya... algo salió mal.</string>
   <string name="err_file_not_found">Archivo no encontrado</string>
   <string name="err_not_valid_backup">El archivo de copia de seguridad Slide no es válido</string>
   <string name="err_not_valid_backup_msg">El archivo seleccionado no es un archivo de copia de seguridad Slide válido</string>
   <string name="err_file_not_found_msg">El archivo seleccionado no se encuentra. Asegúrate que exista y que Slide tiene permiso para acceder al archivo o carpeta</string>
   <string name="err_comment_post">Oh oh, ¡no se pudo publicar este comentario!</string>
-  <string name="err_comment_post_reason">"Razón: "</string>
   <string name="err_comment_post_message">\n\nTu mensaje ha sido guardado como borrador. Por favor, inténtalo más tarde.</string>
   <string name="err_comment_post_copy">Copiar comentario</string>
   <!-- Gif -->
@@ -247,7 +243,6 @@
   <string name="mail_hint_body">Cuerpo</string>
   <string name="mail_send_to">Enviar un mensaje a %1$s</string>
   <string name="mail_send">Enviar un mensaje</string>
-  <string name="mail_notification_msg_from">Nuevo mensaje de %1$s</string>
   <string name="mod_mail_notification_msg">Nuevo modmail de %1$s</string>
   <string name="mail_reply_to">Responder a %1$s</string>
   <string name="mail_notification_author">%1$s de %2$s</string>
@@ -279,6 +274,7 @@
   <string name="misc_img_share">Compartir imagen con</string>
   <string name="misc_link_chooser">Abrir URL con</string>
   <string name="misc_copy_text">Copiar texto</string>
+  <string name="misc_try_again">Vuelva a intentarlo</string>
   <string name="misc_rate_title">¿Te gusta Slide?</string>
   <string name="misc_rate_msg">¡Valóranos!</string>
   <!-- Goto User -->
@@ -289,6 +285,7 @@
   <string name="btn_add">Añadir</string>
   <string name="btn_cancel">Cancelar</string>
   <string name="btn_close">Cerrar</string>
+  <string name="btn_open">Abrir</string>
   <string name="btn_discard">Descarta</string>
   <string name="btn_done">Hecho</string>
   <string name="btn_go_back">Retroceder</string>
@@ -303,15 +300,18 @@
   <string name="btn_sure">¡Claro!</string>
   <string name="btn_undo">Deshacer</string>
   <string name="btn_yes">Sí</string>
+  <string name="btn_yes_exclaim">¡Sí!</string>
   <string name="btn_refresh">Actualizar</string>
   <string name="btn_cache">Cachea los comentarios</string>
   <string name="btn_delete">Borrar</string>
   <string name="btn_time">Periodo</string>
+  <string name="btn_message">Mensaje</string>
+  <string name="btn_add_domain">Agregar un dominio</string>
   <string name="btn_select">Seleccionar</string>
   <string name="btn_view">VER</string>
   <string name="btn_changelog">Cambios</string>
   <string name="btn_set">GUARDAR</string>
-  <string name="btn_new">Nuevo</string>
+  <string name="btn_create">Crear</string>
   <!-- Backup -->
   <string name="backup_success">¡Copia de seguridad correcta!</string>
   <string name="backup_restoring">Restaurando tus Ajustes</string>
@@ -326,6 +326,7 @@
   <!-- Vote -->
   <string name="vote_err">¡Error al enviar voto!</string>
   <string name="vote_err_login">¡Debes iniciar sesión para poder votar!</string>
+  <string name="vote_removed">Voto eliminado</string>
   <!-- Moderation tools -->
   <string name="mod_mail">Mod Mail</string>
   <string name="mod_mail_unread">Correo de mod no leído</string>
@@ -344,9 +345,20 @@
   <string name="mod_btn_submission_flair">Establecer flair</string>
   <string name="mod_btn_mark_nsfw">Marcar NSFW</string>
   <string name="mod_btn_unmark_nsfw">Desmarcar NSFW</string>
+  <string name="mod_btn_pin">Fijar</string>
+  <string name="mod_btn_unpin">Eliminar fijado</string>
   <string name="mod_btn_remove">Borrar</string>
   <string name="mod_btn_remove_reason">Quitar con motivo</string>
   <string name="mod_btn_author">Perfil del autor</string>
+  <string name="mod_btn_ban">Bloquear</string>
+  <string name="mod_ban_user">Bloquear usuario</string>
+  <string name="mod_ban_reauth">Para bloquar un usuario Slide debe autentificarte de nuevo</string>
+  <string name="mod_ban_reauth_question">¿Te gustaría volver a iniciar sesión en Slide?</string>
+  <string name="mod_ban_success">¡Usuario bloqueado!</string>
+  <string name="mod_ban_fail">Error bloqueando al usuario</string>
+  <string name="mod_ban_reason">Razón del bloqueo</string>
+  <string name="mod_ban_note_mod">Mensaje del moderador (opcional)</string>
+  <string name="mod_ban_time">Tiempo de bloqueo (días)</string>
   <plurals name="mod_btn_reports">
     <item quantity="one">Ver reporte %d</item>
     <item quantity="other">Ver reportes %d</item>
@@ -438,7 +450,7 @@
   <string name="settings_section_general">General</string>
   <string name="settings_section_appearance">Apariencia</string>
   <string name="settings_section_other">Otros</string>
-  <string name="settings_section_save_history">Guardar historial</string>
+  <string name="settings_section_hide_images">Ocultar imágenes</string>
   <string name="settings_comment_color">Indicadores de profundidad de color para comentarios</string>
   <string name="settings_volume_nav_comments">Navegar comentarios con los botones de volumen</string>
   <string name="settings_synccit_remove">DESCONECTAR SYNCCIT</string>
@@ -455,6 +467,7 @@
   <string name="settings_comment_collapse">Colapsar los comentarios completamente</string>
   <string name="settings_comment_collapse_description">También desactiva animaciones de comentarios</string>
   <string name="settings_comment_collapse_default">Ocultar comentarios hijos predeterminado</string>
+  <string name="settings_data_enable">Habilitar modo ahorro de datos</string>
   <string name="settings_subredditspecific_selftext">Siempre mostrar vistas previas de texto en este subreddit</string>
   <string name="settings_font_system">Sistema</string>
   <string name="settings_comments_swap_long">Intercambiar acciones de toque y presionar</string>
@@ -488,15 +501,12 @@
   <string name="settings_handling_enterdomain">Escriba un dominio o una parte de un dominio</string>
   <string name="settings_section_content">Contenido</string>
   <string name="settings_about_changelog_post">Ver historial de cambios</string>
-  <string name="settings_backup_include_personal_title">Incluir información personal?</string>
-  <string name="settings_backup_include_personal_text">Esto incluye los identificadores de autenticación, nombres de usuario, etiquetas y el historial</string>
   <!-- View types -->
   <string name="view_type_tabs">Pestañas de subreddits</string>
   <string name="view_type_none">No hay pestañas en el subreddit</string>
   <string name="view_type_comments">Panel de comentarios</string>
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <string name="FAQ">Preguntas y respuestas</string>
   <string name="alphabetize_subreddits">Alfabetizar subreddits</string>
   <string name="sync_subscriptions">Sincronizar suscripciones</string>
@@ -625,8 +635,6 @@
   <string name="dialog_no_drafts_msg">¡Puedes agregar un borrador dándole al botón de \'guardar\' en la barra de edición!</string>
   <string name="msg_save_draft">Mensaje guardado como borrador</string>
   <!-- Strings for widgets -->
-  <string name="widget_subname_hint">Nombre del subreddit</string>
-  <string name="widget_content">Contenido</string>
   <!-- Strings for alert dialogs -->
   <!-- Sidebar strings (multis, flairs) -->
   <!--Filtering dialog -->
@@ -691,7 +699,6 @@
   <string name="btn_open_comments">Comentarios abiertos</string>
   <string name="btn_preview">Preliminar</string>
   <string name="sorting_default_comment">Orden predeterminado de comentarios</string>
-  <string name="content_deleted">[eliminado]</string>
   <string name="thread_continue">Continuar este hilo</string>
   <string name="type_selftext">Post de texto</string>
   <string name="submission_unhide">Mostrar el post</string>
@@ -726,5 +733,4 @@
   <string name="backup_saved_downloads">Copia de seguridad guardada en descargas</string>
   <string name="include_personal_info">Incluir información personal?</string>
   <string name="include_personal_info_msg">Esto incluye los identificadores de autenticación, nombres de usuario, etiquetas y el historial</string>
-  <string name="draw_undo">Deshacer</string>
 </resources>

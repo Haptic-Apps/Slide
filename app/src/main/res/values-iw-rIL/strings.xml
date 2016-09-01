@@ -24,7 +24,6 @@
   <string name="submission_share">שתף פוסט</string>
   <string name="submission_load_full">טען שרשור מלא</string>
   <string name="submission_tap_gif">לחץ כדי לטעון את הGIF</string>
-  <string name="submission_share_permalink">שתף פוסט</string>
   <plurals name="submission_points">
     <item quantity="one">נקודה %d</item>
     <item quantity="two">%d נקודות</item>
@@ -96,11 +95,9 @@
   <!-- Content types -->
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
-  <string name="mail_hint_body">טקסט</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <!-- Goto User -->
   <!-- Buttons -->
-  <string name="btn_new">חדש</string>
   <!-- Backup -->
   <!-- Vote -->
   <!-- Moderation tools -->
@@ -109,14 +106,9 @@
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
-  <string name="search_top">המצליחים ביותר</string>
-  <string name="search_new">חדש</string>
-  <string name="search_comments">תגובות</string>
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
-  <string name="settings_title_multi_column">הגדרות עמודות מרובות</string>
-  <string name="settings_title_comments">תגובות</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
@@ -144,7 +136,5 @@
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="mode_card">קלף</string>
   <string name="btn_report">דיווח</string>
-  <string name="open_externally">פתח חיצונית</string>
 </resources>

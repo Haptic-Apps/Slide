@@ -25,8 +25,6 @@
   <string name="submission_tap_gif">Klikněte pro načtení GIFu</string>
   <string name="submission_not_found">Ale ne, příspěvek nenalezen!</string>
   <string name="submission_not_found_msg">Omlouváme se, tento příspěvek nelze nalézt</string>
-  <string name="submission_copy_text">Zkopírovat text</string>
-  <string name="submission_share_permalink">Sdílet příspěvek</string>
   <plurals name="submission_points">
     <item quantity="one">%d bod</item>
     <item quantity="few">%d bodů</item>
@@ -111,7 +109,6 @@
   <string name="err_retry_later">Zkuste to znovu za chvíli!</string>
   <string name="err_permission">Přístup byl odepřen</string>
   <string name="err_permission_msg">Vypadá to, že jste zakázali použití externího úložiště. To způsobí chyby při ukládání obrázků a příspěvků:(. \nChcete povolit přístup do externího úložiště?</string>
-  <string name="err_something_wrong">Ale ne, něco se pokazilo.</string>
   <!-- Gif -->
   <string name="gif_err_title">GIF nebyl nalezen</string>
   <string name="gif_err_msg">Došlo k chybě při načítání tohoto GIFu. Otevřete prosím GIF znovu a akci opakujte.</string>
@@ -133,13 +130,11 @@
   <string name="type_vid">Video</string>
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Příchozí zprávy</string>
   <string name="mail_hint_recipient">Příjemce</string>
   <string name="mail_hint_subject">Předmět</string>
   <string name="mail_hint_body">Text zprávy</string>
   <string name="mail_send_to">Pošlete zprávu %1$s</string>
   <string name="mail_send">Poslat zprávu</string>
-  <string name="mail_notification_msg_from">Nová zpáva od %1$s</string>
   <string name="mail_reply_to">Odpověď pro %1$s</string>
   <string name="mail_notification_author">%1$s od %2$s</string>
   <plurals name="mail_notification_title">
@@ -180,7 +175,6 @@
   <string name="btn_undo">Zpět</string>
   <string name="btn_yes">Ano</string>
   <string name="btn_refresh">Aktualizovat</string>
-  <string name="btn_new">Nové</string>
   <!-- Backup -->
   <string name="backup_success">Záloha byla úspěšná!</string>
   <string name="backup_restoring">Obnovení nastavení</string>
@@ -199,7 +193,6 @@
   <string name="mod_remove_nsfw">Opravdu chcete odstranit NSFW tag?</string>
   <string name="mod_no_reports">Žádné hlášení</string>
   <string name="mod_btn_approve">Schválit</string>
-  <string name="mod_btn_remove">Odebrat</string>
   <!-- Pleasantly asking the user if he made his mind up -->
   <!-- If he did -->
   <!-- Subreddit Wiki -->
@@ -217,9 +210,6 @@
   <string name="search_msg">Co hledáte?</string>
   <string name="search_all">Hledat vše</string>
   <string name="search_subreddit">Hledat %1$s</string>
-  <string name="search_top">Nejlepší</string>
-  <string name="search_new">Nové</string>
-  <string name="search_comments">komentáře</string>
   <!-- Captcha -->
   <string name="captcha">Zadejte kód nahoře</string>
   <string name="captcha_title">Dokažte, že nejste robot</string>
@@ -251,18 +241,14 @@
   <string name="settings_title_default_theme">Hlavní téma</string>
   <string name="settings_title_general">Obecný</string>
   <string name="settings_title_notifications">Oznámení</string>
-  <string name="settings_title_pro">Povýšit na verzi Pro</string>
   <string name="settings_title_sorting">Výchozí řazení</string>
   <string name="settings_title_support">Darovat</string>
   <string name="settings_title_about">O nás</string>
-  <string name="settings_title_multi_column">Více sloupců</string>
   <string name="settings_title_fab">Plovoucí tlačítko akce</string>
   <string name="settings_title_comments">Komentáře</string>
-  <string name="settings_section_general">Obecný</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
@@ -291,7 +277,6 @@
   <!-- Offline mode -->
   <string name="offline_caching">Ukládání do mezipaměti</string>
   <!-- Website -->
-  <string name="website_back">Zpět</string>
   <!-- Time -->
   <plurals name="time_hours">
     <item quantity="one">%d hodinu</item>
@@ -320,9 +305,5 @@
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="mode_card">Karta</string>
   <string name="btn_report">Nahlásit</string>
-  <string name="content_deleted">[deleted]</string>
-  <string name="open_externally">Otevřít externě</string>
-  <string name="draw_undo">Zpět</string>
 </resources>

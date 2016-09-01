@@ -15,7 +15,6 @@
   <string name="submission_report">Reportar post</string>
   <string name="submission_save">Gardar post</string>
   <string name="submission_share">Compartir post</string>
-  <string name="submission_share_permalink">Compartir post</string>
   <!-- Theme settings -->
   <string name="theme_light">Claro</string>
   <string name="theme_dark">Escuro</string>
@@ -56,8 +55,6 @@
   <string name="type_img">Imaxe</string>
   <!-- Content types plural (Content filters) -->
   <!-- Inbox/mail -->
-  <string name="mail_tab_inbox">Bandexa de entrada</string>
-  <string name="mail_hint_body">Texto</string>
   <!-- Miscellaneous/generic things that don't have a category or strings that are used for multiple categories -->
   <string name="misc_err">Erro</string>
   <string name="misc_none">Ningún</string>
@@ -73,7 +70,6 @@
   <string name="btn_reset">Reiniciar</string>
   <string name="btn_undo">Desfacer</string>
   <string name="btn_yes">Sí</string>
-  <string name="btn_new">Novo</string>
   <!-- Backup -->
   <!-- Vote -->
   <!-- Moderation tools -->
@@ -82,14 +78,10 @@
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
-  <string name="search_new">Novo</string>
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
   <string name="settings_title_general">Xeral</string>
-  <string name="settings_title_support">Doar</string>
-  <string name="settings_title_multi_column">Axustes da Multi-Columna</string>
-  <string name="settings_section_general">Xeral</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
@@ -121,7 +113,4 @@
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="mode_card">Tarxeta</string>
-  <string name="open_externally">Abrir externamente</string>
-  <string name="draw_undo">Desfacer</string>
 </resources>

@@ -30,8 +30,6 @@
   <string name="submission_tap_gif">Tryk for at indlæse GIF</string>
   <string name="submission_not_found">Ups! Indlæg ikke fundet!</string>
   <string name="submission_not_found_msg">Beklager. Dette indlæg kunne ikke findes</string>
-  <string name="submission_copy_text">Kopier tekst</string>
-  <string name="submission_share_permalink">Del indlæg</string>
   <!-- Theme settings -->
   <string name="theme_light">Lys</string>
   <string name="theme_dark">Mørk</string>
@@ -127,12 +125,6 @@
   <string name="sorting_old">Gamle</string>
   <string name="sorting_controversial">Kontroversielle</string>
   <string name="sorting_rising">Stigende</string>
-  <string name="sorting_hour">> time</string>
-  <string name="sorting_day">> 24 timer</string>
-  <string name="sorting_week">> uge</string>
-  <string name="sorting_month">> måned</string>
-  <string name="sorting_year">> år</string>
-  <string name="sorting_all">> for altid</string>
   <string name="sorting_search_hour">Sidste time</string>
   <string name="sorting_search_day">Sidste 24 timer</string>
   <string name="sorting_search_week">Sidste uge</string>
@@ -163,7 +155,6 @@
   <string name="err_no_connection">Kunne ikke forbinde til Reddit. Vil du prøve igen?</string>
   <string name="err_retry_later">Prøv igen om et minut!</string>
   <string name="err_permission">Tilladelse nægtet</string>
-  <string name="err_something_wrong">Ups! Noget gik galt</string>
   <!-- Gif -->
   <!-- Multireddits -->
   <string name="multireddit_title_empty_msg">Angiv venligst en titel til din multireddit</string>
@@ -204,7 +195,6 @@
   <string name="mail_hint_body">Tekst</string>
   <string name="mail_send_to">Send en besked til %1$s</string>
   <string name="mail_send">Send en besked</string>
-  <string name="mail_notification_msg_from">Ny besked fra %1$s</string>
   <string name="mod_mail_notification_msg">Ny moderatorbesked fra %1$s</string>
   <string name="mail_reply_to">Svar på %1$s</string>
   <string name="mail_notification_author">%1$s fra %2$s</string>
@@ -221,7 +211,6 @@
   <string name="misc_copy_text">Kopier tekst</string>
   <!-- Goto User -->
   <!-- Buttons -->
-  <string name="btn_new">Nye</string>
   <!-- Backup -->
   <string name="backup_btn">Sikkerkedskopiér</string>
   <string name="backup_btn_restore">Gendan</string>
@@ -243,19 +232,12 @@
   <!-- Subreddit Wiki -->
   <!-- Subreddits -->
   <!-- Search -->
-  <string name="search_top">Top</string>
-  <string name="search_new">Nye</string>
-  <string name="search_comments">Kommentarer</string>
   <!-- Captcha -->
   <!-- Settings -->
   <!-- Settings titles displayed in settings activity-->
-  <string name="settings_title_pro">Skift til Pro</string>
-  <string name="settings_title_multi_column">Multi-kolonne</string>
-  <string name="settings_title_comments">Kommentarer</string>
   <!-- View types -->
   <!--Search methods -->
   <!-- Subscription managing -->
-  <string name="reorder_fab_subreddit">Subreddit</string>
   <!-- Save categories -->
   <!-- Setting subheaders -->
   <!-- Titles displayed in action bar / head / recents overview-->
@@ -280,7 +262,4 @@
   <!-- Caching -->
   <!-- Saving location setting -->
   <!-- Unsorted ¯\\_(ツ)_/¯ -->
-  <string name="mode_card">Kort</string>
-  <string name="content_deleted">[slettet]</string>
-  <string name="open_externally">Åbn eksternt</string>
 </resources>
