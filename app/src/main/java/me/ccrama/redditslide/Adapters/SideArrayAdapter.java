@@ -142,7 +142,7 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                         }
                         Intent inte = new Intent(getContext(), SubredditView.class);
                         inte.putExtra(SubredditView.EXTRA_SUBREDDIT, subreddit);
-                        ((Activity) getContext()).startActivityForResult(inte, 4);
+                        ((Activity) getContext()).startActivityForResult(inte, 2001);
                     } else {
                         if (((MainActivity) getContext()).commentPager && ((MainActivity) getContext()).adapter instanceof MainActivity.OverviewPagerAdapterComment) {
                             ((MainActivity) getContext()).openingComments = null;
@@ -168,13 +168,6 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
                     }
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-                    ((MainActivity) getContext()).drawerLayout.closeDrawers();
-
-                    if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
-                            || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
-                        ((MainActivity) getContext()).drawerSearch.setText("");
-                    }
                 }
             });
         } else {

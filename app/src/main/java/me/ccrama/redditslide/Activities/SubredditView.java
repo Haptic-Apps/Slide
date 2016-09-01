@@ -1889,6 +1889,7 @@ public class SubredditView extends BaseActivityAnim {
         public void onPostExecute(Subreddit subreddit) {
 
             if (subreddit != null) {
+                setResult(RESULT_OK);
                 sub = subreddit;
                 try {
                     doSubSidebarNoLoad(sub.getDisplayName());

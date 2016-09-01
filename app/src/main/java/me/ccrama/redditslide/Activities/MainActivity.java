@@ -225,6 +225,15 @@ public class MainActivity extends BaseActivity {
                 scrollToTabAfterLayout(current);
             }
             setToolbarClick();
+        } else if(requestCode == 2001 && resultCode == RESULT_OK){
+            drawerLayout.closeDrawers();
+            drawerSearch.setText("");
+            View view = MainActivity.this.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
         } else if (requestCode == 423 && resultCode == RESULT_OK) {
             ((OverviewPagerAdapterComment) adapter).mCurrentComments.doResult(data);
         } else if (requestCode == 940) {
@@ -247,12 +256,6 @@ public class MainActivity extends BaseActivity {
         } else if (requestCode == RESET_ADAPTER_RESULT) {
             resetAdapter();
             setDrawerSubList();
-        } else if (requestCode == 4 && resultCode != 4) { //what?
-            if (drawerSearch != null) {
-                drawerSearch.clearFocus();
-                drawerSearch.setText("");
-                drawerLayout.closeDrawers();
-            }
         } else if (requestCode == TUTORIAL_RESULT) {
             UserSubscriptions.doMainActivitySubs(this);
         } else if (requestCode == INBOX_RESULT) {
@@ -3267,8 +3270,6 @@ public class MainActivity extends BaseActivity {
                 GO_TO_SUB_FIELD.setVisibility(View.GONE);
                 CLOSE_BUTTON.setVisibility(View.GONE);
 
-                GO_TO_SUB_FIELD.setText(""); //clear text from search field
-
                 if (SettingValues.single) {
                     getSupportActionBar().setTitle(selectedSub);
                 } else {
@@ -3718,7 +3719,7 @@ public class MainActivity extends BaseActivity {
                             Intent inte = new Intent(MainActivity.this, SubredditView.class);
                             inte.putExtra(SubredditView.EXTRA_SUBREDDIT,
                                     drawerSearch.getText().toString());
-                            MainActivity.this.startActivity(inte);
+                            MainActivity.this.startActivityForResult(inte, 2001);
                         } else {
                             if (commentPager && adapter instanceof OverviewPagerAdapterComment) {
                                 openingComments = null;
@@ -3743,16 +3744,15 @@ public class MainActivity extends BaseActivity {
                                 pager.setCurrentItem(
                                         usedArray.indexOf(sideArrayAdapter.fitems.get(0)));
                             }
+                            drawerLayout.closeDrawers();
+                            drawerSearch.setText("");
+                            View view = MainActivity.this.getCurrentFocus();
+                            if (view != null) {
+                                InputMethodManager imm = (InputMethodManager) getSystemService(
+                                        Context.INPUT_METHOD_SERVICE);
+                                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                            }
                         }
-
-                        View view = MainActivity.this.getCurrentFocus();
-                        if (view != null) {
-                            InputMethodManager imm = (InputMethodManager) getSystemService(
-                                    Context.INPUT_METHOD_SERVICE);
-                            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                        }
-                        drawerLayout.closeDrawers();
-                        drawerSearch.setText("");
                     }
                     return false;
                 }
