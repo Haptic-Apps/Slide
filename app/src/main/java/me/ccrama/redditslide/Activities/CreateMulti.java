@@ -412,7 +412,7 @@ public class CreateMulti extends BaseActivityAnim {
         switch (item.getItemId()) {
             case R.id.delete:
                 new AlertDialogWrapper.Builder(CreateMulti.this)
-                        .setTitle(getString(R.string.delete_multireddit_title) + title.getText().toString() + "?")
+                        .setTitle(getString(R.string.delete_multireddit_title, title.getText().toString()))
                         .setMessage(R.string.cannot_be_undone)
                         .setPositiveButton(R.string.btn_yes, new DialogInterface.OnClickListener() {
                             @Override

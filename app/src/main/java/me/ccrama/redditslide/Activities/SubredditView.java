@@ -649,7 +649,7 @@ public class SubredditView extends BaseActivityAnim {
                             flair.setVisibility(View.VISIBLE);
                             if (current != null) {
                                 ((TextView) dialoglayout.findViewById(R.id.flair_text)).setText(
-                                        getString(R.string.sidebar_flair) + current);
+                                        getString(R.string.sidebar_flair, current));
                             }
                             flair.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -736,8 +736,8 @@ public class SubredditView extends BaseActivityAnim {
                                                                                                                 R.id.flair_text))
                                                                                                         .setText(
                                                                                                                 getString(
-                                                                                                                        R.string.sidebar_flair)
-                                                                                                                        + current);
+                                                                                                                        R.string.sidebar_flair,
+                                                                                                                        current));
                                                                                             }
                                                                                             s =
                                                                                                     Snackbar.make(
@@ -809,8 +809,8 @@ public class SubredditView extends BaseActivityAnim {
                                                                         ((TextView) dialoglayout.findViewById(
                                                                                 R.id.flair_text)).setText(
                                                                                 getString(
-                                                                                        R.string.sidebar_flair)
-                                                                                        + current);
+                                                                                        R.string.sidebar_flair,
+                                                                                        current));
                                                                     }
                                                                     s = Snackbar.make(mToolbar,
                                                                             R.string.snackbar_flair_success,
@@ -1174,8 +1174,8 @@ public class SubredditView extends BaseActivityAnim {
                                                                     drawerLayout.closeDrawers();
                                                                     Snackbar.make(mToolbar,
                                                                             getString(
-                                                                                    R.string.multi_subreddit_added)
-                                                                                    + multiName,
+                                                                                    R.string.multi_subreddit_added,
+                                                                                    multiName),
                                                                             Snackbar.LENGTH_LONG)
                                                                             .show();
                                                                 }
@@ -1236,7 +1236,7 @@ public class SubredditView extends BaseActivityAnim {
                     private void doSubscribe() {
                         if (Authentication.isLoggedIn) {
                             new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                                    getString(R.string.subscribe_to) + subreddit.getDisplayName())
+                                    getString(R.string.subscribe_to, subreddit.getDisplayName()))
                                     .setPositiveButton(R.string.reorder_add_subscribe,
                                             new DialogInterface.OnClickListener() {
                                                 @Override
@@ -1351,8 +1351,7 @@ public class SubredditView extends BaseActivityAnim {
                     private void doUnsubscribe() {
                         if (Authentication.didOnline) {
                             new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                                    getString(R.string.unsubscribe_from)
-                                            + subreddit.getDisplayName())
+                                    getString(R.string.unsubscribe_from, subreddit.getDisplayName()))
                                     .setPositiveButton(R.string.reorder_remove_unsubsribe,
                                             new DialogInterface.OnClickListener() {
                                                 @Override

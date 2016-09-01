@@ -826,10 +826,10 @@ public class ReorderSubreddits extends BaseActivityAnim {
                         String sub = origPos;
                         if (!isChecked) {
                             new UserSubscriptions.UnsubscribeTask().execute(sub);
-                            Snackbar.make(mToolbar, getString(R.string.reorder_unsubscribed_toast) + origPos, Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(mToolbar, getString(R.string.reorder_unsubscribed_toast, origPos), Snackbar.LENGTH_SHORT).show();
                         } else {
                             new UserSubscriptions.SubscribeTask().execute(sub);
-                            Snackbar.make(mToolbar, getString(R.string.reorder_subscribed_toast) + origPos, Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(mToolbar, getString(R.string.reorder_subscribed_toast, origPos), Snackbar.LENGTH_SHORT).show();
                         }
                         isSubscribed.put(origPos.toLowerCase(), isChecked);
                     }

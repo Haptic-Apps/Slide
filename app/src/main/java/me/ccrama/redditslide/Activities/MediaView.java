@@ -251,7 +251,7 @@ public class MediaView extends FullScreenActivity
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-            b.sheet(6, file, getString(R.string.mediaview_save) + type);
+            b.sheet(6, file, getString(R.string.mediaview_save, type));
         }
         b.listener(new DialogInterface.OnClickListener() {
             @Override

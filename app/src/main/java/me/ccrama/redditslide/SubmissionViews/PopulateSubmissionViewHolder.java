@@ -477,12 +477,12 @@ public class PopulateSubmissionViewHolder {
                                 ? submission.getSubmissionFlair().getText() : "";
                         if (flair.isEmpty()) {
                             choices = new String[]{
-                                    mContext.getString(R.string.filter_posts_sub)
-                                            + submission.getSubredditName(),
-                                    mContext.getString(R.string.filter_posts_user)
-                                            + submission.getAuthor(),
-                                    mContext.getString(R.string.filter_posts_urls)
-                                            + submission.getDomain(),
+                                    mContext.getString(R.string.filter_posts_sub,
+                                            submission.getSubredditName()),
+                                    mContext.getString(R.string.filter_posts_user,
+                                            submission.getAuthor()),
+                                    mContext.getString(R.string.filter_posts_urls,
+                                            submission.getDomain()),
                                     mContext.getString(R.string.filter_open_externally,
                                             submission.getDomain())
                             };
@@ -502,12 +502,12 @@ public class PopulateSubmissionViewHolder {
                             oldChosen = chosen.clone();
                         } else {
                             choices = new String[]{
-                                    mContext.getString(R.string.filter_posts_sub)
-                                            + submission.getSubredditName(),
-                                    mContext.getString(R.string.filter_posts_user)
-                                            + submission.getAuthor(),
-                                    mContext.getString(R.string.filter_posts_urls)
-                                            + submission.getDomain(),
+                                    mContext.getString(R.string.filter_posts_sub,
+                                            submission.getSubredditName()),
+                                    mContext.getString(R.string.filter_posts_user,
+                                            submission.getAuthor()),
+                                    mContext.getString(R.string.filter_posts_urls,
+                                            submission.getDomain()),
                                     mContext.getString(R.string.filter_open_externally,
                                             submission.getDomain()),
                                     mContext.getString(R.string.filter_posts_flair, flair, baseSub)
@@ -1802,7 +1802,7 @@ public class PopulateSubmissionViewHolder {
 
         AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
         builder.setView(l)
-                .setTitle(mContext.getString(R.string.mod_ban_title) + submission.getAuthor())
+                .setTitle(mContext.getString(R.string.mod_ban_title, submission.getAuthor()))
                 .setCancelable(true)
                 .setPositiveButton(R.string.mod_btn_ban, new DialogInterface.OnClickListener() {
                             @Override
