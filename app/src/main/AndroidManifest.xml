@@ -12,6 +12,7 @@
     <application
             android:name=".Reddit"
             android:allowBackup="true"
+            android:alwaysRetainTaskState="true"
             android:fullBackupContent="true"
             android:hardwareAccelerated="true"
             android:resizeableActivity="true"
