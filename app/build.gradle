@@ -46,14 +46,6 @@ android {
         }
         withGPlay {
             dimension "gplay"
-            /*splits {
-                abi {
-                    enable true
-                    reset()
-                    include 'x86', 'armeabi-v7a', 'mips'
-                    universalApk false
-                }
-            }*/
         }
         noGPlay {
             dimension "gplay"
@@ -63,7 +55,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            shrinkResources true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             resValue "string", "app_name", "Slide"
         }
