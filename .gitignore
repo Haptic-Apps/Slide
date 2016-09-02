@@ -15,6 +15,7 @@ local.properties
 .idea/*
 !.idea/codeStyleSettings.xml
 *.iml
+projectFilesBackup/
 
 # OS-specific files
 .DS_Store
