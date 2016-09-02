@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -20,10 +21,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -39,16 +37,11 @@ import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.html.HtmlRenderer;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,8 +58,21 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.util.FileImagePath;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
+import okhttp3.Headers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okio.Buffer;
+import okio.BufferedSink;
+import okio.ForwardingSink;
+import okio.Okio;
+import okio.Sink;
 
 /**
  * Created by carlo_000 on 10/18/2015.
@@ -250,14 +256,8 @@ public class DoEditorActions {
                                 Uri selectedImageUri = ((MainActivity) a).data.getData();
                                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                                 try {
-                                    File f = new File(selectedImageUri.getPath());
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(
-                                            editText.getContext().getContentResolver(),
-                                            selectedImageUri);
-                                    new UploadImgur(editText,
-                                            f != null && f.getName().contains(".jpg") || f.getName()
-                                                    .contains(".jpeg")).execute(bitmap);
-                                } catch (IOException e) {
+                                    new UploadImgur(editText).execute(selectedImageUri);
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -506,13 +506,8 @@ public class DoEditorActions {
                         Uri selectedImageUri = ((MainActivity) a).data.getData();
                         Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                         try {
-                            File f = new File(selectedImageUri.getPath());
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(
-                                    editText.getContext().getContentResolver(), selectedImageUri);
-                            new UploadImgur(editText, f != null && f.getName().contains(".jpg") || f
-                                    .getName()
-                                    .contains(".jpeg")).execute(bitmap);
-                        } catch (IOException e) {
+                            new UploadImgur(editText).execute(selectedImageUri);
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -592,75 +587,59 @@ public class DoEditorActions {
         }
     }
 
-    private static class UploadImgur extends AsyncTask<Bitmap, Void, JSONObject> {
+    private static class UploadImgur extends AsyncTask<Uri, Integer, JSONObject> {
 
-        final         Context        c;
-        final         EditText       editText;
-        private final ProgressDialog dialog;
-        public        Bitmap         b;
-        boolean jpg;
+        final         Context  c;
+        final         EditText editText;
+        private final MaterialDialog   dialog;
+        public        Bitmap   b;
 
-        public UploadImgur(EditText editText, boolean jpg) {
+        public UploadImgur(EditText editText) {
             this.c = editText.getContext();
             this.editText = editText;
-            dialog = new ProgressDialog(c);
-            this.jpg = jpg;
+            dialog = new MaterialDialog.Builder(c).title(c.getString(R.string.editor_uploading_image)).progress(false, 100).cancelable(false).show();
         }
 
         @Override
-        protected JSONObject doInBackground(Bitmap... sub) {
-            Bitmap bitmap = sub[0];
-            URL url;
+        protected JSONObject doInBackground(Uri... sub) {
+            File bitmap = new File(FileImagePath.getPath(c, sub[0]));
 
-            // Creates Byte Array from picture
+            final OkHttpClient client = new OkHttpClient();
+
             try {
-                url = new URL("https://imgur-apiv3.p.mashape.com/3/image");
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                RequestBody formBody = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        .addFormDataPart("image", bitmap.getName(),
+                                RequestBody.create(MediaType.parse("image/*"), bitmap))
+                        .build();
 
-                conn.setDoOutput(true);
-                conn.setDoInput(true);
-                conn.setRequestMethod("POST");
-                conn.addRequestProperty("X-Mashape-Key", SecretConstants.getImgurApiKey(c));
-                conn.addRequestProperty("Authorization",
-                        "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID);
-                conn.setRequestMethod("POST");
-                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                ProgressRequestBody body = new ProgressRequestBody(formBody, new ProgressRequestBody.Listener() {
+                    @Override
+                    public void onProgress(int progress) {
+                        publishProgress(progress);
+                    }
+                });
 
-                conn.connect();
-                OutputStream output = conn.getOutputStream();
-                if (jpg) {
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);
-                } else {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
-                }
 
-                output.close();
+                Request request = new Request.Builder().header("Authorization",
+                        "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
+                        .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
+                        .url("https://imgur-apiv3.p.mashape.com/3/image")
+                        .post(body)
+                        .build();
 
-                StringBuilder stb = new StringBuilder();
-
-                // Get the response
-                BufferedReader rd =
-                        new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String line;
-                while ((line = rd.readLine()) != null) {
-                    stb.append(line).append("\n");
-                }
-                rd.close();
-                return new JSONObject(stb.toString());
-
-            } catch (IOException | JSONException e) {
+                Response response = client.newCall(request).execute();
+                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                return new JSONObject(response.body().string());
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog.setMessage(c.getString(R.string.editor_uploading_image));
-            dialog.setCancelable(false);
-            dialog.show();
         }
 
         @Override
@@ -689,7 +668,8 @@ public class DoEditorActions {
 
 
                 ta.recycle();
-                layout.setPadding(16, 16, 16, 16);
+                int sixteen = Reddit.dpToPxVertical(16);
+                layout.setPadding(sixteen,sixteen,sixteen,sixteen);
                 layout.addView(descriptionBox);
                 new AlertDialogWrapper.Builder(editText.getContext()).setTitle(
                         R.string.editor_title_link)
@@ -723,6 +703,12 @@ public class DoEditorActions {
                 e.printStackTrace();
             }
         }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            dialog.setProgress(values[0]);
+            LogUtil.v("Progress:" + values[0]);
+        }
     }
 
     public static class AuxiliaryFragment extends Fragment {
@@ -734,18 +720,65 @@ public class DoEditorActions {
                 Uri selectedImageUri = data.getData();
                 Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
                 try {
-                    File f = new File(selectedImageUri.getPath());
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(
-                            getContext().getContentResolver(),
-                            selectedImageUri);
-                    new UploadImgur(((EditText) getActivity().findViewById(getArguments().getInt("textId", 0))),
-                            f != null && f.getName().contains(".jpg") || f.getName()
-                                    .contains(".jpeg")).execute(bitmap);
-                } catch (IOException e) {
+                    new UploadImgur(((EditText) getActivity().findViewById(
+                            getArguments().getInt("textId", 0)))).execute(selectedImageUri);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
             }
+        }
+    }
+
+    public static class ProgressRequestBody extends RequestBody {
+
+        protected RequestBody mDelegate;
+        protected Listener mListener;
+        protected CountingSink mCountingSink;
+
+        public ProgressRequestBody(RequestBody delegate, Listener listener) {
+            mDelegate = delegate;
+            mListener = listener;
+        }
+
+        @Override
+        public MediaType contentType() {
+            return mDelegate.contentType();
+        }
+
+        @Override
+        public long contentLength() {
+            try {
+                return mDelegate.contentLength();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return -1;
+        }
+
+        @Override
+        public void writeTo(BufferedSink sink) throws IOException {
+            mCountingSink = new CountingSink(sink);
+            BufferedSink bufferedSink = Okio.buffer(mCountingSink);
+            mDelegate.writeTo(bufferedSink);
+            bufferedSink.flush();
+        }
+
+        protected final class CountingSink extends ForwardingSink {
+            private long bytesWritten = 0;
+            public CountingSink(Sink delegate) {
+                super(delegate);
+            }
+            @Override
+            public void write(Buffer source, long byteCount) throws IOException {
+                super.write(source, byteCount);
+                bytesWritten += byteCount;
+                mListener.onProgress((int) (100F * bytesWritten / contentLength()));
+            }
+        }
+
+        public interface Listener {
+            void onProgress(int progress);
         }
     }
 
