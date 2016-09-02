@@ -20,6 +20,7 @@ public class SettingValues {
     public static final String PREF_UPVOTE_PERCENTAGE = "upvotePercentage";
     public static final String PREF_FAB_TYPE = "FabType";
     public static final String PREF_DAY_TIME = "day";
+    public static final String PREF_VOTE_GESTURES = "voteGestures";
     public static final String PREF_NIGHT_MODE = "nightMode";
     public static final String PREF_NIGHT_THEME = "nightTheme";
     public static final String PREF_TYPE_IN_TEXT = "typeInText";
@@ -133,6 +134,7 @@ public class SettingValues {
     public static boolean storeNSFWHistory;
     public static boolean scrollSeen;
     public static boolean saveButton;
+    public static boolean voteGestures;
     public static boolean colorEverywhere;
     public static boolean gif;
     public static boolean colorCommentDepth;
@@ -241,6 +243,7 @@ public class SettingValues {
         loadImageLq = prefs.getBoolean(PREF_IMAGE_LQ, false);
         showDomain = prefs.getBoolean(PREF_SHOW_DOMAIN, false);
         expandedToolbar = prefs.getBoolean(PREF_EXPANDED_TOOLBAR, false);
+        voteGestures = prefs.getBoolean(PREF_VOTE_GESTURES, false);
         fullCommentOverride = prefs.getBoolean(PREF_FULL_COMMENT_OVERRIDE, false);
         commentPager = prefs.getBoolean(PREF_COMMENT_PAGER, false);
         smallTag = prefs.getBoolean(PREF_SMALL_TAG, false);

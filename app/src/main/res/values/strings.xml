@@ -1136,6 +1136,8 @@
     <string name="theme_red_shift">Red shift</string>
     <string name="view_sub_sidebar">View sub sidebar</string>
     <string name="mod_log">Mod log</string>
+    <string name="navigation_bar_vote_gestures">Navigation bar vote gestures</string>
+    <string name="nav_gestures_description">Upvote and downvote by swiping on the comment navigation arrows</string>
 
 
 </resources>

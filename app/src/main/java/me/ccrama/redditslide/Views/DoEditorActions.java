@@ -1,18 +1,22 @@
 package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
+import android.os.RemoteException;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -41,8 +45,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -58,10 +62,9 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.util.FileImagePath;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.RealPathUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
-import okhttp3.Headers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -589,36 +592,57 @@ public class DoEditorActions {
 
     private static class UploadImgur extends AsyncTask<Uri, Integer, JSONObject> {
 
-        final         Context  c;
-        final         EditText editText;
-        private final MaterialDialog   dialog;
-        public        Bitmap   b;
+        final         Context        c;
+        final         EditText       editText;
+        private final MaterialDialog dialog;
+        public        Bitmap         b;
 
         public UploadImgur(EditText editText) {
             this.c = editText.getContext();
             this.editText = editText;
-            dialog = new MaterialDialog.Builder(c).title(c.getString(R.string.editor_uploading_image)).progress(false, 100).cancelable(false).show();
+            dialog = new MaterialDialog.Builder(c).title(
+                    c.getString(R.string.editor_uploading_image))
+                    .progress(false, 100)
+                    .cancelable(false)
+                    .show();
+        }
+
+        public String getRealPathFromURI(Uri uri) {
+            String[] projection = {MediaStore.Images.ImageColumns.DATA};
+            Cursor metaCursor = c.getContentResolver().query(uri, projection, null, null, null);
+            if (metaCursor != null) {
+                try {
+                    if (metaCursor.moveToFirst()) {
+                        return metaCursor.getString(0);
+                    }
+                } finally {
+                    metaCursor.close();
+                }
+            }
+            return uri.getPath();
         }
 
         @Override
         protected JSONObject doInBackground(Uri... sub) {
-            File bitmap = new File(FileImagePath.getPath(c, sub[0]));
+            String path = getRealPathFromURI(sub[0]);
+            LogUtil.v(path);
+            File bitmap = new File(getRealPathFromURI(sub[0]));
 
             final OkHttpClient client = new OkHttpClient();
 
             try {
-                RequestBody formBody = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
+                RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                         .addFormDataPart("image", bitmap.getName(),
                                 RequestBody.create(MediaType.parse("image/*"), bitmap))
                         .build();
 
-                ProgressRequestBody body = new ProgressRequestBody(formBody, new ProgressRequestBody.Listener() {
-                    @Override
-                    public void onProgress(int progress) {
-                        publishProgress(progress);
-                    }
-                });
+                ProgressRequestBody body =
+                        new ProgressRequestBody(formBody, new ProgressRequestBody.Listener() {
+                            @Override
+                            public void onProgress(int progress) {
+                                publishProgress(progress);
+                            }
+                        });
 
 
                 Request request = new Request.Builder().header("Authorization",
@@ -669,7 +693,7 @@ public class DoEditorActions {
 
                 ta.recycle();
                 int sixteen = Reddit.dpToPxVertical(16);
-                layout.setPadding(sixteen,sixteen,sixteen,sixteen);
+                layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
                 new AlertDialogWrapper.Builder(editText.getContext()).setTitle(
                         R.string.editor_title_link)
@@ -732,8 +756,8 @@ public class DoEditorActions {
 
     public static class ProgressRequestBody extends RequestBody {
 
-        protected RequestBody mDelegate;
-        protected Listener mListener;
+        protected RequestBody  mDelegate;
+        protected Listener     mListener;
         protected CountingSink mCountingSink;
 
         public ProgressRequestBody(RequestBody delegate, Listener listener) {
@@ -766,9 +790,11 @@ public class DoEditorActions {
 
         protected final class CountingSink extends ForwardingSink {
             private long bytesWritten = 0;
+
             public CountingSink(Sink delegate) {
                 super(delegate);
             }
+
             @Override
             public void write(Buffer source, long byteCount) throws IOException {
                 super.write(source, byteCount);

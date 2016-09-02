@@ -70,6 +70,17 @@ public class SettingsComments extends BaseActivityAnim {
             });
         }
         {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.gestures);
+            single.setChecked(SettingValues.voteGestures);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.voteGestures = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_VOTE_GESTURES, isChecked).apply();
+                }
+            });
+        }
+        {
             SwitchCompat single = (SwitchCompat) findViewById(R.id.percentvote);
             single.setChecked(SettingValues.upvotePercentage);
             single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

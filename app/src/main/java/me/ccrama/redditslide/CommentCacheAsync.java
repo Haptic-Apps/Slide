@@ -178,6 +178,9 @@ public class CommentCacheAsync extends AsyncTask{
         if (Authentication.reddit == null)
             Reddit.authentication = new Authentication(context);
 
+        ArrayList<String> success = new ArrayList<>();
+        ArrayList<String> error = new ArrayList<>();
+
         for (final String fSub : subs) {
             final String sub;
             final String name = fSub;
@@ -259,16 +262,20 @@ public class CommentCacheAsync extends AsyncTask{
                     }
 
                 }
-                if (mBuilder != null) {
-                    mBuilder.setContentText(context.getString(R.string.offline_caching_complete))
-                            // Removes the progress bar
-                            .setProgress(0, 0, false);
-                    mNotifyManager.notify(random, mBuilder.build());
-                }
 
                 OfflineSubreddit.newSubreddit(sub).writeToMemory(newFullnames);
+                mNotifyManager.cancel(random);
+                success.add(sub);
             }
         }
+        if (mBuilder != null) {
+            mBuilder.setContentText(context.getString(R.string.offline_caching_complete))
+                    // Removes the progress bar
+                    .setSubText(success.size() + " subreddits cached")
+                    .setProgress(0, 0, false);
+            mNotifyManager.notify(2001, mBuilder.build());
+        }
+
         return null;
     }
 

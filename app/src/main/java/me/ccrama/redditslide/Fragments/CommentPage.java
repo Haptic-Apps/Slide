@@ -412,8 +412,10 @@ public class CommentPage extends Fragment {
                         }
                         new AlertDialogWrapper.Builder(getActivity()).setTitle(
                                 R.string.set_nav_mode).setSingleChoiceItems(new String[]{
-                                "Parent comment (" + parentCount + ")","Children comment (highlight child comment & navigate)", "OP (" + opCount + ")",
-                                "Time", "Link (" + linkCount + ")", "Gilded (" + gildCount + ")"
+                                "Parent comment (" + parentCount + ")",
+                                "Children comment (highlight child comment & navigate)",
+                                "OP (" + opCount + ")", "Time", "Link (" + linkCount + ")",
+                                "Gilded (" + gildCount + ")"
                         }, getCurrentSort(), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -498,67 +500,71 @@ public class CommentPage extends Fragment {
             }
         });
 
-        v.findViewById(R.id.up).setOnTouchListener(new OnFlingGestureListener() {
-            @Override
-            public void onRightToLeft() {
-            }
-
-            @Override
-            public void onLeftToRight() {
-            }
-
-            @Override
-            public void onBottomToTop() {
-                adapter.submissionViewHolder.upvote.performClick();
-                Context context = getContext();
-                int duration = Toast.LENGTH_SHORT;
-                CharSequence text;
-                if (!upvoted) {
-                    text = getString(R.string.profile_upvoted);
-                    downvoted = false;
-                } else {
-                    text = getString(R.string.vote_removed);
+        if (SettingValues.voteGestures) {
+            v.findViewById(R.id.up).setOnTouchListener(new OnFlingGestureListener() {
+                @Override
+                public void onRightToLeft() {
                 }
-                upvoted = !upvoted;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
 
-            @Override
-            public void onTopToBottom() {
-            }
-        });
-
-        v.findViewById(R.id.down).setOnTouchListener(new OnFlingGestureListener() {
-            @Override
-            public void onRightToLeft() {
-            }
-
-            @Override
-            public void onLeftToRight() {
-            }
-
-            @Override
-            public void onBottomToTop() {
-                adapter.submissionViewHolder.downvote.performClick();
-                Context context = getContext();
-                int duration = Toast.LENGTH_SHORT;
-                CharSequence text;
-                if (!downvoted) {
-                    text = getString(R.string.profile_downvoted);
-                    upvoted = false;
-                } else {
-                    text = getString(R.string.vote_removed);
+                @Override
+                public void onLeftToRight() {
                 }
-                downvoted = !downvoted;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
-            }
 
-            @Override
-            public void onTopToBottom() {
-            }
-        });
+                @Override
+                public void onBottomToTop() {
+                    adapter.submissionViewHolder.upvote.performClick();
+                    Context context = getContext();
+                    int duration = Toast.LENGTH_SHORT;
+                    CharSequence text;
+                    if (!upvoted) {
+                        text = getString(R.string.profile_upvoted);
+                        downvoted = false;
+                    } else {
+                        text = getString(R.string.vote_removed);
+                    }
+                    upvoted = !upvoted;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+
+                @Override
+                public void onTopToBottom() {
+                }
+            });
+        }
+
+        if (SettingValues.voteGestures) {
+            v.findViewById(R.id.down).setOnTouchListener(new OnFlingGestureListener() {
+                @Override
+                public void onRightToLeft() {
+                }
+
+                @Override
+                public void onLeftToRight() {
+                }
+
+                @Override
+                public void onBottomToTop() {
+                    adapter.submissionViewHolder.downvote.performClick();
+                    Context context = getContext();
+                    int duration = Toast.LENGTH_SHORT;
+                    CharSequence text;
+                    if (!downvoted) {
+                        text = getString(R.string.profile_downvoted);
+                        upvoted = false;
+                    } else {
+                        text = getString(R.string.vote_removed);
+                    }
+                    downvoted = !downvoted;
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                }
+
+                @Override
+                public void onTopToBottom() {
+                }
+            });
+        }
 
 
         toolbar.setBackgroundColor(Palette.getColor(subreddit));
@@ -1272,7 +1278,8 @@ public class CommentPage extends Fragment {
                                 private void doSubscribe() {
                                     if (Authentication.isLoggedIn) {
                                         new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                                                getString(R.string.subscribe_to, baseSub.getDisplayName()))
+                                                getString(R.string.subscribe_to,
+                                                        baseSub.getDisplayName()))
                                                 .setPositiveButton(R.string.reorder_add_subscribe,
                                                         new DialogInterface.OnClickListener() {
                                                             @Override
@@ -1396,7 +1403,8 @@ public class CommentPage extends Fragment {
                                 private void doUnsubscribe() {
                                     if (Authentication.didOnline) {
                                         new AlertDialogWrapper.Builder(getContext()).setTitle(
-                                                getString(R.string.unsubscribe_from, baseSub.getDisplayName()))
+                                                getString(R.string.unsubscribe_from,
+                                                        baseSub.getDisplayName()))
                                                 .setPositiveButton(
                                                         R.string.reorder_remove_unsubsribe,
                                                         new DialogInterface.OnClickListener() {

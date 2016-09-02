@@ -263,6 +263,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     builder.setSpan(new StyleSpan(Typeface.ITALIC), start + 1, end + 1,
                             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
+                builder.append("\n"); //Newline to fix text wrapping issues
             }
         }
     }
