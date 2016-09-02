@@ -2,34 +2,30 @@ package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.ContentProviderClient;
+import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.TypedArray;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
-import android.os.RemoteException;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -43,10 +39,14 @@ import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -63,7 +63,6 @@ import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.RealPathUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -249,21 +248,13 @@ public class DoEditorActions {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 if (a instanceof MainActivity) {
                     LogUtil.v("Running on main");
                     ((MainActivity) a).doImage = new Runnable() {
                         @Override
                         public void run() {
-                            LogUtil.v("Running");
-                            if (((MainActivity) a).data != null) {
-                                Uri selectedImageUri = ((MainActivity) a).data.getData();
-                                Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
-                                try {
-                                    new UploadImgur(editText).execute(selectedImageUri);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                            handleImageIntent(((MainActivity) a).data, editText, a);
                         }
                     };
                     a.startActivityForResult(Intent.createChooser(intent,
@@ -504,16 +495,7 @@ public class DoEditorActions {
             ((MainActivity) a).doImage = new Runnable() {
                 @Override
                 public void run() {
-                    LogUtil.v("Running");
-                    if (((MainActivity) a).data != null) {
-                        Uri selectedImageUri = ((MainActivity) a).data.getData();
-                        Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
-                        try {
-                            new UploadImgur(editText).execute(selectedImageUri);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    handleImageIntent(((MainActivity) a).data, editText, a);
                 }
             };
             a.startActivityForResult(intent, 3333);
@@ -607,26 +589,83 @@ public class DoEditorActions {
                     .show();
         }
 
-        public String getRealPathFromURI(Uri uri) {
-            String[] projection = {MediaStore.Images.ImageColumns.DATA};
-            Cursor metaCursor = c.getContentResolver().query(uri, projection, null, null, null);
-            if (metaCursor != null) {
+        //Following methods sourced from https://github.com/Kennyc1012/Opengur, Code by Kenny Campagna
+        public static File createFile(Uri uri, @NonNull Context context) {
+            InputStream in;
+            ContentResolver resolver = context.getContentResolver();
+            String type = resolver.getType(uri);
+            String extension;
+
+            if ("image/png".equals(type)) {
+                extension = ".gif";
+            } else if ("image/png".equals(type)) {
+                extension = ".png";
+            } else {
+                extension = ".jpg";
+            }
+
+            try {
+                in = resolver.openInputStream(uri);
+            } catch (FileNotFoundException e) {
+                return null;
+            }
+
+            // Create files from a uri in our cache directory so they eventually get deleted
+            String timeStamp = String.valueOf(System.currentTimeMillis());
+            File cacheDir = ((Reddit) context.getApplicationContext()).getImageLoader()
+                    .getDiskCache()
+                    .getDirectory();
+            File tempFile = new File(cacheDir, timeStamp + extension);
+
+            if (writeInputStreamToFile(in, tempFile)) {
+                return tempFile;
+            } else {
+                // If writeInputStreamToFile fails, delete the excess file
+                tempFile.delete();
+            }
+
+            return null;
+        }
+
+        public static boolean writeInputStreamToFile(@NonNull InputStream in, @NonNull File file) {
+            BufferedOutputStream buffer = null;
+            boolean didFinish = false;
+
+            try {
+                buffer = new BufferedOutputStream(new FileOutputStream(file));
+                byte byt[] = new byte[1024];
+                int i;
+
+                for (long l = 0L; (i = in.read(byt)) != -1; l += i) {
+                    buffer.write(byt, 0, i);
+                }
+
+                buffer.flush();
+                didFinish = true;
+            } catch (IOException e) {
+                didFinish = false;
+            } finally {
+                closeStream(in);
+                closeStream(buffer);
+            }
+
+            return didFinish;
+        }
+
+        public static void closeStream(@Nullable Closeable closeable) {
+            if (closeable != null) {
                 try {
-                    if (metaCursor.moveToFirst()) {
-                        return metaCursor.getString(0);
-                    }
-                } finally {
-                    metaCursor.close();
+                    closeable.close();
+                } catch (IOException ex) {
                 }
             }
-            return uri.getPath();
         }
+
+        //End methods sourced from Opengur
 
         @Override
         protected JSONObject doInBackground(Uri... sub) {
-            String path = getRealPathFromURI(sub[0]);
-            LogUtil.v(path);
-            File bitmap = new File(getRealPathFromURI(sub[0]));
+            File bitmap = createFile(sub[0], c);
 
             final OkHttpClient client = new OkHttpClient();
 
@@ -735,22 +774,306 @@ public class DoEditorActions {
         }
     }
 
+    private static class UploadImgurAlbum extends AsyncTask<Uri, Integer, String> {
+
+        final         Context        c;
+        final         EditText       editText;
+        private final MaterialDialog dialog;
+        public        Bitmap         b;
+
+        public UploadImgurAlbum(EditText editText) {
+            this.c = editText.getContext();
+            this.editText = editText;
+            dialog = new MaterialDialog.Builder(c).title(
+                    c.getString(R.string.editor_uploading_image))
+                    .progress(false, 100)
+                    .cancelable(false)
+                    .show();
+        }
+
+        //Following methods sourced from https://github.com/Kennyc1012/Opengur, Code by Kenny Campagna
+        public static File createFile(Uri uri, @NonNull Context context) {
+            InputStream in;
+            ContentResolver resolver = context.getContentResolver();
+            String type = resolver.getType(uri);
+            String extension;
+
+            if ("image/png".equals(type)) {
+                extension = ".gif";
+            } else if ("image/png".equals(type)) {
+                extension = ".png";
+            } else {
+                extension = ".jpg";
+            }
+
+            try {
+                in = resolver.openInputStream(uri);
+            } catch (FileNotFoundException e) {
+                return null;
+            }
+
+            // Create files from a uri in our cache directory so they eventually get deleted
+            String timeStamp = String.valueOf(System.currentTimeMillis());
+            File cacheDir = ((Reddit) context.getApplicationContext()).getImageLoader()
+                    .getDiskCache()
+                    .getDirectory();
+            File tempFile = new File(cacheDir, timeStamp + extension);
+
+            if (writeInputStreamToFile(in, tempFile)) {
+                return tempFile;
+            } else {
+                // If writeInputStreamToFile fails, delete the excess file
+                tempFile.delete();
+            }
+
+            return null;
+        }
+
+        public static boolean writeInputStreamToFile(@NonNull InputStream in, @NonNull File file) {
+            BufferedOutputStream buffer = null;
+            boolean didFinish = false;
+
+            try {
+                buffer = new BufferedOutputStream(new FileOutputStream(file));
+                byte byt[] = new byte[1024];
+                int i;
+
+                for (long l = 0L; (i = in.read(byt)) != -1; l += i) {
+                    buffer.write(byt, 0, i);
+                }
+
+                buffer.flush();
+                didFinish = true;
+            } catch (IOException e) {
+                didFinish = false;
+            } finally {
+                closeStream(in);
+                closeStream(buffer);
+            }
+
+            return didFinish;
+        }
+
+        public static void closeStream(@Nullable Closeable closeable) {
+            if (closeable != null) {
+                try {
+                    closeable.close();
+                } catch (IOException ex) {
+                }
+            }
+        }
+
+        //End methods sourced from Opengur
+
+        String finalUrl;
+
+        @Override
+        protected String doInBackground(Uri... sub) {
+            totalCount = sub.length;
+            final OkHttpClient client = new OkHttpClient();
+
+            String albumurl;
+            {
+                Request request = new Request.Builder().header("Authorization",
+                        "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
+                        .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
+                        .url("https://imgur-apiv3.p.mashape.com/3/album")
+                        .post(new RequestBody() {
+                            @Override
+                            public MediaType contentType() {
+                                return null;
+                            }
+
+                            @Override
+                            public void writeTo(BufferedSink sink) throws IOException {
+
+                            }
+                        })
+                        .build();
+                Response response = null;
+                try {
+                    response = client.newCall(request).execute();
+
+                    if (!response.isSuccessful()) {
+                        throw new IOException("Unexpected code " + response);
+                    }
+                    JSONObject album = new JSONObject(response.body().string());
+                    albumurl = album.getJSONObject("data").getString("deletehash");
+                    finalUrl = "http://imgur.com/a/" + album.getJSONObject("data").getString("id");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+
+            }
+
+
+            try {
+                MultipartBody.Builder formBodyBuilder =
+                        new MultipartBody.Builder().setType(MultipartBody.FORM);
+                for (Uri uri : sub) {
+                    File bitmap = createFile(uri, c);
+                    formBodyBuilder.addFormDataPart("image", bitmap.getName(),
+                            RequestBody.create(MediaType.parse("image/*"), bitmap));
+                    formBodyBuilder.addFormDataPart("album", albumurl);
+                    MultipartBody formBody = formBodyBuilder.build();
+
+                    ProgressRequestBody body =
+                            new ProgressRequestBody(formBody, new ProgressRequestBody.Listener() {
+                                @Override
+                                public void onProgress(int progress) {
+                                    publishProgress(progress);
+                                }
+                            });
+
+
+                    Request request = new Request.Builder().header("Authorization",
+                            "Client-ID " + Constants.IMGUR_MASHAPE_CLIENT_ID)
+                            .header("X-Mashape-Key", SecretConstants.getImgurApiKey(c))
+                            .url("https://imgur-apiv3.p.mashape.com/3/image")
+                            .post(body)
+                            .build();
+
+                    Response response = client.newCall(request).execute();
+                    if (!response.isSuccessful()) {
+                        throw new IOException("Unexpected code " + response);
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(final String result) {
+            dialog.dismiss();
+            try {
+                int[] attrs = {R.attr.font};
+                TypedArray ta = editText.getContext()
+                        .obtainStyledAttributes(
+                                new ColorPreferences(editText.getContext()).getFontStyle()
+                                        .getBaseId(), attrs);
+                LinearLayout layout = new LinearLayout(editText.getContext());
+                layout.setOrientation(LinearLayout.VERTICAL);
+
+                final TextView titleBox = new TextView(editText.getContext());
+                titleBox.setText(finalUrl);
+                layout.addView(titleBox);
+                titleBox.setEnabled(false);
+                titleBox.setTextColor(ta.getColor(0, Color.WHITE));
+
+                final EditText descriptionBox = new EditText(editText.getContext());
+                descriptionBox.setHint(R.string.editor_title);
+                descriptionBox.setEnabled(true);
+                descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
+
+
+                ta.recycle();
+                int sixteen = Reddit.dpToPxVertical(16);
+                layout.setPadding(sixteen, sixteen, sixteen, sixteen);
+                layout.addView(descriptionBox);
+                new AlertDialogWrapper.Builder(editText.getContext()).setTitle(
+                        R.string.editor_title_link)
+                        .setView(layout)
+                        .setPositiveButton(R.string.editor_action_link,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        String s = "["
+                                                + descriptionBox.getText().toString()
+                                                + "]("
+                                                + finalUrl
+                                                + ")";
+                                        int start = Math.max(editText.getSelectionStart(), 0);
+                                        int end = Math.max(editText.getSelectionEnd(), 0);
+                                        editText.getText().insert(Math.max(start, end), s);
+                                    }
+                                })
+                        .show();
+
+            } catch (Exception e) {
+                new AlertDialogWrapper.Builder(c).setTitle(R.string.err_title)
+                        .setMessage(R.string.editor_err_msg)
+                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .show();
+                e.printStackTrace();
+            }
+        }
+
+        int uploadCount;
+        int totalCount;
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            int progress = values[0];
+            if (progress < dialog.getCurrentProgress() || uploadCount == 0) {
+                uploadCount +=1;
+            }
+            dialog.setContent("Image " + uploadCount + "/" + totalCount);
+            dialog.setProgress(progress);
+        }
+    }
+
+    public static void handleImageIntent(Intent data, EditText ed, Context c) {
+        if (data != null) {
+            if (data.getData() != null && data.getClipData() == null) {
+                // Get the Image from data (single image)
+                Uri selectedImageUri = data.getData();
+                try {
+                    new UploadImgur(ed).execute(selectedImageUri);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                //Multiple images
+                if (data.getClipData() != null) {
+                    ClipData mClipData = data.getClipData();
+                    ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
+                    for (int i = 0; i < mClipData.getItemCount(); i++) {
+                        ClipData.Item item = mClipData.getItemAt(i);
+                        Uri uri = item.getUri();
+                        mArrayUri.add(uri);
+                    }
+                    try {
+                        new UploadImgurAlbum(ed).execute(
+                                mArrayUri.toArray(new Uri[mArrayUri.size()]));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } else {
+            try {
+                Toast.makeText(c, "No image was selected", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+
     public static class AuxiliaryFragment extends Fragment {
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
+            handleImageIntent(data,
+                    ((EditText) getActivity().findViewById(getArguments().getInt("textId", 0))),
+                    getContext());
 
-            if (data != null) {
-                Uri selectedImageUri = data.getData();
-                Log.v(LogUtil.getTag(), "WORKED! " + selectedImageUri.toString());
-                try {
-                    new UploadImgur(((EditText) getActivity().findViewById(
-                            getArguments().getInt("textId", 0)))).execute(selectedImageUri);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-            }
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+
         }
     }
 

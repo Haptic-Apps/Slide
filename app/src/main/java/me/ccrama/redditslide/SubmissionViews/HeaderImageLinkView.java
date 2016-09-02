@@ -103,6 +103,7 @@ public class HeaderImageLinkView extends RelativeLayout {
         setVisibility(View.VISIBLE);
         String url = "";
         boolean forceThumb = false;
+        thumbImage2.setImageResource(android.R.color.transparent);
 
         boolean loadLq = (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways));
 
