@@ -42,7 +42,6 @@
   <string name="submission_tap_gif">Naciśnij, aby załadować GIFa</string>
   <string name="submission_not_found">O nie, nie znaleziono posta!</string>
   <string name="submission_not_found_msg">Przepraszamy, nie mogliśmy odnaleźć tego postu</string>
-  <string name="submission_save_offline">Zapisz do offline</string>
   <string name="submission_copy_text">Skopiuj tekst</string>
   <string name="submission_comment_saved">Komentarz zapisany</string>
   <string name="submission_comment_unsaved">Komentarz wypisany</string>

@@ -31,7 +31,6 @@
   <string name="submission_tap_gif">Pulsa para cargar el GIF</string>
   <string name="submission_not_found">¡Oh oh, post no encontrado!</string>
   <string name="submission_not_found_msg">Lo siento, no he encontrado el post</string>
-  <string name="submission_save_offline">Guardar sin conexión</string>
   <string name="submission_comment_saved">Comentario guardado</string>
   <string name="submission_comment_unsaved">Comentario no guardado</string>
   <string name="submission_share_permalink">Compartir post</string>

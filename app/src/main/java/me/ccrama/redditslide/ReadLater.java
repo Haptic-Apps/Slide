@@ -12,11 +12,15 @@ public class ReadLater {
     public static void setReadLater(Submission s, boolean readLater) {
         if (readLater) {
             KVStore.getInstance()
-                    .insert("readLater" + s.getFullName(), "true");
+                    .insert("readLater" + s.getFullName(), String.valueOf(System.currentTimeMillis()));
         } else {
             if (!KVStore.getInstance().getByContains("readLater" + s.getFullName()).isEmpty()) {
                 KVStore.getInstance().delete("readLater" + s.getFullName());
             }
         }
+    }
+
+    public static boolean isToBeReadLater(Submission s) {
+        return !KVStore.getInstance().getByContains("readLater" + s.getFullName()).isEmpty();
     }
 }

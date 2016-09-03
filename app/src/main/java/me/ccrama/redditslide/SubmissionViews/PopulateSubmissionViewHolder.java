@@ -388,10 +388,6 @@ public class PopulateSubmissionViewHolder {
         Drawable copy =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.ic_content_copy,
                         null);
-        //todo: The saveOffline needs to be replaced with a new system that works off of the ReadLater system
-        Drawable saveOffline =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
-        //
         final Drawable readLater =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
         Drawable open =
@@ -410,7 +406,6 @@ public class PopulateSubmissionViewHolder {
         hide.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        saveOffline.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -423,6 +418,8 @@ public class PopulateSubmissionViewHolder {
                 new BottomSheet.Builder(mContext).title(Html.fromHtml(submission.getTitle()));
 
 
+        final boolean isReadLater = mContext instanceof PostReadLater;
+        final boolean isAddedToReadLaterList = ReadLater.isToBeReadLater(submission);
         if (Authentication.didOnline) {
             b.sheet(1, profile, "/u/" + submission.getAuthor())
                     .sheet(2, sub, "/r/" + submission.getSubredditName());
@@ -434,16 +431,19 @@ public class PopulateSubmissionViewHolder {
                 b.sheet(3, saved, save);
 
             }
-            //see above todo
-            b.sheet(26, saveOffline, mContext.getString(R.string.submission_save_offline));
+        }
+
+        if (isAddedToReadLaterList) {
+            b.sheet(28, readLater, "Mark As Read");
+        } else {
             b.sheet(28, readLater, "Read later");
+        }
+
+        if (Authentication.didOnline) {
             if (Authentication.isLoggedIn) {
                 b.sheet(12, report, mContext.getString(R.string.btn_report));
             }
-
         }
-
-        final boolean isReadLater = mContext instanceof PostReadLater;
 
         if (submission.getSelftext() != null && !submission.getSelftext().isEmpty() && full) {
             b.sheet(25, copy, mContext.getString(R.string.submission_copy_text));
@@ -726,7 +726,7 @@ public class PopulateSubmissionViewHolder {
                         LinkUtil.openExternally(submission.getUrl(), mContext, true);
                         break;
                     case 28:
-                        if (!isReadLater) {
+                        if (!isAddedToReadLaterList) {
                             ReadLater.setReadLater(submission, true);
                             Snackbar s = Snackbar.make(holder.itemView, "Added to read later!",
                                     Snackbar.LENGTH_SHORT);
@@ -747,29 +747,41 @@ public class PopulateSubmissionViewHolder {
                                     s2.show();
                                 }
                             });
+                            new CommentCacheAsync(Arrays.asList(submission), mContext,
+                                    CommentCacheAsync.SAVED_SUBMISSIONS,
+                                    new boolean[]{true, true}).execute();
                             s.show();
                         } else {
                             ReadLater.setReadLater(submission, false);
-                            final int pos = posts.indexOf(submission);
-                            posts.remove(submission);
+                            if (isReadLater || !Authentication.didOnline) {
+                                final int pos = posts.indexOf(submission);
+                                posts.remove(submission);
 
-                            recyclerview.getAdapter()
-                                    .notifyItemRemoved(holder.getAdapterPosition());
+                                recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
 
-                            Snackbar s2 = Snackbar.make(holder.itemView, "Removed from read later",
-                                    Snackbar.LENGTH_SHORT);
-                            View view2 = s2.getView();
-                            TextView tv2 = (TextView) view2.findViewById(
-                                    android.support.design.R.id.snackbar_text);
-                            tv2.setTextColor(Color.WHITE);
-                            s2.setAction(R.string.btn_undo, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    posts.add(pos, (T) submission);
-                                    recyclerview.getAdapter().notifyDataSetChanged();
-                                }
-                            });
-                            s2.show();
+                                Snackbar s2 =
+                                        Snackbar.make(holder.itemView, "Removed from read later",
+                                                Snackbar.LENGTH_SHORT);
+                                View view2 = s2.getView();
+                                TextView tv2 = (TextView) view2.findViewById(android.support.design.R.id.snackbar_text);
+                                tv2.setTextColor(Color.WHITE);
+                                s2.setAction(R.string.btn_undo, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        posts.add(pos, (T) submission);
+                                        recyclerview.getAdapter().notifyDataSetChanged();
+                                    }
+                                });
+                            } else {
+                                Snackbar s2 =
+                                        Snackbar.make(holder.itemView, "Removed from read later",
+                                                Snackbar.LENGTH_SHORT);
+                                View view2 = s2.getView();
+                                TextView tv2 = (TextView) view2.findViewById(android.support.design.R.id.snackbar_text);
+                                s2.show();
+                            }
+                            OfflineSubreddit.newSubreddit(CommentCacheAsync.SAVED_SUBMISSIONS).deleteFromMemory(submission.getFullName());
+
                         }
                         break;
                     case 4:
@@ -890,13 +902,6 @@ public class PopulateSubmissionViewHolder {
                                                         Toast.LENGTH_SHORT).show();
                                             }
                                         })
-                                .show();
-                        break;
-                    case 26:
-                        new CommentCacheAsync(Arrays.asList(submission), mContext,
-                                CommentCacheAsync.SAVED_SUBMISSIONS,
-                                new boolean[]{true, true}).execute();
-                        Toast.makeText(mContext, R.string.submission_post_saved, Toast.LENGTH_SHORT)
                                 .show();
                         break;
                 }
@@ -2282,18 +2287,7 @@ public class PopulateSubmissionViewHolder {
         holder.menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (offline) {
-                    Snackbar s = Snackbar.make(holder.itemView, R.string.offline_msg,
-                            Snackbar.LENGTH_SHORT);
-                    View view2 = s.getView();
-                    TextView tv = (TextView) view2.findViewById(
-                            android.support.design.R.id.snackbar_text);
-                    tv.setTextColor(Color.WHITE);
-                    s.show();
-                } else {
-                    showBottomSheet(mContext, submission, holder, posts, baseSub, recyclerview,
-                            full);
-                }
+                showBottomSheet(mContext, submission, holder, posts, baseSub, recyclerview, full);
             }
         });
 

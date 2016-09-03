@@ -154,6 +154,29 @@ public class OfflineSubreddit {
         }
     }
 
+    public void deleteFromMemory(String name) {
+        if (subreddit != null) {
+            String title = subreddit.toLowerCase() + "," + (time);
+            if (subreddit.equals(CommentCacheAsync.SAVED_SUBMISSIONS)) {
+                Map<String, ?> offlineSubs = Reddit.cachedData.getAll();
+                for (String offlineSub : offlineSubs.keySet()) {
+                    if (offlineSub.contains(CommentCacheAsync.SAVED_SUBMISSIONS)) {
+                        savedSubmissionsSubreddit = offlineSub;
+                        break;
+                    }
+                }
+                String savedSubmissions =
+                        Reddit.cachedData.getString(OfflineSubreddit.savedSubmissionsSubreddit,
+                                name);
+                if (!savedSubmissions.equals(name)) {
+                    Reddit.cachedData.edit().remove(savedSubmissionsSubreddit).apply();
+                    String modifiedSavedSubmissions = savedSubmissions.replace(name + ",", "");
+                    saveToCache(title, modifiedSavedSubmissions);
+                }
+            }
+        }
+    }
+
     private void saveToCache(String title, String submissions) {
         Reddit.cachedData.edit().putString(title, submissions).apply();
     }
