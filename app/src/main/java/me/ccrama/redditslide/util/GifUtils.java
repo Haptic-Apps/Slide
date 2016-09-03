@@ -428,32 +428,39 @@ public class GifUtils {
                                         //todo maybe load in shadowbox
                                     }
                                 } else {
-                                    if (closeIfNull)
+                                    if (closeIfNull && !c.isFinishing())
                                         c.runOnUiThread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                AlertDialogWrapper.Builder b = new AlertDialogWrapper.Builder(c)
-                                                        .setTitle(R.string.gif_err_title)
-                                                        .setMessage(R.string.mediaview_converting_fail)
-                                                        .setCancelable(false)
-                                                        .setPositiveButton(R.string.mediaview_converting_fail_btn, new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                Intent i = new Intent(c, Website.class);
-                                                                i.putExtra(Website.EXTRA_URL, url);
-                                                                c.startActivity(i);
-                                                                if (closeIfNull)
-                                                                    c.finish();
-                                                            }
-                                                        });
+                                                AlertDialogWrapper.Builder b =
+                                                        new AlertDialogWrapper.Builder(c).setTitle(R.string.gif_err_title)
+                                                                .setMessage(R.string.mediaview_converting_fail)
+                                                                .setCancelable(false)
+                                                                .setPositiveButton(R.string.mediaview_converting_fail_btn,
+                                                                        new DialogInterface.OnClickListener() {
+                                                                            @Override
+                                                                            public void onClick(
+                                                                                    DialogInterface dialog,
+                                                                                    int which) {
+                                                                                Intent i =
+                                                                                        new Intent(c,
+                                                                                                Website.class);
+                                                                                i.putExtra(Website.EXTRA_URL,
+                                                                                        url);
+                                                                                c.startActivity(i);
+                                                                                if (closeIfNull) c.finish();
+                                                                            }
+                                                                        });
                                                 if (closeIfNull)
                                                     b.setNegativeButton(R.string.btn_close, new DialogInterface.OnClickListener() {
                                                         @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
                                                             c.finish();
                                                         }
                                                     });
                                                 b.create().show();
+
                                             }
                                         });
                                 }
