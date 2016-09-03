@@ -112,8 +112,10 @@ public class ReaderMode extends BaseActivityAnim {
 
         @Override
         protected void onPreExecute() {
-            d = new MaterialDialog.Builder(ReaderMode.this).title(R.string.internal_browser_extracting_progress)
+            d = new MaterialDialog.Builder(ReaderMode.this)
+                    .title(R.string.internal_browser_extracting_progress)
                     .progress(true, 100)
+                    .content(R.string.misc_please_wait)
                     .show();
         }
     }

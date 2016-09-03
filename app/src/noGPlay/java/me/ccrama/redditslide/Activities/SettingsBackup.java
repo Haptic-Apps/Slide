@@ -238,8 +238,11 @@ public class SettingsBackup extends BaseActivityAnim {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected void onPreExecute() {
-                progress = new MaterialDialog.Builder(SettingsBackup.this).title(
-                        R.string.backup_backing_up).progress(false, 40).cancelable(false).build();
+                progress = new MaterialDialog.Builder(SettingsBackup.this)
+                        .title(R.string.backup_backing_up)
+                        .progress(false, 40)
+                        .cancelable(false)
+                        .build();
                 progress.show();
             }
 

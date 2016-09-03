@@ -235,7 +235,9 @@ public class ReorderSubreddits extends BaseActivityAnim {
 
                 @Override
                 protected void onPreExecute() {
-                    d = new MaterialDialog.Builder(ReorderSubreddits.this).progress(true, 100)
+                    d = new MaterialDialog.Builder(ReorderSubreddits.this)
+                            .progress(true, 100)
+                            .content(R.string.misc_please_wait)
                             .title(R.string.reorder_loading_title)
                             .cancelable(false)
                             .show();

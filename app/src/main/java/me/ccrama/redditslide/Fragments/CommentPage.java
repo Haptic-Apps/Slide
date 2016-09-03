@@ -1576,6 +1576,7 @@ public class CommentPage extends Fragment {
         protected void onPreExecute() {
             d = new MaterialDialog.Builder(getActivity()).title("Getting sidebar...")
                     .progress(true, 100)
+                    .content(R.string.misc_please_wait)
                     .cancelable(false)
                     .show();
         }

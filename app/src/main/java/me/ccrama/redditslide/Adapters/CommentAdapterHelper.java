@@ -346,7 +346,9 @@ public class CommentAdapterHelper {
 
             @Override
             public void onPreExecute() {
-                d = new MaterialDialog.Builder(mContext).progress(true, 100)
+                d = new MaterialDialog.Builder(mContext)
+                        .progress(true, 100)
+                        .content(R.string.misc_please_wait)
                         .title(R.string.profile_category_loading)
                         .show();
             }

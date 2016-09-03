@@ -240,6 +240,7 @@ public class Submit extends BaseActivity {
                         d = new MaterialDialog.Builder(Submit.this)
                                 .progress(true, 100)
                                 .title(R.string.editor_finding_title)
+                                .content(R.string.misc_please_wait)
                                 .show();
                     }
 

@@ -513,7 +513,11 @@ public class Profile extends BaseActivityAnim {
 
                     @Override
                     public void onPreExecute() {
-                        d = new MaterialDialog.Builder(Profile.this).progress(true, 100).title(R.string.profile_category_loading).show();
+                        d = new MaterialDialog.Builder(Profile.this)
+                                .progress(true, 100)
+                                .content(R.string.misc_please_wait)
+                                .title(R.string.profile_category_loading)
+                                .show();
                     }
 
                     @Override

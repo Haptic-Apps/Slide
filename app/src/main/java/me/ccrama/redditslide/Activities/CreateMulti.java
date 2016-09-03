@@ -420,6 +420,7 @@ public class CreateMulti extends BaseActivityAnim {
                                 new MaterialDialog.Builder(CreateMulti.this)
                                         .title(R.string.deleting)
                                         .progress(true, 100)
+                                        .content(R.string.misc_please_wait)
                                         .cancelable(false)
                                         .show();
 

@@ -977,8 +977,10 @@ public class PopulateSubmissionViewHolder {
 
             @Override
             public void onPreExecute() {
-                d = new MaterialDialog.Builder(mContext).progress(true, 100)
+                d = new MaterialDialog.Builder(mContext)
+                        .progress(true, 100)
                         .title(R.string.profile_category_loading)
+                        .content(R.string.misc_please_wait)
                         .show();
             }
 
