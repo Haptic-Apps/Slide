@@ -1574,7 +1574,8 @@ public class CommentPage extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            d = new MaterialDialog.Builder(getActivity()).title("Getting sidebar...")
+            d = new MaterialDialog.Builder(getActivity())
+                    .title(R.string.subreddit_sidebar_progress)
                     .progress(true, 100)
                     .content(R.string.misc_please_wait)
                     .cancelable(false)
