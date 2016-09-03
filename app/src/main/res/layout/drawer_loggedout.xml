@@ -33,14 +33,27 @@
                 android:textSize="18sp"
                 android:textStyle="bold|italic"/>
 
-        <ImageView
-                android:id="@+id/headerflip"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_margin="12dp"
-                app:srcCompat="@drawable/down"/>
+                android:gravity="end"
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal">
+
+            <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="12dp"
+                    app:srcCompat="@drawable/online"/>
+
+            <ImageView
+                    android:id="@+id/headerflip"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_margin="12dp"
+                    app:srcCompat="@drawable/down"/>
+        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
