@@ -18,7 +18,6 @@ import java.util.TreeMap;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.PostMatch;
-import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
@@ -121,6 +120,7 @@ public class HistoryPosts extends GeneralPosts {
                         values = KVStore.getInstance().getByPrefix(prefix);
                     }
 
+
                     for (Map.Entry<String, String> entry : values.entrySet()) {
                         Object done;
                         if (entry.getValue().equals("true") || entry.getValue().equals("false")) {
@@ -145,7 +145,7 @@ public class HistoryPosts extends GeneralPosts {
                             if(!key.contains("_")){
                                 key = "t3_" + key;
                             }
-                            ids.add(key.replace(prefix, ""));
+                            idsSorted.put((Long) done, key.replace(prefix, ""));
                         }
                     }
 
@@ -160,6 +160,7 @@ public class HistoryPosts extends GeneralPosts {
 
 
                 }
+
                 if (!paginator.hasNext()) {
                     nomore = true;
                     return new ArrayList<>();

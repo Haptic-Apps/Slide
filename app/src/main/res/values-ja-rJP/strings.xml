@@ -41,7 +41,6 @@
   <string name="submission_tap_gif">タップすると GIF を読み込みます</string>
   <string name="submission_not_found">投稿が見つかりません!</string>
   <string name="submission_not_found_msg">申し訳ありませんが、この投稿は見つかりませんでした</string>
-  <string name="submission_save_offline">オフライン保存</string>
   <string name="submission_copy_text">テキストをコピー</string>
   <string name="submission_comment_saved">保存されたコメント</string>
   <string name="submission_comment_unsaved">保存されていないコメント</string>

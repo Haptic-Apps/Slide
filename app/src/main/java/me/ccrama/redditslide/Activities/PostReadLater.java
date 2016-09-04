@@ -29,12 +29,12 @@ public class PostReadLater extends BaseActivityAnim {
         mToolbar.setPopupTheme(new ColorPreferences(this).getFontStyle().getBaseId());
 
         pager = (ViewPager) findViewById(R.id.content_view);
-        pager.setAdapter(new ProfilePagerAdapter(getSupportFragmentManager()));
+        pager.setAdapter(new ReadLaterAdaptor(getSupportFragmentManager()));
     }
 
-    public class ProfilePagerAdapter extends FragmentStatePagerAdapter {
+    public class ReadLaterAdaptor extends FragmentStatePagerAdapter {
 
-        public ProfilePagerAdapter(FragmentManager fm) {
+        public ReadLaterAdaptor(FragmentManager fm) {
             super(fm);
 
         }

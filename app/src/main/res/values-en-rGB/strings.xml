@@ -41,7 +41,6 @@
   <string name="submission_tap_gif">Tap to load GIF</string>
   <string name="submission_not_found">Uh oh, post not found!</string>
   <string name="submission_not_found_msg">Sorry, this post could not be found</string>
-  <string name="submission_save_offline">Save offline</string>
   <string name="submission_comment_saved">Comment saved</string>
   <string name="submission_comment_unsaved">Comment un-saved</string>
   <string name="submission_comment_copied">Comment text copied</string>

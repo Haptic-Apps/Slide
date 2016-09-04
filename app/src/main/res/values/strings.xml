@@ -40,7 +40,6 @@
     <string name="submission_tap_gif">Tap to load GIF</string>
     <string name="submission_not_found">Uh oh, post not found!</string>
     <string name="submission_not_found_msg">Sorry, this post could not be found</string>
-    <string name="submission_save_offline">Save offline</string>
     <string name="submission_copy_text">Copy text</string>
     <string name="submission_comment_saved">Comment saved</string>
     <string name="submission_comment_unsaved">Comment un-saved</string>
@@ -129,6 +128,7 @@
     <string name="profile_karma_comment">Comment karma</string>
     <string name="profile_message">Private message</string>
     <string name="profile_saved">Saved</string>
+    <string name="profile_read_later">Read Later</string>
     <string name="profile_upvoted">Upvoted</string>
     <string name="profile_err_title">User not found</string>
     <string name="profile_err_msg">Reddit user could not be retrieved</string>

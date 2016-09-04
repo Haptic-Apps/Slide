@@ -38,7 +38,7 @@ import me.ccrama.redditslide.util.NetworkUtil;
  */
 public class CommentCacheAsync extends AsyncTask{
 
-    public static final String SAVED_SUBMISSIONS = "saved submissions";
+    public static final String SAVED_SUBMISSIONS = "read later";
     List<Submission> alreadyReceived;
 
     NotificationManager mNotifyManager;
@@ -264,7 +264,9 @@ public class CommentCacheAsync extends AsyncTask{
                 }
 
                 OfflineSubreddit.newSubreddit(sub).writeToMemory(newFullnames);
-                mNotifyManager.cancel(random);
+                if (mBuilder != null) {
+                    mNotifyManager.cancel(random);
+                }
                 success.add(sub);
             }
         }
