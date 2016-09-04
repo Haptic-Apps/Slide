@@ -166,7 +166,9 @@ public class SideArrayAdapter extends ArrayAdapter<String> {
 
                         ((MainActivity) getContext()).pager.setCurrentItem(((MainActivity) getContext()).usedArray.indexOf(base));
                         ((MainActivity) getContext()).drawerLayout.closeDrawers();
-                        ((MainActivity) getContext()).drawerSearch.setText("");
+                        if (((MainActivity) getContext()).drawerSearch != null) {
+                            ((MainActivity) getContext()).drawerSearch.setText("");
+                        }
                     }
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
