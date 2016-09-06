@@ -290,6 +290,8 @@ public class SubredditPosts implements PostLoader {
                     subredditRandom = submissions.get(0).getSubredditName();
                 }
 
+                MainActivity.randomoverride = subredditRandom;
+
                 if (c instanceof SubredditView && (subreddit.equals("random") || subreddit.equals(
                         "myrandom") || subreddit.equals("nsfwrandom"))) {
                     ((SubredditView) c).subreddit = subredditRandom;
@@ -347,6 +349,10 @@ public class SubredditPosts implements PostLoader {
                 offline = false;
                 nomore = false;
                 String sub = subredditPaginators[0].toLowerCase();
+                if((sub.equals("random") || sub.equals("randomnsfw") )&& MainActivity.randomoverride!= null && !MainActivity.randomoverride.isEmpty()){
+                    sub = MainActivity.randomoverride;
+                    MainActivity.randomoverride = "";
+                }
                 if (sub.equals("frontpage")) {
                     paginator = new SubredditPaginator(Authentication.reddit);
                 } else if (!sub.contains(".")) {

@@ -3474,6 +3474,8 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    public static String randomoverride;
+
     public void reloadSubs() {
         int current = pager.getCurrentItem();
         if (commentPager && current == currentComment) {

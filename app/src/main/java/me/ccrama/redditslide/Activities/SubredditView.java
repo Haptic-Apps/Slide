@@ -1071,7 +1071,9 @@ public class SubredditView extends BaseActivityAnim {
 
     public void restartTheme() {
         Intent intent = this.getIntent();
+        intent.putExtra(EXTRA_SUBREDDIT, subreddit);
         finish();
+        overridePendingTransition(0, 0);
         startActivity(intent);
         overridePendingTransition(0, 0);
     }
