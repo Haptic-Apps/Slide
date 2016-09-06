@@ -25,8 +25,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.Fragments.SubmissionsView;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -39,14 +41,16 @@ import me.ccrama.redditslide.util.LogUtil;
 
 public class Website extends BaseActivityAnim {
 
-    public static final String EXTRA_URL   = "url";
-    public static final String EXTRA_COLOR = "color";
-    WebView         v;
-    String          url;
-    int             subredditColor;
-    MyWebViewClient client;
+    public static final String EXTRA_URL        = "url";
+    public static final String EXTRA_COLOR      = "color";
+    public static final String ADAPTER_POSITION = "adapter_position";
+
+    WebView              v;
+    String               url;
+    int                  subredditColor;
+    MyWebViewClient      client;
     AdBlockWebViewClient webClient;
-    ProgressBar     p;
+    ProgressBar          p;
 
     public static String getDomainName(String url) {
         URI uri;
@@ -70,6 +74,19 @@ public class Website extends BaseActivityAnim {
         //   else menu.findItem(R.id.action_info).setVisible(false);
         MenuItem item = menu.findItem(R.id.store_cookies);
         item.setChecked(SettingValues.cookies);
+
+        if (getIntent().hasExtra(ADAPTER_POSITION)) {
+            final int commentUrl = getIntent().getExtras().getInt(ADAPTER_POSITION);
+            menu.findItem(R.id.comments).getActionView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    SubmissionsView.datachanged(commentUrl);
+                }
+            });
+        } else {
+            menu.findItem(R.id.comments).setVisible(false);
+        }
         return true;
     }
 
@@ -77,7 +94,7 @@ public class Website extends BaseActivityAnim {
     public void onBackPressed() {
         if (v.canGoBack()) {
             v.goBack();
-        } else if(!isFinishing()) {
+        } else if (!isFinishing()) {
             super.onBackPressed();
         }
     }
@@ -101,31 +118,34 @@ public class Website extends BaseActivityAnim {
                 startActivity(inte);
                 return true;
             case R.id.store_cookies:
-                SettingValues.prefs.edit().putBoolean(SettingValues.PREF_COOKIES, !SettingValues.cookies).apply();
+                SettingValues.prefs.edit()
+                        .putBoolean(SettingValues.PREF_COOKIES, !SettingValues.cookies)
+                        .apply();
                 SettingValues.cookies = !SettingValues.cookies;
                 finish();
-                overridePendingTransition( 0, 0);
+                overridePendingTransition(0, 0);
                 startActivity(getIntent());
-                overridePendingTransition( 0, 0);
+                overridePendingTransition(0, 0);
                 return true;
             case R.id.read:
-                v.evaluateJavascript("(function(){return \"<html>\" + document.documentElement.innerHTML + \"</html>\";})();",
-                    new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String html) {
-                            Intent i = new Intent(Website.this, ReaderMode.class);
+                v.evaluateJavascript(
+                        "(function(){return \"<html>\" + document.documentElement.innerHTML + \"</html>\";})();",
+                        new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String html) {
+                                Intent i = new Intent(Website.this, ReaderMode.class);
 
-                            if(html != null && !html.isEmpty()){
-                                ReaderMode.html = html;
-                                LogUtil.v(html);
-                            } else {
-                                ReaderMode.html = "";
-                                i.putExtra("url", v.getUrl());
+                                if (html != null && !html.isEmpty()) {
+                                    ReaderMode.html = html;
+                                    LogUtil.v(html);
+                                } else {
+                                    ReaderMode.html = "";
+                                    i.putExtra("url", v.getUrl());
+                                }
+                                startActivity(i);
+
                             }
-                            startActivity(i);
-
-                        }
-                    });
+                        });
                 return true;
             case R.id.chrome:
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(v.getUrl()));
@@ -166,7 +186,7 @@ public class Website extends BaseActivityAnim {
         client = new MyWebViewClient();
         webClient = new AdBlockWebViewClient();
 
-        if(!SettingValues.cookies){
+        if (!SettingValues.cookies) {
             CookieSyncManager.createInstance(this);
             CookieManager cookieManager = CookieManager.getInstance();
             cookieManager.removeAllCookies(null);
@@ -213,10 +233,9 @@ public class Website extends BaseActivityAnim {
         v.getSettings().setJavaScriptEnabled(true);
         v.getSettings().setLoadWithOverviewMode(true);
         v.getSettings().setUseWideViewPort(true);
-        v.setDownloadListener(new DownloadListener()
-        {
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength)
-            {
+        v.setDownloadListener(new DownloadListener() {
+            public void onDownloadStart(String url, String userAgent, String contentDisposition,
+                    String mimetype, long contentLength) {
                 //Downloads using download manager on default browser
                 Intent i = new Intent(Intent.ACTION_VIEW);
                 i.setData(Uri.parse(url));
@@ -276,7 +295,7 @@ public class Website extends BaseActivityAnim {
 
 
     //Method adapted from http://www.hidroh.com/2016/05/19/hacking-up-ad-blocker-android/
-    public class AdBlockWebViewClient extends WebViewClient{
+    public class AdBlockWebViewClient extends WebViewClient {
         private Map<String, Boolean> loadedUrls = new HashMap<>();
 
         @Override
@@ -288,8 +307,8 @@ public class Website extends BaseActivityAnim {
             } else {
                 ad = loadedUrls.get(url);
             }
-            return ad && SettingValues.tabletUI ? AdBlocker.createEmptyResource() :
-                    super.shouldInterceptRequest(view, url);
+            return ad && SettingValues.tabletUI ? AdBlocker.createEmptyResource()
+                    : super.shouldInterceptRequest(view, url);
         }
 
         @Override
@@ -299,7 +318,8 @@ public class Website extends BaseActivityAnim {
             if (triedURLS == null) {
                 triedURLS = new ArrayList<>();
             }
-            if ((!PostMatch.openExternal(url) || type == ContentType.Type.VIDEO) && !triedURLS.contains(url)) {
+            if ((!PostMatch.openExternal(url) || type == ContentType.Type.VIDEO)
+                    && !triedURLS.contains(url)) {
                 switch (type) {
                     case DEVIANTART:
                     case IMGUR:
@@ -312,7 +332,7 @@ public class Website extends BaseActivityAnim {
                         return super.shouldOverrideUrlLoading(view, url);
                     case REDDIT:
                         boolean opened = OpenRedditLink.openUrl(view.getContext(), url, false);
-                        if(!opened){
+                        if (!opened) {
                             return super.shouldOverrideUrlLoading(view, url);
                         }
                         return true;

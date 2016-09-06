@@ -15,160 +15,161 @@ import me.ccrama.redditslide.Visuals.Palette;
  * Created by ccrama on 9/19/2015.
  */
 public class SettingValues {
-    public static final String PREF_SINGLE = "Single";
-    public static final String PREF_FAB = "Fab";
-    public static final String PREF_UPVOTE_PERCENTAGE = "upvotePercentage";
-    public static final String PREF_FAB_TYPE = "FabType";
-    public static final String PREF_DAY_TIME = "day";
-    public static final String PREF_VOTE_GESTURES = "voteGestures";
-    public static final String PREF_NIGHT_MODE = "nightMode";
-    public static final String PREF_NIGHT_THEME = "nightTheme";
-    public static final String PREF_TYPE_IN_TEXT = "typeInText";
-    public static final String PREF_AUTOHIDE_COMMENTS = "autohideComments";
-    public static final String PREF_NO_IMAGES = "noImages";
-    public static final String PREF_AUTOTHEME = "autotime";
-    public static final String PREVIEWS_LEFT = "previewsLeft";
-    public static final String PREF_COLOR_BACK = "colorBack";
-    public static final String PREF_COLOR_NAV_BAR = "colorNavBar";
-    public static final String PREF_COLOR_EVERYWHERE = "colorEverywhere";
-    public static final String PREF_EXPANDED_TOOLBAR = "expandedToolbar";
-    public static final String PREF_SWAP = "Swap";
-    public static final String PREFS_WEB = "web";
-    public static final String PREF_ACTIONBAR_VISIBLE = "actionbarVisible";
-    public static final String PREF_SMALL_TAG = "smallTag";
-    public static final String PREF_ACTIONBAR_TAP = "actionbarTap";
-    public static final String PREF_CUSTOMTABS = "customtabs";
-    public static final String PREF_STORE_HISTORY = "storehistory";
-    public static final String PREF_STORE_NSFW_HISTORY = "storensfw";
-    public static final String PREF_SCROLL_SEEN = "scrollSeen";
-    public static final String PREF_TITLE_FILTERS = "titleFilters";
-    public static final String PREF_TEXT_FILTERS = "textFilters";
-    public static final String PREF_DOMAIN_FILTERS = "domainFilters";
-    public static final String PREF_ALWAYS_EXTERNAL = "alwaysExternal";
-    public static final String PREF_DRAFTS = "drafts";
-    public static final String PREF_SUBREDDIT_FILTERS = "subredditFilters";
-    public static final String PREF_FLAIR_FILTERS = "subFlairFilters";
-    public static final String PREF_COMMENT_LAST_VISIT = "commentLastVisit";
-    public static final String PREF_VOTES_INFO_LINE = "votesInfoLine";
-    public static final String PREF_TYPE_INFO_LINE = "typeInfoLine";
-    public static final String PREF_COMMENT_PAGER = "commentPager";
-    public static final String PREF_COLLAPSE_COMMENTS = "collapseCOmments";
+    public static final String PREF_SINGLE                    = "Single";
+    public static final String PREF_FAB                       = "Fab";
+    public static final String PREF_UPVOTE_PERCENTAGE         = "upvotePercentage";
+    public static final String PREF_FAB_TYPE                  = "FabType";
+    public static final String PREF_DAY_TIME                  = "day";
+    public static final String PREF_VOTE_GESTURES             = "voteGestures";
+    public static final String PREF_NIGHT_MODE                = "nightMode";
+    public static final String PREF_NIGHT_THEME               = "nightTheme";
+    public static final String PREF_TYPE_IN_TEXT              = "typeInText";
+    public static final String PREF_AUTOHIDE_COMMENTS         = "autohideComments";
+    public static final String PREF_NO_IMAGES                 = "noImages";
+    public static final String PREF_AUTOTHEME                 = "autotime";
+    public static final String PREVIEWS_LEFT                  = "previewsLeft";
+    public static final String PREF_COLOR_BACK                = "colorBack";
+    public static final String PREF_COLOR_NAV_BAR             = "colorNavBar";
+    public static final String PREF_COLOR_EVERYWHERE          = "colorEverywhere";
+    public static final String PREF_EXPANDED_TOOLBAR          = "expandedToolbar";
+    public static final String PREF_SWAP                      = "Swap";
+    public static final String PREFS_WEB                      = "web";
+    public static final String PREF_ACTIONBAR_VISIBLE         = "actionbarVisible";
+    public static final String PREF_SMALL_TAG                 = "smallTag";
+    public static final String PREF_ACTIONBAR_TAP             = "actionbarTap";
+    public static final String PREF_CUSTOMTABS                = "customtabs";
+    public static final String PREF_STORE_HISTORY             = "storehistory";
+    public static final String PREF_STORE_NSFW_HISTORY        = "storensfw";
+    public static final String PREF_SCROLL_SEEN               = "scrollSeen";
+    public static final String PREF_TITLE_FILTERS             = "titleFilters";
+    public static final String PREF_TEXT_FILTERS              = "textFilters";
+    public static final String PREF_DOMAIN_FILTERS            = "domainFilters";
+    public static final String PREF_ALWAYS_EXTERNAL           = "alwaysExternal";
+    public static final String PREF_DRAFTS                    = "drafts";
+    public static final String PREF_SUBREDDIT_FILTERS         = "subredditFilters";
+    public static final String PREF_FLAIR_FILTERS             = "subFlairFilters";
+    public static final String PREF_COMMENT_LAST_VISIT        = "commentLastVisit";
+    public static final String PREF_VOTES_INFO_LINE           = "votesInfoLine";
+    public static final String PREF_TYPE_INFO_LINE            = "typeInfoLine";
+    public static final String PREF_COMMENT_PAGER             = "commentPager";
+    public static final String PREF_COLLAPSE_COMMENTS         = "collapseCOmments";
     public static final String PREF_COLLAPSE_COMMENTS_DEFAULT = "collapseCommentsDefault";
     public static final String PREF_RIGHT_HANDED_COMMENT_MENU = "rightHandedCommentMenu";
-    public static final String PREF_DUAL_PORTRAIT = "dualPortrait";
-    public static final String PREF_CROP_IMAGE = "cropImage";
-    public static final String PREF_COMMENT_FAB = "commentFab";
-    public static final String PREF_SWITCH_THUMB = "switchThumb";
-    public static final String PREF_BIG_THUMBS = "bigThumbnails";
-    public static final String PREF_LOW_RES_ALWAYS = "lowResAlways";
-    public static final String PREF_LOW_RES_MOBILE = "lowRes";
-    public static final String PREF_IMAGE_LQ = "imageLq";
-    public static final String PREF_COLOR_SUB_NAME = "colorSubName";
-    public static final String PREF_OVERRIDE_LANGUAGE = "overrideLanguage";
-    public static final String PREF_SHOW_DOMAIN = "showDomain";
-    public static final String PREF_CARD_TEXT = "cardText";
-    public static final String PREF_ZOOM_DEFAULT = "zoomDefault";
-    public static final String PREF_SUBREDDIT_SEARCH_METHOD = "subredditSearchMethod";
-    public static final String PREF_IMGUR_LQ = "imgurLq";
-    public static final String PREF_SOUND_NOTIFS = "soundNotifs";
-    public static final String PREF_COOKIES = "storeCookies";
-    public static final String PREF_NIGHT_START = "nightStart";
-    public static final String PREF_NIGHT_END = "nightEnd";
+    public static final String PREF_DUAL_PORTRAIT             = "dualPortrait";
+    public static final String PREF_CROP_IMAGE                = "cropImage";
+    public static final String PREF_COMMENT_FAB               = "commentFab";
+    public static final String PREF_SWITCH_THUMB              = "switchThumb";
+    public static final String PREF_BIG_THUMBS                = "bigThumbnails";
+    public static final String PREF_LOW_RES_ALWAYS            = "lowResAlways";
+    public static final String PREF_LOW_RES_MOBILE            = "lowRes";
+    public static final String PREF_IMAGE_LQ                  = "imageLq";
+    public static final String PREF_COLOR_SUB_NAME            = "colorSubName";
+    public static final String PREF_OVERRIDE_LANGUAGE         = "overrideLanguage";
+    public static final String PREF_SHOW_DOMAIN               = "showDomain";
+    public static final String PREF_CARD_TEXT                 = "cardText";
+    public static final String PREF_ZOOM_DEFAULT              = "zoomDefault";
+    public static final String PREF_SUBREDDIT_SEARCH_METHOD   = "subredditSearchMethod";
+    public static final String PREF_IMGUR_LQ                  = "imgurLq";
+    public static final String PREF_SOUND_NOTIFS              = "soundNotifs";
+    public static final String PREF_COOKIES                   = "storeCookies";
+    public static final String PREF_NIGHT_START               = "nightStart";
+    public static final String PREF_NIGHT_END                 = "nightEnd";
 
-    public static final String PREF_FULL_COMMENT_OVERRIDE = "fullCommentOverride";
-    public static final String PREF_ALBUM = "album";
-    public static final String PREF_GIF = "gif";
-    public static final String PREF_EXIT = "Exit";
-    public static final String PREF_FASTSCROLL = "Fastscroll";
-    public static final String PREF_FAB_CLEAR = "fabClear";
-    public static final String PREF_HIDEBUTTON = "Hidebutton";
-    public static final String PREF_SAVE_BUTTON = "saveButton";
-    public static final String PREF_IMAGE = "image";
+    public static final String PREF_FULL_COMMENT_OVERRIDE  = "fullCommentOverride";
+    public static final String PREF_ALBUM                  = "album";
+    public static final String PREF_GIF                    = "gif";
+    public static final String PREF_EXIT                   = "Exit";
+    public static final String PREF_FASTSCROLL             = "Fastscroll";
+    public static final String PREF_FAB_CLEAR              = "fabClear";
+    public static final String PREF_HIDEBUTTON             = "Hidebutton";
+    public static final String PREF_SAVE_BUTTON            = "saveButton";
+    public static final String PREF_IMAGE                  = "image";
     public static final String PREF_SELFTEXT_IMAGE_COMMENT = "selftextImageComment";
-    public static final String SYNCCIT_AUTH = "SYNCCIT_AUTH";
-    public static final String SYNCCIT_NAME = "SYNCCIT_NAME";
-    public static final String PREF_BLUR = "blur";
-    public static final String PREF_ALBUM_SWIPE = "albumswipe";
-    public static final String PREF_COMMENT_NAV = "commentVolumeNav";
-    public static final String PREF_COLOR_COMMENT_DEPTH = "colorCommentDepth";
-    public static final String COMMENT_DEPTH = "commentDepth";
-    public static final String COMMENT_COUNT = "commentcount";
-    public static final String PREF_USER_FILTERS = "userFilters";
-    public static final String PREF_COLOR_ICON = "colorIcon";
+    public static final String SYNCCIT_AUTH                = "SYNCCIT_AUTH";
+    public static final String SYNCCIT_NAME                = "SYNCCIT_NAME";
+    public static final String PREF_BLUR                   = "blur";
+    public static final String PREF_ALBUM_SWIPE            = "albumswipe";
+    public static final String PREF_COMMENT_NAV            = "commentVolumeNav";
+    public static final String PREF_COLOR_COMMENT_DEPTH    = "colorCommentDepth";
+    public static final String COMMENT_DEPTH               = "commentDepth";
+    public static final String COMMENT_COUNT               = "commentcount";
+    public static final String PREF_USER_FILTERS           = "userFilters";
+    public static final String PREF_COLOR_ICON             = "colorIcon";
+    public static final String PREF_LARGE_LINKS            = "largeLinks";
 
     public static CreateCardView.CardEnum defaultCardView;
-    public static Sorting defaultSorting;
-    public static TimePeriod timePeriod;
-    public static CommentSort defaultCommentSorting;
-    public static boolean middleImage;
-    public static boolean bigPicEnabled;
-    public static boolean bigPicCropped;
-    public static ColorMatchingMode colorMatchingMode;
-    public static ColorIndicator colorIndicator;
-    public static Palette.ThemeEnum theme;
-    public static SharedPreferences prefs;
-    public static boolean expandedToolbar;
-    public static boolean single;
-    public static boolean swap;
-    public static boolean album;
-    public static boolean cache;
-    public static boolean expandedSettings;
-    public static boolean fabComments;
-    public static boolean cacheDefault;
-    public static boolean image;
-    public static boolean video;
-    public static boolean upvotePercentage;
-    public static boolean colorBack;
-    public static boolean colorNavBar;
-    public static boolean actionbarVisible;
-    public static boolean actionbarTap;
-    public static boolean commentAutoHide;
-    public static boolean fullCommentOverride;
-    public static boolean lowResAlways;
-    public static boolean noImages;
-    public static boolean lowResMobile;
-    public static boolean blurCheck;
-    public static boolean swipeAnywhere;
-    public static boolean commentLastVisit;
-    public static boolean storeHistory;
-    public static boolean storeNSFWHistory;
-    public static boolean scrollSeen;
-    public static boolean saveButton;
-    public static boolean voteGestures;
-    public static boolean colorEverywhere;
-    public static boolean gif;
-    public static boolean colorCommentDepth;
-    public static boolean web;
-    public static boolean commentVolumeNav;
-    public static boolean postNav;
-    public static boolean exit;
-    public static boolean cropImage;
-    public static boolean smallTag;
-    public static boolean typeInfoLine;
-    public static boolean votesInfoLine;
-    public static boolean collapseComments;
-    public static boolean collapseCommentsDefault;
-    public static boolean rightHandedCommentMenu;
-    public static int subredditSearchMethod;
-    public static int nightStart;
-    public static int nightEnd;
+    public static Sorting                 defaultSorting;
+    public static TimePeriod              timePeriod;
+    public static CommentSort             defaultCommentSorting;
+    public static boolean                 middleImage;
+    public static boolean                 bigPicEnabled;
+    public static boolean                 bigPicCropped;
+    public static ColorMatchingMode       colorMatchingMode;
+    public static ColorIndicator          colorIndicator;
+    public static Palette.ThemeEnum       theme;
+    public static SharedPreferences       prefs;
+    public static boolean                 expandedToolbar;
+    public static boolean                 single;
+    public static boolean                 swap;
+    public static boolean                 album;
+    public static boolean                 cache;
+    public static boolean                 expandedSettings;
+    public static boolean                 fabComments;
+    public static boolean                 cacheDefault;
+    public static boolean                 image;
+    public static boolean                 video;
+    public static boolean                 upvotePercentage;
+    public static boolean                 colorBack;
+    public static boolean                 colorNavBar;
+    public static boolean                 actionbarVisible;
+    public static boolean                 actionbarTap;
+    public static boolean                 commentAutoHide;
+    public static boolean                 fullCommentOverride;
+    public static boolean                 lowResAlways;
+    public static boolean                 noImages;
+    public static boolean                 lowResMobile;
+    public static boolean                 blurCheck;
+    public static boolean                 swipeAnywhere;
+    public static boolean                 commentLastVisit;
+    public static boolean                 storeHistory;
+    public static boolean                 storeNSFWHistory;
+    public static boolean                 scrollSeen;
+    public static boolean                 saveButton;
+    public static boolean                 voteGestures;
+    public static boolean                 colorEverywhere;
+    public static boolean                 gif;
+    public static boolean                 colorCommentDepth;
+    public static boolean                 web;
+    public static boolean                 commentVolumeNav;
+    public static boolean                 postNav;
+    public static boolean                 exit;
+    public static boolean                 cropImage;
+    public static boolean                 smallTag;
+    public static boolean                 typeInfoLine;
+    public static boolean                 votesInfoLine;
+    public static boolean                 collapseComments;
+    public static boolean                 collapseCommentsDefault;
+    public static boolean                 rightHandedCommentMenu;
+    public static int                     subredditSearchMethod;
+    public static int                     nightStart;
+    public static int                     nightEnd;
 
     public static int previews;
 
     public static String synccitName;
     public static String synccitAuth;
 
-    public static String titleFilters;
-    public static String textFilters;
-    public static String domainFilters;
-    public static String subredditFilters;
-    public static String flairFilters;
-    public static String alwaysExternal;
+    public static String  titleFilters;
+    public static String  textFilters;
+    public static String  domainFilters;
+    public static String  subredditFilters;
+    public static String  flairFilters;
+    public static String  alwaysExternal;
     public static boolean loadImageLq;
 
     public static boolean fastscroll;
-    public static boolean fab = true;
-    public static int fabType = R.integer.FAB_POST;
+    public static boolean fab     = true;
+    public static int     fabType = R.integer.FAB_POST;
     public static boolean hideButton;
     public static boolean tabletUI;
     public static boolean customtabs;
@@ -186,27 +187,32 @@ public class SettingValues {
     public static boolean cardText;
     public static boolean alwaysZoom;
     public static boolean imgurLq = true;
-    public static int currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
-    public static int nightTheme;
+    public static int     currentTheme; //current base theme (Light, Dark, Dark blue, etc.)
+    public static int     nightTheme;
     public static boolean typeInText;
-    public static String userFilters;
+    public static String  userFilters;
     public static boolean notifSound;
     public static boolean cookies;
     public static boolean colorIcon;
+    public static boolean largeLinks;
 
     public static void setAllValues(SharedPreferences settings) {
         prefs = settings;
-        defaultCardView = CreateCardView.CardEnum.valueOf(settings.getString("defaultCardViewNew", "LARGE").toUpperCase());
+        defaultCardView = CreateCardView.CardEnum.valueOf(
+                settings.getString("defaultCardViewNew", "LARGE").toUpperCase());
         middleImage = settings.getBoolean("middleCard", false);
 
         bigPicCropped = settings.getBoolean("bigPicCropped", true);
         bigPicEnabled = settings.getBoolean("bigPicEnabled", true);
 
-        colorMatchingMode = ColorMatchingMode.valueOf(settings.getString("ccolorMatchingModeNew", "MATCH_EXTERNALLY"));
-        colorIndicator = ColorIndicator.valueOf(settings.getString("colorIndicatorNew", "CARD_BACKGROUND"));
+        colorMatchingMode = ColorMatchingMode.valueOf(
+                settings.getString("ccolorMatchingModeNew", "MATCH_EXTERNALLY"));
+        colorIndicator =
+                ColorIndicator.valueOf(settings.getString("colorIndicatorNew", "CARD_BACKGROUND"));
         defaultSorting = Sorting.valueOf(settings.getString("defaultSorting", "HOT"));
         timePeriod = TimePeriod.valueOf(settings.getString("timePeriod", "DAY"));
-        defaultCommentSorting = CommentSort.valueOf(settings.getString("defaultCommentSortingNew", "CONFIDENCE"));
+        defaultCommentSorting =
+                CommentSort.valueOf(settings.getString("defaultCommentSortingNew", "CONFIDENCE"));
 
         single = prefs.getBoolean(PREF_SINGLE, false);
         blurCheck = prefs.getBoolean(PREF_BLUR, false);
@@ -217,7 +223,8 @@ public class SettingValues {
 
         fab = prefs.getBoolean(PREF_FAB, true);
         fabType = prefs.getInt(PREF_FAB_TYPE, R.integer.FAB_DISMISS);
-        subredditSearchMethod = prefs.getInt(PREF_SUBREDDIT_SEARCH_METHOD, R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER);
+        subredditSearchMethod = prefs.getInt(PREF_SUBREDDIT_SEARCH_METHOD,
+                R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER);
         nightMode = prefs.getBoolean(PREF_NIGHT_MODE, false);
         nightTheme = prefs.getInt(PREF_NIGHT_THEME, 0);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
@@ -275,6 +282,7 @@ public class SettingValues {
         alwaysExternal = prefs.getString(SettingValues.PREF_ALWAYS_EXTERNAL, "");
         flairFilters = prefs.getString(PREF_FLAIR_FILTERS, "");
         userFilters = prefs.getString(PREF_USER_FILTERS, "");
+        largeLinks = prefs.getBoolean(PREF_LARGE_LINKS, false);
 
         dualPortrait = prefs.getBoolean(PREF_DUAL_PORTRAIT, false);
         colorSubName = prefs.getBoolean(PREF_COLOR_SUB_NAME, false);
@@ -328,18 +336,23 @@ public class SettingValues {
     }
 
     public static void setDefaultCommentSorting(CommentSort commentSorting, String subreddit) {
-        prefs.edit().putString("defaultComment" + subreddit.toLowerCase(), commentSorting.name()).apply();
+        prefs.edit()
+                .putString("defaultComment" + subreddit.toLowerCase(), commentSorting.name())
+                .apply();
     }
 
     public static CommentSort getCommentSorting(String sub) {
-        return CommentSort.valueOf(prefs.getString("defaultComment" + sub.toLowerCase(), defaultCommentSorting.name()));
+        return CommentSort.valueOf(prefs.getString("defaultComment" + sub.toLowerCase(),
+                defaultCommentSorting.name()));
     }
+
     public static void setDefaultSubmissionSorting(Sorting sort, String subreddit) {
         prefs.edit().putString("defaultSort" + subreddit.toLowerCase(), sort.name()).apply();
     }
 
     public static Sorting getSubmissionSorting(String sub) {
-        return Sorting.valueOf(prefs.getString("defaultSort" + sub.toLowerCase(), defaultCommentSorting.name()));
+        return Sorting.valueOf(
+                prefs.getString("defaultSort" + sub.toLowerCase(), defaultCommentSorting.name()));
     }
 
     public static boolean isNight() {

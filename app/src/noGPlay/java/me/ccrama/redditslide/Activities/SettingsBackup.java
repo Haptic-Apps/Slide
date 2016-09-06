@@ -253,6 +253,7 @@ public class SettingsBackup extends BaseActivityAnim {
                 if (prefsdir.exists() && prefsdir.isDirectory()) {
                     String[] list = prefsdir.list();
 
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).mkdirs();
 
                     File backedup = new File(Environment.getExternalStoragePublicDirectory(
                             Environment.DIRECTORY_DOWNLOADS)

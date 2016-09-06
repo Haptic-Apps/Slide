@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
+import android.support.v7.widget.SwitchCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.devspark.robototextview.widget.RobotoRadioButton;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 
 
@@ -288,5 +290,28 @@ public class SettingsFont extends BaseActivityAnim {
                 }
             }
         });
+
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.linktype);
+            single.setChecked(SettingValues.typeInText);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.typeInText = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_TYPE_IN_TEXT, isChecked).apply();
+                }
+            });
+        }
+        {
+            SwitchCompat single = (SwitchCompat) findViewById(R.id.enlarge_links);
+            single.setChecked(SettingValues.largeLinks);
+            single.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingValues.largeLinks = isChecked;
+                    SettingValues.prefs.edit().putBoolean(SettingValues.PREF_LARGE_LINKS, isChecked).apply();
+                }
+            });
+        }
     }
 }

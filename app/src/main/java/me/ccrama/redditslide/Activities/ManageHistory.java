@@ -48,7 +48,12 @@ public class ManageHistory extends BaseActivityAnim {
         findViewById(R.id.clear_all).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean wifi = Reddit.cachedData.getBoolean("wifiOnly", false);
+                String sync = Reddit.cachedData.getString("toCache", "");
+                int hour = (Reddit.cachedData.getInt("hour", 0));
+                int minute = (Reddit.cachedData.getInt("minute", 0));
                 Reddit.cachedData.edit().clear().apply();
+                Reddit.cachedData.edit().putBoolean("wifiOnly", wifi).putString("toCache", sync).putInt("hour", hour).putInt("minute", minute).apply();
                 finish();
             }
         });

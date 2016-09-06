@@ -183,7 +183,7 @@ public class PopulateSubmissionViewHolder {
                             case LINK:
                                 LinkUtil.openUrl(submission.getUrl(),
                                         Palette.getColor(submission.getSubredditName()),
-                                        contextActivity);
+                                        contextActivity, holder.getAdapterPosition(), submission);
                                 break;
                             case SELF:
                                 if (holder != null) {
@@ -308,7 +308,7 @@ public class PopulateSubmissionViewHolder {
 
     }
 
-    private static void addAdaptorPosition(Intent myIntent, Submission submission,
+    public static void addAdaptorPosition(Intent myIntent, Submission submission,
             int adapterPosition) {
         if (submission.getComments() == null && adapterPosition != -1) {
             myIntent.putExtra(MediaView.ADAPTER_POSITION, adapterPosition);

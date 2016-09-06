@@ -22,12 +22,15 @@ import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.Log;
 
+import net.dean.jraw.models.Submission;
+
 import me.ccrama.redditslide.Activities.MakeExternal;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 
 public class LinkUtil {
 
@@ -98,6 +101,48 @@ public class LinkUtil {
             contextActivity.startActivity(i);
         }
     }
+
+    public static void openUrl(@NonNull String url, int color, @NonNull Activity contextActivity, int adapterPosition, Submission submission) {
+        if (!SettingValues.web) {
+            // External browser
+            Reddit.defaultShare(url, contextActivity);
+            return;
+        }
+
+        String packageName = CustomTabsHelper.getPackageNameToUse(contextActivity);
+
+        if (packageName != null) {
+            Intent intent = new Intent(contextActivity, MakeExternal.class);
+            intent.putExtra(Website.EXTRA_URL, url);
+            PendingIntent pendingIntent = PendingIntent.getActivity(contextActivity, 0, intent, 0);
+
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession())
+                    .setToolbarColor(color)
+                    .setShowTitle(true)
+                    .setStartAnimations(contextActivity, R.anim.slide_up_fade_in, 0)
+                    .setExitAnimations(contextActivity, 0, R.anim.slide_down_fade_out)
+                    .addDefaultShareMenuItem()
+                    .addMenuItem(contextActivity.getString(R.string.open_links_externally), pendingIntent)
+                    .setCloseButtonIcon(drawableToBitmap(ContextCompat.getDrawable(contextActivity, R.drawable.ic_arrow_back_white_24dp)));
+            try {
+                CustomTabsIntent customTabsIntent = builder.build();
+
+                customTabsIntent.intent.setPackage(packageName);
+                customTabsIntent.launchUrl(contextActivity, formatURL(url));
+            } catch (ActivityNotFoundException anfe) {
+                Log.w(LogUtil.getTag(), "Unknown url: " + anfe);
+                Reddit.defaultShare(url, contextActivity);
+            }
+        } else {
+            // Internal browser
+            Intent i = new Intent(contextActivity, Website.class);
+            i.putExtra(Website.EXTRA_URL, url);
+            PopulateSubmissionViewHolder.addAdaptorPosition(i, submission, adapterPosition);
+            i.putExtra(Website.EXTRA_COLOR, color);
+            contextActivity.startActivity(i);
+        }
+    }
+
 
     /**
      * Corrects mistakes users might make when typing URLs, e.g. case sensitivity in the scheme

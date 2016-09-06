@@ -385,7 +385,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (isInPlaybackState() && mediaController != null) {
+        if (isInPlaybackState() && mediaController != null && ev.getAction() == MotionEvent.ACTION_UP) {
             toggleMediaControlsVisiblity();
         }
         return true;
