@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.ccrama.redditslide.Adapters.SubmissionAdapter;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
@@ -75,16 +74,7 @@ public class Website extends BaseActivityAnim {
         MenuItem item = menu.findItem(R.id.store_cookies);
         item.setChecked(SettingValues.cookies);
 
-        if (getIntent().hasExtra(ADAPTER_POSITION)) {
-            final int commentUrl = getIntent().getExtras().getInt(ADAPTER_POSITION);
-            menu.findItem(R.id.comments).getActionView().setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                    SubmissionsView.datachanged(commentUrl);
-                }
-            });
-        } else {
+        if (!getIntent().hasExtra(ADAPTER_POSITION)) {
             menu.findItem(R.id.comments).setVisible(false);
         }
         return true;
@@ -112,6 +102,11 @@ public class Website extends BaseActivityAnim {
             case R.id.back:
                 v.goBack();
                 return true;
+            case R.id.comments:
+                final int commentUrl = getIntent().getExtras().getInt(ADAPTER_POSITION);
+                finish();
+                SubmissionsView.datachanged(commentUrl);
+                break;
             case R.id.external:
                 Intent inte = new Intent(this, MakeExternal.class);
                 inte.putExtra("url", url);
