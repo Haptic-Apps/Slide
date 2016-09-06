@@ -8,6 +8,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -17,6 +20,8 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +49,6 @@ import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.Hidden;
-import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -52,6 +56,7 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.Views.CreateCardView;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -401,9 +406,20 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
 
             if (comment.getTimesGilded() > 0) {
-                final String timesGilded = (comment.getTimesGilded() == 1) ? "" : "\u200A" + Integer.toString(comment.getTimesGilded());
+                final String timesGilded = (comment.getTimesGilded() == 1) ? "" : "\u200Ax" + Integer.toString(comment.getTimesGilded());
+                SpannableStringBuilder gilded = new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+                TypedArray a = mContext.obtainStyledAttributes(new FontPreferences(mContext).getPostFontStyle().getResId(), R.styleable.FontStyle);
+                int fontsize = (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1)*.75);
+                a.recycle();
+                Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
+                float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
+                image = Bitmap.createScaledBitmap(image,
+                        (int) Math.ceil(fontsize * aspectRatio),
+                        (int) Math.ceil(fontsize), true);
+                gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.gild.setVisibility(View.VISIBLE);
-                ((TextView) holder.gild).setText("\u00A0★" + timesGilded + "\u00A0");
+                ((TextView) holder.gild).setText(gilded);
             } else if (holder.gild.getVisibility() == View.VISIBLE)
                 holder.gild.setVisibility(View.GONE);
 
