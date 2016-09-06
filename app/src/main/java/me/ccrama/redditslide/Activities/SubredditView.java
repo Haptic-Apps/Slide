@@ -90,7 +90,7 @@ import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
-public class SubredditView extends BaseActivityAnim {
+public class SubredditView extends BaseActivity {
 
     public static final String  EXTRA_SUBREDDIT = "subreddit";
     public              boolean canSubmit       = true;
@@ -116,7 +116,7 @@ public class SubredditView extends BaseActivityAnim {
             pager.setAdapter(new OverviewPagerAdapter(getSupportFragmentManager()));
         } else if (requestCode == 1) {
             restartTheme();
-        }  else if (requestCode == 940) {
+        } else if (requestCode == 940) {
             if (adapter != null && adapter.getCurrentFragment() != null) {
                 if (resultCode == RESULT_OK) {
                     LogUtil.v("Doing hide posts");
@@ -157,6 +157,12 @@ public class SubredditView extends BaseActivityAnim {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().getDecorView().setBackgroundDrawable(null);
         super.onCreate(savedInstanceState);
+        if (!restarting) {
+            overridePendingTransition(R.anim.slideright, 0);
+        } else {
+            restarting = false;
+        }
+
 
         subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         applyColorTheme(subreddit);
@@ -1069,10 +1075,13 @@ public class SubredditView extends BaseActivityAnim {
         popup.show();
     }
 
+    public static boolean restarting;
+
     public void restartTheme() {
         Intent intent = this.getIntent();
         intent.putExtra(EXTRA_SUBREDDIT, subreddit);
         finish();
+        restarting = true;
         overridePendingTransition(0, 0);
         startActivity(intent);
         overridePendingTransition(0, 0);
@@ -1118,8 +1127,8 @@ public class SubredditView extends BaseActivityAnim {
                 setViews(text, subreddit.getDisplayName(), body, overflow);
 
                 //get all subs that have Notifications enabled
-                ArrayList<String> rawSubs =
-                        Reddit.stringToArray(Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
+                ArrayList<String> rawSubs = Reddit.stringToArray(
+                        Reddit.appRestart.getString(CheckForMail.SUBS_TO_GET, ""));
                 HashMap<String, Integer> subThresholds = new HashMap<>();
                 for (String s : rawSubs) {
                     try {
@@ -1131,7 +1140,8 @@ public class SubredditView extends BaseActivityAnim {
                 }
 
                 //whether or not this subreddit was in the keySet
-                boolean isNotified = subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase());
+                boolean isNotified =
+                        subThresholds.keySet().contains(subreddit.getDisplayName().toLowerCase());
                 ((AppCompatCheckBox) findViewById(R.id.notify_posts_state)).setChecked(isNotified);
             } else {
                 findViewById(R.id.sidebar_text).setVisibility(View.GONE);
@@ -1249,8 +1259,9 @@ public class SubredditView extends BaseActivityAnim {
 
                 currentlySubbed =
                         (!Authentication.isLoggedIn && UserSubscriptions.getSubscriptions(this)
-                                .contains(subreddit.getDisplayName().toLowerCase()))
-                                || (Authentication.isLoggedIn && subreddit.isUserSubscriber());
+                                .contains(subreddit.getDisplayName().toLowerCase())) || (
+                                Authentication.isLoggedIn
+                                        && subreddit.isUserSubscriber());
                 doSubscribeButtonText(currentlySubbed, subscribe);
 
                 assert subscribe != null;
@@ -1373,7 +1384,8 @@ public class SubredditView extends BaseActivityAnim {
                     private void doUnsubscribe() {
                         if (Authentication.didOnline) {
                             new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
-                                    getString(R.string.unsubscribe_from, subreddit.getDisplayName()))
+                                    getString(R.string.unsubscribe_from,
+                                            subreddit.getDisplayName()))
                                     .setPositiveButton(R.string.reorder_remove_unsubsribe,
                                             new DialogInterface.OnClickListener() {
                                                 @Override
@@ -1479,7 +1491,8 @@ public class SubredditView extends BaseActivityAnim {
                 });
             }
             {
-                final AppCompatCheckBox notifyStateCheckBox = (AppCompatCheckBox) findViewById(R.id.notify_posts_state);
+                final AppCompatCheckBox notifyStateCheckBox =
+                        (AppCompatCheckBox) findViewById(R.id.notify_posts_state);
                 assert notifyStateCheckBox != null;
 
                 notifyStateCheckBox.setOnClickListener(new View.OnClickListener() {
@@ -1488,9 +1501,15 @@ public class SubredditView extends BaseActivityAnim {
                         if (notifyStateCheckBox.isChecked()) {
                             final String sub = subreddit.getDisplayName();
 
-                            if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("frontpage") &&
-                                    !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
-                                    !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
+                            if (!sub.equalsIgnoreCase("all")
+                                    && !sub.equalsIgnoreCase("frontpage")
+                                    &&
+                                    !sub.equalsIgnoreCase("friends")
+                                    && !sub.equalsIgnoreCase("mod")
+                                    &&
+                                    !sub.contains("+")
+                                    && !sub.contains(".")
+                                    && !sub.contains("/m/")) {
                                 new AlertDialogWrapper.Builder(SubredditView.this).setTitle(
                                         getString(R.string.sub_post_notifs_title, sub))
                                         .setMessage(R.string.sub_post_notifs_text)
@@ -1503,7 +1522,8 @@ public class SubredditView extends BaseActivityAnim {
                                                                 SubredditView.this).title(
                                                                 R.string.sub_post_notifs_threshold)
                                                                 .items(new String[]{
-                                                                        "1", "5", "10", "20", "40", "50"
+                                                                        "1", "5", "10", "20", "40",
+                                                                        "50"
                                                                 })
                                                                 .alwaysCallSingleChoiceCallback()
                                                                 .itemsCallbackSingleChoice(0,
@@ -1514,7 +1534,8 @@ public class SubredditView extends BaseActivityAnim {
                                                                                     View itemView,
                                                                                     int which,
                                                                                     CharSequence text) {
-                                                                                ArrayList<String> subs =
+                                                                                ArrayList<String>
+                                                                                        subs =
                                                                                         Reddit.stringToArray(
                                                                                                 Reddit.appRestart
                                                                                                         .getString(
@@ -1537,18 +1558,21 @@ public class SubredditView extends BaseActivityAnim {
                                                     }
                                                 })
                                         .setNegativeButton(R.string.btn_cancel, null)
-                                        .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                notifyStateCheckBox.setChecked(false);
-                                            }
-                                        })
-                                        .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                            @Override
-                                            public void onCancel(DialogInterface dialog) {
-                                                notifyStateCheckBox.setChecked(false);
-                                            }
-                                        })
+                                        .setNegativeButton(R.string.btn_cancel,
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog,
+                                                            int which) {
+                                                        notifyStateCheckBox.setChecked(false);
+                                                    }
+                                                })
+                                        .setOnCancelListener(
+                                                new DialogInterface.OnCancelListener() {
+                                                    @Override
+                                                    public void onCancel(DialogInterface dialog) {
+                                                        notifyStateCheckBox.setChecked(false);
+                                                    }
+                                                })
                                         .show();
                             } else {
                                 notifyStateCheckBox.setChecked(false);
@@ -1556,8 +1580,10 @@ public class SubredditView extends BaseActivityAnim {
                                         Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Intent cancelIntent = new Intent(SubredditView.this, CancelSubNotifs.class);
-                            cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB, subreddit.getDisplayName());
+                            Intent cancelIntent =
+                                    new Intent(SubredditView.this, CancelSubNotifs.class);
+                            cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB,
+                                    subreddit.getDisplayName());
                             startActivity(cancelIntent);
                         }
                     }
@@ -1670,6 +1696,7 @@ public class SubredditView extends BaseActivityAnim {
                         header.setLayoutParams(params);
                         if (positionOffsetPixels == 0) {
                             finish();
+                            overridePendingTransition(0, R.anim.fade_out);
                         }
                     }
 
@@ -1770,6 +1797,7 @@ public class SubredditView extends BaseActivityAnim {
                         header.setLayoutParams(params);
                         if (positionOffsetPixels == 0) {
                             finish();
+                            overridePendingTransition(0, R.anim.fade_out);
                         }
 
                         blankPage.doOffset(positionOffset);
@@ -1931,6 +1959,7 @@ public class SubredditView extends BaseActivityAnim {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             finish();
+                                            overridePendingTransition(0, R.anim.fade_out);
                                         }
                                     })
                             .show();
