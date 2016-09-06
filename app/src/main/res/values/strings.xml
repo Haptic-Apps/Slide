@@ -1139,6 +1139,7 @@
     <string name="navigation_bar_vote_gestures">Navigation bar vote gestures</string>
     <string name="nav_gestures_description">Upvote and downvote by swiping on the comment navigation arrows</string>
     <string name="subreddit_sidebar_progress">Getting sidebar...</string>
+    <string name="manage_your_subreddits">Manage your subreddits</string>
 
 
 </resources>

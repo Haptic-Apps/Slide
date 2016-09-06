@@ -107,9 +107,33 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
-                        android:text="@string/settings_manage_subscriptions"
+                        android:text="@string/manage_your_subreddits"
                         android:textColor="?attr/font"
                         android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                        android:id="@+id/offline"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="?android:selectableItemBackground"
+                        android:orientation="horizontal">
+
+                    <ImageView
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:padding="16dp"
+                            android:tint="?attr/tint"
+                            app:srcCompat="@drawable/offline" />
+
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="Manage offline content"
+                            android:textColor="?attr/font"
+                            android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>
