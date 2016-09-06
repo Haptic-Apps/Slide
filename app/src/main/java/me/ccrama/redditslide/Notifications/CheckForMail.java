@@ -418,7 +418,7 @@ public class CheckForMail extends BroadcastReceiver {
                                 //Go an hour back just in case
                                 + ".."
                                 + ((System.currentTimeMillis() / 1000) + offsetSeconds));
-                LogUtil.v("timestamp:"
+                LogUtil.v("/r/" + first + "/search?q=timestamp:"
                         + ((lastTime / 1000) + offsetSeconds)
                         //Go an hour back just in case
                         + ".."

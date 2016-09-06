@@ -176,12 +176,9 @@ public class GifUtils {
                         video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                             @Override
                             public void onPrepared(MediaPlayer mp) {
-
                                 if (placeholder != null)
                                     placeholder.setVisibility(View.GONE);
                                 mp.setLooping(true);
-
-
                             }
 
                         });

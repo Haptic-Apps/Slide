@@ -52,6 +52,7 @@ public class Authentication {
             isLoggedIn = false;
             reddit = new RedditClient(
                     UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
+            reddit.setRetryLimit(3);
             if (BuildConfig.DEBUG) reddit.setLoggingMode(LoggingMode.ALWAYS);
             didOnline = true;
 
