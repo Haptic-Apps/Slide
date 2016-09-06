@@ -258,7 +258,7 @@ public class SettingsBackup extends BaseActivityAnim {
                             Environment.DIRECTORY_DOWNLOADS)
                             + File.separator
                             + "Slide"
-                            + new SimpleDateFormat("HH:mm-MMddyy").format(
+                            + new SimpleDateFormat("MMddyy-hh:mm").format(
                             Calendar.getInstance().getTime())
                             + (!personal ? "-personal" : "")
                             + ".txt");

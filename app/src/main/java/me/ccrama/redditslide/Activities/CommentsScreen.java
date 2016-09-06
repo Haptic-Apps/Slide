@@ -35,23 +35,22 @@ import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.LogUtil;
 
 /**
- * This activity is responsible for the view when clicking on a post, showing
- * the post and its comments underneath with the slide left/right for the next
- * post.
+ * This activity is responsible for the view when clicking on a post, showing the post and its
+ * comments underneath with the slide left/right for the next post.
  * <p/>
- * When the end of the currently loaded posts is being reached, more posts are
- * loaded asynchronously in {@link OverviewPagerAdapter}.
+ * When the end of the currently loaded posts is being reached, more posts are loaded asynchronously
+ * in {@link OverviewPagerAdapter}.
  * <p/>
  * Comments are displayed in the {@link CommentPage} fragment.
  * <p/>
  * Created by ccrama on 9/17/2015.
  */
 public class CommentsScreen extends BaseActivityAnim implements SubmissionDisplay {
-    public static final String EXTRA_PROFILE = "profile";
-    public static final String EXTRA_PAGE = "page";
-    public static final String EXTRA_SUBREDDIT = "subreddit";
+    public static final String EXTRA_PROFILE     = "profile";
+    public static final String EXTRA_PAGE        = "page";
+    public static final String EXTRA_SUBREDDIT   = "subreddit";
     public static final String EXTRA_MULTIREDDIT = "multireddit";
-    
+
     public ArrayList<Submission> currentPosts;
 
     public PostLoader subredditPosts;
@@ -108,7 +107,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         }
     }
 
-    public int currentPage;
+    public int                currentPage;
     public ArrayList<Integer> seen;
 
     public int adjustAlpha(float factor) {
@@ -123,7 +122,10 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     public void onCreate(Bundle savedInstance) {
-        popup = SettingValues.tabletUI && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !SettingValues.fullCommentOverride;
+        popup = SettingValues.tabletUI
+                && getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE
+                && !SettingValues.fullCommentOverride;
         seen = new ArrayList<>();
         if (popup) {
             disableSwipeBackLayout();
@@ -161,23 +163,23 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
             firstPage = 0;
             //IS SINGLE POST
         } else {
-            OfflineSubreddit o = OfflineSubreddit.getSubreddit(multireddit == null ? baseSubreddit : "multi" + multireddit, OfflineSubreddit.currentid, !Authentication.didOnline, CommentsScreen.this);
+            OfflineSubreddit o = OfflineSubreddit.getSubreddit(
+                    multireddit == null ? baseSubreddit : "multi" + multireddit,
+                    OfflineSubreddit.currentid, !Authentication.didOnline, CommentsScreen.this);
             subredditPosts.getPosts().addAll(o.submissions);
             currentPosts.addAll(subredditPosts.getPosts());
         }
 
 
-        if(getIntent().hasExtra("fullname")){
+        if (getIntent().hasExtra("fullname")) {
             String fullname = getIntent().getStringExtra("fullname");
-            for(int i = 0; i < currentPosts.size(); i++){
-                if(currentPosts.get(i).getFullName().equals(fullname)){
-                    if(i != firstPage)
-                        firstPage = i;
+            for (int i = 0; i < currentPosts.size(); i++) {
+                if (currentPosts.get(i).getFullName().equals(fullname)) {
+                    if (i != firstPage) firstPage = i;
                     break;
                 }
             }
         }
-
 
 
         if (currentPosts.isEmpty() || currentPosts.get(firstPage) == null || firstPage < 0) {
@@ -196,13 +198,17 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
             pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                                               @Override
-                                              public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                                              public void onPageScrolled(int position, float positionOffset,
+                                                      int positionOffsetPixels) {
                                                   if (position <= firstPage && positionOffsetPixels == 0) {
                                                       finish();
                                                   }
                                                   if (position == firstPage && !popup) {
-                                                      if (((OverviewPagerAdapter) pager.getAdapter()).blankPage != null)
-                                                          ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
+                                                      if (((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                              != null) {
+                                                          ((OverviewPagerAdapter) pager.getAdapter()).blankPage
+                                                                  .doOffset(positionOffset);
+                                                      }
                                                       pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
 
                                                   }
@@ -212,12 +218,12 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                                               public void onPageSelected(int position) {
                                                   if (position != firstPage && position < currentPosts.size()) {
                                                       position = position - 1;
-                                                      if(position < 0)
-                                                          position = 0;
+                                                      if (position < 0) position = 0;
                                                       updateSubredditAndSubmission(currentPosts.get(position));
 
                                                       if (currentPosts.size() - 2 <= position && subredditPosts.hasMore()) {
-                                                          subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(), CommentsScreen.this, false);
+                                                          subredditPosts.loadMore(CommentsScreen.this.getApplicationContext(),
+                                                                  CommentsScreen.this, false);
                                                       }
 
                                                       currentPage = position;
@@ -243,7 +249,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
         }
         if (!Reddit.appRestart.contains("tutorialSwipeComments")) {
             Intent i = new Intent(this, SwipeTutorial.class);
-            i.putExtra("subtitle", "Swipe from the left edge to exit comments.\n\nYou can swipe in the middle to get to the previous/next submission.");
+            i.putExtra("subtitle",
+                    "Swipe from the left edge to exit comments.\n\nYou can swipe in the middle to get to the previous/next submission.");
             startActivityForResult(i, 333);
         }
     }
@@ -256,7 +263,9 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
         if (SettingValues.storeHistory) {
             if (post.isNsfw() && !SettingValues.storeNSFWHistory) {
-            } else HasSeen.addSeen(post.getFullName());
+            } else {
+                HasSeen.addSeen(post.getFullName());
+            }
             LastComments.setComments(post);
         }
     }
@@ -264,7 +273,7 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        LastComments.setCommentsSince(submissions);
+        if (SettingValues.storeHistory) LastComments.setCommentsSince(submissions);
         currentPosts.clear();
         currentPosts.addAll(submissions);
         runOnUiThread(new Runnable() {
@@ -306,8 +315,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
-        private CommentPage mCurrentFragment;
-        public BlankFragment blankPage;
+        private CommentPage   mCurrentFragment;
+        public  BlankFragment blankPage;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -344,7 +353,8 @@ public class CommentsScreen extends BaseActivityAnim implements SubmissionDispla
                 args.putBoolean("locked", currentPosts.get(i).isLocked());
                 args.putInt("page", i);
                 args.putString("subreddit", currentPosts.get(i).getSubredditName());
-                args.putString("baseSubreddit", multireddit == null ? baseSubreddit : "multi" + multireddit);
+                args.putString("baseSubreddit",
+                        multireddit == null ? baseSubreddit : "multi" + multireddit);
 
                 f.setArguments(args);
                 return f;

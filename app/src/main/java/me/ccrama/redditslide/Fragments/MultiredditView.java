@@ -256,7 +256,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
                     if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                         for (int firstVisibleItem : firstVisibleItems) {
                             pastVisiblesItems = firstVisibleItem;
-                            if (SettingValues.scrollSeen && pastVisiblesItems > 0) {
+                            if (SettingValues.scrollSeen && pastVisiblesItems > 0 && SettingValues.storeHistory) {
                                 HasSeen.addSeen(posts.posts.get(pastVisiblesItems - 1).getFullName());
                             }
                         }
@@ -343,7 +343,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(List<Submission> submissions, final int startIndex) {
-        LastComments.setCommentsSince(submissions);
+        if (SettingValues.storeHistory) LastComments.setCommentsSince(submissions);
         adapter.context.runOnUiThread(new Runnable() {
             @Override
             public void run() {

@@ -19,16 +19,20 @@ public class MySynccitReadTask extends SynccitReadTask {
         super(MY_DEV_NAME);
         this.displayer = displayer;
     }
+
     public MySynccitReadTask() {
         super(MY_DEV_NAME);
     }
+
     @Override
     protected void onVisited(HashSet<String> visitedThreadIds) {
         SynccitRead.visitedIds.addAll(visitedThreadIds);
 
         //save the newly "seen" synccit posts to SEEN
-        for (String id : visitedThreadIds) {
-            HasSeen.addSeen(id);
+        if (SettingValues.storeHistory) {
+            for (String id : visitedThreadIds) {
+                HasSeen.addSeen(id);
+            }
         }
     }
 
@@ -50,8 +54,7 @@ public class MySynccitReadTask extends SynccitReadTask {
     @Override
     public void onPostExecute(SynccitResponse result) {
         super.onPostExecute(result);
-        if(displayer != null)
-            displayer.updateViews();
+        if (displayer != null) displayer.updateViews();
     }
 
 }

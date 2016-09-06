@@ -101,7 +101,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
     @Override
     public void updateSuccess(final List<Submission> submissions, final int startIndex) {
-        LastComments.setCommentsSince(submissions);
+        if (SettingValues.storeHistory) LastComments.setCommentsSince(submissions);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

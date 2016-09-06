@@ -367,8 +367,10 @@ public class SubredditPosts implements PostLoader {
                     && SettingValues.lowResMobile) || SettingValues.lowResAlways))) {
                 loadPhotos(filteredSubmissions);
             }
-            HasSeen.setHasSeenSubmission(filteredSubmissions);
-            LastComments.setCommentsSince(filteredSubmissions);
+            if(SettingValues.storeHistory) {
+                HasSeen.setHasSeenSubmission(filteredSubmissions);
+                LastComments.setCommentsSince(filteredSubmissions);
+            }
             SubmissionCache.cacheSubmissions(filteredSubmissions, context, subreddit);
 
             if (reset || offline || posts == null) {
