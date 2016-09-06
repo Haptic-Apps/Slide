@@ -26,9 +26,9 @@ public class TitleFull extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.submission_titlecard, container, false);
+            Bundle savedInstanceState) {
+        ViewGroup rootView =
+                (ViewGroup) inflater.inflate(R.layout.submission_titlecard, container, false);
 
 
         PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
@@ -41,7 +41,7 @@ public class TitleFull extends Fragment {
                 i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
                 i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
                 (getActivity()).startActivity(i2);
-                
+
             }
         });
         return rootView;
@@ -55,8 +55,13 @@ public class TitleFull extends Fragment {
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
         sub = bundle.getString("sub");
-        s = ((Shadowbox)getActivity()).subredditPosts.getPosts().get(bundle.getInt("page", 0));
-
+        if (((Shadowbox) getActivity()).subredditPosts == null
+                || ((Shadowbox) getActivity()).subredditPosts.getPosts().size() < bundle.getInt(
+                "page", 0)) {
+            getActivity().finish();
+        } else {
+            s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(bundle.getInt("page", 0));
+        }
     }
 
 }

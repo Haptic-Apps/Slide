@@ -181,7 +181,13 @@ public class AlbumFull extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
-        s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(i);
+        if (((Shadowbox) getActivity()).subredditPosts == null
+                || ((Shadowbox) getActivity()).subredditPosts.getPosts().size() < bundle.getInt(
+                "page", 0)) {
+            getActivity().finish();
+        } else {
+            s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(bundle.getInt("page", 0));
+        }
     }
 
 

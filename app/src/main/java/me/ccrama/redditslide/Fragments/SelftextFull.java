@@ -64,7 +64,13 @@ public class SelftextFull extends Fragment {
         Bundle bundle = this.getArguments();
         i = bundle.getInt("page", 0);
         sub = bundle.getString("sub");
-        s = ((Shadowbox)getActivity()).subredditPosts.getPosts().get(bundle.getInt("page", 0));
+        if (((Shadowbox) getActivity()).subredditPosts == null
+                || ((Shadowbox) getActivity()).subredditPosts.getPosts().size() < bundle.getInt(
+                "page", 0)) {
+            getActivity().finish();
+        } else {
+            s = ((Shadowbox) getActivity()).subredditPosts.getPosts().get(bundle.getInt("page", 0));
+        }
     }
 
     private void setViews(String rawHTML, String subredditName, View base) {
