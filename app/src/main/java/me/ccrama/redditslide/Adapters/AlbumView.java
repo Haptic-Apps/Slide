@@ -3,6 +3,7 @@ package me.ccrama.redditslide.Adapters;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
+import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,6 +34,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -127,7 +130,26 @@ public class AlbumView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             } else {
                 holder.image.setLayoutParams(new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) getHeightFromAspectRatio(user.getHeight(), user.getWidth(), imageView.getWidth())));
             }
-
+            {
+                int type = new FontPreferences(holder.body.getContext()).getFontTypeComment().getTypeface();
+                Typeface typeface;
+                if (type >= 0) {
+                    typeface = RobotoTypefaceManager.obtainTypeface(holder.body.getContext(), type);
+                } else {
+                    typeface = Typeface.DEFAULT;
+                }
+                holder.body.setTypeface(typeface);
+            }
+            {
+                int type = new FontPreferences(holder.body.getContext()).getFontTypeTitle().getTypeface();
+                Typeface typeface;
+                if (type >= 0) {
+                    typeface = RobotoTypefaceManager.obtainTypeface(holder.body.getContext(), type);
+                } else {
+                    typeface = Typeface.DEFAULT;
+                }
+                holder.text.setTypeface(typeface);
+            }
             {
                 if (user.getTitle() != null) {
                     List<String> text = SubmissionParser.getBlocks(user.getTitle());

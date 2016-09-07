@@ -11,6 +11,7 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
@@ -41,6 +42,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.devspark.robototextview.util.RobotoTypefaceManager;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -66,7 +68,6 @@ import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
-import me.ccrama.redditslide.ImageLoaderUtils;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.Notifications.ImageDownloadNotificationService;
@@ -78,6 +79,7 @@ import me.ccrama.redditslide.Views.ImageSource;
 import me.ccrama.redditslide.Views.MediaVideoView;
 import me.ccrama.redditslide.Views.SubsamplingScaleImageView;
 import me.ccrama.redditslide.Views.ToolbarColorizeHelper;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -132,7 +134,7 @@ public class AlbumPager extends FullScreenActivity
             int index = 0;
             for (final Image elem : images) {
                 doImageSave(false, elem.getImageUrl(), index);
-                index ++;
+                index++;
             }
         }
 
@@ -424,7 +426,8 @@ public class AlbumPager extends FullScreenActivity
 
     }
 
-    public void showBottomSheetImage(final String contentUrl, final boolean isGif, final int index) {
+    public void showBottomSheetImage(final String contentUrl, final boolean isGif,
+            final int index) {
 
         int[] attrs = new int[]{R.attr.tint};
         TypedArray ta = obtainStyledAttributes(attrs);
@@ -571,6 +574,26 @@ public class AlbumPager extends FullScreenActivity
                     setTextWithLinks(description,
                             ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)));
                 }
+                {
+                    int type = new FontPreferences(getContext()).getFontTypeComment().getTypeface();
+                    Typeface typeface;
+                    if (type >= 0) {
+                        typeface = RobotoTypefaceManager.obtainTypeface(getContext(), type);
+                    } else {
+                        typeface = Typeface.DEFAULT;
+                    }
+                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.body)).setTypeface(typeface);
+                }
+                {
+                    int type = new FontPreferences(getContext()).getFontTypeTitle().getTypeface();
+                    Typeface typeface;
+                    if (type >= 0) {
+                        typeface = RobotoTypefaceManager.obtainTypeface(getContext(), type);
+                    } else {
+                        typeface = Typeface.DEFAULT;
+                    }
+                    ((SpoilerRobotoTextView) rootView.findViewById(R.id.title)).setTypeface(typeface);
+                }
                 final SlidingUpPanelLayout l =
                         (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout);
                 rootView.findViewById(R.id.title).setOnClickListener(new View.OnClickListener() {
@@ -655,12 +678,12 @@ public class AlbumPager extends FullScreenActivity
                 new LinearLayout.LayoutParams(image.getWidth(), image.getHeight()));
         fakeImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ((Reddit) f.getActivity().getApplication()).getImageLoader()
-                .displayImage(url, new ImageViewAware(fakeImage), new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
+                .displayImage(url, new ImageViewAware(fakeImage),
+                        new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
                                 .cacheOnDisk(true)
                                 .imageScaleType(ImageScaleType.NONE)
                                 .cacheInMemory(false)
-                                .build(),
-                        new ImageLoadingListener() {
+                                .build(), new ImageLoadingListener() {
                             private View mView;
 
                             @Override
