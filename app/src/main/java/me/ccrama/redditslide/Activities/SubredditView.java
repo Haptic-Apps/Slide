@@ -217,7 +217,7 @@ public class SubredditView extends BaseActivity {
                 && !subreddit.equals("friends")
                 && !subreddit.equals("mod")
                 && !subreddit.equals("myrandom")
-                && !subreddit.equals("nsfwrandom")
+                && !subreddit.equals("randnsfw")
                 && !subreddit.contains("+")) {
             executeAsyncSubreddit(subreddit);
         } else {
@@ -378,7 +378,7 @@ public class SubredditView extends BaseActivity {
                         && !subreddit.equalsIgnoreCase("all")
                         && !subreddit.equalsIgnoreCase("random")
                         && !subreddit.equals("myrandom")
-                        && !subreddit.equals("nsfwrandom")
+                        && !subreddit.equals("randnsfw")
                         && !subreddit.equalsIgnoreCase("friends")
                         && !subreddit.equalsIgnoreCase("mod")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
@@ -494,7 +494,7 @@ public class SubredditView extends BaseActivity {
                 && !subOverride.equalsIgnoreCase("frontpage")
                 && !subOverride.equalsIgnoreCase("random")
                 && !subOverride.equalsIgnoreCase("myrandom")
-                && !subOverride.equalsIgnoreCase("nsfwrandom")
+                && !subOverride.equalsIgnoreCase("randnsfw")
                 &&
                 !subOverride.equalsIgnoreCase("friends")
                 && !subOverride.equalsIgnoreCase("mod")

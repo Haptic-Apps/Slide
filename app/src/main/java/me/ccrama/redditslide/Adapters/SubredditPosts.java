@@ -287,14 +287,14 @@ public class SubredditPosts implements PostLoader {
                 }
 
                 if (subreddit.equals("random") || subreddit.equals("myrandom") || subreddit.equals(
-                        "nsfwrandom")) {
+                        "randnsfw")) {
                     subredditRandom = submissions.get(0).getSubredditName();
                 }
 
                 MainActivity.randomoverride = subredditRandom;
 
                 if (c instanceof SubredditView && (subreddit.equals("random") || subreddit.equals(
-                        "myrandom") || subreddit.equals("nsfwrandom"))) {
+                        "myrandom") || subreddit.equals("randnsfw"))) {
                     ((SubredditView) c).subreddit = subredditRandom;
                     ((SubredditView) c).executeAsyncSubreddit(subredditRandom);
                 }
@@ -350,7 +350,7 @@ public class SubredditPosts implements PostLoader {
                 offline = false;
                 nomore = false;
                 String sub = subredditPaginators[0].toLowerCase();
-                if((sub.equals("random") || sub.equals("randomnsfw") )&& MainActivity.randomoverride!= null && !MainActivity.randomoverride.isEmpty()){
+                if((sub.equals("random") || sub.equals("randnsfw") )&& MainActivity.randomoverride!= null && !MainActivity.randomoverride.isEmpty()){
                     sub = MainActivity.randomoverride;
                     MainActivity.randomoverride = "";
                 }

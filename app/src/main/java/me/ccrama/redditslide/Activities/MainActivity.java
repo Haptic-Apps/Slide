@@ -763,7 +763,7 @@ public class MainActivity extends BaseActivity {
                         && !subreddit.equalsIgnoreCase("friends")
                         && !subreddit.equalsIgnoreCase("random")
                         && !subreddit.equalsIgnoreCase("myrandom")
-                        && !subreddit.equalsIgnoreCase("nsfwrandom")) {
+                        && !subreddit.equalsIgnoreCase("randnsfw")) {
                     builder.positiveText(getString(R.string.search_subreddit, subreddit))
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
@@ -2140,7 +2140,7 @@ public class MainActivity extends BaseActivity {
                             String compare = usedArray.get(current);
                             if (compare.equals("random")
                                     || compare.equals("myrandom")
-                                    || compare.equals("nsfwrandom")) {
+                                    || compare.equals("randnsfw")) {
                                 if (adapter != null
                                         && adapter.getCurrentFragment() != null
                                         && ((SubmissionsView) adapter.getCurrentFragment()).adapter.dataSet.subredditRandom
