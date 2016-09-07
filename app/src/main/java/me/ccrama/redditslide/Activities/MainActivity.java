@@ -225,7 +225,7 @@ public class MainActivity extends BaseActivity {
                 scrollToTabAfterLayout(current);
             }
             setToolbarClick();
-        } else if (requestCode == 2001 && resultCode == RESULT_OK) {
+        } else if ((requestCode == 2001 || requestCode == 2002) && resultCode == RESULT_OK) {
             if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
                 || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
                 drawerLayout.closeDrawers();
@@ -243,6 +243,8 @@ public class MainActivity extends BaseActivity {
                         Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
+        } else if (requestCode == 2002 && resultCode != RESULT_OK) {
+            mToolbar.performLongClick(); //search was init from the toolbar, so return focus to the toolbar
         } else if (requestCode == 423 && resultCode == RESULT_OK) {
             ((OverviewPagerAdapterComment) adapter).mCurrentComments.doResult(data);
         } else if (requestCode == 940) {
@@ -4128,7 +4130,7 @@ public class MainActivity extends BaseActivity {
                                                             SubredditView.class);
                                                     intent.putExtra(SubredditView.EXTRA_SUBREDDIT,
                                                             GO_TO_SUB_FIELD.getText().toString());
-                                                    MainActivity.this.startActivityForResult(intent, 2001);
+                                                    MainActivity.this.startActivityForResult(intent, 2002 );
                                                 } else {
                                                     if (commentPager
                                                             && adapter instanceof OverviewPagerAdapterComment) {
