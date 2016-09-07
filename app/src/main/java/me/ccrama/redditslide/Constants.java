@@ -38,4 +38,8 @@ public class Constants {
 
     /** The client ID to use when making requests to the Imgur Mashape API */
     public static final String IMGUR_MASHAPE_CLIENT_ID = "bef87913eb202e9";
+
+    public static final int SUBREDDIT_SEARCH_METHOD_DRAWER = 1;
+    public static final int SUBREDDIT_SEARCH_METHOD_TOOLBAR = 2;
+    public static final int SUBREDDIT_SEARCH_METHOD_BOTH = 3;
 }

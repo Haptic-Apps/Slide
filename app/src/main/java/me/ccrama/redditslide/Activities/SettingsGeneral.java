@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.ccrama.redditslide.Authentication;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.FolderChooserDialogCreate;
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
@@ -296,12 +297,12 @@ public class SettingsGeneral extends BaseActivityAnim
         //SettingValues.subredditSearchMethod == 1 for drawer, 2 for toolbar, 3 for both
         final TextView currentMethodTitle =
                 (TextView) findViewById(R.id.subreddit_search_method_current);
-        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER) {
+        if (SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER) {
             currentMethodTitle.setText(getString(R.string.subreddit_search_method_drawer));
         } else if (SettingValues.subredditSearchMethod
-                == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+                == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
             currentMethodTitle.setText(getString(R.string.subreddit_search_method_toolbar));
-        } else if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+        } else if (SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
             currentMethodTitle.setText(getString(R.string.subreddit_search_method_both));
         }
 
@@ -316,43 +317,43 @@ public class SettingsGeneral extends BaseActivityAnim
                         switch (item.getItemId()) {
                             case R.id.subreddit_search_drawer:
                                 SettingValues.subredditSearchMethod =
-                                        R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER;
+                                        Constants.SUBREDDIT_SEARCH_METHOD_DRAWER;
                                 SettingValues.prefs.edit()
                                         .putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD,
-                                                R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER)
+                                                Constants.SUBREDDIT_SEARCH_METHOD_DRAWER)
                                         .apply();
                                 SettingsGeneral.searchChanged = true;
                                 break;
                             case R.id.subreddit_search_toolbar:
                                 SettingValues.subredditSearchMethod =
-                                        R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR;
+                                        Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR;
                                 SettingValues.prefs.edit()
                                         .putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD,
-                                                R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR)
+                                                Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR)
                                         .apply();
                                 SettingsGeneral.searchChanged = true;
                                 break;
                             case R.id.subreddit_search_both:
                                 SettingValues.subredditSearchMethod =
-                                        R.integer.SUBREDDIT_SEARCH_METHOD_BOTH;
+                                        Constants.SUBREDDIT_SEARCH_METHOD_BOTH;
                                 SettingValues.prefs.edit()
                                         .putInt(SettingValues.PREF_SUBREDDIT_SEARCH_METHOD,
-                                                R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
+                                                Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
                                         .apply();
                                 SettingsGeneral.searchChanged = true;
                                 break;
                         }
 
                         if (SettingValues.subredditSearchMethod
-                                == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER) {
+                                == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER) {
                             currentMethodTitle.setText(
                                     getString(R.string.subreddit_search_method_drawer));
                         } else if (SettingValues.subredditSearchMethod
-                                == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+                                == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
                             currentMethodTitle.setText(
                                     getString(R.string.subreddit_search_method_toolbar));
                         } else if (SettingValues.subredditSearchMethod
-                                == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                                == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
                             currentMethodTitle.setText(
                                     getString(R.string.subreddit_search_method_both));
                         }

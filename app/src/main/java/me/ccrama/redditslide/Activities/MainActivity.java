@@ -227,9 +227,9 @@ public class MainActivity extends BaseActivity {
             }
             setToolbarClick();
         } else if ((requestCode == 2001 || requestCode == 2002) && resultCode == RESULT_OK) {
-            if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
+            if (SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER
                     || SettingValues.subredditSearchMethod
-                    == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
                 drawerLayout.closeDrawers();
                 drawerSearch.setText("");
             }
@@ -295,8 +295,8 @@ public class MainActivity extends BaseActivity {
             drawerLayout.closeDrawers();
         } else if (commentPager && pager.getCurrentItem() == toOpenComments) {
             pager.setCurrentItem(pager.getCurrentItem() - 1);
-        } else if ((SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
-                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
+        } else if ((SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
                 && findViewById(R.id.toolbar_search).getVisibility() == View.VISIBLE) {
             findViewById(R.id.close_search_toolbar).performClick(); //close GO_TO_SUB_FIELD
         } else if (SettingValues.exit) {
@@ -1301,8 +1301,8 @@ public class MainActivity extends BaseActivity {
                     .engageWhenAppropriate();
         }
 
-        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
-                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
+        if (SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
 
         {
             setupSubredditSearchToolbar();
@@ -1379,15 +1379,15 @@ public class MainActivity extends BaseActivity {
                 setDrawerSubList();
 
                 if (SettingValues.subredditSearchMethod
-                        == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER) {
+                        == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER) {
                     mToolbar.setOnLongClickListener(
                             null); //remove the long click listener from the toolbar
                     findViewById(R.id.drawer_divider).setVisibility(View.GONE);
                 } else if (SettingValues.subredditSearchMethod
-                        == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
+                        == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR) {
                     setupSubredditSearchToolbar();
                 } else if (SettingValues.subredditSearchMethod
-                        == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                        == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
                     findViewById(R.id.drawer_divider).setVisibility(View.GONE);
                     setupSubredditSearchToolbar();
                     setDrawerSubList();
@@ -3522,8 +3522,8 @@ public class MainActivity extends BaseActivity {
 
         setToolbarClick();
 
-        if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
-                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+        if (SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
             setupSubredditSearchToolbar();
         }
     }
@@ -3692,10 +3692,10 @@ public class MainActivity extends BaseActivity {
         drawerSubList.setAdapter(sideArrayAdapter);
 
         if (NetworkUtil.isConnected(this) && (SettingValues.subredditSearchMethod
-                == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
-                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH
+                == Constants.SUBREDDIT_SEARCH_METHOD_DRAWER
+                || SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_BOTH
                 || SettingValues.subredditSearchMethod
-                != R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR)) {
+                != Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR)) {
             drawerSearch = ((EditText) headerMain.findViewById(R.id.sort));
             drawerSearch.setVisibility(View.VISIBLE);
 
@@ -4039,14 +4039,14 @@ public class MainActivity extends BaseActivity {
         if (!NetworkUtil.isConnected(this)) {
             findViewById(R.id.drawer_divider).setVisibility(View.GONE);
         } else {
-            if ((SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+            if ((SettingValues.subredditSearchMethod == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
                     || SettingValues.subredditSearchMethod
-                    == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
+                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
                     && usedArray != null
                     && !usedArray.isEmpty()) {
                 if (findViewById(R.id.drawer_divider) != null) {
                     if (SettingValues.subredditSearchMethod
-                            == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                            == Constants.SUBREDDIT_SEARCH_METHOD_BOTH) {
                         findViewById(R.id.drawer_divider).setVisibility(View.GONE);
                     } else {
                         findViewById(R.id.drawer_divider).setVisibility(View.VISIBLE);
@@ -4596,9 +4596,9 @@ public class MainActivity extends BaseActivity {
                     if (SettingValues.single || mTabLayout == null) {
                         //Smooth out the fading animation for the toolbar subreddit search UI
                         if ((SettingValues.subredditSearchMethod
-                                == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
                                 || SettingValues.subredditSearchMethod
-                                == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
+                                == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
                                 && findViewById(R.id.toolbar_search).getVisibility()
                                 == View.VISIBLE) {
                             new Handler().postDelayed(new Runnable() {

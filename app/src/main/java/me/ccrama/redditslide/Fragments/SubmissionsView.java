@@ -595,9 +595,9 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
                             //If the toolbar search is open, and the user scrolls in the Main view--close the search UI
                             if (getActivity() instanceof MainActivity
                                     && (SettingValues.subredditSearchMethod
-                                    == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                                    == Constants.SUBREDDIT_SEARCH_METHOD_TOOLBAR
                                     || SettingValues.subredditSearchMethod
-                                    == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH)
+                                    == Constants.SUBREDDIT_SEARCH_METHOD_BOTH)
                                     && ((MainActivity) getContext()).findViewById(
                                     R.id.toolbar_search).getVisibility() == View.VISIBLE) {
                                 ((MainActivity) getContext()).findViewById(
