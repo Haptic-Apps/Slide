@@ -403,8 +403,7 @@ public class SettingsTheme extends BaseActivityAnim {
                         if (SettingValues.colorIcon) {
                             getPackageManager().setComponentEnabledSetting(
                                     new ComponentName(SettingsTheme.this,
-                                            ColorPreferences.getIconName(SettingsTheme.this,
-                                                    Reddit.colors.getInt("DEFAULTCOLOR", 0))),
+                                            ".Activities.Slide"),
                                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                                     PackageManager.DONT_KILL_APP);
 
@@ -556,8 +555,7 @@ public class SettingsTheme extends BaseActivityAnim {
                 if (isChecked) {
                     getPackageManager().setComponentEnabledSetting(
                             new ComponentName(SettingsTheme.this,
-                                    Slide.class.getPackage().getName()
-                                            + ".SlideDefault"),
+                                    Slide.class.getPackage().getName() + ".Slide"),
                             PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                             PackageManager.DONT_KILL_APP);
                     getPackageManager().setComponentEnabledSetting(
@@ -576,8 +574,7 @@ public class SettingsTheme extends BaseActivityAnim {
 
                     getPackageManager().setComponentEnabledSetting(
                             new ComponentName(SettingsTheme.this,
-                                    Slide.class.getPackage().getName()
-                                            + ".SlideDefault"),
+                                    Slide.class.getPackage().getName() + ".Slide"),
                             PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                             PackageManager.DONT_KILL_APP);
                 }

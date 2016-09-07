@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -3690,7 +3691,7 @@ public class MainActivity extends BaseActivity {
                         drawerSubList);
         drawerSubList.setAdapter(sideArrayAdapter);
 
-        if (!NetworkUtil.isConnected(this) && (SettingValues.subredditSearchMethod
+        if (NetworkUtil.isConnected(this) && (SettingValues.subredditSearchMethod
                 == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
                 || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH
                 || SettingValues.subredditSearchMethod
