@@ -226,7 +226,6 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             mediaPlayer.setDataSource(mContext, uri);
             LogUtil.v( "Setting media player listeners.");
             mediaPlayer.setOnBufferingUpdateListener(bufferingUpdateListener);
-            mediaPlayer.setOnCompletionListener(completeListener);
             mediaPlayer.setOnPreparedListener(preparedListener);
             mediaPlayer.setOnErrorListener(errorListener);
             if (mAudioSession != 0) {
@@ -292,19 +291,6 @@ public class MediaVideoView extends TextureView implements MediaController.Media
                 }
             };
 
-    private MediaPlayer.OnCompletionListener completeListener =
-            new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(final MediaPlayer mp) {
-                    currentState = STATE_PLAYBACK_COMPLETED;
-                    targetState = STATE_PLAYBACK_COMPLETED;
-                    LogUtil.v( "Video completed number " + number);
-                    surface.release();
-
-                    ((Activity) getContext()).finish();
-                }
-            };
-
     private MediaPlayer.OnPreparedListener preparedListener = new MediaPlayer.OnPreparedListener() {
         @Override
         public void onPrepared(final MediaPlayer mp) {
@@ -336,7 +322,6 @@ public class MediaVideoView extends TextureView implements MediaController.Media
                     mediaPlayer.start();
                 }
             }
-            mp.setLooping(true);
         }
     };
 
