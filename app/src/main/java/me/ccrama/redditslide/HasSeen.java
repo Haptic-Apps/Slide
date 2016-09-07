@@ -73,15 +73,15 @@ public class HasSeen {
             hasSeen = new ArrayList<>();
             seenTimes = new HashMap<>();
         }
-        if (s.getDataNode().has("visited") && s.getDataNode().get("visited").asBoolean()
-                || s.getVote() != VoteDirection.NO_VOTE) {
-            return true;
-        }
+
         String fullname = s.getFullName();
         if (fullname.contains("t3_")) {
             fullname = fullname.substring(3, fullname.length());
         }
-        return hasSeen.contains(fullname) || SynccitRead.visitedIds.contains(fullname);
+        return (hasSeen.contains(fullname)
+                || SynccitRead.visitedIds.contains(fullname)
+                || s.getDataNode().has("visited") && s.getDataNode().get("visited").asBoolean()
+                || s.getVote() != VoteDirection.NO_VOTE);
     }
 
     public static long getSeenTime(Submission s) {
@@ -114,6 +114,7 @@ public class HasSeen {
         }
 
         hasSeen.add(fullname);
+        seenTimes.put(fullname, System.currentTimeMillis());
 
         KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
 

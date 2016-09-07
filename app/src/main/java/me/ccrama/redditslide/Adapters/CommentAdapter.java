@@ -249,8 +249,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public void doTimes() {
         if (submission != null && SettingValues.commentLastVisit && !dataSet.single && (
                 SettingValues.storeHistory
-                        && ((submission.isNsfw() && SettingValues.storeNSFWHistory)
-                        || !submission.isNsfw()))) {
+                        && (!submission.isNsfw() || SettingValues.storeNSFWHistory))) {
             lastSeen = HasSeen.getSeenTime(submission);
             String fullname = submission.getFullName();
             if (fullname.contains("t3_")) {

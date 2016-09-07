@@ -150,7 +150,7 @@ public class SubmissionParser {
             }
         }
 
-        html = html.replace("<ol>","").replace("<ul>","").replace("</ol>", "").replace("</ul>",""); //Remove the tags, which actually work in Android 7.0 on
+        html = html.replace("<ol>","").replace("<ul>","").replace("<li>","").replace("</li>","").replace("</ol>", "").replace("</ul>",""); //Remove the tags, which actually work in Android 7.0 on
 
         return html;
     }
