@@ -1,23 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-    android:background="?attr/card_background">
+            android:background="?attr/card_background">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
 
-        <include layout="@layout/settings_toolbar" />
+        <include layout="@layout/settings_toolbar"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <TextView
+                    android:id="@+id/linksHeader"
+                    style="@style/TextAppearance.AppCompat.Body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/type_links"
+                    android:textColor="?attr/colorAccent"/>
+
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -36,7 +48,7 @@
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Enlarge links"
+                            android:text="@string/enlarge_links"
                             android:textColor="?attr/font"
                             android:textSize="14sp"/>
 
@@ -44,7 +56,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:alpha=".86"
-                            android:text="May cause some lines to be bigger than others, but makes links easier to touch"
+                            android:text="@string/enlarge_links_warning"
                             android:textColor="?attr/font"
                             android:textSize="13sp"/>
                 </LinearLayout>
@@ -61,25 +73,26 @@
                         android:textColor="?attr/font"
                         android:textColorHint="?attr/font"/>
             </RelativeLayout>
+
             <View
                     android:layout_width="match_parent"
-                    android:background="?attr/tint"
+                    android:layout_height="0.25dp"
                     android:alpha=".25"
-                    android:layout_height="0.25dp"/>
+                    android:background="?attr/tint"/>
 
             <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:background="?android:selectableItemBackground"
                     android:paddingStart="16dp">
 
                 <LinearLayout
-                        android:layout_marginEnd="64dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginEnd="64dp"
                         android:orientation="vertical">
 
                     <TextView
@@ -87,308 +100,314 @@
                             android:layout_height="wrap_content"
                             android:text="@string/show_content_type_text_beside_links"
                             android:textColor="?attr/font"
-                            android:textSize="14sp" />
-
+                            android:textSize="14sp"/>
                 </LinearLayout>
-
 
                 <android.support.v7.widget.SwitchCompat
                         android:id="@+id/linktype"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:paddingEnd="16dp"
                         android:backgroundTint="?attr/tint"
                         android:button="@null"
                         android:buttonTint="?attr/tint"
                         android:hapticFeedbackEnabled="true"
+                        android:paddingEnd="16dp"
                         android:textColor="?attr/font"
-                        android:textColorHint="?attr/font" />
+                        android:textColorHint="?attr/font"/>
             </RelativeLayout>
-            <View
+
+            <TextView
+                    android:id="@+id/fontStylesHeader"
+                    style="@style/TextAppearance.AppCompat.Body2"
                     android:layout_width="match_parent"
-                    android:layout_height="0.25dp"
-                    android:alpha=".25"
-                    android:background="?attr/tint"/>
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/font_styles"
+                    android:textColor="?attr/colorAccent"/>
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:padding="16dp"
-                    app:srcCompat="@drawable/commentchange"
-                    android:tint="?attr/tint" />
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:padding="16dp"
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/commentchange"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/settings_font_comment"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_font_comment"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"/>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/commentfontsize"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <LinearLayout
+                    android:id="@+id/commentfontsize"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingEnd="16dp">
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingEnd="16dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:textStyle="bold"
-                        android:text="@string/font_size"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/font_size"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
 
                     <TextView
-                        android:id="@+id/commentFont"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/theme_card"
-                        android:textColor="?attr/font"
-                        android:textSize="12sp" />
+                            android:id="@+id/commentFont"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/theme_card"
+                            android:textColor="?attr/font"
+                            android:textSize="12sp"/>
                 </LinearLayout>
             </LinearLayout>
 
             <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/creg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:textColor="?attr/font"
-                    android:text="@string/settings_font_regular"
-                    app:typeface="roboto_regular" />
+                        android:id="@+id/creg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_regular"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/cslab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:textColor="?attr/font"
-                    android:text="@string/settings_font_slab"
-                    app:typeface="roboto_slab_regular" />
+                        android:id="@+id/cslab"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_slab"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_slab_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/ccond"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/font"
-                    android:background="?android:selectableItemBackground"
-                    android:text="@string/settings_font_condensed"
-                    app:typeface="roboto_condensed_regular" />
+                        android:id="@+id/ccond"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_condensed"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_condensed_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/clight"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/font"
-                    android:background="?android:selectableItemBackground"
-                    android:text="@string/settings_font_light"
-                    app:typeface="roboto_light" />
+                        android:id="@+id/clight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_light"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_light"/>
+
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/cnone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/font"
-                    android:background="?android:selectableItemBackground"
-                    android:text="@string/settings_font_system" />
+                        android:id="@+id/cnone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_system"
+                        android:textColor="?attr/font"/>
             </RadioGroup>
         </LinearLayout>
 
         <View
-            android:layout_width="match_parent"
-            android:background="?attr/tint"
-            android:alpha=".25"
-            android:layout_height="0.25dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="0.25dp"
+                android:alpha=".25"
+                android:background="?attr/tint"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
+                    android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="16dp"
-                    android:padding="16dp"
-                    app:srcCompat="@drawable/ic_format_size_white_48dp"
-                    android:tint="?attr/tint" />
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:padding="16dp"
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/ic_format_size_white_48dp"/>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:text="@string/settings_font_post"
-                    android:textColor="?attr/font"
-                    android:textSize="16sp" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/settings_font_post"
+                        android:textColor="?attr/font"
+                        android:textSize="16sp"/>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/postfontsize"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <LinearLayout
+                    android:id="@+id/postfontsize"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
+                    android:background="?android:selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingEnd="16dp">
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:paddingEnd="16dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textStyle="bold"
-                        android:gravity="center_vertical"
-                        android:text="@string/font_size"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/font_size"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp"
+                            android:textStyle="bold"/>
 
                     <TextView
-                        android:id="@+id/postFont"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/theme_card"
-                        android:textColor="?attr/font"
-                        android:textSize="12sp" />
+                            android:id="@+id/postFont"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/theme_card"
+                            android:textColor="?attr/font"
+                            android:textSize="12sp"/>
                 </LinearLayout>
             </LinearLayout>
 
             <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="16dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp">
-
-                <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/sreg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:textColor="?attr/font"
-                    android:text="@string/settings_font_regular"
-                    app:typeface="roboto_regular" />
+                    android:orientation="vertical"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/sbold"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:textColor="?attr/font"
-                    android:text="@string/settings_font_bold"
-                    app:typeface="roboto_bold" />
+                        android:id="@+id/sreg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_regular"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/smed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:textColor="?attr/font"
-                    android:text="@string/settings_font_medium"
-                    app:typeface="roboto_medium" />
+                        android:id="@+id/sbold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_bold"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_bold"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/sregl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:textColor="?attr/font"
-                    android:text="@string/settings_font_light"
-                    app:typeface="roboto_light" />
+                        android:id="@+id/smed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_medium"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_medium"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/sslab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:textColor="?attr/font"
-                    android:text="@string/settings_font_slab"
-                    app:typeface="roboto_slab_regular" />
+                        android:id="@+id/sregl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_light"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_light"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/sslabl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:textColor="?attr/font"
-                    android:text="@string/settings_font_slab_light"
-                    app:typeface="roboto_slab_light" />
+                        android:id="@+id/sslab"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_slab"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_slab_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/scond"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/font"
-                    android:background="?android:selectableItemBackground"
-                    android:text="@string/settings_font_condensed"
-                    app:typeface="roboto_condensed_regular" />
+                        android:id="@+id/sslabl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_slab_light"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_slab_light"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/scondl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/font"
-                    android:background="?android:selectableItemBackground"
-                    android:text="@string/settings_font_condensed_light"
-                    app:typeface="roboto_condensed_light" />
+                        android:id="@+id/scond"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_condensed"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_condensed_regular"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/scondb"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/font"
-                    android:background="?android:selectableItemBackground"
-                    android:text="@string/settings_font_condensed_bold"
-                    app:typeface="roboto_condensed_bold" />
+                        android:id="@+id/scondl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_condensed_light"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_condensed_light"/>
 
                 <com.devspark.robototextview.widget.RobotoRadioButton
-                    android:id="@+id/snone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?attr/font"
-                    android:background="?android:selectableItemBackground"
-                    android:text="@string/settings_font_system" />
+                        android:id="@+id/scondb"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_condensed_bold"
+                        android:textColor="?attr/font"
+                        app:typeface="roboto_condensed_bold"/>
+
+                <com.devspark.robototextview.widget.RobotoRadioButton
+                        android:id="@+id/snone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:text="@string/settings_font_system"
+                        android:textColor="?attr/font"/>
             </RadioGroup>
         </LinearLayout>
     </LinearLayout>
