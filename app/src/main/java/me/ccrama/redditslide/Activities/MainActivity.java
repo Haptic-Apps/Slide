@@ -230,8 +230,7 @@ public class MainActivity extends BaseActivity {
             drawerSearch.setText("");
 
             //clear the text from the toolbar search field
-            if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
-                    || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+            if (findViewById(R.id.toolbar_search) != null) {
                 ((AutoCompleteTextView) findViewById(R.id.toolbar_search)).setText("");
             }
 
