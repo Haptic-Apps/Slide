@@ -228,6 +228,13 @@ public class MainActivity extends BaseActivity {
         } else if(requestCode == 2001 && resultCode == RESULT_OK){
             drawerLayout.closeDrawers();
             drawerSearch.setText("");
+
+            //clear the text from the toolbar search field
+            if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_TOOLBAR
+                    || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                ((AutoCompleteTextView) findViewById(R.id.toolbar_search)).setText("");
+            }
+
             View view = MainActivity.this.getCurrentFocus();
             if (view != null) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(
@@ -4093,6 +4100,9 @@ public class MainActivity extends BaseActivity {
                                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                                     }
 
+                                    //clear sub text when close button is clicked
+                                    GO_TO_SUB_FIELD.setText("");
+
                                     //run the exit animations
                                     exitAnimationsForToolbarSearch(ANIMATE_DURATION,
                                             SUGGESTIONS_BACKGROUND, GO_TO_SUB_FIELD, CLOSE_BUTTON);
@@ -4116,7 +4126,7 @@ public class MainActivity extends BaseActivity {
                                                             SubredditView.class);
                                                     intent.putExtra(SubredditView.EXTRA_SUBREDDIT,
                                                             GO_TO_SUB_FIELD.getText().toString());
-                                                    MainActivity.this.startActivity(intent);
+                                                    MainActivity.this.startActivityForResult(intent, 2001);
                                                 } else {
                                                     if (commentPager
                                                             && adapter instanceof OverviewPagerAdapterComment) {
