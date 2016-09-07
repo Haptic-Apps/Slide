@@ -1809,28 +1809,8 @@ public class CommentPage extends Fragment {
                 }
             };
             rv.addOnScrollListener(toolbarScroll);
-        } else if (!override) {
+        } else {
             toolbarScroll.reset = true;
-        }
-    }
-
-    public static class TopSnappedSmoothScroller extends LinearSmoothScroller {
-        final PreCachingLayoutManagerComments lm;
-
-        public TopSnappedSmoothScroller(Context context, PreCachingLayoutManagerComments lm) {
-            super(context);
-            this.lm = lm;
-
-        }
-
-        @Override
-        public PointF computeScrollVectorForPosition(int targetPosition) {
-            return lm.computeScrollVectorForPosition(targetPosition);
-        }
-
-        @Override
-        protected int getVerticalSnapPreference() {
-            return SNAP_TO_START;
         }
     }
 
