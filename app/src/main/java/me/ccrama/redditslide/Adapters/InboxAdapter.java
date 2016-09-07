@@ -43,6 +43,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.ApiException;
 import net.dean.jraw.managers.CaptchaHelper;
@@ -70,6 +71,7 @@ import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Views.RoundedBackgroundSpan;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
 
@@ -392,7 +394,18 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                         }
                     }
                 }
-            });
+            });            //Set typeface for body
+
+
+            int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+            Typeface typeface;
+            if (type >= 0) {
+                typeface = RobotoTypefaceManager.obtainTypeface(mContext, type);
+            } else {
+                typeface = Typeface.DEFAULT;
+            }
+            messageViewHolder.content.setTypeface(typeface);
+
 
             setViews(comment.getDataNode().get("body_html").asText(), "FORCE_LINK_CLICK",
                     messageViewHolder);

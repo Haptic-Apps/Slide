@@ -129,8 +129,10 @@ public class AlbumPager extends FullScreenActivity
         }
 
         if (id == R.id.download) {
+            int index = 0;
             for (final Image elem : images) {
-                doImageSave(false, elem.getImageUrl());
+                doImageSave(false, elem.getImageUrl(), index);
+                index ++;
             }
         }
 
@@ -399,7 +401,7 @@ public class AlbumPager extends FullScreenActivity
             rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((AlbumPager) getActivity()).showBottomSheetImage(url, true);
+                    ((AlbumPager) getActivity()).showBottomSheetImage(url, true, i);
                 }
             });
             rootView.findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
@@ -422,7 +424,7 @@ public class AlbumPager extends FullScreenActivity
 
     }
 
-    public void showBottomSheetImage(final String contentUrl, final boolean isGif) {
+    public void showBottomSheetImage(final String contentUrl, final boolean isGif, final int index) {
 
         int[] attrs = new int[]{R.attr.tint};
         TypedArray ta = obtainStyledAttributes(attrs);
@@ -462,7 +464,7 @@ public class AlbumPager extends FullScreenActivity
                     }
                     break;
                     case (4): {
-                        doImageSave(isGif, contentUrl);
+                        doImageSave(isGif, contentUrl, index);
                     }
                     break;
                 }
@@ -473,7 +475,7 @@ public class AlbumPager extends FullScreenActivity
 
     }
 
-    public void doImageSave(boolean isGif, String contentUrl) {
+    public void doImageSave(boolean isGif, String contentUrl, int index) {
         if (!isGif) {
             if (Reddit.appRestart.getString("imagelocation", "").isEmpty()) {
                 showFirstDialog();
@@ -482,7 +484,7 @@ public class AlbumPager extends FullScreenActivity
             } else {
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 i.putExtra("actuallyLoaded", contentUrl);
-
+                i.putExtra("index", index);
                 startService(i);
             }
         } else {
@@ -529,7 +531,7 @@ public class AlbumPager extends FullScreenActivity
                 rootView.findViewById(R.id.more).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ((AlbumPager) getActivity()).showBottomSheetImage(url, false);
+                        ((AlbumPager) getActivity()).showBottomSheetImage(url, false, i);
                     }
                 });
                 {
@@ -537,7 +539,7 @@ public class AlbumPager extends FullScreenActivity
 
                         @Override
                         public void onClick(View v2) {
-                            ((AlbumPager) getActivity()).doImageSave(false, url);
+                            ((AlbumPager) getActivity()).doImageSave(false, url, i);
                         }
 
                     });

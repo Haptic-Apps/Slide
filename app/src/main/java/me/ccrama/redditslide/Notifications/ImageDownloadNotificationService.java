@@ -21,7 +21,6 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Random;
 import java.util.UUID;
 
 import me.ccrama.redditslide.R;
@@ -33,6 +32,7 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class ImageDownloadNotificationService extends Service {
 
+    int index;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -41,26 +41,28 @@ public class ImageDownloadNotificationService extends Service {
 
     private void handleIntent(Intent intent) {
         String actuallyLoaded = intent.getStringExtra("actuallyLoaded");
-        if (actuallyLoaded.contains("imgur.com") && (!actuallyLoaded.contains(".png") || !actuallyLoaded.contains(".jpg"))) {
+        if (actuallyLoaded.contains("imgur.com") && (!actuallyLoaded.contains(".png")
+                || !actuallyLoaded.contains(".jpg"))) {
             actuallyLoaded = actuallyLoaded + ".png";
         }
+        index = intent.getIntExtra("index", -1);
         new PollTask(actuallyLoaded).execute();
     }
 
 
     private class PollTask extends AsyncTask<Void, Void, Void> {
 
-        public int id;
-        private NotificationManager mNotifyManager;
+        public  int                        id;
+        private NotificationManager        mNotifyManager;
         private NotificationCompat.Builder mBuilder;
-        public String actuallyLoaded;
+        public  String                     actuallyLoaded;
 
-        public PollTask(String actuallyLoaded){
+        public PollTask(String actuallyLoaded) {
             this.actuallyLoaded = actuallyLoaded;
         }
 
         public void startNotification() {
-            id = (int) (System.currentTimeMillis()/1000);
+            id = (int) (System.currentTimeMillis() / 1000);
             mNotifyManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mBuilder = new NotificationCompat.Builder(getApplicationContext());
             mBuilder.setContentTitle(getString(R.string.mediaview_notif_title))
@@ -86,7 +88,8 @@ public class ImageDownloadNotificationService extends Service {
                         .loadImage(finalUrl, null, null, new SimpleImageLoadingListener() {
 
                             @Override
-                            public void onLoadingComplete(String imageUri, View view, final Bitmap loadedImage) {
+                            public void onLoadingComplete(String imageUri, View view,
+                                    final Bitmap loadedImage) {
                                 try {
                                     saveImageGallery(loadedImage, finalUrl1);
                                 } catch (IOException e) {
@@ -95,8 +98,9 @@ public class ImageDownloadNotificationService extends Service {
                             }
                         }, new ImageLoadingProgressListener() {
                             @Override
-                            public void onProgressUpdate(String imageUri, View view, int current, int total) {
-                                if ((current / total * 100)%10 == 0) {
+                            public void onProgressUpdate(String imageUri, View view, int current,
+                                    int total) {
+                                if ((current / total * 100) % 10 == 0) {
                                     mBuilder.setProgress(total, current, false);
                                     mNotifyManager.notify(id, mBuilder.build());
                                 }
@@ -116,33 +120,46 @@ public class ImageDownloadNotificationService extends Service {
         }
 
         public void showNotifPhoto(final File localAbsoluteFilePath, final Bitmap loadedImage) {
-            MediaScannerConnection.scanFile(getApplicationContext(), new String[]{localAbsoluteFilePath.getAbsolutePath()}, null, new MediaScannerConnection.OnScanCompletedListener() {
-                public void onScanCompleted(String path, Uri uri) {
+            MediaScannerConnection.scanFile(getApplicationContext(),
+                    new String[]{localAbsoluteFilePath.getAbsolutePath()}, null,
+                    new MediaScannerConnection.OnScanCompletedListener() {
+                        public void onScanCompleted(String path, Uri uri) {
 
-                    final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                    shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath), "image/*");
-                    PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), id, shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                            final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
+                            shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath),
+                                    "image/*");
+                            PendingIntent contentIntent =
+                                    PendingIntent.getActivity(getApplicationContext(), id,
+                                            shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-                    Notification notif = new NotificationCompat.Builder(getApplicationContext())
-                            .setContentTitle(getString(R.string.info_photo_saved))
-                            .setSmallIcon(R.drawable.savecontent)
-                            .setLargeIcon(loadedImage)
-                            .setContentIntent(contentIntent)
-                            .setStyle(new NotificationCompat.BigPictureStyle()
-                                    .bigPicture(loadedImage)).build();
+                            Notification notif = new NotificationCompat.Builder(
+                                    getApplicationContext()).setContentTitle(
+                                    getString(R.string.info_photo_saved))
+                                    .setSmallIcon(R.drawable.savecontent)
+                                    .setLargeIcon(loadedImage)
+                                    .setContentIntent(contentIntent)
+                                    .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(
+                                            loadedImage))
+                                    .build();
 
-                    NotificationManager mNotificationManager =
-                            (NotificationManager) getApplicationContext().getSystemService(NOTIFICATION_SERVICE);
-                    mNotificationManager.notify(id, notif);
-                    loadedImage.recycle();
-                }
-            });
+                            NotificationManager mNotificationManager =
+                                    (NotificationManager) getApplicationContext().getSystemService(
+                                            NOTIFICATION_SERVICE);
+                            mNotificationManager.notify(id, notif);
+                            loadedImage.recycle();
+                        }
+                    });
         }
 
 
         private void saveImageGallery(final Bitmap bitmap, String URL) throws IOException {
 
-            File f = new File(Reddit.appRestart.getString("imagelocation", "") + File.separator + UUID.randomUUID().toString() + ".png");
+            File f = new File(
+                    Reddit.appRestart.getString("imagelocation", "")
+                            + File.separator
+                            + (index > -1 ? String.format("%03d", index) : "")
+                            + UUID.randomUUID().toString()
+                            + ".png");
 
             FileOutputStream out = null;
             f.createNewFile();

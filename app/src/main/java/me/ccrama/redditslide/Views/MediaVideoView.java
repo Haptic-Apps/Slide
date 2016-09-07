@@ -129,7 +129,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     }
 
     public void initVideoView() {
-        Log.d(LOG_TAG, "Initializing video view.");
+        LogUtil.v( "Initializing video view.");
         videoHeight = 0;
         videoWidth = 0;
         setFocusable(false);
@@ -147,7 +147,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     }
 
     public int resolveAdjustedSize(int desiredSize, int measureSpec) {
-        Log.d(LOG_TAG, "Resolve called.");
+        LogUtil.v( "Resolve called.");
         int result = desiredSize;
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
@@ -177,7 +177,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     }
 
     public void setVideoPath(String path) {
-        Log.d(LOG_TAG, "Setting video path to: " + path);
+        LogUtil.v( "Setting video path to: " + path);
         setVideoURI(Uri.parse(path));
     }
     private int mAudioSession;
@@ -205,7 +205,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
 
     public void openVideo() {
         if ((uri == null) || (surfaceTexture == null)) {
-            Log.d(LOG_TAG, "Cannot open video, uri or surface is null number " + number);
+            LogUtil.v( "Cannot open video, uri or surface is null number " + number);
             return;
         }
         // Tell the music playback service to pause
@@ -213,18 +213,18 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         Intent i = new Intent("com.android.music.musicservicecommand");
         i.putExtra("command", "pause");
         mContext.sendBroadcast(i);
-        Log.d(LOG_TAG, "Opening video.");
+        LogUtil.v( "Opening video.");
         release(false);
         try {
             surface = new Surface(surfaceTexture);
-            Log.d(LOG_TAG, "Creating media player number " + number);
+            LogUtil.v( "Creating media player number " + number);
             mediaPlayer = new MediaPlayer();
 
-            Log.d(LOG_TAG, "Setting surface.");
+            LogUtil.v( "Setting surface.");
             mediaPlayer.setSurface(surface);
-            Log.d(LOG_TAG, "Setting data source.");
+            LogUtil.v( "Setting data source.");
             mediaPlayer.setDataSource(mContext, uri);
-            Log.d(LOG_TAG, "Setting media player listeners.");
+            LogUtil.v( "Setting media player listeners.");
             mediaPlayer.setOnBufferingUpdateListener(bufferingUpdateListener);
             mediaPlayer.setOnCompletionListener(completeListener);
             mediaPlayer.setOnPreparedListener(preparedListener);
@@ -238,18 +238,18 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             mediaPlayer.setScreenOnWhilePlaying(true);
             mediaPlayer.setOnVideoSizeChangedListener(videoSizeChangedListener);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            Log.d(LOG_TAG, "Preparing media player.");
+            LogUtil.v( "Preparing media player.");
             mediaPlayer.prepareAsync();
             currentState = STATE_PREPARING;
             attachMediaController();
         } catch (IllegalStateException e) {
             currentState = STATE_ERROR;
             targetState = STATE_ERROR;
-            Log.d(LOG_TAG, e.getMessage()); //TODO auto-generated catch block
+            e.printStackTrace();
         } catch (IOException e) {
             currentState = STATE_ERROR;
             targetState = STATE_ERROR;
-            Log.d(LOG_TAG, e.getMessage()); //TODO auto-generated catch block
+            e.printStackTrace();
         }
     }
 
@@ -265,21 +265,21 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         // Will resize the view if the video dimensions have been found.
         // video dimensions are found after onPrepared has been called by MediaPlayer
-        Log.d(LOG_TAG, "onMeasure number " + number);
+        LogUtil.v( "onMeasure number " + number);
         int width = getDefaultSize(videoWidth, widthMeasureSpec);
         int height = getDefaultSize(videoHeight, heightMeasureSpec);
         if ((videoWidth > 0) && (videoHeight > 0)) {
             if ((videoWidth * height) > (width * videoHeight)) {
-                Log.d(LOG_TAG, "Image too tall, correcting.");
+                LogUtil.v( "Image too tall, correcting.");
                 height = (width * videoHeight) / videoWidth;
             } else if ((videoWidth * height) < (width * videoHeight)) {
-                Log.d(LOG_TAG, "Image too wide, correcting.");
+                LogUtil.v( "Image too wide, correcting.");
                 width = (height * videoWidth) / videoHeight;
             } else {
-                Log.d(LOG_TAG, "Aspect ratio is correct.");
+                LogUtil.v( "Aspect ratio is correct.");
             }
         }
-        Log.d(LOG_TAG, "Setting size: " + width + '/' + height + " for number " + number);
+        LogUtil.v( "Setting size: " + width + '/' + height + " for number " + number);
         setMeasuredDimension((int) (width * widthScale), (int) (height * heightScale));
     }
 
@@ -298,7 +298,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
                 public void onCompletion(final MediaPlayer mp) {
                     currentState = STATE_PLAYBACK_COMPLETED;
                     targetState = STATE_PLAYBACK_COMPLETED;
-                    Log.d(LOG_TAG, "Video completed number " + number);
+                    LogUtil.v( "Video completed number " + number);
                     surface.release();
 
                     ((Activity) getContext()).finish();
@@ -309,11 +309,10 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         @Override
         public void onPrepared(final MediaPlayer mp) {
             currentState = STATE_PREPARED;
-            Log.d(LOG_TAG, "Video prepared for " + number);
+            LogUtil.v( "Video prepared for " + number);
             videoWidth = mp.getVideoWidth();
             videoHeight = mp.getVideoHeight();
 
-            mp.setLooping(true);
 
             mCanPause = mCanSeekBack = mCanSeekForward = true;
 
@@ -327,7 +326,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             requestLayout();
             invalidate();
             if ((videoWidth != 0) && (videoHeight != 0)) {
-                Log.d(LOG_TAG,
+                LogUtil.v(
                         "Video size for number " + number + ": " + videoWidth + '/' + videoHeight);
                 if (targetState == STATE_PLAYING) {
                     mediaPlayer.start();
@@ -337,6 +336,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
                     mediaPlayer.start();
                 }
             }
+            mp.setLooping(true);
         }
     };
 
@@ -345,7 +345,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
                 @Override
                 public void onVideoSizeChanged(final MediaPlayer mp, final int width,
                         final int height) {
-                    Log.d(LOG_TAG,
+                    LogUtil.v(
                             "Video size changed " + width + '/' + height + " number " + number);
                 }
             };
@@ -381,7 +381,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
      * release the media player in any state
      */
     private void release(boolean cleartargetstate) {
-        Log.d(LOG_TAG, "Releasing media player.");
+        LogUtil.v( "Releasing media player.");
         if (mediaPlayer != null) {
             mediaPlayer.reset();
             mediaPlayer.release();
@@ -390,9 +390,9 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             if (cleartargetstate) {
                 targetState = STATE_IDLE;
             }
-            Log.d(LOG_TAG, "Released media player.");
+            LogUtil.v( "Released media player.");
         } else {
-            Log.d(LOG_TAG, "Media player was null, did not release.");
+            LogUtil.v( "Media player was null, did not release.");
         }
     }
 
@@ -570,7 +570,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         @Override
         public void onSurfaceTextureAvailable(final SurfaceTexture surface, final int width,
                 final int height) {
-            Log.d(LOG_TAG, "Surface texture now avaialble.");
+            LogUtil.v( "Surface texture now avaialble.");
             surfaceTexture = surface;
             openVideo();
         }
@@ -578,7 +578,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         @Override
         public void onSurfaceTextureSizeChanged(final SurfaceTexture surface, final int width,
                 final int height) {
-            Log.d(LOG_TAG, "Resized surface texture: " + width + '/' + height);
+            LogUtil.v( "Resized surface texture: " + width + '/' + height);
             surfaceWidth = width;
             surfaceHeight = height;
             boolean isValidState = (targetState == STATE_PLAYING);
