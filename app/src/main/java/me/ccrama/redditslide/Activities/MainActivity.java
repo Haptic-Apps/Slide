@@ -4102,12 +4102,12 @@ public class MainActivity extends BaseActivity {
                                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                                     }
 
-                                    //clear sub text when close button is clicked
-                                    GO_TO_SUB_FIELD.setText("");
-
                                     //run the exit animations
                                     exitAnimationsForToolbarSearch(ANIMATE_DURATION,
                                             SUGGESTIONS_BACKGROUND, GO_TO_SUB_FIELD, CLOSE_BUTTON);
+
+                                    //clear sub text when close button is clicked
+                                    GO_TO_SUB_FIELD.setText("");
                                 }
                             });
 
@@ -4180,9 +4180,6 @@ public class MainActivity extends BaseActivity {
                                                 SUGGESTIONS_BACKGROUND.setVisibility(View.GONE);
                                                 GO_TO_SUB_FIELD.setVisibility(View.GONE);
                                                 CLOSE_BUTTON.setVisibility(View.GONE);
-
-                                                GO_TO_SUB_FIELD.setText(
-                                                        ""); //clear text from search field
 
                                                 if (SettingValues.single) {
                                                     getSupportActionBar().setTitle(selectedSub);
