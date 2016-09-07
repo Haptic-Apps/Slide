@@ -1017,8 +1017,8 @@
     <string name="mode_centered">Card with centered image</string>
     <string name="mode_card">Card</string>
     <string name="mode_thumbnail">Thumbnail</string>
-    <string name="mode_big_thumbnails">Big Thumbnails</string>
-    <string name="mode_cropped">Big picture cropped</string>
+    <string name="mode_big_thumbnails">Wide thumbnails</string>
+    <string name="mode_cropped">Cropped big picture</string>
     <string name="mode_bigpic">Big picture</string>
     <string name="press_actionbar">Press arrow to show actionbar</string>
     <string name="tap_actionbar">Long press for actionbar</string>
