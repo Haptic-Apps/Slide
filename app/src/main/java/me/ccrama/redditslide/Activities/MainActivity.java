@@ -225,9 +225,12 @@ public class MainActivity extends BaseActivity {
                 scrollToTabAfterLayout(current);
             }
             setToolbarClick();
-        } else if(requestCode == 2001 && resultCode == RESULT_OK){
-            drawerLayout.closeDrawers();
-            drawerSearch.setText("");
+        } else if (requestCode == 2001 && resultCode == RESULT_OK) {
+            if (SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_DRAWER
+                || SettingValues.subredditSearchMethod == R.integer.SUBREDDIT_SEARCH_METHOD_BOTH) {
+                drawerLayout.closeDrawers();
+                drawerSearch.setText("");
+            }
 
             //clear the text from the toolbar search field
             if (findViewById(R.id.toolbar_search) != null) {
