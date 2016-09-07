@@ -89,7 +89,6 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     private int                              videoHeight;
     private int                              surfaceWidth;
     private int                              surfaceHeight;
-    private int                              audioSession;
     private SurfaceTexture                   surfaceTexture;
     private Surface                          surface;
     private MediaController                  mediaController;
@@ -181,12 +180,23 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         Log.d(LOG_TAG, "Setting video path to: " + path);
         setVideoURI(Uri.parse(path));
     }
+    private int mAudioSession;
 
     public void setVideoURI(Uri _videoURI) {
         uri = _videoURI;
         requestLayout();
         invalidate();
         openVideo();
+    }
+
+    @Override
+    public int getAudioSessionId() {
+        if (mAudioSession == 0) {
+            MediaPlayer foo = new MediaPlayer();
+            mAudioSession = foo.getAudioSessionId();
+            foo.release();
+        }
+        return mAudioSession;
     }
 
     public void setSurfaceTexture(SurfaceTexture _surfaceTexture) {
@@ -210,12 +220,6 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             Log.d(LOG_TAG, "Creating media player number " + number);
             mediaPlayer = new MediaPlayer();
 
-            if (audioSession != 0) {
-                mediaPlayer.setAudioSessionId(audioSession);
-            } else {
-                audioSession = mediaPlayer.getAudioSessionId();
-            }
-
             Log.d(LOG_TAG, "Setting surface.");
             mediaPlayer.setSurface(surface);
             Log.d(LOG_TAG, "Setting data source.");
@@ -225,6 +229,13 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             mediaPlayer.setOnCompletionListener(completeListener);
             mediaPlayer.setOnPreparedListener(preparedListener);
             mediaPlayer.setOnErrorListener(errorListener);
+            if (mAudioSession != 0) {
+                mediaPlayer.setAudioSessionId(mAudioSession);
+            } else {
+                mAudioSession = mediaPlayer.getAudioSessionId();
+            }
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setScreenOnWhilePlaying(true);
             mediaPlayer.setOnVideoSizeChangedListener(videoSizeChangedListener);
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             Log.d(LOG_TAG, "Preparing media player.");
@@ -301,6 +312,8 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             Log.d(LOG_TAG, "Video prepared for " + number);
             videoWidth = mp.getVideoWidth();
             videoHeight = mp.getVideoHeight();
+
+            mp.setLooping(true);
 
             mCanPause = mCanSeekBack = mCanSeekForward = true;
 
@@ -538,14 +551,6 @@ public class MediaVideoView extends TextureView implements MediaController.Media
         return mCanSeekForward;
     }
 
-    public int getAudioSessionId() {
-        if (audioSession == 0) {
-            MediaPlayer foo = new MediaPlayer();
-            audioSession = foo.getAudioSessionId();
-            foo.release();
-        }
-        return audioSession;
-    }
 
     float lastFocusX;
     float lastFocusY;

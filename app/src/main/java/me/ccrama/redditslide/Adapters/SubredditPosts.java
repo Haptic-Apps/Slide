@@ -20,6 +20,7 @@ import net.dean.jraw.paginators.Paginator;
 import net.dean.jraw.paginators.SubredditPaginator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -435,10 +436,12 @@ public class SubredditPosts implements PostLoader {
         }
     }
 
+
     public void doMainActivityOffline(final SubmissionDisplay displayer) {
         if (all == null) {
             all = OfflineSubreddit.getAll(subreddit);
         }
+        Collections.rotate(all, -1); //Move 0, or "submission only", to the end
         offline = true;
 
         final String[] titles = new String[all.size()];
@@ -453,7 +456,7 @@ public class SubredditPosts implements PostLoader {
         }
 
         ((MainActivity) c).getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        ((MainActivity) c).getSupportActionBar()
+       ((MainActivity) c).getSupportActionBar()
                 .setListNavigationCallbacks(
                         new OfflineSubAdapter(c, android.R.layout.simple_list_item_1, titles),
                         new ActionBar.OnNavigationListener() {
@@ -498,6 +501,7 @@ public class SubredditPosts implements PostLoader {
                                 return true;
                             }
                         });
+
 
     }
 }

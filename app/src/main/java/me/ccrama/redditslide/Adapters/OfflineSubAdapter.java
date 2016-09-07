@@ -1,6 +1,7 @@
 package me.ccrama.redditslide.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,21 +35,17 @@ public class OfflineSubAdapter extends ArrayAdapter<String> {
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
 
-
         LayoutInflater inflater =
                 ( LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
 
         ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(android.R.layout.simple_list_item_1, null);
             holder = new ViewHolder();
             holder.txt01 = (TextView) convertView.findViewById(android.R.id.text1);
-
+            holder.txt01.setTextColor(Color.WHITE);
             convertView.setTag(holder);
-
         } else {
-
             holder = (ViewHolder) convertView.getTag();
         }
 

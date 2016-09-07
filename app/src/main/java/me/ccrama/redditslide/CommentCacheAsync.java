@@ -197,6 +197,7 @@ public class CommentCacheAsync extends AsyncTask{
                         mNotifyManager =
                                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                         mBuilder = new NotificationCompat.Builder(context);
+                        mBuilder.setOngoing(true);
                         mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,
                                 sub.equalsIgnoreCase("frontpage") ? name : (name.contains("/m/") ? name : "/r/" + name)))
                                 .setSmallIcon(R.drawable.savecontent);
@@ -275,6 +276,7 @@ public class CommentCacheAsync extends AsyncTask{
                     // Removes the progress bar
                     .setSubText(success.size() + " subreddits cached")
                     .setProgress(0, 0, false);
+            mBuilder.setOngoing(false);
             mNotifyManager.notify(2001, mBuilder.build());
         }
 
