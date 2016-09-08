@@ -582,7 +582,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                   replyLine,
                     submissionViewHolder.itemView, fm, (Activity) mContext,
                     submission.isSelfPost() ? submission.getSelftext() : null);
-            replyLine.requestFocus();
 
             currentlyEditing =
                     ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
@@ -597,10 +596,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         mPage.fastScroll.setVisibility(View.VISIBLE);
                         if (mPage.fab != null) mPage.fab.setVisibility(View.VISIBLE);
                         mPage.overrideFab = false;
-
                     }
                 }
             });
+            replyLine.requestFocus();
             editingPosition = submissionViewHolder.getAdapterPosition();
 
             submissionViewHolder.itemView.findViewById(R.id.send)
@@ -1121,7 +1120,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     menu.setVisibility(View.GONE);
                     DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext,
                             comment.getBody());
-                    replyLine.requestFocus();
                     currentlyEditing = replyLine;
                     currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
@@ -1141,6 +1139,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                         }
                     });
+                    replyLine.requestFocus();
                     currentlyEditingId = n.getFullName();
                     replyLine.setText(backedText);
                     replyLine.addTextChangedListener(new TextWatcher() {
@@ -1203,7 +1202,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         menu.setVisibility(View.GONE);
                         DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext,
                                 comment.getBody());
-                        replyLine.requestFocus();
                         currentlyEditing = replyLine;
                         currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
@@ -1219,6 +1217,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 }
                             }
                         });
+                        replyLine.requestFocus();
                         currentlyEditingId = n.getFullName();
                         replyLine.addTextChangedListener(new TextWatcher() {
                             @Override
