@@ -535,6 +535,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
                         android:text="@string/settings_title_support"
+                        android:id="@+id/donatetext"
                         android:textColor="?attr/font"
                         android:textSize="14sp" />
                 </LinearLayout>

@@ -21,6 +21,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
+import me.ccrama.redditslide.FDroid;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
@@ -355,11 +356,19 @@ public class Settings extends BaseActivity {
             }
         });
 
+        if(FDroid.isFDroid){
+            ((TextView) findViewById(R.id.donatetext)).setText("Donate via PayPal");
+        }
         findViewById(R.id.support).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View v) {
-                Intent inte = new Intent(Settings.this, DonateView.class);
-                Settings.this.startActivity(inte);
+                if(FDroid.isFDroid){
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=56FKCCYLX7L72"));
+                    startActivity(browserIntent);
+                } else {
+                    Intent inte = new Intent(Settings.this, DonateView.class);
+                    Settings.this.startActivity(inte);
+                }
             }
         });
 
