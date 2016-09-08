@@ -404,6 +404,13 @@ public class SettingsTheme extends BaseActivityAnim {
                             getPackageManager().setComponentEnabledSetting(
                                     new ComponentName(SettingsTheme.this,
                                             ColorPreferences.getIconName(SettingsTheme.this,
+                                                    Reddit.colors.getInt("DEFAULTCOLOR", 0))),
+                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                                    PackageManager.DONT_KILL_APP);
+
+                            getPackageManager().setComponentEnabledSetting(
+                                    new ComponentName(SettingsTheme.this,
+                                            ColorPreferences.getIconName(SettingsTheme.this,
                                                     colorPicker2.getColor())),
                                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
                                     PackageManager.DONT_KILL_APP);
