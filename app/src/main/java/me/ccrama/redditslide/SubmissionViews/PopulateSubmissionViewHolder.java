@@ -75,6 +75,8 @@ import me.ccrama.redditslide.Activities.Profile;
 import me.ccrama.redditslide.Activities.Reauthenticate;
 import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Activities.SubredditView;
+import me.ccrama.redditslide.Activities.Tumblr;
+import me.ccrama.redditslide.Activities.TumblrPager;
 import me.ccrama.redditslide.Adapters.CommentAdapter;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
 import me.ccrama.redditslide.Authentication;
@@ -199,6 +201,25 @@ public class PopulateSubmissionViewHolder {
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     } else {
                                         i = new Intent(contextActivity, Album.class);
+                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    }
+                                    addAdaptorPosition(i, submission, holder.getAdapterPosition());
+                                    contextActivity.startActivity(i);
+                                    contextActivity.overridePendingTransition(R.anim.slideright,
+                                            R.anim.fade_out);
+                                } else {
+                                    Reddit.defaultShare(submission.getUrl(), contextActivity);
+
+                                }
+                                break;
+                            case TUMBLR:
+                                if (SettingValues.album) {
+                                    Intent i;
+                                    if (SettingValues.albumSwipe) {
+                                        i = new Intent(contextActivity, TumblrPager.class);
+                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    } else {
+                                        i = new Intent(contextActivity, Tumblr.class);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     }
                                     addAdaptorPosition(i, submission, holder.getAdapterPosition());
