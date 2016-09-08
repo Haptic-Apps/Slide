@@ -226,7 +226,10 @@ public class SettingValues {
         fabType = prefs.getInt(PREF_FAB_TYPE, R.integer.FAB_DISMISS);
         subredditSearchMethod = prefs.getInt(PREF_SUBREDDIT_SEARCH_METHOD,
                 Constants.SUBREDDIT_SEARCH_METHOD_DRAWER);
-        LogUtil.v("Sub search is " + subredditSearchMethod +" and " + Constants.SUBREDDIT_SEARCH_METHOD_DRAWER);
+        if(subredditSearchMethod > 3 || subredditSearchMethod < 0){
+            subredditSearchMethod = 1;
+            prefs.edit().putInt(PREF_SUBREDDIT_SEARCH_METHOD, 1).apply();
+        }
         nightMode = prefs.getBoolean(PREF_NIGHT_MODE, false);
         nightTheme = prefs.getInt(PREF_NIGHT_THEME, 0);
         autoTime = prefs.getBoolean(PREF_AUTOTHEME, false);
