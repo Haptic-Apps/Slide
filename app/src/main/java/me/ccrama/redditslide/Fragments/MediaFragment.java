@@ -41,6 +41,8 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Shadowbox;
+import me.ccrama.redditslide.Activities.Tumblr;
+import me.ccrama.redditslide.Activities.TumblrPager;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
@@ -356,7 +358,6 @@ public class MediaFragment extends Fragment {
 
                             break;
                         case ALBUM:
-
                             if (SettingValues.album) {
                                 if (SettingValues.albumSwipe) {
                                     Intent i = new Intent(contextActivity, AlbumPager.class);
@@ -369,12 +370,26 @@ public class MediaFragment extends Fragment {
                                     contextActivity.startActivity(i);
                                     contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                 }
-
-
                             } else {
                                 Reddit.defaultShare(submission.getUrl(), contextActivity);
                             }
-
+                            break;
+                        case TUMBLR:
+                            if (SettingValues.image) {
+                                if (SettingValues.albumSwipe) {
+                                    Intent i = new Intent(contextActivity, TumblrPager.class);
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    contextActivity.startActivity(i);
+                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                } else {
+                                    Intent i = new Intent(contextActivity, Tumblr.class);
+                                    i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                    contextActivity.startActivity(i);
+                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                }
+                            } else {
+                                Reddit.defaultShare(submission.getUrl(), contextActivity);
+                            }
                             break;
                         case DEVIANTART:
                         case XKCD:

@@ -19,6 +19,7 @@ import me.ccrama.redditslide.Fragments.AlbumFull;
 import me.ccrama.redditslide.Fragments.MediaFragment;
 import me.ccrama.redditslide.Fragments.SelftextFull;
 import me.ccrama.redditslide.Fragments.TitleFull;
+import me.ccrama.redditslide.Fragments.TumblrFull;
 import me.ccrama.redditslide.HasSeen;
 import me.ccrama.redditslide.LastComments;
 import me.ccrama.redditslide.OfflineSubreddit;
@@ -203,6 +204,15 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
                     }
                 }
                 break;
+                case TUMBLR:
+                {
+                    f = new TumblrFull();
+                    Bundle args = new Bundle();
+                    args.putInt("page", i);
+                    args.putString("sub", subreddit);
+
+                    f.setArguments(args);
+                }
                 case ALBUM: {
                     f = new AlbumFull();
                     Bundle args = new Bundle();

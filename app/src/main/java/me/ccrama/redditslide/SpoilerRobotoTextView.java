@@ -53,6 +53,7 @@ import java.util.regex.Pattern;
 import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.Activities.TumblrPager;
 import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
@@ -422,6 +423,24 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                         } else {
                             Intent i = new Intent(activity, Album.class);
+                            i.putExtra(Album.EXTRA_URL, url);
+                            activity.startActivity(i);
+                            activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                        }
+                    } else {
+                        Reddit.defaultShare(url, activity);
+                    }
+                    break;
+                case TUMBLR:
+                    if (SettingValues.image) {
+                        if (SettingValues.albumSwipe) {
+                            Intent i = new Intent(activity, TumblrPager.class);
+                            i.putExtra(Album.EXTRA_URL, url);
+                            activity.startActivity(i);
+
+                            activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                        } else {
+                            Intent i = new Intent(activity, TumblrPager.class);
                             i.putExtra(Album.EXTRA_URL, url);
                             activity.startActivity(i);
                             activity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);

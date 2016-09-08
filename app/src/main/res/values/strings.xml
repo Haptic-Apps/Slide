@@ -1143,5 +1143,7 @@
     <string name="manage_your_subreddits">Manage your subreddits</string>
     <string name="enlarge_links">Enlarge links</string>
     <string name="enlarge_links_warning">May cause some lines to be bigger than others, but makes links easier to touch</string>
+    <string name="type_tumblr">Tumblr</string>
+    <string name="type_nsfw_tumblr">NSFW Tumblr</string>
 
 </resources>

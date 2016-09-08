@@ -32,6 +32,8 @@ import me.ccrama.redditslide.Activities.CommentsScreen;
 import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.Gallery;
 import me.ccrama.redditslide.Activities.MediaView;
+import me.ccrama.redditslide.Activities.Tumblr;
+import me.ccrama.redditslide.Activities.TumblrPager;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.PostMatch;
 import me.ccrama.redditslide.R;
@@ -236,6 +238,24 @@ public class GalleryView extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                                         main.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                     } else {
                                         Intent i = new Intent(main, Album.class);
+                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                        main.startActivity(i);
+                                        main.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                    }
+                                } else {
+                                    Reddit.defaultShare(submission.getUrl(), main);
+
+                                }
+                                break;
+                            case TUMBLR:
+                                if (SettingValues.image) {
+                                    if (SettingValues.albumSwipe) {
+                                        Intent i = new Intent(main, TumblrPager.class);
+                                        i.putExtra(Album.EXTRA_URL, submission.getUrl());
+                                        main.startActivity(i);
+                                        main.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
+                                    } else {
+                                        Intent i = new Intent(main, Tumblr.class);
                                         i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                         main.startActivity(i);
                                         main.overridePendingTransition(R.anim.slideright, R.anim.fade_out);

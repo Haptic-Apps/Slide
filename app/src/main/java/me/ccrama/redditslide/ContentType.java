@@ -168,6 +168,9 @@ public class ContentType {
             if (hostContains(host, "xkcd.com") && !hostContains("imgs.xkcd.com") && !hostContains("what-if.xkcd.com")) {
                 return Type.XKCD;
             }
+            if (hostContains(host, "tumblr.com") && uri.getPath().startsWith("post")) {
+                return Type.TUMBLR;
+            }
             if (hostContains(host, "reddit.com", "redd.it")) {
                 return Type.REDDIT;
             }
@@ -224,6 +227,7 @@ public class ContentType {
             case DEVIANTART:
             case IMAGE:
             case XKCD:
+            case TUMBLR:
             case IMGUR:
             case SELF:
                 return true;
@@ -242,6 +246,7 @@ public class ContentType {
             case IMAGE:
             case IMGUR:
             case STREAMABLE:
+            case TUMBLR:
             case XKCD:
             case VIDEO:
             case SELF:
@@ -266,6 +271,7 @@ public class ContentType {
             case DEVIANTART:
             case GIF:
             case IMAGE:
+            case TUMBLR:
             case XKCD:
             case IMGUR:
             case STREAMABLE:
@@ -300,6 +306,8 @@ public class ContentType {
                     return R.string.type_nsfw_gif;
                 case IMAGE:
                     return R.string.type_nsfw_img;
+                case TUMBLR:
+                    return R.string.type_nsfw_tumblr;
                 case IMGUR:
                     return R.string.type_nsfw_imgur;
                 case LINK:
@@ -328,6 +336,8 @@ public class ContentType {
                     return R.string.type_imgur;
                 case LINK:
                     return R.string.type_link;
+                case TUMBLR:
+                    return R.string.type_tumblr;
                 case NONE:
                     return R.string.type_title_only;
                 case REDDIT:
@@ -421,6 +431,7 @@ public class ContentType {
         STREAMABLE,
         VIDEO,
         XKCD,
+        TUMBLR,
         VID_ME
     }
 }
