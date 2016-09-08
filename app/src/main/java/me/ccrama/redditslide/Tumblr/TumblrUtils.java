@@ -56,7 +56,7 @@ public class TumblrUtils {
             Uri i = Uri.parse(url);
 
             id = i.getPathSegments().get(1);
-            blog = i.getHost().split(".")[0];
+            blog = i.getHost().split("\\.")[0];
 
             client = new OkHttpClient();
             gson = new Gson();
@@ -98,14 +98,14 @@ public class TumblrUtils {
                         + "&id="
                         + id;
                 if (tumblrRequests.contains(apiUrl) && new JsonParser().parse(
-                        tumblrRequests.getString(apiUrl, "")).getAsJsonObject().has("meta")) {
+                        tumblrRequests.getString(apiUrl, "")).getAsJsonObject().has("response")) {
                     parseJson(new JsonParser().parse(tumblrRequests.getString(apiUrl, ""))
                             .getAsJsonObject());
                 } else {
                     LogUtil.v(apiUrl);
                     // This call requires no mashape headers, don't pass in the headers Map
                     final JsonObject result = HttpUtil.getJsonObject(client, gson, apiUrl);
-                    if (result != null && result.has("data")) {
+                    if (result != null && result.has("response")) {
                         tumblrRequests.edit().putString(apiUrl, result.toString()).apply();
                         parseJson(result);
                     } else {

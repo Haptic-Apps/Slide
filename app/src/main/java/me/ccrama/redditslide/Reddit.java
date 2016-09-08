@@ -55,6 +55,7 @@ import me.ccrama.redditslide.Activities.Search;
 import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
 import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
 import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
+import me.ccrama.redditslide.Tumblr.TumblrUtils;
 import me.ccrama.redditslide.util.AdBlocker;
 import me.ccrama.redditslide.util.GifCache;
 import me.ccrama.redditslide.util.IabHelper;
@@ -634,6 +635,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
                         false);
         appRestart = getSharedPreferences("appRestart", 0);
         AlbumUtils.albumRequests = getSharedPreferences("albums", 0);
+        TumblrUtils.tumblrRequests = getSharedPreferences("tumblr", 0);
 
         cachedData = getSharedPreferences("cache", 0);
 
