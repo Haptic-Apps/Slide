@@ -681,7 +681,7 @@ public class AlbumPager extends FullScreenActivity
                 .displayImage(url, new ImageViewAware(fakeImage),
                         new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
                                 .cacheOnDisk(true)
-                                .imageScaleType(ImageScaleType.NONE)
+                                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
                                 .cacheInMemory(false)
                                 .build(), new ImageLoadingListener() {
                             private View mView;
