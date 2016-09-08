@@ -164,10 +164,6 @@ public class MediaFragment extends Fragment {
                 typeImage.setImageResource(R.drawable.fontsizedarker);
                 break;
             case EMBEDDED:
-            case GIF:
-            case STREAMABLE:
-            case VIDEO:
-            case VID_ME:
                 typeImage.setImageResource(R.drawable.play);
                 rootView.findViewById(R.id.submission_image).setAlpha(0.5f);
                 break;
