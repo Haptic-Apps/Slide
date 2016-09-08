@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.cocosw.bottomsheet.BottomSheet;
+import com.devspark.robototextview.util.RobotoTypefaceManager;
 
 import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Comment;
@@ -404,6 +405,15 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             holder.time.setText(titleString);
             setViews(comment.getDataNode().get("body_html").asText(), comment.getSubredditName(), holder);
+
+            int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+            Typeface typeface;
+            if (type >= 0) {
+                typeface = RobotoTypefaceManager.obtainTypeface(mContext, type);
+            } else {
+                typeface = Typeface.DEFAULT;
+            }
+            holder.content.setTypeface(typeface);
 
             if (comment.getTimesGilded() > 0) {
                 final String timesGilded = (comment.getTimesGilded() == 1) ? "" : "\u200Ax" + Integer.toString(comment.getTimesGilded());
