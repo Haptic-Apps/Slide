@@ -14,79 +14,56 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 @JsonPropertyOrder({
-    "url",
-    "width",
-    "height"
+    "meta",
+    "response"
 })
-public class AltSize {
+public class Example {
 
-    @JsonProperty("url")
-    private String url;
-    @JsonProperty("width")
-    private Integer width;
-    @JsonProperty("height")
-    private Integer height;
+    @JsonProperty("meta")
+    private Meta meta;
+    @JsonProperty("response")
+    private Response response;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * 
      * @return
-     *     The url
+     *     The meta
      */
-    @JsonProperty("url")
-    public String getUrl() {
-        return url;
+    @JsonProperty("meta")
+    public Meta getMeta() {
+        return meta;
     }
 
     /**
      * 
-     * @param url
-     *     The url
+     * @param meta
+     *     The meta
      */
-    @JsonProperty("url")
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    /**
-     * 
-     * @return
-     *     The width
-     */
-    @JsonProperty("width")
-    public Integer getWidth() {
-        return width;
-    }
-
-    /**
-     * 
-     * @param width
-     *     The width
-     */
-    @JsonProperty("width")
-    public void setWidth(Integer width) {
-        this.width = width;
+    @JsonProperty("meta")
+    public void setMeta(Meta meta) {
+        this.meta = meta;
     }
 
     /**
      * 
      * @return
-     *     The height
+     *     The response
      */
-    @JsonProperty("height")
-    public Integer getHeight() {
-        return height;
+    @JsonProperty("response")
+    public Response getResponse() {
+        return response;
     }
 
     /**
      * 
-     * @param height
-     *     The height
+     * @param response
+     *     The response
      */
-    @JsonProperty("height")
-    public void setHeight(Integer height) {
-        this.height = height;
+    @JsonProperty("response")
+    public void setResponse(Response response) {
+        this.response = response;
     }
 
     @JsonAnyGetter

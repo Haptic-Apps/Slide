@@ -112,7 +112,7 @@ public class TumblrPager extends FullScreenActivity
         if (id == R.id.vertical) {
             SettingValues.albumSwipe = false;
             SettingValues.prefs.edit().putBoolean(SettingValues.PREF_ALBUM_SWIPE, false).apply();
-            Intent i = new Intent(TumblrPager.this, Album.class);
+            Intent i = new Intent(TumblrPager.this, Tumblr.class);
             if (getIntent().hasExtra(MediaView.SUBMISSION_URL)) {
                 i.putExtra(MediaView.SUBMISSION_URL,
                         getIntent().getStringExtra(MediaView.SUBMISSION_URL));
@@ -202,7 +202,7 @@ public class TumblrPager extends FullScreenActivity
                 public void run() {
                     try {
                         new AlertDialogWrapper.Builder(TumblrPager.this).setTitle(
-                                R.string.error_album_not_found)
+                                "Tumblr data not found")
                                 .setMessage(R.string.error_album_not_found_text)
                                 .setNegativeButton(R.string.btn_no,
                                         new DialogInterface.OnClickListener() {

@@ -84,6 +84,7 @@ public class TumblrUtils {
                     }
                 });
             } catch (IOException e) {
+                e.printStackTrace();
                 LogUtil.e(e, "parseJson error, baseData [" + baseData + "]");
             }
         }

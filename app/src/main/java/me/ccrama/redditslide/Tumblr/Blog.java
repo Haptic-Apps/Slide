@@ -1,7 +1,12 @@
 
 package me.ccrama.redditslide.Tumblr;
 
+import java.util.HashMap;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -36,7 +41,7 @@ public class Blog {
     @JsonProperty("url")
     private String url;
     @JsonProperty("updated")
-    private Integer updated;
+    private Double updated;
     @JsonProperty("description")
     private String description;
     @JsonProperty("is_nsfw")
@@ -51,6 +56,8 @@ public class Blog {
     private Boolean shareLikes;
     @JsonProperty("likes")
     private Integer likes;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * 
@@ -158,7 +165,7 @@ public class Blog {
      *     The updated
      */
     @JsonProperty("updated")
-    public Integer getUpdated() {
+    public Double getUpdated() {
         return updated;
     }
 
@@ -168,7 +175,7 @@ public class Blog {
      *     The updated
      */
     @JsonProperty("updated")
-    public void setUpdated(Integer updated) {
+    public void setUpdated(Double updated) {
         this.updated = updated;
     }
 
@@ -310,6 +317,16 @@ public class Blog {
     @JsonProperty("likes")
     public void setLikes(Integer likes) {
         this.likes = likes;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
 }

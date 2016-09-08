@@ -184,9 +184,9 @@ public class MediaVideoView extends TextureView implements MediaController.Media
 
     public void setVideoURI(Uri _videoURI) {
         uri = _videoURI;
+        openVideo();
         requestLayout();
         invalidate();
-        openVideo();
     }
 
     @Override
@@ -219,7 +219,11 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             surface = new Surface(surfaceTexture);
             LogUtil.v( "Creating media player number " + number);
             mediaPlayer = new MediaPlayer();
-
+            if (mAudioSession != 0) {
+                mediaPlayer.setAudioSessionId(mAudioSession);
+            } else {
+                mAudioSession = mediaPlayer.getAudioSessionId();
+            }
             LogUtil.v( "Setting surface.");
             mediaPlayer.setSurface(surface);
             LogUtil.v( "Setting data source.");
@@ -228,15 +232,10 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             mediaPlayer.setOnBufferingUpdateListener(bufferingUpdateListener);
             mediaPlayer.setOnPreparedListener(preparedListener);
             mediaPlayer.setOnErrorListener(errorListener);
-            if (mAudioSession != 0) {
-                mediaPlayer.setAudioSessionId(mAudioSession);
-            } else {
-                mAudioSession = mediaPlayer.getAudioSessionId();
-            }
+
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.setScreenOnWhilePlaying(true);
             mediaPlayer.setOnVideoSizeChangedListener(videoSizeChangedListener);
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             LogUtil.v( "Preparing media player.");
             mediaPlayer.prepareAsync();
             currentState = STATE_PREPARING;

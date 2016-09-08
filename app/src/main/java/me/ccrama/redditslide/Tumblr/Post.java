@@ -2,8 +2,13 @@
 package me.ccrama.redditslide.Tumblr;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -43,7 +48,7 @@ public class Post {
     @JsonProperty("blog_name")
     private String blogName;
     @JsonProperty("id")
-    private Integer id;
+    private Double id;
     @JsonProperty("post_url")
     private String postUrl;
     @JsonProperty("slug")
@@ -53,7 +58,7 @@ public class Post {
     @JsonProperty("date")
     private String date;
     @JsonProperty("timestamp")
-    private Integer timestamp;
+    private Double timestamp;
     @JsonProperty("state")
     private String state;
     @JsonProperty("format")
@@ -92,6 +97,8 @@ public class Post {
     private Boolean canReblog;
     @JsonProperty("display_avatar")
     private Boolean displayAvatar;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * 
@@ -119,7 +126,7 @@ public class Post {
      *     The id
      */
     @JsonProperty("id")
-    public Integer getId() {
+    public Double getId() {
         return id;
     }
 
@@ -129,7 +136,7 @@ public class Post {
      *     The id
      */
     @JsonProperty("id")
-    public void setId(Integer id) {
+    public void setId(Double id) {
         this.id = id;
     }
 
@@ -219,7 +226,7 @@ public class Post {
      *     The timestamp
      */
     @JsonProperty("timestamp")
-    public Integer getTimestamp() {
+    public Double getTimestamp() {
         return timestamp;
     }
 
@@ -229,7 +236,7 @@ public class Post {
      *     The timestamp
      */
     @JsonProperty("timestamp")
-    public void setTimestamp(Integer timestamp) {
+    public void setTimestamp(Double timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -611,6 +618,16 @@ public class Post {
     @JsonProperty("display_avatar")
     public void setDisplayAvatar(Boolean displayAvatar) {
         this.displayAvatar = displayAvatar;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
 }

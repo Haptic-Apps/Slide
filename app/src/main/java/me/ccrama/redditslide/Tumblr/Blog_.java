@@ -1,7 +1,12 @@
 
 package me.ccrama.redditslide.Tumblr;
 
+import java.util.HashMap;
+import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -27,6 +32,8 @@ public class Blog_ {
     private Boolean shareLikes;
     @JsonProperty("share_following")
     private Boolean shareFollowing;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
      * 
@@ -126,6 +133,16 @@ public class Blog_ {
     @JsonProperty("share_following")
     public void setShareFollowing(Boolean shareFollowing) {
         this.shareFollowing = shareFollowing;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
     }
 
 }
