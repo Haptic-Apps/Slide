@@ -47,7 +47,6 @@ public class Authentication {
         Reddit.setDefaultErrorHandler(context);
 
         if (NetworkUtil.isConnected(context)) {
-
             hasDone = true;
             isLoggedIn = false;
             reddit = new RedditClient(
@@ -55,10 +54,7 @@ public class Authentication {
             reddit.setRetryLimit(3);
             if (BuildConfig.DEBUG) reddit.setLoggingMode(LoggingMode.ALWAYS);
             didOnline = true;
-
             new VerifyCredentials(context).execute();
-
-
         } else {
             isLoggedIn = Reddit.appRestart.getBoolean("loggedin", false);
             name = Reddit.appRestart.getString("name", "");

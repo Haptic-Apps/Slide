@@ -23,6 +23,8 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.InboxPaginator;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 
+import org.apache.http.auth.AUTH;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -50,6 +52,9 @@ public class CheckForMail extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         c = context;
+        if(Authentication.reddit == null || !Authentication.reddit.isAuthenticated()){
+            Reddit.authentication = new Authentication(context);
+        }
         new AsyncGetMail().execute();
         if (Authentication.mod) new AsyncGetModmail().execute();
         if (!Reddit.appRestart.getString(SUBS_TO_GET, "").isEmpty()) {

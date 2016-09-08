@@ -577,10 +577,12 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final View replyArea = submissionViewHolder.itemView.findViewById(R.id.innerSend);
         if (replyArea.getVisibility() == View.GONE) {
             expandSubmissionReply(replyArea);
+            EditText replyLine =  ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
             DoEditorActions.doActions(
-                    ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine)),
+                  replyLine,
                     submissionViewHolder.itemView, fm, (Activity) mContext,
                     submission.isSelfPost() ? submission.getSelftext() : null);
+            replyLine.requestFocus();
 
             currentlyEditing =
                     ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
@@ -1119,6 +1121,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     menu.setVisibility(View.GONE);
                     DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext,
                             comment.getBody());
+                    replyLine.requestFocus();
                     currentlyEditing = replyLine;
                     currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                         @Override
@@ -1200,6 +1203,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         menu.setVisibility(View.GONE);
                         DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext,
                                 comment.getBody());
+                        replyLine.requestFocus();
                         currentlyEditing = replyLine;
                         currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
@@ -1438,7 +1442,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            setCommentStateUnhighlighted(holder, comment, baseNode, true);
                             currentlyEditing = null;
                             editingPosition = -1;
                             if (SettingValues.fastscroll) {
@@ -1459,6 +1462,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 ((BaseActivity) mContext).setShareUrl(
                                         "https://reddit.com" + submission.getPermalink());
                             }
+
+                            setCommentStateUnhighlighted(holder, comment, baseNode, true);
+
                         }
                     })
                     .setNegativeButton(R.string.btn_no, null)
@@ -1504,7 +1510,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            doLongClick(holder, comment, baseNode);
                             currentlyEditing = null;
                             editingPosition = -1;
                             if (SettingValues.fastscroll) {
@@ -1521,6 +1526,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 Context.INPUT_METHOD_SERVICE);
                                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                             }
+
+                            doLongClick(holder, comment, baseNode);
                         }
                     })
                     .setNegativeButton(R.string.btn_no, null)
@@ -1560,7 +1567,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            doOnClick(holder, baseNode, comment);
                             currentlyEditing = null;
                             editingPosition = -1;
                             if (SettingValues.fastscroll) {
@@ -1577,6 +1583,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 Context.INPUT_METHOD_SERVICE);
                                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                             }
+
+                            doOnClick(holder, baseNode, comment);
 
                         }
                     })
