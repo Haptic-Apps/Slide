@@ -1035,7 +1035,7 @@ public class MainActivity extends BaseActivity {
                                     ArrayList<Submission> posts = new ArrayList<>(p.next());
                                     for (Submission s : posts) {
                                         String version = BuildConfig.VERSION_NAME;
-                                        if (version.length() > 4) {
+                                        if (version.length() > 5) {
                                             version =
                                                     version.substring(0, version.lastIndexOf("."));
                                         }

@@ -87,7 +87,6 @@ public class Login extends BaseActivityAnim {
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.removeAllCookies(null);
         CookieManager.getInstance().flush();
-        cookieManager.setAcceptCookie(false);
 
         WebSettings ws = webView.getSettings();
         ws.setSaveFormData(false);
