@@ -267,7 +267,7 @@ public class Search extends BaseActivityAnim {
 
                 if (!posts.loading && (visibleItemCount + pastVisiblesItems) + 5>= totalItemCount) {
                     posts.loading = true;
-                    posts.loadMore(adapter, subreddit, where, false);
+                    posts.loadMore(adapter, subreddit, where, false, multireddit, time);
 
                 }
             }
@@ -299,7 +299,7 @@ public class Search extends BaseActivityAnim {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        posts.loadMore(adapter, subreddit, where, true);
+                        posts.loadMore(adapter, subreddit, where, true, multireddit, time);
                         //TODO catch errors
                     }
                 }

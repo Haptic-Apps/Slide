@@ -74,6 +74,7 @@ import me.ccrama.redditslide.Activities.FullscreenVideo;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Profile;
+import me.ccrama.redditslide.Activities.Related;
 import me.ccrama.redditslide.Activities.Sendmessage;
 import me.ccrama.redditslide.Activities.ShadowboxComments;
 import me.ccrama.redditslide.Activities.Submit;
@@ -616,6 +617,16 @@ public class CommentPage extends Fragment {
                     return true;
                     case R.id.sidebar:
                         doSidebarOpen();
+                        return true;
+                    case R.id.related:
+                        if(adapter.submission.isSelfPost()){
+                            new AlertDialogWrapper.Builder(getActivity()).setTitle("Selftext posts have no related submissions")
+                                    .setPositiveButton(R.string.btn_ok, null).show();
+                        } else {
+                            Intent i = new Intent(getActivity(), Related.class);
+                            i.putExtra(Related.EXTRA_URL, adapter.submission.getUrl());
+                            startActivity(i);
+                        }
                         return true;
                     case R.id.shadowbox:
                         if (SettingValues.tabletUI) {

@@ -1,5 +1,6 @@
 package me.ccrama.redditslide.Adapters;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 
@@ -8,6 +9,7 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.Paginator;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.SubmissionSearchPaginatorMultireddit;
+import net.dean.jraw.paginators.TimePeriod;
 
 import java.util.ArrayList;
 
@@ -28,9 +30,9 @@ public class SubredditSearchPosts extends GeneralPosts {
     public SwipeRefreshLayout refreshLayout;
     private ContributionAdapter adapter;
 
-    public Search parent;
+    public Activity parent;
 
-    public SubredditSearchPosts(String subreddit, String term, Search parent) {
+    public SubredditSearchPosts(String subreddit, String term, Activity parent) {
         if (subreddit != null) {
             this.subreddit = subreddit;
         }
@@ -45,17 +47,22 @@ public class SubredditSearchPosts extends GeneralPosts {
     }
 
     public void loadMore(ContributionAdapter a, String subreddit, String where, boolean reset) {
-
-
         this.adapter = a;
         this.subreddit = subreddit;
         this.term = where;
-
-
         new LoadData(reset).execute();
-
-
     }
+    public void loadMore(ContributionAdapter a, String subreddit, String where, boolean reset, boolean multi, TimePeriod time) {
+        this.adapter = a;
+        this.subreddit = subreddit;
+        this.term = where;
+        this.multireddit = multi;
+        this.time = time;
+        new LoadData(reset).execute();
+    }
+
+    boolean multireddit;
+    TimePeriod time = TimePeriod.ALL;
 
     public void reset() {
         new LoadData(true).execute();
@@ -130,7 +137,7 @@ public class SubredditSearchPosts extends GeneralPosts {
             try {
                 if (reset || paginator == null) {
                     isNew = true;
-                    if (parent.multireddit) {
+                    if (multireddit) {
                         paginator = new SubmissionSearchPaginatorMultireddit(Authentication.reddit, term);
                         ((SubmissionSearchPaginatorMultireddit) paginator).setMultiReddit(MultiredditOverview.searchMulti);
                         ((SubmissionSearchPaginatorMultireddit) paginator).setSearchSorting(SubmissionSearchPaginatorMultireddit.SearchSort.valueOf(Reddit.search.toString()));
@@ -144,7 +151,7 @@ public class SubredditSearchPosts extends GeneralPosts {
                         ((SubmissionSearchPaginator) paginator).setSyntax(SubmissionSearchPaginator.SearchSyntax.LUCENE);
 
                     }
-                    paginator.setTimePeriod((parent.time));
+                    paginator.setTimePeriod((time));
                 }
 
                 if (!paginator.hasNext()) {
