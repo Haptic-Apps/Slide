@@ -387,7 +387,7 @@
                 android:name=".Activities.CommentsScreen"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"
-                android:windowSoftInputMode="adjustResize"/>
+                android:windowSoftInputMode="adjustPan"/>
         <activity
                 android:name=".Activities.Announcement"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
@@ -455,7 +455,7 @@
                 android:name=".Activities.CommentsScreenSingle"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"
-                android:windowSoftInputMode="adjustResize"/>
+                android:windowSoftInputMode="adjustPan"/>
         <activity
                 android:name=".Activities.Inbox"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"

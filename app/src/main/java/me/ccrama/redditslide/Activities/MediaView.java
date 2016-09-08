@@ -680,6 +680,7 @@ public class MediaView extends FullScreenActivity
                             Intent i = new Intent(MediaView.this, Website.class);
                             i.putExtra(Website.EXTRA_URL, finalUrl);
                             MediaView.this.startActivity(i);
+                            finish();
                         }
                     }
 
@@ -734,12 +735,14 @@ public class MediaView extends FullScreenActivity
                                 Intent i = new Intent(MediaView.this, Website.class);
                                 i.putExtra(Website.EXTRA_URL, finalUrl);
                                 MediaView.this.startActivity(i);
+                                finish();
                             }
                         } catch (Exception e2) {
                             e2.printStackTrace();
                             Intent i = new Intent(MediaView.this, Website.class);
                             i.putExtra(Website.EXTRA_URL, finalUrl);
                             MediaView.this.startActivity(i);
+                            finish();
                         }
                     }
 
@@ -773,6 +776,7 @@ public class MediaView extends FullScreenActivity
                     Intent i = new Intent(MediaView.this, Website.class);
                     i.putExtra(Website.EXTRA_URL, contentUrl);
                     MediaView.this.startActivity(i);
+                    finish();
                 }
             }
         }.execute();
@@ -832,6 +836,7 @@ public class MediaView extends FullScreenActivity
                                     Intent i = new Intent(MediaView.this, Website.class);
                                     i.putExtra(Website.EXTRA_URL, finalUrl2);
                                     MediaView.this.startActivity(i);
+                                    finish();
                                 }
                             }
                         });

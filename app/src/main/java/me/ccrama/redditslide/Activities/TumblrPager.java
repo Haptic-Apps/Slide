@@ -535,10 +535,8 @@ public class TumblrPager extends FullScreenActivity
             boolean lq = false;
             if (SettingValues.loadImageLq && (SettingValues.lowResAlways
                     || (!NetworkUtil.isConnectedWifi(getActivity())
-                    && SettingValues.lowResMobile))) {
-                String lqurl = url.substring(0, url.lastIndexOf("."))
-                        + (SettingValues.imgurLq ? "m" : "h")
-                        + url.substring(url.lastIndexOf("."), url.length());
+                    && SettingValues.lowResMobile)) && current.getAltSizes()!= null&&! current.getAltSizes().isEmpty()) {
+                String lqurl = current.getAltSizes().get(current.getAltSizes().size()/2).getUrl();
                 loadImage(rootView, this, lqurl);
                 lq = true;
             } else {

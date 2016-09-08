@@ -745,6 +745,11 @@ public class PopulateSubmissionViewHolder {
                     break;
                     case 7:
                         LinkUtil.openExternally(submission.getUrl(), mContext, true);
+                        if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
+                            //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
+                        } else if(SettingValues.storeHistory) {
+                            HasSeen.addSeen(submission.getFullName());
+                        }
                         break;
                     case 28:
                         if (!isAddedToReadLaterList) {

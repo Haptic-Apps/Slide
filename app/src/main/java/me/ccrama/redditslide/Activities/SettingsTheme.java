@@ -403,12 +403,6 @@ public class SettingsTheme extends BaseActivityAnim {
                         if (SettingValues.colorIcon) {
                             getPackageManager().setComponentEnabledSetting(
                                     new ComponentName(SettingsTheme.this,
-                                            ".Activities.Slide"),
-                                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                                    PackageManager.DONT_KILL_APP);
-
-                            getPackageManager().setComponentEnabledSetting(
-                                    new ComponentName(SettingsTheme.this,
                                             ColorPreferences.getIconName(SettingsTheme.this,
                                                     colorPicker2.getColor())),
                                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
