@@ -10,7 +10,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -50,7 +52,7 @@ public class Login extends BaseActivityAnim {
 
     @Override
     public void onCreate(Bundle savedInstance) {
-        overrideRedditSwipeAnywhere();
+        overrideSwipeFromAnywhere();
         super.onCreate(savedInstance);
         applyColorTheme("");
         setContentView(R.layout.activity_login);
@@ -72,8 +74,6 @@ public class Login extends BaseActivityAnim {
         authorizationUrl = authorizationUrl.replace("www.", "i.");
         authorizationUrl = authorizationUrl.replace("%3A%2F%2Fi", "://www");
         Log.v(LogUtil.getTag(), "Auth URL: " + authorizationUrl);
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookie();
         final WebView webView = (WebView) findViewById(R.id.web);
 
         webView.loadUrl(authorizationUrl);
@@ -83,7 +83,15 @@ public class Login extends BaseActivityAnim {
 //                activity.setProgress(newProgress * 1000);
             }
         });
+        CookieSyncManager.createInstance(this);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookies(null);
+        CookieManager.getInstance().flush();
+        cookieManager.setAcceptCookie(false);
 
+        WebSettings ws = webView.getSettings();
+        ws.setSaveFormData(false);
+        ws.setSavePassword(false);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
