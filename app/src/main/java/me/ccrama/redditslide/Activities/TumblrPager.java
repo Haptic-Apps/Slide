@@ -197,39 +197,11 @@ public class TumblrPager extends FullScreenActivity
 
         @Override
         public void onError() {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        new AlertDialogWrapper.Builder(TumblrPager.this).setTitle(
-                                "Tumblr data not found")
-                                .setMessage(R.string.error_album_not_found_text)
-                                .setNegativeButton(R.string.btn_no,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                finish();
-                                            }
-                                        })
-                                .setCancelable(false)
-                                .setPositiveButton(R.string.btn_yes,
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Intent i =
-                                                        new Intent(TumblrPager.this, Website.class);
-                                                i.putExtra(Website.EXTRA_URL, url);
-                                                startActivity(i);
-                                                finish();
-                                            }
-                                        })
-                                .show();
-                    } catch (Exception e) {
-
-                    }
-                }
-            });
-
+            Intent i =
+                    new Intent(TumblrPager.this, Website.class);
+            i.putExtra(Website.EXTRA_URL, url);
+            startActivity(i);
+            finish();
         }
 
         @Override
@@ -523,11 +495,6 @@ public class TumblrPager extends FullScreenActivity
                 Bundle savedInstanceState) {
             final ViewGroup rootView =
                     (ViewGroup) inflater.inflate(R.layout.album_image_pager, container, false);
-
-            if (((TumblrPager) getActivity()).images == null) {
-                getActivity().finish();
-                return rootView;
-            }
 
             final Photo current = ((TumblrPager) getActivity()).images.get(i);
             final String url = current.getOriginalSize().getUrl();

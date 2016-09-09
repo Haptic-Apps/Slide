@@ -391,43 +391,11 @@ public class Tumblr extends FullScreenActivity implements FolderChooserDialogCre
 
             @Override
             public void onError() {
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                                        "Tumblr data not found")
-                                        .setMessage(R.string.error_album_not_found_text)
-                                        .setNegativeButton(R.string.btn_no,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                            int which) {
-                                                        getActivity().finish();
-                                                    }
-                                                })
-                                        .setCancelable(false)
-                                        .setPositiveButton(R.string.btn_yes,
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog,
-                                                            int which) {
-                                                        Intent i = new Intent(getActivity(),
-                                                                Website.class);
-                                                        i.putExtra(Website.EXTRA_URL, url);
-                                                        startActivity(i);
-                                                        getActivity().finish();
-                                                    }
-                                                })
-                                        .show();
-                            } catch (Exception e) {
-
-                            }
-                        }
-                    });
-                }
-
+                Intent i =
+                        new Intent(getActivity(), Website.class);
+                i.putExtra(Website.EXTRA_URL, url);
+                startActivity(i);
+                getActivity().finish();
             }
 
             @Override
