@@ -1,3 +1,115 @@
+5.4.2 / 2016-08-19
+==================
+  * TONS of Offline Mode improvements thanks to /u/mr_novembor including depth limit, comments to cache, and ability to cache individual posts for offline mode!
+  * New post layout type: Desktop Condensed!
+  * Subreddit post notifications with score threshold settings per sub!
+  * PRO Ad block and cookie block in Website view
+  * Reader Mode in Website view
+  * PRO Comment shadowbox mode
+  * Check for post notifications on app start
+  * PRO: New option to crop and draw on images to upload!
+  * PRO: Auto night theme with configurable times in Settings > Main Theme
+  * Per-subreddit flair filter
+  * Swipe from first image to exit the Album pager
+  * Superscript is actually small
+  * Sibling comment navigation if you highlight a comment at a certain level   and hit the arrows
+  * Option to show content type next to links!
+  * Overhaul of Manage Subscriptions screen with ability to subscribe/unsubscribe, more intuitive controls
+  * Highlight text in comment search
+  * User post filter
+  * Added filter user posts and submission flair to the post flair menu
+  * New Settings layout
+  * Direct reply from inbox
+  * Inbox "new" tag for unviewed unread messages (since last inbox visit)
+  * Thread title in inbox messages
+  * Album downloads now work (and can download more than one image at a time)
+  * Added size to gifs in albums
+  * Ability to click links in album image titles and descriptions
+  * Option for vibrate and sound in Inbox notifs
+  * Notification toast for Reddit API errors
+  * Ability to ban from the comment menu
+  * Bold titles of tables
+  * Reversed draft order
+  * Fixed issue where you couldn't tap or long press in code blocks/tables
+  * Fixed issue where vote count would add extra if you voted on something
+  * Fixed subscribing in Manage Subscriptions
+  * Fixed gifs not loading all the time in albums
+  * Tons of other (more than 30) bug fixes and improvements
+
+5.4.0 / 2016-07-21
+==================
+  * Support for API 15 (Ice Cream Sandwich)!
+  * Live thread support with inline Twitter and Imgur views, and auto-updates
+  * Button in all media views to open comments directly! Shows in images, gifs, and albums you have opened from the post screen
+  * Select text to quote from the editor menu
+  * Mods: Ban users with reason, message, and time!
+  * Add to Multireddit button from subreddit sidebars
+  * Message subreddit moderators from the sidebar
+  * TONS of backend improvements to image, album, and gif loading, and speed improvements all around
+  * View active users in the sidebar
+  * Immersive mode for images and gifs
+  * Renamed "Link Karma" to "Post Karma"
+  * Support for the Reddit feature of highlighting new comments since last visit
+  * Download images in the background with separate notifications for each
+  * Many more aesthetic tweaks and bug fixes
+
+5.3.9 / 2016-05-27
+==================
+  * Brand new list view look!
+  * Hide button in overflow menu if you have the FAB disabled
+  * Added commas to some larger numbers
+  * Improved gallery mode style, long press for link actions
+  * New activity animations
+  * Disabled saved categories if you don't have gold (Reddit limitation)
+  * Fixed language override on screen rotation
+  * Manage (and batch manage) subscriptions in the Manage Subscriptions setting page
+  * Synccit fixes
+  * Extra large font size
+  * Strikethrough in the editor menu
+  * Lots of other bug fixes and improvements
+
+5.3.8 / 2016-05-19
+==================
+  * Saved categories! You can now save submissions and comments into categories and sort through your categories on the Profile screen
+  * More supported markdown in previews (strikethrough and tables)
+  * Share anything through NFC! Highlight a comment and tap to share comments, or share submissions and opened content
+  * Make a domain always open externally in the CustomTabs and Website view
+  * Gif size indicator while downloading (in kb/mb in bottom left corner)
+  * Fixed double loading in media views
+  * More readable blockquote bar
+  * Added auto-draft to Submit screen
+  * Other bug/stability fixes
+
+5.3.7 / 2016-05-14
+==================
+  * Option to not load any images or force load LQ Imgur images (works in albums  and direct links too!)
+  * Fixed reddituploads links not working
+  * Added a Sepia base theme
+  * Added a compact widget mode
+  * Made history load in the sidebar instantly
+  * Made setting to hide all selftext images in Settings > Data Saving
+  * Made the drawer touch target bigger
+  * Added content icons to Gallery mode
+  * Fixed toolbar popping up with no way to close it
+  * Fixed some visual bugs and other crashes
+
+5.3.6 / 2016-05-09
+==================
+  * Gallery mode (3 dot menu > Gallery mode) for Pro users!
+  * Customizable subreddit homescreen widget!
+  * Ability to add a website as a subreddit in the Settings > Manage subs screen
+  * 10 Pro free trials for Shadowbox and Gallery modes
+  * Option to show upvote and comment count when actionbar is disabled
+  * Option to show content type if big image is not visible
+  * Long press the Multireddit item in the sidebar to go to a user's public multireddits
+  * View a user's public multireddits in the profile info button
+  * New selection style for current sorting
+  * Improved GIF and Image cache
+  * New album loading code
+  * Option to long press on the subreddit title to view list of your subs
+  * Check sorting type from the button in the toolbar
+  * Much faster image and gif opening
+  * Lots of other bug fixes and improvements
 
 5.3.4 / 2016-05-02
 ==================
