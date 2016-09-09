@@ -3725,7 +3725,7 @@ public class MainActivity extends BaseActivity {
             drawerSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
-                    if (arg1 == EditorInfo.IME_ACTION_SEARCH) {
+                    if (arg1 == EditorInfo.IME_ACTION_SEARCH || arg1 == EditorInfo.IME_ACTION_UNSPECIFIED) {
                         //If it the input text doesn't match a subreddit from the list exactly, openInSubView is true
                         if (sideArrayAdapter.fitems == null
                                 || sideArrayAdapter.openInSubView
