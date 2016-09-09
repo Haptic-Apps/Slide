@@ -72,7 +72,7 @@ public class Search extends BaseActivityAnim {
 
     public void reloadSubs() {
         posts.refreshLayout.setRefreshing(true);
-        posts.reset();
+        posts.reset(time);
     }
 
     public void openTimeFramePopup() {

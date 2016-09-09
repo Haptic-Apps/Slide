@@ -6,14 +6,18 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -21,6 +25,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import me.ccrama.redditslide.R;
@@ -73,6 +78,12 @@ public class ImageDownloadNotificationService extends Service {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            try {
+                Toast.makeText(ImageDownloadNotificationService.this, "Downloading image...",
+                        Toast.LENGTH_SHORT).show();
+            } catch (Exception ignored) {
+
+            }
             startNotification();
             mBuilder.setProgress(100, 0, false);
             mNotifyManager.notify(id, mBuilder.build());
@@ -126,11 +137,14 @@ public class ImageDownloadNotificationService extends Service {
                         public void onScanCompleted(String path, Uri uri) {
 
                             final Intent shareIntent = new Intent(Intent.ACTION_VIEW);
-                            shareIntent.setDataAndType(Uri.fromFile(localAbsoluteFilePath),
+                            Uri photoURI = FileProvider.getUriForFile(ImageDownloadNotificationService.this, getApplicationContext().getPackageName() + ".MediaView",localAbsoluteFilePath);
+                            shareIntent.setDataAndType(photoURI,
                                     "image/*");
+
                             PendingIntent contentIntent =
                                     PendingIntent.getActivity(getApplicationContext(), id,
                                             shareIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
 
                             Notification notif = new NotificationCompat.Builder(
                                     getApplicationContext()).setContentTitle(

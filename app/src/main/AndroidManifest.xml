@@ -27,7 +27,6 @@
                 android:authorities="${applicationId}.MediaView"
                 android:exported="false"
                 android:grantUriPermissions="true">
-
             <meta-data
                     android:name="android.support.FILE_PROVIDER_PATHS"
                     android:resource="@xml/filepaths"/>
@@ -52,7 +51,6 @@
                 android:label="@string/app_name"
                 android:windowSoftInputMode="adjustPan">
         </activity>
-
         <activity-alias
                 android:name=".Activities.SlideDefault"
                 android:enabled="false"

@@ -64,7 +64,8 @@ public class SubredditSearchPosts extends GeneralPosts {
     boolean multireddit;
     TimePeriod time = TimePeriod.ALL;
 
-    public void reset() {
+    public void reset(TimePeriod time) {
+        this.time = time;
         new LoadData(true).execute();
     }
 
