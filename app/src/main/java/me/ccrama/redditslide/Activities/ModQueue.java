@@ -136,7 +136,7 @@ public class ModQueue extends BaseActivityAnim {
                 Bundle args = new Bundle();
 
                 args.putString("id", "modqueue");
-                args.putString("subreddit", UserSubscriptions.modOf.get(i - 4));
+                args.putString("subreddit", UserSubscriptions.modOf.get(i - 5));
 
                 f.setArguments(args);
 

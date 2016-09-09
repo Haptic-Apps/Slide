@@ -118,8 +118,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
         appRestart.edit().putBoolean("isRestarting", true).apply();
         isRestarting = true;
-        ProcessPhoenix.triggerRebirth(context.getApplicationContext());
-
+        ProcessPhoenix.triggerRebirth(context, new Intent(context, MainActivity.class));
     }
 
     public static void forceRestart(Context c, boolean forceLoadScreen) {
