@@ -140,6 +140,15 @@ public class ImageDownloadNotificationService extends Service {
                             Uri photoURI = FileProvider.getUriForFile(ImageDownloadNotificationService.this, getApplicationContext().getPackageName() + ".MediaView",localAbsoluteFilePath);
                             shareIntent.setDataAndType(photoURI,
                                     "image/*");
+                            List<ResolveInfo> resInfoList =
+                                    getPackageManager().queryIntentActivities(shareIntent,
+                                            PackageManager.MATCH_DEFAULT_ONLY);
+                            for (ResolveInfo resolveInfo : resInfoList) {
+                                String packageName = resolveInfo.activityInfo.packageName;
+                                grantUriPermission(packageName, photoURI,
+                                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                                | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            }
 
                             PendingIntent contentIntent =
                                     PendingIntent.getActivity(getApplicationContext(), id,

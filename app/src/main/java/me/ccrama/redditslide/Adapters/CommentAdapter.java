@@ -600,6 +600,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
             replyLine.requestFocus();
+            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
+                    Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                    InputMethodManager.HIDE_IMPLICIT_ONLY);
+
             editingPosition = submissionViewHolder.getAdapterPosition();
 
             submissionViewHolder.itemView.findViewById(R.id.send)
@@ -1140,6 +1145,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         }
                     });
                     replyLine.requestFocus();
+                    InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                            InputMethodManager.HIDE_IMPLICIT_ONLY);
+
                     currentlyEditingId = n.getFullName();
                     replyLine.setText(backedText);
                     replyLine.addTextChangedListener(new TextWatcher() {
@@ -1218,6 +1228,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             }
                         });
                         replyLine.requestFocus();
+                        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                                InputMethodManager.HIDE_IMPLICIT_ONLY);
+
                         currentlyEditingId = n.getFullName();
                         replyLine.addTextChangedListener(new TextWatcher() {
                             @Override

@@ -20,6 +20,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.MediaController.MediaPlayerControl;
+import android.widget.SeekBar;
 
 import java.io.IOException;
 
@@ -97,7 +98,6 @@ public class MediaVideoView extends TextureView implements MediaController.Media
     private int                              currentBufferPercentage;
     private MediaPlayer.OnErrorListener      onErrorListener;
     private MediaPlayer.OnInfoListener       onInfoListener;
-
     private int     mSeekWhenPrepared;  // recording the seek position while preparing
     private boolean mCanPause;
     private boolean mCanSeekBack;
