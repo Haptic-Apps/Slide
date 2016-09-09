@@ -98,15 +98,15 @@ public class TumblrUtils {
                         + Constants.TUMBLR_API_KEY
                         + "&id="
                         + id;
+                LogUtil.v(apiUrl);
                 if (tumblrRequests.contains(apiUrl) && new JsonParser().parse(
                         tumblrRequests.getString(apiUrl, "")).getAsJsonObject().has("response")) {
                     parseJson(new JsonParser().parse(tumblrRequests.getString(apiUrl, ""))
                             .getAsJsonObject());
                 } else {
                     LogUtil.v(apiUrl);
-                    // This call requires no mashape headers, don't pass in the headers Map
                     final JsonObject result = HttpUtil.getJsonObject(client, gson, apiUrl);
-                    if (result != null && result.has("response")) {
+                    if (result != null && result.has("response") && result.get("response").getAsJsonObject().has("posts") && result.get("response").getAsJsonObject().get("posts").getAsJsonArray().get(0).getAsJsonObject().has("photos")) {
                         tumblrRequests.edit().putString(apiUrl, result.toString()).apply();
                         parseJson(result);
                     } else {

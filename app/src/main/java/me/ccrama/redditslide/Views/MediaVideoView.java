@@ -229,6 +229,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             LogUtil.v( "Setting data source.");
             mediaPlayer.setDataSource(mContext, uri);
             LogUtil.v( "Setting media player listeners.");
+
             mediaPlayer.setOnBufferingUpdateListener(bufferingUpdateListener);
             mediaPlayer.setOnPreparedListener(preparedListener);
             mediaPlayer.setOnErrorListener(errorListener);
