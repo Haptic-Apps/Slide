@@ -1,76 +1,76 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".SubredditOverview">
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".SubredditOverview">
 
     <item
-        android:id="@+id/action_shadowbox"
-        android:icon="@drawable/shadowbox"
-        android:title="@string/general_enable_shadowbox"
-        app:showAsAction="always" />
+            android:id="@+id/action_shadowbox"
+            android:icon="@drawable/shadowbox"
+            android:title="@string/general_enable_shadowbox"
+            app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_sort"
-        android:icon="@drawable/sort"
-        android:title="@string/sorting_change_sorting"
-        app:showAsAction="always" />
+            android:id="@+id/action_sort"
+            android:icon="@drawable/sort"
+            android:title="@string/sorting_change_sorting"
+            app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_refresh"
-        android:icon="@drawable/ic_refresh"
-        android:title="@string/btn_refresh"
-        app:showAsAction="always" />
+            android:id="@+id/search"
+            android:icon="@drawable/search"
+            android:title="@string/search_title"
+            app:showAsAction="always"/>
 
     <item
-        android:id="@+id/search"
-        android:icon="@drawable/search"
-        android:title="@string/search_title"
-        app:showAsAction="always" />
+            android:id="@+id/action_refresh"
+            android:icon="@drawable/ic_refresh"
+            android:title="@string/btn_refresh"
+            app:showAsAction="always"/>
 
     <item
-        android:id="@+id/gallery"
-        android:icon="@drawable/image"
-        android:title="@string/gallery_mode"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/gallery"
+            android:icon="@drawable/image"
+            android:title="@string/gallery_mode"
+            app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/sidebar"
-        android:icon="@drawable/infonew"
-        android:title="@string/general_open_settings"
-        app:showAsAction="ifRoom" />
+            android:id="@+id/sidebar"
+            android:icon="@drawable/infonew"
+            android:title="@string/general_open_settings"
+            app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/submit"
-        android:title="@string/btn_submit"
-        app:showAsAction="never" />
+            android:id="@+id/submit"
+            android:title="@string/btn_submit"
+            app:showAsAction="never"/>
 
     <item
-        android:id="@+id/theme"
-        android:title="@string/subreddit_theme"
-        app:showAsAction="never" />
+            android:id="@+id/theme"
+            android:title="@string/subreddit_theme"
+            app:showAsAction="never"/>
 
     <item
-        android:id="@+id/night"
-        android:title="@string/theme_base"
-        app:showAsAction="never" />
+            android:id="@+id/night"
+            android:title="@string/theme_base"
+            app:showAsAction="never"/>
 
     <item
-        android:id="@+id/filter"
-        android:title="@string/sub_content_filter"
-        app:showAsAction="never" />
+            android:id="@+id/filter"
+            android:title="@string/sub_content_filter"
+            app:showAsAction="never"/>
 
     <item
-        android:id="@+id/save"
-        android:title="@string/btn_cache"
-        app:showAsAction="never" />
+            android:id="@+id/save"
+            android:title="@string/btn_cache"
+            app:showAsAction="never"/>
 
     <item
-        android:id="@+id/hide_posts"
-        android:title="@string/hide_read_posts"
-        app:showAsAction="never" />
+            android:id="@+id/hide_posts"
+            android:title="@string/hide_read_posts"
+            app:showAsAction="never"/>
 
     <item
-        android:id="@+id/share"
-        android:title="@string/share_slide"
-        app:showAsAction="never" />
+            android:id="@+id/share"
+            android:title="@string/share_slide"
+            app:showAsAction="never"/>
 </menu>
