@@ -511,10 +511,9 @@ public class AlbumPager extends FullScreenActivity
 
             if (((AlbumPager) getActivity()).images == null) {
                 getActivity().finish();
+                return rootView;
             }
-            if (((AlbumPager) getActivity()).images == null) {
-                getActivity().finish();
-            }
+
             final Image current = ((AlbumPager) getActivity()).images.get(i);
             final String url = current.getImageUrl();
             boolean lq = false;

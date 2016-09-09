@@ -55,7 +55,12 @@ public class Login extends BaseActivityAnim {
         overrideSwipeFromAnywhere();
         super.onCreate(savedInstance);
         applyColorTheme("");
-        setContentView(R.layout.activity_login);
+        try {
+            setContentView(R.layout.activity_login);
+        } catch(Exception e){
+            finish();
+            return;
+        }
         setupAppBar(R.id.toolbar, R.string.title_login, true, true);
 
         String[] scopes = {

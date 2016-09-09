@@ -526,6 +526,7 @@ public class TumblrPager extends FullScreenActivity
 
             if (((TumblrPager) getActivity()).images == null) {
                 getActivity().finish();
+                return rootView;
             }
 
             final Photo current = ((TumblrPager) getActivity()).images.get(i);
