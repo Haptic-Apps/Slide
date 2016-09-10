@@ -31,6 +31,8 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.devspark.robototextview.util.RobotoTypefaceManager;
+
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.DistinguishedStatus;
@@ -204,6 +206,15 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
         if(!search.isEmpty()){
             body = body.replaceAll(search, "[[h[" + search + "]h]]");
         }
+
+        int type = new FontPreferences(mContext).getFontTypeComment().getTypeface();
+        Typeface typeface;
+        if (type >= 0) {
+            typeface = RobotoTypefaceManager.obtainTypeface(mContext, type);
+        } else {
+            typeface = Typeface.DEFAULT;
+        }
+        holder.firstTextView.setTypeface(typeface);
 
         setViews(body, comment.getSubredditName(), holder);
 

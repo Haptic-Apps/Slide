@@ -22,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -249,6 +250,8 @@ public class DoEditorActions {
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
                 if (a instanceof MainActivity) {
                     LogUtil.v("Running on main");
                     ((MainActivity) a).doImage = new Runnable() {
@@ -490,6 +493,8 @@ public class DoEditorActions {
 
     public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm) {
         Intent intent = new Intent(a, Draw.class);
+        InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         if (a instanceof MainActivity) {
             LogUtil.v("Running on main");
             ((MainActivity) a).doImage = new Runnable() {
@@ -728,7 +733,10 @@ public class DoEditorActions {
                 descriptionBox.setHint(R.string.editor_title);
                 descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
-
+                final InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                        InputMethodManager.HIDE_IMPLICIT_ONLY);
 
                 ta.recycle();
                 int sixteen = Reddit.dpToPxVertical(16);

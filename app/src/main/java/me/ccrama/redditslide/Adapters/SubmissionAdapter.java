@@ -63,6 +63,7 @@ public class SubmissionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.seen = new ArrayList<>();
         custom = SettingValues.prefs.contains(Reddit.PREF_LAYOUT + subreddit.toLowerCase());
         this.displayer = displayer;
+        MainActivity.randomoverride = "";
     }
 
     @Override

@@ -1210,9 +1210,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                         replyArea.setVisibility(View.VISIBLE);
                         menu.setVisibility(View.GONE);
-                        DoEditorActions.doActions(replyLine, replyArea, fm, (Activity) mContext,
-                                comment.getBody());
                         currentlyEditing = replyLine;
+                        DoEditorActions.doActions(currentlyEditing, replyArea, fm, (Activity) mContext,
+                                comment.getBody());
                         currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
                             public void onFocusChange(View v, boolean hasFocus) {

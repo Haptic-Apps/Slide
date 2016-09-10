@@ -93,9 +93,6 @@ public class Login extends BaseActivityAnim {
         cookieManager.removeAllCookies(null);
         CookieManager.getInstance().flush();
 
-        WebSettings ws = webView.getSettings();
-        ws.setSaveFormData(false);
-        ws.setSavePassword(false);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
