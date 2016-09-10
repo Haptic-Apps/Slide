@@ -37,8 +37,6 @@ import me.ccrama.redditslide.util.LogUtil;
  */
 public class ImageDownloadNotificationService extends Service {
 
-    int index;
-
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -50,20 +48,22 @@ public class ImageDownloadNotificationService extends Service {
                 || !actuallyLoaded.contains(".jpg"))) {
             actuallyLoaded = actuallyLoaded + ".png";
         }
-        index = intent.getIntExtra("index", -1);
-        new PollTask(actuallyLoaded).execute();
+        new PollTask(actuallyLoaded, intent.getIntExtra("index", -1)).execute();
     }
 
 
     private class PollTask extends AsyncTask<Void, Void, Void> {
 
-        public  int                        id;
-        private NotificationManager        mNotifyManager;
+        public int id;
+        private NotificationManager mNotifyManager;
         private NotificationCompat.Builder mBuilder;
-        public  String                     actuallyLoaded;
+        public String actuallyLoaded;
+        private int index;
 
-        public PollTask(String actuallyLoaded) {
+
+        public PollTask(String actuallyLoaded, int index) {
             this.actuallyLoaded = actuallyLoaded;
+            this.index = index;
         }
 
         public void startNotification() {
@@ -100,7 +100,7 @@ public class ImageDownloadNotificationService extends Service {
 
                             @Override
                             public void onLoadingComplete(String imageUri, View view,
-                                    final Bitmap loadedImage) {
+                                                          final Bitmap loadedImage) {
                                 try {
                                     saveImageGallery(loadedImage, finalUrl1);
                                 } catch (IOException e) {
@@ -110,7 +110,7 @@ public class ImageDownloadNotificationService extends Service {
                         }, new ImageLoadingProgressListener() {
                             @Override
                             public void onProgressUpdate(String imageUri, View view, int current,
-                                    int total) {
+                                                         int total) {
                                 if ((current / total * 100) % 10 == 0) {
                                     mBuilder.setProgress(total, current, false);
                                     mNotifyManager.notify(id, mBuilder.build());
@@ -180,7 +180,7 @@ public class ImageDownloadNotificationService extends Service {
             File f = new File(
                     Reddit.appRestart.getString("imagelocation", "")
                             + File.separator
-                            + (index > -1 ? String.format("%03d", index) : "")
+                            + (index > -1 ? String.format("%03d", index) : "") + "_"
                             + UUID.randomUUID().toString()
                             + ".png");
 
