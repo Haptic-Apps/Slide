@@ -7,15 +7,18 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -144,12 +147,14 @@ import me.ccrama.redditslide.Views.ToggleSwipeViewPager;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.EditTextValidator;
 import me.ccrama.redditslide.util.LogUtil;
+import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements
+        NetworkStateReceiver.NetworkStateReceiverListener {
     public static final String EXTRA_PAGE_TO        = "pageTo";
     public static final String IS_ONLINE            = "online";
     // Instance state keys
@@ -1316,19 +1321,21 @@ public class MainActivity extends BaseActivity {
          * int for the current base theme selected.
          * 0 = Dark, 1 = Light, 2 = AMOLED, 3 = Dark blue, 4 = AMOLED with contrast, 5 = Sepia
          */
-        SettingValues.currentTheme = new
-
-                ColorPreferences(this)
-
-                .
-
-                        getFontStyle()
-
-                .
-
-                        getThemeType();
+        SettingValues.currentTheme = new ColorPreferences(this).getFontStyle()
+                .getThemeType();
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+    @Override
+    public void networkAvailable() {
+        new Authentication(this);
     }
 
+    NetworkStateReceiver networkStateReceiver;
+    @Override
+    public void networkUnavailable() {
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -4862,7 +4869,5 @@ public class MainActivity extends BaseActivity {
 
 
         }
-
-
     }
 }
