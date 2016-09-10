@@ -19,6 +19,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -264,9 +265,11 @@ public class DoEditorActions {
                             Integer.toString(R.string.editor_select_img)), 3333);
                 } else {
                     Fragment auxiliary = new AuxiliaryFragment();
-                    Bundle data = new Bundle();
-                    data.putInt("textId", editText.getId());
-                    auxiliary.setArguments(data);
+
+                    e = editText.getText();
+                    sStart = editText.getSelectionStart();
+                    sEnd = editText.getSelectionEnd();
+
                     fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
                     fm.executePendingTransactions();
 
@@ -490,6 +493,9 @@ public class DoEditorActions {
             }
         });
     }
+    
+    public static Editable e;
+    public static int sStart, sEnd;
 
     public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm) {
         Intent intent = new Intent(a, Draw.class);
@@ -506,9 +512,11 @@ public class DoEditorActions {
             a.startActivityForResult(intent, 3333);
         } else {
             Fragment auxiliary = new AuxiliaryFragment();
-            Bundle data = new Bundle();
-            data.putInt("textId", editText.getId());
-            auxiliary.setArguments(data);
+
+            e = editText.getText();
+            sStart = editText.getSelectionStart();
+            sEnd = editText.getSelectionEnd();
+
             fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
             fm.executePendingTransactions();
 
@@ -580,13 +588,11 @@ public class DoEditorActions {
     private static class UploadImgur extends AsyncTask<Uri, Integer, JSONObject> {
 
         final         Context        c;
-        final         EditText       editText;
         private final MaterialDialog dialog;
         public        Bitmap         b;
 
-        public UploadImgur(EditText editText) {
-            this.c = editText.getContext();
-            this.editText = editText;
+        public UploadImgur( Context c) {
+            this.c = c;
             dialog = new MaterialDialog.Builder(c).title(
                     c.getString(R.string.editor_uploading_image))
                     .progress(false, 100)
@@ -715,25 +721,25 @@ public class DoEditorActions {
             dialog.dismiss();
             try {
                 int[] attrs = {R.attr.font};
-                TypedArray ta = editText.getContext()
+                TypedArray ta = c
                         .obtainStyledAttributes(
-                                new ColorPreferences(editText.getContext()).getFontStyle()
+                                new ColorPreferences(c).getFontStyle()
                                         .getBaseId(), attrs);
                 final String url = result.getJSONObject("data").getString("link");
-                LinearLayout layout = new LinearLayout(editText.getContext());
+                LinearLayout layout = new LinearLayout(c);
                 layout.setOrientation(LinearLayout.VERTICAL);
 
-                final TextView titleBox = new TextView(editText.getContext());
+                final TextView titleBox = new TextView(c);
                 titleBox.setText(url);
                 layout.addView(titleBox);
                 titleBox.setEnabled(false);
                 titleBox.setTextColor(ta.getColor(0, Color.WHITE));
 
-                final EditText descriptionBox = new EditText(editText.getContext());
+                final EditText descriptionBox = new EditText(c);
                 descriptionBox.setHint(R.string.editor_title);
                 descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
-                final InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(
+                final InputMethodManager imm = (InputMethodManager) c.getSystemService(
                         Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
                         InputMethodManager.HIDE_IMPLICIT_ONLY);
@@ -742,7 +748,7 @@ public class DoEditorActions {
                 int sixteen = Reddit.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
-                new AlertDialogWrapper.Builder(editText.getContext()).setTitle(
+                new AlertDialogWrapper.Builder(c).setTitle(
                         R.string.editor_title_link)
                         .setView(layout)
                         .setPositiveButton(R.string.editor_action_link,
@@ -755,9 +761,12 @@ public class DoEditorActions {
                                                 + "]("
                                                 + url
                                                 + ")";
-                                        int start = Math.max(editText.getSelectionStart(), 0);
-                                        int end = Math.max(editText.getSelectionEnd(), 0);
-                                        editText.getText().insert(Math.max(start, end), s);
+                                        int start = Math.max(sStart, 0);
+                                        int end = Math.max(sEnd, 0);
+                                        DoEditorActions.e.insert(Math.max(start, end), s);
+                                        DoEditorActions.e = null;
+                                        sStart = 0;
+                                        sEnd = 0;
                                     }
                                 })
                         .show();
@@ -785,13 +794,11 @@ public class DoEditorActions {
     private static class UploadImgurAlbum extends AsyncTask<Uri, Integer, String> {
 
         final         Context        c;
-        final         EditText       editText;
         private final MaterialDialog dialog;
         public        Bitmap         b;
 
-        public UploadImgurAlbum(EditText editText) {
-            this.c = editText.getContext();
-            this.editText = editText;
+        public UploadImgurAlbum(Context c) {
+            this.c = c;
             dialog = new MaterialDialog.Builder(c).title(
                     c.getString(R.string.editor_uploading_image))
                     .progress(false, 100)
@@ -964,20 +971,20 @@ public class DoEditorActions {
             dialog.dismiss();
             try {
                 int[] attrs = {R.attr.font};
-                TypedArray ta = editText.getContext()
+                TypedArray ta = c
                         .obtainStyledAttributes(
-                                new ColorPreferences(editText.getContext()).getFontStyle()
+                                new ColorPreferences(c).getFontStyle()
                                         .getBaseId(), attrs);
-                LinearLayout layout = new LinearLayout(editText.getContext());
+                LinearLayout layout = new LinearLayout(c);
                 layout.setOrientation(LinearLayout.VERTICAL);
 
-                final TextView titleBox = new TextView(editText.getContext());
+                final TextView titleBox = new TextView(c);
                 titleBox.setText(finalUrl);
                 layout.addView(titleBox);
                 titleBox.setEnabled(false);
                 titleBox.setTextColor(ta.getColor(0, Color.WHITE));
 
-                final EditText descriptionBox = new EditText(editText.getContext());
+                final EditText descriptionBox = new EditText(c);
                 descriptionBox.setHint(R.string.editor_title);
                 descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
@@ -987,7 +994,7 @@ public class DoEditorActions {
                 int sixteen = Reddit.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
-                new AlertDialogWrapper.Builder(editText.getContext()).setTitle(
+                new AlertDialogWrapper.Builder(c).setTitle(
                         R.string.editor_title_link)
                         .setView(layout)
                         .setPositiveButton(R.string.editor_action_link,
@@ -1000,9 +1007,12 @@ public class DoEditorActions {
                                                 + "]("
                                                 + finalUrl
                                                 + ")";
-                                        int start = Math.max(editText.getSelectionStart(), 0);
-                                        int end = Math.max(editText.getSelectionEnd(), 0);
-                                        editText.getText().insert(Math.max(start, end), s);
+                                        int start = Math.max(sStart, 0);
+                                        int end = Math.max(sEnd, 0);
+                                        DoEditorActions.e.insert(Math.max(start, end), s);
+                                        DoEditorActions.e = null;
+                                        sStart = 0;
+                                        sEnd = 0;
                                     }
                                 })
                         .show();
@@ -1033,14 +1043,17 @@ public class DoEditorActions {
             dialog.setProgress(progress);
         }
     }
-
     public static void handleImageIntent(Intent data, EditText ed, Context c) {
+        handleImageIntent(data, ed.getText(), c);
+    }
+
+    public static void handleImageIntent(Intent data, Editable ed, Context c) {
         if (data != null) {
             if (data.getData() != null && data.getClipData() == null) {
                 // Get the Image from data (single image)
                 Uri selectedImageUri = data.getData();
                 try {
-                    new UploadImgur(ed).execute(selectedImageUri);
+                    new UploadImgur(c).execute(selectedImageUri);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1055,7 +1068,7 @@ public class DoEditorActions {
                         mArrayUri.add(uri);
                     }
                     try {
-                        new UploadImgurAlbum(ed).execute(
+                        new UploadImgurAlbum(c).execute(
                                 mArrayUri.toArray(new Uri[mArrayUri.size()]));
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -1071,13 +1084,12 @@ public class DoEditorActions {
         }
     }
 
-
     public static class AuxiliaryFragment extends Fragment {
         @Override
         public void onActivityResult(int requestCode, int resultCode, Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
             handleImageIntent(data,
-                    ((EditText) getActivity().findViewById(getArguments().getInt("textId", 0))),
+                    e,
                     getContext());
 
             getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
