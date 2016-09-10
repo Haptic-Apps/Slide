@@ -209,10 +209,7 @@ public class MediaVideoView extends TextureView implements MediaController.Media
             return;
         }
         // Tell the music playback service to pause
-        // TODO: these constants need to be published somewhere in the framework.
-        Intent i = new Intent("com.android.music.musicservicecommand");
-        i.putExtra("command", "pause");
-        mContext.sendBroadcast(i);
+
         LogUtil.v( "Opening video.");
         release(false);
         try {
