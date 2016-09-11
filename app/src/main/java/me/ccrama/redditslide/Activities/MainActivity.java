@@ -7,8 +7,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,7 +16,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -98,7 +95,6 @@ import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
 
-import org.apache.http.auth.AUTH;
 import org.ligi.snackengage.SnackEngage;
 import org.ligi.snackengage.conditions.AfterNumberOfOpportunities;
 import org.ligi.snackengage.conditions.NeverAgainWhenClickedOnce;
@@ -153,8 +149,8 @@ import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
-public class MainActivity extends BaseActivity implements
-        NetworkStateReceiver.NetworkStateReceiverListener {
+public class MainActivity extends BaseActivity
+        implements NetworkStateReceiver.NetworkStateReceiverListener {
     public static final String EXTRA_PAGE_TO        = "pageTo";
     public static final String IS_ONLINE            = "online";
     // Instance state keys
@@ -983,7 +979,7 @@ public class MainActivity extends BaseActivity implements
         inNightMode = SettingValues.isNight();
         disableSwipeBackLayout();
         super.onCreate(savedInstanceState);
-        if(!Slide.hasStarted){
+        if (!Slide.hasStarted) {
             Slide.hasStarted = true;
         }
 
@@ -1321,21 +1317,24 @@ public class MainActivity extends BaseActivity implements
          * int for the current base theme selected.
          * 0 = Dark, 1 = Light, 2 = AMOLED, 3 = Dark blue, 4 = AMOLED with contrast, 5 = Sepia
          */
-        SettingValues.currentTheme = new ColorPreferences(this).getFontStyle()
-                .getThemeType();
+        SettingValues.currentTheme = new ColorPreferences(this).getFontStyle().getThemeType();
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
-        this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        this.registerReceiver(networkStateReceiver,
+                new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
     }
+
     @Override
     public void networkAvailable() {
-        new Authentication(this);
+        if (runAfterLoad == null) new Authentication(this);
     }
 
     NetworkStateReceiver networkStateReceiver;
+
     @Override
     public void networkUnavailable() {
     }
+
     @Override
     public void onResume() {
         super.onResume();
