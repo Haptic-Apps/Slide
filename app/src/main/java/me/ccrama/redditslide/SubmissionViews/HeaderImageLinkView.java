@@ -186,6 +186,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 else {
                     thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.nsfw));
                 }
+                loadedUrl = submission.getUrl();
             } else if (type != ContentType.Type.IMAGE && type != ContentType.Type.SELF && (!thumbnail.isNull() && (thumbnailType != Submission.ThumbnailType.URL)) || thumbnail.asText().isEmpty() && !submission.isSelfPost()) {
 
                 setVisibility(View.GONE);
@@ -196,6 +197,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                 }
 
                 thumbImage2.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.web));
+                loadedUrl = submission.getUrl();
             } else if (type == ContentType.Type.IMAGE && !thumbnail.isNull() && !thumbnail.asText().isEmpty()) {
                 if (loadLq && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null && submission.getThumbnails().getVariations().length > 0) {
 

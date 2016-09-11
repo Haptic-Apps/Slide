@@ -103,6 +103,7 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.LinkUtil;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -2473,21 +2474,16 @@ public class PopulateSubmissionViewHolder {
         ImageView thumbImage2 = ((ImageView) holder.thumbimage);
 
         if (holder.leadImage.thumbImage2 == null) {
+            LogUtil.v("Setting thumb click for " + submission.getSubredditName());
             holder.leadImage.setThumbnail(thumbImage2);
         }
 
         final ContentType.Type type = ContentType.getContentType(submission);
-        holder.leadImage.setSubmission(submission, full, baseSub, type);
 
         addClickFunctions(holder.leadImage, type, mContext, submission, holder, full);
 
-        if (holder.leadImage.thumbImage2 != null) {
-            holder.leadImage.thumbImage2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder.leadImage.callOnClick();
-                }
-            });
+        if (thumbImage2 != null) {
+            addClickFunctions(thumbImage2, type, mContext, submission, holder, full);
         }
 
         if (full) {
@@ -2498,6 +2494,9 @@ public class PopulateSubmissionViewHolder {
         if (full) {
             holder.leadImage.setWrapArea(holder.itemView.findViewById(R.id.wraparea));
         }
+
+
+        holder.leadImage.setSubmission(submission, full, baseSub, type);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
