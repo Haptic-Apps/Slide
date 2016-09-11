@@ -1326,7 +1326,9 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void networkAvailable() {
-       //todo fix  this if (runAfterLoad == null) new Authentication(this);
+        if (runAfterLoad == null && Reddit.authentication != null) {
+            Authentication.resetAdapter();
+        }
     }
 
     NetworkStateReceiver networkStateReceiver;
@@ -4445,6 +4447,10 @@ public class MainActivity extends BaseActivity
                 if (Authentication.me == null) {
                     Authentication.me = Authentication.reddit.me();
                     me = Authentication.me;
+                    if(Authentication.name.equalsIgnoreCase("loggedout")){
+                        Authentication.name = me.getFullName();
+                        Reddit.appRestart.edit().putString("name", Authentication.name).apply();
+                    }
                     Authentication.mod = me.isMod();
                     Reddit.over18 = me.isOver18();
 

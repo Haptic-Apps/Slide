@@ -2475,13 +2475,29 @@ public class PopulateSubmissionViewHolder {
         if (holder.leadImage.thumbImage2 == null) {
             holder.leadImage.setThumbnail(thumbImage2);
         }
+
+        final ContentType.Type type = ContentType.getContentType(submission);
+        holder.leadImage.setSubmission(submission, full, baseSub, type);
+
+        addClickFunctions(holder.leadImage, type, mContext, submission, holder, full);
+
+        if (holder.leadImage.thumbImage2 != null) {
+            holder.leadImage.thumbImage2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.leadImage.callOnClick();
+                }
+            });
+        }
+
+        if (full) {
+            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext,
+                    submission, holder, full);
+        }
+
         if (full) {
             holder.leadImage.setWrapArea(holder.itemView.findViewById(R.id.wraparea));
         }
-
-        final ContentType.Type type = ContentType.getContentType(submission);
-
-        holder.leadImage.setSubmission(submission, full, baseSub, type);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -2566,17 +2582,6 @@ public class PopulateSubmissionViewHolder {
             } else {
                 holder.itemView.findViewById(R.id.body_area).setVisibility(View.GONE);
             }
-        }
-
-        addClickFunctions(holder.leadImage, type, mContext, submission, holder, full);
-
-        if (thumbImage2 != null) {
-            addClickFunctions(thumbImage2, type, mContext, submission, holder, full);
-        }
-
-        if (full) {
-            addClickFunctions(holder.itemView.findViewById(R.id.wraparea), type, mContext,
-                    submission, holder, full);
         }
 
         try {

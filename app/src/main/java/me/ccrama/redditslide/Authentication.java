@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.AlertDialogWrapper;
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.LoggingMode;
 import net.dean.jraw.http.NetworkException;
+import net.dean.jraw.http.OkHttpAdapter;
 import net.dean.jraw.http.UserAgent;
 import net.dean.jraw.http.oauth.Credentials;
 import net.dean.jraw.http.oauth.OAuthData;
@@ -22,6 +23,7 @@ import net.dean.jraw.models.LoggedInAccount;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -42,15 +44,21 @@ public class Authentication {
 
     public        boolean hasDone;
     public static boolean didOnline;
+    private static OkHttpAdapter httpAdapter;
+
+    public static void resetAdapter(){
+       // httpAdapter.getCookieManager().remo
+    }
 
     public Authentication(Context context) {
         Reddit.setDefaultErrorHandler(context);
 
         if (NetworkUtil.isConnected(context)) {
             hasDone = true;
+            httpAdapter = new OkHttpAdapter();
             isLoggedIn = false;
             reddit = new RedditClient(
-                    UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME));
+                    UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME), httpAdapter);
             reddit.setRetryLimit(3);
             if (BuildConfig.DEBUG) reddit.setLoggingMode(LoggingMode.ALWAYS);
             didOnline = true;
