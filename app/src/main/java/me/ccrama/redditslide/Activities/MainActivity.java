@@ -4438,7 +4438,9 @@ public class MainActivity extends BaseActivity
 
     public class AsyncNotificationBadge extends AsyncTask<Void, Void, Void> {
         int count;
-        int modCount;
+
+        boolean restart;
+        int     modCount;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -4447,9 +4449,11 @@ public class MainActivity extends BaseActivity
                 if (Authentication.me == null) {
                     Authentication.me = Authentication.reddit.me();
                     me = Authentication.me;
-                    if(Authentication.name.equalsIgnoreCase("loggedout")){
+                    if (Authentication.name.equalsIgnoreCase("loggedout")) {
                         Authentication.name = me.getFullName();
                         Reddit.appRestart.edit().putString("name", Authentication.name).apply();
+                        restart = true;
+                        return null;
                     }
                     Authentication.mod = me.isMod();
                     Reddit.over18 = me.isOver18();
@@ -4502,6 +4506,10 @@ public class MainActivity extends BaseActivity
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            if(restart){
+                restartTheme();
+                return;
+            }
             if (Authentication.mod && Authentication.didOnline) {
                 headerMain.findViewById(R.id.mod).setVisibility(View.VISIBLE);
                 headerMain.findViewById(R.id.mod).setOnClickListener(new OnSingleClickListener() {
