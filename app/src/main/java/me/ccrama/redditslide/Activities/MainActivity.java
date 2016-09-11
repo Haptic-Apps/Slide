@@ -1326,7 +1326,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void networkAvailable() {
-        if (runAfterLoad == null) new Authentication(this);
+       //todo fix  this if (runAfterLoad == null) new Authentication(this);
     }
 
     NetworkStateReceiver networkStateReceiver;
