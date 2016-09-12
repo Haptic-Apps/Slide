@@ -165,7 +165,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             SpannableStringBuilder titleString = new SpannableStringBuilder();
             String author = comment.getAuthor();
             String direction = "from ";
-            if (comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase(
+            if (!dataSet.where.contains("mod") && comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase(
                     comment.getDataNode().get("dest").asText()) && !comment.getDataNode()
                     .get("dest")
                     .asText()
@@ -278,7 +278,7 @@ public class InboxAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             Html.fromHtml(comment.getSubject()));
 
                     String author = comment.getAuthor();
-                    if (comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase(
+                    if (!dataSet.where.contains("mod") &&comment.getDataNode().has("dest") && !Authentication.name.equalsIgnoreCase(
                             comment.getDataNode().get("dest").asText()) && !comment.getDataNode()
                             .get("dest")
                             .asText()

@@ -207,10 +207,10 @@ public class GifUtils {
             } else if (s.contains("gfycat") && (!s.contains("mp4") && !s.contains("webm"))) {
                 if (s.contains("-size_restricted"))
                     s = s.replace("-size_restricted", "");
-
             }
-            if (s.contains(".gif") && !s.contains(".gifv") && s.contains("imgur.com")) {
+            if ((s.contains(".webm") || s.contains(".gif")) && !s.contains(".gifv") && s.contains("imgur.com")) {
                 s = s.replace(".gif", ".mp4");
+                s = s.replace(".webm", ".mp4");
             }
             if (s.endsWith("/"))
                 s = s.substring(0, s.length() - 1);
@@ -298,7 +298,7 @@ public class GifUtils {
                             c.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    (c).startActivity(new Intent(c, MediaView.class).putExtra(MediaView.EXTRA_URL,url.replace(".mp4", "h.png") ));//Load the high quality thumbnail, which is a JPG
+                                    (c).startActivity(new Intent(c, MediaView.class).putExtra(MediaView.EXTRA_URL,url.replace(".mp4", ".png") ));//Load the high quality thumbnail, which is a JPG
                                     (c).finish();
                                 }
                             });

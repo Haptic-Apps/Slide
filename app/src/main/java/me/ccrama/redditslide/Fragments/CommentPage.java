@@ -428,6 +428,7 @@ public class CommentPage extends Fragment {
                                         break;
                                     case 1:
                                         currentSort = CommentNavType.CHILDREN;
+                                        break;
                                     case 2:
                                         currentSort = CommentNavType.OP;
                                         break;

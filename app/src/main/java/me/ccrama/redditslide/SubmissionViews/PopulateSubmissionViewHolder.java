@@ -2474,7 +2474,6 @@ public class PopulateSubmissionViewHolder {
         ImageView thumbImage2 = ((ImageView) holder.thumbimage);
 
         if (holder.leadImage.thumbImage2 == null) {
-            LogUtil.v("Setting thumb click for " + submission.getSubredditName());
             holder.leadImage.setThumbnail(thumbImage2);
         }
 
