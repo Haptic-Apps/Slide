@@ -36,14 +36,15 @@ import me.ccrama.redditslide.util.NetworkUtil;
 /**
  * Created by carlo_000 on 4/18/2016.
  */
-public class CommentCacheAsync extends AsyncTask{
+public class CommentCacheAsync extends AsyncTask {
 
     public static final String SAVED_SUBMISSIONS = "read later";
     List<Submission> alreadyReceived;
 
     NotificationManager mNotifyManager;
 
-    public CommentCacheAsync(List<Submission> submissions, Context c, String subreddit, boolean[] otherChoices) {
+    public CommentCacheAsync(List<Submission> submissions, Context c, String subreddit,
+            boolean[] otherChoices) {
         alreadyReceived = submissions;
         this.context = c;
         this.subs = new String[]{subreddit};
@@ -52,7 +53,7 @@ public class CommentCacheAsync extends AsyncTask{
 
     public CommentCacheAsync(List<Submission> submissions, Activity mContext, String baseSub,
             String alternateSubName) {
-        this(submissions, mContext, baseSub, new boolean[]{true ,true});
+        this(submissions, mContext, baseSub, new boolean[]{true, true});
 
     }
 
@@ -63,7 +64,7 @@ public class CommentCacheAsync extends AsyncTask{
 
     String[] subs;
 
-    Context context;
+    Context                    context;
     NotificationCompat.Builder mBuilder;
 
     boolean[] otherChoices;
@@ -73,100 +74,135 @@ public class CommentCacheAsync extends AsyncTask{
         ContentType.Type type = ContentType.getContentType(submission);
         if (submission.getThumbnails() != null) {
 
-            if (type == ContentType.Type.IMAGE || type == ContentType.Type.SELF || (submission.getThumbnailType() == Submission.ThumbnailType.URL)) {
+            if (type == ContentType.Type.IMAGE
+                    || type == ContentType.Type.SELF
+                    || (submission.getThumbnailType() == Submission.ThumbnailType.URL)) {
                 if (type == ContentType.Type.IMAGE) {
-                    if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails() != null && submission.getThumbnails().getVariations() != null && submission.getThumbnails().getVariations().length > 0) {
+                    if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile)
+                            || SettingValues.lowResAlways)
+                            && submission.getThumbnails() != null
+                            && submission.getThumbnails().getVariations() != null
+                            && submission.getThumbnails().getVariations().length > 0) {
 
                         int length = submission.getThumbnails().getVariations().length;
-                        url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
+                        url = Html.fromHtml(
+                                submission.getThumbnails().getVariations()[length / 2].getUrl())
+                                .toString(); //unescape url characters
 
                     } else {
-                        if (submission.getDataNode().has("preview") && submission.getDataNode().get("preview").get("images").get(0).get("source").has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
-                            url = submission.getDataNode().get("preview").get("images").get(0).get("source").get("url").asText();
+                        if (submission.getDataNode().has("preview") && submission.getDataNode()
+                                .get("preview")
+                                .get("images")
+                                .get(0)
+                                .get("source")
+                                .has("height")) { //Load the preview image which has probably already been cached in memory instead of the direct link
+                            url = submission.getDataNode()
+                                    .get("preview")
+                                    .get("images")
+                                    .get(0)
+                                    .get("source")
+                                    .get("url")
+                                    .asText();
                         } else {
                             url = submission.getUrl();
                         }
                     }
 
 
-                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(url, new ImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
+                    ((Reddit) c.getApplicationContext()).getImageLoader()
+                            .loadImage(url, new ImageLoadingListener() {
+                                @Override
+                                public void onLoadingStarted(String imageUri, View view) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                @Override
+                                public void onLoadingFailed(String imageUri, View view,
+                                        FailReason failReason) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                @Override
+                                public void onLoadingComplete(String imageUri, View view,
+                                        Bitmap loadedImage) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
+                                @Override
+                                public void onLoadingCancelled(String imageUri, View view) {
 
-                        }
-                    });
+                                }
+                            });
 
                 } else if (submission.getThumbnails() != null) {
 
-                    if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile) || SettingValues.lowResAlways) && submission.getThumbnails().getVariations().length != 0) {
+                    if (((!NetworkUtil.isConnectedWifi(c) && SettingValues.lowResMobile)
+                            || SettingValues.lowResAlways)
+                            && submission.getThumbnails().getVariations().length != 0) {
 
                         int length = submission.getThumbnails().getVariations().length;
-                        url = Html.fromHtml(submission.getThumbnails().getVariations()[length / 2].getUrl()).toString(); //unescape url characters
+                        url = Html.fromHtml(
+                                submission.getThumbnails().getVariations()[length / 2].getUrl())
+                                .toString(); //unescape url characters
 
                     } else {
-                        url = Html.fromHtml(submission.getThumbnails().getSource().getUrl()).toString(); //unescape url characters
+                        url = Html.fromHtml(submission.getThumbnails().getSource().getUrl())
+                                .toString(); //unescape url characters
                     }
 
-                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(url, new ImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
+                    ((Reddit) c.getApplicationContext()).getImageLoader()
+                            .loadImage(url, new ImageLoadingListener() {
+                                @Override
+                                public void onLoadingStarted(String imageUri, View view) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                @Override
+                                public void onLoadingFailed(String imageUri, View view,
+                                        FailReason failReason) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                @Override
+                                public void onLoadingComplete(String imageUri, View view,
+                                        Bitmap loadedImage) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
+                                @Override
+                                public void onLoadingCancelled(String imageUri, View view) {
 
-                        }
-                    });
+                                }
+                            });
 
-                } else if (submission.getThumbnail() != null && (submission.getThumbnailType() == Submission.ThumbnailType.URL || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
+                } else if (submission.getThumbnail() != null && (submission.getThumbnailType()
+                        == Submission.ThumbnailType.URL
+                        || submission.getThumbnailType() == Submission.ThumbnailType.NSFW)) {
 
-                    ((Reddit) c.getApplicationContext()).getImageLoader().loadImage(submission.getUrl(), new ImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
+                    ((Reddit) c.getApplicationContext()).getImageLoader()
+                            .loadImage(submission.getUrl(), new ImageLoadingListener() {
+                                @Override
+                                public void onLoadingStarted(String imageUri, View view) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                                @Override
+                                public void onLoadingFailed(String imageUri, View view,
+                                        FailReason failReason) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                                @Override
+                                public void onLoadingComplete(String imageUri, View view,
+                                        Bitmap loadedImage) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
+                                @Override
+                                public void onLoadingCancelled(String imageUri, View view) {
 
-                        }
-                    });
+                                }
+                            });
                 }
             }
         }
@@ -175,8 +211,7 @@ public class CommentCacheAsync extends AsyncTask{
     @Override
     public Void doInBackground(Object[] params) {
         Map<String, String> multiNameToSubsMap = UserSubscriptions.getMultiNameToSubs(true);
-        if (Authentication.reddit == null)
-            Reddit.authentication = new Authentication(context);
+        if (Authentication.reddit == null) Reddit.authentication = new Authentication(context);
 
         ArrayList<String> success = new ArrayList<>();
         ArrayList<String> error = new ArrayList<>();
@@ -193,15 +228,16 @@ public class CommentCacheAsync extends AsyncTask{
             }
 
             if (!sub.isEmpty()) {
-                    if (!sub.equals(SAVED_SUBMISSIONS)) {
-                        mNotifyManager =
-                                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-                        mBuilder = new NotificationCompat.Builder(context);
-                        mBuilder.setOngoing(true);
-                        mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,
-                                sub.equalsIgnoreCase("frontpage") ? name : (name.contains("/m/") ? name : "/r/" + name)))
-                                .setSmallIcon(R.drawable.savecontent);
-                    }
+                if (!sub.equals(SAVED_SUBMISSIONS)) {
+                    mNotifyManager = (NotificationManager) context.getSystemService(
+                            Context.NOTIFICATION_SERVICE);
+                    mBuilder = new NotificationCompat.Builder(context);
+                    mBuilder.setOngoing(true);
+                    mBuilder.setContentTitle(context.getString(R.string.offline_caching_title,
+                            sub.equalsIgnoreCase("frontpage") ? name
+                                    : (name.contains("/m/") ? name : "/r/" + name)))
+                            .setSmallIcon(R.drawable.savecontent);
+                }
                 List<Submission> submissions = new ArrayList<>();
                 ArrayList<String> newFullnames = new ArrayList<>();
                 int count = 0;
@@ -222,38 +258,49 @@ public class CommentCacheAsync extends AsyncTask{
                     }
                 }
 
-                int commentDepth = Integer.valueOf(SettingValues.prefs.getString(SettingValues.COMMENT_DEPTH, "5"));
-                int commentCount = Integer.valueOf(SettingValues.prefs.getString(SettingValues.COMMENT_COUNT, "50"));
+                int commentDepth = Integer.valueOf(
+                        SettingValues.prefs.getString(SettingValues.COMMENT_DEPTH, "5"));
+                int commentCount = Integer.valueOf(
+                        SettingValues.prefs.getString(SettingValues.COMMENT_COUNT, "50"));
 
-                Log.v("CommentCacheAsync", "comment depth " + commentDepth);
                 Log.v("CommentCacheAsync", "comment count " + commentCount);
-                int random = (int)(Math.random()*100);
+                int random = (int) (Math.random() * 100);
 
                 for (final Submission s : submissions) {
                     try {
-                        JsonNode n = getSubmission(new SubmissionRequest.Builder(s.getId()).limit(commentCount).depth(commentDepth).sort(sortType).build());
-                        Submission s2 = SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
+                        JsonNode n = getSubmission(
+                                new SubmissionRequest.Builder(s.getId()).limit(commentCount)
+                                        .depth(commentDepth)
+                                        .sort(sortType)
+                                        .build());
+                        Submission s2 =
+                                SubmissionSerializer.withComments(n, CommentSort.CONFIDENCE);
                         OfflineSubreddit.writeSubmission(n, s2, context);
                         newFullnames.add(s2.getFullName());
-                        if (!SettingValues.noImages)
-                            loadPhotos(s, context);
-                switch (ContentType.getContentType(s)) {
-                    case GIF:
-                        if (otherChoices[0])
-                            if(context instanceof Activity)
-                                ((Activity)context).runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        ExecutorService service = Executors.newSingleThreadExecutor();
-                                        new GifUtils.AsyncLoadGif().executeOnExecutor(service, s.getUrl());
+                        if (!SettingValues.noImages) loadPhotos(s, context);
+                        switch (ContentType.getContentType(s)) {
+                            case GIF:
+                                if (otherChoices[0]) {
+                                    if (context instanceof Activity) {
+                                        ((Activity) context).runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                ExecutorService service =
+                                                        Executors.newSingleThreadExecutor();
+                                                new GifUtils.AsyncLoadGif().executeOnExecutor(
+                                                        service, s.getUrl());
+                                            }
+                                        });
                                     }
-                                });
-                        break;
-                    case ALBUM:
-                        if (otherChoices[1])
-                            //todo this AlbumUtils.saveAlbumToCache(context, s.getUrl());
-                        break;
-                }
+                                }
+                                break;
+                            case ALBUM:
+                                if (otherChoices[1])
+                                //todo this AlbumUtils.saveAlbumToCache(context, s.getUrl());
+                                {
+                                    break;
+                                }
+                        }
                     } catch (Exception ignored) {
                     }
                     count = count + 1;
@@ -274,8 +321,7 @@ public class CommentCacheAsync extends AsyncTask{
         if (mBuilder != null) {
             mBuilder.setContentText(context.getString(R.string.offline_caching_complete))
                     // Removes the progress bar
-                    .setSubText(success.size() + " subreddits cached")
-                    .setProgress(0, 0, false);
+                    .setSubText(success.size() + " subreddits cached").setProgress(0, 0, false);
             mBuilder.setOngoing(false);
             mNotifyManager.notify(2001, mBuilder.build());
         }
@@ -285,19 +331,21 @@ public class CommentCacheAsync extends AsyncTask{
 
     public JsonNode getSubmission(SubmissionRequest request) throws NetworkException {
         Map<String, String> args = new HashMap<>();
-        if (request.getDepth() != null)
-            args.put("depth", Integer.toString(request.getDepth()));
-        if (request.getContext() != null)
+        if (request.getDepth() != null) args.put("depth", Integer.toString(request.getDepth()));
+        if (request.getContext() != null) {
             args.put("context", Integer.toString(request.getContext()));
-        if (request.getLimit() != null)
-            args.put("limit", Integer.toString(request.getLimit()));
-        if (request.getFocus() != null && !JrawUtils.isFullname(request.getFocus()))
+        }
+        if (request.getLimit() != null) args.put("limit", Integer.toString(request.getLimit()));
+        if (request.getFocus() != null && !JrawUtils.isFullname(request.getFocus())) {
             args.put("comment", request.getFocus());
+        }
 
         CommentSort sort = request.getSort();
         if (sort == null)
-            // Reddit sorts by confidence by default
+        // Reddit sorts by confidence by default
+        {
             sort = CommentSort.CONFIDENCE;
+        }
         args.put("sort", sort.name().toLowerCase());
 
         try {

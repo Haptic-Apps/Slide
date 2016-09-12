@@ -20,6 +20,54 @@
     </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 
     <LinearLayout
+        android:id="@+id/commentnav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#55000000"
+        android:weightSum="2">
+
+        <ImageView
+            android:id="@+id/up"
+            style="@style/Ripple.List"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/up" />
+
+        <ImageView
+            android:id="@+id/nav"
+            style="@style/Ripple.List"
+            android:layout_width="48dp"
+            android:layout_height="36dp"
+            android:padding="8dp"
+            app:srcCompat="@drawable/nav" />
+
+        <ImageView
+            android:id="@+id/down"
+            style="@style/Ripple.List"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/down" />
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/comment_floating_action_button"
+        layout="@layout/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        app:elevation="4dp"
+        app:fabSize="normal"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
+        app:pressedTranslationZ="12dp"
+        app:srcCompat="@drawable/reply" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content">
@@ -30,11 +78,12 @@
             android:layout_height="wrap_content"
             android:elevation="16dp"
             android:orientation="vertical"
-            android:theme="@style/Theme.AppCompat">
+            >
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
+                android:theme="@style/Theme.AppCompat"
                 android:layout_height="@dimen/standard_toolbar_height"
                 android:minHeight="@dimen/standard_toolbar_height" />
 
@@ -90,52 +139,4 @@
             android:max="100"
             android:progress="0" />
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/commentnav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="#55000000"
-        android:weightSum="2">
-
-        <ImageView
-            android:id="@+id/up"
-            style="@style/Ripple.List"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/up" />
-
-        <ImageView
-            android:id="@+id/nav"
-            style="@style/Ripple.List"
-            android:layout_width="48dp"
-            android:layout_height="36dp"
-            android:padding="8dp"
-            app:srcCompat="@drawable/nav" />
-
-        <ImageView
-            android:id="@+id/down"
-            style="@style/Ripple.List"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/down" />
-    </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/comment_floating_action_button"
-        layout="@layout/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        app:elevation="4dp"
-        app:fabSize="normal"
-        app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
-        app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/reply" />
 </FrameLayout>
