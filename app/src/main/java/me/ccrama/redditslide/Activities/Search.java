@@ -193,6 +193,7 @@ public class Search extends BaseActivityAnim {
     }
 
     public boolean multireddit;
+    RecyclerView rv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -245,7 +246,7 @@ public class Search extends BaseActivityAnim {
         //So, make it lowercase, then capitalize the first letter of each.
         getSupportActionBar().setSubtitle(StringUtils.capitalize(Reddit.search.name().toLowerCase()) + " › " + StringUtils.capitalize(time.name().toLowerCase()));
 
-        final RecyclerView rv = ((RecyclerView) findViewById(R.id.vertical_content));
+        rv = ((RecyclerView) findViewById(R.id.vertical_content));
         final RecyclerView.LayoutManager mLayoutManager;
         mLayoutManager =
                 createLayoutManager(getNumColumns(getResources().getConfiguration().orientation));
@@ -308,7 +309,17 @@ public class Search extends BaseActivityAnim {
                 }
         );
     }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
+        final int currentOrientation = newConfig.orientation;
+
+        final CatchStaggeredGridLayoutManager mLayoutManager =
+                (CatchStaggeredGridLayoutManager) rv.getLayoutManager();
+
+        mLayoutManager.setSpanCount(getNumColumns(currentOrientation));
+    }
     @NonNull
     private RecyclerView.LayoutManager createLayoutManager(final int numColumns) {
         return new CatchStaggeredGridLayoutManager(numColumns,

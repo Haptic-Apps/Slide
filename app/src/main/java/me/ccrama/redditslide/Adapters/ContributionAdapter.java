@@ -56,6 +56,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.TimeUtils;
+import me.ccrama.redditslide.Views.CatchStaggeredGridLayoutManager;
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -454,6 +455,11 @@ public class ContributionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         } else if (firstHolder instanceof SpacerViewHolder) {
             firstHolder.itemView.setLayoutParams(new LinearLayout.LayoutParams(firstHolder.itemView.getWidth(), mContext.findViewById(R.id.header).getHeight()));
+            if (listView.getLayoutManager() instanceof CatchStaggeredGridLayoutManager) {
+                CatchStaggeredGridLayoutManager.LayoutParams layoutParams = new CatchStaggeredGridLayoutManager.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mContext.findViewById(R.id.header).getHeight());
+                layoutParams.setFullSpan(true);
+                firstHolder.itemView.setLayoutParams(layoutParams);
+            }
         }
     }
 
