@@ -19,6 +19,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -54,6 +55,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import gun0912.tedbottompicker.TedBottomPicker;
 import me.ccrama.redditslide.Activities.Draw;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.ColorPreferences;
@@ -64,6 +66,7 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
+import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import okhttp3.MediaType;
@@ -247,35 +250,17 @@ public class DoEditorActions {
         baseView.findViewById(R.id.imagerep).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-                if (a instanceof MainActivity) {
-                    LogUtil.v("Running on main");
-                    ((MainActivity) a).doImage = new Runnable() {
-                        @Override
-                        public void run() {
-                            handleImageIntent(((MainActivity) a).data, editText, a);
-                        }
-                    };
-                    a.startActivityForResult(Intent.createChooser(intent,
-                            Integer.toString(R.string.editor_select_img)), 3333);
-                } else {
-                    Fragment auxiliary = new AuxiliaryFragment();
+                TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(editText.getContext())
+                        .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
+                            @Override
+                            public void onImageSelected(Uri uri) {
+                                handleImageIntent(((MainActivity)a).data, editText, a);
+                            }
+                        }).setTitle("Choose a photo")
+                        .create();
 
-                    e = editText.getText();
-                    sStart = editText.getSelectionStart();
-                    sEnd = editText.getSelectionEnd();
+                tedBottomPicker.show(((AppCompatActivity)a).getSupportFragmentManager());
 
-                    fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
-                    fm.executePendingTransactions();
-
-                    auxiliary.startActivityForResult(Intent.createChooser(intent,
-                            Integer.toString(R.string.editor_select_img)), 3333);
-                }
             }
         });
 
@@ -493,7 +478,7 @@ public class DoEditorActions {
             }
         });
     }
-    
+
     public static Editable e;
     public static int sStart, sEnd;
 
