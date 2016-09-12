@@ -32,6 +32,7 @@ import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
@@ -129,6 +130,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                         final String name = Authentication.me.getFullName();
                         Authentication.name = name;
                         LogUtil.v("AUTHENTICATED");
+                        UserSubscriptions.doCachedModSubs();
 
                         if (Authentication.reddit.isAuthenticated()) {
                             final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());

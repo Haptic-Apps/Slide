@@ -27,17 +27,27 @@ import me.ccrama.redditslide.Activities.Login;
 import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.Activities.MultiredditOverview;
 import me.ccrama.redditslide.DragSort.ReorderSubreddits;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * Created by carlo_000 on 1/16/2016.
  */
 public class UserSubscriptions {
-    public static final String SUB_NAME_TO_PROPERTIES = "multiNameToSubs";
-    public static final List<String> defaultSubs = Arrays.asList("frontpage", "all", "announcements", "Art", "AskReddit", "askscience", "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries", "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology", "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA", "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis", "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion", "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics", "science", "Showerthoughts", "space", "sports", "television", "tifu", "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews", "WritingPrompts");
-    public static final List<String> specialSubreddits = Arrays.asList(
-            "frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod"
-    );
+    public static final String       SUB_NAME_TO_PROPERTIES = "multiNameToSubs";
+    public static final List<String> defaultSubs            =
+            Arrays.asList("frontpage", "all", "announcements", "Art", "AskReddit", "askscience",
+                    "aww", "blog", "books", "creepy", "dataisbeautiful", "DIY", "Documentaries",
+                    "EarthPorn", "explainlikeimfive", "Fitness", "food", "funny", "Futurology",
+                    "gadgets", "gaming", "GetMotivated", "gifs", "history", "IAmA",
+                    "InternetIsBeautiful", "Jokes", "LifeProTips", "listentothis",
+                    "mildlyinteresting", "movies", "Music", "news", "nosleep", "nottheonion",
+                    "OldSchoolCool", "personalfinance", "philosophy", "photoshopbattles", "pics",
+                    "science", "Showerthoughts", "space", "sports", "television", "tifu",
+                    "todayilearned", "TwoXChromosomes", "UpliftingNews", "videos", "worldnews",
+                    "WritingPrompts");
+    public static final List<String> specialSubreddits      =
+            Arrays.asList("frontpage", "all", "random", "randnsfw", "myrandom", "friends", "mod");
     public static SharedPreferences subscriptions;
     public static SharedPreferences multiNameToSubs;
 
@@ -53,8 +63,7 @@ public class UserSubscriptions {
         for (Map.Entry<String, ?> entry : multiNameToSubsObject.entrySet()) {
             multiNameToSubsMapBase.put(entry.getKey(), entry.getValue().toString());
         }
-        if (all)
-            multiNameToSubsMapBase.putAll(getSubsNameToMulti());
+        if (all) multiNameToSubsMapBase.putAll(getSubsNameToMulti());
 
         Map<String, String> multiNameToSubsMap = new HashMap<>();
 
@@ -117,6 +126,21 @@ public class UserSubscriptions {
         }
     }
 
+    public static void doCachedModSubs() {
+        if(modOf == null || modOf.isEmpty()) {
+            String s = subscriptions.getString(Authentication.name + "mod", "");
+            if (!s.isEmpty()) {
+                modOf = new ArrayList<>();
+                for (String s2 : s.split(",")) {
+                    modOf.add(s2.toLowerCase());
+                }
+            }
+        }
+    }
+
+    public static void cacheModOf(){
+        subscriptions.edit().putString(Authentication.name + "mod", Reddit.arrayToString(modOf)).apply();
+    }
 
     public static class SyncMultireddits extends AsyncTask<Void, Void, Boolean> {
 
@@ -162,8 +186,7 @@ public class UserSubscriptions {
         } else {
             ArrayList<String> subredditsForHome = new ArrayList<>();
             for (String s2 : s.split(",")) {
-                if (!s2.contains("/m/"))
-                    subredditsForHome.add(s2.toLowerCase());
+                if (!s2.contains("/m/")) subredditsForHome.add(s2.toLowerCase());
             }
             return subredditsForHome;
         }
@@ -174,9 +197,10 @@ public class UserSubscriptions {
         return s.isEmpty();
     }
 
-    public static ArrayList<String> modOf;
+    public static ArrayList<String>      modOf;
     public static ArrayList<MultiReddit> multireddits;
-    public static HashMap<String, List<MultiReddit>> public_multireddits = new HashMap<String, List<MultiReddit>>();
+    public static HashMap<String, List<MultiReddit>> public_multireddits =
+            new HashMap<String, List<MultiReddit>>();
 
     public static void doOnlineSyncing() {
         if (Authentication.mod) {
@@ -212,7 +236,8 @@ public class UserSubscriptions {
     public static ArrayList<String> syncSubreddits(Context c) {
         ArrayList<String> toReturn = new ArrayList<>();
         if (Authentication.isLoggedIn && NetworkUtil.isConnected(c)) {
-            UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "subscriber");
+            UserSubredditsPaginator pag =
+                    new UserSubredditsPaginator(Authentication.reddit, "subscriber");
             pag.setLimit(100);
             try {
                 while (pag.hasNext()) {
@@ -220,7 +245,8 @@ public class UserSubscriptions {
                         toReturn.add(s.getDisplayName().toLowerCase());
                     }
                 }
-                if (toReturn.isEmpty() && subscriptions.getString(Authentication.name, "").isEmpty()) {
+                if (toReturn.isEmpty() && subscriptions.getString(Authentication.name, "")
+                        .isEmpty()) {
                     toreturn.addAll(defaultSubs);
                 }
             } catch (Exception e) {
@@ -239,14 +265,19 @@ public class UserSubscriptions {
         try {
             multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
             for (MultiReddit multiReddit : multireddits) {
-                if (MainActivity.multiNameToSubsMap.containsKey(ReorderSubreddits.MULTI_REDDIT+ multiReddit.getDisplayName())) {
+                if (MainActivity.multiNameToSubsMap.containsKey(
+                        ReorderSubreddits.MULTI_REDDIT + multiReddit.getDisplayName())) {
                     StringBuilder concatenatedSubs = new StringBuilder();
                     for (MultiSubreddit subreddit : multiReddit.getSubreddits()) {
                         concatenatedSubs.append(subreddit.getDisplayName());
                         concatenatedSubs.append("+");
                     }
-                    MainActivity.multiNameToSubsMap.put(ReorderSubreddits.MULTI_REDDIT+ multiReddit.getDisplayName(), concatenatedSubs.toString());
-                    UserSubscriptions.setSubNameToProperties(ReorderSubreddits.MULTI_REDDIT + multiReddit.getDisplayName(), concatenatedSubs.toString());
+                    MainActivity.multiNameToSubsMap.put(
+                            ReorderSubreddits.MULTI_REDDIT + multiReddit.getDisplayName(),
+                            concatenatedSubs.toString());
+                    UserSubscriptions.setSubNameToProperties(
+                            ReorderSubreddits.MULTI_REDDIT + multiReddit.getDisplayName(),
+                            concatenatedSubs.toString());
                 }
             }
         } catch (ApiException e) {
@@ -287,7 +318,8 @@ public class UserSubscriptions {
     private static void loadMultireddits() {
         if (Authentication.isLoggedIn && Authentication.didOnline) {
             try {
-                multireddits = new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
+                multireddits =
+                        new ArrayList<>(new MultiRedditManager(Authentication.reddit).mine());
             } catch (Exception e) {
                 multireddits = null;
                 e.printStackTrace();
@@ -314,7 +346,8 @@ public class UserSubscriptions {
 
     private static void loadPublicMultireddits(String profile) {
         try {
-            public_multireddits.put(profile, new ArrayList<>(new MultiRedditManager(Authentication.reddit).getPublicMultis(profile)));
+            public_multireddits.put(profile, new ArrayList<>(
+                    new MultiRedditManager(Authentication.reddit).getPublicMultis(profile)));
         } catch (Exception e) {
             public_multireddits.put(profile, null);
             e.printStackTrace();
@@ -324,7 +357,8 @@ public class UserSubscriptions {
     private static ArrayList<String> doModOf() {
         ArrayList<String> finished = new ArrayList<>();
 
-        UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "moderator");
+        UserSubredditsPaginator pag =
+                new UserSubredditsPaginator(Authentication.reddit, "moderator");
         pag.setLimit(100);
         try {
             while (pag.hasNext()) {
@@ -333,6 +367,7 @@ public class UserSubscriptions {
                 }
             }
             modOf = (finished);
+            cacheModOf();
         } catch (Exception e) {
             //failed;
             e.printStackTrace();
@@ -350,7 +385,8 @@ public class UserSubscriptions {
             friends = new ArrayList<>();
             ArrayList<String> finished = new ArrayList<>();
 
-            ImportantUserPaginator pag = new ImportantUserPaginator(Authentication.reddit, "friends");
+            ImportantUserPaginator pag =
+                    new ImportantUserPaginator(Authentication.reddit, "friends");
             pag.setLimit(100);
             try {
                 while (pag.hasNext()) {
@@ -370,26 +406,29 @@ public class UserSubscriptions {
     }
 
     public static MultiReddit getMultiredditByDisplayName(String displayName) {
-        if (multireddits != null)
+        if (multireddits != null) {
             for (MultiReddit multiReddit : multireddits) {
                 if (multiReddit.getDisplayName().equals(displayName)) {
                     return multiReddit;
                 }
             }
+        }
         return null;
     }
 
-    public static MultiReddit getPublicMultiredditByDisplayName(String profile, String displayName) {
+    public static MultiReddit getPublicMultiredditByDisplayName(String profile,
+            String displayName) {
         if (profile.isEmpty()) {
             return getMultiredditByDisplayName(displayName);
         }
 
-        if (public_multireddits.get(profile) != null)
+        if (public_multireddits.get(profile) != null) {
             for (MultiReddit multiReddit : public_multireddits.get(profile)) {
                 if (multiReddit.getDisplayName().equals(displayName)) {
                     return multiReddit;
                 }
             }
+        }
         return null;
     }
 
@@ -484,7 +523,8 @@ public class UserSubscriptions {
     public static ArrayList<Subreddit> syncSubredditsGetObject() {
         ArrayList<Subreddit> toReturn = new ArrayList<>();
         if (Authentication.isLoggedIn) {
-            UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "subscriber");
+            UserSubredditsPaginator pag =
+                    new UserSubredditsPaginator(Authentication.reddit, "subscriber");
             pag.setLimit(100);
 
 
@@ -513,7 +553,8 @@ public class UserSubscriptions {
             @Override
             protected Void doInBackground(Void... params) {
                 if (Authentication.isLoggedIn) {
-                    UserSubredditsPaginator pag = new UserSubredditsPaginator(Authentication.reddit, "subscriber");
+                    UserSubredditsPaginator pag =
+                            new UserSubredditsPaginator(Authentication.reddit, "subscriber");
                     pag.setLimit(100);
 
 
@@ -542,8 +583,8 @@ public class UserSubscriptions {
     }
 
     /**
-     * Sorts the subreddit ArrayList, keeping special subreddits at the top of the list
-     * (e.g. frontpage, all, the random subreddits). Always adds frontpage and all
+     * Sorts the subreddit ArrayList, keeping special subreddits at the top of the list (e.g.
+     * frontpage, all, the random subreddits). Always adds frontpage and all
      *
      * @param unsorted the ArrayList to sort
      * @return the sorted ArrayList
@@ -564,8 +605,8 @@ public class UserSubscriptions {
     }
 
     /**
-     * Sorts the subreddit ArrayList, keeping special subreddits at the top of the list
-     * (e.g. frontpage, all, the random subreddits)
+     * Sorts the subreddit ArrayList, keeping special subreddits at the top of the list (e.g.
+     * frontpage, all, the random subreddits)
      *
      * @param unsorted the ArrayList to sort
      * @return the sorted ArrayList

@@ -284,6 +284,8 @@ public class Authentication {
 
                         Authentication.isLoggedIn = true;
 
+                        UserSubscriptions.doCachedModSubs();
+
                     } catch (Exception e) {
                         e.printStackTrace();
                         if (e instanceof NetworkException) {

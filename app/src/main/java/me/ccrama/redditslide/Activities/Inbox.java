@@ -30,6 +30,7 @@ import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -217,6 +218,7 @@ public class Inbox extends BaseActivityAnim {
                     final String name = Authentication.me.getFullName();
                     Authentication.name = name;
                     LogUtil.v("AUTHENTICATED");
+                    UserSubscriptions.doCachedModSubs();
 
                     if (Authentication.reddit.isAuthenticated()) {
                         final Set<String> accounts =
