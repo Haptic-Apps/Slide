@@ -10,7 +10,6 @@ import net.dean.jraw.models.Submission;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.HashMap;
 
 /**
@@ -46,11 +45,8 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase();
             final String path = uri.getPath().toLowerCase();
 
-            return hostContains(host, "gfycat.com")
-                    || path.endsWith(".gif")
-                    || path.endsWith(".gifv")
-                    || path.endsWith(".webm")
-                    || path.endsWith(".mp4");
+            return hostContains(host, "gfycat.com") || path.endsWith(".gif") || path.endsWith(
+                    ".gifv") || path.endsWith(".webm") || path.endsWith(".mp4");
 
         } catch (NullPointerException e) {
             return false;
@@ -62,10 +58,8 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase();
             final String path = uri.getPath().toLowerCase();
 
-            return host.equals("i.reddituploads.com")
-                    || path.endsWith(".png")
-                    || path.endsWith(".jpg")
-                    || path.endsWith(".jpeg");
+            return host.equals("i.reddituploads.com") || path.endsWith(".png") || path.endsWith(
+                    ".jpg") || path.endsWith(".jpeg");
 
         } catch (NullPointerException e) {
             return false;
@@ -77,8 +71,7 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase();
             final String path = uri.getPath().toLowerCase();
 
-            return hostContains(host, "imgur.com", "bildgur.de")
-                    && (path.startsWith("/a/")
+            return hostContains(host, "imgur.com", "bildgur.de") && (path.startsWith("/a/")
                     || path.startsWith("/gallery/")
                     || path.startsWith("/g/")
                     || path.contains(","));
@@ -93,9 +86,8 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase();
             final String path = uri.getPath().toLowerCase();
 
-            return Reddit.videoPlugin
-                    && hostContains(host, "youtu.be", "youtube.com", "youtube.co.uk")
-                    && !path.contains("/user/");
+            return Reddit.videoPlugin && hostContains(host, "youtu.be", "youtube.com",
+                    "youtube.co.uk") && !path.contains("/user/");
 
         } catch (NullPointerException e) {
             return false;
@@ -165,7 +157,8 @@ public class ContentType {
             if (hostContains(host, "imgur.com", "bildgur.de")) {
                 return Type.IMGUR;
             }
-            if (hostContains(host, "xkcd.com") && !hostContains("imgs.xkcd.com") && !hostContains("what-if.xkcd.com")) {
+            if (hostContains(host, "xkcd.com") && !hostContains("imgs.xkcd.com") && !hostContains(
+                    "what-if.xkcd.com")) {
                 return Type.XKCD;
             }
             if (hostContains(host, "tumblr.com") && uri.getPath().contains("post")) {
@@ -187,8 +180,13 @@ public class ContentType {
             return Type.LINK;
 
         } catch (URISyntaxException | NullPointerException e) {
-            if (e.getMessage() != null && (e.getMessage().contains("Illegal character in fragment")|| e.getMessage().contains("Illegal character in query"))) //a valid link but something un-encoded in the URL
+            if (e.getMessage() != null && (e.getMessage().contains("Illegal character in fragment")
+                    || e.getMessage()
+                    .contains(
+                            "Illegal character in query"))) //a valid link but something un-encoded in the URL
+            {
                 return Type.LINK;
+            }
             e.printStackTrace();
             return Type.NONE;
         }
@@ -202,8 +200,9 @@ public class ContentType {
      * @see #getContentType(String)
      */
     public static Type getContentType(Submission submission) {
-        if (submission == null)
+        if (submission == null) {
             return Type.SELF; //hopefully shouldn't be null, but catch it in case
+        }
 
         final String url = submission.getUrl();
         final Type basicType = getContentType(url);
@@ -212,9 +211,10 @@ public class ContentType {
             return Type.SELF;
         }
         // TODO: Decide whether internal youtube links should be EMBEDDED or LINK
-        if (basicType.equals(Type.LINK)
-                && submission.getDataNode().has("media_embed")
-                && submission.getDataNode().get("media_embed").has("content")) {
+        if (basicType.equals(Type.LINK) && submission.getDataNode().has("media_embed") && submission
+                .getDataNode()
+                .get("media_embed")
+                .has("content")) {
             return Type.EMBEDDED;
         }
 
@@ -386,7 +386,9 @@ public class ContentType {
             String description;
 
             if (!packageName.equals("android")) {
-                description = pm.getApplicationLabel(pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA)).toString();
+                description = pm.getApplicationLabel(
+                        pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA))
+                        .toString();
             } else {
                 description = res.getString(generic);
             }
@@ -406,10 +408,22 @@ public class ContentType {
             final String host = uri.getHost().toLowerCase();
             final String path = uri.getPath().toLowerCase();
 
-            return (host.contains("imgur.com") || host.contains("bildgur.de"))
-                    && (path.endsWith(".png")
-                    || path.endsWith(".jpg")
-                    || path.endsWith(".jpeg"));
+            return (host.contains("imgur.com") || host.contains("bildgur.de")) && ((path.endsWith(
+                    ".png") || path.endsWith(".jpg") || path.endsWith(".jpeg")));
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean isImgurHash(String lqUrl) {
+        try {
+            final URI uri = new URI(lqUrl);
+            final String host = uri.getHost().toLowerCase();
+            final String path = uri.getPath().toLowerCase();
+
+            return (host.contains("imgur.com")) && (!(path.endsWith(".png") && !path.endsWith(
+                    ".jpg") && !path.endsWith(".jpeg")));
 
         } catch (Exception e) {
             return false;
