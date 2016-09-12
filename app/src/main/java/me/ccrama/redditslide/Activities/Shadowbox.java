@@ -213,6 +213,7 @@ public class Shadowbox extends FullScreenActivity implements SubmissionDisplay {
 
                     f.setArguments(args);
                 }
+                break;
                 case ALBUM: {
                     f = new AlbumFull();
                     Bundle args = new Bundle();

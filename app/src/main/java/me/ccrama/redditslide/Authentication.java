@@ -47,7 +47,13 @@ public class Authentication {
     private static OkHttpAdapter httpAdapter;
 
     public static void resetAdapter(){
-       // httpAdapter.getCookieManager().remo
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                httpAdapter.getNativeClient().connectionPool().evictAll();
+                return null;
+            }
+        }.execute();
     }
 
     public Authentication(Context context) {
