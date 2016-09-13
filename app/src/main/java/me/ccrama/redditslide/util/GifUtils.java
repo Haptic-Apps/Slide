@@ -232,7 +232,7 @@ public class GifUtils {
             return VideoType.OTHER;
         }
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = Reddit.client;
 
         @Override
         protected Void doInBackground(String... sub) {

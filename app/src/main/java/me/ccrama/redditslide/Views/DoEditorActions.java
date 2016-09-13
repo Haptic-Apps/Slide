@@ -662,7 +662,7 @@ public class DoEditorActions {
         protected JSONObject doInBackground(Uri... sub) {
             File bitmap = createFile(sub[0], c);
 
-            final OkHttpClient client = new OkHttpClient();
+            final OkHttpClient client = Reddit.client;
 
             try {
                 RequestBody formBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -867,7 +867,7 @@ public class DoEditorActions {
         @Override
         protected String doInBackground(Uri... sub) {
             totalCount = sub.length;
-            final OkHttpClient client = new OkHttpClient();
+            final OkHttpClient client = Reddit.client;
 
             String albumurl;
             {

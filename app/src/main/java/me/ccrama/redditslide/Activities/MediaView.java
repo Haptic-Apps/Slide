@@ -449,7 +449,7 @@ public class MediaView extends FullScreenActivity
         super.onCreate(savedInstanceState);
         getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(""), true);
 
-        client = new OkHttpClient();
+        client = Reddit.client;
         gson = new Gson();
         mashapeKey = SecretConstants.getImgurApiKey(this);
 

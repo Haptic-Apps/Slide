@@ -209,7 +209,7 @@ public class MediaFragmentComment extends Fragment {
         s = ((ShadowboxComments) getActivity()).comments.get(i);
         sub = s.comment.getComment().getSubredditName();
         contentUrl = bundle.getString("contentUrl");
-        client = new OkHttpClient();
+        client = Reddit.client;
         gson = new Gson();
         mashapeKey = SecretConstants.getImgurApiKey(getContext());
     }

@@ -64,6 +64,7 @@ import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.UpgradeUtil;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by ccrama on 9/17/2015.
@@ -108,8 +109,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     public static boolean            isRestarting;
     public static AutoCacheScheduler autoCache;
     private final List<Listener> listeners = new ArrayList<>();
-    public  boolean     active;
-    private ImageLoader defaultImageLoader;
+    public        boolean      active;
+    private       ImageLoader  defaultImageLoader;
+    public static OkHttpClient client;
 
     public static void forceRestart(Context context) {
         if (appRestart.contains("back")) {
@@ -629,6 +631,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
 
     public void doMainStuff() {
         Log.v(LogUtil.getTag(), "ON CREATED AGAIN");
+        if(client == null){
+            client = new OkHttpClient();
+        }
         overrideLanguage =
                 getSharedPreferences("SETTINGS", 0).getBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE,
                         false);

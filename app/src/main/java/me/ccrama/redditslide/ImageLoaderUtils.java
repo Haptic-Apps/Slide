@@ -18,6 +18,8 @@ import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import java.io.File;
 import java.io.IOException;
 
+import me.ccrama.redditslide.util.OkHttpImageDownloader;
+
 /**
  * Created by carlo_000 on 10/19/2015.
  */
@@ -75,6 +77,7 @@ public class ImageLoaderUtils {
                 .denyCacheImageMultipleSizesInMemory()
                 .diskCache(discCache)
                 .threadPoolSize(4)
+                .imageDownloader(new OkHttpImageDownloader(context))
                 .defaultDisplayImageOptions(options)
                 .imageDownloader(new BaseImageDownloader(context))
                 .build();
