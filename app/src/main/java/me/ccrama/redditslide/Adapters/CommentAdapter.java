@@ -16,14 +16,12 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.SystemClock;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TypedValue;
@@ -117,7 +115,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public SubmissionViewHolder submissionViewHolder;
     long lastSeen = 0;
     public ArrayList<String> approved = new ArrayList<>();
-    public ArrayList<String> removed = new ArrayList<>();
+    public ArrayList<String> removed  = new ArrayList<>();
 
     public CommentAdapter(CommentPage mContext, SubmissionComments dataSet, RecyclerView listView,
             Submission submission, FragmentManager fm) {
@@ -245,7 +243,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void doScoreText(CommentViewHolder holder, Comment comment, CommentAdapter adapter) {
         holder.content.setText(
-                CommentAdapterHelper.getScoreString(comment, mContext, holder, submission, adapter));
+                CommentAdapterHelper.getScoreString(comment, mContext, holder, submission,
+                        adapter));
     }
 
     public void doTimes() {
@@ -260,12 +259,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             HasSeen.seenTimes.put(fullname, System.currentTimeMillis());
             KVStore.getInstance().insert(fullname, String.valueOf(System.currentTimeMillis()));
         }
-        if (SettingValues.storeHistory) {
-            if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
-            } else {
-                HasSeen.addSeen(submission.getFullName());
+        if (submission != null) {
+            if (SettingValues.storeHistory) {
+                if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
+                } else {
+                    HasSeen.addSeen(submission.getFullName());
+                }
+                LastComments.setComments(submission);
             }
-            LastComments.setComments(submission);
         }
     }
 
@@ -586,11 +587,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final View replyArea = submissionViewHolder.itemView.findViewById(R.id.innerSend);
         if (replyArea.getVisibility() == View.GONE) {
             expandSubmissionReply(replyArea);
-            EditText replyLine =  ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
-            DoEditorActions.doActions(
-                  replyLine,
-                    submissionViewHolder.itemView, fm, (Activity) mContext,
-                    submission.isSelfPost() ? submission.getSelftext() : null);
+            EditText replyLine =
+                    ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
+            DoEditorActions.doActions(replyLine, submissionViewHolder.itemView, fm,
+                    (Activity) mContext, submission.isSelfPost() ? submission.getSelftext() : null);
 
             currentlyEditing =
                     ((EditText) submissionViewHolder.itemView.findViewById(R.id.replyLine));
@@ -609,8 +609,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
             replyLine.requestFocus();
-            InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
-                    Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm =
+                    (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
                     InputMethodManager.HIDE_IMPLICIT_ONLY);
 
@@ -1083,7 +1083,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     @Override
                     public void onSingleClick(View v) {
                         CommentAdapterHelper.doCommentEdit(CommentAdapter.this, mContext, fm,
-                                baseNode, baseNode.isTopLevel()?submission.getSelftext():baseNode.getParent().getComment().getBody());
+                                baseNode, baseNode.isTopLevel() ? submission.getSelftext()
+                                        : baseNode.getParent().getComment().getBody());
                     }
                 });
             } else {
@@ -1220,8 +1221,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         replyArea.setVisibility(View.VISIBLE);
                         menu.setVisibility(View.GONE);
                         currentlyEditing = replyLine;
-                        DoEditorActions.doActions(currentlyEditing, replyArea, fm, (Activity) mContext,
-                                comment.getBody());
+                        DoEditorActions.doActions(currentlyEditing, replyArea, fm,
+                                (Activity) mContext, comment.getBody());
                         currentlyEditing.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
                             public void onFocusChange(View v, boolean hasFocus) {
@@ -2185,7 +2186,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         new AlertDialogWrapper.Builder(mContext).setTitle(R.string.err_comment_post)
                                 .setMessage(((why == null) ? ""
                                         : mContext.getString(R.string.err_comment_post_reason, why))
-                                        + mContext.getString(R.string.err_comment_post_nosave_message))
+                                        + mContext.getString(
+                                        R.string.err_comment_post_nosave_message))
                                 .setPositiveButton(R.string.btn_ok, null)
                                 .show();
                     } catch (Exception ignored) {
