@@ -414,8 +414,8 @@ public class PopulateSubmissionViewHolder {
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
         Drawable open =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.openexternal, null);
-        Drawable share =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.share, null);
+        Drawable link =
+                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
         Drawable reddit =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange,
                         null);
@@ -429,7 +429,7 @@ public class PopulateSubmissionViewHolder {
         report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        link.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         readLater.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         filter.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -481,7 +481,7 @@ public class PopulateSubmissionViewHolder {
         }
         b.sheet(7, open, mContext.getString(R.string.submission_link_extern));
 
-        b.sheet(4, share, mContext.getString(R.string.submission_share_permalink))
+        b.sheet(4, link, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url));
         if ((mContext instanceof MainActivity) || (mContext instanceof SubredditView)) {
             b.sheet(10, filter, mContext.getString(R.string.filter_content));
