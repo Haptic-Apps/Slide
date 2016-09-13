@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp">
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <me.ccrama.redditslide.Views.RoundImageTriangleView
                 android:id="@+id/thumbimage2"
                 android:layout_width="@dimen/big_thumbnail_width"
                 android:layout_height="@dimen/big_thumbnail_height"

@@ -34,6 +34,7 @@ import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.Views.RoundImageTriangleView;
 import me.ccrama.redditslide.Views.TransparentTagTextView;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
@@ -106,6 +107,31 @@ public class HeaderImageLinkView extends RelativeLayout {
         thumbImage2.setImageResource(android.R.color.transparent);
 
         boolean loadLq = (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways));
+
+        if(thumbImage2 != null && thumbImage2 instanceof RoundImageTriangleView)
+            switch (ContentType.getContentType(submission)) {
+            case ALBUM:
+                ((RoundImageTriangleView)(thumbImage2)).setFlagColor(R.color.md_blue_300);
+                break;
+            case EXTERNAL:
+            case LINK:
+            case REDDIT:
+                ((RoundImageTriangleView)(thumbImage2)).setFlagColor(R.color.md_red_300);
+                break;
+            case SELF:
+                ((RoundImageTriangleView)(thumbImage2)).setFlagColor(R.color.md_grey_300);
+                break;
+            case EMBEDDED:
+            case GIF:
+            case STREAMABLE:
+            case VIDEO:
+            case VID_ME:
+                ((RoundImageTriangleView)(thumbImage2)).setFlagColor(R.color.md_green_300);
+                break;
+            default:
+                ((RoundImageTriangleView)(thumbImage2)).setFlagColor(Color.TRANSPARENT);
+                break;
+        }
 
         if (type == ContentType.Type.SELF && SettingValues.hideSelftextLeadImage || SettingValues.noImages && submission.isSelfPost()) {
             setVisibility(View.GONE);

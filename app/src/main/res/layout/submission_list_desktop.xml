@@ -67,7 +67,7 @@
             android:layout_toRightOf="@+id/score"
             android:paddingTop="6dp">
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <me.ccrama.redditslide.Views.RoundImageTriangleView
                 android:id="@+id/thumbimage2"
                 android:layout_width="64dp"
                 android:layout_height="48dp"
