@@ -2,7 +2,6 @@ package me.ccrama.redditslide.Views;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,7 +11,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -28,7 +26,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.AlertDialogWrapper;
 import com.afollestad.materialdialogs.DialogAction;
@@ -66,7 +63,6 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.SpoilerRobotoTextView;
-import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
 import okhttp3.MediaType;
@@ -253,13 +249,14 @@ public class DoEditorActions {
                 TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(editText.getContext())
                         .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
                             @Override
-                            public void onImageSelected(Uri uri) {
-                                handleImageIntent(((MainActivity)a).data, editText, a);
+                            public void onImageSelected(List<Uri> uri) {
+                                handleImageIntent(uri, editText, a);
                             }
-                        }).setTitle("Choose a photo")
+                        }).setLayoutResource(R.layout.image_sheet_dialog)
+                        .setTitle("Choose a photo")
                         .create();
 
-                tedBottomPicker.show(((AppCompatActivity)a).getSupportFragmentManager());
+                tedBottomPicker.show(((AppCompatActivity) a).getSupportFragmentManager());
 
             }
         });
@@ -480,11 +477,13 @@ public class DoEditorActions {
     }
 
     public static Editable e;
-    public static int sStart, sEnd;
+    public static int      sStart, sEnd;
 
     public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm) {
         Intent intent = new Intent(a, Draw.class);
-        InputMethodManager imm = (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) editText.getContext()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        /* todo
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         if (a instanceof MainActivity) {
             LogUtil.v("Running on main");
@@ -506,7 +505,7 @@ public class DoEditorActions {
             fm.executePendingTransactions();
 
             auxiliary.startActivityForResult(intent, 3333);
-        }
+        }*/
     }
 
     public static String getImageLink(Bitmap b) {
@@ -576,7 +575,7 @@ public class DoEditorActions {
         private final MaterialDialog dialog;
         public        Bitmap         b;
 
-        public UploadImgur( Context c) {
+        public UploadImgur(Context c) {
             this.c = c;
             dialog = new MaterialDialog.Builder(c).title(
                     c.getString(R.string.editor_uploading_image))
@@ -706,10 +705,9 @@ public class DoEditorActions {
             dialog.dismiss();
             try {
                 int[] attrs = {R.attr.font};
-                TypedArray ta = c
-                        .obtainStyledAttributes(
-                                new ColorPreferences(c).getFontStyle()
-                                        .getBaseId(), attrs);
+                TypedArray ta =
+                        c.obtainStyledAttributes(new ColorPreferences(c).getFontStyle().getBaseId(),
+                                attrs);
                 final String url = result.getJSONObject("data").getString("link");
                 LinearLayout layout = new LinearLayout(c);
                 layout.setOrientation(LinearLayout.VERTICAL);
@@ -724,8 +722,8 @@ public class DoEditorActions {
                 descriptionBox.setHint(R.string.editor_title);
                 descriptionBox.setEnabled(true);
                 descriptionBox.setTextColor(ta.getColor(0, Color.WHITE));
-                final InputMethodManager imm = (InputMethodManager) c.getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
+                final InputMethodManager imm =
+                        (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
                         InputMethodManager.HIDE_IMPLICIT_ONLY);
 
@@ -733,8 +731,7 @@ public class DoEditorActions {
                 int sixteen = Reddit.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
-                new AlertDialogWrapper.Builder(c).setTitle(
-                        R.string.editor_title_link)
+                new AlertDialogWrapper.Builder(c).setTitle(R.string.editor_title_link)
                         .setView(layout)
                         .setPositiveButton(R.string.editor_action_link,
                                 new DialogInterface.OnClickListener() {
@@ -956,10 +953,9 @@ public class DoEditorActions {
             dialog.dismiss();
             try {
                 int[] attrs = {R.attr.font};
-                TypedArray ta = c
-                        .obtainStyledAttributes(
-                                new ColorPreferences(c).getFontStyle()
-                                        .getBaseId(), attrs);
+                TypedArray ta =
+                        c.obtainStyledAttributes(new ColorPreferences(c).getFontStyle().getBaseId(),
+                                attrs);
                 LinearLayout layout = new LinearLayout(c);
                 layout.setOrientation(LinearLayout.VERTICAL);
 
@@ -979,8 +975,7 @@ public class DoEditorActions {
                 int sixteen = Reddit.dpToPxVertical(16);
                 layout.setPadding(sixteen, sixteen, sixteen, sixteen);
                 layout.addView(descriptionBox);
-                new AlertDialogWrapper.Builder(c).setTitle(
-                        R.string.editor_title_link)
+                new AlertDialogWrapper.Builder(c).setTitle(R.string.editor_title_link)
                         .setView(layout)
                         .setPositiveButton(R.string.editor_action_link,
                                 new DialogInterface.OnClickListener() {
@@ -1022,65 +1017,36 @@ public class DoEditorActions {
         protected void onProgressUpdate(Integer... values) {
             int progress = values[0];
             if (progress < dialog.getCurrentProgress() || uploadCount == 0) {
-                uploadCount +=1;
+                uploadCount += 1;
             }
             dialog.setContent("Image " + uploadCount + "/" + totalCount);
             dialog.setProgress(progress);
         }
     }
-    public static void handleImageIntent(Intent data, EditText ed, Context c) {
-        handleImageIntent(data, ed.getText(), c);
+
+    public static void handleImageIntent(List<Uri> uris, EditText ed, Context c) {
+        handleImageIntent(uris, ed.getText(), c);
     }
 
-    public static void handleImageIntent(Intent data, Editable ed, Context c) {
-        if (data != null) {
-            if (data.getData() != null && data.getClipData() == null) {
-                // Get the Image from data (single image)
-                Uri selectedImageUri = data.getData();
-                try {
-                    new UploadImgur(c).execute(selectedImageUri);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else {
-                //Multiple images
-                if (data.getClipData() != null) {
-                    ClipData mClipData = data.getClipData();
-                    ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
-                    for (int i = 0; i < mClipData.getItemCount(); i++) {
-                        ClipData.Item item = mClipData.getItemAt(i);
-                        Uri uri = item.getUri();
-                        mArrayUri.add(uri);
-                    }
-                    try {
-                        new UploadImgurAlbum(c).execute(
-                                mArrayUri.toArray(new Uri[mArrayUri.size()]));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+    public static void handleImageIntent(List<Uri> uris, Editable ed, Context c) {
+        if (uris.size() == 1) {
+            // Get the Image from data (single image)
+            try {
+                new UploadImgur(c).execute(uris.get(0));
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         } else {
+            //Multiple images
             try {
-                Toast.makeText(c, "No image was selected", Toast.LENGTH_LONG).show();
+                new UploadImgurAlbum(c).execute(uris.toArray(new Uri[uris.size()]));
             } catch (Exception e) {
+                e.printStackTrace();
 
             }
         }
     }
 
-    public static class AuxiliaryFragment extends Fragment {
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            handleImageIntent(data,
-                    e,
-                    getContext());
-
-            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
-
-        }
-    }
 
     public static class ProgressRequestBody extends RequestBody {
 
