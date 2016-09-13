@@ -62,7 +62,7 @@ public class PopMediaView {
     String mashapeKey;
 
     public void doPop(View v, String contentUrl, Context c) {
-        client = new OkHttpClient();
+        client = Reddit.client;
         gson = new Gson();
         mashapeKey = SecretConstants.getImgurApiKey(c);
 

@@ -282,6 +282,8 @@ public class MainActivity extends BaseActivity
                 Handler handler = new Handler();
                 handler.post(doImage);
             }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
       /* todo  if(resultCode == 4 && UserSubscriptions.hasChanged){
             UserSubscriptions.hasChanged = false;

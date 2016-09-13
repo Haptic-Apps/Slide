@@ -273,7 +273,7 @@ public class MediaFragment extends Fragment {
         }
         contentUrl = bundle.getString("contentUrl");
 
-        client = new OkHttpClient();
+        client = Reddit.client;
         gson = new Gson();
         mashapeKey = SecretConstants.getImgurApiKey(getContext());
     }

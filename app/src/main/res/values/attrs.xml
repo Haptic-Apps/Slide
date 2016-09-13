@@ -20,7 +20,6 @@
         <attr name="tint" format="color" />
 
         <attr name="list_background" format="color" />
-        />
 
     </declare-styleable>
     <declare-styleable name="ExpandablePanel">

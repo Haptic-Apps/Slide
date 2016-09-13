@@ -89,7 +89,7 @@ public class AlbumUtils {
             }
 
             hash = getHash(rawDat);
-            client = new OkHttpClient();
+            client = Reddit.client;
             gson = new Gson();
             mashapeKey = SecretConstants.getImgurApiKey(baseActivity);
         }

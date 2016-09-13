@@ -23,10 +23,10 @@ import net.dean.jraw.models.LoggedInAccount;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
+import okhttp3.Protocol;
 
 /**
  * Created by ccrama on 3/30/2015.
@@ -61,7 +61,7 @@ public class Authentication {
 
         if (NetworkUtil.isConnected(context)) {
             hasDone = true;
-            httpAdapter = new OkHttpAdapter();
+            httpAdapter = new OkHttpAdapter(Reddit.client, Protocol.SPDY_3 );
             isLoggedIn = false;
             reddit = new RedditClient(
                     UserAgent.of("android:me.ccrama.RedditSlide:v" + BuildConfig.VERSION_NAME), httpAdapter);

@@ -32,6 +32,7 @@ import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.Views.CanvasView;
+import me.ccrama.redditslide.Views.DoEditorActions;
 import me.ccrama.redditslide.Visuals.Palette;
 
 
@@ -43,6 +44,8 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
     CanvasView drawView;
     View color;
     Bitmap bitmap;
+    public static Uri uri;
+    public static DoEditorActions editor;
 
     @Override
     public void onCreate(Bundle savedInstance) {
@@ -51,13 +54,12 @@ public class Draw extends BaseActivity implements ColorChooserDialog.ColorCallba
         super.onCreate(savedInstance);
         applyColorTheme("");
         setContentView(R.layout.activity_draw);
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
         drawView = (CanvasView) findViewById(R.id.paintView);
         drawView.setBaseColor(Color.parseColor("#303030"));
         color = findViewById(R.id.color);
-        startActivityForResult(intent, 10001);
+        CropImage.activity(uri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
         setupAppBar(R.id.toolbar, "", true, Color.parseColor("#212121"),R.id.toolbar);
     }

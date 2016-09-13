@@ -457,7 +457,7 @@ public class LiveThread extends BaseActivityAnim {
             public LoadTwitter(@NotNull WebView view, @NotNull String url) {
                 this.view = view;
                 this.url = url;
-                client = new OkHttpClient();
+                client = Reddit.client;
                 gson = new Gson();
             }
 
