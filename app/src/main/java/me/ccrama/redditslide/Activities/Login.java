@@ -88,10 +88,14 @@ public class Login extends BaseActivityAnim {
 //                activity.setProgress(newProgress * 1000);
             }
         });
-        CookieSyncManager.createInstance(this);
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookies(null);
-        CookieManager.getInstance().flush();
+        try {
+            CookieSyncManager.createInstance(this);
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.removeAllCookies(null);
+            CookieManager.getInstance().flush();
+        } catch(NoSuchMethodError e){
+            //Ignore, some devices can't clear cookies
+        }
 
         webView.setWebViewClient(new WebViewClient() {
             @Override

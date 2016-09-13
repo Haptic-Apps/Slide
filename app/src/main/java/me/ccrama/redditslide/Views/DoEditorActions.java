@@ -54,7 +54,6 @@ import java.util.List;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 import me.ccrama.redditslide.Activities.Draw;
-import me.ccrama.redditslide.Activities.MainActivity;
 import me.ccrama.redditslide.ColorPreferences;
 import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Drafts;
@@ -252,12 +251,15 @@ public class DoEditorActions {
                             public void onImageSelected(List<Uri> uri) {
                                 handleImageIntent(uri, editText, a);
                             }
-                        }).setLayoutResource(R.layout.image_sheet_dialog)
+                        })
+                        .setLayoutResource(R.layout.image_sheet_dialog)
                         .setTitle("Choose a photo")
                         .create();
 
-                tedBottomPicker.show(((AppCompatActivity) a).getSupportFragmentManager());
-
+                tedBottomPicker.show(fm);
+                InputMethodManager imm = (InputMethodManager) editText.getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
             }
         });
 
@@ -480,34 +482,45 @@ public class DoEditorActions {
     public static int      sStart, sEnd;
 
     public static void doDraw(final Activity a, final EditText editText, final FragmentManager fm) {
-        Intent intent = new Intent(a, Draw.class);
+        final Intent intent = new Intent(a, Draw.class);
         InputMethodManager imm = (InputMethodManager) editText.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
-        /* todo
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        if (a instanceof MainActivity) {
-            LogUtil.v("Running on main");
-            ((MainActivity) a).doImage = new Runnable() {
-                @Override
-                public void run() {
-                    handleImageIntent(((MainActivity) a).data, editText, a);
-                }
-            };
-            a.startActivityForResult(intent, 3333);
-        } else {
-            Fragment auxiliary = new AuxiliaryFragment();
+        TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(editText.getContext())
+                .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
+                    @Override
+                    public void onImageSelected(List<Uri> uri) {
+                        Draw.uri = uri.get(0);
+                        Fragment auxiliary = new AuxiliaryFragment();
 
-            e = editText.getText();
-            sStart = editText.getSelectionStart();
-            sEnd = editText.getSelectionEnd();
+                        e = editText.getText();
+                        sStart = editText.getSelectionStart();
+                        sEnd = editText.getSelectionEnd();
 
-            fm.beginTransaction().add(auxiliary, "IMAGE_CHOOSER").commit();
-            fm.executePendingTransactions();
+                        fm.beginTransaction().add(auxiliary, "IMAGE_UPLOAD").commit();
+                        fm.executePendingTransactions();
 
-            auxiliary.startActivityForResult(intent, 3333);
-        }*/
+                        auxiliary.startActivityForResult(intent, 3333);
+                    }
+                })
+                .setLayoutResource(R.layout.image_sheet_dialog)
+                .setTitle("Choose a photo")
+                .create();
+
+        tedBottomPicker.show(fm);
     }
+    public static class AuxiliaryFragment extends Fragment {
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, final Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            handleImageIntent(new ArrayList<Uri>(){{add(data.getData());}},
+                    e,
+                    getContext());
 
+            getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+
+        }
+    }
     public static String getImageLink(Bitmap b) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         b.compress(Bitmap.CompressFormat.JPEG, 100,

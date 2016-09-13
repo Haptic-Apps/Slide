@@ -430,6 +430,9 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
     @Override
     public void onActivityResumed(Activity activity) {
         doLanguages(activity);
+        if(client == null){
+            client = new OkHttpClient();
+        }
         if (authentication != null
                 && Authentication.didOnline
                 && Authentication.authentication.getLong("expires", 0) <= Calendar.getInstance()
@@ -634,6 +637,7 @@ public class Reddit extends MultiDexApplication implements Application.ActivityL
         if(client == null){
             client = new OkHttpClient();
         }
+
         overrideLanguage =
                 getSharedPreferences("SETTINGS", 0).getBoolean(SettingValues.PREF_OVERRIDE_LANGUAGE,
                         false);
