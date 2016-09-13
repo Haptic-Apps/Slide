@@ -493,7 +493,7 @@ public class PopulateShadowboxInfo {
         final Drawable report = mContext.getResources().getDrawable(R.drawable.report);
         Drawable copy = mContext.getResources().getDrawable(R.drawable.ic_content_copy);
         Drawable open = mContext.getResources().getDrawable(R.drawable.openexternal);
-        Drawable share = mContext.getResources().getDrawable(R.drawable.share);
+        Drawable link = mContext.getResources().getDrawable(R.drawable.link);
         Drawable reddit = mContext.getResources().getDrawable(R.drawable.commentchange);
 
         profile.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
@@ -501,7 +501,7 @@ public class PopulateShadowboxInfo {
         report.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+        link.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
         reddit.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         ta.recycle();
@@ -518,7 +518,7 @@ public class PopulateShadowboxInfo {
             }
         }
         b.sheet(7, open, mContext.getString(R.string.submission_link_extern))
-                .sheet(4, share, mContext.getString(R.string.submission_share_permalink))
+                .sheet(4, link, mContext.getString(R.string.submission_share_permalink))
                 .sheet(8, reddit, mContext.getString(R.string.submission_share_reddit_url))
                 .listener(new DialogInterface.OnClickListener() {
                     @Override

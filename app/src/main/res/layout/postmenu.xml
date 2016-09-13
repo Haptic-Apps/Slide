@@ -261,14 +261,14 @@
                             android:layout_height="match_parent"
                             android:alpha=".86"
                             android:padding="12dp"
-                            app:srcCompat="@drawable/share"
+                            app:srcCompat="@drawable/link"
                             android:tint="?attr/tint" />
 
                         <TextView
                             android:layout_width="wrap_content"
 
                             android:layout_height="wrap_content"
-                            android:text="@string/submission_share"
+                            android:text="@string/submission_share_permalink"
 
 
                             android:textColor="?attr/font"
