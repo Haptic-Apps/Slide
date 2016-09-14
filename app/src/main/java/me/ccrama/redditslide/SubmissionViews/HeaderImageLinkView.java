@@ -108,7 +108,7 @@ public class HeaderImageLinkView extends RelativeLayout {
 
         boolean loadLq = (((!NetworkUtil.isConnectedWifi(getContext()) && SettingValues.lowResMobile) || SettingValues.lowResAlways));
 
-        if(thumbImage2 != null && thumbImage2 instanceof RoundImageTriangleView)
+       /* todo, maybe if(thumbImage2 != null && thumbImage2 instanceof RoundImageTriangleView)
             switch (ContentType.getContentType(submission)) {
             case ALBUM:
                 ((RoundImageTriangleView)(thumbImage2)).setFlagColor(R.color.md_blue_300);
@@ -131,7 +131,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             default:
                 ((RoundImageTriangleView)(thumbImage2)).setFlagColor(Color.TRANSPARENT);
                 break;
-        }
+        }*/
 
         if (type == ContentType.Type.SELF && SettingValues.hideSelftextLeadImage || SettingValues.noImages && submission.isSelfPost()) {
             setVisibility(View.GONE);

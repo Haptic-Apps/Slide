@@ -37,7 +37,7 @@ public class RoundImageTriangleView extends RoundedImageView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        int w = getWidth() / 5;
+        /* maybe soon int w = getWidth() / 5;
 
         Path path = new Path();
         path.moveTo( w*4, 0);
@@ -49,7 +49,7 @@ public class RoundImageTriangleView extends RoundedImageView {
         Paint p = new Paint();
         p.setColor( color );
 
-        canvas.drawPath(path, p);
+        canvas.drawPath(path, p);*/
     }
 
 
