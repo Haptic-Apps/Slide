@@ -1746,6 +1746,12 @@ public class CommentPage extends Fragment {
             rv.setAdapter(adapter);
             adapter.currentSelectedItem = context;
 
+            if(context.isEmpty()){
+                if (SettingValues.collapseCommentsDefault) {
+                    adapter.collapseAll();
+                }
+            }
+
             adapter.reset(getContext(), comments, rv, comments.submission, b);
         } else if (!b) {
             try {
