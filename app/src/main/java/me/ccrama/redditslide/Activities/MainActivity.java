@@ -478,7 +478,7 @@ public class MainActivity extends BaseActivity
             if (SettingValues.tabletUI) {
                 menu.findItem(R.id.share).setVisible(false);
             }
-            if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_DISMISS) {
+            if (SettingValues.fab && SettingValues.fabType == Constants.FAB_DISMISS) {
                 menu.findItem(R.id.hide_posts).setVisible(false);
             }
         } else {
@@ -2037,7 +2037,7 @@ public class MainActivity extends BaseActivity
         header.findViewById(R.id.manage).setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                Intent i = new Intent(MainActivity.this, ManageHistory.class);
+                Intent i = new Intent(MainActivity.this, ManageOfflineContent.class);
                 startActivity(i);
             }
         });
@@ -2817,7 +2817,7 @@ public class MainActivity extends BaseActivity
                 if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                     submit.setVisibility(View.GONE);
                 }
-                if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_POST) {
+                if (SettingValues.fab && SettingValues.fabType == Constants.FAB_POST) {
                     submit.setVisibility(View.GONE);
                 }
 

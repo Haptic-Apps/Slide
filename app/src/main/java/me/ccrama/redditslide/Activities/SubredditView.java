@@ -69,6 +69,7 @@ import java.util.List;
 import me.ccrama.redditslide.Adapters.SettingsSubAdapter;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.Constants;
 import me.ccrama.redditslide.Fragments.BlankFragment;
 import me.ccrama.redditslide.Fragments.CommentPage;
 import me.ccrama.redditslide.Fragments.SubmissionsView;
@@ -235,7 +236,7 @@ public class SubredditView extends BaseActivity {
             inflater.inflate(R.menu.menu_single_subreddit, menu);
         }
 
-        if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_DISMISS) {
+        if (SettingValues.fab && SettingValues.fabType == Constants.FAB_DISMISS) {
             menu.findItem(R.id.hide_posts).setVisible(false);
         }
 
@@ -514,7 +515,7 @@ public class SubredditView extends BaseActivity {
                 if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                     submit.setVisibility(View.GONE);
                 }
-                if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_POST) {
+                if (SettingValues.fab && SettingValues.fabType == Constants.FAB_POST) {
                     submit.setVisibility(View.GONE);
                 }
 

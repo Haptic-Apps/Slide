@@ -186,11 +186,11 @@ public class Inbox extends BaseActivityAnim {
 
             }
         });
+        if (!Authentication.reddit.isAuthenticated() || Authentication.me == null) {
 
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                if (Authentication.me == null) {
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
                     if (Authentication.reddit == null) {
                         new Authentication(getApplicationContext());
                     }
@@ -234,10 +234,11 @@ public class Inbox extends BaseActivityAnim {
                         Authentication.isLoggedIn = true;
                         Reddit.notFirst = true;
                     }
+
+                    return null;
                 }
-                return null;
-            }
-        }.execute();
+            }.execute();
+        }
     }
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {

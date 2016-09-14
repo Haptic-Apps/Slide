@@ -43,4 +43,7 @@ public class Constants {
     public static final int SUBREDDIT_SEARCH_METHOD_DRAWER = 1;
     public static final int SUBREDDIT_SEARCH_METHOD_TOOLBAR = 2;
     public static final int SUBREDDIT_SEARCH_METHOD_BOTH = 3;
+
+    public static final int FAB_DISMISS = 1;
+    public static final int FAB_POST = 2;
 }

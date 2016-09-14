@@ -37,7 +37,7 @@ import me.ccrama.redditslide.util.NetworkUtil;
 /**
  * Created by l3d00m on 11/13/2015.
  */
-public class ManageHistory extends BaseActivityAnim {
+public class ManageOfflineContent extends BaseActivityAnim {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +61,7 @@ public class ManageHistory extends BaseActivityAnim {
             findViewById(R.id.sync_now).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new CommentCacheAsync(ManageHistory.this, Reddit.cachedData.getString("toCache", "").split(",")).execute();
+                    new CommentCacheAsync(ManageOfflineContent.this, Reddit.cachedData.getString("toCache", "").split(",")).execute();
                 }
             });
         } else {
@@ -89,7 +89,7 @@ public class ManageHistory extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 final String commentDepth = SettingValues.prefs.getString(SettingValues.COMMENT_DEPTH, "2");
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(ManageHistory.this);
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(ManageOfflineContent.this);
                 builder.setTitle(R.string.comments_depth);
                 builder.setSingleChoiceItems(
                         commentDepths.toArray(commentDepthArray), commentDepths.indexOf(commentDepth), new DialogInterface.OnClickListener() {
@@ -111,7 +111,7 @@ public class ManageHistory extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
                 final String commentCount = SettingValues.prefs.getString(SettingValues.COMMENT_COUNT, "2");
-                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(ManageHistory.this);
+                AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(ManageOfflineContent.this);
                 builder.setTitle(R.string.comments_count);
                 builder.setSingleChoiceItems(
                         commentCounts.toArray(commentCountArray), commentCounts.indexOf(commentCount), new DialogInterface.OnClickListener() {
@@ -129,7 +129,7 @@ public class ManageHistory extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
 
-                List<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(ManageHistory.this));
+                List<String> sorted = UserSubscriptions.sort(UserSubscriptions.getSubscriptions(ManageOfflineContent.this));
                 final String[] all = new String[sorted.size()];
                 boolean[] checked = new boolean[all.length];
 
@@ -147,7 +147,7 @@ public class ManageHistory extends BaseActivityAnim {
 
                 final ArrayList<String> toCheck = new ArrayList<>();
                 toCheck.addAll(s2);
-                new AlertDialogWrapper.Builder(ManageHistory.this).alwaysCallMultiChoiceCallback().setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
+                new AlertDialogWrapper.Builder(ManageOfflineContent.this).alwaysCallMultiChoiceCallback().setMultiChoiceItems(all, checked, new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                                 if (!isChecked) {
@@ -176,23 +176,23 @@ public class ManageHistory extends BaseActivityAnim {
             @Override
             public void onClick(View v) {
 
-                final TimePickerDialog d = new TimePickerDialog(ManageHistory.this);
+                final TimePickerDialog d = new TimePickerDialog(ManageOfflineContent.this);
                 d.hour(Reddit.cachedData.getInt("hour", 0));
                 d.minute(Reddit.cachedData.getInt("minute", 0));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-                    d.applyStyle(new ColorPreferences(ManageHistory.this).getFontStyle().getBaseId());
+                    d.applyStyle(new ColorPreferences(ManageOfflineContent.this).getFontStyle().getBaseId());
                 d.positiveAction("SET");
                 TypedValue typedValue = new TypedValue();
                 Resources.Theme theme = getTheme();
                 theme.resolveAttribute(R.attr.activity_background, typedValue, true);
                 int color = typedValue.data;
                 d.backgroundColor(color);
-                d.actionTextColor(getResources().getColor(new ColorPreferences(ManageHistory.this).getFontStyle().getColor()));
+                d.actionTextColor(getResources().getColor(new ColorPreferences(ManageOfflineContent.this).getFontStyle().getColor()));
                 d.positiveActionClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Reddit.cachedData.edit().putInt("hour", d.getHour()).putInt("minute", d.getMinute()).commit();
-                        Reddit.autoCache = new AutoCacheScheduler(ManageHistory.this);
+                        Reddit.autoCache = new AutoCacheScheduler(ManageOfflineContent.this);
                         Reddit.autoCache.start(getApplicationContext());
                         updateTime();
                         d.dismiss();
@@ -254,7 +254,7 @@ public class ManageHistory extends BaseActivityAnim {
                 if (multiNameToSubsMap.containsKey(sub)) {
                     sub = multiNameToSubsMap.get(sub);
                 }
-                final String name = (sub.contains("/m/") ? sub : "/r/" + sub) + " → " + (Long.valueOf(split[1]) == 0 ? getString(R.string.settings_backup_submission_only) : TimeUtils.getTimeAgo(Long.valueOf(split[1]), ManageHistory.this) + getString(R.string.settings_backup_comments));
+                final String name = (sub.contains("/m/") ? sub : "/r/" + sub) + " → " + (Long.valueOf(split[1]) == 0 ? getString(R.string.settings_backup_submission_only) : TimeUtils.getTimeAgo(Long.valueOf(split[1]), ManageOfflineContent.this) + getString(R.string.settings_backup_comments));
                 domains.add(name);
 
                 final View t = getLayoutInflater().inflate(R.layout.account_textview, ((LinearLayout) findViewById(R.id.domainlist)), false);

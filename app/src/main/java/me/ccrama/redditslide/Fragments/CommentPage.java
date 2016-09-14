@@ -1022,7 +1022,7 @@ public class CommentPage extends Fragment {
                             if (!Authentication.isLoggedIn || !Authentication.didOnline) {
                                 submit.setVisibility(View.GONE);
                             }
-                            if (SettingValues.fab && SettingValues.fabType == R.integer.FAB_POST) {
+                            if (SettingValues.fab && SettingValues.fabType == Constants.FAB_POST) {
                                 submit.setVisibility(View.GONE);
                             }
 

@@ -34,21 +34,20 @@ import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.UserSubscriptions;
 import me.ccrama.redditslide.util.LogUtil;
-import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
  * Created by ccrama on 9/17/2015.
  * <p/>
- * This activity takes parameters for a submission id (through intent or direct link),
- * retrieves the Submission object, and then displays the submission with its comments.
+ * This activity takes parameters for a submission id (through intent or direct link), retrieves the
+ * Submission object, and then displays the submission with its comments.
  */
 public class CommentsScreenSingle extends BaseActivityAnim {
     OverviewPagerAdapter comments;
-    boolean np;
+    boolean              np;
     private ViewPager pager;
-    private String subreddit;
-    private String name;
-    private String context;
+    private String    subreddit;
+    private String    name;
+    private String    context;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -59,11 +58,11 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         }
     }
 
-    public static final String EXTRA_SUBREDDIT = "subreddit";
-    public static final String EXTRA_CONTEXT = "context";
+    public static final String EXTRA_SUBREDDIT  = "subreddit";
+    public static final String EXTRA_CONTEXT    = "context";
     public static final String EXTRA_SUBMISSION = "submission";
-    public static final String EXTRA_NP = "np";
-    public static final String EXTRA_LOADMORE = "loadmore";
+    public static final String EXTRA_NP         = "np";
+    public static final String EXTRA_LOADMORE   = "loadmore";
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
@@ -105,47 +104,60 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         } else {
             setupAdapter();
         }
-        if (Authentication.isLoggedIn && Authentication.didOnline && NetworkUtil.isConnected(CommentsScreenSingle.this))
+        if (Authentication.isLoggedIn && Authentication.me == null) {
+
             new AsyncTask<Void, Void, Void>() {
                 @Override
                 protected Void doInBackground(Void... params) {
-                    if (Authentication.me == null && Authentication.isLoggedIn) {
-                        Authentication.me = Authentication.reddit.me();
-                        Authentication.mod = Authentication.me.isMod();
-                        Reddit.over18 = Authentication.me.isOver18();
-
-                        Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod).apply();
-                        Authentication.authentication.edit().putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18).apply();
-
-                        if (Reddit.notificationTime != -1) {
-                            Reddit.notifications = new NotificationJobScheduler(CommentsScreenSingle.this);
-                            Reddit.notifications.start(getApplicationContext());
-                        }
-
-                        if (Reddit.cachedData.contains("toCache")) {
-                            Reddit.autoCache = new AutoCacheScheduler(CommentsScreenSingle.this);
-                            Reddit.autoCache.start(getApplicationContext());
-                        }
-
-                        final String name = Authentication.me.getFullName();
-                        Authentication.name = name;
-                        LogUtil.v("AUTHENTICATED");
-                        UserSubscriptions.doCachedModSubs();
-
-                        if (Authentication.reddit.isAuthenticated()) {
-                            final Set<String> accounts = Authentication.authentication.getStringSet("accounts", new HashSet<String>());
-                            if (accounts.contains(name)) { //convert to new system
-                                accounts.remove(name);
-                                accounts.add(name + ":" + Authentication.refresh);
-                                Authentication.authentication.edit().putStringSet("accounts", accounts).apply(); //force commit
-                            }
-                            Authentication.isLoggedIn = true;
-                            Reddit.notFirst = true;
-                        }
+                    if (Authentication.reddit == null) {
+                        new Authentication(getApplicationContext());
                     }
+                    Authentication.me = Authentication.reddit.me();
+                    Authentication.mod = Authentication.me.isMod();
+                    Reddit.over18 = Authentication.me.isOver18();
+
+                    Authentication.authentication.edit()
+                            .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
+                            .apply();
+                    Authentication.authentication.edit()
+                            .putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18)
+                            .apply();
+
+                    if (Reddit.notificationTime != -1) {
+                        Reddit.notifications =
+                                new NotificationJobScheduler(CommentsScreenSingle.this);
+                        Reddit.notifications.start(getApplicationContext());
+                    }
+
+                    if (Reddit.cachedData.contains("toCache")) {
+                        Reddit.autoCache = new AutoCacheScheduler(CommentsScreenSingle.this);
+                        Reddit.autoCache.start(getApplicationContext());
+                    }
+
+                    final String name = Authentication.me.getFullName();
+                    Authentication.name = name;
+                    LogUtil.v("AUTHENTICATED");
+                    UserSubscriptions.doCachedModSubs();
+
+                    if (Authentication.reddit.isAuthenticated()) {
+                        final Set<String> accounts =
+                                Authentication.authentication.getStringSet("accounts",
+                                        new HashSet<String>());
+                        if (accounts.contains(name)) { //convert to new system
+                            accounts.remove(name);
+                            accounts.add(name + ":" + Authentication.refresh);
+                            Authentication.authentication.edit()
+                                    .putStringSet("accounts", accounts)
+                                    .apply(); //force commit
+                        }
+                        Authentication.isLoggedIn = true;
+                        Reddit.notFirst = true;
+                    }
+
                     return null;
                 }
             }.execute();
+        }
     }
 
     public int adjustAlpha(float factor) {
@@ -167,11 +179,13 @@ public class CommentsScreenSingle extends BaseActivityAnim {
         pager.setCurrentItem(1);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                    int positionOffsetPixels) {
                 if (position == 0 && positionOffsetPixels == 0) {
                     finish();
                 }
-                if (position == 0 && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
+                if (position == 0
+                        && ((OverviewPagerAdapter) pager.getAdapter()).blankPage != null) {
                     ((OverviewPagerAdapter) pager.getAdapter()).blankPage.doOffset(positionOffset);
                     pager.setBackgroundColor(adjustAlpha(positionOffset * 0.7f));
                 }
@@ -205,11 +219,14 @@ public class CommentsScreenSingle extends BaseActivityAnim {
             try {
                 final Submission s = Authentication.reddit.getSubmission(params[0]);
                 if (SettingValues.storeHistory) {
-                    if (SettingValues.storeNSFWHistory && s.isNsfw() || !s.isNsfw())
+                    if (SettingValues.storeNSFWHistory && s.isNsfw() || !s.isNsfw()) {
                         HasSeen.addSeen(s.getFullName());
+                    }
                     LastComments.setComments(s);
                 }
-                HasSeen.setHasSeenSubmission(new ArrayList<Submission>(){{this.add(s);}});
+                HasSeen.setHasSeenSubmission(new ArrayList<Submission>() {{
+                    this.add(s);
+                }});
                 locked = s.isLocked();
                 archived = s.isArchived();
                 return s.getSubredditName();
@@ -219,20 +236,24 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            new AlertDialogWrapper.Builder(CommentsScreenSingle.this)
-                                    .setTitle(R.string.submission_not_found)
+                            new AlertDialogWrapper.Builder(CommentsScreenSingle.this).setTitle(
+                                    R.string.submission_not_found)
                                     .setMessage(R.string.submission_not_found_msg)
-                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    .setPositiveButton(R.string.btn_ok,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                                    finish();
+                                                }
+                                            })
+                                    .setOnDismissListener(new DialogInterface.OnDismissListener() {
                                         @Override
-                                        public void onClick(DialogInterface dialog, int which) {
+                                        public void onDismiss(DialogInterface dialog) {
                                             finish();
                                         }
-                                    }).setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                @Override
-                                public void onDismiss(DialogInterface dialog) {
-                                    finish();
-                                }
-                            }).show();
+                                    })
+                                    .show();
                         }
                     });
                 } catch (Exception ignored) {
@@ -247,8 +268,8 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
     public class OverviewPagerAdapter extends FragmentStatePagerAdapter {
 
-        private Fragment mCurrentFragment;
-        public BlankFragment blankPage;
+        private Fragment      mCurrentFragment;
+        public  BlankFragment blankPage;
 
         public OverviewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -275,13 +296,13 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
                 Fragment f = new CommentPage();
                 Bundle args = new Bundle();
-                if (name.contains("t3_"))
-                    name = name.substring(3, name.length());
+                if (name.contains("t3_")) name = name.substring(3, name.length());
 
                 args.putString("id", name);
                 args.putString("context", context);
                 if (SettingValues.storeHistory) {
-                    if (context != null && !context.isEmpty() && !context.equals(Reddit.EMPTY_STRING)) {
+                    if (context != null && !context.isEmpty() && !context.equals(
+                            Reddit.EMPTY_STRING)) {
                         HasSeen.addSeen("t1_" + context);
                     } else {
                         HasSeen.addSeen(name);

@@ -289,7 +289,7 @@
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize"/>
         <activity
-                android:name=".Activities.ManageHistory"
+                android:name=".Activities.ManageOfflineContent"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout|uiMode"
                 android:theme="@style/swipeable"
                 android:windowSoftInputMode="adjustResize"/>

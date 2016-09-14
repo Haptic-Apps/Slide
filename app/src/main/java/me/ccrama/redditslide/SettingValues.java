@@ -170,7 +170,7 @@ public class SettingValues {
 
     public static boolean fastscroll;
     public static boolean fab     = true;
-    public static int     fabType = R.integer.FAB_POST;
+    public static int     fabType = Constants.FAB_POST;
     public static boolean hideButton;
     public static boolean tabletUI;
     public static boolean customtabs;
@@ -223,7 +223,7 @@ public class SettingValues {
         postNav = false;
 
         fab = prefs.getBoolean(PREF_FAB, true);
-        fabType = prefs.getInt(PREF_FAB_TYPE, R.integer.FAB_DISMISS);
+        fabType = prefs.getInt(PREF_FAB_TYPE, Constants.FAB_DISMISS);
         subredditSearchMethod = prefs.getInt(PREF_SUBREDDIT_SEARCH_METHOD,
                 Constants.SUBREDDIT_SEARCH_METHOD_DRAWER);
         if(subredditSearchMethod > 3 || subredditSearchMethod < 0){

@@ -25,12 +25,18 @@ import net.dean.jraw.util.JrawUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import me.ccrama.redditslide.Activities.CommentsScreenSingle;
+import me.ccrama.redditslide.Autocache.AutoCacheScheduler;
+import me.ccrama.redditslide.Notifications.NotificationJobScheduler;
 import me.ccrama.redditslide.util.GifUtils;
+import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 
 /**
@@ -210,6 +216,42 @@ public class CommentCacheAsync extends AsyncTask {
 
     @Override
     public Void doInBackground(Object[] params) {
+        if (Authentication.isLoggedIn && Authentication.me == null || Authentication.reddit == null) {
+
+            if (Authentication.reddit == null) {
+                new Authentication(context);
+            }
+            Authentication.me = Authentication.reddit.me();
+            Authentication.mod = Authentication.me.isMod();
+            Reddit.over18 = Authentication.me.isOver18();
+
+            Authentication.authentication.edit()
+                    .putBoolean(Reddit.SHARED_PREF_IS_MOD, Authentication.mod)
+                    .apply();
+            Authentication.authentication.edit()
+                    .putBoolean(Reddit.SHARED_PREF_IS_OVER_18, Reddit.over18)
+                    .apply();
+
+            final String name = Authentication.me.getFullName();
+            Authentication.name = name;
+            LogUtil.v("AUTHENTICATED");
+            UserSubscriptions.doCachedModSubs();
+
+            if (Authentication.reddit.isAuthenticated()) {
+                final Set<String> accounts = Authentication.authentication.getStringSet("accounts",
+                        new HashSet<String>());
+                if (accounts.contains(name)) { //convert to new system
+                    accounts.remove(name);
+                    accounts.add(name + ":" + Authentication.refresh);
+                    Authentication.authentication.edit()
+                            .putStringSet("accounts", accounts)
+                            .apply(); //force commit
+                }
+                Authentication.isLoggedIn = true;
+                Reddit.notFirst = true;
+            }
+        }
+
         Map<String, String> multiNameToSubsMap = UserSubscriptions.getMultiNameToSubs(true);
         if (Authentication.reddit == null) Reddit.authentication = new Authentication(context);
 
@@ -315,7 +357,7 @@ public class CommentCacheAsync extends AsyncTask {
                 if (mBuilder != null) {
                     mNotifyManager.cancel(random);
                 }
-                success.add(sub);
+                if (!submissions.isEmpty()) success.add(sub);
             }
         }
         if (mBuilder != null) {

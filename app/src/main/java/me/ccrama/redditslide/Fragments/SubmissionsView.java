@@ -150,7 +150,7 @@ public class SubmissionsView extends Fragment implements SubmissionDisplay {
         if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
 
-            if (SettingValues.fabType == R.integer.FAB_POST) {
+            if (SettingValues.fabType == Constants.FAB_POST) {
                 fab.setImageResource(R.drawable.add);
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override

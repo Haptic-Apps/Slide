@@ -94,7 +94,7 @@ public class MultiredditView extends Fragment implements SubmissionDisplay {
         if (SettingValues.fab) {
             fab = (FloatingActionButton) v.findViewById(R.id.post_floating_action_button);
 
-            if (SettingValues.fabType == R.integer.FAB_POST) {
+            if (SettingValues.fabType == Constants.FAB_POST) {
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

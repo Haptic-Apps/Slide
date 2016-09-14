@@ -158,7 +158,7 @@ public class Settings extends BaseActivity {
         findViewById(R.id.offline).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Settings.this, ManageHistory.class);
+                Intent i = new Intent(Settings.this, ManageOfflineContent.class);
                 startActivity(i);
             }
         });

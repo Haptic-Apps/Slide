@@ -240,7 +240,7 @@ public class SettingsGeneral extends BaseActivityAnim
 
         //FAB multi choice//
         ((TextView) findViewById(R.id.fab_current)).setText(
-                SettingValues.fab ? (SettingValues.fabType == R.integer.FAB_DISMISS ? getString(
+                SettingValues.fab ? (SettingValues.fabType == Constants.FAB_DISMISS ? getString(
                         R.string.fab_hide) : getString(R.string.fab_create))
                         : getString(R.string.fab_disabled));
 
@@ -261,9 +261,9 @@ public class SettingsGeneral extends BaseActivityAnim
                                 break;
                             case R.id.hide:
                                 SettingValues.fab = true;
-                                SettingValues.fabType = R.integer.FAB_DISMISS;
+                                SettingValues.fabType = Constants.FAB_DISMISS;
                                 SettingValues.prefs.edit()
-                                        .putInt(SettingValues.PREF_FAB_TYPE, R.integer.FAB_DISMISS)
+                                        .putInt(SettingValues.PREF_FAB_TYPE, Constants.FAB_DISMISS)
                                         .apply();
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_FAB, true)
@@ -271,9 +271,9 @@ public class SettingsGeneral extends BaseActivityAnim
                                 break;
                             case R.id.create:
                                 SettingValues.fab = true;
-                                SettingValues.fabType = R.integer.FAB_POST;
+                                SettingValues.fabType = Constants.FAB_POST;
                                 SettingValues.prefs.edit()
-                                        .putInt(SettingValues.PREF_FAB_TYPE, R.integer.FAB_POST)
+                                        .putInt(SettingValues.PREF_FAB_TYPE, Constants.FAB_POST)
                                         .apply();
                                 SettingValues.prefs.edit()
                                         .putBoolean(SettingValues.PREF_FAB, true)
@@ -281,7 +281,7 @@ public class SettingsGeneral extends BaseActivityAnim
                                 break;
                         }
                         ((TextView) findViewById(R.id.fab_current)).setText(
-                                SettingValues.fab ? (SettingValues.fabType == R.integer.FAB_DISMISS
+                                SettingValues.fab ? (SettingValues.fabType == Constants.FAB_DISMISS
                                         ? getString(R.string.fab_hide)
                                         : getString(R.string.fab_create))
                                         : getString(R.string.fab_disabled));
