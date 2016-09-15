@@ -4641,7 +4641,9 @@ public class MainActivity extends BaseActivity
 
                     });
                     colorAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+                    colorAnimation.setDuration(250);
                     colorAnimation.start();
+
                     setRecentBar(selectedSub);
 
                     if (SettingValues.single || mTabLayout == null) {
