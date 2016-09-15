@@ -88,18 +88,18 @@ public class OpenRedditLink {
                     i.putExtra(Search.EXTRA_SUBREDDIT, "all");
                 }
                 if (end.contains("q=")) {
-                    String querry;
+                    String query;
                     int index = end.indexOf("q=");
                     if (end.contains("&") && end.contains("+")) {
-                        querry = end.substring(index + 2,
+                        query = end.substring(index + 2,
                                 end.contains("+") ? Math.max(end.lastIndexOf("+", index),
                                         end.indexOf("&", index)) : end.indexOf("&", index));
                     } else if (end.contains("&")) {
-                        querry = end.substring(index + 2, end.indexOf("&", index));
+                        query = end.substring(index + 2, end.indexOf("&", index));
                     } else {
-                        querry = end.substring(index + 2, end.length());
+                        query = end.substring(index + 2, end.length());
                     }
-                    i.putExtra(Search.EXTRA_TERM, querry);
+                    i.putExtra(Search.EXTRA_TERM, query);
                 }
                 if (end.contains("author:")) {
                     String author;

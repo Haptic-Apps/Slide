@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import me.ccrama.redditslide.Adapters.ContributionAdapter;
@@ -227,11 +229,13 @@ public class Search extends BaseActivityAnim {
             subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         }
 
+        where = StringEscapeUtils.unescapeHtml4(where);
+
         setupSubredditAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
 
         time = TimePeriod.ALL;
 
-        getSupportActionBar().setTitle(where);
+        getSupportActionBar().setTitle(Html.fromHtml(where));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         assert mToolbar != null; //it won't be, trust me
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
