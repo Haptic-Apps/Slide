@@ -2,6 +2,7 @@ package me.ccrama.redditslide.Activities;
 
 import android.Manifest;
 import android.animation.Animator;
+import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.app.Dialog;
@@ -16,6 +17,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -4508,7 +4510,7 @@ public class MainActivity extends BaseActivity
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if(restart){
+            if (restart) {
                 restartTheme();
                 return;
             }
@@ -4614,9 +4616,32 @@ public class MainActivity extends BaseActivity
                             accountsArea.setBackgroundColor(Palette.getDarkerColor(selectedSub));
                         }
                     }
-                    header.setBackgroundColor(Palette.getColor(selectedSub));
 
-                    themeSystemBars(selectedSub);
+                    int colorFrom = ((ColorDrawable) header.getBackground()).getColor();
+                    int colorTo = Palette.getColor(selectedSub);
+
+                    ValueAnimator colorAnimation =
+                            ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+
+                    colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        @Override
+                        public void onAnimationUpdate(ValueAnimator animator) {
+                            int color = (int) animator.getAnimatedValue();
+
+                            header.setBackgroundColor(color);
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                getWindow().setStatusBarColor(Palette.getDarkerColor(color));
+                                if (SettingValues.colorNavBar) {
+                                    getWindow().setNavigationBarColor(
+                                            Palette.getDarkerColor(color));
+                                }
+                            }
+                        }
+
+                    });
+                    colorAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+                    colorAnimation.start();
                     setRecentBar(selectedSub);
 
                     if (SettingValues.single || mTabLayout == null) {
