@@ -205,7 +205,7 @@ public class SubmissionComments {
             if (page.isVisible() && submission != null) {
                 refreshLayout.setRefreshing(false);
                 page.doRefresh(false);
-                if ((submission.isArchived() && !page.archived) || (submission.isLocked() && !page.locked))
+                if ((submission.isArchived() && !page.archived) || (submission.isLocked() && !page.locked) || (submission.getDataNode().get("contest_mode").asBoolean() && !page.contest))
                     page.doTopBarNotify(submission, adapter);
 
                 page.doData(reset);

@@ -205,6 +205,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
     boolean locked;
     boolean archived;
+    boolean contest;
 
     private class AsyncGetSubredditName extends AsyncTask<String, Void, String> {
 
@@ -229,6 +230,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
                 }});
                 locked = s.isLocked();
                 archived = s.isArchived();
+                contest = s.getDataNode().get("contest_mode").asBoolean();
                 return s.getSubredditName();
 
             } catch (Exception e) {
@@ -311,6 +313,7 @@ public class CommentsScreenSingle extends BaseActivityAnim {
 
                 args.putBoolean("archived", archived);
                 args.putBoolean("locked", locked);
+                args.putBoolean("contest", contest);
                 args.putString("subreddit", subreddit);
                 args.putBoolean("single", getIntent().getBooleanExtra(EXTRA_LOADMORE, true));
                 args.putBoolean("np", np);

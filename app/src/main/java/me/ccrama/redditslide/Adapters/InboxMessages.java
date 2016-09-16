@@ -84,6 +84,9 @@ public class InboxMessages extends GeneralPosts {
                         }
                     });
                 } else {
+                    if(posts == null){
+                        posts =new ArrayList<>();
+                    }
                     posts.addAll(subs);
                     ((Activity) adapter.mContext).runOnUiThread(new Runnable() {
                         @Override

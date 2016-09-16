@@ -245,6 +245,7 @@ public class DoEditorActions {
         baseView.findViewById(R.id.imagerep).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                e = editText.getText();
                 TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(editText.getContext())
                         .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
                             @Override
@@ -486,6 +487,7 @@ public class DoEditorActions {
         InputMethodManager imm = (InputMethodManager) editText.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        e = editText.getText();
         TedBottomPicker tedBottomPicker = new TedBottomPicker.Builder(editText.getContext())
                 .setOnImageSelectedListener(new TedBottomPicker.OnImageSelectedListener() {
                     @Override
@@ -493,7 +495,6 @@ public class DoEditorActions {
                         Draw.uri = uri.get(0);
                         Fragment auxiliary = new AuxiliaryFragment();
 
-                        e = editText.getText();
                         sStart = editText.getSelectionStart();
                         sEnd = editText.getSelectionEnd();
 

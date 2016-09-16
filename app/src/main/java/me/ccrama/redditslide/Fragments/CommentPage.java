@@ -124,8 +124,7 @@ import me.ccrama.redditslide.util.SubmissionParser;
 public class CommentPage extends Fragment {
 
     boolean np;
-    public boolean archived;
-    public boolean locked;
+    public boolean archived, locked, contest;
     boolean loadMore;
     private SwipeRefreshLayout              mSwipeRefreshLayout;
     public  RecyclerView                    rv;
@@ -188,6 +187,7 @@ public class CommentPage extends Fragment {
     public void doTopBar(Submission s) {
         archived = s.isArchived();
         locked = s.isLocked();
+        contest = s.getDataNode().get("contest_mode").asBoolean();
         doTopBar();
     }
 
@@ -210,6 +210,7 @@ public class CommentPage extends Fragment {
         final View archivedV = v.findViewById(R.id.archived);
         final View lockedV = v.findViewById(R.id.locked);
         final View headerV = v.findViewById(R.id.toolbar);
+        final View contestV = v.findViewById(R.id.contest);
 
         shownHeaders = 0;
 
@@ -219,6 +220,7 @@ public class CommentPage extends Fragment {
         npV.setVisibility(View.VISIBLE);
         archivedV.setVisibility(View.VISIBLE);
         lockedV.setVisibility(View.VISIBLE);
+        contestV.setVisibility(View.VISIBLE);
 
         if (!loadMore) {
             loadallV.setVisibility(View.GONE);
@@ -277,6 +279,13 @@ public class CommentPage extends Fragment {
             shownHeaders += lockedV.getMeasuredHeight();
         } else {
             lockedV.setVisibility(View.GONE);
+        }
+
+        if (contest) {
+            contestV.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+            shownHeaders += contestV.getMeasuredHeight();
+        } else {
+            contestV.setVisibility(View.GONE);
         }
 
         headerHeight = headerV.getMeasuredHeight() + shownHeaders;
@@ -1784,6 +1793,7 @@ public class CommentPage extends Fragment {
         np = bundle.getBoolean("np", false);
         archived = bundle.getBoolean("archived", false);
         locked = bundle.getBoolean("locked", false);
+        contest = bundle.getBoolean("contest", false);
 
         loadMore = (!context.isEmpty() && !context.equals(Reddit.EMPTY_STRING));
         if (!single) loadMore = false;

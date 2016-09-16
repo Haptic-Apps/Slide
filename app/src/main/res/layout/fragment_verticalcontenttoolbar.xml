@@ -116,7 +116,15 @@
                 android:text="@string/submission_info_locked"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
-
+            <TextView
+                    android:id="@+id/contest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/submission_info_contest"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
             <TextView
                 android:id="@+id/loadall"
                 android:layout_width="match_parent"

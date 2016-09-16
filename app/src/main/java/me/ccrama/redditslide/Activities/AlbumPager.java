@@ -130,7 +130,7 @@ public class AlbumPager extends FullScreenActivity
             //SubmissionAdapter.setOpen(this, getIntent().getStringExtra(MediaView.SUBMISSION_URL));
         }
 
-        if (id == R.id.download) {
+        if (id == R.id.download && images != null) {
             int index = 0;
             for (final Image elem : images) {
                 doImageSave(false, elem.getImageUrl(), index);
