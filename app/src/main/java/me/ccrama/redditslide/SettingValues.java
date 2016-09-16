@@ -224,6 +224,11 @@ public class SettingValues {
 
         fab = prefs.getBoolean(PREF_FAB, true);
         fabType = prefs.getInt(PREF_FAB_TYPE, Constants.FAB_DISMISS);
+        if(fabType > 2 || fabType < 0){
+            fabType = Constants.FAB_DISMISS;
+            prefs.edit().putInt(PREF_FAB_TYPE, Constants.FAB_DISMISS).apply();
+        }
+
         subredditSearchMethod = prefs.getInt(PREF_SUBREDDIT_SEARCH_METHOD,
                 Constants.SUBREDDIT_SEARCH_METHOD_DRAWER);
         if(subredditSearchMethod > 3 || subredditSearchMethod < 0){
