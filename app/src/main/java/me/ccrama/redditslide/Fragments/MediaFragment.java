@@ -30,6 +30,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Submission;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -135,10 +137,6 @@ public class MediaFragment extends Fragment {
         if (savedInstanceState != null && savedInstanceState.containsKey("position")) {
             stopPosition = savedInstanceState.getInt("position");
         }
-        if (!firstUrl.isEmpty()) {
-            displayImage(firstUrl);
-        }
-
 
         PopulateShadowboxInfo.doActionbar(s, rootView, getActivity(), true);
 
@@ -148,9 +146,10 @@ public class MediaFragment extends Fragment {
         typeImage.setVisibility(View.VISIBLE);
         View img = rootView.findViewById(R.id.submission_image);
         final SlidingUpPanelLayout slideLayout = ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
+        ContentType.Type type = ContentType.getContentType(s);
 
         img.setAlpha(1f);
-        switch (ContentType.getContentType(s)) {
+        switch (type) {
             case ALBUM:
                 typeImage.setImageResource(R.drawable.album);
                 break;
@@ -172,7 +171,6 @@ public class MediaFragment extends Fragment {
                 break;
         }
 
-        ContentType.Type type = ContentType.getContentType(s);
 
 
         if (!ContentType.fullImage(type)) {
@@ -198,7 +196,7 @@ public class MediaFragment extends Fragment {
                     getActivity(), s);
         }
 
-        doLoad(contentUrl);
+        doLoad(contentUrl, type);
 
         rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -278,8 +276,8 @@ public class MediaFragment extends Fragment {
         mashapeKey = SecretConstants.getImgurApiKey(getContext());
     }
 
-    public void doLoad(final String contentUrl) {
-        switch (ContentType.getContentType(contentUrl)) {
+    public void doLoad(final String contentUrl, ContentType.Type type) {
+        switch (type) {
             case DEVIANTART:
                 doLoadDeviantArt(contentUrl);
                 break;
@@ -427,13 +425,13 @@ public class MediaFragment extends Fragment {
         rootView.findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) rootView.findViewById(R.id.gifprogress);
-        rootView.findViewById(R.id.progress).setVisibility(View.GONE);
         gif = new GifUtils.AsyncLoadGif(getActivity(),
                 (MediaVideoView) rootView.findViewById(R.id.gif), loader,
                 rootView.findViewById(R.id.placeholder), false, false,
                 !(getActivity() instanceof Shadowbox)
                         || ((Shadowbox) (getActivity())).pager.getCurrentItem() == i);
         gif.execute(dat);
+        rootView.findViewById(R.id.progress).setVisibility(View.GONE);
     }
 
     public void doLoadDeviantArt(String url) {
@@ -624,6 +622,8 @@ public class MediaFragment extends Fragment {
             contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
         }
 
+        contentUrl = StringEscapeUtils.unescapeHtml4(contentUrl);
+
         if ((contentUrl != null
                 && !contentUrl.startsWith("https://i.redditmedia.com")
                 && !contentUrl.startsWith("https://i.reddituploads.com")
@@ -685,7 +685,9 @@ public class MediaFragment extends Fragment {
         actuallyLoaded = contentUrl;
     }
 
-    public void displayImage(final String url) {
+    public void displayImage(final String urlB) {
+        final String url = StringEscapeUtils.unescapeHtml4(urlB);
+
         if (!imageShown) {
             actuallyLoaded = url;
             final SubsamplingScaleImageView i =
@@ -695,6 +697,7 @@ public class MediaFragment extends Fragment {
             i.setMinimumTileDpi(240);
             final ProgressBar bar = (ProgressBar) rootView.findViewById(R.id.progress);
             bar.setIndeterminate(false);
+            LogUtil.v("Displaying image " +url);
             bar.setProgress(0);
 
             final Handler handler = new Handler();

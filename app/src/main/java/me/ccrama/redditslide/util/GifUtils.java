@@ -542,7 +542,6 @@ public class GifUtils {
                         }
                     });
                 } else {
-                    LogUtil.v("Progressbar is null is " +(progressBar == null));
                     if (progressBar != null) {
                         c.runOnUiThread(new Runnable() {
                             @Override

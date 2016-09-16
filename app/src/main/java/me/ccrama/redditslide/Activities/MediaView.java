@@ -46,6 +46,8 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -794,7 +796,6 @@ public class MediaView extends FullScreenActivity
         if (contentUrl != null && ContentType.isImgurLink(contentUrl)) {
             contentUrl = contentUrl + ".png";
         }
-
         findViewById(R.id.gifprogress).setVisibility(View.GONE);
 
         if (contentUrl != null && contentUrl.contains("m.imgur.com")) {
@@ -872,8 +873,10 @@ public class MediaView extends FullScreenActivity
         }
     }
 
-    public void displayImage(final String url) {
-        LogUtil.v("Displaying " + url);
+    public void displayImage(final String urlB) {
+        LogUtil.v("Displaying " + urlB);
+        final String url = StringEscapeUtils.unescapeHtml4(urlB);
+
         if (!imageShown) {
             actuallyLoaded = url;
             final SubsamplingScaleImageView i =

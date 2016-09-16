@@ -187,8 +187,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
                 i++;
             }
+            mPage.resetScroll(true);
         }
-        mPage.resetScroll(true);
         if (mContext instanceof BaseActivity) {
             ((BaseActivity) mContext).setShareUrl("https://reddit.com" + submission.getPermalink());
         }
