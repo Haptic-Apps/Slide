@@ -4641,7 +4641,7 @@ public class MainActivity extends BaseActivity
 
                     });
                     colorAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-                    colorAnimation.setDuration(250);
+                    colorAnimation.setDuration(200);
                     colorAnimation.start();
 
                     setRecentBar(selectedSub);
