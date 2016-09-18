@@ -187,10 +187,10 @@
 
     <style parent="swipestyle" name="Theme.AMOLED_lighter">
         <item name="activity_background">#121212</item>
-        <item name="card_background">#212121</item>
+        <item name="card_background">#303030</item>
         <item name="android:colorBackground">#121212</item>
         <item name="md_background_color">#121212</item>
-        <item name="list_background">#212121</item>
+        <item name="list_background">#303030</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
         <item name="font">#FFFFFF</item>
         <item name="tint">#80FFFFFF</item>
