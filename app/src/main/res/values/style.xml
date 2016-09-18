@@ -268,7 +268,7 @@
     </style>
 
     <style parent="swipestylelight" name="Theme.LIGHT">
-        <item name="activity_background">#fafafa</item>
+        <item name="activity_background">#ececec</item>
         <item name="card_background">#FFFFFF</item>
         <item name="list_background">#FFFFFF</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
@@ -280,7 +280,7 @@
         <item name="android:windowBackground">@null</item>
         <item name="actionMenuTextColor">#DE000000</item>
         <item name="android:actionMenuTextColor">#DE000000</item>
-        <item name="android:colorBackground">#fafafa</item>
+        <item name="android:colorBackground">#ececec</item>
         <item name="tp_selectionColor">?android:colorAccent</item>
         <item name="tp_textColor">?attr/font</item>
         <item name="tp_backgroundColor">?attr/card_background</item>
