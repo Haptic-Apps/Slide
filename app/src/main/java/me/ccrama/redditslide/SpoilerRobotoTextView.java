@@ -310,7 +310,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
 
         int start = -1;
         int end;
-        for (int i = 0; i < builder.length() - 4; i++) {
+
+        for (int i = 0; i < builder.length() - 3; i++) {
             if (builder.charAt(i) == '['
                     && builder.charAt(i + 1) == '['
                     && builder.charAt(i + 2) == 'd'
