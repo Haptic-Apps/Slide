@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- From SwipeBackLayout !-->    <style name="SwipeBackLayout">
-    <item name="edge_size">50dip</item>
-    <item name="shadow_left">@drawable/shadow_left</item>
-    <item name="shadow_right">@drawable/shadow_right</item>
-    <item name="shadow_bottom">@drawable/shadow_bottom</item>
-</style>
+    <!-- From SwipeBackLayout !-->
+    <style name="SwipeBackLayout">
+        <item name="edge_size">50dip</item>
+        <item name="shadow_left">@drawable/shadow_left</item>
+        <item name="shadow_right">@drawable/shadow_right</item>
+        <item name="shadow_bottom">@drawable/shadow_bottom</item>
+    </style>
 
     <style name="ActionBarCompat">
         <item name="android:textColorPrimary">@android:color/white</item>
@@ -289,35 +290,35 @@
     <!-- AMOLED Theme Subthemes !-->
 
     <style parent="Theme.AMOLED" name="amber_AMOLED">
-        <item name="colorAccent">@color/md_amber_A700</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <style parent="Theme.AMOLED" name="blue_AMOLED">
-        <item name="colorAccent">@color/md_blue_A700</item>
+        <item name="colorAccent">@color/md_blue_A400</item>
     </style>
 
     <style parent="Theme.AMOLED" name="cyan_AMOLED">
-        <item name="colorAccent">@color/md_cyan_A700</item>
+        <item name="colorAccent">@color/md_cyan_A400</item>
     </style>
 
     <style parent="Theme.AMOLED" name="deeporange_AMOLED">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
+        <item name="colorAccent">@color/md_deep_orange_A400</item>
     </style>
 
     <style parent="Theme.AMOLED" name="green_AMOLED">
-        <item name="colorAccent">@color/md_green_A700</item>
+        <item name="colorAccent">@color/md_green_A400</item>
     </style>
 
     <style parent="Theme.AMOLED" name="indigo_AMOLED">
-        <item name="colorAccent">@color/md_indigo_A700</item>
+        <item name="colorAccent">@color/md_indigo_A400</item>
     </style>
 
     <style parent="Theme.AMOLED" name="lightblue_AMOLED">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
+        <item name="colorAccent">@color/md_light_blue_A400</item>
     </style>
 
     <style parent="Theme.AMOLED" name="lime_AMOLED">
-        <item name="colorAccent">@color/md_lime_A700</item>
+        <item name="colorAccent">@color/md_lime_A400</item>
     </style>
 
     <style parent="Theme.AMOLED" name="pink_amoled">
@@ -325,7 +326,7 @@
     </style>
 
     <style parent="Theme.AMOLED" name="teal_amoled">
-        <item name="colorAccent">@color/md_teal_A200</item>
+        <item name="colorAccent">@color/md_teal_A700</item>
     </style>
 
     <style parent="Theme.AMOLED" name="white_amoled">
@@ -333,41 +334,41 @@
     </style>
 
     <style parent="Theme.AMOLED" name="yellow_AMOLED">
-        <item name="colorAccent">@color/md_yellow_A700</item>
+        <item name="colorAccent">@color/md_yellow_A400</item>
     </style>
 
     <!-- AMOLED with Contrast Theme Subthemes !-->
 
     <style parent="Theme.AMOLED_lighter" name="amber_AMOLED_lighter">
-        <item name="colorAccent">@color/md_amber_A700</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="blue_AMOLED_lighter">
-        <item name="colorAccent">@color/md_blue_A700</item>
+        <item name="colorAccent">@color/md_blue_A400</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="cyan_AMOLED_lighter">
-        <item name="colorAccent">@color/md_cyan_A700</item>
+        <item name="colorAccent">@color/md_cyan_A400</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="deeporange_AMOLED_lighter">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
+        <item name="colorAccent">@color/md_deep_orange_A400</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="green_AMOLED_lighter">
-        <item name="colorAccent">@color/md_green_A700</item>
+        <item name="colorAccent">@color/md_green_A400</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="indigo_AMOLED_lighter">
-        <item name="colorAccent">@color/md_indigo_A700</item>
+        <item name="colorAccent">@color/md_indigo_A400</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="lightblue_AMOLED_lighter">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
+        <item name="colorAccent">@color/md_light_blue_A400</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="lime_AMOLED_lighter">
-        <item name="colorAccent">@color/md_lime_A700</item>
+        <item name="colorAccent">@color/md_lime_A400</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="pink_AMOLED_lighter">
@@ -375,7 +376,7 @@
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="teal_AMOLED_lighter">
-        <item name="colorAccent">@color/md_teal_A400</item>
+        <item name="colorAccent">@color/md_teal_A700</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="white_AMOLED_lighter">
@@ -383,7 +384,7 @@
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="yellow_AMOLED_lighter">
-        <item name="colorAccent">@color/md_yellow_A700</item>
+        <item name="colorAccent">@color/md_yellow_A400</item>
     </style>
 
     <style parent="Theme.AppCompat.Dialog.Alert" name="popup">
@@ -391,7 +392,7 @@
     </style>
 
     <style parent="Theme.AppCompat.Light.NoActionBar" name="swipestylelight">
-        <item name="colorAccent">@color/md_amber_A700</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <style parent="Theme.AppCompat.NoActionBar" name="swipeable">
@@ -400,41 +401,41 @@
     </style>
 
     <style parent="Theme.AppCompat.NoActionBar" name="swipestyle">
-        <item name="colorAccent">@color/md_amber_A700</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <!-- Dark Theme Subthemes !-->
 
     <style parent="Theme.DARK" name="amber_dark">
-        <item name="colorAccent">@color/md_amber_A700</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <style parent="Theme.DARK" name="blue_dark">
-        <item name="colorAccent">@color/md_blue_A700</item>
+        <item name="colorAccent">@color/md_blue_A400</item>
     </style>
 
     <style parent="Theme.DARK" name="cyan_dark">
-        <item name="colorAccent">@color/md_cyan_A700</item>
+        <item name="colorAccent">@color/md_cyan_A400</item>
     </style>
 
     <style parent="Theme.DARK" name="deeporange_dark">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
+        <item name="colorAccent">@color/md_deep_orange_A400</item>
     </style>
 
     <style parent="Theme.DARK" name="green_dark">
-        <item name="colorAccent">@color/md_green_A700</item>
+        <item name="colorAccent">@color/md_green_A400</item>
     </style>
 
     <style parent="Theme.DARK" name="indigo_dark">
-        <item name="colorAccent">@color/md_indigo_A700</item>
+        <item name="colorAccent">@color/md_indigo_A400</item>
     </style>
 
     <style parent="Theme.DARK" name="lightblue_dark">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
+        <item name="colorAccent">@color/md_light_blue_A400</item>
     </style>
 
     <style parent="Theme.DARK" name="lime_dark">
-        <item name="colorAccent">@color/md_lime_A700</item>
+        <item name="colorAccent">@color/md_lime_A400</item>
     </style>
 
     <style parent="Theme.DARK" name="pink_dark">
@@ -442,7 +443,7 @@
     </style>
 
     <style parent="Theme.DARK" name="teal_dark">
-        <item name="colorAccent">@color/md_teal_A200</item>
+        <item name="colorAccent">@color/md_teal_A700</item>
     </style>
 
     <style parent="Theme.DARK" name="white_dark">
@@ -450,41 +451,41 @@
     </style>
 
     <style parent="Theme.DARK" name="yellow_dark">
-        <item name="colorAccent">@color/md_yellow_A700</item>
+        <item name="colorAccent">@color/md_yellow_A400</item>
     </style>
 
     <!-- Night Red Blue Theme Subthemes !-->
 
     <style parent="Theme.NIGHT_RED" name="amber_night_red">
-        <item name="colorAccent">@color/md_amber_A700</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <style parent="Theme.NIGHT_RED" name="blue_night_red">
-        <item name="colorAccent">@color/md_blue_A700</item>
+        <item name="colorAccent">@color/md_blue_A400</item>
     </style>
 
     <style parent="Theme.NIGHT_RED" name="cyan_night_red">
-        <item name="colorAccent">@color/md_cyan_A700</item>
+        <item name="colorAccent">@color/md_cyan_A400</item>
     </style>
 
     <style parent="Theme.NIGHT_RED" name="deeporange_night_red">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
+        <item name="colorAccent">@color/md_deep_orange_A400</item>
     </style>
 
     <style parent="Theme.NIGHT_RED" name="green_night_red">
-        <item name="colorAccent">@color/md_green_A700</item>
+        <item name="colorAccent">@color/md_green_A400</item>
     </style>
 
     <style parent="Theme.NIGHT_RED" name="indigo_night_red">
-        <item name="colorAccent">@color/md_indigo_A700</item>
+        <item name="colorAccent">@color/md_indigo_A400</item>
     </style>
 
     <style parent="Theme.NIGHT_RED" name="lightblue_night_red">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
+        <item name="colorAccent">@color/md_light_blue_A400</item>
     </style>
 
     <style parent="Theme.NIGHT_RED" name="lime_night_red">
-        <item name="colorAccent">@color/md_lime_A700</item>
+        <item name="colorAccent">@color/md_lime_A400</item>
     </style>
 
     <style parent="Theme.NIGHT_RED" name="pink_night_red">
@@ -492,7 +493,7 @@
     </style>
 
     <style parent="Theme.NIGHT_RED" name="teal_night_red">
-        <item name="colorAccent">@color/md_teal_A200</item>
+        <item name="colorAccent">@color/md_teal_A700</item>
     </style>
 
     <style parent="Theme.NIGHT_RED" name="white_night_red">
@@ -500,41 +501,41 @@
     </style>
 
     <style parent="Theme.NIGHT_RED" name="yellow_night_red">
-        <item name="colorAccent">@color/md_yellow_A700</item>
+        <item name="colorAccent">@color/md_yellow_A400</item>
     </style>
 
     <!-- Dark Blue Theme Subthemes !-->
 
     <style parent="Theme.DARK_BLUE" name="amber_blue">
-        <item name="colorAccent">@color/md_amber_A700</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <style parent="Theme.DARK_BLUE" name="blue_blue">
-        <item name="colorAccent">@color/md_blue_A700</item>
+        <item name="colorAccent">@color/md_blue_A400</item>
     </style>
 
     <style parent="Theme.DARK_BLUE" name="cyan_blue">
-        <item name="colorAccent">@color/md_cyan_A700</item>
+        <item name="colorAccent">@color/md_cyan_A400</item>
     </style>
 
     <style parent="Theme.DARK_BLUE" name="deeporange_blue">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
+        <item name="colorAccent">@color/md_deep_orange_A400</item>
     </style>
 
     <style parent="Theme.DARK_BLUE" name="green_blue">
-        <item name="colorAccent">@color/md_green_A700</item>
+        <item name="colorAccent">@color/md_green_A400</item>
     </style>
 
     <style parent="Theme.DARK_BLUE" name="indigo_blue">
-        <item name="colorAccent">@color/md_indigo_A700</item>
+        <item name="colorAccent">@color/md_indigo_A400</item>
     </style>
 
     <style parent="Theme.DARK_BLUE" name="lightblue_blue">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
+        <item name="colorAccent">@color/md_light_blue_A400</item>
     </style>
 
     <style parent="Theme.DARK_BLUE" name="lime_blue">
-        <item name="colorAccent">@color/md_lime_A700</item>
+        <item name="colorAccent">@color/md_lime_A400</item>
     </style>
 
     <style parent="Theme.DARK_BLUE" name="pink_blue">
@@ -542,7 +543,7 @@
     </style>
 
     <style parent="Theme.DARK_BLUE" name="teal_blue">
-        <item name="colorAccent">@color/md_teal_A200</item>
+        <item name="colorAccent">@color/md_teal_A700</item>
     </style>
 
     <style parent="Theme.DARK_BLUE" name="white_blue">
@@ -550,41 +551,41 @@
     </style>
 
     <style parent="Theme.DARK_BLUE" name="yellow_blue">
-        <item name="colorAccent">@color/md_yellow_A700</item>
+        <item name="colorAccent">@color/md_yellow_A400</item>
     </style>
 
     <!-- Light Theme Subthemes !-->
 
     <style parent="Theme.LIGHT" name="amber_LIGHT">
-        <item name="colorAccent">@color/md_amber_A700</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <style parent="Theme.LIGHT" name="blue_LIGHT">
-        <item name="colorAccent">@color/md_blue_A700</item>
+        <item name="colorAccent">@color/md_blue_A400</item>
     </style>
 
     <style parent="Theme.LIGHT" name="cyan_LIGHT">
-        <item name="colorAccent">@color/md_cyan_A700</item>
+        <item name="colorAccent">@color/md_cyan_A400</item>
     </style>
 
     <style parent="Theme.LIGHT" name="deeporange_LIGHT">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
+        <item name="colorAccent">@color/md_deep_orange_A400</item>
     </style>
 
     <style parent="Theme.LIGHT" name="green_LIGHT">
-        <item name="colorAccent">@color/md_green_A700</item>
+        <item name="colorAccent">@color/md_green_A400</item>
     </style>
 
     <style parent="Theme.LIGHT" name="indigo_LIGHT">
-        <item name="colorAccent">@color/md_indigo_A700</item>
+        <item name="colorAccent">@color/md_indigo_A400</item>
     </style>
 
     <style parent="Theme.LIGHT" name="lightblue_LIGHT">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
+        <item name="colorAccent">@color/md_light_blue_A400</item>
     </style>
 
     <style parent="Theme.LIGHT" name="lime_LIGHT">
-        <item name="colorAccent">@color/md_lime_A700</item>
+        <item name="colorAccent">@color/md_lime_A400</item>
     </style>
 
     <style parent="Theme.LIGHT" name="pink_light">
@@ -592,7 +593,7 @@
     </style>
 
     <style parent="Theme.LIGHT" name="teal_light">
-        <item name="colorAccent">@color/md_teal_A200</item>
+        <item name="colorAccent">@color/md_teal_A700</item>
     </style>
 
     <style parent="Theme.LIGHT" name="white_light">
@@ -600,41 +601,41 @@
     </style>
 
     <style parent="Theme.LIGHT" name="yellow_LIGHT">
-        <item name="colorAccent">@color/md_yellow_A700</item>
+        <item name="colorAccent">@color/md_yellow_A400</item>
     </style>
 
     <!--Sepia Theme Subthemes !-->
 
     <style parent="Theme.SEPIA" name="amber_sepia">
-        <item name="colorAccent">@color/md_amber_A700</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <style parent="Theme.SEPIA" name="blue_sepia">
-        <item name="colorAccent">@color/md_blue_A700</item>
+        <item name="colorAccent">@color/md_blue_A400</item>
     </style>
 
     <style parent="Theme.SEPIA" name="cyan_sepia">
-        <item name="colorAccent">@color/md_cyan_A700</item>
+        <item name="colorAccent">@color/md_cyan_A400</item>
     </style>
 
     <style parent="Theme.SEPIA" name="deeporange_sepia">
-        <item name="colorAccent">@color/md_deep_orange_A700</item>
+        <item name="colorAccent">@color/md_deep_orange_A400</item>
     </style>
 
     <style parent="Theme.SEPIA" name="green_sepia">
-        <item name="colorAccent">@color/md_green_A700</item>
+        <item name="colorAccent">@color/md_green_A400</item>
     </style>
 
     <style parent="Theme.SEPIA" name="indigo_sepia">
-        <item name="colorAccent">@color/md_indigo_A700</item>
+        <item name="colorAccent">@color/md_indigo_A400</item>
     </style>
 
     <style parent="Theme.SEPIA" name="lightblue_sepia">
-        <item name="colorAccent">@color/md_light_blue_A700</item>
+        <item name="colorAccent">@color/md_light_blue_A400</item>
     </style>
 
     <style parent="Theme.SEPIA" name="lime_sepia">
-        <item name="colorAccent">@color/md_lime_A700</item>
+        <item name="colorAccent">@color/md_lime_A400</item>
     </style>
 
     <style parent="Theme.SEPIA" name="pink_sepia">
@@ -642,7 +643,7 @@
     </style>
 
     <style parent="Theme.SEPIA" name="teal_sepia">
-        <item name="colorAccent">@color/md_teal_A200</item>
+        <item name="colorAccent">@color/md_teal_A700</item>
     </style>
 
     <style parent="Theme.SEPIA" name="white_sepia">
@@ -650,6 +651,6 @@
     </style>
 
     <style parent="Theme.SEPIA" name="yellow_sepia">
-        <item name="colorAccent">@color/md_yellow_A700</item>
+        <item name="colorAccent">@color/md_yellow_A400</item>
     </style>
 </resources>
