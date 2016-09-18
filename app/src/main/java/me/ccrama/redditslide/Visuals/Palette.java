@@ -152,11 +152,11 @@ public class Palette {
     public ThemeEnum theme;
 
     public enum ThemeEnum {
-        DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
+        DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff"), Color.parseColor("#80ffffff")),
         LIGHT("Light",Color.parseColor("#ececec"), Color.parseColor("#ffffff"), Color.parseColor("#de000000"), Color.parseColor("#8A000000") ),
-        AMOLEDBLACK("Black", Color.parseColor("#000000"), Color.parseColor("#212121"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
+        AMOLEDBLACK("Black", Color.parseColor("#000000"), Color.parseColor("#212121"), Color.parseColor("#ffffff"), Color.parseColor("#80ffffff")),
         SEPIA("Sepia", Color.parseColor("#cac5ad"), Color.parseColor("#e2dfd7"), Color.parseColor("#DE3e3d36"), Color.parseColor("#8A3e3d36")),
-        BLUE("Dark Blue", Color.parseColor("#2F3D44"), Color.parseColor("#37474F"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF"));
+        BLUE("Dark Blue", Color.parseColor("#2F3D44"), Color.parseColor("#37474F"), Color.parseColor("#ffffff"), Color.parseColor("#80ffffff"));
 
         public String getDisplayName() {
             return displayName;
