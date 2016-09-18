@@ -371,11 +371,11 @@
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="pink_AMOLED_lighter">
-        <item name="colorAccent">@color/md_pink_A200</item>
+        <item name="colorAccent">@color/md_pink_A400</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="teal_AMOLED_lighter">
-        <item name="colorAccent">@color/md_teal_A200</item>
+        <item name="colorAccent">@color/md_teal_A400</item>
     </style>
 
     <style parent="Theme.AMOLED_lighter" name="white_AMOLED_lighter">
