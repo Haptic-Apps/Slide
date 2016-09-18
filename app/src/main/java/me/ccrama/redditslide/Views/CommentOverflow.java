@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -178,13 +179,23 @@ public class CommentOverflow extends LinearLayout {
         final String tableRowEnd = "</tr>";
         final String tableColumnStart = "<td>";
         final String tableColumnEnd = "</td>";
+        final String tableColumnStartLeft = "<td align=\"left\">";
+        final String tableColumnStartRight = "<td align=\"right\">";
+        final String tableColumnStartCenter = "<td align=\"center\">";
         final String tableHeaderStart = "<th>";
+        final String tableHeaderStartLeft = "<th align=\"left\">";
+        final String tableHeaderStartRight = "<th align=\"right\">";
+        final String tableHeaderStartCenter = "<th align=\"center\">";
         final String tableHeaderEnd = "</th>";
 
         int i = 0;
         int columnStart = 0;
         int columnEnd;
+        int gravity = Gravity.START;
+        boolean columnStarted = false;
+
         TableRow row = null;
+
         while (i < text.length()) {
             if (text.charAt(i) != '<') { // quick check otherwise it falls through to else
                 i += 1;
@@ -203,9 +214,39 @@ public class CommentOverflow extends LinearLayout {
                 i += tableEnd.length();
             } else if (text.subSequence(i, i + tableHeadEnd.length()).toString().equals(tableHeadEnd)) {
                 i += tableHeadEnd.length();
-            } else if (text.subSequence(i, i + tableColumnStart.length()).toString().equals(tableColumnStart)
-                    || text.subSequence(i, i + tableHeaderStart.length()).toString().equals(tableHeaderStart)) {
+            } else if (!columnStarted && i + tableColumnStart.length() < text.length()
+                    && (text.subSequence(i, i + tableColumnStart.length()).toString().equals(tableColumnStart)
+                    || text.subSequence(i, i + tableHeaderStart.length()).toString().equals(tableHeaderStart))) {
+                columnStarted = true;
+                gravity = Gravity.START;
                 i += tableColumnStart.length();
+                columnStart = i;
+            } else if (!columnStarted && i + tableColumnStartRight.length() < text.length()
+                    && (text.subSequence(i, i + tableColumnStartRight.length()).toString().equals(tableColumnStartRight)
+                    || text.subSequence(i, i + tableHeaderStartRight.length()).toString().equals(tableHeaderStartRight))) {
+                columnStarted = true;
+                gravity = Gravity.END;
+                i += tableColumnStartRight.length();
+                columnStart = i;
+            } else if (!columnStarted && i + tableColumnStartCenter.length() < text.length()
+                    && (text.subSequence(i, i + tableColumnStartCenter.length()).toString().equals(tableColumnStartCenter)
+                    || text.subSequence(i, i + tableHeaderStartCenter.length()).toString().equals(tableHeaderStartCenter))) {
+                columnStarted = true;
+                gravity = Gravity.CENTER;
+                i += tableColumnStartCenter.length();
+                columnStart = i;
+            } else if (!columnStarted && i + tableColumnStartLeft.length() < text.length()
+                    && (text.subSequence(i, i + tableColumnStartLeft.length()).toString().equals(tableColumnStartLeft)
+                    || text.subSequence(i, i + tableHeaderStartLeft.length()).toString().equals(tableHeaderStartLeft))) {
+                columnStarted = true;
+                gravity = Gravity.START;
+                i += tableColumnStartLeft.length();
+                columnStart = i;
+            } else if (text.substring(i).startsWith("<td")) {
+                // case for <td colspan="2"  align="left">
+                // See last table in https://www.reddit.com/r/GlobalOffensive/comments/51s3r8/virtuspro_vs_vgcyberzen_sl_ileague_s2_finals/
+                columnStarted = true;
+                i += text.substring(i).indexOf(">") + 1;
                 columnStart = i;
             } else if (text.subSequence(i, i + tableColumnEnd.length()).toString().equals(tableColumnEnd)
                     || text.subSequence(i, i + tableHeaderEnd.length()).toString().equals(tableHeaderEnd)) {
@@ -215,6 +256,7 @@ public class CommentOverflow extends LinearLayout {
                 textView.setTextHtml(text.subSequence(columnStart, columnEnd), subreddit);
                 setStyle(textView, subreddit);
                 textView.setLayoutParams(COLUMN_PARAMS);
+                textView.setGravity(gravity);
                 if(click != null)
                     textView.setOnClickListener(click);
                 if(longClick != null)
@@ -225,6 +267,7 @@ public class CommentOverflow extends LinearLayout {
                 row.addView(textView);
 
                 columnStart = 0;
+                columnStarted = false;
                 i += tableColumnEnd.length();
             } else {
                 i += 1;

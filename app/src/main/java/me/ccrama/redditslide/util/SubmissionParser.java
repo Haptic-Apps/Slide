@@ -255,13 +255,7 @@ public class SubmissionParser {
                 newBlocks.add(startSeperated[0].trim());
                 for (int i = 1; i < startSeperated.length; i++) {
                     String [] split = startSeperated[i].split(TABLE_END_TAG);
-
-                    newBlocks.add("<table>" + split[0]
-                            .replaceAll("<td.*?>", "<td>")
-                            .replaceAll("<th.*?>", "<th>")
-                            + "</table>"
-                    );
-
+                    newBlocks.add("<table>" + split[0] + "</table>");
                     if (split.length > 1) {
                         newBlocks.add(split[1]);
                     }
