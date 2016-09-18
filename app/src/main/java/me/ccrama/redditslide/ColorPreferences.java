@@ -628,11 +628,11 @@ public class ColorPreferences {
         blue_green(R.style.green_blue, "blue_green", R.color.md_green_A700, 3),
         amoled_light_green(R.style.green_AMOLED_lighter, "amoled_light_green", R.color.md_green_A700, 4),
 
-        dark_teal(R.style.teal_dark, "dark_teal", R.color.md_teal_A200, 0),
-        light_teal(R.style.teal_light, "light_teal", R.color.md_teal_A200, 1),
-        amoled_teal(R.style.teal_amoled, "amoled_teal", R.color.md_teal_A200, 2),
-        blue_teal(R.style.teal_blue, "blue_teal", R.color.md_teal_A200, 3),
-        amoled_light_teal(R.style.teal_AMOLED_lighter, "amoled_light_teal", R.color.md_teal_A200, 4),
+        dark_teal(R.style.teal_dark, "dark_teal", R.color.md_teal_A400, 0),
+        light_teal(R.style.teal_light, "light_teal", R.color.md_teal_A400, 1),
+        amoled_teal(R.style.teal_amoled, "amoled_teal", R.color.md_teal_A400, 2),
+        blue_teal(R.style.teal_blue, "blue_teal", R.color.md_teal_A400, 3),
+        amoled_light_teal(R.style.teal_AMOLED_lighter, "amoled_light_teal", R.color.md_teal_A400, 4),
 
         dark_cyan(R.style.cyan_dark, "dark_cyan", R.color.md_cyan_A700, 0),
         light_cyan(R.style.cyan_LIGHT, "light_cyan", R.color.md_cyan_A700, 1),
