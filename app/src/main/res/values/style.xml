@@ -268,7 +268,7 @@
     </style>
 
     <style parent="swipestylelight" name="Theme.LIGHT">
-        <item name="activity_background">#dedede</item>
+        <item name="activity_background">#fafafa</item>
         <item name="card_background">#FFFFFF</item>
         <item name="list_background">#FFFFFF</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
