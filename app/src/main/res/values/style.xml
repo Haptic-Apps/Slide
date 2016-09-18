@@ -175,8 +175,8 @@
         <item name="md_background_color">#000000</item>
         <item name="list_background">#000000</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
-        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="font">#FFFFFF</item>
+        <item name="tint">#80FFFFFF</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
         <item name="tp_selectionColor">?android:colorAccent</item>
@@ -186,13 +186,13 @@
 
     <style parent="swipestyle" name="Theme.AMOLED_lighter">
         <item name="activity_background">#121212</item>
-        <item name="card_background">#000000</item>
+        <item name="card_background">#212121</item>
         <item name="android:colorBackground">#121212</item>
         <item name="md_background_color">#121212</item>
-        <item name="list_background">#000000</item>
+        <item name="list_background">#212121</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.AMOLED</item>
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
-        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="font">#FFFFFF</item>
+        <item name="tint">#80FFFFFF</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
         <item name="tp_selectionColor">?android:colorAccent</item>
@@ -201,12 +201,12 @@
     </style>
 
     <style parent="swipestyle" name="Theme.DARK">
-        <item name="activity_background">#212121</item>
-        <item name="card_background">#303030</item>
-        <item name="list_background">#212121</item>
+        <item name="activity_background">#303030</item>
+        <item name="card_background">#424242</item>
+        <item name="list_background">#303030</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark</item>
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
-        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="font">#FFFFFF</item>
+        <item name="tint">#80FFFFFF</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
         <item name="tp_selectionColor">?android:colorAccent</item>
@@ -221,8 +221,8 @@
         <item name="md_background_color">#37474F</item>
         <item name="list_background">#263238</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Dark_Blue</item>
-        <item name="font">#DEFFFFFF</item> <!-- 87% white -->
-        <item name="tint">#8AFFFFFF</item> <!-- 54% white -->
+        <item name="font">#FFFFFF</item>
+        <item name="tint">#80FFFFFF</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:alertDialogStyle">@style/AlertDialog.AppCompat</item>
         <item name="tp_selectionColor">?android:colorAccent</item>
@@ -270,7 +270,7 @@
     <style parent="swipestylelight" name="Theme.LIGHT">
         <item name="activity_background">#ececec</item>
         <item name="card_background">#FFFFFF</item>
-        <item name="list_background">#FFFFFF</item>
+        <item name="list_background">#ececec</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
         <item name="font">#DE000000</item> <!-- 87% black -->
         <item name="tint">#8A000000</item> <!-- 54% black -->
