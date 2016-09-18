@@ -269,9 +269,9 @@
     </style>
 
     <style parent="swipestylelight" name="Theme.LIGHT">
-        <item name="activity_background">#ececec</item>
+        <item name="activity_background">#e5e5e5</item>
         <item name="card_background">#FFFFFF</item>
-        <item name="list_background">#ececec</item>
+        <item name="list_background">#e5e5e5</item>
         <item name="bs_bottomSheetStyle">@style/BottomSheet.StyleDialog.Light</item>
         <item name="font">#DE000000</item> <!-- 87% black -->
         <item name="tint">#8A000000</item> <!-- 54% black -->
