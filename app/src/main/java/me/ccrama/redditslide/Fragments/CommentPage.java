@@ -1821,14 +1821,16 @@ public class CommentPage extends Fragment {
         switch (currentSort) {
             case PARENTS:
                 return 0;
-            case TIME:
-                return 2;
-            case GILDED:
-                return 4;
-            case OP:
+            case CHILDREN:
                 return 1;
-            case LINK:
+            case TIME:
                 return 3;
+            case GILDED:
+                return 5;
+            case OP:
+                return 3;
+            case LINK:
+                return 4;
         }
         return 0;
     }

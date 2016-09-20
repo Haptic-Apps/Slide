@@ -59,6 +59,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
@@ -256,7 +257,6 @@ public class MainActivity extends BaseActivity
         } else if (requestCode == 940) {
             if (adapter != null && adapter.getCurrentFragment() != null) {
                 if (resultCode == RESULT_OK) {
-                    LogUtil.v("Doing hide posts");
                     ArrayList<Integer> posts = data.getIntegerArrayListExtra("seen");
                     ((SubmissionsView) adapter.getCurrentFragment()).adapter.refreshView(posts);
                     if (data.hasExtra("lastPage")
@@ -2313,7 +2313,7 @@ public class MainActivity extends BaseActivity
         if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
             findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
-            final String text = subreddit.getDataNode().get("description_html").asText();
+            final String text = subreddit.getDataNode().get("description_html").asText().trim();
             setViews(text, subreddit.getDisplayName(), sidebarBody, sidebarOverflow);
 
             //get all subs that have Notifications enabled
@@ -3729,8 +3729,11 @@ public class MainActivity extends BaseActivity
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (hasFocus) {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                         drawerSubList.smoothScrollToPositionFromTop(1, drawerSearch.getHeight(),
                                 100);
+                    } else {
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     }
                 }
             });

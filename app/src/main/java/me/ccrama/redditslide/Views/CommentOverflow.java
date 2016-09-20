@@ -119,7 +119,6 @@ public class CommentOverflow extends LinearLayout {
                 addView(scrollView);
             } else if(block.equals("<hr/>")) {
                 View line = new View(context);
-                LogUtil.v("Size is " +  Reddit.dpToPxVertical(2));
                 line.setLayoutParams(HR_PARAMS);
                 line.setBackgroundColor(textColor);
                 line.setAlpha(0.6f);

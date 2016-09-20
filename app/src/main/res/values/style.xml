@@ -399,6 +399,22 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
+
+    <style parent="Theme.AppCompat.NoActionBar" name="swipeableweb">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:textColorPrimary">#DE000000</item> <!-- 87% black -->
+        <item name="android:textColorSecondary">#8A000000</item> <!-- 54% black -->
+        <item name="android:textColor">#DE000000</item> <!-- 87% black -->
+        <item name="actionMenuTextColor">#DE000000</item>
+        <item name="android:actionMenuTextColor">#DE000000</item>
+        <item name="android:colorBackground">#dedede</item>
+        <item name="tp_selectionColor">?android:colorAccent</item>
+        <item name="tp_textColor">?attr/font</item>
+        <item name="tp_backgroundColor">?attr/card_background</item>
+
+    </style>
+
     <style parent="Theme.AppCompat.NoActionBar" name="swipestyle">
         <item name="colorAccent">@color/md_amber_A700</item>
     </style>

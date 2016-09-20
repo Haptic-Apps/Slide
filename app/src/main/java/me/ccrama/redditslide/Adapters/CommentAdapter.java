@@ -137,11 +137,13 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         toCollapse = new ArrayList<>();
 
         shifted = 0;
-        doTimes();
     }
 
     public void reset(Context mContext, SubmissionComments dataSet, RecyclerView listView,
             Submission submission, boolean reset) {
+
+        doTimes();
+
         this.mContext = mContext;
         this.listView = listView;
         this.dataSet = dataSet;

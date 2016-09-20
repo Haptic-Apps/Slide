@@ -1121,7 +1121,7 @@ public class SubredditView extends BaseActivity {
             if (subreddit.getSidebar() != null && !subreddit.getSidebar().isEmpty()) {
                 findViewById(R.id.sidebar_text).setVisibility(View.VISIBLE);
 
-                final String text = subreddit.getDataNode().get("description_html").asText();
+                final String text = subreddit.getDataNode().get("description_html").asText().trim();
                 final SpoilerRobotoTextView body =
                         (SpoilerRobotoTextView) findViewById(R.id.sidebar_text);
                 CommentOverflow overflow = (CommentOverflow) findViewById(R.id.commentOverflow);

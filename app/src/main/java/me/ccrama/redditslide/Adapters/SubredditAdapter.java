@@ -137,7 +137,7 @@ public class SubredditAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             } else {
                 holder.body.setVisibility(View.VISIBLE);
                 holder.overflow.setVisibility(View.VISIBLE);
-                setViews(sub.getDataNode().get("public_description_html").asText(), sub.getDisplayName().toLowerCase(), holder.body, holder.overflow);
+                setViews(sub.getDataNode().get("public_description_html").asText().trim(), sub.getDisplayName().toLowerCase(), holder.body, holder.overflow);
             }
 
             try {

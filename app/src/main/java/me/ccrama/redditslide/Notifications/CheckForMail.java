@@ -23,6 +23,7 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.InboxPaginator;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.auth.AUTH;
 
 import java.util.ArrayList;
@@ -132,7 +133,7 @@ public class CheckForMail extends BroadcastReceiver {
                         contentTitle = c.getString(R.string.mail_notification_subreddit,
                                 messages.get(0).getSubject(), messages.get(0).getSubreddit());
                     }
-                    notiStyle.bigText(Html.fromHtml(messages.get(0).getBody()));
+                    notiStyle.bigText(Html.fromHtml(StringEscapeUtils.escapeHtml4(messages.get(0).getDataNode().get("body_html").asText())));
 
                     Notification notification =
                             new NotificationCompat.Builder(c).setContentIntent(intent)
