@@ -65,6 +65,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -2451,89 +2452,99 @@ public class MainActivity extends BaseActivity
                     (AppCompatCheckBox) findViewById(R.id.notify_posts_state);
             assert notifyStateCheckBox != null;
 
-            notifyStateCheckBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (notifyStateCheckBox.isChecked()) {
-                        final String sub = subreddit.getDisplayName();
+            notifyStateCheckBox.setOnCheckedChangeListener(
+                    new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (isChecked) {
+                                final String sub = subreddit.getDisplayName();
 
-                        if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase("frontpage") &&
-                                !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase("mod") &&
-                                !sub.contains("+") && !sub.contains(".") && !sub.contains("/m/")) {
-                            new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
-                                    getString(R.string.sub_post_notifs_title, sub))
-                                    .setMessage(R.string.sub_post_notifs_text)
-                                    .setPositiveButton(R.string.btn_ok,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    new MaterialDialog.Builder(
-                                                            MainActivity.this).title(
-                                                            R.string.sub_post_notifs_threshold)
-                                                            .items(new String[]{
-                                                                    "1", "5", "10", "20", "40", "50"
-                                                            })
-                                                            .alwaysCallSingleChoiceCallback()
-                                                            .itemsCallbackSingleChoice(0,
-                                                                    new MaterialDialog.ListCallbackSingleChoice() {
-                                                                        @Override
-                                                                        public boolean onSelection(
-                                                                                MaterialDialog dialog,
-                                                                                View itemView,
-                                                                                int which,
-                                                                                CharSequence text) {
-                                                                            ArrayList<String> subs =
-                                                                                    Reddit.stringToArray(
-                                                                                            Reddit.appRestart
-                                                                                                    .getString(
-                                                                                                            CheckForMail.SUBS_TO_GET,
-                                                                                                            ""));
-                                                                            subs.add(sub
-                                                                                    + ":"
-                                                                                    + text);
-                                                                            Reddit.appRestart.edit()
-                                                                                    .putString(
-                                                                                            CheckForMail.SUBS_TO_GET,
-                                                                                            Reddit.arrayToString(
-                                                                                                    subs))
-                                                                                    .commit();
-                                                                            return true;
-                                                                        }
+                                if (!sub.equalsIgnoreCase("all") && !sub.equalsIgnoreCase(
+                                        "frontpage") &&
+                                        !sub.equalsIgnoreCase("friends") && !sub.equalsIgnoreCase(
+                                        "mod") &&
+                                        !sub.contains("+") && !sub.contains(".") && !sub.contains(
+                                        "/m/")) {
+                                    new AlertDialogWrapper.Builder(MainActivity.this).setTitle(
+                                            getString(R.string.sub_post_notifs_title, sub))
+                                            .setMessage(R.string.sub_post_notifs_msg)
+                                            .setPositiveButton(R.string.btn_ok,
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                            new MaterialDialog.Builder(
+                                                                    MainActivity.this).title(
+                                                                    R.string.sub_post_notifs_threshold)
+                                                                    .items(new String[]{
+                                                                            "1", "5", "10", "20",
+                                                                            "40", "50"
                                                                     })
-                                                            .cancelable(false)
-                                                            .show();
-                                                }
-                                            })
-                                    .setNegativeButton(R.string.btn_cancel, null)
-                                    .setNegativeButton(R.string.btn_cancel,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                                    notifyStateCheckBox.setChecked(false);
-                                                }
-                                            })
-                                    .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                                        @Override
-                                        public void onCancel(DialogInterface dialog) {
-                                            notifyStateCheckBox.setChecked(false);
-                                        }
-                                    })
-                                    .show();
-                        } else {
-                            notifyStateCheckBox.setChecked(false);
-                            Toast.makeText(MainActivity.this, R.string.sub_post_notifs_err,
-                                    Toast.LENGTH_SHORT).show();
+                                                                    .alwaysCallSingleChoiceCallback()
+                                                                    .itemsCallbackSingleChoice(0,
+                                                                            new MaterialDialog.ListCallbackSingleChoice() {
+                                                                                @Override
+                                                                                public boolean onSelection(
+                                                                                        MaterialDialog dialog,
+                                                                                        View itemView,
+                                                                                        int which,
+                                                                                        CharSequence text) {
+                                                                                    ArrayList<String>
+                                                                                            subs =
+                                                                                            Reddit.stringToArray(
+                                                                                                    Reddit.appRestart
+                                                                                                            .getString(
+                                                                                                                    CheckForMail.SUBS_TO_GET,
+                                                                                                                    ""));
+                                                                                    subs.add(sub
+                                                                                            + ":"
+                                                                                            + text);
+                                                                                    Reddit.appRestart
+                                                                                            .edit()
+                                                                                            .putString(
+                                                                                                    CheckForMail.SUBS_TO_GET,
+                                                                                                    Reddit.arrayToString(
+                                                                                                            subs))
+                                                                                            .commit();
+                                                                                    return true;
+                                                                                }
+                                                                            })
+                                                                    .cancelable(false)
+                                                                    .show();
+                                                        }
+                                                    })
+                                            .setNegativeButton(R.string.btn_cancel, null)
+                                            .setNegativeButton(R.string.btn_cancel,
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                            notifyStateCheckBox.setChecked(false);
+                                                        }
+                                                    })
+                                            .setOnCancelListener(
+                                                    new DialogInterface.OnCancelListener() {
+                                                        @Override
+                                                        public void onCancel(
+                                                                DialogInterface dialog) {
+                                                            notifyStateCheckBox.setChecked(false);
+                                                        }
+                                                    })
+                                            .show();
+                                } else {
+                                    notifyStateCheckBox.setChecked(false);
+                                    Toast.makeText(MainActivity.this, R.string.sub_post_notifs_err,
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Intent cancelIntent =
+                                        new Intent(MainActivity.this, CancelSubNotifs.class);
+                                cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB,
+                                        subreddit.getDisplayName());
+                                startActivity(cancelIntent);
+                            }
                         }
-                    } else {
-                        Intent cancelIntent = new Intent(MainActivity.this, CancelSubNotifs.class);
-                        cancelIntent.putExtra(CancelSubNotifs.EXTRA_SUB,
-                                subreddit.getDisplayName());
-                        startActivity(cancelIntent);
-                    }
-                }
-            });
+                    });
         }
         {
             final TextView subscribe = (TextView) findViewById(R.id.subscribe);
@@ -3729,11 +3740,13 @@ public class MainActivity extends BaseActivity
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
                     if (hasFocus) {
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                        getWindow().setSoftInputMode(
+                                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                         drawerSubList.smoothScrollToPositionFromTop(1, drawerSearch.getHeight(),
                                 100);
                     } else {
-                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+                        getWindow().setSoftInputMode(
+                                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
                     }
                 }
             });
@@ -4854,7 +4867,8 @@ public class MainActivity extends BaseActivity
                 String name = openingComments.getFullName();
                 args.putString("id", name.substring(3, name.length()));
                 args.putBoolean("archived", openingComments.isArchived());
-                args.putBoolean("contest", openingComments.getDataNode().get("contest_mode").asBoolean());
+                args.putBoolean("contest",
+                        openingComments.getDataNode().get("contest_mode").asBoolean());
                 args.putBoolean("locked", openingComments.isLocked());
                 args.putInt("page", currentComment);
                 args.putString("subreddit", openingComments.getSubredditName());

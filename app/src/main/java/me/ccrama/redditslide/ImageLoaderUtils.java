@@ -62,8 +62,6 @@ public class ImageLoaderUtils {
             discCache = new UnlimitedDiskCache(dir);
         }
 
-        final int memory = (int) (Runtime.getRuntime().maxMemory() / 8);
-
         options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
@@ -79,7 +77,6 @@ public class ImageLoaderUtils {
                 .threadPoolSize(4)
                 .imageDownloader(new OkHttpImageDownloader(context))
                 .defaultDisplayImageOptions(options)
-                .imageDownloader(new BaseImageDownloader(context))
                 .build();
 
         if (ImageLoader.getInstance().isInited()) {
