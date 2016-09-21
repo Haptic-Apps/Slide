@@ -2397,12 +2397,18 @@ public class MainActivity extends BaseActivity
                                                                 @Override
                                                                 public void run() {
                                                                     drawerLayout.closeDrawers();
-                                                                    Snackbar.make(mToolbar,
-                                                                            getString(
-                                                                                    R.string.multi_subreddit_added,
-                                                                                    multiName),
-                                                                            Snackbar.LENGTH_LONG)
-                                                                            .show();
+                                                                    Snackbar s =
+                                                                            Snackbar.make(mToolbar,
+                                                                                    getString(
+                                                                                            R.string.multi_subreddit_added,
+                                                                                            multiName),
+                                                                                    Snackbar.LENGTH_LONG);
+                                                                    View view = s.getView();
+                                                                    TextView tv =
+                                                                            (TextView) view.findViewById(
+                                                                                    android.support.design.R.id.snackbar_text);
+                                                                    tv.setTextColor(Color.WHITE);
+                                                                    s.show();
                                                                 }
                                                             });
                                                         } catch (final NetworkException | ApiException e) {
