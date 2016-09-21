@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="swipestyle" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="colorAccent">@color/md_amber_A200</item>
-
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <style name="swipestylelight" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="colorAccent">@color/md_amber_A200</item>
-
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
-
 </resources>

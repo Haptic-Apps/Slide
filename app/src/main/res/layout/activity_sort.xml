@@ -73,8 +73,8 @@
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/md_amber_A700"
-            fab:fab_colorPressed="@color/md_amber_A700"
+            fab:fab_colorNormal="@color/md_amber_A400"
+            fab:fab_colorPressed="@color/md_amber_A400"
             android:id="@+id/sub"
             fab:fab_size="mini"
             fab:fab_title="@string/reorder_fab_subreddit"/>
@@ -82,19 +82,19 @@
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/md_deep_orange_A700"
+            fab:fab_colorNormal="@color/md_deep_orange_A400"
             fab:fab_size="mini"
             android:id="@+id/collection"
             fab:fab_title="@string/reorder_fab_collection"
-            fab:fab_colorPressed="@color/md_deep_orange_A700"/>
+            fab:fab_colorPressed="@color/md_deep_orange_A400"/>
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/md_indigo_A700"
+            fab:fab_colorNormal="@color/md_indigo_A400"
             fab:fab_size="mini"
             fab:fab_title="@string/reorder_fab_domain"
             android:id="@+id/domain"
-            fab:fab_colorPressed="@color/md_indigo_A700"/>
+            fab:fab_colorPressed="@color/md_indigo_A400"/>
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 </RelativeLayout>
