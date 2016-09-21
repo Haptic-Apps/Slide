@@ -18,14 +18,14 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Dialog.Alert</item>
         <item name="android:alertDialogStyle">@style/Theme.AppCompat.Dialog.Alert</item>
-        <item name="colorAccent">@color/md_amber_A200</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <style name="swipestylelight" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowSharedElementsUseOverlay">false</item>
         <item name="android:alertDialogTheme">@style/Theme.AppCompat.Light.Dialog.Alert</item>
         <item name="android:alertDialogStyle">@style/Theme.AppCompat.Light.Dialog.Alert</item>
-        <item name="colorAccent">@color/md_amber_A200</item>
+        <item name="colorAccent">@color/md_amber_A400</item>
     </style>
 
     <!-- When replying or editing a comment, tint the EditText bar -->
