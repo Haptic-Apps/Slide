@@ -24,7 +24,6 @@
   <string name="submission_report">Bericht melden</string>
   <string name="submission_gild">Openen in browser</string>
   <string name="submission_save">Bericht opslaan</string>
-  <string name="submission_share">Bericht delen</string>
   <string name="submission_load_full">Volledige discussie laden</string>
   <string name="submission_np_link">Dit bericht is doorgelinkt. Liever niet stemmen of reageren</string>
   <string name="submission_tap_gif">Tik om GIF te laden</string>
@@ -674,8 +673,6 @@
   <string name="mode_list">Lijst</string>
   <string name="mode_centered">Kaart met gecentreerde afbeelding</string>
   <string name="mode_thumbnail">Miniatuur</string>
-  <string name="mode_big_thumbnails">Grote miniaturen</string>
-  <string name="mode_cropped">Grote bijgesneden afbeelding</string>
   <string name="mode_bigpic">Grote afbeelding</string>
   <string name="press_actionbar">Druk op de pijl om de actiebalk te tonen</string>
   <string name="tap_actionbar">Lang drukken voor de actiebalk</string>

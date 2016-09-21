@@ -21,7 +21,6 @@
   <string name="submission_hide">החבא פוסט</string>
   <string name="submission_report">דווח על הפוסט</string>
   <string name="submission_save">שמור פוסט</string>
-  <string name="submission_share">שתף פוסט</string>
   <string name="submission_load_full">טען שרשור מלא</string>
   <string name="submission_tap_gif">לחץ כדי לטעון את הGIF</string>
   <plurals name="submission_points">

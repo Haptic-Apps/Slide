@@ -18,10 +18,15 @@
 \n\n
 Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="general_pro_msg">Ich habe mich entschieden, ein paar Funktionen von Slide durch das Kaufen der Pro-Version aus dem Play Store verfügbar zu machen. \n\n Das Geld dient dazu, die Entwicklung voran zu bringen und Werbung in der kostenlosen Version zu vermeiden. \n\nDie Funktionen enthalten einen Mehrspaltenmodus, den Shadowbox Modus (Für subreddits mit Bildern), einen Galeriemodus und die Fähigkeit, Backups und Wiederherstellungen bei Google Drive zu tätigen, sowie die Möglichkeit, Bilder zu malen, zuzuschneiden und zu speichern!\n\nMöchtest du Slide für Reddit Pro freischalten?</string>
+  <string name="general_pro_msg_crop">Ich habe mich entschieden ein paar Funktionen von Slide (inklusive zuschneiden von und zeichnen auf Bilder) durch das kaufen eines Pro Keys aus dem Play Store freischaltbar zu machen.\n\nDies ermöglicht die weitere Entwicklung von Slide anstelle von Werbung in der kostenlosen Version!\n\nDie Pro Version enthält einen Mehr-Spalten Modus, Shadowbox Modus (Für Bilder und Subreddits), Galerie Modus, Backups auf Google Drive und in einer Datei und mehr!\n\nMöchtest du Slide for Reddit Pro freischalten?</string>
   <string name="general_open_settings">Seitenleiste</string>
   <string name="general_sub_sync">Subreddits werden synchronisiert</string>
   <string name="general_gallerymode_ispro">Der Galeriemodus ist ein Pro-feature</string>
   <string name="general_cropdraw_ispro">Das Zuschneiden und das Malen auf hochgeladene Bilder ist ein Pro-feature</string>
+  <string name="general_shadowbox_comments_ispro">Shadowbox Modus für Kommentare ist eine Pro Funktion</string>
+  <string name="general_shadowbox_ispro">Shadowbox Modus ist eine Pro Funktion</string>
+  <string name="general_nighttheme_ispro">Automatischer Nacht Modus ist eine Pro Funktion</string>
+  <string name="general_backup_ispro">Einstellungen sichern ist eine Pro Funktion</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">Beitrag nicht mehr gespeichert</string>
   <string name="submission_info_saved">Beitrag gespeichert</string>
@@ -41,7 +46,6 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="submission_gild">Im Browser öffnen</string>
   <string name="submission_save">Beitrag speichern</string>
   <string name="submission_save_image">Bild speichern</string>
-  <string name="submission_share">Beitrag teilen</string>
   <string name="submission_load_full">Den ganzen Beitrag laden</string>
   <string name="submission_np_link">Dies ist ein np-Link. Bitte nicht abstimmen oder kommentieren.</string>
   <string name="submission_tap_gif">Tippe, um das GIF zu laden</string>
@@ -50,7 +54,6 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="submission_copy_text">Text kopieren</string>
   <string name="submission_comment_saved">Kommentar wurde gespeichert</string>
   <string name="submission_comment_unsaved">Kommentar nicht mehr gespeichert</string>
-  <string name="submission_share_permalink">Beitrag teilen</string>
   <string name="submission_comment_copied">Kommentartext kopiert</string>
   <string name="submission_nocontent">Deine Einreichung hat keinen Inhalt</string>
   <string name="submission_link_copied">Link wurde kopiert</string>
@@ -81,6 +84,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="theme_card">Karte</string>
   <string name="theme_sepia">Sepia</string>
   <string name="theme_amoled_contrast">AMOLED mit Kontrast</string>
+  <string name="theme_night">Nacht Modus</string>
   <!-- Font settings -->
   <string name="font_size">Schriftgröße</string>
   <string name="font_size_huge">Riesig</string>
@@ -151,6 +155,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="comment_deleted">[gelöscht]</string>
   <string name="comment_unsave">Nicht mehr speichern</string>
   <string name="comment_load_more">Lade %1$d mehr</string>
+  <string name="comment_load_more_string_new">Lade %1$s mehr</string>
   <string name="comment_loading_more">Mehr Kommentare werden geladen&#8230;</string>
   <string name="comment_permalink">Permalink zum Kommentar laden</string>
   <string name="comment_parent">Übergeordneten Kommentar anzeigen</string>
@@ -169,12 +174,19 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="sorting_old">Alt</string>
   <string name="sorting_controversial">Kontrovers</string>
   <string name="sorting_rising">Aufsteigend</string>
+  <string name="sorting_hour">1 Stunde</string>
+  <string name="sorting_day">24 Stunden</string>
+  <string name="sorting_week">1 Woche</string>
+  <string name="sorting_month">1 Monat</string>
+  <string name="sorting_year">1 Jahr</string>
+  <string name="sorting_all">Aller Zeiten</string>
   <string name="sorting_search_hour">Letzte Stunde</string>
   <string name="sorting_search_day">Letzte 24 Stunden</string>
   <string name="sorting_search_week">Letzte Woche</string>
   <string name="sorting_search_month">Letzten Monat</string>
   <string name="sorting_search_year">Letztes Jahr</string>
   <string name="sorting_search_all">Aller Zeiten</string>
+  <string name="sorting_defaultfor">Standart für /r/%1$s</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">Text</string>
@@ -209,6 +221,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="err_authentication">Anmeldung fehlgeschlagen</string>
   <string name="err_submit_restricted">Dieser Subreddit ist eingeschränkt</string>
   <string name="err_submit_restricted_text">Sie dürfen hier nicht posten, bitte wählen sie ein anderes Subreddit</string>
+  <string name="err_upload_unaccessible">Stelle sicher dass Slide auf das Bild zugreifen kann und versuche es erneut!</string>
   <string name="error_video_not_found">Video nicht gefunden</string>
   <string name="error_video_message">Beim Laden des Videos ist ein Fehler aufgetreten</string>
   <string name="error_album_not_found">Album nicht gefunden</string>
@@ -225,6 +238,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="err_not_valid_backup_msg">Die ausgewählte Datei ist keine gültige Slide Sicherungsdatei</string>
   <string name="err_file_not_found_msg">Die ausgewählte Datei konnte nicht gefunden werden. Stelle sicher, dass sie existiert und die benötigten Berechtigungen vorhanden sind</string>
   <string name="err_comment_post">Hoppla! Dieser Kommentar konnte nicht gesendet werden.</string>
+  <string name="err_comment_post_reason">Grund: %1$s</string>
   <string name="err_comment_post_message">\n\nDeine Nachricht wurde als Entwurf gespeichert. Versuche es später erneut.</string>
   <string name="err_comment_post_copy">Kommentar kopieren</string>
   <string name="err_connection_failed_msg">Die Verbindung zu Reddit konnte nicht hergestellt werden. Bitte überprüfe deine Internetverbindung oder wechsle in den Offline-Modus.</string>
@@ -244,10 +258,12 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="multireddit_create_hint">Multireddit-Name</string>
   <string name="multireddit_invalid_name">Ungültiger Multireddit-Name</string>
   <string name="multireddit_invalid_name_msg">Multireddit-Namen dürfen nur Buchstaben, Zahlen und Unterstriche enthalten.</string>
+  <string name="multi_subreddit_added">Subreddit wurde zu /m/%1$s hinzugefügt</string>
   <string name="multi_error">Es ist ein Fehler aufgetreten, bitte versuchen Sie es später noch einmal</string>
   <string name="btn_import_multi">Multireddit importieren</string>
   <string name="multi_submit_which_sub">Bei welchem Subreddit einreichen?</string>
   <string name="multi_saved_successfully">Erfolgreich gespeichert</string>
+  <string name="delete_multireddit_title">Möchtest di /m/%1$s wirklich löschen?</string>
   <!-- Content types -->
   <string name="type_nsfw_img">NSFW-Bild</string>
   <string name="type_nsfw_gif">NSFW-GIF</string>
@@ -257,6 +273,7 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="type_gif">GIF</string>
   <string name="type_title_only">Titel-Beitrag</string>
   <string name="type_album">Album</string>
+  <string name="type_xkcd">XKCD</string>
   <string name="type_nsfw_album">NSFW-Album</string>
   <string name="type_img">Bild</string>
   <string name="type_vid">Video</string>
@@ -284,9 +301,12 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="mail_hint_body">Nachricht</string>
   <string name="mail_send_to">Schreibe eine Nachricht an %1$s</string>
   <string name="mail_send">Sende eine Nachricht</string>
+  <string name="mail_notification_msg_from">Neue Nachricht von %1$s</string>
+  <string name="mail_notification_msg_via">Neue Nachricht von /r/%1$s</string>
   <string name="mod_mail_notification_msg">Neue Mod-Nachricht von %1$s</string>
   <string name="mail_reply_to">Antworte an %1$s</string>
   <string name="mail_notification_author">%1$s von %2$s</string>
+  <string name="mail_notification_subreddit">%1$s von /r/%2$s</string>
   <string name="mail_theirs">Deren Nachricht anzeigen</string>
   <string name="mail_re">Re: %1$s</string>
   <string name="mail_mark_read">Als gelesen markieren</string>
@@ -412,7 +432,9 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="mod_ban_note_mod">Bemerkung des Moderators (optional)</string>
   <string name="mod_ban_note_user">Nachricht an den Benutzer (optional)</string>
   <string name="mod_ban_time">Zeitraum (in Tagen)</string>
+  <string name="mod_ban_title">Ban /u/%1$s</string>
   <string name="mod_ban_requirements">Ursache und Zeitraum werden benötigt</string>
+  <string name="mod_remove_template">Gelöscht wegen\u0020</string>
   <string name="mod_remove_hint">Ursache für das Entfernen</string>
   <string name="mod_remove_title">Aus welchem Grund soll dieser Beitrag entfernt werden?</string>
   <string name="mod_remove_insert_draft">Entwurf einfügen</string>
@@ -452,6 +474,8 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="search_subreddit">In %1$s suchen</string>
   <string name="search_relevance">Relevanz</string>
   <string name="search_top">Top</string>
+  <string name="search_new">Neu</string>
+  <string name="search_comments">Kommentare</string>
   <!-- Captcha -->
   <string name="captcha">Gib den obenstehenden Code ein</string>
   <string name="captcha_title">Beweise, dass du kein Roboter bist</string>
@@ -757,8 +781,6 @@ Möchten Sie Slide for Reddit unterstützen?</string>
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Karte mit zentrierten Bild</string>
   <string name="mode_thumbnail">Vorschau</string>
-  <string name="mode_big_thumbnails">Große Thumbnails</string>
-  <string name="mode_cropped">Großes Bild, zugeschnitten</string>
   <string name="mode_bigpic">Großes Bild</string>
   <string name="press_actionbar">Pfeil drücken um Actionbar anzuzeigen</string>
   <string name="tap_actionbar">Gedrückt halten um Actionbar anzuzeigen</string>

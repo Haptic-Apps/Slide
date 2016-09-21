@@ -24,13 +24,11 @@
   <string name="submission_report">檢舉貼文</string>
   <string name="submission_gild">在瀏覽器中開啟</string>
   <string name="submission_save">儲存貼文</string>
-  <string name="submission_share">分享貼文</string>
   <string name="submission_load_full">載入所有留言</string>
   <string name="submission_np_link">此為不參與版本，請勿投票或留言。</string>
   <string name="submission_tap_gif">點擊以載入 GIF</string>
   <string name="submission_not_found">呃啊，找不到貼文！</string>
   <string name="submission_not_found_msg">對不起，找不到此貼文</string>
-  <string name="submission_share_permalink">分享貼文</string>
   <plurals name="submission_points">
     <item quantity="other">%d 分</item>
   </plurals>
@@ -609,7 +607,6 @@
   <string name="handling_external_browser">使用外部瀏覽器</string>
   <string name="mode_list">列表</string>
   <string name="mode_centered">圖片顯示於卡片中間</string>
-  <string name="mode_cropped">顯示局部大圖片</string>
   <string name="mode_bigpic">大圖片</string>
   <string name="press_actionbar">按箭嘴以顯示動作列</string>
   <string name="tap_actionbar">長按以顯示動作列</string>

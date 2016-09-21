@@ -14,7 +14,6 @@
   <string name="submission_report">Raporti afiŝon</string>
   <string name="submission_gild">Malfermi en retumilo</string>
   <string name="submission_save">Konservi afiŝon</string>
-  <string name="submission_share">Konigi afiŝon</string>
   <plurals name="submission_points">
     <item quantity="one">%d poento</item>
     <item quantity="other">%d poentoj</item>

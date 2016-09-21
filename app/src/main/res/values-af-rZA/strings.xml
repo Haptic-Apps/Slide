@@ -11,7 +11,6 @@
   <string name="submission_hide">Verberg artikel</string>
   <string name="submission_report">Rapporteer artikel</string>
   <string name="submission_save">Spaar artikel</string>
-  <string name="submission_share">Deel artikel</string>
   <string name="submission_not_found">Oeps, onderwerp nie gevind nie!</string>
   <string name="submission_not_found_msg">Jammer, kon nie onderwerp vind nie</string>
   <plurals name="submission_points">

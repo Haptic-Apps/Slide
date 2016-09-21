@@ -24,7 +24,6 @@
   <string name="submission_report">Signaler la publication</string>
   <string name="submission_gild">Ouvrir dans un navigateur</string>
   <string name="submission_save">Enregistrer la publication</string>
-  <string name="submission_share">Partager la publication</string>
   <string name="submission_load_full">Charger entièrement le fil</string>
   <string name="submission_np_link">Il s\'agit d\'un lien sans participation. Merci de ne pas voter ou commenter.</string>
   <string name="submission_tap_gif">Appuyez pour charger le GIF</string>
@@ -675,8 +674,6 @@
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Carte avec image centrée</string>
   <string name="mode_thumbnail">Vignette</string>
-  <string name="mode_big_thumbnails">Grandes vignettes</string>
-  <string name="mode_cropped">Grandes images recadrées</string>
   <string name="mode_bigpic">Grandes images</string>
   <string name="press_actionbar">Appuyez sur la flèche pour montrer la barre d\'action</string>
   <string name="tap_actionbar">Appui long sur la barre d\'action</string>

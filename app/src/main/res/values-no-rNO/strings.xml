@@ -24,7 +24,6 @@
   <string name="submission_report">Rapporter innlegg</string>
   <string name="submission_gild">Åpne i nettleser</string>
   <string name="submission_save">Lagre post</string>
-  <string name="submission_share">Dele post</string>
   <string name="submission_load_full">Last inn hele tråden</string>
   <string name="submission_np_link">Dette er en nulldeltakelses-link. Vennligst ikke stem eller kommenter</string>
   <string name="submission_tap_gif">Trykk for å laste inn GIF</string>
@@ -580,7 +579,6 @@
   <string name="handling_external_browser">Bruk ekstern nettleser</string>
   <string name="mode_list">Liste</string>
   <string name="mode_centered">Kort med sentrert bilde</string>
-  <string name="mode_cropped">Stort bekjært bilde</string>
   <string name="mode_bigpic">Stort bilde</string>
   <string name="press_actionbar">Press pilen for å vise verktøyslinjen</string>
   <string name="tap_actionbar">Trykk og hold for å vise verktøyslinjen</string>

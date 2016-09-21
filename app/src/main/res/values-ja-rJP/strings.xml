@@ -35,7 +35,6 @@
   <string name="submission_gild">ブラウザーで開く</string>
   <string name="submission_save">投稿を保存</string>
   <string name="submission_save_image">画像を保存</string>
-  <string name="submission_share">投稿を共有</string>
   <string name="submission_load_full">完全なスレッドを読み込む</string>
   <string name="submission_np_link">これは参加リンクがありません。投票やコメントをしないでください。</string>
   <string name="submission_tap_gif">タップすると GIF を読み込みます</string>
@@ -44,7 +43,6 @@
   <string name="submission_copy_text">テキストをコピー</string>
   <string name="submission_comment_saved">保存されたコメント</string>
   <string name="submission_comment_unsaved">保存されていないコメント</string>
-  <string name="submission_share_permalink">投稿を共有</string>
   <string name="submission_comment_copied">コメント テキストをコピーしました</string>
   <string name="submission_nocontent">サブミッションにはコンテンツがありません</string>
   <string name="submission_link_copied">リンクをコピーしました</string>
@@ -146,6 +144,7 @@
   <string name="comment_deleted">[削除済]</string>
   <string name="comment_unsave">未保存</string>
   <string name="comment_load_more">さらに %1$d を読み込む</string>
+  <string name="comment_load_more_string_new">さらに %1$s 読み込む</string>
   <string name="comment_loading_more">追加のコメントを読み込んでいます&#8230;</string>
   <string name="comment_permalink">コメントの固定リンクを読み込む</string>
   <string name="comment_parent">親コメントを表示する</string>
@@ -164,12 +163,19 @@
   <string name="sorting_old">古い</string>
   <string name="sorting_controversial">論争中</string>
   <string name="sorting_rising">上昇中</string>
+  <string name="sorting_hour"> 時間</string>
+  <string name="sorting_day">24 時間</string>
+  <string name="sorting_week">週</string>
+  <string name="sorting_month">月</string>
+  <string name="sorting_year">年</string>
+  <string name="sorting_all">すべての期間</string>
   <string name="sorting_search_hour">過去1時間</string>
   <string name="sorting_search_day">過去24 時間</string>
   <string name="sorting_search_week">過去1週間</string>
   <string name="sorting_search_month">過去 1 カ月</string>
   <string name="sorting_search_year">過去 1 年間</string>
   <string name="sorting_search_all">常時</string>
+  <string name="sorting_defaultfor">/r/%1$s のデフォルト</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">URL</string>
   <string name="editor_text">文字</string>
@@ -221,6 +227,7 @@
   <string name="err_not_valid_backup_msg">選択したファイルは、有効な Slide のバックアップ ファイルではありません</string>
   <string name="err_file_not_found_msg">選択したファイルが見つかりません。ファイルが存在すること、Slide がファイル/フォルダーへのアクセス権限を持っていることを確認してください。</string>
   <string name="err_comment_post">あーらら、このコメント投稿に失敗しました!</string>
+  <string name="err_comment_post_reason">理由: %1$s</string>
   <string name="err_comment_post_message">\n\nあなたのコメントは下書きに保存されました。後でもう一度試してみてください。</string>
   <string name="err_comment_post_copy">コメントをコピーする</string>
   <string name="err_connection_failed_msg">Reddit への接続に失敗しました。インターネット接続を確認してもう一度実行するか、オフライン モードにしてください。</string>
@@ -241,10 +248,12 @@
   <string name="multireddit_invalid_name">Multireddit 名が正しくありません</string>
   <string name="multireddit_invalid_name_msg">Multireddit の名前は、文字、数字、およびアンダー スコアのみ含めることができます。</string>
   <string name="multi_add_to">/r/%s を追加</string>
+  <string name="multi_subreddit_added">Subreddit を /m/%1$s に追加しました</string>
   <string name="multi_error">エラーが発生しました。もう一度やり直してください</string>
   <string name="btn_import_multi">Multireddit のインポート</string>
   <string name="multi_submit_which_sub">どのサブに送信しますか?</string>
   <string name="multi_saved_successfully">正常に保存しました</string>
+  <string name="delete_multireddit_title">削除してもよろしいですか /m/%1$s?</string>
   <!-- Content types -->
   <string name="type_nsfw_img">NSFW 画像</string>
   <string name="type_nsfw_gif">NSFW GIF</string>
@@ -254,6 +263,7 @@
   <string name="type_gif">GIF</string>
   <string name="type_title_only">タイトルの投稿</string>
   <string name="type_album">アルバム</string>
+  <string name="type_xkcd">XKCD</string>
   <string name="type_nsfw_album">NSFWアルバム</string>
   <string name="type_img">画像</string>
   <string name="type_vid">動画</string>
@@ -281,9 +291,12 @@
   <string name="mail_hint_body">本文</string>
   <string name="mail_send_to">%1$s にメッセージを送信</string>
   <string name="mail_send">メッセージを送信</string>
+  <string name="mail_notification_msg_from">%1$s から新しいメッセージ</string>
+  <string name="mail_notification_msg_via">/r/%1$s 経由で新しいメッセージ</string>
   <string name="mod_mail_notification_msg">モデレーター%1$sからメッセージが届いています</string>
   <string name="mail_reply_to">%1$s へ返信</string>
   <string name="mail_notification_author">%2$s から %1$s</string>
+  <string name="mail_notification_subreddit">/r/%2$s 経由で %1$s</string>
   <string name="mail_theirs">彼らのメッセージを表示</string>
   <string name="mail_re">返信: %1$s</string>
   <string name="mail_mark_read">既読にする</string>
@@ -407,12 +420,14 @@
   <string name="mod_ban_note_mod">モデレーターメモ (オプション)</string>
   <string name="mod_ban_note_user">ユーザー メッセージ (オプション)</string>
   <string name="mod_ban_time">禁止時間 (日)</string>
+  <string name="mod_ban_title">/u/%1$s を禁止</string>
   <string name="mod_ban_requirements">理由と時間が必要です</string>
   <string name="mod_remove_template">削除しました\u0020</string>
   <string name="mod_remove_hint">削除の理由</string>
   <string name="mod_remove_title">このサブミッションを削除する理由は何ですか?</string>
   <string name="mod_remove_insert_draft">下書きを挿入</string>
   <string name="mod_flair_none_found">この subreddit のフレアーは見つかりません</string>
+  <string name="mod_approved_by">\u00A0承認者 %1$s</string>
   <string name="mod_distinguish">区別</string>
   <string name="mod_undistinguish">区別解除</string>
   <string name="mod_sticky">付箋を付ける</string>
@@ -486,6 +501,8 @@
   <string name="settings_fabclear">FAB 消去操作</string>
   <string name="settings_notifdisabled">通知を無効にしました。</string>
   <string name="settings_colored_navigation_bar">色のナビゲーション バー</string>
+  <string name="settings_colored_icon">カラー アプリアイコン (実験的)</string>
+  <string name="settings_colored_icon_desc">動作するために携帯電話の再起動が必要になります。またホーム画面からアイコンが削除されます。</string>
   <string name="settings_filter_domain">ドメイン フィルター</string>
   <string name="settings_filter_selfttext">Selftext フィルター</string>
   <string name="settings_filter_title">タイトル フィルター</string>
@@ -543,6 +560,7 @@
   <string name="settings_comment_collapse_description">コメントのアニメーションも無効にします</string>
   <string name="settings_comment_collapse_default">デフォルトで子コメントを畳む</string>
   <string name="settings_data_enable">データ節約設定を有効にする</string>
+  <string name="settings_backup_occurs">バックアップを行います %1$s</string>
   <string name="settings_backup_none">Subreddit はバックアップされません</string>
   <string name="settings_backup_will_backup">\u0020をバックアップします</string>
   <string name="settings_backup_submission_only">サブミッションのみ</string>
@@ -592,6 +610,7 @@
   <string name="settings_backup_include_personal_title">個人情報を含めますか?</string>
   <string name="settings_backup_include_personal_text">これは、認証トークン、ユーザー名、タグ、履歴を含みます</string>
   <string name="settings_backup_view">バックアップを表示</string>
+  <string name="settings_backup_err_no_explorer">ファイルエクスプローラーが見つかりません。ファイルの場所は %1$s</string>
   <string name="settings_about_version_copied_toast">バージョン番号をクリップボードにコピーしました</string>
   <string name="settings_about_stacktrace_copied_toast">スタックトレースをクリップボードにコピーしました</string>
   <string name="settings_support_slide">Pro 版に移行して Slide for Reddit をサポート!</string>
@@ -612,6 +631,7 @@
   <string name="subreddit_search_method_both">ドロワーとツールバーのタイトルの両方</string>
   <!-- Subscription managing -->
   <string name="reorder_add_domain">ドメインを追加</string>
+  <string name="reorder_add_subreddit">Subreddit を追加</string>
   <string name="reorder_fab_collection">コレクション</string>
   <string name="reorder_fab_domain">ドメイン</string>
   <string name="reorder_fab_subreddit">Subreddit</string>
@@ -621,6 +641,8 @@
   <string name="reorder_move">先頭に移動</string>
   <string name="reorder_domain_placeholder">\u0020(ドメイン名のみ)</string>
   <string name="reorder_not_found_err">Subreddit が見つかりません。いくつかの提案があります</string>
+  <string name="reorder_subscribed_toast">/r/%1$s に登録しました</string>
+  <string name="reorder_unsubscribed_toast">/r/%1$s から登録解除しました</string>
   <string name="sorting_faq"><b>Subreddit を更新する方法は?</b>\nSubreddit を更新するには、ツールバーの更新アイコンをクリックしてください!\n\n<b>いくつかの Subreddit の購読を解除しましたが、まだリストに残っています!</b>\nSlide はブラウザーから購読を解除したサブをカジュアルな購読に変換します。それを削除するには、Subreddit の上で長押しして、削除をクリックしてください!\n\n<b>コレクションの使用方法は?</b>\nコレクションを作成するには、+ FAB をクリックして、「コレクションを作成」を選択します。これにより、メイン画面に 1 つの Subreddit として動作する複数のサブを持つことができます!</string>
   <string name="FAQ">よくある質問</string>
   <string name="alphabetize_subreddits">サブレディットをアルファベット順に並び替え</string>
@@ -633,6 +655,8 @@
   <string name="add_to_subs">購読に追加</string>
   <string name="sub_added">Subreddit を追加しました!</string>
   <string name="reorder_subs_FAQ">Subreddit FAQ の順序を変更</string>
+  <string name="subscribe_to">/r/%1$s に登録</string>
+  <string name="unsubscribe_from">/r/%1$s から登録解除</string>
   <string name="btn_add_to_sublist">サブリストに追加</string>
   <string name="btn_remove_from_sublist">サブリストから削除</string>
   <string name="just_unsub">購読解除だけ</string>
@@ -701,6 +725,7 @@
   <string name="offline_comments_not_loaded">オンラインに戻って、3 ドット メニューから \'コメントのキャッシュ\' を選択すると、オフラインでコメントを表示します。</string>
   <string name="offline_no_content_found">オフライン コンテンツは見つかりません</string>
   <string name="offline_enter_online">オンライン モードにする</string>
+  <string name="offline_caching_title">キャッシュ中 %1$s</string>
   <string name="offline_caching_complete">キャッシュを完了しました</string>
   <!-- Website -->
   <string name="website_back">戻る</string>
@@ -758,13 +783,18 @@
   <string name="discover_popular">人気</string>
   <string name="discover_trending">上昇中</string>
   <!-- Subreddit post notifiactions -->
+  <string name="sub_post_notifs_title">次の新しい投稿を通知しますか\n/r/%1$s?</string>
+  <string name="sub_post_notifs_title_settings">新しい投稿を通知しますか?</string>
   <string name="sub_post_notifs_menu">新しい投稿を通知する</string>
+  <string name="sub_post_notify">通知</string>
   <string name="sub_post_notifs_text">Slide は新しい投稿を 10 分ごとに確認します。投稿の通知でこれを取り消すことができます</string>
   <string name="sub_post_notifs_threshold">スコアのしきい値</string>
   <string name="sub_post_notifs_err">単一の Subreddit に対してのみ通知を追加することができます</string>
   <string name="sub_post_notifs_settings_none">通知する Subreddit はありません</string>
   <string name="sub_post_notifs_settings_title">チェックする Subreddit</string>
   <string name="sub_post_notifs_settings_search">サブ名を検索</string>
+  <string name="sub_post_notifs_notification_title">/r/%1$s に新しい投稿</string>
+  <string name="sub_post_notifs_notification_btn">/r/%1$s の追跡を停止</string>
   <string name="title_sub_post_notifs">Subreddit 投稿の通知</string>
   <!-- Internal browser -->
   <string name="internal_browser_extracting_error">申し訳ありません。記事を抽出できませんでした</string>
@@ -774,11 +804,13 @@
   <!-- Live thread -->
   <string name="livethread_loading_title">ライブスレッドの読み込み中&#8230;</string>
   <string name="livethread_not_found">ライブスレッドが見つかりません</string>
+  <string name="livethread_recents_title">ライブスレッド: %1$s</string>
   <!-- Used when viewing media -->
   <string name="mediaview_notif_title">画像をダウンロード中&#8230;</string>
   <string name="mediaview_notif_text">ダウンロードが進行中</string>
   <string name="mediaview_converting_fail">Gfycat の gif 変換が動作しません</string>
   <string name="mediaview_converting_fail_btn">Web で開く</string>
+  <string name="mediaview_save">%1$s を保存</string>
   <string name="mediaview_saving">保存中</string>
   <!-- Drafts -->
   <string name="draft_saving">下書きの保存中</string>
@@ -824,12 +856,16 @@
   <string name="snackbar_flair_success">フレアを正常に設定しました</string>
   <string name="snackbar_flair_error">フレアの設定時にエラーが発生しました。もう一度やり直してください</string>
   <string name="sidebar_submods">/r/%s mods</string>
+  <string name="sidebar_flair">フレア: %1$s</string>
   <string name="sidebar_notfound">サイドバーが見つかりません</string>
   <plurals name="reorder_selected">
     <item quantity="other">"%d 選択済"</item>
   </plurals>
   <!--Filtering dialog -->
   <string name="filter_title">何をフィルターしますか?</string>
+  <string name="filter_posts_sub">/r/%1$s から投稿</string>
+  <string name="filter_posts_user">/u/%1$s による投稿</string>
+  <string name="filter_posts_urls">%1$s にリンクしている投稿</string>
   <string name="filter_open_externally">%s URL を外部で開く</string>
   <string name="filter_posts_flair">%2$s からのフレア \"%1$s\"</string>
   <string name="filter_btn">フィルター</string>
@@ -867,8 +903,6 @@
   <string name="mode_centered">中央に画像のあるカード</string>
   <string name="mode_card">カード</string>
   <string name="mode_thumbnail">サムネイル</string>
-  <string name="mode_big_thumbnails">大きなサムネイル</string>
-  <string name="mode_cropped">大型の画像を切り取りました</string>
   <string name="mode_bigpic">大型の画像</string>
   <string name="press_actionbar">矢印を押してアクションバーを表示します</string>
   <string name="tap_actionbar">アクションバーの長押し</string>
@@ -981,4 +1015,9 @@
   <string name="pro_previews">プレビュー (%d)</string>
   <string name="draw_undo">元に戻す</string>
   <string name="empty_preview_text">ここに表示するものはありません ¯\\_(ツ)_/¯</string>
+  <string name="low_quality_through_imgur_higher_resolution">Imgur による低品質 (高解像度)</string>
+  <string name="low_quality_through_reddit_lower_resolution">Reddit による低品質 (低解像度)</string>
+  <string name="theme_red_shift">レッドシフト</string>
+  <string name="view_sub_sidebar">サブ サイドバーを表示</string>
+  <string name="mod_log">Mod ログ</string>
 </resources>

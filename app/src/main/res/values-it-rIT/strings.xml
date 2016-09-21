@@ -24,7 +24,6 @@
   <string name="submission_report">Segnala post</string>
   <string name="submission_gild">Apri nel browser</string>
   <string name="submission_save">Salva post</string>
-  <string name="submission_share">Condividi post</string>
   <string name="submission_load_full">Carica discussione completa</string>
   <string name="submission_np_link">Questo è un link senza partecipazione. Per favore non votare o commentare.</string>
   <string name="submission_tap_gif">Fai tap per caricare una GIF</string>
@@ -671,8 +670,6 @@
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Card con immagine centrata</string>
   <string name="mode_thumbnail">Miniatura</string>
-  <string name="mode_big_thumbnails">Miniature grandi</string>
-  <string name="mode_cropped">Immagine grande tagliata</string>
   <string name="mode_bigpic">Immagine grande</string>
   <string name="press_actionbar">Premi freccia per mostrare la barra azioni</string>
   <string name="tap_actionbar">Premi e mantieni per la barra azioni</string>

@@ -24,7 +24,6 @@
   <string name="submission_report">Сообщить о посте</string>
   <string name="submission_gild">Открыть в браузере</string>
   <string name="submission_save">Сохранить пост</string>
-  <string name="submission_share">Поделиться постом</string>
   <string name="submission_load_full">Загрузить полное обсуждение</string>
   <string name="submission_np_link">Здесь нету ссылки для участия. Пожалуйста, не голосуйте или комментируйте</string>
   <string name="submission_tap_gif">Нажмите для загрузки GIF</string>

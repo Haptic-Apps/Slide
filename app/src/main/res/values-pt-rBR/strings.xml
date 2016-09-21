@@ -24,13 +24,11 @@
   <string name="submission_report">Denunciar post</string>
   <string name="submission_gild">Abrir no navegador</string>
   <string name="submission_save">Salvar post</string>
-  <string name="submission_share">Compartilhar post</string>
   <string name="submission_load_full">Carregar todo o conteúdo</string>
   <string name="submission_np_link">Este é um link de não participação. Por favor, não vote ou comente.</string>
   <string name="submission_tap_gif">Toque para carregar GIF</string>
   <string name="submission_not_found">Opa, post não encontrado!</string>
   <string name="submission_not_found_msg">Desculpe, este post não pôde ser encontrado</string>
-  <string name="submission_share_permalink">Compartilhar post</string>
   <plurals name="submission_points">
     <item quantity="one">%d ponto</item>
     <item quantity="other">%d pontos</item>
@@ -641,7 +639,6 @@
   <string name="handling_external_browser">Usar navegador externo</string>
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Cartão com imagem centralizada</string>
-  <string name="mode_cropped">Imagem grande cortada</string>
   <string name="mode_bigpic">Imagem grande</string>
   <string name="press_actionbar">Pressione a seta para mostrar a barra de ações</string>
   <string name="tap_actionbar">Aperte e segure para a barra de ações</string>

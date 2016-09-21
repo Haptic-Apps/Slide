@@ -24,7 +24,6 @@
   <string name="submission_report">Bejegyzés jelentése</string>
   <string name="submission_gild">Megnyitás böngészőben</string>
   <string name="submission_save">Bejegyzés mentése</string>
-  <string name="submission_share">Bejegyzés megosztása</string>
   <string name="submission_load_full">Teljes szál betöltése</string>
   <string name="submission_tap_gif">Érintsd meg a GIF betöltéséhez</string>
   <string name="submission_not_found">Ajjaj, a bejegyzés nem található!</string>
@@ -558,7 +557,6 @@
   <string name="handling_external_browser">Külső böngésző használata</string>
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Kártya középre igazított képpel</string>
-  <string name="mode_cropped">Nagy kép levágva</string>
   <string name="mode_bigpic">Nagy kép</string>
   <string name="sub_content_filter">Alreddit tartalomszűrő</string>
   <string name="submission_share_reddit_url">Hozzászólások megosztása</string>

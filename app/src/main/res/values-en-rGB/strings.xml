@@ -35,7 +35,6 @@
   <string name="submission_gild">Open in browser</string>
   <string name="submission_save">Save post</string>
   <string name="submission_save_image">Save image</string>
-  <string name="submission_share">Share post</string>
   <string name="submission_load_full">Load full thread</string>
   <string name="submission_np_link">This is a no participation link. Please don\'t vote or comment</string>
   <string name="submission_tap_gif">Tap to load GIF</string>
@@ -480,6 +479,7 @@
   <string name="settings_fabclear">FAB clear actions</string>
   <string name="settings_notifdisabled">Notifications disabled</string>
   <string name="settings_colored_navigation_bar">Coloured navigation bar</string>
+  <string name="settings_colored_icon">Colour app icon (experimental)</string>
   <string name="settings_filter_domain">Domain filters</string>
   <string name="settings_filter_selfttext">Selftext filters</string>
   <string name="settings_filter_title">Title filters</string>
@@ -858,8 +858,6 @@
   <string name="mode_list">List</string>
   <string name="mode_centered">Card with centred image</string>
   <string name="mode_thumbnail">Thumbnail</string>
-  <string name="mode_big_thumbnails">Big Thumbnails</string>
-  <string name="mode_cropped">Big picture cropped</string>
   <string name="mode_bigpic">Big picture</string>
   <string name="press_actionbar">Press arrow to show actionbar</string>
   <string name="tap_actionbar">Long press for actionbar</string>

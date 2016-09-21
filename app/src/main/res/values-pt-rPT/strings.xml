@@ -24,7 +24,6 @@
   <string name="submission_report">Denunciar postagem</string>
   <string name="submission_gild">Abrir no browser</string>
   <string name="submission_save">Salvar postagem</string>
-  <string name="submission_share">Partilhar postagem</string>
   <string name="submission_load_full">Carregar o tópico completamente</string>
   <string name="submission_np_link">Este é um link de não participação. Por favor, não votar ou comentar</string>
   <string name="submission_tap_gif">Toque para carregar o GIF</string>
@@ -597,7 +596,6 @@
   <string name="handling_external_browser">Usar navegador externo</string>
   <string name="mode_list">Lista</string>
   <string name="mode_centered">Cartão com imagem centrada</string>
-  <string name="mode_cropped">Imagem grande cortada</string>
   <string name="mode_bigpic">Imagem grande</string>
   <string name="press_actionbar">Pressione a seta para mostrar a barra de ações</string>
   <string name="tap_actionbar">Aperte e segure para a barra de ações</string>

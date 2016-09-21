@@ -24,7 +24,6 @@
   <string name="submission_report">Reportați postarea</string>
   <string name="submission_gild">Deschide în browser</string>
   <string name="submission_save">Salvați postarea</string>
-  <string name="submission_share">Distribuiți postarea</string>
   <string name="submission_load_full">Încărcați thread complet</string>
   <string name="submission_np_link">Acesta este un link fără participare. Va rugăm sa nu votați sau să comentați.</string>
   <string name="submission_tap_gif">Apasă pentru a salva</string>
@@ -550,7 +549,6 @@
   <string name="handling_external_browser">Deschide în browser extern</string>
   <string name="mode_list">Listă</string>
   <string name="mode_centered">Card cu imagine centrată</string>
-  <string name="mode_cropped">Imagine mare tăiată</string>
   <string name="mode_bigpic">Imagine mare</string>
   <string name="tap_actionbar">Apasă lung pentru bara de acțiuni</string>
   <string name="always_actionbar">Arată mereu bara de acțiuni</string>

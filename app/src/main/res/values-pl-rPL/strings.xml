@@ -36,7 +36,6 @@
   <string name="submission_gild">Otwórz w przeglądarce</string>
   <string name="submission_save">Zapisz post</string>
   <string name="submission_save_image">Zapisz obraz</string>
-  <string name="submission_share">Udostępnij post</string>
   <string name="submission_load_full">Załaduj pełny wątek</string>
   <string name="submission_np_link">Jest to link np. Proszę, nie głosuj lub komentuj</string>
   <string name="submission_tap_gif">Naciśnij, aby załadować GIFa</string>
@@ -45,7 +44,6 @@
   <string name="submission_copy_text">Skopiuj tekst</string>
   <string name="submission_comment_saved">Komentarz zapisany</string>
   <string name="submission_comment_unsaved">Komentarz wypisany</string>
-  <string name="submission_share_permalink">Udostępnij post</string>
   <string name="submission_comment_copied">Tekst komentarza skopiowany</string>
   <string name="submission_nocontent">Post nie ma zawartości</string>
   <string name="submission_link_copied">Link skopiowany</string>
@@ -155,6 +153,7 @@
   <string name="comment_deleted">[usunięte]</string>
   <string name="comment_unsave">Wypisz</string>
   <string name="comment_load_more">Załaduj %1$d więcej</string>
+  <string name="comment_load_more_string_new">Załaduj %1$s więcej</string>
   <string name="comment_loading_more">Ładowanie więcej komentarzy&#8230;</string>
   <string name="comment_permalink">Załaduj permalink komentarza</string>
   <string name="comment_parent">Pokaż komentarz nadrzędny</string>
@@ -173,12 +172,19 @@
   <string name="sorting_old">Stare</string>
   <string name="sorting_controversial">Kontrowersyjne</string>
   <string name="sorting_rising">Wschodzące</string>
+  <string name="sorting_hour">godzina</string>
+  <string name="sorting_day">24 godziny</string>
+  <string name="sorting_week">tydzień</string>
+  <string name="sorting_month">miesiąc</string>
+  <string name="sorting_year">rok</string>
+  <string name="sorting_all">cały czas</string>
   <string name="sorting_search_hour">Ostatnia godzina</string>
   <string name="sorting_search_day">Ostatnie 24 godziny</string>
   <string name="sorting_search_week">Ostatni tydzień</string>
   <string name="sorting_search_month">Ostatni miesiąc</string>
   <string name="sorting_search_year">Ostatni rok</string>
   <string name="sorting_search_all">Od początku</string>
+  <string name="sorting_defaultfor">Domyślnie dla /r/%1$s</string>
   <!-- Editor (save/submit a post) actions -->
   <string name="editor_url">Link</string>
   <string name="editor_text">Tekst</string>
@@ -230,6 +236,7 @@
   <string name="err_not_valid_backup_msg">Wybrany plik nie jest poprawnym plikiem kopii zapasowej Slide</string>
   <string name="err_file_not_found_msg">Wybrany plik nie mógł zostać znaleziony. Upewnij się, że istnieje i że Slide ma pozwolenie na dostęp to tego pliku/folderu</string>
   <string name="err_comment_post">Oj, dodanie komentarza nie powiodło się!</string>
+  <string name="err_comment_post_reason">Powód: %1$s</string>
   <string name="err_comment_post_message">\n\nTwoja wiadomość została zapisana jako szkic. Spróbuj ponownie później.</string>
   <string name="err_comment_post_copy">Skopiuj komentarz</string>
   <string name="err_connection_failed_msg">Połączenie z Redditem nie udało się. Proszę, sprawdź swoje połączenie i spróbuj ponownie, lub przejdź w tryb offline.</string>
@@ -250,10 +257,12 @@
   <string name="multireddit_invalid_name">Nieprawidłowa nazwa multireddita</string>
   <string name="multireddit_invalid_name_msg">Nazwy multiredditów mogą zawierać tylko litery, cyfry i podkreślniki</string>
   <string name="multi_add_to">Dodaj /r/%s do</string>
+  <string name="multi_subreddit_added">Subreddit dodany do /m/%1$s</string>
   <string name="multi_error">Wystąpił błąd, proszę spróbować później</string>
   <string name="btn_import_multi">Zaimportuj multireddit</string>
   <string name="multi_submit_which_sub">Do którego subreddita chcesz wysłać post?</string>
   <string name="multi_saved_successfully">Zapisano pomyślnie</string>
+  <string name="delete_multireddit_title">Czy na pewno chcesz usunąć /m/%1$s?</string>
   <!-- Content types -->
   <string name="type_nsfw_img">Obraz NSFW</string>
   <string name="type_nsfw_gif">GIF NSFW</string>
@@ -263,6 +272,7 @@
   <string name="type_gif">GIF</string>
   <string name="type_title_only">Tytuł postu</string>
   <string name="type_album">Album</string>
+  <string name="type_xkcd">XKCD</string>
   <string name="type_nsfw_album">Album NSFW</string>
   <string name="type_img">Obraz</string>
   <string name="type_vid">Wideo</string>
@@ -290,9 +300,12 @@
   <string name="mail_hint_body">Treść</string>
   <string name="mail_send_to">Wyślij wiadomość do %1$s</string>
   <string name="mail_send">Wyślij wiadomość</string>
+  <string name="mail_notification_msg_from">Nowa wiadomość od %1$s</string>
+  <string name="mail_notification_msg_via">Nowa wiadomość przez /r/%1$s</string>
   <string name="mod_mail_notification_msg">Nowy modmail od %1$s</string>
   <string name="mail_reply_to">Odpowiedz %1$s</string>
   <string name="mail_notification_author">%1$s od %2$s</string>
+  <string name="mail_notification_subreddit">%1$s przez /r/%2$s</string>
   <string name="mail_theirs">Zobacz wiadomość</string>
   <string name="mail_re">re: %1$s</string>
   <string name="mail_mark_read">Oznacz jako przeczytane</string>
@@ -420,12 +433,14 @@
   <string name="mod_ban_note_mod">Notka dla moderatorów (opcjonalnie)</string>
   <string name="mod_ban_note_user">Notka dla użytkownika (opcjonalnie)</string>
   <string name="mod_ban_time">Czas bana (dni)</string>
+  <string name="mod_ban_title">Zbanuj /u/%1$s</string>
   <string name="mod_ban_requirements">Powód i czas są wymagane</string>
   <string name="mod_remove_template">Usunięty za\u0020</string>
   <string name="mod_remove_hint">Powód usunięcia</string>
   <string name="mod_remove_title">Jaki jest powód usunięcia tego postu?</string>
   <string name="mod_remove_insert_draft">Wstaw szkic</string>
   <string name="mod_flair_none_found">Nie znaleziono flar dla tego subredita</string>
+  <string name="mod_approved_by">\u00A0Zatwierdzone przez %1$s</string>
   <string name="mod_distinguish">Wyróżnij</string>
   <string name="mod_undistinguish">Cofnij wyróżnienie</string>
   <string name="mod_sticky">Przypnij</string>
@@ -501,6 +516,8 @@
   <string name="settings_fabclear">Akcje chowania dla przycisku FAB</string>
   <string name="settings_notifdisabled">Powiadomienia wyłączone</string>
   <string name="settings_colored_navigation_bar">Kolorowany pasek nawigacji</string>
+  <string name="settings_colored_icon">Kolor ikony aplikacji (eksperymentalne)</string>
+  <string name="settings_colored_icon_desc">Może wymagać ponownego uruchomienia telefonu. Usunie to również ikonę z twojego ekranu głownego.</string>
   <string name="settings_filter_domain">Filtry domen</string>
   <string name="settings_filter_selfttext">Filtry tekstu</string>
   <string name="settings_filter_title">Filtry tytułów</string>
@@ -558,6 +575,7 @@
   <string name="settings_comment_collapse_description">Wyłącza również animacje komentarzy</string>
   <string name="settings_comment_collapse_default">Domyślnie zwijaj komentarze</string>
   <string name="settings_data_enable">Włącz ustawienia oszczędzania</string>
+  <string name="settings_backup_occurs">Kopia zostanie wykonana o %1$s</string>
   <string name="settings_backup_none">Żaden subreddit nie zostanie skopiowany</string>
   <string name="settings_backup_will_backup">\u0020zostanie skopiowany</string>
   <string name="settings_backup_submission_only">tylko posty</string>
@@ -607,6 +625,7 @@
   <string name="settings_backup_include_personal_title">Zawrzeć informacje osobiste?</string>
   <string name="settings_backup_include_personal_text">Zawiera to tokeny uwierzytelniania, nazwy użytkownika, tagi i historię</string>
   <string name="settings_backup_view">Zobacz kopię zapasową</string>
+  <string name="settings_backup_err_no_explorer">Nie znaleziono przeglądarki plików, plik w %1$s</string>
   <string name="settings_about_version_copied_toast">Numer wersji skopiowany do schowka</string>
   <string name="settings_about_stacktrace_copied_toast">Stacktrace skopiowany do schowka</string>
   <string name="settings_support_slide">Wesprzyj Slide kupując Pro!</string>
@@ -627,6 +646,7 @@
   <string name="subreddit_search_method_both">Pasek boczny i pasek narzędzi</string>
   <!-- Subscription managing -->
   <string name="reorder_add_domain">Dodaj domenę</string>
+  <string name="reorder_add_subreddit">Dodaj subreddita</string>
   <string name="reorder_fab_collection">Kolekcja</string>
   <string name="reorder_fab_domain">Domena</string>
   <string name="reorder_fab_subreddit">Subreddit</string>
@@ -636,6 +656,8 @@
   <string name="reorder_move">Przenieś do góry</string>
   <string name="reorder_domain_placeholder">\u0020(tylko nazwa domeny)</string>
   <string name="reorder_not_found_err">Nie znaleziono subreddita, kilka sugestii</string>
+  <string name="reorder_subscribed_toast">Zasubskrybowano /r/%1$s</string>
+  <string name="reorder_unsubscribed_toast">Odsubskrybowano /r/%1$s</string>
   <string name="sorting_faq"><b>Jak odświeżyć subreddity?</b>\nBy odświeżyć subreddity, kliknij ikonkę odświeżenia w toolbarze!\n\n<b>Odsubskrybowałem kilka subredditów, ale nadal są one na liście!</b>\nSlide zostawi subreddit, lecz go nie usunie z listy. By je usunąć, przytrzymaj na subreddicie i kliknij usuń!\n\n<b>Jak używać kolekcji?</b>\nBy stworzyć kolekcję, kliknij przycisk + i wybierz Kolekcja. Pozwala to na posiadania kilku subredditów jako jeden na głównym ekranie!</string>
   <string name="FAQ">FAQ</string>
   <string name="alphabetize_subreddits">Alfabetyzuj subreddity</string>
@@ -648,6 +670,8 @@
   <string name="add_to_subs">DODAJ DO SUBSKRYPCJI</string>
   <string name="sub_added">Subreddit dodany!</string>
   <string name="reorder_subs_FAQ">FAQ Zmiany kolejności subredditów</string>
+  <string name="subscribe_to">Subskrybuj /r/%1$s</string>
+  <string name="unsubscribe_from">Odsubskrybuj /r/%1$s</string>
   <string name="btn_add_to_sublist">DODAJ DO LISTY SUBÓW</string>
   <string name="btn_remove_from_sublist">USUŃ Z LISTY SUBÓW</string>
   <string name="just_unsub">TYLKO ODSUBSKRYBUJ</string>
@@ -716,6 +740,7 @@
   <string name="offline_comments_not_loaded">Wróć do trybu offline i wybierz \"Zapisz komentarze do przeglądania offline\" z menu, by zobaczyć komentarze bez sieci</string>
   <string name="offline_no_content_found">Brak zawartości offline</string>
   <string name="offline_enter_online">Przejdź online</string>
+  <string name="offline_caching_title">Zapisywanie %1$s</string>
   <string name="offline_caching_complete">Zapisywanie ukończone</string>
   <!-- Website -->
   <string name="website_back">Wstecz</string>
@@ -789,13 +814,18 @@
   <string name="discover_popular">Popularne</string>
   <string name="discover_trending">Trendujące</string>
   <!-- Subreddit post notifiactions -->
+  <string name="sub_post_notifs_title">Powiadamiaj o nowych postach w\n/r/%1$s?</string>
+  <string name="sub_post_notifs_title_settings">Powiadomiać o nowych postach?</string>
   <string name="sub_post_notifs_menu">Powiadomiaj o nowych postach</string>
+  <string name="sub_post_notify">Powiadamiaj</string>
   <string name="sub_post_notifs_text">Slide będzie sprawdzać nowe posty co 10 minut. Możesz to anulować w powiadomieniach postu</string>
   <string name="sub_post_notifs_threshold">Próg punktów</string>
   <string name="sub_post_notifs_err">Możesz dodać powiadomienia tylko do pojedynczych subredditów</string>
   <string name="sub_post_notifs_settings_none">Brak subredditów do sprawdzania</string>
   <string name="sub_post_notifs_settings_title">Subreddity do sprawdzania</string>
   <string name="sub_post_notifs_settings_search">Wyszukaj nazwę suba</string>
+  <string name="sub_post_notifs_notification_title">Nowy post w /r/%1$s</string>
+  <string name="sub_post_notifs_notification_btn">Przestać śledzić /r/%1$s</string>
   <string name="title_sub_post_notifs">Powiadomienia postów subredditów</string>
   <!-- Internal browser -->
   <string name="internal_browser_extracting_error">Nie udało się wyciągnąć artykułu</string>
@@ -805,11 +835,13 @@
   <!-- Live thread -->
   <string name="livethread_loading_title">Ładowanie wątku na żywo&#8230;</string>
   <string name="livethread_not_found">Nie znaleziono wątku na żywo</string>
+  <string name="livethread_recents_title">Wątek na żywo: %1$s</string>
   <!-- Used when viewing media -->
   <string name="mediaview_notif_title">Pobieranie obrazu&#8230;</string>
   <string name="mediaview_notif_text">Pobieranie w toku</string>
   <string name="mediaview_converting_fail">Konwersja gifa przez Gfycat się nie powiodła</string>
   <string name="mediaview_converting_fail_btn">Otwórz w sieci</string>
+  <string name="mediaview_save">Zapisz %1$s</string>
   <string name="mediaview_saving">Zapisywanie</string>
   <!-- Drafts -->
   <string name="draft_saving">Zapisywanie szkicu</string>
@@ -855,6 +887,7 @@
   <string name="snackbar_flair_success">Flara ustawiona pomyślnie</string>
   <string name="snackbar_flair_error">Błąd ustawiania flary, spróbuj ponownie później</string>
   <string name="sidebar_submods">Moderatorzy /r/%s</string>
+  <string name="sidebar_flair">Flair: %1$s</string>
   <string name="sidebar_notfound">Nie znaleziono sidebara</string>
   <plurals name="reorder_selected">
     <item quantity="one">"%d wybrany"</item>
@@ -863,6 +896,9 @@
   </plurals>
   <!--Filtering dialog -->
   <string name="filter_title">Co chciałbyś filtrować?</string>
+  <string name="filter_posts_sub">Posty z /r/%1$s</string>
+  <string name="filter_posts_user">Posty /u/%1$s</string>
+  <string name="filter_posts_urls">Posty linkujące do %1$s</string>
   <string name="filter_open_externally">Otwieraj linki %s zewnętrznie</string>
   <string name="filter_posts_flair">Flara \"%1$s\" z %2$s</string>
   <string name="filter_btn">Filtruj</string>
@@ -900,8 +936,6 @@
   <string name="mode_centered">Karty z wycentrowanym obrazem</string>
   <string name="mode_card">Karta</string>
   <string name="mode_thumbnail">Miniatura</string>
-  <string name="mode_big_thumbnails">Duże miniatury</string>
-  <string name="mode_cropped">Duży obraz skadrowany</string>
   <string name="mode_bigpic">Duży obraz</string>
   <string name="press_actionbar">Rozwijanie strzałką</string>
   <string name="tap_actionbar">Długie przyciśnięcie</string>
@@ -1017,4 +1051,9 @@
   <string name="pro_previews">Podgląd (%d)</string>
   <string name="draw_undo">Cofnij</string>
   <string name="empty_preview_text">Nic tu nie ma ¯\\_(ツ)_/¯</string>
+  <string name="low_quality_through_imgur_higher_resolution">Niska jakość przez Imgur (wyższa rozdzielczość)</string>
+  <string name="low_quality_through_reddit_lower_resolution">Niska jakość przez Reddit (niższa rozdzielczość)</string>
+  <string name="theme_red_shift">Czerwone przejście</string>
+  <string name="view_sub_sidebar">Zobacz sidebar subreddita</string>
+  <string name="mod_log">Dziennik moderaci</string>
 </resources>
