@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.support.v7.app.NotificationCompat;
 import android.text.Html;
 
@@ -23,11 +22,7 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.InboxPaginator;
 import net.dean.jraw.paginators.SubmissionSearchPaginator;
 
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.auth.AUTH;
-
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,7 +48,7 @@ public class CheckForMail extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         c = context;
-        if(Authentication.reddit == null || !Authentication.reddit.isAuthenticated()){
+        if (Authentication.reddit == null || !Authentication.reddit.isAuthenticated()) {
             Reddit.authentication = new Authentication(context);
         }
         new AsyncGetMail().execute();
@@ -133,7 +128,8 @@ public class CheckForMail extends BroadcastReceiver {
                         contentTitle = c.getString(R.string.mail_notification_subreddit,
                                 messages.get(0).getSubject(), messages.get(0).getSubreddit());
                     }
-                    notiStyle.bigText(Html.fromHtml(StringEscapeUtils.escapeHtml4(messages.get(0).getDataNode().get("body_html").asText())));
+                    notiStyle.bigText(
+                            Html.fromHtml(messages.get(0).getDataNode().get("body_html").asText()));
 
                     Notification notification =
                             new NotificationCompat.Builder(c).setContentIntent(intent)
@@ -337,7 +333,7 @@ public class CheckForMail extends BroadcastReceiver {
                         readIntent.putExtra(OpenContent.EXTRA_URL,
                                 "https://reddit.com" + s.getPermalink());
                         PendingIntent readPI = PendingIntent.getActivity(c,
-                                (int) (s.getCreated().getTime()/1000), readIntent,
+                                (int) (s.getCreated().getTime() / 1000), readIntent,
                                 PendingIntent.FLAG_UPDATE_CURRENT);
 
 
@@ -374,11 +370,9 @@ public class CheckForMail extends BroadcastReceiver {
                                                 + s.getAuthor())
                                         .setColor(Palette.getColor(s.getSubredditName()))
                                         .setStyle(notiStyle)
-                                        .addAction(R.drawable.close,
-                                                c.getString(
-                                                    R.string.sub_post_notifs_notification_btn,
-                                                    s.getSubredditName()),
-                                                cancelPi)
+                                        .addAction(R.drawable.close, c.getString(
+                                                R.string.sub_post_notifs_notification_btn,
+                                                s.getSubredditName()), cancelPi)
                                         .build();
                         notificationManager.notify((int) (s.getCreated().getTime() / 1000),
                                 notification);
@@ -394,8 +388,7 @@ public class CheckForMail extends BroadcastReceiver {
         @Override
         protected List<Submission> doInBackground(Void... params) {
             try {
-                long lastTime =
-                        (System.currentTimeMillis() - (60000 * Reddit.notificationTime));
+                long lastTime = (System.currentTimeMillis() - (60000 * Reddit.notificationTime));
                 int offsetSeconds = 28800; //8 hours in seconds
                 ArrayList<Submission> toReturn = new ArrayList<>();
                 ArrayList<String> rawSubs =
@@ -419,16 +412,15 @@ public class CheckForMail extends BroadcastReceiver {
                 }
                 first = first.substring(0, first.length() - 1);
                 SubmissionSearchPaginator unread =
-                        new SubmissionSearchPaginator(Authentication.reddit, "timestamp:"
-                                + ((lastTime / 1000) + offsetSeconds)
+                        new SubmissionSearchPaginator(Authentication.reddit,
+                                "timestamp:" + ((lastTime / 1000) + offsetSeconds)
+                                        //Go an hour back just in case
+                                        + ".." + ((System.currentTimeMillis() / 1000)
+                                        + offsetSeconds));
+                LogUtil.v(
+                        "/r/" + first + "/search?q=timestamp:" + ((lastTime / 1000) + offsetSeconds)
                                 //Go an hour back just in case
-                                + ".."
-                                + ((System.currentTimeMillis() / 1000) + offsetSeconds));
-                LogUtil.v("/r/" + first + "/search?q=timestamp:"
-                        + ((lastTime / 1000) + offsetSeconds)
-                        //Go an hour back just in case
-                        + ".."
-                        + ((System.currentTimeMillis() / 1000)+offsetSeconds));
+                                + ".." + ((System.currentTimeMillis() / 1000) + offsetSeconds));
                 unread.setSearchSorting(SubmissionSearchPaginator.SearchSort.NEW);
                 unread.setSyntax(SubmissionSearchPaginator.SearchSyntax.CLOUDSEARCH);
                 unread.setSubreddit(first);

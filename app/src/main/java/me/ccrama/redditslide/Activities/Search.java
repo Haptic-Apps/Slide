@@ -229,8 +229,6 @@ public class Search extends BaseActivityAnim {
             subreddit = getIntent().getExtras().getString(EXTRA_SUBREDDIT, "");
         }
 
-        where = StringEscapeUtils.unescapeHtml4(where);
-
         setupSubredditAppBar(R.id.toolbar, "Search", true, subreddit.toLowerCase());
 
         time = TimePeriod.ALL;

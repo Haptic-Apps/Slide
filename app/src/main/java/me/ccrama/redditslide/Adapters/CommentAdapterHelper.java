@@ -27,8 +27,8 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.style.ImageSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.util.TypedValue;
@@ -54,8 +54,6 @@ import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.DistinguishedStatus;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.VoteDirection;
-
-import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1321,10 +1319,10 @@ public class CommentAdapterHelper {
         final AlertDialogWrapper.Builder builder = new AlertDialogWrapper.Builder(mContext);
 
         final EditText e = (EditText) dialoglayout.findViewById(R.id.entry);
-        e.setText(StringEscapeUtils.unescapeHtml4(baseNode.getComment().getBody()));
+        e.setText(baseNode.getComment().getBody());
 
         DoEditorActions.doActions(e, dialoglayout, fm, (Activity) mContext,
-                StringEscapeUtils.unescapeHtml4(replyText));
+                replyText);
 
         builder.setCancelable(false).setView(dialoglayout);
         final Dialog d = builder.create();
