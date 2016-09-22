@@ -876,7 +876,7 @@ public class MediaView extends FullScreenActivity
     public void displayImage(final String urlb) {
         LogUtil.v("Displaying " + urlb);
 
-        final String url = StringEscapeUtils.unescapeHtml4(urlb);
+        String url = StringEscapeUtils.unescapeHtml4(urlb);
 
         if (!imageShown) {
             actuallyLoaded = url;
