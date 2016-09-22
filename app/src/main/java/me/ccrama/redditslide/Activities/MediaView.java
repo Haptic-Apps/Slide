@@ -873,10 +873,10 @@ public class MediaView extends FullScreenActivity
         }
     }
 
-    public void displayImage(final String url) {
-        LogUtil.v("Displaying " + url);
+    public void displayImage(final String urlb) {
+        LogUtil.v("Displaying " + urlb);
 
-        url = StringEscapeUtils.unescapeHtml4(url);
+        String url = StringEscapeUtils.unescapeHtml4(urlb);
 
         if (!imageShown) {
             actuallyLoaded = url;
