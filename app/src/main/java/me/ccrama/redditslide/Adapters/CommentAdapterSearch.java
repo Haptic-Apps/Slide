@@ -37,6 +37,8 @@ import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.DistinguishedStatus;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,10 +55,9 @@ import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.util.SubmissionParser;
 
 
-public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements Filterable {
+public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
-    private final Context           mContext;
+    private final Context mContext;
     private final List<CommentNode> originalDataSet;
     private String search = "";
 
@@ -72,7 +73,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
     }
 
-    public void setResult(String result) {
+    public void setResult(String result){
         search = result;
     }
 
@@ -83,15 +84,12 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.comment, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.comment, viewGroup, false);
         return new CommentViewHolder(v);
 
     }
-
     public void doScoreText(CommentViewHolder holder, Comment comment, int offset) {
-        String spacer =
-                " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
+        String spacer = " " + mContext.getString(R.string.submission_properties_seperator_comments) + " ";
         SpannableStringBuilder titleString = new SpannableStringBuilder();
 
         String distingush = "";
@@ -101,25 +99,17 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             distingush = "[A]";
         }
 
-        SpannableStringBuilder author =
-                new SpannableStringBuilder(" " + distingush + comment.getAuthor() + " ");
+        SpannableStringBuilder author = new SpannableStringBuilder(" " + distingush + comment.getAuthor() + " ");
         int authorcolor = Palette.getFontColorUser(comment.getAuthor());
 
-        author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        author.setSpan(new TypefaceSpan("sans-serif-condensed"), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        author.setSpan(new StyleSpan(Typeface.BOLD), 0, author.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         if (comment.getAuthor().toLowerCase().equals(Authentication.name.toLowerCase())) {
-            author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300,
-                            false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else if (!distingush.isEmpty()) {
-            author.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
-                    0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (authorcolor != 0) {
-            author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            author.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }  else if (authorcolor != 0) {
+            author.setSpan(new ForegroundColorSpan(authorcolor), 0, author.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
         titleString.append(author);
@@ -137,82 +127,58 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         titleString.append(score);
         if (!scoreText.contains("[")) {
-            titleString.append(mContext.getResources()
-                    .getQuantityString(R.plurals.points, comment.getScore()));
+            titleString.append(mContext.getResources().getQuantityString(R.plurals.points, comment.getScore()));
         }
         titleString.append((comment.isControversial() ? " †" : ""));
 
         titleString.append(spacer);
         String timeAgo = TimeUtils.getTimeAgo(comment.getCreated().getTime(), mContext);
-        titleString.append((timeAgo == null || timeAgo.isEmpty()) ? "just now"
-                : timeAgo); //some users were crashing here
+        titleString.append((timeAgo == null || timeAgo.isEmpty()) ? "just now" : timeAgo); //some users were crashing here
 
-        titleString.append(((comment.getEditDate() != null) ? " (edit " + TimeUtils.getTimeAgo(
-                comment.getEditDate().getTime(), mContext) + ")" : ""));
+        titleString.append(((comment.getEditDate() != null) ? " (edit " + TimeUtils.getTimeAgo(comment.getEditDate().getTime(), mContext) + ")" : ""));
         titleString.append("  ");
 
         if (comment.getDataNode().get("stickied").asBoolean()) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0"
-                    + mContext.getString(R.string.submission_stickied).toUpperCase()
-                    + "\u00A0");
-            pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false),
-                    0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.submission_stickied).toUpperCase() + "\u00A0");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_green_300, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
         }
         if (UserTags.isUserTagged(comment.getAuthor())) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(
-                    "\u00A0" + UserTags.getUserTag(comment.getAuthor()) + "\u00A0");
-            pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false),
-                    0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + UserTags.getUserTag(comment.getAuthor()) + "\u00A0");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_blue_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
         }
         if (comment.getTimesGilded() > 0) {
-            final String timesGilded = (comment.getTimesGilded() == 1) ? ""
-                    : "\u200Ax" + Integer.toString(comment.getTimesGilded());
-            SpannableStringBuilder gilded =
-                    new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
-            TypedArray a = mContext.obtainStyledAttributes(
-                    new FontPreferences(mContext).getPostFontStyle().getResId(),
-                    R.styleable.FontStyle);
-            int fontsize =
-                    (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1) * .75);
+            final String timesGilded = (comment.getTimesGilded() == 1) ? "" : "\u200Ax" + Integer.toString(comment.getTimesGilded());
+            SpannableStringBuilder gilded = new SpannableStringBuilder("\u00A0★" + timesGilded + "\u00A0");
+            TypedArray a = mContext.obtainStyledAttributes(new FontPreferences(mContext).getPostFontStyle().getResId(), R.styleable.FontStyle);
+            int fontsize = (int) (a.getDimensionPixelSize(R.styleable.FontStyle_font_cardtitle, -1)*.75);
             a.recycle();
             Bitmap image = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gold);
             float aspectRatio = (float) (1.00 * image.getWidth() / image.getHeight());
-            image = Bitmap.createScaledBitmap(image, (int) Math.ceil(fontsize * aspectRatio),
+            image = Bitmap.createScaledBitmap(image,
+                    (int) Math.ceil(fontsize * aspectRatio),
                     (int) Math.ceil(fontsize), true);
-            gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2,
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(),
-                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            gilded.setSpan(new ImageSpan(mContext, image, ImageSpan.ALIGN_BASELINE), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            gilded.setSpan(new RelativeSizeSpan(0.75f), 3, gilded.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(gilded);
             titleString.append(" ");
         }
         if (UserSubscriptions.friends.contains(comment.getAuthor())) {
-            SpannableStringBuilder pinned = new SpannableStringBuilder(
-                    "\u00A0" + mContext.getString(R.string.profile_friend) + "\u00A0");
-            pinned.setSpan(
-                    new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500,
-                            false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + mContext.getString(R.string.profile_friend) + "\u00A0");
+            pinned.setSpan(new RoundedBackgroundSpan(mContext, R.color.white, R.color.md_deep_orange_500, false), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
         }
-        if (comment.getAuthorFlair() != null
-                && comment.getAuthorFlair().getText() != null
-                && !comment.getAuthorFlair().getText().isEmpty()) {
+        if (comment.getAuthorFlair() != null && comment.getAuthorFlair().getText() != null && !comment.getAuthorFlair().getText().isEmpty()) {
             TypedValue typedValue = new TypedValue();
             Resources.Theme theme = mContext.getTheme();
             theme.resolveAttribute(R.attr.activity_background, typedValue, true);
             int color = typedValue.data;
-            SpannableStringBuilder pinned = new SpannableStringBuilder(
-                    "\u00A0" + Html.fromHtml(comment.getAuthorFlair().getText()) + "\u00A0");
-            pinned.setSpan(
-                    new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color,
-                            false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            SpannableStringBuilder pinned = new SpannableStringBuilder("\u00A0" + Html.fromHtml(comment.getAuthorFlair().getText()) + "\u00A0");
+            pinned.setSpan(new RoundedBackgroundSpan(holder.firstTextView.getCurrentTextColor(), color, false, mContext), 0, pinned.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             titleString.append(pinned);
             titleString.append(" ");
         }
@@ -236,8 +202,8 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
 
         }
 
-        String body = comment.getDataNode().get("body_html").asText();
-        if (!search.isEmpty()) {
+        String body = StringEscapeUtils.unescapeHtml4(comment.getDataNode().get("body_html").asText());
+        if(!search.isEmpty()){
             body = body.replaceAll(search, "[[h[" + search + "]h]]");
         }
 
@@ -284,19 +250,15 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             View v = holder.itemView.findViewById(R.id.dot);
             int i22 = baseNode.getDepth() - 2;
             if (i22 % 5 == 0) {
-                holder.dot.setBackgroundColor(
-                        ContextCompat.getColor(mContext, R.color.md_blue_500));
+                holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_blue_500));
             } else if (i22 % 4 == 0) {
-                holder.dot.setBackgroundColor(
-                        ContextCompat.getColor(mContext, R.color.md_green_500));
+                holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_green_500));
 
             } else if (i22 % 3 == 0) {
-                holder.dot.setBackgroundColor(
-                        ContextCompat.getColor(mContext, R.color.md_yellow_500));
+                holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_yellow_500));
 
             } else if (i22 % 2 == 0) {
-                holder.dot.setBackgroundColor(
-                        ContextCompat.getColor(mContext, R.color.md_orange_500));
+                holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_orange_500));
 
             } else {
                 holder.dot.setBackgroundColor(ContextCompat.getColor(mContext, R.color.md_red_500));
@@ -336,8 +298,7 @@ public class CommentAdapterSearch extends RecyclerView.Adapter<RecyclerView.View
             if (startIndex == 0) {
                 holder.commentOverflow.setViews(blocks, subredditName);
             } else {
-                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()),
-                        subredditName);
+                holder.commentOverflow.setViews(blocks.subList(startIndex, blocks.size()), subredditName);
             }
         } else {
             holder.commentOverflow.removeAllViews();

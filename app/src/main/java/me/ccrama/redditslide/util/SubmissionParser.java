@@ -39,7 +39,7 @@ public class SubmissionParser {
      * @return list of text blocks
      */
     public static List<String> getBlocks(String html) {
-        html = html
+        html = StringEscapeUtils.unescapeHtml4(html)
                 .replace("<p>", "<div>")
                 .replace("</p>", "</div>")
                 .replace("<li>\\s*<div>", "<li>")

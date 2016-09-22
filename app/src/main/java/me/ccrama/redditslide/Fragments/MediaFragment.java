@@ -30,6 +30,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import net.dean.jraw.models.Submission;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -143,8 +145,7 @@ public class MediaFragment extends Fragment {
         ImageView typeImage = (ImageView) rootView.findViewById(R.id.type);
         typeImage.setVisibility(View.VISIBLE);
         View img = rootView.findViewById(R.id.submission_image);
-        final SlidingUpPanelLayout slideLayout =
-                ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
+        final SlidingUpPanelLayout slideLayout = ((SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout));
         ContentType.Type type = ContentType.getContentType(s);
 
         img.setAlpha(1f);
@@ -171,6 +172,7 @@ public class MediaFragment extends Fragment {
         }
 
 
+
         if (!ContentType.fullImage(type)) {
             if (!s.getDataNode().has("preview") || !s.getDataNode()
                     .get("preview")
@@ -181,17 +183,17 @@ public class MediaFragment extends Fragment {
                 (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.VISIBLE);
                 ((ImageView) rootView.findViewById(R.id.thumbimage2)).setImageResource(
                         R.drawable.web);
-                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout, rootView,
-                        type, getActivity(), s);
+                addClickFunctions((rootView.findViewById(R.id.thumbimage2)), slideLayout,rootView, type,
+                        getActivity(), s);
                 (rootView.findViewById(R.id.progress)).setVisibility(View.GONE);
             } else {
-                addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,
-                        rootView, type, getActivity(), s);
+                addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,rootView, type,
+                        getActivity(), s);
             }
         } else {
             (rootView.findViewById(R.id.thumbimage2)).setVisibility(View.GONE);
-            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout, rootView,
-                    type, getActivity(), s);
+            addClickFunctions((rootView.findViewById(R.id.submission_image)), slideLayout,rootView, type,
+                    getActivity(), s);
         }
 
         doLoad(contentUrl, type);
@@ -224,31 +226,34 @@ public class MediaFragment extends Fragment {
                         title.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
                 });
-        slideLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
+        slideLayout.addPanelSlideListener(
+                new SlidingUpPanelLayout.PanelSlideListener() {
+                    @Override
+                    public void onPanelSlide(View panel, float slideOffset) {
 
-            }
+                    }
 
-            @Override
-            public void onPanelStateChanged(View panel,
-                    SlidingUpPanelLayout.PanelState previousState,
-                    SlidingUpPanelLayout.PanelState newState) {
-                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
-                    rootView.findViewById(R.id.base).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent i2 = new Intent(getActivity(), CommentsScreen.class);
-                            i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
-                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
-                            getActivity().startActivity(i2);
+                    @Override
+                    public void onPanelStateChanged(View panel,
+                            SlidingUpPanelLayout.PanelState previousState,
+                            SlidingUpPanelLayout.PanelState newState) {
+                        if (newState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                            rootView.findViewById(R.id.base)
+                                    .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Intent i2 =
+                                                    new Intent(getActivity(), CommentsScreen.class);
+                                            i2.putExtra(CommentsScreen.EXTRA_PAGE, i);
+                                            i2.putExtra(CommentsScreen.EXTRA_SUBREDDIT, sub);
+                                            getActivity().startActivity(i2);
+                                        }
+                                    });
+                        } else {
+                            rootView.findViewById(R.id.base).setOnClickListener(openClick);
                         }
-                    });
-                } else {
-                    rootView.findViewById(R.id.base).setOnClickListener(openClick);
-                }
-            }
-        });
+                    }
+                });
         return rootView;
     }
 
@@ -293,9 +298,8 @@ public class MediaFragment extends Fragment {
         }
     }
 
-    private static void addClickFunctions(final View base, final SlidingUpPanelLayout slidingPanel,
-            final View clickingArea, final ContentType.Type type, final Activity contextActivity,
-            final Submission submission) {
+    private static void addClickFunctions(final View base, final SlidingUpPanelLayout slidingPanel, final View clickingArea,
+            final ContentType.Type type, final Activity contextActivity, final Submission submission) {
         base.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -340,8 +344,7 @@ public class MediaFragment extends Fragment {
                             break;
                         case LINK:
 
-                            LinkUtil.openUrl(submission.getUrl(),
-                                    Palette.getColor(submission.getSubredditName()),
+                            LinkUtil.openUrl(submission.getUrl(), Palette.getColor(submission.getSubredditName()),
                                     contextActivity);
 
                             break;
@@ -354,14 +357,12 @@ public class MediaFragment extends Fragment {
                                     Intent i = new Intent(contextActivity, AlbumPager.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright,
-                                            R.anim.fade_out);
+                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                 } else {
                                     Intent i = new Intent(contextActivity, Album.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright,
-                                            R.anim.fade_out);
+                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                 }
                             } else {
                                 Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -373,14 +374,12 @@ public class MediaFragment extends Fragment {
                                     Intent i = new Intent(contextActivity, TumblrPager.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright,
-                                            R.anim.fade_out);
+                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                 } else {
                                     Intent i = new Intent(contextActivity, Tumblr.class);
                                     i.putExtra(Album.EXTRA_URL, submission.getUrl());
                                     contextActivity.startActivity(i);
-                                    contextActivity.overridePendingTransition(R.anim.slideright,
-                                            R.anim.fade_out);
+                                    contextActivity.overridePendingTransition(R.anim.slideright, R.anim.fade_out);
                                 }
                             } else {
                                 Reddit.defaultShare(submission.getUrl(), contextActivity);
@@ -389,8 +388,7 @@ public class MediaFragment extends Fragment {
                         case DEVIANTART:
                         case XKCD:
                         case IMAGE:
-                            PopulateSubmissionViewHolder.openImage(type, contextActivity,
-                                    submission, null, -1);
+                            PopulateSubmissionViewHolder.openImage(type, contextActivity, submission, null, -1);
                             break;
                         case GIF:
                             PopulateSubmissionViewHolder.openGif(contextActivity, submission, -1);
@@ -576,25 +574,22 @@ public class MediaFragment extends Fragment {
                     } else {
                         try {
                             if (result != null && !result.isJsonNull() && result.has("img")) {
-                                doLoadImage(result.get("img").getAsString());
-                                rootView.findViewById(R.id.submission_image)
-                                        .setOnLongClickListener(new View.OnLongClickListener() {
-                                            @Override
-                                            public boolean onLongClick(View v) {
-                                                try {
-                                                    new AlertDialogWrapper.Builder(
-                                                            getContext()).setTitle(
-                                                            result.get("safe_title").getAsString())
-                                                            .setMessage(
-                                                                    result.get("alt").getAsString())
-                                                            .show();
-                                                } catch (Exception ignored) {
+                               doLoadImage(result.get("img").getAsString());
+                                rootView.findViewById(R.id.submission_image).setOnLongClickListener(new View.OnLongClickListener() {
+                                    @Override
+                                    public boolean onLongClick(View v) {
+                                        try {
+                                            new AlertDialogWrapper.Builder(getContext()).setTitle(
+                                                    result.get("safe_title").getAsString())
+                                                    .setMessage(result.get("alt").getAsString())
+                                                    .show();
+                                        } catch(Exception ignored){
 
-                                                }
-                                                return true;
-                                            }
-                                        });
-                            } else {
+                                        }
+                                        return true;
+                                    }
+                                });
+                            }  else {
                                 Intent i = new Intent(getContext(), Website.class);
                                 i.putExtra(Website.EXTRA_URL, finalUrl);
                                 getContext().startActivity(i);
@@ -626,6 +621,8 @@ public class MediaFragment extends Fragment {
         if (contentUrl != null && contentUrl.contains("m.imgur.com")) {
             contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
         }
+
+        contentUrl = StringEscapeUtils.unescapeHtml4(contentUrl);
 
         if ((contentUrl != null
                 && !contentUrl.startsWith("https://i.redditmedia.com")
@@ -689,7 +686,7 @@ public class MediaFragment extends Fragment {
     }
 
     public void displayImage(final String urlB) {
-        final String url = urlB;
+        final String url = StringEscapeUtils.unescapeHtml4(urlB);
 
         if (!imageShown) {
             actuallyLoaded = url;
@@ -700,7 +697,7 @@ public class MediaFragment extends Fragment {
             i.setMinimumTileDpi(240);
             final ProgressBar bar = (ProgressBar) rootView.findViewById(R.id.progress);
             bar.setIndeterminate(false);
-            LogUtil.v("Displaying image " + url);
+            LogUtil.v("Displaying image " +url);
             bar.setProgress(0);
 
             final Handler handler = new Handler();
