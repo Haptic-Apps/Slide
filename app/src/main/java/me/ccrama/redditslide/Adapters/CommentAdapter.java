@@ -1086,7 +1086,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onSingleClick(View v) {
                         CommentAdapterHelper.doCommentEdit(CommentAdapter.this, mContext, fm,
                                 baseNode, baseNode.isTopLevel() ? submission.getSelftext()
-                                        : baseNode.getParent().getComment().getBody());
+                                        : baseNode.getParent().getComment().getBody(), holder);
                     }
                 });
             } else {
@@ -2149,6 +2149,25 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return i;
         }
     }
+
+    public void editComment(CommentNode n, CommentViewHolder holder) {
+        if (n == null) {
+            dataSet.loadMoreReply(this);
+        } else {
+            int position = getRealPosition(holder.getAdapterPosition() - 1);
+            final int holderpos = holder.getAdapterPosition();
+            currentComments.remove(position - 1);
+            currentComments.add(position - 1, new CommentItem(n));
+            listView.setItemAnimator(new SlideRightAlphaAnimator());
+            ((Activity)mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    notifyItemChanged(holderpos);
+                }
+            });
+        }
+    }
+
 
     public class ReplyTaskComment extends AsyncTask<String, Void, String> {
         public Contribution sub;

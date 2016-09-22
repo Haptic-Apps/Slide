@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import net.dean.jraw.http.RestResponse;
 import net.dean.jraw.http.SubmissionRequest;
+import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.CommentNode;
 import net.dean.jraw.models.CommentSort;
 import net.dean.jraw.models.Submission;

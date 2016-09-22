@@ -29,14 +29,10 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.ImageSpan;
-import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.util.TypedValue;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -1318,7 +1314,7 @@ public class CommentAdapterHelper {
     }
 
     public static void doCommentEdit(final CommentAdapter adapter, final Context mContext,
-            FragmentManager fm, final CommentNode baseNode, String replyText) {
+            FragmentManager fm, final CommentNode baseNode, String replyText, final CommentViewHolder holder) {
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
 
         final View dialoglayout = inflater.inflate(R.layout.edit_comment, null);
@@ -1345,7 +1341,7 @@ public class CommentAdapterHelper {
             @Override
             public void onClick(View v) {
                 final String text = e.getText().toString();
-                new AsyncReplyTask(adapter, baseNode, text, mContext, d).execute();
+                new AsyncEditTask(adapter, baseNode, text, mContext, d, holder).execute();
             }
         });
 
@@ -1370,20 +1366,22 @@ public class CommentAdapterHelper {
                 .show();
     }
 
-    public static class AsyncReplyTask extends AsyncTask<Void, Void, Void> {
+    public static class AsyncEditTask extends AsyncTask<Void, Void, Void> {
         CommentAdapter adapter;
         CommentNode    baseNode;
         String         text;
         Context        mContext;
         Dialog         dialog;
+        CommentViewHolder holder;
 
-        public AsyncReplyTask(CommentAdapter adapter, CommentNode baseNode, String text,
-                Context mContext, Dialog dialog) {
+        public AsyncEditTask(CommentAdapter adapter, CommentNode baseNode, String text,
+                Context mContext, Dialog dialog, CommentViewHolder holder) {
             this.adapter = adapter;
             this.baseNode = baseNode;
             this.text = text;
             this.mContext = mContext;
             this.dialog = dialog;
+            this.holder =holder;
         }
 
         @Override
@@ -1392,9 +1390,11 @@ public class CommentAdapterHelper {
                 new AccountManager(Authentication.reddit).updateContribution(baseNode.getComment(),
                         text);
                 adapter.currentSelectedItem = baseNode.getComment().getFullName();
-                adapter.dataSet.loadMoreReply(adapter);
+                CommentNode n = baseNode.notifyCommentChanged(Authentication.reddit);
+                adapter.editComment(n, holder);
                 dialog.dismiss();
             } catch (Exception e) {
+                e.printStackTrace();
                 ((Activity) mContext).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

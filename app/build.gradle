@@ -89,7 +89,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.ccrama:JRAW:99610faf22'
+    compile 'com.github.ccrama:JRAW:d380112abc'
     //Updating material-dialogs to any newer version will break all AlertDialogWrapper
     compile 'com.afollestad.material-dialogs:commons:0.8.6.2'
     compile 'com.jakewharton:process-phoenix:1.0.2'
