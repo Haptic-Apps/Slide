@@ -58,6 +58,8 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.TimePeriod;
 import net.dean.jraw.paginators.UserRecordPaginator;
 
+import org.apache.http.auth.AUTH;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -422,7 +424,7 @@ public class CommentPage extends Fragment {
                         }
                         new AlertDialogWrapper.Builder(getActivity()).setTitle(
                                 R.string.set_nav_mode)
-                                .setSingleChoiceItems((String[]) Reddit.stringToArray(
+                                .setSingleChoiceItems(Reddit.stringToArray(
 
                                         "Parent comment ("
                                                 + parentCount
@@ -447,7 +449,7 @@ public class CommentPage extends Fragment {
                                                 +
                                                 "Gilded ("
                                                 + gildCount
-                                                + ")").toArray(), getCurrentSort(),
+                                                + ")").toArray(new String[Authentication.isLoggedIn?6:5]), getCurrentSort(),
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -519,10 +521,10 @@ public class CommentPage extends Fragment {
                                                         builder.setPositiveButton(R.string.btn_set,
                                                                 null).show();
                                                         break;
-                                                    case 4:
+                                                    case 5:
                                                         currentSort = CommentNavType.YOU;
                                                         break;
-                                                    case 5:
+                                                    case 4:
                                                         currentSort = CommentNavType.LINK;
                                                         break;
                                                     case 6:
@@ -1867,9 +1869,9 @@ public class CommentPage extends Fragment {
             case OP:
                 return 3;
             case YOU:
-                return 4;
-            case LINK:
                 return 5;
+            case LINK:
+                return 4;
         }
         return 0;
     }
