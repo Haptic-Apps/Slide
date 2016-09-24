@@ -133,7 +133,7 @@ public class CheckForMail extends BroadcastReceiver {
                         contentTitle = c.getString(R.string.mail_notification_subreddit,
                                 messages.get(0).getSubject(), messages.get(0).getSubreddit());
                     }
-                    notiStyle.bigText(Html.fromHtml(StringEscapeUtils.escapeHtml4(messages.get(0).getDataNode().get("body_html").asText())));
+                    notiStyle.bigText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(messages.get(0).getDataNode().get("body_html").asText())));
 
                     Notification notification =
                             new NotificationCompat.Builder(c).setContentIntent(intent)
@@ -144,7 +144,7 @@ public class CheckForMail extends BroadcastReceiver {
                                     .setWhen(System.currentTimeMillis())
                                     .setAutoCancel(true)
                                     .setContentTitle(contentTitle)
-                                    .setContentText(Html.fromHtml(messages.get(0).getBody()))
+                                    .setContentText(Html.fromHtml(StringEscapeUtils.unescapeHtml4(messages.get(0).getDataNode().get("body_html").asText())))
                                     .setStyle(notiStyle)
                                     .addAction(R.drawable.ic_check_all_black,
                                             c.getString(R.string.mail_mark_read), readPI)

@@ -153,7 +153,7 @@ public class Palette {
 
     public enum ThemeEnum {
         DARK("Dark", Color.parseColor("#303030"), Color.parseColor("#424242"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
-        LIGHT("Light",Color.parseColor("#e8e8e8"), Color.parseColor("#ffffff"), Color.parseColor("#ff414141"), Color.parseColor("#8A000000") ),
+        LIGHT("Light",Color.parseColor("#e5e5e5"), Color.parseColor("#ffffff"), Color.parseColor("#de000000"), Color.parseColor("#8A000000") ),
         AMOLEDBLACK("Black", Color.parseColor("#000000"), Color.parseColor("#212121"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF")),
         SEPIA("Sepia", Color.parseColor("#cac5ad"), Color.parseColor("#e2dfd7"), Color.parseColor("#DE3e3d36"), Color.parseColor("#8A3e3d36")),
         BLUE("Dark Blue", Color.parseColor("#2F3D44"), Color.parseColor("#37474F"), Color.parseColor("#ffffff"), Color.parseColor("#B3FFFFFF"));

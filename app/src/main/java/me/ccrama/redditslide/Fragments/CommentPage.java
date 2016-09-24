@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -22,7 +21,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -385,7 +383,7 @@ public class CommentPage extends Fragment {
             v.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    goDown();
+                    if (adapter.keys != null && adapter.keys.size() > 0) goDown();
                 }
             });
             v.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
@@ -423,81 +421,119 @@ public class CommentPage extends Fragment {
                             }
                         }
                         new AlertDialogWrapper.Builder(getActivity()).setTitle(
-                                R.string.set_nav_mode).setSingleChoiceItems(new String[]{
-                                "Parent comment (" + parentCount + ")",
-                                "Children comment (highlight child comment & navigate)",
-                                "OP (" + opCount + ")", "Time", "Link (" + linkCount + ")",
-                                "Gilded (" + gildCount + ")"
-                        }, getCurrentSort(), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        currentSort = CommentNavType.PARENTS;
-                                        break;
-                                    case 1:
-                                        currentSort = CommentNavType.CHILDREN;
-                                        break;
-                                    case 2:
-                                        currentSort = CommentNavType.OP;
-                                        break;
-                                    case 3:
-                                        currentSort = CommentNavType.TIME;
-                                        LayoutInflater inflater = getActivity().getLayoutInflater();
-                                        final View dialoglayout =
-                                                inflater.inflate(R.layout.commenttime, null);
-                                        final AlertDialogWrapper.Builder builder =
-                                                new AlertDialogWrapper.Builder(getActivity());
-                                        final Slider landscape =
-                                                (Slider) dialoglayout.findViewById(R.id.landscape);
+                                R.string.set_nav_mode)
+                                .setSingleChoiceItems((String[]) Reddit.stringToArray(
 
-                                        final TextView since = (TextView) dialoglayout.findViewById(
-                                                R.id.time_string);
-                                        landscape.setValueRange(60, 18000, false);
-                                        landscape.setOnPositionChangeListener(
-                                                new Slider.OnPositionChangeListener() {
-                                                    @Override
-                                                    public void onPositionChanged(Slider slider,
-                                                            boolean b, float v, float v1, int i,
-                                                            int i1) {
-                                                        Calendar c = Calendar.getInstance();
-                                                        sortTime = c.getTimeInMillis() - i1 * 1000;
+                                        "Parent comment ("
+                                                + parentCount
+                                                + ")"
+                                                + ","
+                                                +
+                                                "Children comment (highlight child comment & navigate)"
+                                                + ","
+                                                +
+                                                "OP ("
+                                                + opCount
+                                                + ")"
+                                                + ","
+                                                + "Time"
+                                                + ","
+                                                + "Link ("
+                                                + linkCount
+                                                + ")"
+                                                + ","
+                                                +
+                                                ((Authentication.isLoggedIn) ? "You" + "," : "")
+                                                +
+                                                "Gilded ("
+                                                + gildCount
+                                                + ")").toArray(), getCurrentSort(),
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                switch (which) {
+                                                    case 0:
+                                                        currentSort = CommentNavType.PARENTS;
+                                                        break;
+                                                    case 1:
+                                                        currentSort = CommentNavType.CHILDREN;
+                                                        break;
+                                                    case 2:
+                                                        currentSort = CommentNavType.OP;
+                                                        break;
+                                                    case 3:
+                                                        currentSort = CommentNavType.TIME;
+                                                        LayoutInflater inflater =
+                                                                getActivity().getLayoutInflater();
+                                                        final View dialoglayout = inflater.inflate(
+                                                                R.layout.commenttime, null);
+                                                        final AlertDialogWrapper.Builder builder =
+                                                                new AlertDialogWrapper.Builder(
+                                                                        getActivity());
+                                                        final Slider landscape =
+                                                                (Slider) dialoglayout.findViewById(
+                                                                        R.id.landscape);
 
-                                                        int commentcount = 0;
-                                                        for (CommentObject o : adapter.currentComments) {
-                                                            if (o.comment != null
-                                                                    && o.comment.getComment()
-                                                                    .getDataNode()
-                                                                    .has("created")
-                                                                    && o.comment.getComment()
-                                                                    .getCreated()
-                                                                    .getTime() > sortTime) {
-                                                                commentcount += 1;
-                                                            }
-                                                        }
-                                                        since.setText(TimeUtils.getTimeAgo(sortTime,
-                                                                getActivity())
-                                                                + " ("
-                                                                + commentcount
-                                                                + " comments)");
-                                                    }
-                                                });
-                                        landscape.setValue(600, false);
-                                        builder.setView(dialoglayout);
-                                        builder.setPositiveButton(R.string.btn_set, null).show();
-                                        break;
+                                                        final TextView since =
+                                                                (TextView) dialoglayout.findViewById(
+                                                                        R.id.time_string);
+                                                        landscape.setValueRange(60, 18000, false);
+                                                        landscape.setOnPositionChangeListener(
+                                                                new Slider.OnPositionChangeListener() {
+                                                                    @Override
+                                                                    public void onPositionChanged(
+                                                                            Slider slider,
+                                                                            boolean b, float v,
+                                                                            float v1, int i,
+                                                                            int i1) {
+                                                                        Calendar c =
+                                                                                Calendar.getInstance();
+                                                                        sortTime =
+                                                                                c.getTimeInMillis()
+                                                                                        - i1 * 1000;
 
-                                    case 4:
-                                        currentSort = CommentNavType.LINK;
-                                        break;
-                                    case 5:
-                                        currentSort = CommentNavType.GILDED;
-                                        break;
+                                                                        int commentcount = 0;
+                                                                        for (CommentObject o : adapter.currentComments) {
+                                                                            if (o.comment != null
+                                                                                    && o.comment.getComment()
+                                                                                    .getDataNode()
+                                                                                    .has("created")
+                                                                                    && o.comment.getComment()
+                                                                                    .getCreated()
+                                                                                    .getTime()
+                                                                                    > sortTime) {
+                                                                                commentcount += 1;
+                                                                            }
+                                                                        }
+                                                                        since.setText(
+                                                                                TimeUtils.getTimeAgo(
+                                                                                        sortTime,
+                                                                                        getActivity())
+                                                                                        + " ("
+                                                                                        + commentcount
+                                                                                        + " comments)");
+                                                                    }
+                                                                });
+                                                        landscape.setValue(600, false);
+                                                        builder.setView(dialoglayout);
+                                                        builder.setPositiveButton(R.string.btn_set,
+                                                                null).show();
+                                                        break;
+                                                    case 4:
+                                                        currentSort = CommentNavType.YOU;
+                                                        break;
+                                                    case 5:
+                                                        currentSort = CommentNavType.LINK;
+                                                        break;
+                                                    case 6:
+                                                        currentSort = CommentNavType.GILDED;
+                                                        break;
 
-                                }
+                                                }
 
-                            }
-                        }).show();
+                                            }
+                                        })
+                                .show();
 
                     }
                 }
@@ -629,9 +665,11 @@ public class CommentPage extends Fragment {
                         doSidebarOpen();
                         return true;
                     case R.id.related:
-                        if(adapter.submission.isSelfPost()){
-                            new AlertDialogWrapper.Builder(getActivity()).setTitle("Selftext posts have no related submissions")
-                                    .setPositiveButton(R.string.btn_ok, null).show();
+                        if (adapter.submission.isSelfPost()) {
+                            new AlertDialogWrapper.Builder(getActivity()).setTitle(
+                                    "Selftext posts have no related submissions")
+                                    .setPositiveButton(R.string.btn_ok, null)
+                                    .show();
                         } else {
                             Intent i = new Intent(getActivity(), Related.class);
                             i.putExtra(Related.EXTRA_URL, adapter.submission.getUrl());
@@ -862,8 +900,8 @@ public class CommentPage extends Fragment {
                                     case TUMBLR:
                                         if (SettingValues.image) {
                                             if (SettingValues.albumSwipe) {
-                                                Intent i =
-                                                        new Intent(getActivity(), TumblrPager.class);
+                                                Intent i = new Intent(getActivity(),
+                                                        TumblrPager.class);
                                                 i.putExtra(Album.EXTRA_URL,
                                                         adapter.submission.getUrl());
                                                 getActivity().startActivity(i);
@@ -1621,8 +1659,7 @@ public class CommentPage extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            d = new MaterialDialog.Builder(getActivity())
-                    .title(R.string.subreddit_sidebar_progress)
+            d = new MaterialDialog.Builder(getActivity()).title(R.string.subreddit_sidebar_progress)
                     .progress(true, 100)
                     .content(R.string.misc_please_wait)
                     .cancelable(false)
@@ -1755,7 +1792,7 @@ public class CommentPage extends Fragment {
             rv.setAdapter(adapter);
             adapter.currentSelectedItem = context;
 
-            if(context.isEmpty()){
+            if (context.isEmpty()) {
                 if (SettingValues.collapseCommentsDefault) {
                     adapter.collapseAll();
                 }
@@ -1826,11 +1863,13 @@ public class CommentPage extends Fragment {
             case TIME:
                 return 3;
             case GILDED:
-                return 5;
+                return 6;
             case OP:
                 return 3;
-            case LINK:
+            case YOU:
                 return 4;
+            case LINK:
+                return 5;
         }
         return 0;
     }
@@ -1995,6 +2034,11 @@ public class CommentPage extends Fragment {
                                     .getAuthor()
                                     .equals(adapter.submission.getAuthor());
                             break;
+                        case YOU:
+                            matches = adapter.submission != null && o.comment.getComment()
+                                    .getAuthor()
+                                    .equals(Authentication.name);
+                            break;
                         case LINK:
                             matches = o.comment.getComment()
                                     .getDataNode()
@@ -2122,6 +2166,11 @@ public class CommentPage extends Fragment {
                                 matches = adapter.submission != null && o.comment.getComment()
                                         .getAuthor()
                                         .equals(adapter.submission.getAuthor());
+                                break;
+                            case YOU:
+                                matches = adapter.submission != null && o.comment.getComment()
+                                        .getAuthor()
+                                        .equals(Authentication.name);
                                 break;
                             case LINK:
                                 matches = o.comment.getComment()
