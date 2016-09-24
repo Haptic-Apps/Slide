@@ -401,7 +401,7 @@ public class Tutorial extends AppCompatActivity {
                             }
                         }
                     });
-                    dialoglayout.findViewById(R.id.sepia).setOnClickListener(new View.OnClickListener() {
+                    dialoglayout.findViewById(R.id.red).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             String[] names = new ColorPreferences(getActivity()).getFontStyle().getTitle().split("_");
