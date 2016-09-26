@@ -35,12 +35,17 @@ import android.text.style.URLSpan;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.HapticFeedbackConstants;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.widget.RobotoTextView;
+import com.klinker.android.peekview.PeekViewActivity;
+import com.klinker.android.peekview.builder.Peek;
+import com.klinker.android.peekview.builder.PeekViewOptions;
+import com.klinker.android.peekview.callback.SimpleOnPeek;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -55,6 +60,7 @@ import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.TumblrPager;
 import me.ccrama.redditslide.Views.CustomQuoteSpan;
+import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.handler.TextViewLinkHandler;
 import me.ccrama.redditslide.util.LinkUtil;
@@ -487,7 +493,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     @Override
-    public void onLinkLongClick(final String url) {
+    public void onLinkLongClick(final String url, MotionEvent event) {
         if (url == null) {
             return;
         }
@@ -516,7 +522,16 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             throw new RuntimeException("Could not find activity from context:" + context);
         }
 
+
         if (activity != null && !activity.isFinishing()) {
+            Peek.into(R.layout.peek_view, new SimpleOnPeek() {
+                @Override
+                public void onInflated(View rootView) {
+                    //do stuff
+                    ((PeekMediaView)rootView).setUrl(url);
+                }
+            }).with(new PeekViewOptions().setFullScreenPeek(true)).show((PeekViewActivity) activity, event);
+            /* old stuff
             BottomSheet.Builder b = new BottomSheet.Builder(activity).title(url).grid();
             int[] attrs = new int[]{R.attr.tint};
             TypedArray ta = getContext().obtainStyledAttributes(attrs);
@@ -557,7 +572,7 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             break;
                     }
                 }
-            }).show();
+            }).show();*/
 
         }
     }

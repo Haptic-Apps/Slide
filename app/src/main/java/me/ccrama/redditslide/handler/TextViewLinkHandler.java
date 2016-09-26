@@ -22,6 +22,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
     Handler handler;
     Runnable longClicked;
     URLSpan[] link;
+    MotionEvent event;
 
     @Override
     public boolean canSelectArbitrarily() {
@@ -43,7 +44,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
 
                 handler.removeCallbacksAndMessages(null);
                 if (link != null  && link.length > 0 && link[0] != null)
-                    TextViewLinkHandler.this.clickableText.onLinkLongClick(link[0].getURL());
+                    TextViewLinkHandler.this.clickableText.onLinkLongClick(link[0].getURL(), event);
 
             }
         };
@@ -82,6 +83,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     clickHandled = false;
+                    this.event  = event;
                     handler.postDelayed(longClicked,
                             android.view.ViewConfiguration.getLongPressTimeout());
 

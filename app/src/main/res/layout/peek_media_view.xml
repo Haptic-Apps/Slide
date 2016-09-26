@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+    <View
+            android:id="@+id/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha=".7"
+            android:background="#000000"
+            />
+
+    <RelativeLayout
+            android:id="@+id/gifarea"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone">
+
+        <me.ccrama.redditslide.Views.MediaVideoView
+                android:id="@+id/gif"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true">
+
+        </me.ccrama.redditslide.Views.MediaVideoView>
+
+        <FrameLayout
+                android:id="@+id/placeholder"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="#b4000000"/>
+
+        <ProgressBar
+                android:id="@+id/gifprogress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"/>
+    </RelativeLayout>
+
+    <me.ccrama.redditslide.Views.SubsamplingScaleImageView
+            android:id="@+id/submission_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"/>
+
+    <WebView
+            android:id="@+id/website"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"/>
+
+    <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="0"
+            android:visibility="invisible"/>
+
+</RelativeLayout>

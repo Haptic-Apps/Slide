@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.klinker.android.peekview.PeekViewActivity;
+
 import java.util.Locale;
 
 import me.ccrama.redditslide.ColorPreferences;
@@ -40,7 +42,7 @@ import me.ccrama.redditslide.util.LogUtil;
  * and coloring of applicable views.
  */
 
-public class BaseActivity extends AppCompatActivity implements SwipeBackActivityBase, NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
+public class BaseActivity extends PeekViewActivity implements SwipeBackActivityBase, NfcAdapter.CreateNdefMessageCallback, NfcAdapter.OnNdefPushCompleteCallback {
     @Nullable
     public Toolbar mToolbar;
     protected SwipeBackActivityHelper mHelper;
