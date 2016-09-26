@@ -518,10 +518,10 @@ public class AlbumPager extends FullScreenActivity
                 String lqurl = url.substring(0, url.lastIndexOf("."))
                         + (SettingValues.imgurLq ? "m" : "h")
                         + url.substring(url.lastIndexOf("."), url.length());
-                loadImage(rootView, this, lqurl);
+                loadImage(rootView, this, lqurl, ((AlbumPager) getActivity()).images.size() == 1);
                 lq = true;
             } else {
-                loadImage(rootView, this, url);
+                loadImage(rootView, this, url, ((AlbumPager) getActivity()).images.size() == 1);
             }
 
             {
@@ -607,7 +607,7 @@ public class AlbumPager extends FullScreenActivity
                 rootView.findViewById(R.id.hq).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        loadImage(rootView, ImageFullNoSubmission.this, url);
+                        loadImage(rootView, ImageFullNoSubmission.this, url, ((AlbumPager) getActivity()).images.size() == 1);
                         rootView.findViewById(R.id.hq).setVisibility(View.GONE);
                     }
                 });
@@ -661,9 +661,10 @@ public class AlbumPager extends FullScreenActivity
                 + units[digitGroups];
     }
 
-    private static void loadImage(final View rootView, Fragment f, String url) {
+    private static void loadImage(final View rootView, Fragment f, String url, boolean single) {
         final SubsamplingScaleImageView image =
                 (SubsamplingScaleImageView) rootView.findViewById(R.id.image);
+
         image.setMinimumDpi(70);
         image.setMinimumTileDpi(240);
         ImageView fakeImage = new ImageView(f.getActivity());
@@ -675,7 +676,7 @@ public class AlbumPager extends FullScreenActivity
                 .displayImage(url, new ImageViewAware(fakeImage),
                         new DisplayImageOptions.Builder().resetViewBeforeLoading(true)
                                 .cacheOnDisk(true)
-                                .imageScaleType(ImageScaleType.NONE_SAFE)
+                                .imageScaleType(single?ImageScaleType.NONE:ImageScaleType.NONE_SAFE)
                                 .cacheInMemory(false)
                                 .build(), new ImageLoadingListener() {
                             private View mView;
