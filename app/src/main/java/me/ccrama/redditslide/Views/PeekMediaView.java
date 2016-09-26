@@ -320,6 +320,7 @@ public class PeekMediaView extends RelativeLayout {
     public void doLoadGif(final String dat) {
         videoView = (MediaVideoView) findViewById(R.id.gif);
         videoView.clearFocus();
+        findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) findViewById(R.id.gifprogress);
         findViewById(R.id.progress).setVisibility(View.GONE);
