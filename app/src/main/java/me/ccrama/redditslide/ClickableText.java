@@ -2,6 +2,7 @@ package me.ccrama.redditslide;
 
 import android.text.Spannable;
 import android.text.style.URLSpan;
+import android.view.MotionEvent;
 
 public interface ClickableText {
     /**
@@ -13,5 +14,5 @@ public interface ClickableText {
      */
     void onLinkClick(String url, int xOffset, String subreddit, URLSpan span);
 
-    void onLinkLongClick(String url);
+    void onLinkLongClick(String url, MotionEvent event);
 }
