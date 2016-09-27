@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -24,7 +25,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.klinker.android.peekview.PeekViewActivity;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -42,6 +42,7 @@ import java.net.URLConnection;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.ContentType;
+import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
@@ -61,6 +62,7 @@ public class PeekMediaView extends RelativeLayout {
     private GifUtils.AsyncLoadGif     gif;
     private MediaVideoView            videoView;
     private WebView                   website;
+    private ProgressBar progress;
     private SubsamplingScaleImageView image;
 
 
@@ -75,6 +77,18 @@ public class PeekMediaView extends RelativeLayout {
     public PeekMediaView(Context context) {
         super(context);
         init();
+    }
+
+    boolean web;
+    float origY = 0;
+
+    public void doScroll(MotionEvent event) {
+        if(origY == 0){
+            origY = event.getY();
+        }
+        if(web && website.canScrollVertically((origY-event.getY())> 0?0:1) && Math.abs(origY - event.getY()) > website.getHeight() / 4){
+            website.scrollBy(0, (int) -(origY - event.getY())/5);
+        }
     }
 
 
@@ -102,6 +116,7 @@ public class PeekMediaView extends RelativeLayout {
                 break;
             case IMGUR:
                 doLoadImgur(url);
+                break;
             case GIF:
             case STREAMABLE:
             case VID_ME:
@@ -112,9 +127,28 @@ public class PeekMediaView extends RelativeLayout {
     
     WebChromeClient   client;
     WebViewClient webClient;
+    
+    public void setValue(int newProgress) {
+        progress.setProgress(newProgress);
+        if (newProgress == 100) {
+            progress.setVisibility(View.GONE);
+        } else if (progress.getVisibility() == View.GONE) {
+            progress.setVisibility(View.VISIBLE);
+        }
+    }
+    
+    private class MyWebViewClient extends WebChromeClient {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            setValue(newProgress);
+            super.onProgressChanged(view, newProgress);
+        }
+    }
+
 
     private void doLoadLink(String url) {
-        client = new WebChromeClient();
+        client = new MyWebViewClient();
+        web = true;
         webClient = new WebViewClient();
         website.setVisibility(View.VISIBLE);
         website.setWebChromeClient(client);
@@ -266,8 +300,8 @@ public class PeekMediaView extends RelativeLayout {
                 && !contentUrl.startsWith("https://i.reddituploads.com")
                 && !contentUrl.contains(
                 "imgur.com"))) { //we can assume redditmedia and imgur links are to direct images and not websites
-            findViewById(R.id.progress).setVisibility(View.VISIBLE);
-            ((ProgressBar) findViewById(R.id.progress)).setIndeterminate(true);
+            progress.setVisibility(View.VISIBLE);
+            progress.setIndeterminate(true);
 
             final String finalUrl2 = contentUrl;
             new AsyncTask<Void, Void, Void>() {
@@ -306,7 +340,7 @@ public class PeekMediaView extends RelativeLayout {
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
-                    findViewById(R.id.progress).setVisibility(View.GONE);
+                    progress.setVisibility(View.GONE);
                 }
             }.execute();
 
@@ -323,7 +357,7 @@ public class PeekMediaView extends RelativeLayout {
         findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) findViewById(R.id.gifprogress);
-        findViewById(R.id.progress).setVisibility(View.GONE);
+        progress.setVisibility(View.GONE);
         gif = new GifUtils.AsyncLoadGif((PeekViewActivity)getContext(), (MediaVideoView) findViewById(R.id.gif), loader,
                 findViewById(R.id.placeholder), null, false, true, true);
         gif.execute(dat);
@@ -340,7 +374,7 @@ public class PeekMediaView extends RelativeLayout {
 
             i.setMinimumDpi(70);
             i.setMinimumTileDpi(240);
-            final ProgressBar bar = (ProgressBar) findViewById(R.id.progress);
+            final ProgressBar bar = (ProgressBar) progress;
             bar.setIndeterminate(false);
             bar.setProgress(0);
 
@@ -396,7 +430,7 @@ public class PeekMediaView extends RelativeLayout {
                     imageShown = false;
                     //todo  i.setImage(ImageSource.bitmap(loadedImage));
                 }
-                (findViewById(R.id.progress)).setVisibility(View.GONE);
+                (progress).setVisibility(View.GONE);
                 handler.removeCallbacks(progressBarDelayRunner);
 
             } else {
@@ -436,7 +470,7 @@ public class PeekMediaView extends RelativeLayout {
                                         } else {
                                             i.setImage(ImageSource.bitmap(loadedImage));
                                         }
-                                        (findViewById(R.id.progress)).setVisibility(View.GONE);
+                                        (progress).setVisibility(View.GONE);
                                         handler.removeCallbacks(progressBarDelayRunner);
                                     }
 
@@ -449,7 +483,7 @@ public class PeekMediaView extends RelativeLayout {
                                     @Override
                                     public void onProgressUpdate(String imageUri, View view,
                                             int current, int total) {
-                                        ((ProgressBar) findViewById(R.id.progress)).setProgress(
+                                        ((ProgressBar) progress).setProgress(
                                                 Math.round(100.0f * current / total));
                                     }
                                 });
@@ -462,6 +496,7 @@ public class PeekMediaView extends RelativeLayout {
         this.image = (SubsamplingScaleImageView) findViewById(R.id.submission_image);
         this.videoView = (MediaVideoView) findViewById(R.id.gif);
         this.website = (WebView) findViewById(R.id.website);
+        this.progress = ((ProgressBar) findViewById(R.id.progress));
     }
 
 }

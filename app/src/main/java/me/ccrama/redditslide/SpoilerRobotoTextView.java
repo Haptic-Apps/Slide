@@ -5,18 +5,15 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -40,12 +37,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.widget.RobotoTextView;
-import com.klinker.android.peekview.PeekViewActivity;
-import com.klinker.android.peekview.builder.Peek;
-import com.klinker.android.peekview.builder.PeekViewOptions;
-import com.klinker.android.peekview.callback.SimpleOnPeek;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -59,6 +51,12 @@ import me.ccrama.redditslide.Activities.Album;
 import me.ccrama.redditslide.Activities.AlbumPager;
 import me.ccrama.redditslide.Activities.MediaView;
 import me.ccrama.redditslide.Activities.TumblrPager;
+import me.ccrama.redditslide.ForceTouch.PeekView;
+import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
+import me.ccrama.redditslide.ForceTouch.builder.Peek;
+import me.ccrama.redditslide.ForceTouch.builder.PeekViewOptions;
+import me.ccrama.redditslide.ForceTouch.callback.OnButtonUp;
+import me.ccrama.redditslide.ForceTouch.callback.SimpleOnPeek;
 import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.Visuals.Palette;
@@ -308,7 +306,8 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
     }
 
     private void setLargeLinks(SpannableStringBuilder builder, URLSpan span) {
-        builder.setSpan(new RelativeSizeSpan(1.3f), builder.getSpanStart(span), builder.getSpanEnd(span), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new RelativeSizeSpan(1.3f), builder.getSpanStart(span),
+                builder.getSpanEnd(span), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     private void setStrikethrough(SpannableStringBuilder builder) {
@@ -526,11 +525,47 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
         if (activity != null && !activity.isFinishing()) {
             Peek.into(R.layout.peek_view, new SimpleOnPeek() {
                 @Override
-                public void onInflated(View rootView) {
+                public void onInflated(final PeekView peekView, final View rootView) {
                     //do stuff
-                    ((PeekMediaView)rootView).setUrl(url);
+                    ((Toolbar) rootView.findViewById(R.id.title)).setTitle(url);
+                    ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
+
+                    peekView.addButton((R.id.copy), new OnButtonUp() {
+                        @Override
+                        public void onButtonUp() {
+                            ClipboardManager clipboard = (ClipboardManager) rootView.getContext()
+                                    .getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("Link", url);
+                            clipboard.setPrimaryClip(clip);
+                            Toast.makeText(rootView.getContext(), R.string.submission_link_copied,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    peekView.addButton((R.id.share), new OnButtonUp() {
+                        @Override
+                        public void onButtonUp() {
+                            Reddit.defaultShareText("", url, rootView.getContext());
+                        }
+                    });
+
+                    peekView.addButton((R.id.pop), new OnButtonUp() {
+                        @Override
+                        public void onButtonUp() {
+                            Reddit.defaultShareText("", url, rootView.getContext());
+                        }
+                    });
+
+                    peekView.addButton((R.id.external), new OnButtonUp() {
+                        @Override
+                        public void onButtonUp() {
+                            LinkUtil.openExternally(url, context, false);
+                        }
+                    });
                 }
-            }).with(new PeekViewOptions().setFullScreenPeek(true)).show((PeekViewActivity) activity, event);
+            })
+                    .with(new PeekViewOptions().setFullScreenPeek(true))
+                    .show((PeekViewActivity) activity, event);
             /* old stuff
             BottomSheet.Builder b = new BottomSheet.Builder(activity).title(url).grid();
             int[] attrs = new int[]{R.attr.tint};
