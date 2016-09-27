@@ -85,7 +85,7 @@ public class TextViewLinkHandler extends BaseMovementMethod {
                     clickHandled = false;
                     this.event  = event;
                     handler.postDelayed(longClicked,
-                            android.view.ViewConfiguration.getLongPressTimeout());
+                            android.view.ViewConfiguration.getTapTimeout());
 
                     break;
                 case MotionEvent.ACTION_UP:

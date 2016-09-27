@@ -167,12 +167,10 @@ public class HistoryPosts extends GeneralPosts {
                 }
 
                 for (Thing c : paginator.next()) {
-                    LogUtil.v("Thing");
                     if (c instanceof Contribution) {
                         newData.add((Contribution) c);
                     }
                 }
-                LogUtil.v("Size is " + newData.size());
 
                 return newData;
             } catch (Exception e) {
