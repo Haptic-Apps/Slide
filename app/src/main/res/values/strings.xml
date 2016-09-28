@@ -1045,7 +1045,7 @@
     <string name="datasave_mobile">Mobile data</string>
     <string name="never">Never</string>
     <string name="multi_column_force_full">Force full comment view</string>
-    <string name="submission_info_locked">This is a locked post. You won\'t be able to vote or comment.</string>
+    <string name="submission_info_locked">This is a locked post. You won\'t be able to comment.</string>
     <string name="card_background_tint">Card background</string>
     <string name="subreddit_name_tint">Subreddit name</string>
     <string name="login_failed_err_decline">Be sure you didn’t select ‘Decline’ on the last screen, and try again in a minute</string>
