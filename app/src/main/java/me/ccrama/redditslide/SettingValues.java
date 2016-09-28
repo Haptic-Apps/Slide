@@ -10,7 +10,6 @@ import java.util.Calendar;
 
 import me.ccrama.redditslide.Views.CreateCardView;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LogUtil;
 
 /**
  * Created by ccrama on 9/19/2015.
@@ -96,6 +95,7 @@ public class SettingValues {
     public static final String COMMENT_COUNT               = "commentcount";
     public static final String PREF_USER_FILTERS           = "userFilters";
     public static final String PREF_COLOR_ICON             = "colorIcon";
+    public static final String PREF_PEEK                   = "peek";
     public static final String PREF_LARGE_LINKS            = "largeLinks";
 
     public static CreateCardView.CardEnum defaultCardView;
@@ -195,6 +195,7 @@ public class SettingValues {
     public static boolean notifSound;
     public static boolean cookies;
     public static boolean colorIcon;
+    public static boolean peek;
     public static boolean largeLinks;
 
     public static void setAllValues(SharedPreferences settings) {
@@ -317,6 +318,7 @@ public class SettingValues {
         actionbarVisible = prefs.getBoolean(PREF_ACTIONBAR_VISIBLE, true);
         actionbarTap = prefs.getBoolean(PREF_ACTIONBAR_TAP, false);
         colorIcon = prefs.getBoolean(PREF_COLOR_ICON, false);
+        peek = prefs.getBoolean(PREF_PEEK, false);
     }
 
     public static void setPicsEnabled(String sub, boolean checked) {
