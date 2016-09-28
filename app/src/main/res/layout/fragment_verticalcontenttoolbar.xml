@@ -1,121 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/activity_background">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="?attr/activity_background">
 
     <me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout
-        android:id="@+id/activity_main_swipe_refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:id="@+id/activity_main_swipe_refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/vertical_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fadeScrollbars="true"
-            android:orientation="vertical"
-            android:scrollbars="vertical" />
+                android:id="@+id/vertical_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fadeScrollbars="true"
+                android:orientation="vertical"
+                android:scrollbars="vertical"/>
     </me.ccrama.redditslide.Views.GeneralSwipeRefreshLayout>
 
     <LinearLayout
-        android:id="@+id/commentnav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="#55000000"
-        android:weightSum="2">
-
-        <ImageView
-            android:id="@+id/up"
-            style="@style/Ripple.List"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/up" />
-
-        <ImageView
-            android:id="@+id/nav"
-            style="@style/Ripple.List"
-            android:layout_width="48dp"
-            android:layout_height="36dp"
-            android:padding="8dp"
-            app:srcCompat="@drawable/nav" />
-
-        <ImageView
-            android:id="@+id/down"
-            style="@style/Ripple.List"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/down" />
-    </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/comment_floating_action_button"
-        layout="@layout/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        app:elevation="4dp"
-        app:fabSize="normal"
-        app:layout_anchorGravity="bottom|right|end"
-        app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
-        app:pressedTranslationZ="12dp"
-        app:srcCompat="@drawable/reply" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/header"
+            android:id="@+id/commentnav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="16dp"
-            android:orientation="vertical"
-            >
+            android:layout_gravity="bottom"
+            android:background="#55000000"
+            android:weightSum="2">
+
+        <ImageView
+                android:id="@+id/up"
+                style="@style/Ripple.List"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/up"/>
+
+        <ImageView
+                android:id="@+id/nav"
+                style="@style/Ripple.List"
+                android:layout_width="48dp"
+                android:layout_height="36dp"
+                android:padding="8dp"
+                app:srcCompat="@drawable/nav"/>
+
+        <ImageView
+                android:id="@+id/down"
+                style="@style/Ripple.List"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/down"/>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/comment_floating_action_button"
+                                                        layout="@layout/fab"
+                                                        xmlns:android="http://schemas.android.com/apk/res/android"
+                                                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                        android:layout_width="wrap_content"
+                                                        android:layout_height="wrap_content"
+                                                        android:layout_gravity="bottom|end"
+                                                        android:layout_margin="@dimen/activity_vertical_margin"
+                                                        app:elevation="4dp"
+                                                        app:fabSize="normal"
+                                                        app:layout_anchorGravity="bottom|right|end"
+                                                        app:layout_behavior="me.ccrama.redditslide.Views.AutoHideFAB"
+                                                        app:pressedTranslationZ="12dp"
+                                                        app:srcCompat="@drawable/reply"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="16dp"
+                android:orientation="vertical">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:theme="@style/Theme.AppCompat"
-                android:layout_height="@dimen/standard_toolbar_height"
-                android:minHeight="@dimen/standard_toolbar_height" />
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/standard_toolbar_height"
+                    android:minHeight="@dimen/standard_toolbar_height"
+                    android:theme="@style/Theme.AppCompat"/>
 
             <TextView
-                android:id="@+id/np"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/submission_np_link"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+                    android:id="@+id/np"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/submission_np_link"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"/>
 
             <TextView
-                android:id="@+id/archived"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/submission_info_archived"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+                    android:id="@+id/archived"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/submission_info_archived"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"/>
 
             <TextView
-                android:id="@+id/locked"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/submission_info_locked"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+                    android:id="@+id/locked"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/submission_info_locked"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"/>
+
             <TextView
                     android:id="@+id/contest"
                     android:layout_width="match_parent"
@@ -124,27 +124,29 @@
                     android:padding="8dp"
                     android:text="@string/submission_info_contest"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
+
             <TextView
-                android:id="@+id/loadall"
+                    android:id="@+id/loadall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/colorAccent"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/submission_load_full"
+                    android:textColor="?attr/font"
+                    android:textSize="14sp"/>
+        </android.support.design.widget.AppBarLayout>
+
+        <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/colorAccent"
-                android:gravity="center"
-                android:padding="8dp"
-                android:text="@string/submission_load_full"
-                android:textColor="?attr/font"
-                android:textSize="14sp" />
-        </android.support.design.widget.AppBarLayout>
-        <ProgressBar
-            android:id="@+id/progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:visibility="gone"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="-7dp"
-            android:indeterminate="true"
-            android:max="100"
-            android:progress="0" />
+                android:layout_marginTop="-7dp"
+                android:indeterminate="true"
+                android:max="100"
+                android:progress="0"
+                android:visibility="gone"/>
     </LinearLayout>
 </FrameLayout>
