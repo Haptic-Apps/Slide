@@ -54,15 +54,34 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * Created by carlo_000 on 2/7/2016.
  */
 public class HeaderImageLinkView extends RelativeLayout {
+    public String  loadedUrl;
+    public boolean lq;
+    public ImageView thumbImage2;
+    public TextView secondTitle;
+    public TextView secondSubTitle;
+    public View     wrapArea;
+    boolean done;
+    String lastDone = "";
+    ContentType.Type type;
+    DisplayImageOptions bigOptions = new DisplayImageOptions.Builder().resetViewBeforeLoading(false)
+            .cacheOnDisk(true)
+            .imageScaleType(ImageScaleType.EXACTLY)
+            .cacheInMemory(false)
+            .displayer(new FadeInBitmapDisplayer(250))
+            .build();
+    Activity activity = null;
+    boolean     clickHandled;
+    Handler     handler;
+    MotionEvent event;
+    Runnable    longClicked;
+    float       position;
     private TextView  title;
     private TextView  info;
     private ImageView backdrop;
-
     public HeaderImageLinkView(Context context) {
         super(context);
         init();
     }
-
     public HeaderImageLinkView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -73,41 +92,48 @@ public class HeaderImageLinkView extends RelativeLayout {
         init();
     }
 
-    public double getHeightFromAspectRatio(int imageHeight, int imageWidth) {
-        double ratio = (double) imageHeight / (double) imageWidth;
-        double width = getWidth();
-        return (width * ratio);
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        x += getScrollX();
+        y += getScrollY();
 
-    }
-
-    boolean done;
-
-
-    String lastDone = "";
-    ContentType.Type type;
-
-    public String  loadedUrl;
-    public boolean lq;
-
-    public void setSubmission(final Submission submission, final boolean full, String baseSub,
-            ContentType.Type type) {
-        this.type = type;
-        if (!lastDone.equals(submission.getFullName())) {
-            lq = false;
-            lastDone = submission.getFullName();
-            backdrop.setImageResource(
-                    android.R.color.transparent); //reset the image view in case the placeholder is still visible
-            thumbImage2.setImageResource(android.R.color.transparent);
-            doImageAndText(submission, full, baseSub);
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            position = event.getY(); //used to see if the user scrolled or not
         }
-    }
+        if (!(event.getAction() == MotionEvent.ACTION_UP
+                || event.getAction() == MotionEvent.ACTION_DOWN)) {
+            if (Math.abs((position - event.getY())) > 25) {
+                handler.removeCallbacksAndMessages(null);
+            }
+            return super.onTouchEvent(event);
+        }
 
-    DisplayImageOptions bigOptions = new DisplayImageOptions.Builder().resetViewBeforeLoading(false)
-            .cacheOnDisk(true)
-            .imageScaleType(ImageScaleType.EXACTLY)
-            .cacheInMemory(false)
-            .displayer(new FadeInBitmapDisplayer(250))
-            .build();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                clickHandled = false;
+                this.event = event;
+                if (SettingValues.peek) {
+                    handler.postDelayed(longClicked,
+                            android.view.ViewConfiguration.getTapTimeout() + 50);
+                } else {
+                    handler.postDelayed(longClicked,
+                            android.view.ViewConfiguration.getTapTimeout() + 250);
+                }
+
+                break;
+            case MotionEvent.ACTION_UP:
+                handler.removeCallbacksAndMessages(null);
+
+                if (!clickHandled) {
+                    // regular click
+                    callOnClick();
+                }
+                break;
+        }
+        return true;
+    }
 
     public void doImageAndText(final Submission submission, boolean full, String baseSub) {
 
@@ -532,89 +558,15 @@ public class HeaderImageLinkView extends RelativeLayout {
 */
     }
 
-    private String getDomainName(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        if (domain != null && !domain.isEmpty()) {
-            return domain.startsWith("www.") ? domain.substring(4) : domain;
-        } else {
-            return "";
-        }
+    public int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
-    public ImageView thumbImage2;
+    public double getHeightFromAspectRatio(int imageHeight, int imageWidth) {
+        double ratio = (double) imageHeight / (double) imageWidth;
+        double width = getWidth();
+        return (width * ratio);
 
-    public void setThumbnail(ImageView v) {
-        thumbImage2 = v;
-    }
-
-    public TextView secondTitle;
-    public TextView secondSubTitle;
-    public View     wrapArea;
-
-    public void setWrapArea(View v) {
-        wrapArea = v;
-        setSecondTitle((TextView) v.findViewById(R.id.contenttitle));
-        setSecondSubtitle((TextView) v.findViewById(R.id.contenturl));
-
-    }
-
-    Activity activity = null;
-    boolean     clickHandled;
-    Handler     handler;
-    MotionEvent event;
-    Runnable    longClicked;
-    float       position;
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        x += getScrollX();
-        y += getScrollY();
-
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            position = event.getY(); //used to see if the user scrolled or not
-        }
-        if (!(event.getAction() == MotionEvent.ACTION_UP
-                || event.getAction() == MotionEvent.ACTION_DOWN)) {
-            if (Math.abs((position - event.getY())) > 25) {
-                handler.removeCallbacksAndMessages(null);
-            }
-            return super.onTouchEvent(event);
-        }
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                clickHandled = false;
-                this.event = event;
-                handler.postDelayed(longClicked, android.view.ViewConfiguration.getTapTimeout() + 50);
-
-                break;
-            case MotionEvent.ACTION_UP:
-                handler.removeCallbacksAndMessages(null);
-
-                if (!clickHandled) {
-                    // regular click
-                    callOnClick();
-                }
-                break;
-        }
-        return true;
-    }
-
-    public void setBottomSheet(View v, final String url) {
-        handler = new Handler();
-        longClicked = new Runnable() {
-            @Override
-            public void run() {
-                // long click
-                clickHandled = true;
-
-                handler.removeCallbacksAndMessages(null);
-                onLinkLongClick(url, event);
-            }
-        };
     }
 
     public void onLinkLongClick(final String url, MotionEvent event) {
@@ -739,16 +691,64 @@ public class HeaderImageLinkView extends RelativeLayout {
         }
     }
 
-    public void setSecondTitle(TextView v) {
-        secondTitle = v;
+    public void setBottomSheet(View v, final String url) {
+        handler = new Handler();
+        longClicked = new Runnable() {
+            @Override
+            public void run() {
+                // long click
+                clickHandled = true;
+
+                handler.removeCallbacksAndMessages(null);
+                onLinkLongClick(url, event);
+            }
+        };
     }
 
     public void setSecondSubtitle(TextView v) {
         secondSubTitle = v;
     }
 
+    public void setSecondTitle(TextView v) {
+        secondTitle = v;
+    }
+
+    public void setSubmission(final Submission submission, final boolean full, String baseSub,
+            ContentType.Type type) {
+        this.type = type;
+        if (!lastDone.equals(submission.getFullName())) {
+            lq = false;
+            lastDone = submission.getFullName();
+            backdrop.setImageResource(
+                    android.R.color.transparent); //reset the image view in case the placeholder is still visible
+            thumbImage2.setImageResource(android.R.color.transparent);
+            doImageAndText(submission, full, baseSub);
+        }
+    }
+
+    public void setThumbnail(ImageView v) {
+        thumbImage2 = v;
+    }
+
     public void setUrl(String url) {
 
+    }
+
+    public void setWrapArea(View v) {
+        wrapArea = v;
+        setSecondTitle((TextView) v.findViewById(R.id.contenttitle));
+        setSecondSubtitle((TextView) v.findViewById(R.id.contenturl));
+
+    }
+
+    private String getDomainName(String url) throws URISyntaxException {
+        URI uri = new URI(url);
+        String domain = uri.getHost();
+        if (domain != null && !domain.isEmpty()) {
+            return domain.startsWith("www.") ? domain.substring(4) : domain;
+        } else {
+            return "";
+        }
     }
 
     private void init() {
@@ -756,9 +756,5 @@ public class HeaderImageLinkView extends RelativeLayout {
         this.title = (TextView) findViewById(R.id.textimage);
         this.info = (TextView) findViewById(R.id.subtextimage);
         this.backdrop = (ImageView) findViewById(R.id.leadimage);
-    }
-
-    public int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }
