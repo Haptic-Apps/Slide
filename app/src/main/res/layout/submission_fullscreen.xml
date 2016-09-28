@@ -1,359 +1,361 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/card"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?attr/card_background"
-    android:layout_marginBottom="4dp"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
-        android:id="@+id/headerimage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/headerimage"
-        android:id="@+id/bod"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="8dp"
-            android:paddingEnd="16dp"
-            android:paddingStart="16dp"
-            android:paddingTop="20dp">
-
-            <me.ccrama.redditslide.Views.TitleTextView
-                android:id="@+id/title"
+<RelativeLayout android:id="@+id/card"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="4dp"
-                android:text="@string/example_title"
-                android:textColor="?attr/font"
-                android:textSize="?attr/font_cardtitle"/>
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="-4dp"
+                android:background="?attr/card_background"
+                android:gravity="center"
+                android:orientation="vertical">
+
+    <me.ccrama.redditslide.SubmissionViews.HeaderImageLinkView
+            android:id="@+id/headerimage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <LinearLayout android:id="@+id/bod"
+                  xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/headerimage"
+                  android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:paddingTop="20dp">
+
+            <me.ccrama.redditslide.Views.TitleTextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="4dp"
+                    android:text="@string/example_title"
+                    android:textColor="?attr/font"
+                    android:textSize="?attr/font_cardtitle"/>
 
             <TextView
-                android:id="@+id/information"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:gravity="center_vertical"
-                android:paddingBottom="2dp"
-                android:tag="tintsecond"
-                android:text="@string/example_time"
-                android:textSize="?attr/font_cardinfo"/>
+                    android:id="@+id/information"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="2dp"
+                    android:tag="tintsecond"
+                    android:text="@string/example_time"
+                    android:textSize="?attr/font_cardinfo"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/menu"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="8dp"
-                app:srcCompat="@drawable/more"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:id="@+id/wraparea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?android:selectableItemBackground"
-                android:maxHeight="82dp"
-                android:orientation="horizontal"
-                android:paddingBottom="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:paddingTop="8dp">
+                android:orientation="vertical">
+
+            <ImageView
+                    android:id="@+id/menu"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/more"/>
+
+            <LinearLayout
+                    android:id="@+id/wraparea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground"
+                    android:maxHeight="82dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp">
 
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/thumbimage2"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginEnd="8dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/chameleon"
-                    app:riv_corner_radius="2dp" />
+                        android:id="@+id/thumbimage2"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_marginEnd="8dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        app:riv_corner_radius="2dp"
+                        app:srcCompat="@drawable/chameleon"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/contenttitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/example_domain"
-                        android:textColor="?attr/font"
-                        android:textSize="16sp" />
+                            android:id="@+id/contenttitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/example_domain"
+                            android:textColor="?attr/font"
+                            android:textSize="16sp"/>
 
                     <TextView
-                        android:id="@+id/contenturl"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:alpha=".56"
-                        android:text="@string/example_url"
-                        android:textColor="?attr/font"
-                        android:textSize="14sp" />
+                            android:id="@+id/contenturl"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha=".56"
+                            android:text="@string/example_url"
+                            android:textColor="?attr/font"
+                            android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/body_area"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                android:id="@+id/body_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
             <me.ccrama.redditslide.SpoilerRobotoTextView
-                android:id="@+id/firstTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textColor="?attr/font"
-                android:textSize="?attr/font_commentbody" />
+                    android:id="@+id/firstTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:textColor="?attr/font"
+                    android:textSize="?attr/font_commentbody"/>
 
             <me.ccrama.redditslide.Views.CommentOverflow
-                android:id="@+id/commentOverflow"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:visibility="gone"/>
+                    android:id="@+id/commentOverflow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:visibility="gone"/>
         </LinearLayout>
 
         <me.ccrama.redditslide.Views.RevealRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:gravity="center_vertical">
-
-            <LinearLayout
-                android:id="@+id/vote"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal" />
+                android:layout_height="36dp"
+                android:gravity="center_vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:orientation="horizontal">
+                    android:id="@+id/vote"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"/>
+
+            <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
 
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="4dp"
-                    app:srcCompat="@drawable/upvoted"
-                    android:tint="?attr/tint"
-                    android:tag="tintactionbar" />
+                        android:layout_width="15dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="4dp"
+                        android:tag="tintactionbar"
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/upvoted"/>
 
                 <TextView
-                    android:id="@+id/score"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:tag="tintactionbar"
-                    android:text="400"
-                    android:textSize="?attr/font_cardinfo" />
+                        android:id="@+id/score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:tag="tintactionbar"
+                        android:text="400"
+                        android:textSize="?attr/font_cardinfo"/>
 
                 <TextView
-                    android:id="@+id/percent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:tag="tintactionbar"
-                    android:visibility="gone"
-                    android:textSize="?attr/font_cardinfo" />
+                        android:id="@+id/percent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="4dp"
+                        android:gravity="center_vertical"
+                        android:tag="tintactionbar"
+                        android:textSize="?attr/font_cardinfo"
+                        android:visibility="gone"/>
 
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="8dp"
-                    android:tint="?attr/tint"
-                    android:layout_marginEnd="4dp"
-                    app:srcCompat="@drawable/commentchange"
-                    android:tag="tintactionbar" />
+                        android:layout_width="15dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginStart="8dp"
+                        android:tag="tintactionbar"
+                        android:tint="?attr/tint"
+                        app:srcCompat="@drawable/commentchange"/>
 
                 <TextView
-                    android:id="@+id/comments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:tag="tintactionbar"
-                    android:text="420"
-                    android:textSize="?attr/font_cardinfo" />
+                        android:id="@+id/comments"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:tag="tintactionbar"
+                        android:text="420"
+                        android:textSize="?attr/font_cardinfo"/>
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/more"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_alignParentRight="true"
-                android:tag="tintactionbar"
-                android:padding="8dp"
-                app:srcCompat="@drawable/more"
-                android:tint="?attr/tint" />
+                    android:id="@+id/more"
+                    style="@style/Ripple.List"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_alignParentRight="true"
+                    android:padding="8dp"
+                    android:tag="tintactionbar"
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/more"/>
 
             <ImageView
-                android:id="@+id/upvote"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/downvote"
-                android:padding="8dp"
-                android:tag="tintactionbar"
-                app:srcCompat="@drawable/upvoted"
-                android:tint="?attr/tint" />
+                    android:id="@+id/upvote"
+                    style="@style/Ripple.List"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_toLeftOf="@+id/downvote"
+                    android:padding="8dp"
+                    android:tag="tintactionbar"
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/upvoted"/>
 
             <ImageView
-                android:id="@+id/save"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_below="@+id/innerrelative"
-                android:tag="tintactionbar"
-                android:layout_toLeftOf="@+id/reply"
-                android:padding="8dp"
-                app:srcCompat="@drawable/iconstarfilled"
-                android:tint="?attr/tint" />
+                    android:id="@+id/save"
+                    style="@style/Ripple.List"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_below="@+id/innerrelative"
+                    android:layout_toLeftOf="@+id/reply"
+                    android:padding="8dp"
+                    android:tag="tintactionbar"
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/iconstarfilled"/>
 
             <ImageView
-                android:id="@+id/reply"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/upvote"
-                android:tag="tintactionbar"
-                android:padding="8dp"
-                app:srcCompat="@drawable/reply"
-                android:tint="?attr/tint" />
+                    android:id="@+id/reply"
+                    style="@style/Ripple.List"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_toLeftOf="@+id/upvote"
+                    android:padding="8dp"
+                    android:tag="tintactionbar"
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/reply"/>
 
             <ImageView
-                android:id="@+id/downvote"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:tag="tintactionbar"
-                android:layout_toLeftOf="@+id/more"
-                android:padding="8dp"
-                app:srcCompat="@drawable/downvote"
-                android:tint="?attr/tint" />
+                    android:id="@+id/downvote"
+                    style="@style/Ripple.List"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_toLeftOf="@+id/more"
+                    android:padding="8dp"
+                    android:tag="tintactionbar"
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/downvote"/>
 
             <ImageView
-                android:id="@+id/edit"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/save"
-                android:tag="tintactionbar"
-                android:padding="8dp"
-                app:srcCompat="@drawable/edit"
-                android:tint="?attr/tint" />
+                    android:id="@+id/edit"
+                    style="@style/Ripple.List"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_toLeftOf="@+id/save"
+                    android:padding="8dp"
+                    android:tag="tintactionbar"
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/edit"/>
+
             <ImageView
-                android:id="@+id/mod"
-                style="@style/Ripple.List"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_toLeftOf="@+id/edit"
-                android:tag="tintactionbar"
-                android:padding="8dp"
-                app:srcCompat="@drawable/mod"
-                android:tint="?attr/tint" />
+                    android:id="@+id/mod"
+                    style="@style/Ripple.List"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_toLeftOf="@+id/edit"
+                    android:padding="8dp"
+                    android:tag="tintactionbar"
+                    android:tint="?attr/tint"
+                    app:srcCompat="@drawable/mod"/>
         </me.ccrama.redditslide.Views.RevealRelativeLayout>
 
 
         <LinearLayout
-            android:id="@+id/innerSend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:visibility="gone">
-
-            <EditText
-                android:id="@+id/replyLine"
+                android:id="@+id/innerSend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/tint"
-                android:hint="@string/btn_reply"
-                android:imeOptions="actionDone|flagNoEnterAction"
-                android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
-                android:minHeight="30dp"
-                android:textCursorDrawable="@drawable/cursor"
-                android:textColor="?attr/font"
-                android:textColorHint="?attr/font" />
+                android:orientation="vertical"
+                android:padding="16dp"
+                android:visibility="gone">
+
+            <EditText
+                    android:id="@+id/replyLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="?attr/tint"
+                    android:hint="@string/btn_reply"
+                    android:imeOptions="actionDone|flagNoEnterAction"
+                    android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
+                    android:minHeight="30dp"
+                    android:textColor="?attr/font"
+                    android:textColorHint="?attr/font"
+                    android:textCursorDrawable="@drawable/cursor"/>
 
             <include
-                layout="@layout/editor_items"/>
+                    layout="@layout/editor_items"/>
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/discard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:padding="4dp"
-                    android:text="@string/btn_discard"
-                    android:textAllCaps="true"
-                    android:textColor="?attr/font"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                        android:id="@+id/discard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?android:selectableItemBackground"
+                        android:padding="4dp"
+                        android:text="@string/btn_discard"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/font"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/preview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:selectableItemBackground"
-                    android:padding="4dp"
-                    android:text="@string/btn_preview"
-                    android:layout_marginEnd="8dp"
-                    android:textAllCaps="true"
-                    android:layout_toLeftOf="@+id/send"
-                    android:textColor="?attr/font"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                        android:id="@+id/preview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:layout_toLeftOf="@+id/send"
+                        android:background="?android:selectableItemBackground"
+                        android:padding="4dp"
+                        android:text="@string/btn_preview"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/font"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/send"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:background="?android:selectableItemBackground"
-                    android:padding="4dp"
-                    android:text="@string/btn_submit"
-                    android:textAllCaps="true"
-                    android:textColor="?attr/font"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                        android:id="@+id/send"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="?android:selectableItemBackground"
+                        android:padding="4dp"
+                        android:text="@string/btn_submit"
+                        android:textAllCaps="true"
+                        android:textColor="?attr/font"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
