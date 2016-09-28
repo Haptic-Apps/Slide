@@ -312,11 +312,7 @@ class DragSortRecycler extends RecyclerView.ItemDecoration implements RecyclerVi
             if ((e.getAction() == MotionEvent.ACTION_UP) && selectedDragItemPos != -1) {
                 int newPos = getNewPostion(rv);
                 if (moveInterface != null)
-                    if (newPos >= rv.getChildCount()) {
-                        moveInterface.onItemMoved(selectedDragItemPos, rv.getChildCount());
-                    } else {
-                        moveInterface.onItemMoved(selectedDragItemPos, newPos);
-                    }
+                    moveInterface.onItemMoved(selectedDragItemPos, newPos);
             }
 
             setIsDragging(false);
