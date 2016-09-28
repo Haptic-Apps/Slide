@@ -5,11 +5,15 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
@@ -37,6 +41,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.cocosw.bottomsheet.BottomSheet;
 import com.devspark.robototextview.widget.RobotoTextView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -521,94 +526,96 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
             throw new RuntimeException("Could not find activity from context:" + context);
         }
 
-
         if (activity != null && !activity.isFinishing()) {
-            Peek.into(R.layout.peek_view, new SimpleOnPeek() {
-                @Override
-                public void onInflated(final PeekView peekView, final View rootView) {
-                    //do stuff
-                    ((Toolbar) rootView.findViewById(R.id.title)).setTitle(url);
-                    ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
+            if (SettingValues.peek) {
+                Peek.into(R.layout.peek_view, new SimpleOnPeek() {
+                    @Override
+                    public void onInflated(final PeekView peekView, final View rootView) {
+                        //do stuff
+                        ((Toolbar) rootView.findViewById(R.id.title)).setTitle(url);
+                        ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
 
-                    peekView.addButton((R.id.copy), new OnButtonUp() {
-                        @Override
-                        public void onButtonUp() {
-                            ClipboardManager clipboard = (ClipboardManager) rootView.getContext()
-                                    .getSystemService(Context.CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("Link", url);
-                            clipboard.setPrimaryClip(clip);
-                            Toast.makeText(rootView.getContext(), R.string.submission_link_copied,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        peekView.addButton((R.id.copy), new OnButtonUp() {
+                            @Override
+                            public void onButtonUp() {
+                                ClipboardManager clipboard =
+                                        (ClipboardManager) rootView.getContext()
+                                                .getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("Link", url);
+                                clipboard.setPrimaryClip(clip);
+                                Toast.makeText(rootView.getContext(),
+                                        R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
-                    peekView.addButton((R.id.share), new OnButtonUp() {
-                        @Override
-                        public void onButtonUp() {
-                            Reddit.defaultShareText("", url, rootView.getContext());
-                        }
-                    });
+                        peekView.addButton((R.id.share), new OnButtonUp() {
+                            @Override
+                            public void onButtonUp() {
+                                Reddit.defaultShareText("", url, rootView.getContext());
+                            }
+                        });
 
-                    peekView.addButton((R.id.pop), new OnButtonUp() {
-                        @Override
-                        public void onButtonUp() {
-                            Reddit.defaultShareText("", url, rootView.getContext());
-                        }
-                    });
+                        peekView.addButton((R.id.pop), new OnButtonUp() {
+                            @Override
+                            public void onButtonUp() {
+                                Reddit.defaultShareText("", url, rootView.getContext());
+                            }
+                        });
 
-                    peekView.addButton((R.id.external), new OnButtonUp() {
-                        @Override
-                        public void onButtonUp() {
-                            LinkUtil.openExternally(url, context, false);
-                        }
-                    });
-                }
-            })
-                    .with(new PeekViewOptions().setFullScreenPeek(true))
-                    .show((PeekViewActivity) activity, event);
-            /* old stuff
-            BottomSheet.Builder b = new BottomSheet.Builder(activity).title(url).grid();
-            int[] attrs = new int[]{R.attr.tint};
-            TypedArray ta = getContext().obtainStyledAttributes(attrs);
-
-            int color = ta.getColor(0, Color.WHITE);
-            Drawable open = getResources().getDrawable(R.drawable.ic_open_in_browser);
-            open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-            Drawable share = getResources().getDrawable(R.drawable.ic_share);
-            share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-            Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
-            copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-            ta.recycle();
-
-            b.sheet(R.id.open_link, open,
-                    getResources().getString(R.string.submission_link_extern));
-            b.sheet(R.id.share_link, share, getResources().getString(R.string.share_link));
-            b.sheet(R.id.copy_link, copy, getResources().getString(R.string.submission_link_copy));
-            final Activity finalActivity = activity;
-            b.listener(new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case R.id.open_link:
-                            LinkUtil.openExternally(url, context, false);
-                            break;
-                        case R.id.share_link:
-                            Reddit.defaultShareText("", url, finalActivity);
-                            break;
-                        case R.id.copy_link:
-                            ClipboardManager clipboard =
-                                    (ClipboardManager) finalActivity.getSystemService(
-                                            Context.CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("Link", url);
-                            clipboard.setPrimaryClip(clip);
-                            Toast.makeText(finalActivity, R.string.submission_link_copied,
-                                    Toast.LENGTH_SHORT).show();
-                            break;
+                        peekView.addButton((R.id.external), new OnButtonUp() {
+                            @Override
+                            public void onButtonUp() {
+                                LinkUtil.openExternally(url, context, false);
+                            }
+                        });
                     }
-                }
-            }).show();*/
+                })
+                        .with(new PeekViewOptions().setFullScreenPeek(true))
+                        .show((PeekViewActivity) activity, event);
+            } else {
+                BottomSheet.Builder b = new BottomSheet.Builder(activity).title(url).grid();
+                int[] attrs = new int[]{R.attr.tint};
+                TypedArray ta = getContext().obtainStyledAttributes(attrs);
 
+                int color = ta.getColor(0, Color.WHITE);
+                Drawable open = getResources().getDrawable(R.drawable.ic_open_in_browser);
+                open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                Drawable share = getResources().getDrawable(R.drawable.ic_share);
+                share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
+                copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+
+                ta.recycle();
+
+                b.sheet(R.id.open_link, open,
+                        getResources().getString(R.string.submission_link_extern));
+                b.sheet(R.id.share_link, share, getResources().getString(R.string.share_link));
+                b.sheet(R.id.copy_link, copy,
+                        getResources().getString(R.string.submission_link_copy));
+                final Activity finalActivity = activity;
+                b.listener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case R.id.open_link:
+                                LinkUtil.openExternally(url, context, false);
+                                break;
+                            case R.id.share_link:
+                                Reddit.defaultShareText("", url, finalActivity);
+                                break;
+                            case R.id.copy_link:
+                                ClipboardManager clipboard =
+                                        (ClipboardManager) finalActivity.getSystemService(
+                                                Context.CLIPBOARD_SERVICE);
+                                ClipData clip = ClipData.newPlainText("Link", url);
+                                clipboard.setPrimaryClip(clip);
+                                Toast.makeText(finalActivity, R.string.submission_link_copied,
+                                        Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                }).show();
+            }
         }
     }
 
