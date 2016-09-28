@@ -71,6 +71,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -151,6 +152,8 @@ import me.ccrama.redditslide.util.NetworkStateReceiver;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
+
+import static me.ccrama.redditslide.UserSubscriptions.modOf;
 
 
 public class MainActivity extends BaseActivity
@@ -1592,6 +1595,14 @@ public class MainActivity extends BaseActivity
                     MainActivity.this.startActivity(inte);
                 }
             });
+
+            /**
+             * If the user is a known mod, show the "Moderation" drawer item quickly to
+             * stop the UI from jumping
+             */
+            if (modOf != null && !modOf.isEmpty() && Authentication.mod) {
+                header.findViewById(R.id.mod).setVisibility(View.VISIBLE);
+            }
 //update notification badge
 
             final LinearLayout profStuff = (LinearLayout) header.findViewById(R.id.accountsarea);
@@ -4537,11 +4548,13 @@ public class MainActivity extends BaseActivity
                 return;
             }
             if (Authentication.mod && Authentication.didOnline) {
-                headerMain.findViewById(R.id.mod).setVisibility(View.VISIBLE);
-                headerMain.findViewById(R.id.mod).setOnClickListener(new OnSingleClickListener() {
+                RelativeLayout mod = (RelativeLayout) headerMain.findViewById(R.id.mod);
+                mod.setVisibility(View.VISIBLE);
+
+                mod.setOnClickListener(new OnSingleClickListener() {
                     @Override
                     public void onSingleClick(View view) {
-                        if (UserSubscriptions.modOf != null && !UserSubscriptions.modOf.isEmpty()) {
+                        if (modOf != null && !modOf.isEmpty()) {
                             Intent inte = new Intent(MainActivity.this, ModQueue.class);
                             MainActivity.this.startActivity(inte);
                         }
