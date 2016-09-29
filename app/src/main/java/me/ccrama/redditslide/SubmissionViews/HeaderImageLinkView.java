@@ -605,6 +605,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                     public void onInflated(final PeekView peekView, final View rootView) {
                         //do stuff
                         ((Toolbar) rootView.findViewById(R.id.title)).setTitle(url);
+                        ((Toolbar) rootView.findViewById(R.id.title)).setTitleTextColor(Color.WHITE);
                         ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
 
                         peekView.addButton((R.id.copy), new OnButtonUp() {
