@@ -667,6 +667,8 @@ public class HeaderImageLinkView extends RelativeLayout {
                 x += getScrollX();
                 y += getScrollY();
 
+                HeaderImageLinkView.this.event =event;
+
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     position = event.getY(); //used to see if the user scrolled or not
                 }
