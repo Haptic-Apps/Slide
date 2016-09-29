@@ -95,49 +95,6 @@ public class HeaderImageLinkView extends RelativeLayout {
         init();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        int x = (int) event.getX();
-        int y = (int) event.getY();
-        x += getScrollX();
-        y += getScrollY();
-
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            position = event.getY(); //used to see if the user scrolled or not
-        }
-        if (!(event.getAction() == MotionEvent.ACTION_UP
-                || event.getAction() == MotionEvent.ACTION_DOWN)) {
-            if (Math.abs((position - event.getY())) > 25) {
-                handler.removeCallbacksAndMessages(null);
-            }
-            return super.onTouchEvent(event);
-        }
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                clickHandled = false;
-                this.event = event;
-                if (SettingValues.peek) {
-                    handler.postDelayed(longClicked,
-                            android.view.ViewConfiguration.getTapTimeout() + 50);
-                } else {
-                    handler.postDelayed(longClicked,
-                            android.view.ViewConfiguration.getTapTimeout() + 250);
-                }
-
-                break;
-            case MotionEvent.ACTION_UP:
-                handler.removeCallbacksAndMessages(null);
-
-                if (!clickHandled) {
-                    // regular click
-                    callOnClick();
-                }
-                break;
-        }
-        return true;
-    }
-
     public void doImageAndText(final Submission submission, boolean full, String baseSub) {
 
         boolean fullImage = ContentType.fullImage(type);
@@ -702,6 +659,50 @@ public class HeaderImageLinkView extends RelativeLayout {
 
     public void setBottomSheet(View v, final String url) {
         handler = new Handler();
+        v.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+                x += getScrollX();
+                y += getScrollY();
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    position = event.getY(); //used to see if the user scrolled or not
+                }
+                if (!(event.getAction() == MotionEvent.ACTION_UP
+                        || event.getAction() == MotionEvent.ACTION_DOWN)) {
+                    if (Math.abs((position - event.getY())) > 25) {
+                        handler.removeCallbacksAndMessages(null);
+                    }
+                    return super.onTouchEvent(event);
+                }
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        clickHandled = false;
+                        this.event = event;
+                        if (SettingValues.peek) {
+                            handler.postDelayed(longClicked,
+                                    android.view.ViewConfiguration.getTapTimeout() + 50);
+                        } else {
+                            handler.postDelayed(longClicked,
+                                    android.view.ViewConfiguration.getTapTimeout() + 250);
+                        }
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        handler.removeCallbacksAndMessages(null);
+
+                        if (!clickHandled) {
+                            // regular click
+                            callOnClick();
+                        }
+                        break;
+                }
+                return true;
+            }
+        });
         longClicked = new Runnable() {
             @Override
             public void run() {
