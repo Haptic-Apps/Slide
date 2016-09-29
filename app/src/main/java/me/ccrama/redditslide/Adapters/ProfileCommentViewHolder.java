@@ -11,7 +11,7 @@ import me.ccrama.redditslide.Views.CommentOverflow;
 /**
  * Created by ccrama on 9/17/2015.
  */
-class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
+public class ProfileCommentViewHolder extends RecyclerView.ViewHolder {
     public final TextView title;
     public final TextView score;
     public final TextView time;

@@ -10,18 +10,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -39,14 +35,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import me.ccrama.redditslide.Activities.MediaView;
-import me.ccrama.redditslide.Activities.Website;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
-import me.ccrama.redditslide.SettingValues;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -62,7 +55,7 @@ public class PeekMediaView extends RelativeLayout {
     private GifUtils.AsyncLoadGif     gif;
     private MediaVideoView            videoView;
     private WebView                   website;
-    private ProgressBar progress;
+    private ProgressBar               progress;
     private SubsamplingScaleImageView image;
 
 
@@ -70,10 +63,12 @@ public class PeekMediaView extends RelativeLayout {
         super(context, attrs, defStyleAttr);
         init();
     }
+
     public PeekMediaView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
+
     public PeekMediaView(Context context) {
         super(context);
         init();
@@ -83,11 +78,13 @@ public class PeekMediaView extends RelativeLayout {
     float origY = 0;
 
     public void doScroll(MotionEvent event) {
-        if(origY == 0){
+        if (origY == 0) {
             origY = event.getY();
         }
-        if(web && website.canScrollVertically((origY-event.getY())> 0?0:1) && Math.abs(origY - event.getY()) > website.getHeight() / 4){
-            website.scrollBy(0, (int) -(origY - event.getY())/5);
+        if (web
+                && website.canScrollVertically((origY - event.getY()) > 0 ? 0 : 1)
+                && Math.abs(origY - event.getY()) > website.getHeight() / 4) {
+            website.scrollBy(0, (int) -(origY - event.getY()) / 5);
         }
     }
 
@@ -104,8 +101,10 @@ public class PeekMediaView extends RelativeLayout {
             case SELF:
             case SPOILER:
             case NONE:
-            case REDDIT:
                 doLoadLink(url);
+                break;
+            case REDDIT:
+                doLoadReddit(url);
                 break;
             case DEVIANTART:
                 doLoadDeviantArt(url);
@@ -124,10 +123,10 @@ public class PeekMediaView extends RelativeLayout {
                 break;
         }
     }
-    
-    WebChromeClient   client;
-    WebViewClient webClient;
-    
+
+    WebChromeClient client;
+    WebViewClient   webClient;
+
     public void setValue(int newProgress) {
         progress.setProgress(newProgress);
         if (newProgress == 100) {
@@ -136,7 +135,7 @@ public class PeekMediaView extends RelativeLayout {
             progress.setVisibility(View.VISIBLE);
         }
     }
-    
+
     private class MyWebViewClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
@@ -168,6 +167,11 @@ public class PeekMediaView extends RelativeLayout {
             }
         });
         website.loadUrl(url);
+    }
+
+    private void doLoadReddit(String url) {
+        RedditItemView v = (RedditItemView) findViewById(R.id.reddit_item);
+        v.loadUrl(url);
     }
 
     public void doLoadDeviantArt(String url) {
@@ -213,8 +217,8 @@ public class PeekMediaView extends RelativeLayout {
             new AsyncTask<Void, Void, JsonObject>() {
                 @Override
                 protected JsonObject doInBackground(Void... params) {
-                    return HttpUtil.getImgurMashapeJsonObject(Reddit.client, new Gson(), apiUrl, SecretConstants
-                            .getImgurApiKey(getContext()));
+                    return HttpUtil.getImgurMashapeJsonObject(Reddit.client, new Gson(), apiUrl,
+                            SecretConstants.getImgurApiKey(getContext()));
                 }
 
                 @Override
@@ -268,7 +272,7 @@ public class PeekMediaView extends RelativeLayout {
                                 if (!imageShown) doLoadImage(finalUrl);
                             }
                         } catch (Exception e2) {
-                           //todo error out
+                            //todo error out
                         }
                     }
 
@@ -350,7 +354,7 @@ public class PeekMediaView extends RelativeLayout {
     }
 
     String actuallyLoaded;
-    
+
     public void doLoadGif(final String dat) {
         videoView = (MediaVideoView) findViewById(R.id.gif);
         videoView.clearFocus();
@@ -358,8 +362,9 @@ public class PeekMediaView extends RelativeLayout {
         findViewById(R.id.submission_image).setVisibility(View.GONE);
         final ProgressBar loader = (ProgressBar) findViewById(R.id.gifprogress);
         progress.setVisibility(View.GONE);
-        gif = new GifUtils.AsyncLoadGif((PeekViewActivity)getContext(), (MediaVideoView) findViewById(R.id.gif), loader,
-                findViewById(R.id.placeholder), null, false, true, true);
+        gif = new GifUtils.AsyncLoadGif((PeekViewActivity) getContext(),
+                (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder),
+                null, false, true, true);
         gif.execute(dat);
     }
 

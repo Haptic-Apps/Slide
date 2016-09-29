@@ -26,6 +26,7 @@ import jp.wasabeef.blurry.Blurry;
 import me.ccrama.redditslide.ForceTouch.builder.PeekViewOptions;
 import me.ccrama.redditslide.ForceTouch.callback.OnButtonUp;
 import me.ccrama.redditslide.ForceTouch.callback.OnPeek;
+import me.ccrama.redditslide.ForceTouch.callback.OnPop;
 import me.ccrama.redditslide.ForceTouch.util.DensityUtils;
 import me.ccrama.redditslide.ForceTouch.util.NavigationUtils;
 import me.ccrama.redditslide.R;
@@ -62,6 +63,17 @@ public class PeekView extends FrameLayout {
 
     public void addButton(@IdRes Integer i, OnButtonUp onButtonUp) {
         buttons.put(i, onButtonUp);
+    }
+
+    private OnPop mOnPop;
+
+    public void pop(){
+        if(mOnPop != null)
+        mOnPop.onPop();
+    }
+
+    public void setOnPop(OnPop mOnPop){
+        this.mOnPop = mOnPop;
     }
 
     public PeekView(Activity context, PeekViewOptions options, @NonNull View content,

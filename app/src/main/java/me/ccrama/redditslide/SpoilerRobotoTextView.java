@@ -39,6 +39,7 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
@@ -61,6 +62,7 @@ import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
 import me.ccrama.redditslide.ForceTouch.builder.Peek;
 import me.ccrama.redditslide.ForceTouch.builder.PeekViewOptions;
 import me.ccrama.redditslide.ForceTouch.callback.OnButtonUp;
+import me.ccrama.redditslide.ForceTouch.callback.OnPop;
 import me.ccrama.redditslide.ForceTouch.callback.SimpleOnPeek;
 import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Views.PeekMediaView;
@@ -532,19 +534,18 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                     @Override
                     public void onInflated(final PeekView peekView, final View rootView) {
                         //do stuff
-                        ((Toolbar) rootView.findViewById(R.id.title)).setTitle(url);
+                        ((TextView) rootView.findViewById(R.id.title)).setText(url);
                         ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
 
                         peekView.addButton((R.id.copy), new OnButtonUp() {
                             @Override
                             public void onButtonUp() {
-                                ClipboardManager clipboard =
-                                        (ClipboardManager) rootView.getContext()
-                                                .getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipboardManager clipboard = (ClipboardManager) rootView.getContext()
+                                        .getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData clip = ClipData.newPlainText("Link", url);
                                 clipboard.setPrimaryClip(clip);
-                                Toast.makeText(rootView.getContext(),
-                                        R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(rootView.getContext(), R.string.submission_link_copied,
+                                        Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -566,6 +567,12 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                             @Override
                             public void onButtonUp() {
                                 LinkUtil.openExternally(url, context, false);
+                            }
+                        });
+                        peekView.setOnPop(new OnPop() {
+                            @Override
+                            public void onPop() {
+                                onLinkClick(url, 0, "", null);
                             }
                         });
                     }

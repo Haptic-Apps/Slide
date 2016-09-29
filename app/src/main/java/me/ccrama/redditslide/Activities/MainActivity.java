@@ -1328,8 +1328,11 @@ public class MainActivity extends BaseActivity
         SettingValues.currentTheme = new ColorPreferences(this).getFontStyle().getThemeType();
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener(this);
-        this.registerReceiver(networkStateReceiver,
-                new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        try {
+            this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        } catch(Exception e){
+
+        }
     }
 
     @Override
