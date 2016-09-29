@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<set xmlns:android="http://schemas.android.com/apk/res/android" >
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+     android:interpolator="@android:anim/accelerate_decelerate_interpolator">
 
-    <translate
+<translate
         android:duration="150"
         android:toXDelta="20%"
         android:fromXDelta="0" />
