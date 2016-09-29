@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 
 
 public class PeekViewActivity extends AppCompatActivity {
@@ -32,7 +33,7 @@ public class PeekViewActivity extends AppCompatActivity {
     public boolean dispatchTouchEvent(MotionEvent event) {
 
         if(event.getAction() == MotionEvent.ACTION_UP){
-            peeking = false;
+            Reddit.peek = false;
         }
         if (peekView != null && event.getAction() == MotionEvent.ACTION_UP) {
 
@@ -51,24 +52,22 @@ public class PeekViewActivity extends AppCompatActivity {
 
                     params.topMargin = (int) -((origY - event.getY()) / 5);
                     if (event.getY() < (1 * origY) / 2) {
+                        Reddit.peek = true;
                         peekView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         peekView.pop();
                         removePeek(event);
-                        peeking = true;
                     }
                     peek.setLayoutParams(params);
                     break;
             }
             // we don't want to pass along the touch event or else it will just scroll under the PeekView
             return false;
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE && peeking) {
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE && Reddit.peek) {
             return false;
         }
 
         return super.dispatchTouchEvent(event);
     }
-
-    boolean peeking;
 
     public void showPeek(final PeekView view, float origY) {
         peekView = view;
