@@ -55,6 +55,7 @@ import net.dean.jraw.models.Thing;
 import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.http.auth.AUTH;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1550,9 +1551,9 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
+                    String toGet = new AccountManager(Authentication.reddit).reply(submission, reason);
                     new ModerationManager(Authentication.reddit).remove(submission, false);
-                    new AccountManager(Authentication.reddit).reply(submission, reason);
-                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(submission,
+                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(Authentication.reddit.get(toGet).get(0),
                             DistinguishedStatus.MODERATOR);
                 } catch (ApiException e) {
                     e.printStackTrace();

@@ -1,0 +1,82 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/top"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:clipChildren="false"
+    android:orientation="vertical"
+    android:scrollbars="none"
+    app:cardBackgroundColor="?attr/card_background">
+
+    <LinearLayout
+            android:id="@+id/header_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:id="@+id/sub_infotitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/subimage"
+                    android:paddingStart="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+            <TextView
+                    android:id="@+id/subscribers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/sub_infotitle"
+                    android:layout_toStartOf="@+id/subimage"
+                    android:paddingStart="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"/>
+
+            <TextView
+                    android:id="@+id/active_users"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/subscribers"
+                    android:layout_toStartOf="@+id/subimage"
+                    android:paddingStart="16dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:textStyle="italic"/>
+
+            <ImageView
+                    android:id="@+id/subimage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <me.ccrama.redditslide.SpoilerRobotoTextView
+                android:id="@+id/sub_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+        <me.ccrama.redditslide.Views.CommentOverflow
+                android:id="@+id/sub_title_overflow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"/>
+        <android.support.v7.widget.AppCompatCheckBox
+                android:layout_width="match_parent"
+                android:text="Subscribed"
+                android:id="@+id/subscribed"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
