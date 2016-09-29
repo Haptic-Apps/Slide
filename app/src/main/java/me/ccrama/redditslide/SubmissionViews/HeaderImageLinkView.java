@@ -55,12 +55,12 @@ import me.ccrama.redditslide.util.NetworkUtil;
  * Created by carlo_000 on 2/7/2016.
  */
 public class HeaderImageLinkView extends RelativeLayout {
-    public String  loadedUrl;
-    public boolean lq;
+    public String    loadedUrl;
+    public boolean   lq;
     public ImageView thumbImage2;
-    public TextView secondTitle;
-    public TextView secondSubTitle;
-    public View     wrapArea;
+    public TextView  secondTitle;
+    public TextView  secondSubTitle;
+    public View      wrapArea;
     boolean done;
     String lastDone = "";
     ContentType.Type type;
@@ -70,7 +70,7 @@ public class HeaderImageLinkView extends RelativeLayout {
             .cacheInMemory(false)
             .displayer(new FadeInBitmapDisplayer(250))
             .build();
-    Activity activity = null;
+    Activity            activity   = null;
     boolean     clickHandled;
     Handler     handler;
     MotionEvent event;
@@ -79,10 +79,12 @@ public class HeaderImageLinkView extends RelativeLayout {
     private TextView  title;
     private TextView  info;
     private ImageView backdrop;
+
     public HeaderImageLinkView(Context context) {
         super(context);
         init();
     }
+
     public HeaderImageLinkView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
@@ -559,99 +561,15 @@ public class HeaderImageLinkView extends RelativeLayout {
 */
     }
 
-<<<<<<< adf450332f8e941871676b93b18c7e242cd68818
     public int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
-=======
-    private String getDomainName(String url) throws URISyntaxException {
-        URI uri = new URI(url);
-        String domain = uri.getHost();
-        if (domain != null && !domain.isEmpty()) {
-            return domain.startsWith("www.") ? domain.substring(4) : domain;
-        } else {
-            return "";
-        }
-    }
-
-    public ImageView thumbImage2;
-
-    public void setThumbnail(ImageView v) {
-        thumbImage2 = v;
-    }
-
-    public TextView secondTitle;
-    public TextView secondSubTitle;
-    public View     wrapArea;
-
-    public void setWrapArea(View v) {
-        wrapArea = v;
-        setSecondTitle((TextView) v.findViewById(R.id.contenttitle));
-        setSecondSubtitle((TextView) v.findViewById(R.id.contenturl));
-
-    }
-
-    Activity activity = null;
-    boolean     clickHandled;
-    Handler     handler;
-    MotionEvent event;
-    Runnable    longClicked;
-    float       position;
-
-
->>>>>>> Added 'Pop' actions to open content fully, Added support for Reddit links in the PeekMediaView, Gave rounded corners to the PeekMediaView
 
     public double getHeightFromAspectRatio(int imageHeight, int imageWidth) {
         double ratio = (double) imageHeight / (double) imageWidth;
         double width = getWidth();
         return (width * ratio);
 
-<<<<<<< adf450332f8e941871676b93b18c7e242cd68818
-=======
-                handler.removeCallbacksAndMessages(null);
-                onLinkLongClick(url, event);
-            }
-        };
-        v.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                int x = (int) event.getX();
-                int y = (int) event.getY();
-                x += getScrollX();
-                y += getScrollY();
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    position = event.getY(); //used to see if the user scrolled or not
-                }
-                if (!(event.getAction() == MotionEvent.ACTION_UP
-                        || event.getAction() == MotionEvent.ACTION_DOWN)) {
-                    if (Math.abs((position - event.getY())) > 25) {
-                        handler.removeCallbacksAndMessages(null);
-                    }
-                    return false;
-                }
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        clickHandled = false;
-                        HeaderImageLinkView.this.event = event;
-                        handler.postDelayed(longClicked, android.view.ViewConfiguration.getTapTimeout() + 50);
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        handler.removeCallbacksAndMessages(null);
-
-                        if (!clickHandled) {
-                            // regular click
-                            callOnClick();
-                        }
-                        break;
-                }
-                return true;
-            }
-        });
->>>>>>> Added 'Pop' actions to open content fully, Added support for Reddit links in the PeekMediaView, Gave rounded corners to the PeekMediaView
     }
 
     public void onLinkLongClick(final String url, MotionEvent event) {
@@ -684,7 +602,6 @@ public class HeaderImageLinkView extends RelativeLayout {
         }
 
         if (activity != null && !activity.isFinishing()) {
-<<<<<<< adf450332f8e941871676b93b18c7e242cd68818
             if (SettingValues.peek) {
                 Peek.into(R.layout.peek_view, new SimpleOnPeek() {
                     @Override
@@ -705,26 +622,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                                         R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
                             }
                         });
-=======
-            Peek.into(R.layout.peek_view, new SimpleOnPeek() {
-                @Override
-                public void onInflated(final PeekView peekView, final View rootView) {
-                    //do stuff
-                    ((TextView) rootView.findViewById(R.id.title)).setText(url);
-                    ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
-
-                    peekView.addButton((R.id.copy), new OnButtonUp() {
-                        @Override
-                        public void onButtonUp() {
-                            ClipboardManager clipboard = (ClipboardManager) rootView.getContext()
-                                    .getSystemService(Context.CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("Link", url);
-                            clipboard.setPrimaryClip(clip);
-                            Toast.makeText(rootView.getContext(), R.string.submission_link_copied,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    });
->>>>>>> Added 'Pop' actions to open content fully, Added support for Reddit links in the PeekMediaView, Gave rounded corners to the PeekMediaView
 
                         peekView.addButton((R.id.share), new OnButtonUp() {
                             @Override
@@ -744,6 +641,12 @@ public class HeaderImageLinkView extends RelativeLayout {
                             @Override
                             public void onButtonUp() {
                                 LinkUtil.openExternally(url, context, false);
+                            }
+                        });
+                        peekView.setOnPop(new OnPop() {
+                            @Override
+                            public void onPop() {
+                                callOnClick();
                             }
                         });
                     }
@@ -791,59 +694,6 @@ public class HeaderImageLinkView extends RelativeLayout {
                                         Toast.LENGTH_SHORT).show();
                                 break;
                         }
-<<<<<<< adf450332f8e941871676b93b18c7e242cd68818
-=======
-                    });
-                    peekView.setOnPop(new OnPop() {
-                        @Override
-                        public void onPop() {
-                            callOnClick();
-                        }
-                    });
-                }
-            })
-                    .with(new PeekViewOptions().setFullScreenPeek(true))
-                    .show((PeekViewActivity) activity, event);
-            /* old stuff
-            BottomSheet.Builder b = new BottomSheet.Builder(activity).title(url).grid();
-            int[] attrs = new int[]{R.attr.tint};
-            TypedArray ta = getContext().obtainStyledAttributes(attrs);
-
-            int color = ta.getColor(0, Color.WHITE);
-            Drawable open = getResources().getDrawable(R.drawable.ic_open_in_browser);
-            open.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-            Drawable share = getResources().getDrawable(R.drawable.ic_share);
-            share.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-            Drawable copy = getResources().getDrawable(R.drawable.ic_content_copy);
-            copy.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-
-            ta.recycle();
-
-            b.sheet(R.id.open_link, open,
-                    getResources().getString(R.string.submission_link_extern));
-            b.sheet(R.id.share_link, share, getResources().getString(R.string.share_link));
-            b.sheet(R.id.copy_link, copy, getResources().getString(R.string.submission_link_copy));
-            final Activity finalActivity = activity;
-            b.listener(new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case R.id.open_link:
-                            LinkUtil.openExternally(url, context, false);
-                            break;
-                        case R.id.share_link:
-                            Reddit.defaultShareText("", url, finalActivity);
-                            break;
-                        case R.id.copy_link:
-                            ClipboardManager clipboard =
-                                    (ClipboardManager) finalActivity.getSystemService(
-                                            Context.CLIPBOARD_SERVICE);
-                            ClipData clip = ClipData.newPlainText("Link", url);
-                            clipboard.setPrimaryClip(clip);
-                            Toast.makeText(finalActivity, R.string.submission_link_copied,
-                                    Toast.LENGTH_SHORT).show();
-                            break;
->>>>>>> Added 'Pop' actions to open content fully, Added support for Reddit links in the PeekMediaView, Gave rounded corners to the PeekMediaView
                     }
                 }).show();
             }
