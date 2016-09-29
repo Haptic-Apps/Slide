@@ -2,6 +2,7 @@ package me.ccrama.redditslide.ForceTouch;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
@@ -30,6 +32,7 @@ import me.ccrama.redditslide.ForceTouch.callback.OnPop;
 import me.ccrama.redditslide.ForceTouch.util.DensityUtils;
 import me.ccrama.redditslide.ForceTouch.util.NavigationUtils;
 import me.ccrama.redditslide.R;
+import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.Views.PeekMediaView;
 import me.ccrama.redditslide.util.LogUtil;
 
@@ -66,6 +69,54 @@ public class PeekView extends FrameLayout {
     }
 
     private OnPop mOnPop;
+
+    int currentHighlight;
+    static int eight = Reddit.dpToPxVertical(8);
+
+    public void highlightMenu(MotionEvent event) {
+        if(currentHighlight != 0){
+            final View v = content.findViewById(currentHighlight);
+            Rect outRect = new Rect();
+            v.getGlobalVisibleRect(outRect);
+            if(!outRect.contains((int) event.getX(), (int) event.getY())){
+                currentHighlight = 0;
+                ValueAnimator animator = ValueAnimator.ofInt(eight, eight * 2);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator){
+                        v.setPadding(0,  (Integer) valueAnimator.getAnimatedValue(), 0, (Integer) valueAnimator.getAnimatedValue());
+                    }
+                });
+                animator.setInterpolator(new AccelerateDecelerateInterpolator());
+                animator.setDuration(150);
+                animator.start();
+            } else {
+                return;
+            }
+        }
+        for (Integer i : buttons.keySet()) {
+            final View v = content.findViewById(i);
+            Rect outRect = new Rect();
+            v.getGlobalVisibleRect(outRect);
+            if(outRect.contains((int) event.getX(), (int) event.getY()) && i != currentHighlight){
+                currentHighlight = i;
+                ValueAnimator animator = ValueAnimator.ofInt(eight * 2, eight);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator){
+                        v.setPadding(0,  (Integer) valueAnimator.getAnimatedValue(), 0, (Integer) valueAnimator.getAnimatedValue());
+                    }
+                });
+                animator.setInterpolator(new AccelerateDecelerateInterpolator());
+                animator.setDuration(150);
+                animator.start();
+
+                break;
+            } else if(outRect.contains((int) event.getX(), (int) event.getY())){
+                break;
+            }
+        }
+    }
 
     public void pop(){
         if(mOnPop != null)
