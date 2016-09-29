@@ -55,7 +55,6 @@ import net.dean.jraw.models.Thing;
 import net.dean.jraw.models.VoteDirection;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.http.auth.AUTH;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -104,7 +103,6 @@ import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
 import me.ccrama.redditslide.Vote;
 import me.ccrama.redditslide.util.LinkUtil;
-import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
 import me.ccrama.redditslide.util.OnSingleClickListener;
 import me.ccrama.redditslide.util.SubmissionParser;
@@ -415,8 +413,7 @@ public class PopulateSubmissionViewHolder {
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.save, null);
         Drawable open =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.openexternal, null);
-        Drawable link =
-                ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
+        Drawable link = ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.link, null);
         Drawable reddit =
                 ResourcesCompat.getDrawable(mContext.getResources(), R.drawable.commentchange,
                         null);
@@ -749,7 +746,7 @@ public class PopulateSubmissionViewHolder {
                         LinkUtil.openExternally(submission.getUrl(), mContext, true);
                         if (submission.isNsfw() && !SettingValues.storeNSFWHistory) {
                             //Do nothing if the post is NSFW and storeNSFWHistory is not enabled
-                        } else if(SettingValues.storeHistory) {
+                        } else if (SettingValues.storeHistory) {
                             HasSeen.addSeen(submission.getFullName());
                         }
                         break;
@@ -785,13 +782,15 @@ public class PopulateSubmissionViewHolder {
                                 final int pos = posts.indexOf(submission);
                                 posts.remove(submission);
 
-                                recyclerview.getAdapter().notifyItemRemoved(holder.getAdapterPosition());
+                                recyclerview.getAdapter()
+                                        .notifyItemRemoved(holder.getAdapterPosition());
 
                                 Snackbar s2 =
                                         Snackbar.make(holder.itemView, "Removed from read later",
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
-                                TextView tv2 = (TextView) view2.findViewById(android.support.design.R.id.snackbar_text);
+                                TextView tv2 = (TextView) view2.findViewById(
+                                        android.support.design.R.id.snackbar_text);
                                 tv2.setTextColor(Color.WHITE);
                                 s2.setAction(R.string.btn_undo, new View.OnClickListener() {
                                     @Override
@@ -805,10 +804,12 @@ public class PopulateSubmissionViewHolder {
                                         Snackbar.make(holder.itemView, "Removed from read later",
                                                 Snackbar.LENGTH_SHORT);
                                 View view2 = s2.getView();
-                                TextView tv2 = (TextView) view2.findViewById(android.support.design.R.id.snackbar_text);
+                                TextView tv2 = (TextView) view2.findViewById(
+                                        android.support.design.R.id.snackbar_text);
                                 s2.show();
                             }
-                            OfflineSubreddit.newSubreddit(CommentCacheAsync.SAVED_SUBMISSIONS).deleteFromMemory(submission.getFullName());
+                            OfflineSubreddit.newSubreddit(CommentCacheAsync.SAVED_SUBMISSIONS)
+                                    .deleteFromMemory(submission.getFullName());
 
                         }
                         break;
@@ -1010,8 +1011,7 @@ public class PopulateSubmissionViewHolder {
 
             @Override
             public void onPreExecute() {
-                d = new MaterialDialog.Builder(mContext)
-                        .progress(true, 100)
+                d = new MaterialDialog.Builder(mContext).progress(true, 100)
                         .title(R.string.profile_category_loading)
                         .content(R.string.misc_please_wait)
                         .show();
@@ -1306,17 +1306,7 @@ public class PopulateSubmissionViewHolder {
 
         boolean approved = false;
         String whoApproved = "";
-        if (SubmissionCache.removed.contains(submission.getFullName()) || (submission.getDataNode()
-                .get("approved_by")
-                .asText()
-                .equals("null") && !SubmissionCache.approved.contains(submission.getFullName()))) {
-            b.sheet(1, approve, res.getString(R.string.mod_btn_approve));
-        } else {
-            approved = true;
-            whoApproved = submission.getDataNode().get("approved_by").asText();
-            b.sheet(1, approve, res.getString(R.string.mod_btn_approved, whoApproved));
-        }
-
+        b.sheet(1, approve, res.getString(R.string.mod_btn_approve));
         b.sheet(6, remove, mContext.getString(R.string.mod_btn_remove))
                 .sheet(7, remove_reason, res.getString(R.string.mod_btn_remove_reason))
                 .sheet(30, spam, "Mark as spam");
@@ -1551,10 +1541,11 @@ public class PopulateSubmissionViewHolder {
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    String toGet = new AccountManager(Authentication.reddit).reply(submission, reason);
+                    String toGet =
+                            new AccountManager(Authentication.reddit).reply(submission, reason);
                     new ModerationManager(Authentication.reddit).remove(submission, false);
-                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(Authentication.reddit.get(toGet).get(0),
-                            DistinguishedStatus.MODERATOR);
+                    new ModerationManager(Authentication.reddit).setDistinguishedStatus(
+                            Authentication.reddit.get(toGet).get(0), DistinguishedStatus.MODERATOR);
                 } catch (ApiException e) {
                     e.printStackTrace();
                     return false;

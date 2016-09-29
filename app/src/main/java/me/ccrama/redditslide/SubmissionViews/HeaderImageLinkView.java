@@ -675,13 +675,12 @@ public class HeaderImageLinkView extends RelativeLayout {
                     if (Math.abs((position - event.getY())) > 25) {
                         handler.removeCallbacksAndMessages(null);
                     }
-                    return super.onTouchEvent(event);
+                    return false;
                 }
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         clickHandled = false;
-                        this.event = event;
                         if (SettingValues.peek) {
                             handler.postDelayed(longClicked,
                                     android.view.ViewConfiguration.getTapTimeout() + 50);
