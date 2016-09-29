@@ -6,11 +6,6 @@
             android:duration="150"
             android:fromYDelta="20%"
             android:toYDelta="0"/>
-    <scale
-            android:duration="150"
-            android:fromXScale="0.8"
-            android:pivotX="50%"
-            android:toXScale="1.0"/>
     <alpha
             android:duration="250"
             android:fromAlpha="0"
