@@ -41,14 +41,15 @@
             android:layout_width="match_parent"
             android:id="@+id/menu"
             android:orientation="horizontal"
-            android:layout_height="30dp"
+            android:layout_height="62dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="16dp"
             android:layout_alignParentStart="true">
         <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:id="@+id/share"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:src="@drawable/share"
                 android:clickable="true"
                 android:layout_height="match_parent"/>
@@ -56,16 +57,21 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:id="@+id/external"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+
                 android:src="@drawable/openexternal"
                 android:clickable="true"
                 android:layout_height="match_parent"/>
-
 
         <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:id="@+id/copy"
                 android:src="@drawable/ic_content_copy"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+
                 android:clickable="true"
                 android:layout_height="match_parent"/>
     </LinearLayout>

@@ -676,7 +676,7 @@ public class HeaderImageLinkView extends RelativeLayout {
                                     android.view.ViewConfiguration.getTapTimeout() + 50);
                         } else {
                             handler.postDelayed(longClicked,
-                                    android.view.ViewConfiguration.getTapTimeout() + 250);
+                                    android.view.ViewConfiguration.getLongPressTimeout());
                         }
 
                         break;
