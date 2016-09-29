@@ -5,16 +5,7 @@
         android:layout_height="match_parent"
         android:background="#3f000000"
         >
-    <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/title"
-            android:text="https://imgur.com/a/duARTe"
-            android:maxLines="1"
-            android:gravity="center_vertical"
-            android:layout_marginTop="36dp"
-            android:padding="16dp"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"/>
+
     <ImageView
             android:layout_width="match_parent"
             android:layout_below="@+id/title"
@@ -52,21 +43,33 @@
                 android:src="@drawable/share"
                 android:clickable="true"
                 android:layout_height="match_parent"/>
+
         <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:id="@+id/external"
-                android:src="@drawable/openexternal"
+                android:id="@+id/upvote"
+                android:src="@drawable/upvoted"
                 android:clickable="true"
                 android:layout_height="match_parent"/>
-
-
         <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:id="@+id/copy"
-                android:src="@drawable/ic_content_copy"
+                android:id="@+id/comments"
+                android:src="@drawable/commentchange"
                 android:clickable="true"
                 android:layout_height="match_parent"/>
     </LinearLayout>
+
+    <TextView
+            android:layout_width="match_parent"
+            android:id="@+id/title"
+            android:text="https://imgur.com/a/duARTe"
+            android:maxLines="1"
+            android:gravity="center_vertical"
+            android:layout_marginTop="36dp"
+            android:padding="16dp"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
 </RelativeLayout>
