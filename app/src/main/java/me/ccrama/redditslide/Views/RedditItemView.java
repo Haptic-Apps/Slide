@@ -63,6 +63,7 @@ import me.ccrama.redditslide.Adapters.ProfileCommentViewHolder;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
 import me.ccrama.redditslide.Authentication;
 import me.ccrama.redditslide.ColorPreferences;
+import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
 import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.OpenRedditLink;
@@ -107,13 +108,13 @@ public class RedditItemView extends RelativeLayout {
     }
 
 
-    public void loadUrl(String url) {
+    public void loadUrl(PeekMediaView v, String url) {
 
         LogUtil.v("Link is " + url);
         url = OpenRedditLink.formatRedditUrl(url);
 
         if (url.isEmpty()) {
-            //load web here
+            v.doLoadLink(url);
         } else if (url.startsWith("np")) {
             url = url.substring(2);
         }
@@ -128,15 +129,15 @@ public class RedditItemView extends RelativeLayout {
                 break;
             }
             case LIVE: {
-                //do load web
+                v.doLoadLink(url);
             }
             break;
             case WIKI: {
-                //do load web
+                v.doLoadLink(url);
                 break;
             }
             case SEARCH: {
-                //do load web
+                v.doLoadLink(url);
                 break;
             }
             case COMMENT_PERMALINK: {
@@ -170,11 +171,11 @@ public class RedditItemView extends RelativeLayout {
             }
             case USER: {
                 String name = parts[2];
-                new AsyncLoadProfile(name);
+                new AsyncLoadProfile(name).execute();
                 break;
             }
             case OTHER: {
-                //do load web
+                v.doLoadLink(url);
                 break;
             }
 
@@ -217,15 +218,6 @@ public class RedditItemView extends RelativeLayout {
                 TimeUtils.getTimeSince(account.getCreated().getTime(), getContext()));
 
         ((TextView) content.findViewById(R.id.moreinfo)).setText(info);
-
-        String tag = UserTags.getUserTag(name);
-        if (tag.isEmpty()) {
-            tag = getContext().getString(R.string.profile_tag_user);
-        } else {
-            tag = getContext().getString(R.string.profile_tag_user_existing, tag);
-        }
-
-        ((TextView) content.findViewById(R.id.tagged)).setText(tag);
 
         ((TextView) content.findViewById(R.id.commentkarma)).setText(String.format(Locale.getDefault(), "%d", account.getCommentKarma()));
         ((TextView) content.findViewById(R.id.linkkarma)).setText(String.format(Locale.getDefault(), "%d", account.getLinkKarma()));

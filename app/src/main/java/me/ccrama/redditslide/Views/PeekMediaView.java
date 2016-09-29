@@ -145,7 +145,7 @@ public class PeekMediaView extends RelativeLayout {
     }
 
 
-    private void doLoadLink(String url) {
+    public void doLoadLink(String url) {
         client = new MyWebViewClient();
         web = true;
         webClient = new WebViewClient();
@@ -171,7 +171,7 @@ public class PeekMediaView extends RelativeLayout {
 
     private void doLoadReddit(String url) {
         RedditItemView v = (RedditItemView) findViewById(R.id.reddit_item);
-        v.loadUrl(url);
+        v.loadUrl(this, url);
     }
 
     public void doLoadDeviantArt(String url) {

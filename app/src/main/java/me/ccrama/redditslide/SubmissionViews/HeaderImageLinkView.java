@@ -560,25 +560,13 @@ public class HeaderImageLinkView extends RelativeLayout {
 
         if (activity != null && !activity.isFinishing()) {
             if (SettingValues.peek) {
-                Peek.into(R.layout.peek_view, new SimpleOnPeek() {
+                Peek.into(R.layout.peek_view_submission, new SimpleOnPeek() {
                     @Override
                     public void onInflated(final PeekView peekView, final View rootView) {
                         //do stuff
                         ((TextView) rootView.findViewById(R.id.title)).setText(url);
                         ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
 
-                        peekView.addButton((R.id.copy), new OnButtonUp() {
-                            @Override
-                            public void onButtonUp() {
-                                ClipboardManager clipboard =
-                                        (ClipboardManager) rootView.getContext()
-                                                .getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData clip = ClipData.newPlainText("Link", url);
-                                clipboard.setPrimaryClip(clip);
-                                Toast.makeText(rootView.getContext(),
-                                        R.string.submission_link_copied, Toast.LENGTH_SHORT).show();
-                            }
-                        });
 
                         peekView.addButton((R.id.share), new OnButtonUp() {
                             @Override
@@ -587,17 +575,17 @@ public class HeaderImageLinkView extends RelativeLayout {
                             }
                         });
 
-                        peekView.addButton((R.id.pop), new OnButtonUp() {
+                        peekView.addButton((R.id.upvote), new OnButtonUp() {
                             @Override
                             public void onButtonUp() {
-                                Reddit.defaultShareText("", url, rootView.getContext());
+                                ((View)getParent()).findViewById(R.id.upvote).callOnClick();
                             }
                         });
 
-                        peekView.addButton((R.id.external), new OnButtonUp() {
+                        peekView.addButton((R.id.comments), new OnButtonUp() {
                             @Override
                             public void onButtonUp() {
-                                LinkUtil.openExternally(url, context, false);
+                                ((View)getParent().getParent()).callOnClick();
                             }
                         });
                         peekView.setOnPop(new OnPop() {

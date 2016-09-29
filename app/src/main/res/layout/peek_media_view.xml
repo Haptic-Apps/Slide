@@ -7,6 +7,7 @@
         android:gravity="center"
         cardview:cardCornerRadius="5dp"
         cardview:cardElevation="5dp"
+        android:layout_centerInParent="true"
         cardview:cardMaxElevation="5dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
@@ -68,7 +69,7 @@
                 android:layout_width="match_parent"
                 android:layout_centerInParent="true"
                 android:background="#fff"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 android:visibility="gone"/>
 

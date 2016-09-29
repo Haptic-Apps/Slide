@@ -5,13 +5,6 @@
     android:layout_gravity="center"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/black"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha=".54"
-        android:background="#000000" />
-
     <RelativeLayout
         android:id="@+id/content"
         android:layout_centerInParent="true"
@@ -93,4 +86,13 @@
             android:layout_weight="1"
             android:src="@drawable/save" />
     </LinearLayout>
+
+    <View
+            android:id="@+id/black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha=".54"
+            android:background="#000000"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
 </RelativeLayout>
