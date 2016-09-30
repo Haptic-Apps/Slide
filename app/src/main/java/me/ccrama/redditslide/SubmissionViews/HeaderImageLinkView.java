@@ -13,7 +13,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
@@ -564,7 +563,9 @@ public class HeaderImageLinkView extends RelativeLayout {
                     @Override
                     public void onInflated(final PeekView peekView, final View rootView) {
                         //do stuff
-                        ((TextView) rootView.findViewById(R.id.title)).setText(url);
+                        TextView text = ((TextView) rootView.findViewById(R.id.title));
+                        text.setText(url);
+                        text.setTextColor(Color.WHITE);
                         ((PeekMediaView) rootView.findViewById(R.id.peek)).setUrl(url);
 
 
