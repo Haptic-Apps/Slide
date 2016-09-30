@@ -19,7 +19,7 @@
     <string name="submission_info_unsaved">Submission unsaved</string>
     <string name="submission_info_saved">Submission saved</string>
     <string name="submission_info_cached">Submission cached</string>
-    <string name="submission_info_archived">This is an archived post. You won\'t be able to vote or comment</string>
+    <string name="submission_info_archived">This is an archived post. You won\'t be able to vote or comment.</string>
     <string name="submission_post_saved">Post saved</string>
     <string name="submission_info_hidden">Post hidden forever</string>
     <string name="submission_stickied">Pinned</string>
@@ -35,7 +35,7 @@
     <string name="submission_save">Save post</string>
     <string name="submission_save_image">Save image</string>
     <string name="submission_load_full">Load full thread</string>
-    <string name="submission_np_link">This is a no participation link. Please don\'t vote or comment</string>
+    <string name="submission_np_link">This is a no participation link. Please don\'t vote or comment.</string>
     <string name="submission_tap_gif">Tap to load GIF</string>
     <string name="submission_not_found">Uh oh, post not found!</string>
     <string name="submission_not_found_msg">Sorry, this post could not be found</string>
@@ -1144,7 +1144,7 @@
     <string name="enlarge_links_warning">May cause some lines to be bigger than others, but makes links easier to touch</string>
     <string name="type_tumblr">Tumblr</string>
     <string name="type_nsfw_tumblr">NSFW Tumblr</string>
-    <string name="submission_info_contest">This thread is in contest mode. You cannot change sorting</string>
+    <string name="submission_info_contest">This thread is in contest mode. You cannot change sorting.</string>
     <string name="sub_post_notifs_msg">Slide will check for new posts when it checks for mail (mail notifications must be enabled)</string>
 
 </resources>
