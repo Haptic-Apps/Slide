@@ -29,7 +29,6 @@ public class PeekViewActivity extends AppCompatActivity {
     float origY;
     int twelve = Reddit.dpToPxVertical(12);
 
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
 

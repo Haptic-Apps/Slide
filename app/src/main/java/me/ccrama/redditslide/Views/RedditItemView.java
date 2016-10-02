@@ -330,8 +330,7 @@ public class RedditItemView extends RelativeLayout {
             }
             if (progress != null) {
                 progress.setVisibility(GONE);
-            }
-        }
+            }}
     }
 
     public void doComment(Comment comment, View content) {
