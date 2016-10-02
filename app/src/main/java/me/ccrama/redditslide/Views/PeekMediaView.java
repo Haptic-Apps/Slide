@@ -8,12 +8,15 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -34,12 +37,21 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import me.ccrama.redditslide.Adapters.ImageGridAdapter;
 import me.ccrama.redditslide.ContentType;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
+import me.ccrama.redditslide.ImgurAlbum.AlbumUtils;
+import me.ccrama.redditslide.ImgurAlbum.Image;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
 import me.ccrama.redditslide.SecretConstants;
+import me.ccrama.redditslide.SettingValues;
+import me.ccrama.redditslide.util.AdBlocker;
 import me.ccrama.redditslide.util.GifUtils;
 import me.ccrama.redditslide.util.HttpUtil;
 import me.ccrama.redditslide.util.LogUtil;
@@ -54,7 +66,7 @@ public class PeekMediaView extends RelativeLayout {
     ContentType.Type contentType;
     private GifUtils.AsyncLoadGif     gif;
     private MediaVideoView            videoView;
-    private WebView                   website;
+    public  WebView                   website;
     private ProgressBar               progress;
     private SubsamplingScaleImageView image;
 
@@ -93,6 +105,9 @@ public class PeekMediaView extends RelativeLayout {
         contentType = ContentType.getContentType(url);
         switch (contentType) {
             case ALBUM:
+                doLoadAlbum(url);
+                progress.setIndeterminate(true);
+                break;
             case TUMBLR:
             case EMBEDDED:
             case EXTERNAL:
@@ -102,27 +117,67 @@ public class PeekMediaView extends RelativeLayout {
             case SPOILER:
             case NONE:
                 doLoadLink(url);
+                progress.setIndeterminate(false);
                 break;
             case REDDIT:
+                progress.setIndeterminate(true);
                 doLoadReddit(url);
                 break;
             case DEVIANTART:
                 doLoadDeviantArt(url);
+                progress.setIndeterminate(false);
                 break;
             case IMAGE:
-            case XKCD:
                 doLoadImage(url);
+                progress.setIndeterminate(false);
+                break;
+            case XKCD:
+                doLoadXKCD(url);
+                progress.setIndeterminate(false);
                 break;
             case IMGUR:
                 doLoadImgur(url);
+                progress.setIndeterminate(false);
                 break;
             case GIF:
             case STREAMABLE:
             case VID_ME:
                 doLoadGif(url);
+                progress.setIndeterminate(false);
                 break;
         }
     }
+
+    private void doLoadAlbum(final String url) {
+        new AlbumUtils.GetAlbumWithCallback(url, (PeekViewActivity) getContext()) {
+
+            @Override
+            public void onError() {
+                ((PeekViewActivity) getContext()).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        doLoadLink(url);
+                    }
+                });
+            }
+
+            @Override
+            public void doWithData(final List<Image> jsonElements) {
+                super.doWithData(jsonElements);
+                progress.setVisibility(View.GONE);
+                images = new ArrayList<>(jsonElements);
+                displayImage(images.get(0).getImageUrl());
+                if (images.size() > 1) {
+                    GridView grid = (GridView) findViewById(R.id.grid_area);
+                    grid.setNumColumns(5);
+                    grid.setVisibility(VISIBLE);
+                    grid.setAdapter(new ImageGridAdapter(getContext(), images));
+                }
+            }
+        }.execute();
+    }
+
+    List<Image> images;
 
     WebChromeClient client;
     WebViewClient   webClient;
@@ -144,11 +199,65 @@ public class PeekMediaView extends RelativeLayout {
         }
     }
 
+    public void doLoadXKCD(final String url) {
+        if (NetworkUtil.isConnected(getContext())) {
+            final String apiUrl = url.endsWith("/") ? url : (url + "/") + "info.0.json";
+            LogUtil.v(apiUrl);
+
+            final String finalUrl = url;
+            new AsyncTask<Void, Void, JsonObject>() {
+                @Override
+                protected JsonObject doInBackground(Void... params) {
+                    return HttpUtil.getJsonObject(Reddit.client, new Gson(), apiUrl);
+                }
+
+                @Override
+                protected void onPostExecute(final JsonObject result) {
+                    if (result != null && !result.isJsonNull() && result.has("error")) {
+                        doLoadLink(url);
+                    } else {
+                        try {
+                            if (result != null && !result.isJsonNull() && result.has("img")) {
+                                doLoadImage(result.get("img").getAsString());
+                            } else {
+                                doLoadLink(url);
+                            }
+                        } catch (Exception e2) {
+                            doLoadLink(url);
+                        }
+                    }
+
+                }
+            }.execute();
+        }
+    }
 
     public void doLoadLink(String url) {
         client = new MyWebViewClient();
         web = true;
-        webClient = new WebViewClient();
+        webClient = new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                website.loadUrl(
+                        "javascript:(function() { document.getElementsByTagName('video')[0].play(); })()");
+            }
+
+            private Map<String, Boolean> loadedUrls = new HashMap<>();
+
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                boolean ad;
+                if (!loadedUrls.containsKey(url)) {
+                    ad = AdBlocker.isAd(url, getContext());
+                    loadedUrls.put(url, ad);
+                } else {
+                    ad = loadedUrls.get(url);
+                }
+                return ad && SettingValues.tabletUI ? AdBlocker.createEmptyResource()
+                        : super.shouldInterceptRequest(view, url);
+            }
+
+        };
         website.setVisibility(View.VISIBLE);
         website.setWebChromeClient(client);
         website.setWebViewClient(webClient);
@@ -171,7 +280,7 @@ public class PeekMediaView extends RelativeLayout {
 
     private void doLoadReddit(String url) {
         RedditItemView v = (RedditItemView) findViewById(R.id.reddit_item);
-        v.loadUrl(this, url);
+        v.loadUrl(this, url, progress);
     }
 
     public void doLoadDeviantArt(String url) {
@@ -290,8 +399,6 @@ public class PeekMediaView extends RelativeLayout {
         if (contentUrl != null && ContentType.isImgurLink(contentUrl)) {
             contentUrl = contentUrl + ".png";
         }
-        findViewById(R.id.gifprogress).setVisibility(View.GONE);
-
         if (contentUrl != null && contentUrl.contains("m.imgur.com")) {
             contentUrl = contentUrl.replace("m.imgur.com", "i.imgur.com");
         }
@@ -360,11 +467,9 @@ public class PeekMediaView extends RelativeLayout {
         videoView.clearFocus();
         findViewById(R.id.gifarea).setVisibility(View.VISIBLE);
         findViewById(R.id.submission_image).setVisibility(View.GONE);
-        final ProgressBar loader = (ProgressBar) findViewById(R.id.gifprogress);
-        progress.setVisibility(View.GONE);
+        progress.setVisibility(View.VISIBLE);
         gif = new GifUtils.AsyncLoadGif((PeekViewActivity) getContext(),
-                (MediaVideoView) findViewById(R.id.gif), loader, findViewById(R.id.placeholder),
-                null, false, true, true);
+                (MediaVideoView) findViewById(R.id.gif), progress, null, false, true, true);
         gif.execute(dat);
     }
 
@@ -379,14 +484,13 @@ public class PeekMediaView extends RelativeLayout {
 
             i.setMinimumDpi(70);
             i.setMinimumTileDpi(240);
-            final ProgressBar bar = (ProgressBar) progress;
-            bar.setIndeterminate(false);
-            bar.setProgress(0);
+            progress.setIndeterminate(false);
+            progress.setProgress(0);
 
             final Handler handler = new Handler();
             final Runnable progressBarDelayRunner = new Runnable() {
                 public void run() {
-                    bar.setVisibility(View.VISIBLE);
+                    progress.setVisibility(View.VISIBLE);
                 }
             };
             handler.postDelayed(progressBarDelayRunner, 500);
@@ -488,8 +592,7 @@ public class PeekMediaView extends RelativeLayout {
                                     @Override
                                     public void onProgressUpdate(String imageUri, View view,
                                             int current, int total) {
-                                        ((ProgressBar) progress).setProgress(
-                                                Math.round(100.0f * current / total));
+                                        progress.setProgress(Math.round(100.0f * current / total));
                                     }
                                 });
             }

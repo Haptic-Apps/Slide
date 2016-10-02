@@ -42,6 +42,7 @@ import me.ccrama.redditslide.ForceTouch.builder.Peek;
 import me.ccrama.redditslide.ForceTouch.builder.PeekViewOptions;
 import me.ccrama.redditslide.ForceTouch.callback.OnButtonUp;
 import me.ccrama.redditslide.ForceTouch.callback.OnPop;
+import me.ccrama.redditslide.ForceTouch.callback.OnRemove;
 import me.ccrama.redditslide.ForceTouch.callback.SimpleOnPeek;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -579,6 +580,13 @@ public class HeaderImageLinkView extends RelativeLayout {
                             @Override
                             public void onButtonUp() {
                                 ((View)getParent()).findViewById(R.id.upvote).callOnClick();
+                            }
+                        });
+
+                        peekView.setOnRemoveListener(new OnRemove() {
+                            @Override
+                            public void onRemove() {
+                                ((PeekMediaView) rootView.findViewById(R.id.peek)).website.loadUrl("about:blank");
                             }
                         });
 

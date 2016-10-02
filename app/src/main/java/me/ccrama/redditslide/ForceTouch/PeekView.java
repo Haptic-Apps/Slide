@@ -29,6 +29,7 @@ import me.ccrama.redditslide.ForceTouch.builder.PeekViewOptions;
 import me.ccrama.redditslide.ForceTouch.callback.OnButtonUp;
 import me.ccrama.redditslide.ForceTouch.callback.OnPeek;
 import me.ccrama.redditslide.ForceTouch.callback.OnPop;
+import me.ccrama.redditslide.ForceTouch.callback.OnRemove;
 import me.ccrama.redditslide.ForceTouch.util.DensityUtils;
 import me.ccrama.redditslide.ForceTouch.util.NavigationUtils;
 import me.ccrama.redditslide.R;
@@ -55,7 +56,8 @@ public class PeekView extends FrameLayout {
     private int             screenWidth;
     private int             screenHeight;
     private ViewGroup androidContentView = null;
-    private OnPeek callbacks;
+    private OnPeek   callbacks;
+    private OnRemove remove;
 
     public PeekView(Activity context, PeekViewOptions options, @LayoutRes int layoutRes,
             @Nullable OnPeek callbacks) {
@@ -443,6 +445,13 @@ public class PeekView extends FrameLayout {
         animator.start();
 
         Blurry.delete((ViewGroup) androidContentView.getRootView());
+
+        if(remove != null)
+            remove.onRemove();
+    }
+
+    public void setOnRemoveListener(OnRemove onRemove){
+        this.remove = onRemove;
     }
 
     /**

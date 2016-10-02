@@ -22,21 +22,6 @@
             android:src="@drawable/up"
             android:layout_height="0dp"/>
 
-    <me.ccrama.redditslide.Views.PeekMediaView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/peek"
-            android:layout_margin="12dp"
-            android:layout_marginTop="36dp"
-            android:layout_centerInParent="true"
-            android:paddingBottom="36dp"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:layout_below="@+id/title"
-            android:layout_above="@+id/menu"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
-
     <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/menu"
@@ -75,4 +60,17 @@
                 android:clickable="true"
                 android:layout_height="match_parent"/>
     </LinearLayout>
+
+    <me.ccrama.redditslide.Views.PeekMediaView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/peek"
+            android:layout_marginTop="29dp"
+            android:paddingBottom="36dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_below="@+id/pop"
+            android:layout_centerHorizontal="true"/>
 </RelativeLayout>

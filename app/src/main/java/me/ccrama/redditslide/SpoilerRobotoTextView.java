@@ -63,6 +63,7 @@ import me.ccrama.redditslide.ForceTouch.builder.Peek;
 import me.ccrama.redditslide.ForceTouch.builder.PeekViewOptions;
 import me.ccrama.redditslide.ForceTouch.callback.OnButtonUp;
 import me.ccrama.redditslide.ForceTouch.callback.OnPop;
+import me.ccrama.redditslide.ForceTouch.callback.OnRemove;
 import me.ccrama.redditslide.ForceTouch.callback.SimpleOnPeek;
 import me.ccrama.redditslide.Views.CustomQuoteSpan;
 import me.ccrama.redditslide.Views.PeekMediaView;
@@ -546,6 +547,13 @@ public class SpoilerRobotoTextView extends RobotoTextView implements ClickableTe
                                 clipboard.setPrimaryClip(clip);
                                 Toast.makeText(rootView.getContext(), R.string.submission_link_copied,
                                         Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        peekView.setOnRemoveListener(new OnRemove() {
+                            @Override
+                            public void onRemove() {
+                                ((PeekMediaView) rootView.findViewById(R.id.peek)).website.loadUrl("about:blank");
                             }
                         });
 

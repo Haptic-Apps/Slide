@@ -1,18 +1,11 @@
 package me.ccrama.redditslide.Views;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -24,48 +17,29 @@ import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.Window;
-import android.widget.CompoundButton;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.afollestad.materialdialogs.AlertDialogWrapper;
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.devspark.robototextview.util.RobotoTypefaceManager;
 
-import net.dean.jraw.http.NetworkException;
-import net.dean.jraw.managers.AccountManager;
 import net.dean.jraw.models.Account;
 import net.dean.jraw.models.Comment;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.models.Subreddit;
-import net.dean.jraw.models.Trophy;
 import net.dean.jraw.models.VoteDirection;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import me.ccrama.redditslide.ActionStates;
-import me.ccrama.redditslide.Activities.CancelSubNotifs;
-import me.ccrama.redditslide.Activities.MultiredditOverview;
-import me.ccrama.redditslide.Activities.Profile;
-import me.ccrama.redditslide.Activities.Sendmessage;
-import me.ccrama.redditslide.Activities.SubredditView;
 import me.ccrama.redditslide.Adapters.ProfileCommentViewHolder;
 import me.ccrama.redditslide.Adapters.SubmissionViewHolder;
 import me.ccrama.redditslide.Authentication;
-import me.ccrama.redditslide.ColorPreferences;
-import me.ccrama.redditslide.ForceTouch.PeekView;
 import me.ccrama.redditslide.ForceTouch.PeekViewActivity;
-import me.ccrama.redditslide.Notifications.CheckForMail;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
@@ -74,14 +48,10 @@ import me.ccrama.redditslide.SpoilerRobotoTextView;
 import me.ccrama.redditslide.SubmissionViews.PopulateSubmissionViewHolder;
 import me.ccrama.redditslide.TimeUtils;
 import me.ccrama.redditslide.UserSubscriptions;
-import me.ccrama.redditslide.UserTags;
 import me.ccrama.redditslide.Visuals.FontPreferences;
 import me.ccrama.redditslide.Visuals.Palette;
-import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.SubmissionParser;
-import uz.shift.colorpicker.LineColorPicker;
-import uz.shift.colorpicker.OnColorChangedListener;
 
 
 /**
@@ -108,9 +78,9 @@ public class RedditItemView extends RelativeLayout {
     }
 
 
-    public void loadUrl(PeekMediaView v, String url) {
+    public void loadUrl(PeekMediaView v, String url, ProgressBar progress) {
 
-        LogUtil.v("Link is " + url);
+        this.progress = progress;
         url = OpenRedditLink.formatRedditUrl(url);
 
         if (url.isEmpty()) {
@@ -182,6 +152,8 @@ public class RedditItemView extends RelativeLayout {
         }
     }
 
+    ProgressBar progress;
+
     public class AsyncLoadProfile extends AsyncTask<Void, Void, Account> {
 
         String id;
@@ -200,8 +172,13 @@ public class RedditItemView extends RelativeLayout {
             if (account != null) {
                 View content = LayoutInflater.from(getContext())
                         .inflate(R.layout.account_pop, RedditItemView.this, false);
+                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
+                params.addRule(CENTER_IN_PARENT);
                 addView(content);
                 doUser(account, content);
+            }
+            if (progress != null) {
+                progress.setVisibility(GONE);
             }
         }
     }
@@ -219,8 +196,10 @@ public class RedditItemView extends RelativeLayout {
 
         ((TextView) content.findViewById(R.id.moreinfo)).setText(info);
 
-        ((TextView) content.findViewById(R.id.commentkarma)).setText(String.format(Locale.getDefault(), "%d", account.getCommentKarma()));
-        ((TextView) content.findViewById(R.id.linkkarma)).setText(String.format(Locale.getDefault(), "%d", account.getLinkKarma()));
+        ((TextView) content.findViewById(R.id.commentkarma)).setText(
+                String.format(Locale.getDefault(), "%d", account.getCommentKarma()));
+        ((TextView) content.findViewById(R.id.linkkarma)).setText(
+                String.format(Locale.getDefault(), "%d", account.getLinkKarma()));
 
     }
 
@@ -236,7 +215,7 @@ public class RedditItemView extends RelativeLayout {
         protected Subreddit doInBackground(Void... params) {
             try {
                 return Authentication.reddit.getSubreddit(id);
-            } catch(Exception e){
+            } catch (Exception e) {
                 return null;
             }
         }
@@ -246,8 +225,13 @@ public class RedditItemView extends RelativeLayout {
             if (subreddit != null) {
                 View content = LayoutInflater.from(getContext())
                         .inflate(R.layout.subreddit_pop, RedditItemView.this, false);
+                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
+                params.addRule(CENTER_IN_PARENT);
                 addView(content);
                 doSidebar(subreddit, content);
+            }
+            if (progress != null) {
+                progress.setVisibility(GONE);
             }
         }
     }
@@ -258,7 +242,8 @@ public class RedditItemView extends RelativeLayout {
                 && subreddit.isUserSubscriber())) {
             ((AppCompatCheckBox) content.findViewById(R.id.subscribed)).setChecked(true);
         }
-        content.findViewById(R.id.header_sub).setBackgroundColor(Palette.getColor(subreddit.getDisplayName()));
+        content.findViewById(R.id.header_sub)
+                .setBackgroundColor(Palette.getColor(subreddit.getDisplayName()));
         ((TextView) content.findViewById(R.id.sub_infotitle)).setText(subreddit.getDisplayName());
         if (!subreddit.getPublicDescription().isEmpty()) {
             content.findViewById(R.id.sub_title).setVisibility(View.VISIBLE);
@@ -273,7 +258,7 @@ public class RedditItemView extends RelativeLayout {
                 .get("icon_img")
                 .asText()
                 .isEmpty()) {
-            ((Reddit) ((PeekViewActivity)getContext()).getApplication()).getImageLoader()
+            ((Reddit) ((PeekViewActivity) getContext()).getApplication()).getImageLoader()
                     .displayImage(subreddit.getDataNode().get("icon_img").asText(),
                             (ImageView) content.findViewById(R.id.subimage));
         } else {
@@ -310,8 +295,13 @@ public class RedditItemView extends RelativeLayout {
                 LogUtil.v("Adding view");
                 View content = LayoutInflater.from(getContext())
                         .inflate(R.layout.profile_comment, RedditItemView.this, false);
+                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
+                params.addRule(CENTER_IN_PARENT);
                 addView(content);
                 doComment(comment, content);
+            }
+            if (progress != null) {
+                progress.setVisibility(GONE);
             }
         }
     }
@@ -333,8 +323,13 @@ public class RedditItemView extends RelativeLayout {
         protected void onPostExecute(Submission submission) {
             if (submission != null) {
                 View content = CreateCardView.CreateView(RedditItemView.this);
+                RelativeLayout.LayoutParams params = (LayoutParams) content.getLayoutParams();
+                params.addRule(CENTER_IN_PARENT);
                 addView(content);
                 doSubmission(submission, content);
+            }
+            if (progress != null) {
+                progress.setVisibility(GONE);
             }
         }
     }

@@ -27,6 +27,7 @@ public class PeekViewActivity extends AppCompatActivity {
     }
 
     float origY;
+    int twelve = Reddit.dpToPxVertical(12);
 
 
     @Override
@@ -52,6 +53,14 @@ public class PeekViewActivity extends AppCompatActivity {
                 case MotionEvent.ACTION_MOVE:
 
                     params.topMargin = (int) -((origY - event.getY()) / 5);
+                    if( false && event.getY() < (2* origY) / 3) {
+                        params.leftMargin = twelve - (int) ((origY - event.getY())) / 2;
+                        params.rightMargin =  twelve -(int)((origY - event.getY()) )  / 2;
+                    } else {
+                        params.leftMargin = twelve;
+                        params.rightMargin = twelve;
+                    }
+
                     if (event.getY() < (1 * origY) / 2) {
                         Reddit.peek = true;
                         peekView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
