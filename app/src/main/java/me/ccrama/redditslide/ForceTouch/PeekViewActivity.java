@@ -78,13 +78,21 @@ public class PeekViewActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(event);
     }
 
+    public boolean isPeeking() {
+        return isPeeking;
+    }
+
+    public boolean isPeeking;
+
     public void showPeek(final PeekView view, float origY) {
+        isPeeking = true;
         peekView = view;
         peekView.show();
         this.origY = origY;
     }
 
     public void removePeek(MotionEvent event) {
+        isPeeking = false;
         if (peekView != null) {
             if (event != null) peekView.checkButtons(event);
             peekView.hide();

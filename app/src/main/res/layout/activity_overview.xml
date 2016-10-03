@@ -48,7 +48,7 @@
                         android:textColor="@color/white"
                         android:textColorHint="@color/md_grey_300"
                         android:visibility="gone"
-                        android:imeOptions="actionSearch"
+                        android:imeOptions="actionSearch|flagNoExtractUi"
                         android:singleLine="true"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.+"
                         android:theme="@style/SearchEditTextTheme"

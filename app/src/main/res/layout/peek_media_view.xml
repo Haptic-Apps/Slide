@@ -68,8 +68,7 @@
                 android:layout_width="match_parent"
                 android:id="@+id/grid_area"
                 android:visibility="gone"
-                android:layout_marginTop="8dp"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/submission_image"
                 android:layout_height="75dp"/>
 
         <ProgressBar

@@ -105,6 +105,10 @@ public class GifUtils {
             this.size = size;
         }
 
+        public void onError() {
+
+        }
+
         public AsyncLoadGif(@NotNull Activity c, @NotNull MediaVideoView video,
                 @Nullable ProgressBar p, @Nullable View placeholder, @NotNull boolean closeIfNull,
                 @NotNull boolean hideControls, boolean autostart) {
@@ -259,6 +263,7 @@ public class GifUtils {
                                 || result.get("gfyItem") == null
                                 || result.getAsJsonObject("gfyItem").get("mp4Url").isJsonNull()) {
 
+                            onError();
                             if (closeIfNull) {
                                 c.runOnUiThread(new Runnable() {
                                     @Override
@@ -340,6 +345,7 @@ public class GifUtils {
                                 || !(result.getAsJsonObject("files").has("mp4")
                                 || result.getAsJsonObject("files").has("mp4-mobile"))) {
 
+                            onError();
                             if (closeIfNull) {
                                 c.runOnUiThread(new Runnable() {
                                     @Override
@@ -394,6 +400,7 @@ public class GifUtils {
                                 + streamableUrl
                                 + "]");
 
+                        onError();
                         if (closeIfNull) {
                             c.runOnUiThread(new Runnable() {
                                 @Override
@@ -438,6 +445,7 @@ public class GifUtils {
                                 .get("complete_url")
                                 .isJsonNull()) {
 
+                            onError();
                             if (closeIfNull) {
                                 Intent web = new Intent(c, Website.class);
                                 web.putExtra(Website.EXTRA_URL, url);
@@ -510,6 +518,7 @@ public class GifUtils {
                                         //todo maybe load in shadowbox
                                     }
                                 } else {
+                                    onError();
                                     if (closeIfNull && !c.isFinishing()) {
                                         c.runOnUiThread(new Runnable() {
                                             @Override
@@ -644,6 +653,7 @@ public class GifUtils {
                     }
                 }
             } catch (Exception e) {
+                onError();
                 LogUtil.e("Error writing GIF: url = ["
                         + url
                         + "], progressBar = ["

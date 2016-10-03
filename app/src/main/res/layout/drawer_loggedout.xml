@@ -267,7 +267,7 @@
                 android:backgroundTint="?attr/tint"
                 android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.+"
                 android:hint="@string/drawer_search"
-                android:imeOptions="actionSearch"
+                android:imeOptions="actionSearch|flagNoExtractUi"
                 android:singleLine="true"
                 android:textColor="?attr/font"
                 android:textColorHint="?attr/font"

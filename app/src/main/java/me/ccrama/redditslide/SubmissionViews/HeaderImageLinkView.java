@@ -523,6 +523,8 @@ public class HeaderImageLinkView extends RelativeLayout {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
+    boolean popped;
+
     public double getHeightFromAspectRatio(int imageHeight, int imageWidth) {
         double ratio = (double) imageHeight / (double) imageWidth;
         double width = getWidth();
@@ -531,6 +533,7 @@ public class HeaderImageLinkView extends RelativeLayout {
     }
 
     public void onLinkLongClick(final String url, MotionEvent event) {
+        popped = false;
         if (url == null) {
             return;
         }
@@ -597,12 +600,19 @@ public class HeaderImageLinkView extends RelativeLayout {
                                 ((View)getParent().getParent()).callOnClick();
                             }
                         });
+
                         peekView.setOnPop(new OnPop() {
                             @Override
                             public void onPop() {
+                                popped = true;
                                 callOnClick();
                             }
                         });
+                    }
+
+                    @Override
+                    public void shown() {
+                        callOnClick();
                     }
                 })
                         .with(new PeekViewOptions().setFullScreenPeek(true))
