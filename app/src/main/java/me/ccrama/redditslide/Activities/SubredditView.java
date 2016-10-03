@@ -223,7 +223,7 @@ public class SubredditView extends BaseActivity {
                 && !subreddit.contains("+")) {
             executeAsyncSubreddit(subreddit);
         } else {
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
         }
     }
 

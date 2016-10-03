@@ -292,7 +292,6 @@ public class MediaView extends FullScreenActivity
                 showErrorDialog();
             } else {
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
-
                 if (findViewById(R.id.hq).getVisibility() == View.VISIBLE) {
                     i.putExtra("actuallyLoaded", contentUrl);
                 } else {
