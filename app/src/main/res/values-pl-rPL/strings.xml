@@ -842,7 +842,7 @@
   <string name="mediaview_converting_fail">Konwersja gifa przez Gfycat się nie powiodła</string>
   <string name="mediaview_converting_fail_btn">Otwórz w sieci</string>
   <string name="mediaview_save">Zapisz %1$s</string>
-  <string name="mediaview_saving">Zapisywanie</string>
+  <string name="mediaview_saving">Zapisywanie %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">Zapisywanie szkicu</string>
   <string name="draft_saved">Szkic zapisany</string>

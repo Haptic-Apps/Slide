@@ -77,7 +77,6 @@ import me.ccrama.redditslide.util.HttpUtil;
 import me.ccrama.redditslide.util.LinkUtil;
 import me.ccrama.redditslide.util.LogUtil;
 import me.ccrama.redditslide.util.NetworkUtil;
-import okhttp3.OkHttpClient;
 
 import static me.ccrama.redditslide.Activities.AlbumPager.readableFileSize;
 
@@ -110,7 +109,6 @@ public class MediaView extends FullScreenActivity
     private GifUtils.AsyncLoadGif      gif;
     private String                     contentUrl;
     private MediaVideoView             videoView;
-    private OkHttpClient               client;
     private Gson                       gson;
     private String                     mashapeKey;
 
@@ -293,7 +291,6 @@ public class MediaView extends FullScreenActivity
                 showErrorDialog();
             } else {
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
-
                 if (findViewById(R.id.hq).getVisibility() == View.VISIBLE) {
                     i.putExtra("actuallyLoaded", contentUrl);
                 } else {
@@ -322,7 +319,7 @@ public class MediaView extends FullScreenActivity
                     mNotifyManager =
                             (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                     mBuilder = new NotificationCompat.Builder(MediaView.this);
-                    mBuilder.setContentTitle(getString(R.string.mediaview_saving) + baseUrl)
+                    mBuilder.setContentTitle(getString(R.string.mediaview_saving, baseUrl))
                             .setSmallIcon(R.drawable.save);
                     try {
 
@@ -451,7 +448,6 @@ public class MediaView extends FullScreenActivity
         super.onCreate(savedInstanceState);
         getTheme().applyStyle(new ColorPreferences(this).getDarkThemeSubreddit(""), true);
 
-        client = Reddit.client;
         gson = new Gson();
         mashapeKey = SecretConstants.getImgurApiKey(this);
 
@@ -628,7 +624,7 @@ public class MediaView extends FullScreenActivity
             new AsyncTask<Void, Void, JsonObject>() {
                 @Override
                 protected JsonObject doInBackground(Void... params) {
-                    return HttpUtil.getImgurMashapeJsonObject(client, gson, apiUrl, mashapeKey);
+                    return HttpUtil.getImgurMashapeJsonObject(Reddit.client, gson, apiUrl, mashapeKey);
                 }
 
                 @Override
@@ -709,7 +705,7 @@ public class MediaView extends FullScreenActivity
             new AsyncTask<Void, Void, JsonObject>() {
                 @Override
                 protected JsonObject doInBackground(Void... params) {
-                    return HttpUtil.getJsonObject(client, gson, apiUrl);
+                    return HttpUtil.getJsonObject(Reddit.client, gson, apiUrl);
                 }
 
                 @Override
@@ -764,7 +760,7 @@ public class MediaView extends FullScreenActivity
         new AsyncTask<Void, Void, JsonObject>() {
             @Override
             protected JsonObject doInBackground(Void... params) {
-                return HttpUtil.getJsonObject(client, gson, apiUrl);
+                return HttpUtil.getJsonObject(Reddit.client, gson, apiUrl);
             }
 
             @Override

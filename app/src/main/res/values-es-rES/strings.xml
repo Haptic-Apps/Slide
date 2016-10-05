@@ -826,7 +826,7 @@
   <string name="mediaview_converting_fail">La conversión del gif a través de Gfycat no funciona</string>
   <string name="mediaview_converting_fail_btn">Abrir en Internet</string>
   <string name="mediaview_save">Guardar %1$s</string>
-  <string name="mediaview_saving">Guardando</string>
+  <string name="mediaview_saving">Guardando %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">Guardar borrador</string>
   <string name="draft_saved">Borrador guardado</string>

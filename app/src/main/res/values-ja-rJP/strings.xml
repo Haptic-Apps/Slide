@@ -811,7 +811,7 @@
   <string name="mediaview_converting_fail">Gfycat の gif 変換が動作しません</string>
   <string name="mediaview_converting_fail_btn">Web で開く</string>
   <string name="mediaview_save">%1$s を保存</string>
-  <string name="mediaview_saving">保存中</string>
+  <string name="mediaview_saving">保存中 %1$s</string>
   <!-- Drafts -->
   <string name="draft_saving">下書きの保存中</string>
   <string name="draft_saved">下書きを保存しました</string>
