@@ -11,10 +11,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.mikepenz.aboutlibraries.util.Colors;
+
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
+import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
@@ -96,25 +100,16 @@ public class SettingsAbout extends BaseActivityAnim {
             }
         });
 
-        //fixme add libs to donottranslate.xml and comment this out
-        libs.setVisibility(View.GONE);
-        /*libs.setOnClickListener(new View.OnClickListener() {
+        libs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsAbout.this);
-                builder.setTitle("Libraries used")
-                        .setItems(R.array.libs, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        String[] testArray = getResources().getStringArray(R.array.libs_links);
-                                        String test = testArray[i];
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(test)));
-                                    }
-                                }
-                        );
-                builder.show();
+                int color = Palette.getDefaultColor();
+                int darkColor = Palette.getDarkerColor(color);
+                new LibsBuilder()
+                        .withActivityColor(new Colors(color, darkColor))
+                        .start(SettingsAbout.this);
             }
-        });*/
+        });
     }
 
 

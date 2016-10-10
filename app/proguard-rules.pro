@@ -108,6 +108,7 @@
 }
 
 #Keep the R
+-keep class .R
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
