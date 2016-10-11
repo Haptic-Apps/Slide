@@ -11,21 +11,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mikepenz.aboutlibraries.LibsBuilder;
-import com.mikepenz.aboutlibraries.util.Colors;
-
 import me.ccrama.redditslide.BuildConfig;
 import me.ccrama.redditslide.OpenRedditLink;
 import me.ccrama.redditslide.R;
 import me.ccrama.redditslide.Reddit;
-import me.ccrama.redditslide.Visuals.Palette;
 
 
 /**
  * Created by l3d00m on 11/12/2015.
  */
 public class SettingsAbout extends BaseActivityAnim {
-
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,11 +98,8 @@ public class SettingsAbout extends BaseActivityAnim {
         libs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int color = Palette.getDefaultColor();
-                int darkColor = Palette.getDarkerColor(color);
-                new LibsBuilder()
-                        .withActivityColor(new Colors(color, darkColor))
-                        .start(SettingsAbout.this);
+                Intent i = new Intent(SettingsAbout.this, SettingsLibs.class);
+                startActivity(i);
             }
         });
     }
