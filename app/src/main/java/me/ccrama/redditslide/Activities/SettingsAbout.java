@@ -22,7 +22,6 @@ import me.ccrama.redditslide.Reddit;
  */
 public class SettingsAbout extends BaseActivityAnim {
 
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         applyColorTheme();
@@ -96,25 +95,13 @@ public class SettingsAbout extends BaseActivityAnim {
             }
         });
 
-        //fixme add libs to donottranslate.xml and comment this out
-        libs.setVisibility(View.GONE);
-        /*libs.setOnClickListener(new View.OnClickListener() {
+        libs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SettingsAbout.this);
-                builder.setTitle("Libraries used")
-                        .setItems(R.array.libs, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        String[] testArray = getResources().getStringArray(R.array.libs_links);
-                                        String test = testArray[i];
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(test)));
-                                    }
-                                }
-                        );
-                builder.show();
+                Intent i = new Intent(SettingsAbout.this, SettingsLibs.class);
+                startActivity(i);
             }
-        });*/
+        });
     }
 
 

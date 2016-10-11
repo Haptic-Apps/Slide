@@ -122,4 +122,7 @@ dependencies {
     compile 'com.theartofdev.edmodo:android-image-cropper:2.2.5'
     compile 'com.github.ccrama:JReadability:bb291880a5'
     compile 'me.everything:overscroll-decor-android:1.0.3'
+    compile('com.mikepenz:aboutlibraries:5.8.1@aar') {
+        transitive = true
+    }
 }

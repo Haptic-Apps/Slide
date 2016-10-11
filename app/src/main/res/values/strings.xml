@@ -558,6 +558,7 @@
     <string name="posts_hidden_forever">Posts hidden forever</string>
     <string name="share_image">Share image</string>
     <string name="settings_libs">Open-source libraries</string>
+    <string name="settings_about_libs">About Libs</string>
     <string name="settings_bugs">Report bugs</string>
     <string name="settings_changelog">View changelog</string>
     <string name="settings_google">Connecting to Google</string>
