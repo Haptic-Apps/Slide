@@ -3,10 +3,19 @@
 <resources>
   <!-- Generic text used anywhere -->
   <string name="general_confirm_exit">Confirmar saída</string>
-  <string name="general_confirm_exit_msg">Quer mesmo sair de Slide?</string>
+  <string name="general_confirm_exit_msg">Quer mesmo sair do Slide?</string>
   <string name="general_enable_shadowbox">Ativar Shadowbox Mode</string>
   <string name="general_open_settings">Barra lateral</string>
   <string name="general_sub_sync">Sincronizando assinaturas</string>
+  <string name="pro_upgrade_msg">Actualiza para o Slide for Reddit Pro para aproveitar funcionalidades excelentes como:\n\n- Ad Blocker e modo de Leitura em vista de website\n- Corta e desenhar em imagens para fazer upload\n- Modo de colunas em tablet personalizável\n- Modo noite automático\n- Vistas de Shadowbox e galeria\n- Shadowbox de comentários\n- Cópia de segurança and e restauro a partir do Google Drive e ficheiro\n- Suportar software open-source e sem publicidades!\n\nGostaria de suportar o Slide for Reddit ?</string>
+  <string name="general_pro_msg">Optei por fazer algumas funcionalidades do Slide desbloqueáveis comprando uma chave Pro da Play Store. \n\nIsto é para manter o desenvolvimento, ao invés de mostrar publicidades na versão grátis do Slide!\n\nIncluido está o modo multi-coluna, modo Shadowbox (para subreddits de imagens), modo galeria, Cópia de segurança and e restauro a partir do Google Drive e ficheiro, e cortar e desenhar em imagens!\n\nGostaria de adquirir o Slide for Reddit Pro?</string>
+  <string name="general_pro_msg_crop">Optei por fazer algumas funcionalidades do Slide (incluindo cortar e desenhar em imagens) desbloqueáveis comprando uma chave Pro da Play Store. \n\nIsto é para manter o desenvolvimento, ao invés de mostrar publicidades na versão grátis do Slide!\n\nIncluido está o modo multi-coluna, modo Shadowbox (para subreddits de imagens), modo galeria, Cópia de segurança and e restauro a partir do Google Drive e ficheiro, e mais!\n\nGostaria de adquirir o Slide for Reddit Pro?</string>
+  <string name="general_gallerymode_ispro">Modo Galeria é uma funcionalidade Pro</string>
+  <string name="general_cropdraw_ispro">Cortar e desenhar em imagens é uma funcionalidade Pro</string>
+  <string name="general_shadowbox_comments_ispro">Modo Shadowbox de comentários é uma funcionalidade Pro</string>
+  <string name="general_shadowbox_ispro">Modo Shadowbox é uma funcionalidade Pro</string>
+  <string name="general_nighttheme_ispro">Modo Noite automático é um funcionalidade Pro</string>
+  <string name="general_backup_ispro">Cópia de segurança das definições é uma funcionalidade Pro</string>
   <!-- Used when viewing a thread -->
   <string name="submission_info_unsaved">Envio não salvo</string>
   <string name="submission_info_saved">Envio salvo</string>
