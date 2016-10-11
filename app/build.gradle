@@ -134,7 +134,6 @@ dependencies {
     // ↑ minor
     compile 'com.github.ccrama:PeekAndPop:09adee29f1'
     compile 'com.theartofdev.edmodo:android-image-cropper:2.2.5'
-    compile 'org.apache.httpcomponents:httpclient:4.5'
     compile 'com.github.ccrama:JReadability:bb291880a5'
     compile 'me.everything:overscroll-decor-android:1.0.3'
 }
