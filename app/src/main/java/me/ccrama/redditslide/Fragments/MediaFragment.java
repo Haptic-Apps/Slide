@@ -882,15 +882,6 @@ public class MediaFragment extends Fragment {
                                     }
                                 });
             }
-
-            rootView.findViewById(R.id.submission_image)
-                    .setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v2) {
-                            getActivity().finish();
-                        }
-                    });
         }
     }
 }

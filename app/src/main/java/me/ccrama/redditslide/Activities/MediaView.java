@@ -294,6 +294,7 @@ public class MediaView extends FullScreenActivity
                 Intent i = new Intent(this, ImageDownloadNotificationService.class);
                 if (findViewById(R.id.hq).getVisibility() == View.VISIBLE) {
                     i.putExtra("actuallyLoaded", contentUrl);
+                    LogUtil.v("Loading content url " + contentUrl);
                 } else {
                     i.putExtra("actuallyLoaded", actuallyLoaded);
                 }

@@ -200,10 +200,8 @@ public class PeekMediaView extends RelativeLayout {
 
     public void doLoadXKCD(final String url) {
         if (NetworkUtil.isConnected(getContext())) {
-            final String apiUrl = url.endsWith("/") ? url : (url + "/") + "info.0.json";
-            LogUtil.v(apiUrl);
+            final String apiUrl = (url.endsWith("/") ? url : (url + "/")) + "info.0.json";
 
-            final String finalUrl = url;
             new AsyncTask<Void, Void, JsonObject>() {
                 @Override
                 protected JsonObject doInBackground(Void... params) {
